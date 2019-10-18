@@ -1,0 +1,1203 @@
+#Milanese Missions
+#By Isildur
+#unfinished
+
+vn_mlo_missions_slot_1_a = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_conquer_novara = {
+        icon = mission_italian_condottiere  #placeholder
+        position = 2
+        required_missions = { vn_mlo_expansion_of_milan }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 1014
+                province_id = 1782
+                province_id = 730
+                province_id = 104
+                province_id = 1798
+                province_id = 2015
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            1014 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1782 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            730 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            104 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1798 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            2015 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #add other effect
+            torino_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            aosta_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_covet_piedmont = {
+        position = 4
+        icon = mission_italian_condottiere  #placeholder
+        required_missions = {
+            vn_mlo_conquer_novara
+            vn_mlo_access_to_ligurian_sea
+        }
+        provinces_to_highlight = {
+            OR = {
+                area = torino_area
+                area = aosta_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            torino_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            aosta_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #add
+        }
+    }
+}
+
+vn_mlo_missions_slot_1_b = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_support_from_city_states = {
+        icon = mission_alliances
+        position = 5
+        required_missions = { }
+        trigger = {
+            #needs tooltip
+            calc_true_if = {
+                all_country = {
+                    capital_scope = {
+                        superregion = lombardy_superregion
+                    }
+                    has_opinion = {
+                        who = ROOT
+                        value = 100
+                    }
+                }
+                amount = 3
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "mlo_support_from_city_states_mission"
+                duration = 7300
+            }
+        }
+    }
+    vn_mlo_lombard_league = {
+        icon = mission_rule_italy
+        required_missions = { vn_mlo_support_from_city_states }
+        trigger = {
+            #needs tooltip
+            NOT = { is_year = 1250 }
+            is_emperor = no
+            emperor = {
+                capital_scope = {
+                    NOT = { superregion = lombardy_superregion }
+                }
+            }
+            calc_true_if = {
+                all_country = {
+                    capital_scope = {
+                        superregion = lombardy_superregion
+                    }
+                    alliance_with = ROOT
+                }
+                amount = 3
+            }
+        }
+        effect = {
+            custom_tooltip = vn_mlo_lombard_league.tt
+            country_event = {
+                id = vn_missions.66 #Lombard League
+            }
+        }
+    }
+    vn_mlo_cast_out_emperor = {
+        icon = mission_king_of_franks
+        required_missions = { vn_mlo_lombard_league }
+        trigger = {
+			is_part_of_hre = no
+			army_size = 20
+        }
+        effect = {
+            add_prestige = 15
+            set_in_empire = no
+            reverse_add_opinion = {
+                who = emperor
+                modifier = mlo_cast_out_emperor_opinion
+                years = 50
+            }
+        }
+    }
+}
+
+vn_mlo_missions_slot_1_c = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_growth_of_milan = {
+        icon = mission_big_city
+        position = 8
+        required_missions = { }
+        provinces_to_highlight = {
+            province_id = 1818
+        }
+        trigger = {
+            1818 = {
+                num_of_times_improved = 3
+                development = 30
+                calc_true_if = {
+                    OR = {
+                        has_building = fort_14th
+                        has_building = fort_15th
+                    }
+                    has_building = workshop
+                    has_building = marketplace
+                    has_building = temple
+                    has_building = barracks
+                    has_building = shipyard
+                    amount = 3
+                }
+            }
+        }
+        effect = {
+            1818 = {
+                add_scaled_local_adm_power = 2
+                add_scaled_local_dip_power = 2
+                add_scaled_local_mil_power = 2
+                add_next_institution_embracement = 10
+                if = {
+                    limit = { has_dlc = "Mandate of Heaven" }
+                    add_prosperity = 25
+                }
+            }
+        }
+    }
+    vn_mlo_embrace_renaissance = {
+        icon = mission_early_modern_university
+        required_missions = { vn_mlo_growth_of_milan }
+        trigger = {
+            has_institution = renaissance
+        }
+        effect = {
+            add_country_modifier = {
+                name = "mlo_embrace_renaissance_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_mlo_missions_slot_2_a = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_access_to_ligurian_sea = {
+        icon = mission_dominate_genoa
+        position = 3
+        required_missions = { vn_mlo_beyond_the_po }
+        provinces_to_highlight = {
+            OR = {
+                area = liguriawest_area
+                area = liguriaeast_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            liguriawest_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            liguriaeast_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #add other effect
+            torino_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            aosta_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+}
+
+vn_mlo_missions_slot_2_b = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_into_romagna = {
+        icon = mission_cannons_firing
+        position = 5
+        required_missions = { vn_mlo_conquer_emilia }
+        provinces_to_highlight = {
+            area = romagna_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            romagna_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            florence_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            arezzo_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_elevation_to_duchy = {
+        icon = mission_coronation
+        position = 6
+        required_missions = { 
+            vn_mlo_support_from_city_states
+            vn_mlo_into_romagna
+        }
+        trigger = {
+            OR = {
+                AND = {
+                    is_emperor = yes
+                    imperial_influence = 5
+                }
+                AND = {
+                    reverse_has_opinion = {
+                        who = emperor
+                        value = 125
+                    }
+                    treasury = 400
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    NOT = { government_rank = 4 }
+                }
+                country_event = {
+                    id = vn_missions.64
+                }
+            }
+            else = {
+                add_prestige = 50
+            }
+        }
+    }
+}
+
+vn_mlo_missions_slot_2_c = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_cathedral_of_monza = {
+        icon = mission_portico
+        position = 9
+        required_missions = { vn_mlo_growth_of_milan }
+        provinces_to_highlight = {
+            province_id = 1818
+        }
+        trigger = {
+            1818 = { #province of Monza will be added in VN2, replace this with Monza ID
+                has_building = cathedral
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+                add_papal_influence = 20
+            }
+            else_if = {
+                limit = {
+                    OR = {
+                        religion = protestant
+                        religion = anabaptist
+                        religion = reformed
+                        religion = anglican
+                    }
+                }
+                add_church_power = 50
+            }
+            #add modifier
+        }
+    }
+}
+
+vn_mlo_missions_slot_3_a = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_expansion_of_milan = {
+        icon = mission_build_up_to_force_limit
+        position = 1
+        required_missions = { }
+        trigger = {
+            army_size_percentage = 1
+            war_exhaustion = 0
+            any_neighbor_country = {
+                any_owned_province = {
+					is_claim = ROOT
+				}
+            }
+        }
+        effect = {
+            monferrato_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            1012 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+            1825 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+            493 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+            1881 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+        }
+    }
+    vn_mlo_beyond_the_po = {
+        icon = mission_advance_to_the_dnieper
+        required_missions = { vn_mlo_expansion_of_milan }
+        provinces_to_highlight = {
+            OR = {
+                area = monferrato_area
+                province_id = 1012
+                province_id = 1825
+                province_id = 493
+                province_id = 1881
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            monferrato_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1012 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1825 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            493 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1881 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            milansouth_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            liguriaeast_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            liguriawest_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_conquer_cremona = {
+        icon = mission_unite_home_region
+        required_missions = { vn_mlo_beyond_the_po }
+        provinces_to_highlight = {
+            area = milansouth_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            milansouth_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            parma_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            modena_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            mantua_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_conquer_emilia = {
+        icon = mission_village
+        required_missions = { vn_mlo_conquer_cremona }
+        provinces_to_highlight = {
+            OR = {
+                area = parma_area
+                area = modena_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            parma_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            modena_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #add extra effect
+            ferrara_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+}
+
+vn_mlo_missions_slot_3_b = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_wealth_of_florence = {
+        icon = mission_big_city
+        position = 6
+        required_missions = { vn_mlo_into_romagna }
+        provinces_to_highlight = {
+            OR = {
+                area = florence_area
+                area = arezzo_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            florence_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            arezzo_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            florence_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "mlo_wealth_of_florence_mission"
+                    duration = 9125
+                }
+            }
+            arezzo_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "mlo_wealth_of_florence_mission"
+                    duration = 9125
+                }
+            }
+            pisa_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            lucca_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_prosperous_pisa = {
+        icon = mission_guilds_of_barcelona
+        required_missions = { vn_mlo_wealth_of_florence }
+        provinces_to_highlight = {
+            OR = {
+                area = pisa_area
+                area = lucca_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            pisa_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            lucca_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            115 = {
+                add_province_modifier = {
+                    name = "mlo_prosperous_pisa_mission"
+                    duration = 7300
+                }
+            }
+            corsica_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_claim = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_claim = ROOT
+            }
+        }
+    }
+}
+
+# vn_mlo_missions_slot_3_c = {
+#     slot = 8
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = MLO
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
+
+#     vn_mlo_iron_crown_of_lombardy = {
+#         icon = mission_empire
+#         position = 9
+#         required_missions = {
+#             vn_mlo_elevation_to_duchy
+#             vn_mlo_mediterranean_powerhouse
+#         }
+#         trigger = {
+#             government_rank = 5
+#             prestige = 50
+#             legitimacy = 95
+#             lombardy_superregion = {
+#                 type = all
+#                 owned_by = ROOT
+#                 is_core = ROOT
+#             }
+#             #perhaps Lombardy should have this?
+#         }
+#         effect = {
+#             #add
+#         }
+#     }
+# }
+
+vn_mlo_missions_slot_4_a = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_university_of_pavia = {
+        icon = mission_early_modern_university
+        position = 3
+        required_missions = { vn_mlo_beyond_the_po }
+        provinces_to_highlight = {
+            province_id = 1012
+        }
+        trigger = {
+            1012 = {
+                has_building = university
+            }
+        }
+        effect = {
+            1012 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_province_modifier = {
+                    name = "mlo_university_of_pavia_mission"
+                    duration = -1
+                }
+            }
+        }
+    }
+}
+
+vn_mlo_missions_slot_4_b = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_seize_mantua = {
+        icon = mission_italian_condottiere  #placeholder
+        position = 4
+        required_missions = { vn_mlo_conquer_cremona }
+        provinces_to_highlight = {
+            area = mantua_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            mantua_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+			add_prestige = 5
+            ferrara_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            107 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+            1820 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+            2742 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+            verona_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_conquer_ferrara = {
+        icon = mission_italian_condottiere  #placeholder
+        required_missions = {
+            vn_mlo_seize_mantua
+            vn_mlo_conquer_emilia
+        }
+        provinces_to_highlight = {
+            area = ferrara_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            ferrara_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #add
+        }
+    }
+    vn_mlo_po_trading_hubs = {
+        icon = mission_dominate_home_trade_node
+        required_missions = { vn_mlo_conquer_ferrara }
+        trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				superregion = lombardy_superregion
+				province_has_center_of_trade_of_level = 2
+			}
+        }
+        effect = {
+            random_owned_province = {
+                limit = { 
+                    superregion = lombardy_superregion
+                    province_has_center_of_trade_of_level = 2
+                }
+                add_province_modifier = {
+                    name = "mlo_po_trading_hubs_mission"
+                    duration = 5475
+                }
+            }
+            random_owned_province = {
+                limit = { 
+                    superregion = lombardy_superregion
+                    province_has_center_of_trade_of_level = 2
+                }
+                add_province_modifier = {
+                    name = "mlo_po_trading_hubs_mission"
+                    duration = 5475
+                }
+            }
+        }
+    }
+    vn_mlo_mediterranean_powerhouse = {
+        icon = mission_rb_mediterranean_authority
+        position = 8
+        required_missions = {
+            vn_mlo_prosperous_pisa
+            vn_mlo_po_trading_hubs
+            vn_mlo_end_la_serenissima
+        }
+        trigger = {
+            1619 = {    #Genua
+                owned_by = ROOT
+                is_strongest_trade_power = ROOT
+            }
+            1818 = {    #Milan
+                owned_by = ROOT
+                is_strongest_trade_power = ROOT
+            }
+            1627 = {    #Venice
+                owned_by = ROOT
+                is_strongest_trade_power = ROOT
+            }
+            640 = {    #Pisa
+                owned_by = ROOT
+                is_strongest_trade_power = ROOT
+            }
+        }
+        effect = {
+            add_years_of_income = 0.25
+            random_list = {
+                25 = {
+                    1619 = {
+                        add_center_of_trade_level = 1
+                        add_base_production = 1
+                    }
+                }
+                25 = {
+                    1818 = {
+                        add_center_of_trade_level = 1
+                        add_base_production = 1
+                    }
+                }
+                25 = {
+                    1627 = {
+                        add_center_of_trade_level = 1
+                        add_base_production = 1
+                    }
+                }
+                25 = {
+                    640 = {
+                        add_center_of_trade_level = 1
+                        add_base_production = 1
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+vn_mlo_missions_slot_5_a = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_annex_como = {
+        icon = mission_italian_condottiere  #placeholder
+        position = 2
+        required_missions = { vn_mlo_expansion_of_milan }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 2717
+                province_id = 2291
+                province_id = 1136
+                province_id = 2292
+                province_id = 2269
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            2717 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            2291 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1136 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            2292 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            2269 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            trent_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_conquer_trent = {
+        icon = mission_italian_condottiere  #placeholder
+        required_missions = { vn_mlo_annex_como }
+        provinces_to_highlight = {
+            area = trent_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            trent_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #add
+        }
+    }
+    vn_mlo_safeguard_alps = {
+        icon = mission_european_castle
+        required_missions = { vn_mlo_conquer_trent }
+        trigger = {
+            #add
+        }
+        effect = {
+            add_country_modifier = {
+                name = "mlo_safeguard_alps_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_mlo_missions_slot_5_b = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_beyond_lago_di_garda = {
+        icon = mission_italian_condottiere  #placeholder
+        position = 5
+        required_missions = { vn_mlo_seize_mantua }
+        provinces_to_highlight = {
+            OR = {
+                area = verona_area
+                province_id = 107
+                province_id = 1820
+                province_id = 2742
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            107 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1820 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            2742 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            verona_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #add
+        }
+    }
+    vn_mlo_fleet_to_match_venice = {
+        icon = mission_establish_high_seas_navy
+        required_missions = { vn_mlo_beyond_lago_di_garda }
+        trigger = {
+            if = {
+                limit = { exists = VEN }
+                num_of_heavy_ship = VEN
+                num_of_galley = VEN
+                num_of_transport = VEN
+            }
+            else = {
+                num_of_heavy_ship = 5
+                num_of_galley = 10
+                num_of_transport = 15
+            }
+        }
+        effect = {
+            create_admiral = {
+                tradition = 75
+                culture = ligurian
+            }
+            venice_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_end_la_serenissima = {
+        icon = mission_control_venice
+        required_missions = { vn_mlo_fleet_to_match_venice }
+        trigger = {
+            venice_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            treviso_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            friuli_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_mlo_conquer_friuli = {   #localize as "To the Eastern Alps"
+        icon = mission_italian_condottiere  #placeholder
+        required_missions = { vn_mlo_end_la_serenissima }
+        trigger = {
+            treviso_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            friuli_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            #modifier?
+        }
+    }
+}
+
+vn_mlo_missions_slot_5_c = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = MLO
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mlo_swiss_mercenaries = {
+        icon = mission_landsknecht_soldier
+        position = 9
+        required_missions = { }
+        trigger = {
+            any_known_country = {
+                capital_scope = {
+                    superregion = switzerland_superregion
+                }
+                has_opinion = {
+                    who = ROOT
+                    value = 100
+                }
+                alliance_with = ROOT
+            }
+            treasury = 200
+            is_at_war = yes
+        }
+        effect = {
+            country_event = {
+                id = vn_missions.65
+            }
+        }
+    }
+}

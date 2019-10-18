@@ -1,0 +1,337 @@
+#	Voltaire's Nightmare Missions for Como				 
+#	by TVW (TheVikingWarrior)											 
+
+vn_cmo_missions_slot_1_a = {
+	slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		tag = CMO
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_cmo_varese_conq = {
+		icon = mission_large_army
+		required_missions = { vn_cmo_milan_rival }
+		position = 2
+		provinces_to_highlight = {
+			province_id = 494 #Varese
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			494 = { country_or_non_sovereign_subject_holds = ROOT } 
+		}
+		effect = {
+			1818 = { #Milan
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			730 = { #Ossola
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+		}
+	}	
+}
+
+vn_cmo_missions_slot_2_a = {
+	slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		tag = CMO
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_cmo_milan_rival = {
+		icon = mission_build_up_to_force_limit
+		required_missions = {  }
+		position = 1
+		trigger = {
+			if = {
+				limit = {
+					MLO = { owns = 1818 }	#Milan
+				}
+				is_rival = MLO
+			}
+			else = {
+				is_claim = 1818
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "cmo_consolidate_hinterland" #Modifier -2 revolt risk and 10% moral increase
+				duration = 9125
+			}
+			494 = { #Varese
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+			}
+			2725 = { #Lecco
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+			}		
+		}
+	}
+	
+	vn_cmo_dominate_lake = {
+		icon = mission_naval_expansion
+		required_missions = { vn_cmo_milan_rival }
+		provinces_to_highlight = {
+			province_id = 2725
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			2725 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "hegemonic_ambition" #Directly from Vanilla, decreases authonomy monthly
+				duration = 7300
+			}	
+			1818 = { #Milan
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+			}
+		}
+	}
+	
+	vn_cmo_destroy_milan = {
+		icon = mission_unite_home_region
+		required_missions = { 
+			vn_cmo_dominate_lake 
+			vn_cmo_varese_conq
+		}
+		provinces_to_highlight = {
+			province_id = 1818
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			1818 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			} 
+		}
+		effect = {
+			add_adm_power = 75
+			add_dip_power = 75
+			add_mil_power = 75
+			add_country_modifier = {
+				name = "cmo_milan_destroyed" #Modifier 1 prestige
+				duration = 7300
+			}		
+		}
+	}
+}
+
+vn_cmo_missions_slot_3_a = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = CMO
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_cmo_fortify_bellinzona = {
+		icon = mission_conquer_50_development
+		required_missions = { vn_cmo_milan_rival }
+		position = 2
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2291
+				province_id = 1136
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			1136 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			} 
+			2291 = {
+				country_or_non_sovereign_subject_holds = ROOT
+				OR = {
+					has_building = fort_14th
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+		effect = {
+			2291 = {	
+				add_province_modifier = {
+					name = "cmo_castle_bellinzona"	#local defensivness and 1 fort level
+					duration = -1
+				}
+			}
+			2270 = { #Misox
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			1143 = { #Chiavenna, please do add a core to Como there
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			4128 = { #Milan
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}			
+		}
+	}
+	
+	vn_cmo_secure_valtellina = {
+		icon = mission_big_city
+		required_missions = { vn_cmo_fortify_bellinzona }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1143
+				province_id = 2292
+				province_id = 4128
+				province_id = 2269
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			1143 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2292 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			4128 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2269 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			1143 = {
+				add_province_modifier = {
+					name = "cmo_valtellina_trade"		#Local trade modifier
+					duration = 9125
+				}
+			}
+			2292 = {
+				add_province_modifier = {
+					name = "cmo_valtellina_trade"
+					duration = 9125
+				}
+			}
+			4128 = {
+				add_province_modifier = {
+					name = "cmo_valtellina_trade"
+					duration = 9125
+				}
+			}
+			2269 = {
+				add_province_modifier = {
+					name = "cmo_valtellina_trade"
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+vn_cmo_missions_slot_4_a = {
+	slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		tag = CMO
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_cmo_silk_introduction = {
+		icon = mission_dominate_home_trade_node
+		required_missions = { }
+		position = 1
+		provinces_to_highlight = {
+			province_id = 2717
+		}
+		trigger = {
+			2717 = { 	#Como
+				owned_by = ROOT
+				is_capital = yes
+			}
+			has_institution = new_world_i		#Colonialism institution
+		}		
+		effect = {
+			2717 = {
+				add_base_production = 3
+				change_trade_goods = silk
+			}
+		}
+	}
+	
+	vn_cmo_silk_production = {
+		icon = mission_have_manufactories
+		required_missions = { vn_cmo_silk_introduction }
+		provinces_to_highlight = {
+			province_id = 2717
+		}
+		trigger = {
+			2717 = { 	#Como
+				owned_by = ROOT
+				is_capital = yes
+				has_building = textile
+			}
+		}		
+		effect = {
+			2717 = {
+				add_province_modifier = {
+					name = "cmo_capital_of_silk"	#Italian Capital of Silk
+					duration = -1
+				}
+			}
+		}	
+	}
+}

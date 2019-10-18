@@ -1,0 +1,1150 @@
+# Scottish missions
+# By Isildur
+
+# Mostly finished
+
+vn_sco_missions_slot_1_a = {
+    slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Reconquer Fife
+    vn_sco_reconquer_fife = {
+        position = 1
+        icon = mission_build_up_to_force_limit
+        required_missions = { }
+        provinces_to_highlight = {
+            province_id = 3001
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            3001 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            ayrshire_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            galloway_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    #Crush the Petty Kingdoms
+    vn_sco_crush_petty_kingdoms = {
+        position = 4
+        icon = mission_rb_conquer_the_highlands
+        required_missions = { vn_sco_reconquer_fife }
+        provinces_to_highlight = {
+            OR = {
+                area = ayrshire_area
+                area = galloway_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            ayrshire_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            galloway_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            argyll_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            hebrides_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            morvern_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    #Reincorporate the Isles
+    vn_sco_reincorporate_isles = {
+        position = 6
+        icon = mission_rb_conquer_the_isles
+        required_missions = { vn_sco_crush_petty_kingdoms }
+        provinces_to_highlight = {
+            OR = {
+                area = argyll_area
+                area = hebrides_area
+                area = morvern_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            argyll_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            hebrides_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            morvern_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #expansion: add perm claims to mainland Highlands
+        }
+    }
+    #Expel the Norse
+    vn_sco_expel_norse = {
+        icon = mission_european_church
+        required_missions = { vn_sco_reincorporate_isles }
+        provinces_to_highlight = {
+            OR = {
+                area = argyll_area
+                area = hebrides_area
+                area = morvern_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            argyll_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            hebrides_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            morvern_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            #TO DO for expansion: must own all of the mainland Highlands as well (Cathness etc.)
+            NOT = {
+                any_owned_province = {
+                    culture = gallowglass
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "sco_expel_norse_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Orkney and Shetland
+    vn_sco_orkney_and_shetland = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_sco_expel_norse }
+        trigger = {
+            #expansion - owns Orkney and Shetland
+        }
+        effect = {
+            #expansion
+        }
+    }
+}
+
+vn_sco_missions_slot_1_b = {
+    slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Royal Scots Navy
+    vn_sco_royal_scots_navy = {
+        position = 9
+        icon = mission_rb_grow_the_channel
+        required_missions = { }
+        trigger = {
+            calc_true_if = {
+                num_of_heavy_ship = 10
+                num_of_light_ship = 15
+                num_of_galley = 20
+                num_of_transport = 25
+                amount = 3
+            }
+        }
+        effect = {
+            add_navy_tradition = 10
+            add_country_modifier = {
+                name = "sco_royal_scots_navy_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Scandinavian Contacts
+    vn_sco_scandinavian_contacts = {
+        icon = mission_rb_scottish_north_sea_trade
+        required_missions = { vn_sco_royal_scots_navy }
+        trigger = {
+            any_known_country = {
+                culture_group = scandinavian
+                has_opinion = {
+                    who = ROOT
+                    value = 100
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "sco_scandinavian_contacts_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_2_a = {
+    slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #French Influence
+    vn_sco_french_influence = {
+        position = 2
+        icon = mission_the_french_menace
+        required_missions = { vn_sco_introduce_feudalism }
+        trigger = {
+            any_known_country = {
+                culture_group = french
+                marriage_with = ROOT
+            }
+        }
+        effect = {
+            create_general = {
+                tradition = 50
+                culture = normand
+            }
+        }
+    }
+    #The Auld Alliance
+    vn_sco_auld_alliance = {
+        icon = mission_alliances
+        required_missions = { vn_sco_french_influence }
+        trigger = {
+            if = {
+                limit = { exists = FRA }
+                alliance_with = FRA
+                FRA = {
+                    has_opinion = {
+                        who = ROOT
+                        value = 150
+                    }
+                }
+            }
+            else = {
+                any_known_country = {
+					culture_group = french
+					alliance_with = ROOT
+					has_opinion = {
+                        who = ROOT
+                        value = 150
+                    }
+				}
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "sco_auld_alliance_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_2_b = {
+    slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Ulster Campaign
+    vn_sco_ulster_campaign = {
+        position = 5
+        icon = mission_rb_conquer_ulster
+        required_missions = { vn_sco_crush_petty_kingdoms }
+        provinces_to_highlight = {
+            region = northern_ireland_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            northern_ireland_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            westireland_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            ireland_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    #Conquer Connacht
+    vn_sco_conquer_connacht = {
+        icon = mission_rb_conquer_connacth
+        required_missions = { vn_sco_ulster_campaign }
+        provinces_to_highlight = {
+            region = westireland_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            westireland_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            mhumhain_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_2_c = {
+    slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Subdue the Clans
+    vn_sco_subdue_clans = {
+        position = 8
+        icon = mission_rb_rein_in_the_highland_clans
+        required_missions = { vn_sco_expel_norse }
+        provinces_to_highlight = {
+            region = highlands_region
+        }
+        trigger = {
+            highlands_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 0.5 }
+                NOT = { local_autonomy = 30 }
+            }
+        }
+        effect = {
+            create_general = {
+                tradition = 50
+                culture = highland_scottish
+            }
+            add_country_modifier = {
+                name = "sco_subdue_clans_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_2_d = {
+    slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Irish Sea Trade
+    vn_sco_irish_sea_trade = {
+        position = 10
+        icon = mission_rb_into_ireland
+        required_missions = { vn_sco_royal_scots_navy }
+        trigger = {
+            num_of_centers_of_trade = 5
+            2737 = {
+                is_strongest_trade_power = ROOT
+            }
+        }
+        effect = {
+            add_mercantilism = 2
+            add_country_modifier = {
+                name = "sco_irish_sea_trade_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_3_a = {
+    slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Introduce Feudalism
+    vn_sco_introduce_feudalism = {
+        position = 1
+        icon = mission_buildings
+        required_missions = { }
+        trigger = {
+            has_institution = feudalism
+            adm_tech = 2
+            dip_tech = 2
+            mil_tech = 2
+        }
+        effect = {
+            add_adm_power = 25
+            add_dip_power = 25
+            add_mil_power = 25
+            add_country_modifier = {
+                name = "sco_introduce_feudalism_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_3_b = {
+    slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #The Education Act
+    vn_sco_education_act = {
+        position = 4
+        icon = mission_rb_the_education_acts
+        required_missions = { vn_sco_found_royal_burghs }
+        trigger = {
+            OR = {
+                college = 8
+                university = 3
+            }
+        }
+        effect = {
+            country_event = {
+                id = vn_missions.58 #Flavour for Education Act.
+            }
+        }
+    }
+    #High Court of Justiciary
+    vn_sco_high_court_of_justiciary = {
+        position = 4
+        icon = mission_rb_college_of_justice
+        required_missions = { vn_sco_education_act }
+        trigger = {
+            OR = {
+                courthouse = 8
+                town_hall = 3
+            }
+        }
+        effect = {
+            add_stability = 1
+            add_country_modifier = {
+                name = "sco_high_court_of_justiciary_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_3_c = {
+    slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Conquer Leinster
+    vn_sco_conquer_leinster = {
+        position = 5
+        icon = mission_rb_conquer_leinster
+        required_missions = { vn_sco_ulster_campaign }
+        provinces_to_highlight = {
+            region = ireland_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            ireland_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            mhumhain_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    #Conquer Munster
+    vn_sco_conquer_munster = {
+        icon = mission_rb_conquer_munster
+        required_missions = {
+            vn_sco_conquer_connacht
+            vn_sco_conquer_leinster
+        }
+        provinces_to_highlight = {
+            region = mhumhain_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            mhumhain_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            ireland_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "sco_conquer_munster_mission"
+                    duration = 9125
+                }
+            }
+            westireland_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "sco_conquer_munster_mission"
+                    duration = 9125
+                }
+            }
+            northern_ireland_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "sco_conquer_munster_mission"
+                    duration = 9125
+                }
+            }
+            mhumhain_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "sco_conquer_munster_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+    #Subjugate Ireland
+    vn_sco_subjugate_ireland = {
+        icon = mission_rb_conquer_ireland
+        required_missions = { vn_sco_conquer_munster }
+        provinces_to_highlight = {
+            superregion = irish_superregion
+        }
+        trigger = {
+            irish_superregion = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 0.5 }
+                NOT = { local_autonomy = 30 }
+            }
+        }
+        effect = {
+            add_mil_power = 100
+            add_country_modifier = {
+                name = "sco_subjugate_ireland_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Rule Britannia
+    vn_sco_rule_britannia = {
+        icon = mission_rb_rule_britannia_scottish_version
+        required_missions = {
+            vn_sco_subdue_clans
+            vn_sco_subjugate_ireland
+            vn_sco_a_united_kingdom
+        }
+        provinces_to_highlight = {
+            OR = {
+                superregion = irish_superregion
+                superregion = british_isles_superregion
+            }
+        }
+        trigger = {
+            irish_superregion = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { average_unrest = 1 }
+                NOT = { local_autonomy = 30 }
+            }
+            british_isles_superregion = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { average_unrest = 1 }
+                NOT = { local_autonomy = 30 }
+            }
+            ADM = 3
+            DIP = 3
+            MIL = 3
+        }
+        effect = {
+            add_adm_power = 75
+            add_dip_power = 75
+            add_mil_power = 75
+            add_prestige = 25
+            add_legitimacy = 20
+            add_country_modifier = {
+                name = "sco_rule_britannia_mission"
+                duration = -1
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_4_a = {
+    slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Economic Expansion
+    vn_sco_economic_expansion = {
+        position = 2
+        icon = mission_rb_the_bank_of_scotland
+        required_missions = { vn_sco_introduce_feudalism }
+        trigger = {
+            NOT = { num_of_loans = 1 }
+            treasury = 300
+            NOT = { inflation = 1 }
+            if = {
+                limit = { has_dlc = "Dharma" }
+                num_of_owned_provinces_with = {
+                    value = 3
+                    province_has_center_of_trade_of_level = 2
+                }
+            }
+        }
+        effect = {
+            add_years_of_income = 0.25
+            add_inflation = -3
+            add_country_modifier = {
+                name = "sco_economic_expansion_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Found Royal Burghs
+    vn_sco_found_royal_burghs = {
+        icon = mission_village
+        required_missions = { vn_sco_economic_expansion }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 6
+                development = 10
+                has_building = road_network
+            }
+            num_of_owned_provinces_with = {
+                value = 3
+                development = 15
+                has_building = road_network
+            }
+        }
+        effect = {
+            hidden_effect = {
+                every_owned_province = {
+                    limit = {
+                        development = 10
+                        has_building = road_network
+                    }
+                    add_province_modifier = {
+                        name = "sco_found_royal_burghs_mission"
+                        duration = 9125
+                    }
+                }
+            }
+            custom_tooltip = vn_sco_found_royal_burghs.tt
+        }
+    }
+    #Monastic Reforms
+    vn_sco_monastic_reforms = {
+        icon = mission_convert_provinces
+        required_missions = { vn_sco_found_royal_burghs }
+        trigger = {
+            temple = 8
+            if = {
+                limit = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+                papal_influence = 50
+            }
+        }
+        effect = {
+            add_papal_influence = 10
+            add_country_modifier = {
+                name = "sco_monastic_reforms_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Move Court to Edinburgh
+    vn_sco_move_court_to_edinburgh = {
+        icon = mission_big_city
+        required_missions = { vn_sco_monastic_reforms }
+        provinces_to_highlight = {
+            province_id = 2621
+        }
+        trigger = {
+            2621 = {
+                owned_by = ROOT
+                is_core = ROOT
+                is_capital = yes
+            }
+        }
+        effect = {
+            2621 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+                add_province_modifier = {
+                    name = "sco_move_court_to_edinburgh_mission"
+                    duration = 18250
+                }
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_4_b = {
+    slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = HSC
+			tag = SCO
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Submission of Wales
+    vn_sco_submission_of_wales = {
+        position = 6
+        icon = mission_rb_conquer_wales
+        required_missions = { vn_sco_expand_into_danelaw }
+        provinces_to_highlight = {
+            region = wales_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            wales_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            wales_region = {
+                add_province_modifier = {
+                    name = "sco_submission_of_wales_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+    #A United Kingdom
+    vn_sco_a_united_kingdom = {
+        position = 8
+        icon = mission_rb_invade_england
+        required_missions = { 
+            vn_sco_submission_of_wales
+            vn_sco_conquer_wessex
+        }
+        provinces_to_highlight = {
+            superregion = british_isles_superregion
+        }
+        trigger = {
+            british_isles_superregion = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 0.5 }
+                NOT = { local_autonomy = 30 }
+            }
+        }
+        effect = {
+            country_event = {
+                id = vn_missions.59 #move capital to London?
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_5_a = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = HSC
+            tag = SCO
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    #Scottish Marches
+    vn_sco_scottish_marches = {
+        position = 1
+        icon = mission_conquer_50_development
+        required_missions = { }
+        provinces_to_highlight = {
+            OR = {
+                area = berwick_area
+                area = cumberland_area
+                area = northumberland_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            berwick_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            cumberland_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            northumberland_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            northumbria_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    #Advance the Frontier
+    vn_sco_advance_the_frontier = {
+        position = 3
+        icon = mission_european_castle
+        required_missions = { vn_sco_scottish_marches }
+        provinces_to_highlight = {
+            region = northumbria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            northumbria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            midlands_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            east_midlands_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    #Expand into Danelaw
+    vn_sco_expand_into_danelaw = {
+        position = 5
+        icon = mission_rb_into_england
+        required_missions = { vn_sco_advance_the_frontier }
+        provinces_to_highlight = {
+            OR = {
+                region = midlands_region
+                region = east_midlands_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            midlands_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            east_midlands_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            southeast_england_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            east_anglia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            wales_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    #Conquest of London
+    vn_sco_conquest_of_london = {
+        icon = mission_rb_scottish_conquer_london
+        required_missions = { vn_sco_expand_into_danelaw }
+        provinces_to_highlight = {
+            OR = {
+                region = southeast_england_region
+                region = east_anglia_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            southeast_england_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            east_anglia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            southwest_england_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    #Conquer Wessex
+    vn_sco_conquer_wessex = {
+        icon = mission_rb_monopolize_the_channel
+        required_missions = { vn_sco_conquest_of_london }
+        provinces_to_highlight = {
+            region = southwest_england_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            southwest_england_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            southwest_england_region = {
+                limit = { has_port = yes }
+                add_province_modifier = {
+                    name = "sco_conquer_wessex_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
+
+vn_sco_missions_slot_5_a = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = HSC
+            tag = SCO
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+    
+    #Scottish Reformation
+    vn_sco_scottish_reformation = {
+        position = 9
+        icon = mission_rb_weather_the_reformation
+        required_missions = { }
+        trigger = {
+            current_age = age_of_reformation
+            OR = {
+            	OR = {
+                    religion = catholic
+                    religion = catholique
+                }
+				OR = {
+					religion = protestant
+					religion = anabaptist
+					religion = reformed
+					religion = anglican
+				}
+			}
+			all_owned_province = {
+				religion = ROOT
+			}
+        }
+        effect = {
+            if = {
+                limit = {
+                    uses_papacy = yes
+                }
+                add_papal_influence = 50
+            }
+            else_if = {
+                limit = {
+                    uses_church_aspects = yes
+                }
+                add_church_power = 50
+			}
+			else_if = {
+				limit = {
+					uses_fervor = yes
+				}
+				add_fervor = 25
+			}
+            add_country_modifier = {
+                name = "sco_scottish_reformation_mission"
+                duration = 9125
+            }
+        }
+    }
+    #The National Kirk
+    vn_sco_national_kirk = {
+        icon = mission_european_church
+        required_missions = { vn_sco_scottish_reformation }
+        trigger = {
+            cathedral = 5
+            capital_scope = {
+                religion = ROOT
+                has_building = cathedral
+            }
+        }
+        effect = {
+            country_event = {
+                id = vn_missions.60 #Setting up of National Kirk - set up or don't set up?
+            }
+        }
+    }
+}

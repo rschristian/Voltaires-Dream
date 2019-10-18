@@ -1,0 +1,873 @@
+#Portucale/Portugal Missions
+#by Isildur
+#mostly done, still needs icons etc
+
+vn_por_missions_slot_1_a = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_found_portuguese_navy = {
+        icon = mission_aragonese_navy
+        required_missions = { }
+        position = 1
+        trigger = {
+            naval_forcelimit = 25
+			calc_true_if = {
+				num_of_heavy_ship = 4
+				num_of_galley = 8
+				num_of_light_ship = 8
+				num_of_transport = 10
+				amount = 3
+			}
+        }
+        effect = {
+            add_country_modifier = {
+                name = "por_found_portuguese_navy_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_por_prosperous_ports = {
+        icon = mission_great_trading_houses
+        required_missions = { vn_por_found_portuguese_navy }
+        position = 3
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 5
+                has_port = yes
+                development = 10
+                OR = {
+                    has_building = canal
+                    has_building = dock
+                    has_building = drydock
+                } 
+            }
+        }
+        effect = {
+            #fix tooltip
+            every_owned_province = {
+                limit = { 
+                    has_port = yes
+                    development = 10
+                    OR = {
+                        has_building = canal
+                        has_building = dock
+                        has_building = drydock
+                    }
+                }
+                add_province_modifier = {
+                    name = "por_prosperous_ports_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_por_advanced_shipbuilding = {
+        icon = mission_launch_a_flagship
+        required_missions = { vn_por_prosperous_ports }
+        trigger = {
+            num_of_heavy_ship = 6
+            calc_true_if = {
+                all_owned_province = {
+                    OR = {
+                        has_building = shipyard
+                        has_building = grand_shipyard
+                    }
+                }
+                amount = 2
+            }
+        }
+        effect = {
+            define_advisor = {
+                type = naval_reformer
+                skill = 2
+                discount = yes
+            }
+            add_country_modifier = {
+                name = "por_advanced_shipbuilding_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_por_missions_slot_2_a = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_douro_trade = {  #The Douro's Riches
+        icon = mission_wine_monopolies
+        required_missions = { }
+        position = 1
+        trigger = {
+            any_owned_province = {
+                OR = {
+                    area = porto_area
+                    area = braganca_area
+                }
+                OR = {
+                    province_has_center_of_trade_of_level = 2
+                    province_trade_power = 5
+                } 
+            }
+        }
+        effect = {
+            #fix tooltip
+            porto_area = {
+                limit = {
+                    country_or_non_sovereign_subject_holds = ROOT
+                    trade_goods = wine
+                }
+                add_province_modifier = {
+                    name = "por_douro_trade_mission"
+                    duration = 9125
+                }
+            }
+            braganca_area = {
+                limit = {
+                    country_or_non_sovereign_subject_holds = ROOT
+                    trade_goods = wine
+                }
+                add_province_modifier = {
+                    name = "por_douro_trade_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_por_exotic_trade_goods = {
+        icon = mission_rb_colonise_spice_islands
+        required_missions = { vn_por_douro_trade }
+        trigger = {
+            peaches = 1
+            olive = 1
+            any_owned_province = {
+                OR = {
+                    trade_goods = peaches
+                    trade_goods = olive
+                }
+                has_building = marketplace
+            }
+        }
+        effect = {
+            #add tooltip
+            random_owned_province = {
+                limit = {
+                    OR = {
+                        trade_goods = peaches
+                        trade_goods = olive
+                    }
+                    has_building = marketplace
+                }
+                add_province_modifier = {
+                    name = "por_exotic_trade_goods_mission"
+                    duration = 9125
+                }
+            }
+            #this doesn't need tooltip
+            random_owned_province = {
+                limit = {
+                    NOT = {
+                        OR = {
+                            trade_goods = peaches
+                            trade_goods = olive
+                            trade_goods = bananas
+                        }
+                    }
+                }
+                random_list = {
+                    33 = {
+                        change_trade_goods = peaches
+                    }
+                    33 = {
+                        change_trade_goods = olive
+                    }
+                    33 = {
+                        change_trade_goods = bananas
+                    }
+                }
+            }
+        }
+    }
+    vn_por_monopoly_in_iberia = {
+        icon = mission_dominate_home_trade_node
+        required_missions = { 
+            vn_por_exotic_trade_goods
+            vn_por_prosperous_ports
+        }
+        position = 4
+        trigger = {
+            1135 = {
+                is_strongest_trade_power = ROOT
+            }
+            1208 = {
+                is_strongest_trade_power = ROOT
+            }
+            1867 = {
+                is_strongest_trade_power = ROOT
+            }
+            1955 = {
+                is_strongest_trade_power = ROOT
+            }
+        }
+        effect = {
+            add_years_of_income = 0.15
+            add_country_modifier = {
+                name = "por_monopoly_in_iberia_mission"
+                duration = 7300
+            }
+        }
+    }
+}
+
+vn_por_missions_slot_2_b = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_repopulate_territories = {
+        icon = mission_colonial
+        required_missions = { vn_por_seize_algarve }
+        position = 6
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 10
+                development = 10
+            }
+            num_of_owned_provinces_with = {
+                value = 4
+                development = 15
+            }
+        }
+        effect = {
+            random_owned_province = {
+                limit = {
+                    NOT = { fort_level = 1 }
+                }
+                add_building = fort_14th
+            }
+            random_owned_province = {
+                limit = {
+                    NOT = { development = 10 }
+                }
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+            }
+        }
+    }
+    vn_por_deal_with_moors = {
+        icon = mission_establish_jesuit_missions
+        required_missions = { vn_por_repopulate_territories }
+        trigger = {
+            OR = {
+                AND = {
+                    full_idea_group = humanist_ideas
+                    NOT = { full_idea_group = religious_ideas }
+                }
+                AND = {
+                    full_idea_group = religious_ideas
+                    NOT = { full_idea_group = humanist_ideas }
+                }
+            }
+            religious_unity = 1
+            OR = {
+				num_of_owned_provinces_with = {
+					value = 5
+					religion_group = muslim
+				}
+                NOT = {
+                    any_owned_province = {
+                        religion_group = muslim
+                    }
+                }
+            }
+        }
+        effect = {
+            #add tooltip
+            if = {
+                limit = {
+                    full_idea_group = humanist_ideas
+                    NOT = { full_idea_group = religious_ideas }
+                }
+                add_country_modifier = {
+                    name = "por_deal_with_moors_mission"
+                    duration = 9125
+                }
+            }
+            if = {
+                limit = {
+                    full_idea_group = religious_ideas
+                    NOT = { full_idea_group = humanist_ideas }
+                }
+                add_country_modifier = {
+                    name = "por_deal_with_moors_mission2"
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
+
+vn_por_missions_slot_3_a = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_levy_crusaders = {
+        icon = mission_crusade_for_varna
+        required_missions = { }
+        position = 1
+        trigger = {
+            army_size_percentage = 1
+            num_of_generals = 1
+            all_owned_province = {
+				NOT = { controlled_by = REB }
+			}
+			custom_trigger_tooltip = {
+				tooltip = vn_ara_prepare_reconquista.tt
+				any_neighbor_country = {
+					religion = sunni
+				}
+			}
+        }
+        effect = {
+            add_army_tradition = 10
+            coimbra_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            guarda_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            galicia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            ourense_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_por_beyond_douro = {
+        icon = mission_advance_to_the_dnieper
+        required_missions = { vn_por_levy_crusaders }
+        provinces_to_highlight = {
+            OR = {
+                area = coimbra_area
+                area = guarda_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            coimbra_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            guarda_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_adm_power = 25
+            lisboa_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_por_university_of_coimbra = {
+        icon = mission_early_modern_university
+        required_missions = { vn_por_beyond_douro }
+        trigger = {
+            2243 = {
+                owned_by = ROOT
+                is_core = ROOT
+                culture = ROOT
+                religion = ROOT
+                has_building = university
+                development = 15
+            }
+        }
+        effect = {
+            2243 = {
+                add_province_modifier = {
+                    name = "por_university_of_coimbra_mission"
+                    duration = -1
+                }
+            }
+        }
+    }
+}
+
+vn_por_missions_slot_3_b = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_conquer_alentejo = {
+        icon = mission_crusade_for_varna
+        required_missions = { vn_por_gates_of_lisbon }
+        position = 4
+        provinces_to_highlight = {
+            OR = {
+                area = coimbra_area
+                area = guarda_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            avis_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            alentejo_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 5
+            algarve_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_por_seize_algarve = {
+        icon = mission_portuguese_interference
+        required_missions = { vn_por_conquer_alentejo }
+        provinces_to_highlight = {
+            area = algarve_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            algarve_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            4467 = {
+                add_province_modifier = {
+                    name = "por_seize_algarve_mission"
+                    duration = 18250
+                }
+            }
+        }
+    }
+    #more WIP missions TBA
+}
+
+vn_por_missions_slot_4_a = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_conquest_of_galicia = {
+        icon = mission_cannons_firing
+        required_missions = { 
+            vn_por_levy_crusaders
+            vn_por_achieve_independence
+        }
+        position = 2
+        provinces_to_highlight = {
+            OR = {
+                area = galicia_area
+                area = ourense_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            galicia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            ourense_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            galicia_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "por_conquest_of_galicia_mission"
+                    duration = 9125
+                }
+            }
+            ourense_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "por_conquest_of_galicia_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
+
+vn_por_missions_slot_4_b = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_gates_of_lisbon = {
+        icon = mission_tear_down_spanish_strongholds
+        required_missions = { vn_por_beyond_douro }
+        position = 3
+        provinces_to_highlight = {
+            area = lisboa_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            lisboa_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            avis_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            alentejo_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_por_a_new_capital = {
+        icon = mission_guilds_of_barcelona
+        required_missions = { vn_por_gates_of_lisbon }
+        provinces_to_highlight = {
+            province_id = 1135
+        }
+        trigger = {
+            capital = 1135
+            1135 = {
+                owned_by = ROOT
+                is_core = ROOT
+                development = 20
+            }
+        }
+        effect = {
+            1135 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+                add_province_modifier = {
+                    name = "por_a_new_capital_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
+
+vn_por_missions_slot_4_c = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_portuguese_renaissance = {
+        icon = mission_arts_and_letters
+        required_missions = { vn_por_kingdom_of_portugal }
+        position = 5
+        trigger = {
+            has_institution = renaissance
+            current_age = age_of_discovery
+        }
+        effect = {
+            define_advisor = {
+                type = artist
+                culture = portuguese
+                skill = 3
+                discount = 0.75
+            }
+        }
+    }
+}
+
+vn_por_missions_slot_4_d = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_castilian_diplomacy = {
+        icon = mission_castillian_aggression
+        required_missions = { vn_por_papal_relations }
+        position = 7
+        trigger = {
+            government_rank = 5
+            is_subject = no
+            tag = POR
+            exists = CAS
+            OR = {
+                AND = {
+                    reverse_has_opinion = {
+                        who = CAS
+                        value = 125
+                    }
+                    OR = {
+                        marriage_with = CAS
+                        alliance_with = CAS
+                    }
+                }
+                OR = {
+                    is_enemy = CAS
+                    is_rival = CAS
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "por_castilian_diplomacy_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_por_missions_slot_5_a = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_achieve_independence = {
+        icon = mission_soldiers_in_line
+        required_missions = { }
+        position = 1
+        trigger = {
+            is_subject = no
+        }
+        effect = {
+            add_legitimacy = 10
+            porto_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            braganca_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = "por_achieve_independence_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_por_kingdom_of_portugal = {
+        icon = mission_union_with_portugal
+        required_missions = {
+            vn_por_gates_of_lisbon
+            vn_por_achieve_independence
+        }
+        position = 4
+        trigger = {
+            government_rank = 5
+            is_subject = no
+            tag = POR
+            owns_core_province = 1234
+            owns_core_province = 2243
+            owns_core_province = 1135
+        }
+        effect = {
+            add_prestige = 10
+            add_country_modifier = {
+                name = "por_kingdom_of_portugal_mission"
+                duration = -1
+            }
+            northportugal_region = {
+                limit = {
+                    owned_by = ROOT
+                    NOT = { culture = portuguese }
+                }
+                add_province_modifier = {
+                    name = "por_kingdom_of_portugal_mission2"
+                    duration = 9125
+                }
+            }
+            southportugal_region = {
+                limit = {
+                    owned_by = ROOT
+                    NOT = { culture = portuguese }
+                }
+                add_province_modifier = {
+                    name = "por_kingdom_of_portugal_mission2"
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_por_papal_relations = {
+        icon = mission_religious
+        required_missions = { vn_por_kingdom_of_portugal }
+        position = 6
+        trigger = {
+            government_rank = 5
+            is_subject = no
+            tag = POR
+            religion_group = christian
+            uses_papacy = yes
+            reverse_has_opinion = {
+                who = PAP
+                value = 100
+            }
+        }
+        effect = {
+            country_event = {
+                id = vn_missions.77
+            }
+        }
+    }
+    vn_por_alliance_with_england = {
+        icon = mission_rb_invade_england
+        required_missions = { vn_por_papal_relations }
+        trigger = {
+            government_rank = 5
+            is_subject = no
+            tag = POR
+            OR = {
+                exists = ENG
+                exists = ASE
+            }
+            OR = {
+                reverse_has_opinion = {
+                    who = ENG
+                    value = 125
+                }
+                reverse_has_opinion = {
+                    who = ASE
+                    value = 125
+                }
+            }
+            OR = {
+                alliance_with = ENG
+                alliance_with = ASE
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "por_alliance_with_england_mission"
+                duration = 9125
+            }
+        }
+    }
+}

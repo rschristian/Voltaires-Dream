@@ -1,0 +1,765 @@
+#Navarrese missions
+#Contributed by Sorand
+
+vn_nav_missions_slot_1_a = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_nav_navarran_institutions = {
+        icon = mission_rb_monopolize_the_channel
+        position = 1
+        required_missions = {  }
+        trigger = {
+            num_of_owned_provinces_with = {
+				value = 3
+				development = 10
+			}
+			has_institution = investiture
+        }
+        effect = {
+			add_adm_power = 25
+			add_country_modifier = {
+				name = "nav_navarran_institutions_mission"
+				duration = 9125
+			}
+        }
+    }
+    vn_nav_merindades = {
+        icon = mission_colonial
+        position = 2
+        required_missions = { vn_nav_navarran_institutions }
+        trigger = {
+			stability = 1
+			has_reform_level = 3
+			NOT = { corruption = 0.5 }
+        }
+        effect = {
+			add_adm_power = 50
+			add_country_modifier = {
+				name = "nav_merindades_mission"
+				duration = 9125
+			}
+        }
+	}
+}
+
+vn_nav_missions_slot_1_b = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+    vn_nav_southern_france = {
+        icon = mission_iberian_conquistador 	#placeholder
+        position = 4
+		required_missions = { vn_nav_beyond_pyrenees }
+		provinces_to_highlight = {
+			region = southgascon_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            southgascon_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            normandy_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			champagne_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_nav_keep_conquests = {	#Claim our Inheritance
+		icon = mission_iberian_conquistador 	#placeholder
+        position = 6
+		required_missions = { vn_nav_southern_france }
+		provinces_to_highlight = {
+			OR = {
+				region = normandy_region
+				region = champagne_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+			#normandy or champagne
+			OR = {
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 5
+					region = normandy_region
+				}
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 5
+					region = champagne_region
+				}
+			}
+        }
+        effect = {
+			add_adm_power = 50
+			random_country = {
+				limit = {
+					is_emperor_of_china = yes
+				}
+				reverse_add_casus_belli = {
+					target = ROOT
+					type = cb_restore_personal_union
+					months = 240
+				}
+			}
+        }
+	}
+}
+
+vn_nav_missions_slot_2_a = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_nav_fueros = {
+        icon = mission_taula_de_canvi
+        position = 2
+        required_missions = { vn_nav_navarran_institutions }
+        trigger = {
+            num_of_owned_provinces_with = {
+				value = 5
+				development = 15
+			}
+        }
+        effect = {
+			add_adm_power = 50
+			add_country_modifier = {
+				name = "nav_fueros_mission"
+				duration = 7300
+			}
+        }
+    }
+}
+
+vn_nav_missions_slot_2_b = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_nav_beyond_pyrenees = {
+        icon = mission_iberian_conquistador 	#placeholder 
+        position = 3
+		required_missions = { vn_nav_seeking_alliances }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 4103
+				province_id = 2289
+				province_id = 2787
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+				culture = ROOT
+			}
+		}
+        trigger = {
+            4103 = {
+				culture = ROOT
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			2289 = {
+				culture = ROOT
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			2787 = {
+				culture = ROOT
+				owned_by = ROOT
+				is_core = ROOT
+			}
+        }
+        effect = {
+            southgascon_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+	}
+    vn_nav_french_trouble = {	#Challenge France
+		icon = mission_the_french_menace
+        position = 4
+        required_missions = { vn_nav_beyond_pyrenees }
+        trigger = {
+            any_known_country = {
+				is_emperor_of_china = yes
+				NOT = {
+					army_strength = {
+						who = ROOT
+						value = 1
+					}
+				}
+			}
+        }
+        effect = {
+			add_country_modifier = {
+				name = "nav_french_trouble_mission"
+				duration = 7300
+			}
+        }
+    }
+    vn_nav_eclipse_france = {
+        icon = mission_iberian_conquistador 	#placeholder 
+        position = 6
+        required_missions = { vn_nav_french_trouble }
+        trigger = {
+            OR = {
+				is_emperor_of_china = yes
+				any_known_country = {
+					is_emperor_of_china = yes
+					NOT = {
+						army_strength = {
+							who = ROOT
+							value = 0.5
+						}
+					}
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 50
+				superregion = french_superregion
+			}
+        }
+        effect = {
+			add_prestige = 10
+			paris_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+	}
+}
+
+vn_nav_missions_slot_3_a = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_nav_fortify_borders = {
+        icon = mission_european_castle
+        position = 1
+        required_missions = {  }
+        trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_nrm_safeguard_borders.tt
+				num_of_owned_provinces_with = {
+					value = 3
+					any_neighbor_province = {
+						NOT = { owned_by = ROOT }
+					}
+					OR = {
+						has_building = fort_14th
+						has_building = fort_15th
+						has_building = fort_16th
+						has_building = fort_17th
+						has_building = fort_18th
+					}
+				}
+			}
+			any_owned_province = {
+				any_neighbor_province = {
+					NOT = { owned_by = ROOT }
+				}
+				OR = {
+					has_building = fort_14th
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+				base_manpower = 5
+			}
+        }
+        effect = {
+            random_owned_province = {
+				limit = {
+					OR = {
+						has_building = fort_14th
+						has_building = fort_15th
+						has_building = fort_16th
+						has_building = fort_17th
+						has_building = fort_18th
+					}
+				}
+				add_base_tax = 2
+				add_province_modifier = {
+					name = "nav_fortify_borders_mission"
+					duration = 9125
+				}
+			}
+        }
+    }
+    vn_nav_seeking_alliances = {
+        icon = mission_alliances
+        position = 2
+        required_missions = { vn_nav_fortify_borders }
+        trigger = {
+            num_of_allies = 3
+			calc_true_if = {
+				all_ally = {
+					has_opinion = {
+						who = ROOT
+						value = 125
+					}
+				}
+				amount = 3
+			}
+        }
+        effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = "nav_seeking_alliances_mission"
+				duration = 9125
+			}
+			basque_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			4103 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2289 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2787 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+        }
+	}
+}
+
+vn_nav_missions_slot_3_b = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+    vn_nav_hegemonic_power = {
+        icon = mission_subjugate_navarra
+        position = 7
+		required_missions = { 
+			vn_nav_keep_conquests 
+			vn_nav_eclipse_france 
+			vn_nav_emperor_of_spains 
+		}
+        trigger = {
+            if = {
+				limit = {
+					has_dlc = "Rights of Man"
+				}
+				is_great_power = yes
+			}
+			prestige = 60
+			legitimacy = 95
+			stability = 2
+			manpower_percentage = 0.6
+			army_size = 30
+			government_rank = 5
+        }
+        effect = {
+            add_country_modifier = {
+				name = "nav_hegemonic_power_mission"
+				duration = 18250
+			}
+        }
+	}
+}
+
+vn_nav_missions_slot_4_a = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_nav_assimilate_population = {
+		icon = mission_expel_the_moriscos
+        position = 2
+        required_missions = { vn_nav_strengthen_culture }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 10
+				NOT = { region = basque_region }
+				culture = ROOT
+			}
+        }
+        effect = {
+            define_advisor = {
+				culture = ROOT
+				skill = 3
+				type = inquisitor
+				discount = 0.75
+			}
+        }
+	}
+}
+
+vn_nav_missions_slot_4_b = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+    vn_nav_iberian_domains = {	#Lessons of Atapuerca
+		icon = mission_soldiers_in_line 
+        position = 3
+		required_missions = { vn_nav_seeking_alliances }
+        trigger = {
+			army_size_percentage = 1
+			num_of_generals = 1
+			cavalry_fraction = 0.25
+			employed_advisor = {
+				category = MIL
+			}
+        }
+        effect = {
+			add_mil_power = 50
+			add_country_modifier = {
+				name = "nav_iberian_domains_mission"
+				duration = 7300
+			}
+        }
+    }
+    vn_nav_deal_with_castile = {
+        icon = mission_intervene_in_castile
+        position = 4
+		required_missions = { vn_nav_iberian_domains }
+        trigger = {
+			if = {
+				limit = {
+					exists = CAS
+				}
+				OR = {
+					AND = {
+						is_rival = CAS
+						has_spy_network_in = {
+							who = CAS
+							value = 75
+						}
+					}
+					AND = {
+						reverse_has_opinion = {
+							who = CAS
+							opinion = 100
+						}
+						OR = {
+							alliance_with = CAS
+							marriage_with = CAS
+						}
+					}
+				}
+			}
+		}
+        effect = {
+			add_legitimacy = 5
+            castile_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_nav_union_with_castile = {
+        icon = mission_castillian_aggression
+        position = 5
+		required_missions = { vn_nav_deal_with_castile }
+		provinces_to_highlight = {
+			region = castile_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            castile_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+			castile_region = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_years_of_nationalism = -5
+			}
+            leonese_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			asturian_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_nav_emperor_of_spains = {
+        icon = mission_imperial_spain
+        position = 6
+		required_missions = { 
+			vn_nav_union_with_castile 
+			vn_nav_union_with_aragon 
+		}
+		provinces_to_highlight = {
+			OR = {
+				region = castile_region
+				region = aragon_region
+				region = leonese_region
+				region = asturian_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            castile_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			aragon_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			leonese_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			asturian_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+			add_country_modifier = {
+				name = "nav_emperor_of_spains_mission"
+				duration = 9125
+			}
+        }
+	}
+}
+
+vn_nav_missions_slot_5_a = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_nav_strengthen_culture = {
+        icon = mission_early_modern_university
+        position = 1
+        required_missions = {  }
+        trigger = {
+            basque_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				culture = ROOT
+				religion = ROOT
+			}
+			employed_advisor = {
+				culture = ROOT
+			}
+        }
+        effect = {
+			add_dip_power = 25
+			add_country_modifier = {
+				name = "nav_strengthen_culture_mission"
+				duration = 9125
+			}
+        }
+    }
+    vn_nav_european_influences = {
+        icon = mission_alliances
+        position = 2
+        required_missions = { vn_nav_strengthen_culture }
+        trigger = {
+			if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				innovativeness = 5
+			}
+			num_of_different_cultures_in_court = 3
+			calc_true_if = {
+				all_country = {
+					limit = {
+						capital_scope = {
+							continent = europe
+						}
+					}
+					has_opinion = {
+						who = ROOT
+						value = 100
+					}
+				}
+				amount = 5
+			}
+        }
+        effect = {
+            add_country_modifier = {
+				name = "nav_european_influences_mission"
+				duration = 9125
+			}
+        }
+	}
+}
+
+vn_nav_missions_slot_5_b = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = NAV
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+    vn_nav_deal_with_aragon = {
+        icon = mission_restore_faith_in_the_throne
+        position = 4
+        required_missions = { vn_nav_iberian_domains }
+        trigger = {
+            if = {
+				limit = {
+					exists = ARA
+				}
+				OR = {
+					AND = {
+						is_rival = ARA
+						has_spy_network_in = {
+							who = ARA
+							value = 75
+						}
+					}
+					AND = {
+						reverse_has_opinion = {
+							who = ARA
+							value = 100
+						}
+						OR = {
+							alliance_with = ARA
+							marriage_with = ARA
+						}
+					}
+				}
+			}
+        }
+        effect = {
+			add_legitimacy = 5
+            castile_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_nav_union_with_aragon = {
+        icon = mission_have_two_subjects
+        position = 5
+		required_missions = { vn_nav_deal_with_aragon }
+		provinces_to_highlight = {
+			region = aragon_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            aragon_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+			add_army_tradition = 15
+            aragon_region = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_years_of_nationalism = -5
+				add_unrest = -1
+			}
+        }
+	}
+}

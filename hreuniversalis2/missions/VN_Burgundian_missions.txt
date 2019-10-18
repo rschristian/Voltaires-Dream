@@ -1,0 +1,1779 @@
+#Burgundian Missions
+#By Isildur
+
+#Finished, though some icons need changing
+
+VN_bur_missions_slot_1_a = {
+	slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Stabilize the Duchy
+	vn_bur_stabilize_duchy = {
+		icon = mission_high_income
+		position = 1
+		required_missions = { }
+		provinces_to_highlight = {
+			province_id = 4045
+			province_id = 4047
+		}
+		trigger = {
+			stability = 2
+			estate_loyalty = { estate = estate_nobles loyalty = 60 }
+			estate_loyalty = { estate = estate_church loyalty = 60 }
+			estate_loyalty = { estate = estate_burghers loyalty = 60 }
+			has_reform_level = 2
+			owns_core_province = 4045
+			owns_core_province = 4047
+		}
+		effect = {
+			franccomte_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "bur_stabilize_duchy_mission"
+				duration = 9125
+			}
+		}
+    }
+    #The Two Burgundies
+	vn_bur_two_burgundies = {
+		icon = mission_unite_home_region
+		position = 4
+		required_missions = { vn_bur_stabilize_duchy }
+		provinces_to_highlight = {
+			area = franccomte_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			franccomte_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			vaud_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			forez_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			dauphine_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			barrois_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Conquer Romandie
+	vn_bur_conquer_romandie = {
+		icon = mission_landsknecht_soldier
+		required_missions = { vn_bur_two_burgundies }
+		provinces_to_highlight = {
+			area = vaud_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			vaud_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			savoy_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Seize Savoy
+	vn_bur_seize_savoy = {
+		icon = mission_unite_home_region	#placeholder
+		required_missions = { vn_bur_conquer_romandie }
+		provinces_to_highlight = {
+			area = savoy_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			savoy_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			bern_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			wallis_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			stgallen_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			chur_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			swissnorth_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			swisssouth_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Subjugate the Swiss
+	vn_bur_subjugate_swiss = {
+		icon = mission_soldiers_in_line
+		position = 8
+		required_missions = { vn_bur_seize_savoy }
+		provinces_to_highlight = {
+			OR = {
+				area = bern_area
+				area = wallis_area
+				area = stgallen_area
+				area = chur_area
+				area = swissnorth_area
+				area = swisssouth_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			bern_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			wallis_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			stgallen_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			chur_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			swissnorth_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			swisssouth_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "bur_subjugate_swiss_mission"
+				duration = 9125
+			}
+			switzerland_superregion = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_subjugate_swiss_area_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_1_b = {
+	slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Conquer Luxemburg
+	vn_bur_conquer_luxemburg = {
+		icon = mission_unite_home_region	#placeholder
+		required_missions = { vn_bur_conquer_hainaut }
+		position = 9
+		provinces_to_highlight = {
+			area = luxemburg_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			luxemburg_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			liege_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			897 = { add_permanent_claim = ROOT }
+			2975 = { add_permanent_claim = ROOT }
+		}
+    }
+    #Triumph over Liege
+	vn_bur_triumph_over_liege = {
+		icon = mission_spanish_netherlands
+		required_missions = { vn_bur_conquer_luxemburg }
+		provinces_to_highlight = {
+			OR = {
+				area = liege_area
+				province_id = 897
+				province_id = 2975
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			liege_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			897 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2975 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			liege_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_annex_gelre_mission"
+					duration = 7300
+				}
+			}
+			897 = {
+				add_province_modifier = {
+					name = "bur_annex_gelre_mission"
+					duration = 7300
+				}
+			}
+			2975 = {
+				add_province_modifier = {
+					name = "bur_annex_gelre_mission"
+					duration = 7300
+				}
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_2_a = {
+	slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Conquer Champagne
+	vn_bur_conquer_champagne = {
+		icon = mission_unite_home_region	#placeholder
+		position = 4
+		required_missions = { vn_bur_acquire_influence }
+		provinces_to_highlight = {
+			OR = {
+				area = auxerre_area
+				area = troyes_area
+				area = champagnenorth_area
+				area = champagnesouth_area
+				area = rethel_area
+				province_id = 4034
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			auxerre_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			troyes_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			champagnenorth_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			champagnesouth_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			rethel_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			4034 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			champagne_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_conquer_champagne_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_2_b = {
+	slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Into Dauphine
+	vn_bur_into_dauphine = {
+		icon = mission_conquer_50_development
+		position = 5
+		required_missions = { vn_bur_two_burgundies }
+		provinces_to_highlight = {
+			OR = {
+				area = forez_area
+				area = dauphine_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			forez_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			dauphine_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			provencewest_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			provenceeast_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Conquer Provence
+	vn_bur_conquer_provence = {
+		icon = mission_humiliate_provence
+		required_missions = { vn_bur_into_dauphine }
+		provinces_to_highlight = {
+			OR = {
+				area = provencewest_area
+				area = provenceeast_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			provencewest_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			provenceeast_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			provencewest_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_conquer_provence_mission"
+					duration = 9125
+				}
+			}
+			provenceeast_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_conquer_provence_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+	#Restore Arles
+	vn_bur_restore_arles = {
+		icon = mission_early_modern_university
+		required_missions = { 
+			vn_bur_seize_savoy
+			vn_bur_conquer_provence
+		}
+		provinces_to_highlight = {
+			province_id = 989
+		}
+		trigger = {
+			989 = {
+				development = 25
+				NOT = { num_free_building_slots = 1 }
+				OR = {
+					has_building = fort_14th
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+		effect = {
+			989 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+			country_event = {
+				id = vn_missions.52	#A New Capital?
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_2_c = {
+	slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Conquer Hainaut
+	vn_bur_conquer_hainaut = {
+		icon = mission_unite_home_region	#placeholder
+		position = 8
+		required_missions = { vn_bur_inheritance_of_flanders }
+		provinces_to_highlight = {
+			OR = {
+				area = hainaut_area
+				province_id = 1866
+				province_id = 2539
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			hainaut_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1866 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2539 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			luxemburg_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Bring Holland to Heel
+	vn_bur_bring_holland_to_heel = {
+		icon = mission_the_austrian_succession
+		required_missions = { vn_bur_conquer_brabant }
+		position = 9
+		provinces_to_highlight = {
+			OR = {
+				area = holland_area
+				area = zeeland_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			holland_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			zeeland_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			westfrisia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Beyond the Zuiderzee
+	vn_bur_beyond_zuiderzee = {
+		icon = mission_invade_island
+		required_missions = { vn_bur_bring_holland_to_heel }
+		provinces_to_highlight = {
+			area = westfrisia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			westfrisia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			westfrisia_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_annex_gelre_mission"
+					duration = 7300
+				}
+			}
+		}
+    }
+    #Burgundian Netherlands
+	vn_bur_burgundian_netherlands = {
+		icon = mission_hanseatic_cities
+		required_missions = {
+			vn_bur_triumph_over_liege
+			vn_bur_beyond_zuiderzee
+			vn_bur_annex_gelre
+		}
+		provinces_to_highlight = {
+			superregion = lowlands_superregion
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			lowlands_superregion = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			896 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_province_modifier = {
+					name = "bur_burgundian_netherlands_mission"
+					duration = 9125
+				}
+			}
+			90 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_province_modifier = {
+					name = "bur_burgundian_netherlands_mission"
+					duration = 9125
+				}
+			}
+			930 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_province_modifier = {
+					name = "bur_burgundian_netherlands_mission"
+					duration = 9125
+				}
+			}
+			2729 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_province_modifier = {
+					name = "bur_burgundian_netherlands_mission"
+					duration = 9125
+				}
+			}
+			2514 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_province_modifier = {
+					name = "bur_burgundian_netherlands_mission"
+					duration = 9125
+				}
+			}
+			328 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_province_modifier = {
+					name = "bur_burgundian_netherlands_mission"
+					duration = 9125
+				}
+			}
+			1846 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_province_modifier = {
+					name = "bur_burgundian_netherlands_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+
+VN_bur_missions_slot_3_a = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Bolster the Army
+	vn_bur_bolster_army = {
+		icon = mission_large_army
+		position = 1
+		required_missions = { }
+		trigger = {
+			land_forcelimit = 10
+			army_size_percentage = 1
+		}
+		effect = {
+			create_general = {
+				tradition = 50
+			}
+		}
+    }
+    #Diplomatic Effort
+	vn_bur_diplomatic_effort = {
+		icon = mission_alliances
+		required_missions = { 
+			vn_bur_bolster_army
+			vn_bur_stabilize_duchy
+		}
+		trigger = {
+			num_of_allies = 3
+			calc_true_if = {
+				all_ally = {
+					marriage_with = FROM
+					has_opinion = {
+						who = ROOT
+						value = 175
+					}
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "bur_diplomatic_effort_mission"
+				duration = 9125
+			}
+		}
+    }
+    #Acquire Influence
+	vn_bur_acquire_influence = {
+		icon = mission_have_two_subjects
+		position = 3
+		required_missions = { vn_bur_diplomatic_effort }
+		trigger = {
+			calc_true_if = {
+				all_neighbor_country = {
+					has_spy_network_from = { 
+						who = ROOT 
+						value = 75 
+					}
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			auxerre_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			troyes_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			champagnenorth_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			champagnesouth_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			rethel_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			4034 = { add_permanent_claim = ROOT }
+			nevers_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "bur_acquire_influence_mission"
+				duration = 9125
+			}
+		}
+    }
+    #Subjugate Nevers
+	vn_bur_subjugate_nevers = {
+		icon = mission_unite_home_region	#placeholder
+		required_missions = { vn_bur_acquire_influence }
+		provinces_to_highlight = {
+			area = nevers_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			nevers_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			bourbon_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_core = ROOT	}
+				}
+				add_claim = ROOT
+			}
+			auvergne_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_core = ROOT	}
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_3_b = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Duchy of Bar
+	vn_bur_duchy_of_bar = {
+		icon = mission_unite_home_region	#placeholder
+		position = 5
+		required_missions = { vn_bur_two_burgundies }
+		provinces_to_highlight = {
+			area = barrois_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			barrois_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			lorrainesouth_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Conquer Lorraine
+	vn_bur_conquer_lorraine = {
+		icon = mission_unite_home_region	#placeholder
+		required_missions = { vn_bur_duchy_of_bar }
+		provinces_to_highlight = {
+			OR = {
+				area = lorrainesouth_area
+				province_id = 34
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			lorrainesouth_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			34 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			alsace_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			sundgau_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Conquer Alsace
+	vn_bur_conquer_alsace = {
+		icon = mission_unite_home_region	#placeholder
+		required_missions = { vn_bur_conquer_lorraine }
+		provinces_to_highlight = {
+			OR = {
+				area = alsace_area
+				area = sundgau_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			alsace_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			sundgau_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_mil_power = 50
+			alsace_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_conquer_alsace_mission"
+					duration = -1
+				}
+			}
+			sundgau_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_conquer_alsace_mission"
+					duration = -1
+				}
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_3_c = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Conquer Brabant
+	vn_bur_conquer_brabant = {
+		icon = mission_unite_home_region	#placeholder
+		position = 8
+		required_missions = { vn_bur_inheritance_of_flanders }
+		provinces_to_highlight = {
+			OR = {
+				area = brabant_area
+				area = antwerp_area
+				area = brussels_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			brabant_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			antwerp_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			brussels_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			holland_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			utrecht_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			overijssel_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Conquer Utrecht
+	vn_bur_conquer_utrecht = {
+		icon = mission_unite_home_region	#placeholder
+		required_missions = { vn_bur_conquer_brabant }
+		provinces_to_highlight = {
+			OR = {
+				area = utrecht_area
+				area = overijssel_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			utrecht_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			overijssel_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			guelders_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Annex Guelders
+	vn_bur_annex_gelre = {
+		icon = mission_unite_home_region	#placeholder
+		required_missions = { vn_bur_conquer_utrecht }
+		provinces_to_highlight = {
+			area = guelders_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			guelders_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_prestige = 10
+			guelders_area = {
+				add_province_modifier = {
+					name = "bur_annex_gelre_mission"
+					duration = 7300
+				}
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_3_d = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+    #Consolidate the Netherlands
+	vn_bur_consolidate_netherlands = {
+		icon = mission_cannons_firing
+		position = 12
+		required_missions = {
+			vn_bur_burgundian_netherlands
+			vn_bur_hook_and_cod_wars
+		}
+		provinces_to_highlight = {
+			superregion = lowlands_superregion
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			lowlands_superregion = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			num_of_owned_provinces_with = {
+				value = 10
+				superregion = lowlands_superregion
+				OR = {
+					has_building = fort_14th
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+		effect = {
+			lowlands_superregion = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_consolidate_netherlands_mission"
+					duration = 5475
+				}
+			}
+		}
+    }
+    #Third Kingdom of Burgundy
+	vn_bur_third_kingdom_of_burgundy = {
+		icon = mission_coronation
+		required_missions = { vn_bur_consolidate_netherlands }
+		trigger = {
+			government_rank = 5
+		}
+		effect = {
+			country_event = {
+				id = vn_missions.53	#Coronation at Trier
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_4_a = {
+	slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+    #Monasteries of Burgundy
+	vn_bur_monasteries_of_burgundy = {
+		icon = mission_european_church
+		position = 2
+		required_missions = { vn_bur_assert_independence }
+		trigger = {
+			temple = 5
+		}
+		effect = {
+			add_papal_influence = 10
+			add_country_modifier = {
+				name = "bur_monasteries_of_burgundy_mission"
+				duration = 9125
+			}
+		}
+	}
+    #Order of the Golden Fleece
+	vn_bur_order_of_golden_fleece = {
+		icon = mission_noble_council
+		required_missions = { vn_bur_monasteries_of_burgundy }
+		trigger = {
+			OR = {
+				theologian = 2
+				inquisitor = 2
+			}
+			num_of_owned_provinces_with = {
+				value = 6
+				has_estate = estate_church
+			}
+			if = {
+				limit = {
+					OR = {
+						religion = catholic
+						religion = catholique
+					}
+					papal_influence = 100
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = "bur_order_of_golden_fleece_mission"
+				duration = 5475
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_4_b = {
+	slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+    #Influence in the Lowlands
+	vn_bur_northward_expansion = {
+		icon = mission_alliances
+		position = 4
+		required_missions = { vn_bur_acquire_influence }
+		trigger = {
+			calc_true_if = {
+				all_country = {
+					capital_scope = { superregion = lowlands_superregion }
+					has_opinion = {
+						who = BUR
+						value = 100
+					}
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			add_dip_power = 50
+			if = {
+				limit = { exists = FLA }
+				FLA = {
+					every_owned_province = {
+						add_permanent_claim = ROOT
+					}
+				}
+			}
+			else = {
+				flanders_area = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT	}
+					}
+					add_permanent_claim = ROOT
+				}
+				ghent_area = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT	}
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+    }
+    #Inheritance of Flanders
+	vn_bur_inheritance_of_flanders = {
+		icon = mission_monarch_in_throne_room
+		position = 7
+		required_missions = { vn_bur_northward_expansion }
+		provinces_to_highlight = {
+			OR = {
+				area = flanders_area
+				area = ghent_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			if = {
+				limit = { exists = FLA }
+				marriage_with = FLA
+				FLA = {
+					OR = {
+						is_subject_of_type = tributary_state
+						is_subject = no
+					}
+				}
+				reverse_has_opinion = {
+					who = FLA
+					value = 175
+				}
+			}
+			else = {
+				flanders_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				ghent_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+		}
+		effect = {
+			#add cb to PU Flanders if they exist
+			if = {
+				limit = { exists = FLA }
+				add_casus_belli = {
+					target = FLA
+					type = cb_fabricated_claims
+					months = 300
+				}
+			}
+			else = {
+				flanders_area = {
+					limit = { owned_by = ROOT }
+					add_core = ROOT
+				}
+				ghent_area = {
+					limit = { owned_by = ROOT }
+					add_core = ROOT
+				}
+			}
+		}
+    }
+    #Shipyard of Bruges
+	vn_bur_shipyard_of_bruges = {
+		icon = mission_galleys_in_port
+		required_missions = { vn_bur_inheritance_of_flanders }
+		provinces_to_highlight = {
+			province_id = 896
+		}
+		trigger = {
+			owns = 896
+			896 = {
+				OR = {
+					has_building = canal
+					has_building = shipyard
+					has_building = dock
+					has_building = grand_shipyard
+					has_building = drydock
+				}
+			}
+		}
+		effect = {
+			896 = {
+				add_province_modifier = {
+					name = "bur_shipyard_of_bruges_mission"
+					duration = -1
+				}
+			}
+		}
+    }
+    #Great Privilege
+	vn_bur_autonomous_cities = {
+		icon = mission_hanseatic_city
+		required_missions = { vn_bur_shipyard_of_bruges }
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_bur_autonomous_cities.tt.1
+				num_of_owned_provinces_with = {
+					value = 3
+					superregion = lowlands_superregion
+					has_estate = estate_nobles
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = vn_bur_autonomous_cities.tt.2
+				num_of_owned_provinces_with = {
+					value = 3
+					superregion = lowlands_superregion
+					has_estate = estate_burghers
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = vn_bur_autonomous_cities.tt.3
+				num_of_owned_provinces_with = {
+					value = 3
+					superregion = lowlands_superregion
+					has_estate = estate_church
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				superregion = lowlands_superregion
+				development = 15
+			}
+		}
+		effect = {
+			lowlands_superregion = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_autonomous_cities_mission"
+					duration = 5475
+				}
+			}
+		}
+    }
+    #Hook and Cod Wars
+	vn_bur_hook_and_cod_wars = {
+		icon = mission_rb_cod_wars
+		position = 11
+		required_missions = { vn_bur_autonomous_cities }
+		provinces_to_highlight = {
+			OR = {
+				area = holland_area
+				area = utrecht_area
+			}
+			country_or_non_sovereign_subject_holds = ROOT
+		}
+		trigger = {
+			holland_area = {
+				type = all
+				owned_by = ROOT
+				NOT = { unrest = 2 }
+				NOT = { local_autonomy = 30 }
+				NOT = { controlled_by = REB }
+			}
+			utrecht_area = {
+				type = all
+				owned_by = ROOT
+				NOT = { unrest = 2 }
+				NOT = { local_autonomy = 30 }
+				NOT = { controlled_by = REB }
+			}
+		}
+		effect = {
+			holland_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_hook_and_cod_wars_mission"
+					duration = 5475
+				}
+			}
+			utrecht_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_hook_and_cod_wars_mission"
+					duration = 5475
+				}
+			}
+		}
+	}
+}
+
+
+VN_bur_missions_slot_5_a = {
+	slot = 10
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Assert Independence
+	vn_bur_assert_independence = {
+		icon = mission_conquer_50_development
+		required_missions = { }
+		position = 1
+		trigger = {
+			if = {
+				limit = { exists = FRA }
+				num_of_infantry = FRA
+				num_of_cavalry = FRA
+			}
+			total_development = 100
+		}
+		effect = {
+			add_country_modifier = {
+				name = "bur_assert_independence_mission"
+				duration = 9125
+			}
+		}
+    }
+    #Expand the Wine Trade
+	vn_bur_expand_wine_trade = {
+		icon = mission_wine_monopolies
+		required_missions = { vn_bur_assert_independence }
+		trigger = {
+			wine = 5
+			trade_income_percentage = 0.35
+		}
+		effect = {
+			add_country_modifier = {
+				name = "bur_expand_wine_trade_mission"
+				duration = 9125
+			}
+		}
+    }
+    #Ducal Palace
+	vn_bur_ducal_palace = {
+		icon = mission_early_game_buildings
+		required_missions = { vn_bur_expand_wine_trade }
+		trigger = {
+			capital_scope = {
+				OR = {
+					has_building = fort_14th
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+				development = 20
+			}
+		}
+		effect = {
+			capital_scope = {
+				add_province_modifier = {
+					name = "bur_ducal_palace_mission"
+					duration = -1
+				}
+			}
+		}
+    }
+    #Burgundian Renaissance
+	vn_bur_burgundian_renaissance = {
+		icon = mission_early_modern_university
+		required_missions = { vn_bur_ducal_palace }
+		trigger = {
+			has_institution = renaissance
+			all_state_province = {
+				renaissance = 100
+			}
+		}
+		effect = {
+			burgundy_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_burgundian_renaissance_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+
+VN_bur_missions_slot_5_b = {
+	slot = 10
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Occupy Paris
+	vn_bur_occupy_paris = {
+		icon = mission_big_city
+		required_missions = { vn_bur_northward_expansion }
+		position = 5
+		provinces_to_highlight = {
+			province_id = 548
+		}
+		trigger = {
+			OR = {
+				owns = 548
+				controls = 548
+			}
+		}
+		effect = {
+			paris_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			chartres_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			548 = {
+				add_devastation = 50
+			}
+		}
+    }
+    #Defeat France
+	vn_bur_defeat_france = {
+		icon = mission_the_french_menace
+		required_missions = { vn_bur_occupy_paris }
+		trigger = {
+			if = {
+				limit = { exists = FRA }
+				war_score_against = {
+					who = FRA
+					value = 75
+				}
+			}
+			else = {
+				any_known_country = {
+					culture_group = french
+					total_development = 100
+					war_with = ROOT
+					war_score_against = {
+						who = ROOT
+						value = -75
+					}
+				}
+			}
+		}
+		effect = {
+			caux_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			normandy_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			cotentin_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			672 = { add_permanent_claim = ROOT }
+			2949 = { add_permanent_claim = ROOT }
+		}
+    }
+    #Conquer Normandy
+	vn_bur_conquer_normandy = {
+		icon = mission_unite_home_region	#placeholder
+		required_missions = { vn_bur_defeat_france }
+		provinces_to_highlight = {
+			OR = {
+				area = caux_area
+				area = normandy_area
+				area = cotentin_area
+				province_id = 672
+				province_id = 2949
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			caux_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			normandy_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			cotentin_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			672 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2949 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			normandy_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_conquer_normandy_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+VN_bur_missions_slot_5_c = {
+	slot = 10
+	generic = no
+	ai = yes
+	potential = {
+		tag = BUR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Claims in Picardie
+	vn_bur_claims_in_picardie = {
+		icon = mission_unite_home_region	#placeholder
+		position = 8
+		required_missions = { vn_bur_inheritance_of_flanders }
+		provinces_to_highlight = {
+			OR = {
+				area = artois_area
+				area = picardy_area
+				province_id = 2886
+				province_id = 4051
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			artois_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			picardy_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2886 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			4051 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			artois_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_claims_in_picardie_mission"
+					duration = 9125
+				}
+			}
+			picardy_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "bur_claims_in_picardie_mission"
+					duration = 9125
+				}
+			}
+			2886 = {
+				add_province_modifier = {
+					name = "bur_claims_in_picardie_mission"
+					duration = 9125
+				}
+			}
+			4051 = {
+				add_province_modifier = {
+					name = "bur_claims_in_picardie_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+	#Burgundian Fleet
+	vn_bur_burgundian_fleet = {
+		icon = mission_establish_high_seas_navy
+		required_missions = { vn_bur_claims_in_picardie }
+		trigger = {
+			naval_forcelimit = 50
+			navy_size_percentage = 0.75
+			num_of_heavy_ship = 10
+			num_of_galley = 20
+		}
+		effect = {
+			add_country_modifier = {
+				name = "bur_burgundian_fleet_mission"
+				duration = 9125
+			}
+			create_admiral = {
+				tradition = 50
+			}
+		}
+    }
+    #Dominate the Channel
+	vn_bur_dominate_the_channel = {
+		icon = mission_rb_repatriate_burgundy
+		position = 11
+		required_missions = { vn_bur_burgundian_fleet }
+		trigger = {
+			2489 = {
+				is_strongest_trade_power = ROOT
+			}
+			2729 = {
+				is_strongest_trade_power = ROOT
+			}
+			2268 = {
+				is_strongest_trade_power = ROOT
+			}
+			183 = {
+				is_strongest_trade_power = ROOT
+			}	
+		}
+		effect = {
+			add_country_modifier = {
+				name = "bur_dominate_the_channel_mission"
+				duration = 9125
+			}
+		}
+	}
+}

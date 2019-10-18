@@ -1,0 +1,625 @@
+#Norman Missions
+#By Isildur
+#mechanically finished
+#to do: add a "2_b" tree (split off "Normans in Italy") for crusades
+
+vn_nrm_missions_slot_1_a = {
+	slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		tag = NRM
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Naval Ventures
+	vn_nrm_naval_ventures = {
+		position = 1
+		icon = mission_establish_high_seas_navy
+		required_missions = { }
+		trigger = {
+			is_at_war = no
+			naval_forcelimit = 15
+			num_of_heavy_ship = 3
+			num_of_light_ship = 3
+		}
+		effect = {
+			add_navy_tradition = 15
+			add_country_modifier = {
+				name = "nrm_naval_ventures_mission"
+				duration = 7300
+			}
+		}
+    }
+    #Support Normans in Italy
+	vn_nrm_support_normans_in_italy = {
+		position = 3
+		icon = mission_seize_the_isles
+		required_missions = { vn_nrm_naval_ventures }
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_nrm_support_normans_in_italy.tt
+				any_known_country = {
+					capital_scope = { superregion = italy_superregion }
+					has_opinion = {
+						who = ROOT
+						value = 150
+					}
+					ruler_culture = normand
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "nrm_support_normans_in_italy_mission"
+				duration = 7300
+			}
+		}
+	}
+	#Byzantine Bargains
+	vn_nrm_byzantine_bargains = {
+		position = 5
+		icon = mission_pf_soldier
+		required_missions = { vn_nrm_support_normans_in_italy }
+		trigger = {
+			exists = BYZ
+			NOT = { war_with = BYZ }
+			reverse_has_opinion = {
+				who = BYZ
+				value = 100
+			}
+			manpower = 15
+			BYZ = {
+				treasury = 250
+				ai = yes
+			}
+		}
+		effect = {
+			country_event = {
+				#Byzantium Agrees to our Offer
+				id = vn_missions.54
+			}
+		}
+	}
+}
+
+vn_nrm_missions_slot_2_a = {
+	slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		tag = NRM
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+	#The English Succession
+	vn_nrm_english_succession = {
+		position = 1
+		icon = mission_alliances
+		required_missions = { }
+		trigger = {
+			has_casus_belli = {
+				type = cb_fabricated_claims
+				target = ASE
+			}
+		}
+		effect = {
+			custom_tooltip = vn_nrm_english_succession.tt	#Ask for troops across France
+			hidden_effect = {
+				#For Brittany
+				if = {
+					limit = { exists = BRI }
+					BRI = {
+						country_event = {
+							id = vn_missions.55
+							days = 15
+							random = 5
+						}
+					}
+				}
+				if = {
+					limit = { NOT = { exists = BRI } }
+					random_country = {
+						limit = {
+							exists = yes
+							primary_culture = breton
+						}
+						country_event = {
+							id = vn_missions.55
+							days = 15
+							random = 5
+						}
+					}
+				}
+				#For Flanders
+				if = {
+					limit = { exists = FLA }
+					FLA = {
+						country_event = {
+							id = vn_missions.55
+							days = 15
+							random = 5
+						}
+					}
+				}
+				if = {
+					limit = { NOT = { exists = FLA } }
+					random_country = {
+						limit = {
+							exists = yes
+							primary_culture = flemish
+						}
+						country_event = {
+							id = vn_missions.55
+							days = 15
+							random = 5
+						}
+					}
+				}
+				#For Aquitaine
+				if = {
+					limit = { exists = AQT }
+					AQT = {
+						country_event = {
+							id = vn_missions.55
+							days = 15
+							random = 5
+						}
+					}
+				}
+				if = {
+					limit = { NOT = { exists = AQT } }
+					random_country = {
+						limit = {
+							exists = yes
+							primary_culture = poitevin
+						}
+						country_event = {
+							id = vn_missions.55
+							days = 15
+							random = 5
+						}
+					}
+				}
+			}
+		}
+    }
+    #Alea Iacta Est!
+	vn_nrm_alea_iacta_est = {
+		position = 3
+		icon = mission_invade_island
+		required_missions = { vn_nrm_english_succession }
+		trigger = {
+			#might need fallback
+			is_in_war = {
+				attacker_leader = NRM
+				defender_leader = ASE
+				casus_belli = cb_fabricated_claims
+			}
+		}
+		effect = {
+			add_years_of_income = 1
+			add_legitimacy = 20
+			add_papal_influence = 25
+			#no boosts here because I believe normandy already gets them from an event.
+		}
+	}
+}
+
+vn_nrm_missions_slot_3_a = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = NRM
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Consolidate the Duchy
+	vn_nrm_consolidate_duchy = {
+		position = 1
+		icon = mission_noble_council
+		required_missions = { }
+		trigger = {
+			stability = 1
+			army_size_percentage = 1
+			legitimacy = 95
+			has_adm_advisor = yes
+			has_dip_advisor = yes
+			has_mil_advisor = yes
+		}
+		effect = {
+			hidden_effect = {
+				every_owned_province = {
+					add_local_autonomy = -10
+				}
+			}
+			custom_tooltip = vn_nrm_consolidate_duchy.tt
+			add_country_modifier = {
+				name = "nrm_consolidate_duchy_mission"
+				duration = 9125
+			}
+		}
+    }
+    #Claim Maine
+	vn_nrm_claim_maine = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { vn_nrm_consolidate_duchy }
+		provinces_to_highlight = {
+			OR = {
+				area = alencon_area
+				area = maine_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			alencon_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			maine_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			anjou_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Invade Anjou
+	vn_nrm_invade_anjou = {
+		icon = mission_wine_monopolies
+		required_missions = { vn_nrm_claim_maine }
+		provinces_to_highlight = {
+			area = anjou_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			anjou_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			anjou_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "nrm_invade_anjou_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+vn_nrm_missions_slot_3_b = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = NRM
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+    #Subjugate England
+	vn_nrm_subjugate_england = {
+        icon = mission_rb_invade_england
+        position = 4
+		required_missions = { vn_nrm_alea_iacta_est }
+		trigger = {
+			#might need fallback
+			senior_union_with = ASE
+		}
+		effect = {
+			add_prestige = 25
+			add_country_modifier = {
+				name = "nrm_subjugate_england_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+vn_nrm_missions_slot_4_a = {
+	slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		tag = NRM
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Norman Architecture
+	vn_nrm_norman_architecture = {
+		position = 1
+		icon = mission_portico
+		required_missions = { }
+		trigger = {
+			road_network = 2	#unlocked very early on so this will have to do
+		}
+		effect = {
+			add_years_of_income = 0.1
+			add_country_modifier = {
+				name = "nrm_norman_architecture_mission"
+				duration = 7300
+			}
+		}
+    }
+    #Safeguard Borders
+	vn_nrm_safeguard_borders = {
+		icon = mission_european_castle
+		required_missions = {
+			vn_nrm_consolidate_duchy
+			vn_nrm_norman_architecture
+		}
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_nrm_safeguard_borders.tt
+				num_of_owned_provinces_with = {
+					value = 3
+					any_neighbor_province = {
+						NOT = { owned_by = ROOT }
+					}
+					OR = {
+						has_building = fort_14th
+						has_building = fort_15th
+						has_building = fort_16th
+						has_building = fort_17th
+						has_building = fort_18th
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "nrm_safeguard_borders_mission"
+				duration = 7300
+			}
+		}
+    }
+    #Conquer Brittany
+	vn_nrm_conquer_brittany = {
+		position = 4
+		icon = mission_corsairs_of_the_north_sea
+		required_missions = { vn_nrm_safeguard_borders }
+		provinces_to_highlight = {
+			region = brittany_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			brittany_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "nrm_conquer_brittany_mission"
+				duration = 9125
+			}
+		}
+    }
+    #Control la Manche
+	vn_nrm_control_channel = {
+		icon = mission_rb_grow_the_channel
+		required_missions = {
+			vn_nrm_subjugate_england
+			vn_nrm_conquer_brittany
+			vn_nrm_claim_ponthieu
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2294
+				province_id = 4080
+				province_id = 936
+				province_id = 4490
+				province_id = 4078
+				province_id = 1170
+				province_id = 4494
+				province_id = 136
+				province_id = 1167
+				province_id = 2067
+				province_id = 1171
+				province_id = 1255
+				province_id = 1172
+				province_id = 4495
+				province_id = 2948
+				province_id = 2156
+				province_id = 4084
+				province_id = 694
+				province_id = 1901
+				province_id = 1957
+				province_id = 142
+				province_id = 498
+				province_id = 627
+				province_id = 497
+				province_id = 2611
+				province_id = 722
+				province_id = 695
+				province_id = 2499
+				province_id = 1838
+				province_id = 696
+				province_id = 118
+				province_id = 320
+				province_id = 2170
+				province_id = 2141
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_nrm_control_channel.tt	#own all channel provs
+				#France
+				owns_or_vassal_of = 2294
+				owns_or_vassal_of = 4080
+				owns_or_vassal_of = 936
+				owns_or_vassal_of = 4490
+				owns_or_vassal_of = 4078
+				owns_or_vassal_of = 1170
+				owns_or_vassal_of = 4494
+				owns_or_vassal_of = 136
+				owns_or_vassal_of = 1167
+				owns_or_vassal_of = 2067
+				owns_or_vassal_of = 1171
+				owns_or_vassal_of = 1255
+				owns_or_vassal_of = 1172
+				owns_or_vassal_of = 4495
+				owns_or_vassal_of = 2948
+				owns_or_vassal_of = 2156
+				owns_or_vassal_of = 4084
+				owns_or_vassal_of = 694
+				owns_or_vassal_of = 1901
+				owns_or_vassal_of = 1957
+				owns_or_vassal_of = 142
+				#England
+				owns_or_vassal_of = 498
+				owns_or_vassal_of = 627
+				owns_or_vassal_of = 497
+				owns_or_vassal_of = 2611
+				owns_or_vassal_of = 722
+				owns_or_vassal_of = 695
+				owns_or_vassal_of = 2499
+				owns_or_vassal_of = 1838
+				owns_or_vassal_of = 696
+				owns_or_vassal_of = 118
+				owns_or_vassal_of = 320
+				owns_or_vassal_of = 2170
+				owns_or_vassal_of = 2141
+			}
+		}
+		effect = {
+			add_mercantilism = 2
+			add_country_modifier = {
+				name = "nrm_control_channel_mission"
+				duration = 18250
+			}
+		}
+	}
+}
+
+vn_nrm_missions_slot_5_a = {
+	slot = 10
+	generic = no
+	ai = yes
+	potential = {
+		tag = NRM
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+    
+    #Contest Vexin
+	vn_nrm_conquer_vexin = {
+		position = 3
+		icon = mission_unite_home_region
+		required_missions = { vn_nrm_safeguard_borders }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 4060
+				province_id = 811
+				province_id = 1099
+				province_id = 1097
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			4060 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			811 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1099 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1097 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "nrm_conquer_vexin_mission"
+				duration = 7300
+			}
+		}
+    }
+    #Claim Ponthieu
+	vn_nrm_claim_ponthieu = {
+		icon = mission_cannons_firing
+		required_missions = { vn_nrm_conquer_vexin }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2762
+				province_id = 694
+				province_id = 1901
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			2762 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			694 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1901 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_adm_power = 50
+			1256 = {
+				add_permanent_claim = ROOT
+			}
+			1957 = {
+				add_permanent_claim = ROOT
+			}
+			142 = {
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    #Attack France
+	vn_nrm_attack_france = {
+		icon = mission_the_french_menace
+		required_missions = { vn_nrm_claim_ponthieu }
+		trigger = {
+			if = {
+				limit = { exists = FRA }
+				war_score_against = {
+					who = FRA
+					value = 50
+				}
+			}
+			else = {
+				any_known_country = {
+					culture_group = french
+					total_development = 100
+					war_with = ROOT
+					war_score_against = {
+						who = ROOT
+						value = -50
+					}
+				}
+			}
+		}
+		effect = {
+			add_war_exhaustion = -2
+			raise_war_taxes = yes
+			add_country_modifier = {
+				name = "nrm_attack_france_mission"
+				duration = 1825
+			}
+		}
+	}
+}

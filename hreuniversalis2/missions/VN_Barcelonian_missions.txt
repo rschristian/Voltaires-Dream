@@ -1,0 +1,730 @@
+#Barcelona Missions
+#By Isildur
+
+#Mostly finished
+
+vn_brc_missions_slot_1_a = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+		tag = BRC
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Mercenary Companies
+    vn_brc_mercenary_companies = {
+        position = 1
+        required_missions = { }
+        icon = mission_large_army
+        trigger = {
+            num_of_mercenaries = 5
+            land_maintenance = 1.0
+            num_of_generals = 1
+        }
+        effect = {
+            add_country_modifier = {
+                name = "brc_mercenary_companies_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Catalan Navy
+    vn_brc_catalan_navy = {
+        position = 3
+        required_missions = { vn_brc_mercenary_companies }
+        icon = mission_launch_a_flagship
+        trigger = {
+            calc_true_if = {
+                num_of_galley = 5
+                num_of_transport = 5
+                num_of_light_ship = 5
+                amount = 2
+            }
+            num_of_heavy_ship = 2
+        }
+        effect = {
+            create_admiral = {
+                tradition = 75
+            }
+            add_country_modifier = {
+                name = "brc_catalan_navy_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_brc_missions_slot_2_a = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+		tag = BRC
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Extract Parias
+    vn_brc_extract_parias = {
+        position = 1
+        required_missions = { }
+        icon = mission_african_gold
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = vn_brc_extract_parias.tt
+                OR = {
+                    has_country_flag = paria_war_attacker
+                    has_country_flag = received_paria
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {    #Influx of Wealth
+                name = "brc_extract_parias_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Drive out the Moors
+    vn_brc_drive_out_moors = {
+        required_missions = { vn_brc_extract_parias }
+        icon = mission_crusade_for_varna
+        provinces_to_highlight = {
+            region = catalunya_region
+            owner = { religion_group = muslim }
+        }
+        trigger = {
+            catalunya_region = {
+                type = all
+                NOT = {
+                    owner = { religion_group = muslim }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "brc_drive_out_moors_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Convert Catalonia
+    vn_brc_convert_catalonia = {
+        required_missions = { vn_brc_drive_out_moors }
+        icon = mission_european_church
+        provinces_to_highlight = {
+            region = catalunya_region
+            NOT = { religion_group = christian }
+        }
+        trigger = {
+            catalunya_region = {
+                type = all
+                religion_group = christian
+                NOT = { religion_group = muslim }
+            }
+        }
+        effect = {
+            add_papal_influence = 10
+            add_country_modifier = {
+                name = "brc_convert_catalonia_mission"
+                duration = 18250
+            }
+        }
+    }
+}
+
+vn_brc_missions_slot_2_b = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+		tag = BRC
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Sail to the Baleares
+    vn_brc_sail_to_baleares = {
+        position = 4
+        required_missions = {
+            vn_brc_catalan_navy
+            vn_brc_catalonia_united
+        }
+        icon = mission_invade_island
+        provinces_to_highlight = {
+            area = balears_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            balears_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "brc_sail_to_baleares_mission"
+                duration = 9125
+            }
+        }
+    }
+    #Mediterranean Commerce
+    vn_brc_mediterranean_commerce = {
+        required_missions = {
+            vn_brc_sail_to_baleares
+            vn_brc_incorporate_valencia
+        }
+        icon = mission_dominate_genoa
+        trigger = {
+            1955 = {    #Barcelona
+                is_strongest_trade_power = ROOT
+            }
+            2671 = {    #Marseille
+				is_strongest_trade_power = ROOT
+            }
+            115 = {     #Genua
+				is_strongest_trade_power = ROOT
+            }
+        }
+        effect = {
+            add_mercantilism = 2
+            add_country_modifier = {
+                name = "brc_mediterranean_commerce_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_brc_missions_slot_3_a = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+		tag = BRC
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Annex Cerdanya
+    vn_brc_annex_cerdanya = {
+        position = 1
+        required_missions = { }
+        icon = mission_unite_home_region
+        provinces_to_highlight = {
+            OR = {
+                province_id = 4297
+                province_id = 1793
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            4297 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1793 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            4298 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            1245 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            515 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            4303 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            4302 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            1788 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+        }
+    }
+    #Take Urgell
+    vn_brc_take_urgell = {
+        required_missions = { vn_brc_annex_cerdanya }
+        icon = mission_build_up_to_force_limit
+        provinces_to_highlight = {
+            OR = {
+                province_id = 4298
+                province_id = 1245
+                province_id = 515
+                province_id = 4303
+                province_id = 4302
+                province_id = 1788
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            4298 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1245 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            515 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            4303 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            4302 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            1788 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_adm_power = 25
+            4300 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            1790 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            1178 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+        }
+    }
+    #Catalonia United
+    vn_brc_catalonia_united = {
+        required_missions = {
+            vn_brc_drive_out_moors
+            vn_brc_take_urgell
+            vn_brc_into_roussillon
+        }
+        icon = mission_monarch_in_throne_room
+        provinces_to_highlight = {
+            region = catalunya_region
+            NOT = { owned_by = ROOT }
+        }
+        trigger = {
+            catalunya_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            castellon_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            valencia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            denia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    #Incorporate Valencia
+    vn_brc_incorporate_valencia = {
+        required_missions = { vn_brc_catalonia_united }
+        icon = mission_raid_on_valencia
+        provinces_to_highlight = {
+            OR = {
+                area = castellon_area
+                area = valencia_area
+                area = denia_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            castellon_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            valencia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            denia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "brc_incorporate_valencia_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_brc_missions_slot_4_a = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+		tag = BRC
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Acquire Empuries
+    vn_brc_acquire_empuries = {
+        position = 1
+        required_missions = { }
+        icon = mission_village
+        provinces_to_highlight = {
+            OR = {
+                province_id = 2051
+                province_id = 516
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            2051 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            516 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            rousillon_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    #Into Roussillon
+    vn_brc_into_roussillon = {
+        required_missions = { vn_brc_acquire_empuries }
+        icon = mission_conquer_50_development
+        provinces_to_highlight = {
+            area = rousillon_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            rousillon_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            rousillon_area = {
+                add_province_modifier = {
+                    name = "brc_into_roussillon_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
+
+vn_brc_missions_slot_4_b = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+		tag = BRC
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Establish the Generalitat
+    vn_brc_establish_generalitat = {
+        position = 4
+        required_missions = { vn_brc_catalonia_united }
+        icon = mission_early_modern_university
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = vn_brc_establish_generalitat.tt
+                employed_advisor = {
+                    category = ADM
+                }
+                employed_advisor = {
+                    category = DIP
+                }
+                employed_advisor = {
+                    category = MIL
+                }
+            }
+            ADM = 3
+        }
+        effect = {
+            add_stability = 1
+            add_country_modifier = {
+                name = "brc_establish_generalitat_mission"
+                duration = -1
+            }
+        }
+    }
+}
+
+vn_brc_missions_slot_4_c = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+		tag = BRC
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Valencian Culture
+    vn_brc_valencian_culture = {
+        position = 5
+        required_missions = { vn_brc_incorporate_valencia }
+        icon = mission_valencian_silk
+        trigger = {
+            castellon_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+            valencia_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+            denia_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+            custom_trigger_tooltip = {
+                tooltip = vn_brc_valencian_culture.tt   ### CHANGE TOOLTIP IN LOC ###
+                calc_true_if = {
+                    num_of_owned_provinces_with = {
+                        value = 5
+                        region = valencian_region
+                        culture = catalan
+                    }
+                    OR = {
+                        castellon_area = {
+                            type = all
+                            owned_by = ROOT
+                            is_core = ROOT
+                            culture = valencian
+                        }
+                        valencia_area = {
+                            type = all
+                            owned_by = ROOT
+                            is_core = ROOT
+                            culture = valencian
+                        }
+                        denia_area = {
+                            type = all
+                            owned_by = ROOT
+                            is_core = ROOT
+                            culture = valencian
+                        }
+                    }
+                    employed_advisor = {
+                        culture = valencian
+                    }
+                    amount = 2
+                }
+            }
+        }
+        effect = {
+            add_dip_power = 50
+            if = {
+                limit = {
+                    valencia_area = {
+                        type = all
+                        culture = valencian
+                    }
+                    valencia_area = {
+                        type = all
+                        culture = valencian
+                    }
+                    valencia_area = {
+                        type = all
+                        culture = valencian
+                    }
+                }
+                add_accepted_culture = valencian
+            }
+            else = {
+                valencian_region = {
+                    limit = { owned_by = ROOT }
+                    add_province_modifier = {
+                        name = "brc_valencian_culture_mission"
+                        duration = 9125
+                    }
+                }
+            }
+        }
+    }
+}
+
+vn_brc_missions_slot_5_a = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+		tag = BRC
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    #Break Fealty to France
+    vn_brc_break_fealty_to_france = {
+        position = 1
+        required_missions = { }
+        icon = mission_the_french_menace
+        trigger = {
+            army_size_percentage = 1
+            land_forcelimit = 10
+            manpower_percentage = 0.6
+            num_of_generals = 1
+        }
+        effect = {
+            country_event = {
+                id = vn_missions.62
+            }
+        }
+    }
+    #Influence in Occitania
+    vn_brc_influence_in_occitania = {
+        position = 3
+        required_missions = {
+            vn_brc_into_roussillon
+            vn_brc_break_fealty_to_france
+        }
+        icon = mission_invade_occitania
+        provinces_to_highlight = {
+            region = toulouse_region
+            NOT = { owned_by = ROOT }
+        }
+        trigger = {
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = vn_brc_influence_in_occitania.tt
+                    num_of_owned_provinces_with = {
+                        value = 5
+                        region = toulouse_region
+                    }
+                }
+                calc_true_if = {
+                    all_country = {
+                        capital_scope = {
+                            region = toulouse_region
+                        }
+                        has_opinion = {
+                            who = ROOT
+                            value = 100
+                        }
+                    }
+                    amount = 3
+                }
+            }
+        }
+        effect = {
+            provence_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    #County of Provence
+    vn_brc_county_of_provence = {
+        position = 5
+        required_missions = { vn_brc_influence_in_occitania }
+        icon = mission_humiliate_provence
+        provinces_to_highlight = {
+            region = provence_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            provence_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "brc_county_of_provence_mission"
+                duration = 9125
+            }
+        }
+    }
+}

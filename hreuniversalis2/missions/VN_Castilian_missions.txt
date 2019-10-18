@@ -1,0 +1,1514 @@
+#Castilian Missions
+#by Isildur
+#some WIP missions here that should be added in vn2.
+
+vn_cas_missions_slot_1_a = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_cortes_of_castile = {
+        icon = mission_noble_council
+		required_missions = { }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 844
+				province_id = 519
+                province_id = 4328
+                province_id = 2160
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_brc_establish_generalitat.tt
+				employed_advisor = {
+                    category = ADM
+                }
+                employed_advisor = {
+                    category = DIP
+                }
+                employed_advisor = {
+                    category = MIL
+                }
+			}
+			employed_advisor = {
+				culture = leonese
+			}
+			OR = {
+				employed_advisor = {
+					culture = galician
+				}
+				employed_advisor = {
+					culture = basque
+				}
+			}
+			owns_core_province = 844
+            owns_core_province = 519
+            OR = {
+                owns_core_province = 4328
+                owns_core_province = 2160
+            }
+			#Leon, Burgos, Santiago or Pamplona
+		}
+		effect = {
+			add_corruption = -2
+			add_country_modifier = {
+				name = "cas_cortes_of_castile_mission"
+				duration = 9125
+			}
+		}
+    }
+    vn_cas_patronize_holy_orders = {
+        icon = mission_european_church
+        required_missions = { vn_cas_cortes_of_castile }
+        trigger = {
+            if = {
+                limit = {
+                    has_estate = estate_church
+                }
+                estate_loyalty = {
+                    estate = estate_church
+                    loyalty = 65
+                }
+                estate_influence = {
+                    estate = estate_church
+                    influence = 40
+                }
+                num_of_owned_provinces_with = {
+                    value = 5
+                    has_estate = estate_church
+                }
+            }
+            else = {
+                num_of_owned_provinces_with = {
+                    value = 5
+                    OR = {
+                        has_building = temple
+                        has_building = cathedral
+                    }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    has_estate = estate_church
+                }
+                add_estate_loyalty = {
+                    estate = estate_church
+                    loyalty = 10
+                }
+            }
+            add_country_modifier = {
+                name = "cas_patronize_holy_orders_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_1_b = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_repopulate_frontiers = {
+        icon = mission_colonial
+        required_missions = { }
+        position = 3
+        trigger = {
+            #should be changed if kath is going to make this stuff uncolonized..
+            calc_true_if = {
+                num_of_owned_provinces_with = {
+                    value = 4
+                    area = salamanca_area
+                    development = 6
+                }
+                num_of_owned_provinces_with = {
+                    value = 4
+                    area = segovia_area
+                    development = 6
+                }
+                num_of_owned_provinces_with = {
+                    value = 4
+                    area = soria_area
+                    development = 6
+                }
+                amount = 2
+            }
+            
+        }
+        effect = {
+            2718 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+            }
+            2719 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+            }
+            2739 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+            }
+            salamanca_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = "cas_repopulate_frontiers_mission"
+                    duration = 7300
+                }
+            }
+            segovia_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = "cas_repopulate_frontiers_mission"
+                    duration = 7300
+                }
+            }
+            soria_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = "cas_repopulate_frontiers_mission"
+                    duration = 7300
+                }
+            }
+        }
+    }
+    vn_cas_establish_mesta = {
+        icon = mission_trade_company_region_abroad
+        required_missions = { vn_cas_repopulate_frontiers }
+        trigger = {
+            wool = 10   #change number if too much
+            any_owned_province = {
+                trade_goods = wool
+                development = 15
+                has_estate = no
+            }
+        }
+        effect = {
+            every_owned_province = {
+                limit = { 
+                    superregion = iberia_superregion
+                    trade_goods = wool 
+                }
+                add_local_autonomy = 10
+                add_province_modifier = {
+                    name = "cas_establish_mesta_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_1_c = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_dynastic_claims = {
+        icon = mission_empire
+        required_missions = { }
+        position = 5
+        provinces_to_highlight = {
+            OR = {
+                area = burgos_area
+                area = segovia_area
+            }
+            NOT = {
+                owned_by = ROOT
+                is_core = ROOT
+            }
+        }
+        trigger = {
+            legitimacy = 100
+            stability = 2
+            is_free_or_tributary_trigger = yes
+            burgos_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+            segovia_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+        }
+        effect = {
+            leonese_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            asturias_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            galicia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            ourense_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_cas_subjugate_galicia = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_dynastic_claims }
+        provinces_to_highlight = {
+            OR = {
+                area = galicia_area
+                area = ourense_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            galicia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            ourense_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            add_adm_power = 25
+            galicia_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "cas_subjugate_galicia_mission"
+                    duration = 1825
+                }
+            }
+            ourense_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "cas_subjugate_galicia_mission"
+                    duration = 1825
+                }
+            }
+        }
+    }
+    vn_cas_crown_of_castile = {
+        icon = mission_castillian_aggression
+        required_missions = { 
+            vn_cas_subjugate_galicia
+            vn_cas_subjugate_leon 
+        }
+        trigger = {
+            government_rank = 5
+            legitimacy = 90
+            owns_core_province = 519    #burgos
+            owns_core_province = 844    #leon
+            owns_core_province = 4328   #santiago
+            owns_core_province = 1208   #toledo
+            owns_core_province = 267    #murcia
+            owns_core_province = 74     #jaen
+            owns_core_province = 1867   #sevilla
+            owns_core_province = 2670   #cordoba
+        }
+        effect = {
+            aragon_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+            }
+            catalunya_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+            }
+            valencian_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+            }
+            northportugal_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+            }
+            southportugal_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+        }
+    }
+    vn_cas_subjugate_aragon = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_crown_of_castile }
+        provinces_to_highlight = {
+            OR = {
+                region = aragon_region
+                region = catalunya_region
+                region = valencian_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            aragon_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            catalunya_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            valencian_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            balears_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_cas_invade_baleares = {
+        icon = mission_invade_island
+        required_missions = { 
+            vn_cas_subjugate_aragon
+            vn_cas_build_up_navy
+        }
+        position = 10
+		provinces_to_highlight = {
+			area = balears_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			balears_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			sardinia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			arborea_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}	
+    }
+}
+
+vn_cas_missions_slot_2_a = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_extremadura_campaign = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_prepare_reconquista }
+        position = 2
+        provinces_to_highlight = {
+            region = extremadura_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            extremadura_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            huelva_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            sevilla_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			} 
+        }
+    }
+    vn_cas_claim_sevilla = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_extremadura_campaign }
+        provinces_to_highlight = {
+            OR = {
+                area = huelva_area
+                area = sevilla_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            huelva_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            sevilla_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            cadiz_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            } 
+            1867 = {
+                add_province_modifier = {
+                    name = "cas_claim_sevilla_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_cas_advance_to_gibraltar = {
+        icon = mission_rb_take_gibraltar
+        required_missions = { 
+            vn_cas_claim_sevilla
+            vn_cas_capture_cordoba
+        }
+        position = 5
+        provinces_to_highlight = {
+            area = cadiz_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            cadiz_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            761 = {
+                add_province_modifier = {
+                    name = "cas_advance_to_gibraltar_mission"
+                    duration = -1
+                }
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_2_b = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_subjugate_leon = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_dynastic_claims }
+        position = 6
+        provinces_to_highlight = {
+            OR = {
+                region = leonese_region
+                area = asturias_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            leonese_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            asturias_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            add_adm_power = 25
+            leonese_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "cas_subjugate_galicia_mission"
+                    duration = 1825
+                }
+            }
+            asturias_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "cas_subjugate_galicia_mission"
+                    duration = 1825
+                }
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_2_c = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_school_of_salamanca = {
+        icon = mission_native_reductions
+        required_missions = { vn_cas_triumph_over_islam }
+        position = 7
+        provinces_to_highlight = {
+            province_id = 2718
+        }
+        trigger = {
+            2718 = {
+                owned_by = ROOT
+                is_core = ROOT
+                development = 20
+                has_building = university 
+            }
+            has_institution = renaissance
+            full_idea_group = humanist_ideas
+        }
+        effect = {
+            add_country_modifier = {
+                name = "cas_school_of_salamanca_mission"
+                duration = 10950
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_2_d = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_portuguese_question = {
+        icon = mission_union_with_portugal
+        required_missions = { vn_cas_crown_of_castile }
+        position = 8
+        provinces_to_highlight = {
+            OR = {
+                region = northportugal_region
+                region = southportugal_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            OR = {
+                #may need more flexible triggers
+                AND = {
+                    alliance_with = POR
+                    marriage_with = POR
+                    reverse_has_opinion = {
+                        who = POR
+                        value = 200
+                    }
+                }
+                AND = {
+                    northportugal_region = {
+                        type = all
+                        country_or_non_sovereign_subject_holds = ROOT
+                    }
+                    southportugal_region = {
+                        type = all
+                        country_or_non_sovereign_subject_holds = ROOT
+                    }
+                }
+            }
+        }
+        effect = {
+            add_prestige = 10
+            add_mil_power = 25
+            add_country_modifier = {
+				name = "ara_aragonese_portugal_mission"
+				duration = 9125
+			}
+        }
+    }
+}
+
+vn_cas_missions_slot_2_e = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_build_up_navy = {
+        icon = mission_launch_a_flagship
+        required_missions = { }
+        position = 9
+        trigger = {
+            naval_forcelimit = 25
+			calc_true_if = {
+				num_of_heavy_ship = 4
+				num_of_galley = 8
+				num_of_light_ship = 8
+				num_of_transport = 10
+				amount = 3
+			}
+        }
+        effect = {
+            add_country_modifier = {
+				name = "cas_build_up_navy_mission"
+				duration = 9125				
+			}
+        }
+    }
+}
+
+vn_cas_missions_slot_3_a = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_prepare_reconquista = {
+        icon = mission_build_up_to_force_limit
+        required_missions = { }
+        position = 1
+        trigger = {
+            army_size_percentage = 1.0
+            num_of_generals = 1
+			all_owned_province = {
+				NOT = { controlled_by = REB }
+			}
+			custom_trigger_tooltip = {
+				tooltip = vn_ara_prepare_reconquista.tt
+				any_neighbor_country = {
+					religion = sunni
+				}
+			}
+        }
+        effect = {
+            add_manpower = 5
+            extremadura_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            toledo_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_3_b = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_conquer_la_mancha = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = {
+            vn_cas_extremadura_campaign
+            vn_cas_conquer_toledo
+        }
+        position = 3
+        provinces_to_highlight = {
+            area = ciudad_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            ciudad_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            cordoba_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_cas_capture_cordoba = {
+        icon = mission_develop_cordoba
+        required_missions = { vn_cas_conquer_la_mancha }
+        provinces_to_highlight = {
+            area = cordoba_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            cordoba_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            cordoba_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "cas_claim_sevilla_mission"
+                    duration = 9125
+                }
+            }
+            malaga_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            granada_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_cas_gates_of_granada = {
+        icon = mission_develop_alhambra
+        required_missions = { vn_cas_capture_cordoba }
+        provinces_to_highlight = {
+            OR = {
+                area = malaga_area
+                area = granada_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            malaga_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            granada_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            malaga_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "cas_gates_of_granada_mission"
+                    duration = 9125
+                }
+            }
+            granada_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = "cas_gates_of_granada_mission"
+                    duration = 9125
+                }
+            }
+            443 = {
+                add_province_modifier = {
+                    name = "cas_gates_of_granada_mission2"
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_cas_triumph_over_islam = {
+        icon = mission_golden_century
+        required_missions = { 
+            vn_cas_advance_to_gibraltar
+            vn_cas_gates_of_granada
+            vn_cas_conquer_almeria
+        }
+        provinces_to_highlight = {
+            superregion = iberia_superregion
+            religion_group = muslim
+        }
+        trigger = {
+            iberia_superregion = {
+                type = all
+                owner = {
+                    NOT = { 
+                        religion_group = muslim
+                    }
+                }
+            }
+        }
+        effect = {
+            add_prestige = 5
+            #should add perm claims to moroccan stuff (vn2)
+        }
+    }
+    # vn_cas_moroccan_outposts = {  #ADD IN VN2
+    #     #icon =
+    #     required_missions = { vn_cas_triumph_over_islam }
+    #     position = 8
+    #     trigger = {
+
+    #     }
+    #     effect = {
+
+    #     }
+    # }
+    # vn_cas_riches_of_maghreb = {
+    #     #icon =
+    #     required_missions = { vn_cas_moroccan_outposts }
+    #     trigger = {
+
+    #     }
+    #     effect = {
+
+    #     }
+    # }
+    vn_cas_curb_barbary_piracy = {
+        icon = mission_combat_barbary_piracy
+        required_missions = { 
+            #vn_cas_moroccan_outposts
+            vn_cas_triumph_over_islam #change this for VN2.
+        }
+        position = 9
+        trigger = {
+            586 = {
+                trade_share = {
+                    country = ROOT
+                    share = 25
+                }
+            }
+            num_ships_privateering = 15
+        }
+        effect = {
+            add_country_modifier = {
+                name = "cas_curb_barbary_piracy_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_4_a = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_conquer_toledo = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_prepare_reconquista }
+        position = 2
+        provinces_to_highlight = {
+            area = toledo_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            toledo_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            cuenca_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            guadalajara_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_cas_conquer_cuenca = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_conquer_toledo }
+        provinces_to_highlight = {
+            OR = {
+                area = cuenca_area
+                area = guadalajara_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            cuenca_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            guadalajara_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            jaen_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            albacete_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_cas_conquer_jaen = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_conquer_cuenca }
+        provinces_to_highlight = {
+            OR = {
+                area = jaen_area
+                area = albacete_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            jaen_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            albacete_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            almeria_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_cas_conquer_almeria = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { vn_cas_conquer_jaen }
+        provinces_to_highlight = {
+            area = almeria_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            almeria_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            murcia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+}
+
+vn_cas_missions_slot_4_b = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_influence_in_occitania = {
+        icon = mission_invade_occitania
+        required_missions = { vn_cas_subjugate_navarra }
+        position = 6
+        provinces_to_highlight = {
+            region = toulouse_region
+            NOT = { owned_by = ROOT }
+        }
+        trigger = {
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = vn_brc_influence_in_occitania.tt
+                    num_of_owned_provinces_with = {
+                        value = 5
+                        region = toulouse_region
+                    }
+                }
+                calc_true_if = {
+                    all_country = {
+                        capital_scope = {
+                            region = toulouse_region
+                        }
+                        has_opinion = {
+                            who = ROOT
+                            value = 100
+                        }
+                    }
+                    amount = 3
+                }
+            }
+        }
+        effect = {
+            provence_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_4_c = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_spanish_inquisition = {
+        icon = mission_establish_jesuit_missions
+        required_missions = { vn_cas_triumph_over_islam }
+        position = 7
+        provinces_to_highlight = {
+            country_or_non_sovereign_subject_holds = ROOT
+            superregion = iberia_superregion
+            religion_group = muslim
+        }
+        trigger = {
+            NOT = {
+                any_owned_province = {
+                    superregion = iberia_superregion
+                    religion_group = muslim
+                }
+            }
+            if = {
+                limit = {
+                    any_subject_country = {
+                        any_owned_province = {
+                            superregion = iberia_superregion
+                        }
+                    }
+                }
+                NOT = {
+                    any_subject_country = {
+                        any_owned_province = {
+                            superregion = iberia_superregion
+                            religion_group = muslim
+                        }
+                    }
+                }
+            }
+            NOT = { full_idea_group = humanist_ideas }
+        }
+        effect = {
+            define_advisor = {
+                type = inquisitor
+                name = "Tomás de Torquemada"
+                skill = 2
+                discount = 0.25
+            }
+            add_country_modifier = {
+                name = "cas_spanish_inquisition_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_cas_assimilate_moors = {
+        icon = mission_expel_the_moriscos
+        required_missions = { vn_cas_spanish_inquisition }
+        provinces_to_highlight = {
+            country_or_non_sovereign_subject_holds = ROOT
+            superregion = iberia_superregion
+            culture = andalucian
+        }
+        trigger = {
+            NOT = {
+                any_owned_province = {
+                    superregion = iberia_superregion
+                    culture = andalucian
+                }
+            }
+            if = {
+                limit = {
+                    any_subject_country = {
+                        any_owned_province = {
+                            superregion = iberia_superregion
+                        }
+                    }
+                }
+                NOT = {
+                    any_subject_country = {
+                        any_owned_province = {
+                            superregion = iberia_superregion
+                            religion_group = muslim
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_dip_power = 50
+            add_country_modifier = {
+                name = "cas_assimilate_moors_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_5_a = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_conquer_rioja = {
+        icon = mission_unite_home_region    #placeholder
+        required_missions = { }
+        position = 1
+        provinces_to_highlight = {
+			area = rioja_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            rioja_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            vizcaya_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_cas_seize_biscay_coast = {
+        icon = mission_unite_home_region # placeholder
+        required_missions = { vn_cas_conquer_rioja }
+        position = 3
+        provinces_to_highlight = {
+			area = vizcaya_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			vizcaya_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			navarra_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}	
+    }
+    vn_cas_subjugate_navarra = {
+        icon = mission_subjugate_navarra
+        required_missions = { vn_cas_seize_biscay_coast }
+        position = 5
+        provinces_to_highlight = {
+			area = navarra_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			navarra_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			southgascon_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}	
+    }
+    vn_cas_beyond_pyrenees = {  #Labourd
+        icon = mission_wine_monopolies
+        required_missions = { vn_cas_subjugate_navarra }
+        provinces_to_highlight = {
+			region = southgascon_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			southgascon_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+        effect = {
+            southgascon_region = {
+                limit = { 
+                    trade_goods = wine
+                    country_or_non_sovereign_subject_holds = ROOT
+                }
+                add_province_modifier = {
+                    name = "cas_beyond_pyrenees_mission"
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
+
+vn_cas_missions_slot_5_b = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cas_policy_of_tolerance = {
+        icon = mission_cope_with_refugees
+        required_missions = { vn_cas_triumph_over_islam }
+        position = 7
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                religion_group = muslim
+            }
+            NOT = { full_idea_group = religious_ideas }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "cas_policy_of_tolerance_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_cas_cultural_renaissance = {
+        icon = mission_patronize_art_and_religion
+        required_missions = { vn_cas_policy_of_tolerance }
+        trigger = {
+            employed_advisor = {
+                NOT = { culture_group = iberian }
+            }
+            num_accepted_cultures = 3
+            accepted_culture = andalucian
+        }
+        effect = {
+            define_advisor = {
+                skill = 3
+                culture = andalucian
+                discount = yes
+            }
+            add_country_modifier = {
+                name = "cas_cultural_renaissance_mission"
+                duration = 9125
+            }
+        }
+    }
+}

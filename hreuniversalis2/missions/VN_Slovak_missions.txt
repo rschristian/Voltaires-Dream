@@ -1,0 +1,724 @@
+#Nitran/Slovak missions
+#Contributed by Skyla
+
+vn_slo_missions_slot_1_a = {
+	slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_back_for_more = {
+		required_missions = { vn_slo_nasi_bratia }
+		icon = mission_unite_home_region #placeholder
+		position = 5
+		provinces_to_highlight = {
+			OR = {
+				area = pest_area
+				area = fejer_area
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		trigger = {
+			pest_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			fejer_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		effect = {
+			pest_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "slo_back_for_more_mission"
+					duration = 9125
+				}
+			}
+			fejer_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "slo_back_for_more_mission"
+					duration = 9125
+				}
+			}
+			bohemiasouth_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_1_b = {
+	slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_end_of_magyars = {
+		required_missions = { vn_slo_restore_great_moravia }
+		icon = mission_unite_home_region #placeholder
+		position = 8
+		provinces_to_highlight = {
+			OR = {
+				region = westhungary_region
+				region = easthungary_region
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		trigger = {
+			NOT = { exists = HUN }
+			westhungary_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			easthungary_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "slo_end_of_magyars_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_2_a = {
+	slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_freedom = {
+		required_missions = { }
+		icon = mission_large_army
+		position = 1
+		trigger = {
+			army_size_percentage = 1
+			if = {
+				limit = { exists = HUN }
+				HUN = {
+					any_rival_country = {
+						OR = {
+							support_independence = ROOT	#broken?
+							alliance_with = ROOT
+						}
+					}
+				}
+			}
+			else = {
+				any_known_country = {
+					alliance_with = ROOT
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "slo_freedom_mission"
+				duration = 7300
+			}
+			hont_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			szepes_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			zemplen_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_slo_zlucenie = {
+		required_missions = { vn_slo_freedom }
+		icon = mission_unite_home_region
+		provinces_to_highlight = {
+			OR = {
+				area = hont_area
+				area = szepes_area
+				area = zemplen_area
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		trigger = {
+			hont_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			szepes_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			zemplen_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "slo_zlucenie_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_slo_join_empire = {
+		required_missions = { vn_slo_zlucenie }
+		icon = mission_rb_control_electors
+		trigger = {
+			capital_scope = {
+				is_part_of_hre = yes
+			}
+		}
+		effect = {
+			if = {
+				limit = { exists = MRV }
+				#tooltip: We will ask Moravia for a union of our states.
+				hidden_effect = {
+					MRV = {
+						country_event = {
+							id = vn_missions.69	#Nitra requests union with Moravia
+						}
+					}
+				}
+			}
+			else = {
+				moravia_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+	vn_slo_nasi_bratia = {
+		required_missions = { vn_slo_join_empire }
+		icon = mission_alliances
+		trigger = {
+			if = {
+				limit = { exists = MRV }
+				MRV = {
+					is_subject_of = ROOT
+				}
+			}
+			else = {
+				moravia_region = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "slo_nasi_bratia_mission"
+				duration = 9125
+			}
+			fejer_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			pest_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			sacz_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_2_b = {
+	slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+
+	vn_slo_czech_invasion = {
+		required_missions = { 
+			vn_slo_back_for_more
+			vn_slo_entrance_to_poland
+		}
+		icon = mission_unite_home_region #placeholder
+		position = 6
+		provinces_to_highlight = {
+			OR = {
+				area = bohemiaeast_area
+				area = bohemiasouth_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			bohemiaeast_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			bohemiasouth_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "slo_czech_invasion_mission"
+				duration = 9125
+			}
+			bohemia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			bohemianorth_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			bohemiaborder_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			bohemiawest_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_slo_restore_great_moravia = {
+		required_missions = { vn_slo_czech_invasion }
+		icon = mission_unite_home_region #placeholder
+		provinces_to_highlight = {
+			OR = {
+				region = bohemianorth_region
+				region = bohemiasouth_region
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			bohemianorth_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			bohemiasouth_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			if = {
+				limit = {
+					exists = MRV
+					MRV = {
+						is_subject_of = ROOT
+					}
+				}
+				inherit = MRV
+			}
+			country_event = {
+				id = vn_missions.70	#Re-Establishment of Great Moravia
+			}
+		}
+	}
+	vn_slo_silesian_integration = {
+		required_missions = { vn_slo_restore_great_moravia }
+		icon = mission_unite_home_region #placeholder
+		provinces_to_highlight = {
+			region = silesia_region
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			silesia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			NOT = { exists = SIL }
+		}
+		effect = {
+			add_accepted_culture = schlesian
+			add_country_modifier = {
+				name = "slo_silesian_integration_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_slo_great_moravia_supreme = {
+		required_missions = { 
+			vn_slo_end_of_magyars
+			vn_slo_silesian_integration
+			vn_slo_polish_realm
+			vn_slo_our_sorbian_neighbors
+		}
+		icon = mission_unite_home_region #placeholder
+		position = 9
+		provinces_to_highlight = {
+			OR = {
+				region = silesia_region
+				region = westhungary_region
+				region = easthungary_region
+				region = malopolska_region
+				region = lusatia_region
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		trigger = {
+			silesia_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			westhungary_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			easthungary_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			malopolska_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			lusatia_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = { government_rank = 6 }
+				}
+				set_government_rank = 6
+			}
+			add_country_modifier = {
+				name = "slo_great_moravia_supreme"
+				duration = -1
+			}
+			2419 = {
+				if = {
+					limit = {
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+			}
+			822 = {
+				if = {
+					limit = {
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+			}
+			1778 = {
+				if = {
+					limit = {
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_3_a = {
+	slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_entrance_to_poland = {
+		required_missions = { vn_slo_nasi_bratia }
+		icon = mission_unite_home_region #placeholder
+		position = 5
+		provinces_to_highlight = {
+			area = sacz_area
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			sacz_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			bohemiaeast_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			2419 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			add_accepted_culture = polish
+		}
+	}
+}
+
+vn_slo_missions_slot_3_c = {
+	slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_polish_realm = {
+		required_missions = { vn_slo_restore_great_moravia }
+		icon = mission_unite_home_region #placeholder
+		position = 8
+		provinces_to_highlight = {
+			region = malopolska_region
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			malopolska_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "slo_polish_realm_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_4_a = {
+	slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_our_namesake = {
+		required_missions = { }
+		icon = mission_village
+		position = 1
+		provinces_to_highlight = {
+			province_id = 440
+		}
+		trigger = {
+			440 = {
+				owned_by = ROOT
+				development = 15
+				OR = {
+					has_building = post_office
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+			}
+		}
+		effect = {
+			set_capital = 440
+			slovakia_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "slo_our_namesake_mission"
+					duration = 7300
+				}
+			}
+			440 = {
+				add_center_of_trade_level = 1
+			}
+		}
+	}
+	vn_slo_our_second_capital = {
+		required_missions = { vn_slo_our_namesake }
+		icon = mission_eastern_european_city
+		position = 3
+		provinces_to_highlight = {
+			province_id = 2911
+		}
+		trigger = {
+			2911 = {
+				country_or_non_sovereign_subject_holds = ROOT
+				development = 25
+				OR = {
+					OR = {
+						has_building = post_office
+						has_building = marketplace
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+					OR = {
+						has_building = barracks
+						has_building = training_fields
+						has_building = regimental_camp
+						has_building = conscription_center
+					}
+				}
+			}
+		}
+		effect = {
+			moravia_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "slo_our_namesake_mission"
+					duration = 7300
+				}
+			}
+			2911 = {
+				add_center_of_trade_level = 1
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_4_b = {
+	slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_our_sorbian_neighbors = {
+		required_missions = { vn_slo_restore_great_moravia }
+		icon = mission_unite_home_region #placeholder
+		position = 8
+		provinces_to_highlight = {
+			region = lusatia_region
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			lusatia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			NOT = { exists = LST }
+		}
+		effect = {
+			add_accepted_culture = sorbian
+			add_country_modifier = {
+				name = "slo_our_sorbian_neighbors_mission"
+				duration = 9125
+			}
+		}
+	}
+}
