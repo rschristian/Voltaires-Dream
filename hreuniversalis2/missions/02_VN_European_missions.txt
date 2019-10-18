@@ -2,13 +2,14 @@
 
 #Global Dominance
 vn_gen_europe_1 = {
-	slot = 6
+	slot = 1
 	generic = yes
 	ai = yes
-	
 	potential = {
 		capital_scope = {
 			continent = europe
+			NOT = { superregion = caucasia_superregion }
+			NOT = { superregion = anatolia_superregion }
 		}
 		NOT = { has_reform = pirate_republic_reform }
 	}
@@ -17,8 +18,7 @@ vn_gen_europe_1 = {
 	gen_eur_trade_node = {
 		icon = mission_war_chest
 		required_missions = { }
-		position = 5
-		
+		position = 9
 		trigger = {
 			home_trade_node = {
 				highest_value_trade_node = yes
@@ -26,7 +26,6 @@ vn_gen_europe_1 = {
 			}
 			
 		}
-		
 		effect = {
 			add_prestige = 30
 			add_country_modifier = {
@@ -39,13 +38,14 @@ vn_gen_europe_1 = {
 
 #Imperial Ambition
 vn_hre_missions_1 = {
-	slot = 6
+	slot = 1
 	generic = yes
 	ai = yes
-	
 	potential = {
 		capital_scope = {
 			continent = europe
+			NOT = { superregion = caucasia_superregion }
+			NOT = { superregion = anatolia_superregion }
 		}
 		is_part_of_hre = yes
 		NOT = {
@@ -58,8 +58,7 @@ vn_hre_missions_1 = {
 	gen_hre_electors = {
 		icon = mission_alliances
 		required_missions = { }
-		position = 6
-		
+		position = 10
 		trigger = {
 			custom_trigger_tooltip = {
 				tooltip = gen_hre_electors.tooltip
@@ -71,7 +70,6 @@ vn_hre_missions_1 = {
 				}
 			}
 		}
-		
 		effect = {
 			add_prestige = 10
 			add_country_modifier = {
@@ -84,27 +82,31 @@ vn_hre_missions_1 = {
 
 #Take Frankish Throne
 vn_franks_missions_1 = {
-	slot = 7
+	slot = 2
 	generic = yes
 	ai = yes
-	
+	potential_on_load = {
+		has_dlc = "Mandate of Heaven"
+	}
 	potential = {
+		has_dlc = "Mandate of Heaven"
 		capital_scope = {
 			continent = europe
+			NOT = { superregion = caucasia_superregion }
+			NOT = { superregion = anatolia_superregion }
 		}
 		NOT = { has_reform = pirate_republic_reform }
+		is_emperor_of_china = no
 	}
 	has_country_shield = no
 	
 	vn_king_of_the_franks = {
-		position = 5
+		position = 9
 		icon = mission_king_of_franks
 		required_missions = { }
-		
 		trigger = {
 			is_emperor_of_china = yes
 		}
-		
 		effect = {
 			add_prestige = 25
 			add_country_modifier = {
@@ -117,13 +119,14 @@ vn_franks_missions_1 = {
 
 #Emperor/imperial ban
 vn_hre_missions_2 = {
-	slot = 7
+	slot = 2
 	generic = yes
 	ai = yes
-	
 	potential = {
 		capital_scope = {
 			continent = europe
+			NOT = { superregion = caucasia_superregion }
+			NOT = { superregion = anatolia_superregion }
 		}
 		is_part_of_hre = yes
 		NOT = { has_reform = pirate_republic_reform }
@@ -133,12 +136,10 @@ vn_hre_missions_2 = {
 	gen_hre_emperor = {
 		icon = mission_empire
 		required_missions = { }
-		position = 6
-		
+		position = 10
 		trigger = {
 			is_emperor = yes
 		}
-		
 		effect = {
 			add_country_modifier = {
 				name = "gen_hre_emperor_mod"
@@ -146,11 +147,9 @@ vn_hre_missions_2 = {
 			}
 		}
 	}
-	
 	gen_hre_imperial_ban = {
 		icon = mission_cannons_firing
 		required_missions = { gen_hre_emperor }
-		
 		provinces_to_highlight = {
 			AND = {
 				is_part_of_hre = yes
@@ -159,13 +158,11 @@ vn_hre_missions_2 = {
 				}
 			}
 		}
-		
 		trigger = {
 			hre_reform_level = 1
 			is_emperor = yes
 			NOT = { num_of_foreign_hre_provinces = 1 }
 		}
-		
 		effect = {
 			add_prestige = 10
 			add_imperial_influence = 10
@@ -179,13 +176,14 @@ vn_hre_missions_2 = {
 
 #Hanseatic Cities
 vn_hre_missions_3 = {
-	slot = 6
+	slot = 1
 	generic = yes
 	ai = yes
-	
 	potential = {
 		capital_scope = {
 			continent = europe
+			NOT = { superregion = caucasia_superregion }
+			NOT = { superregion = anatolia_superregion }
 		}
 		is_part_of_hre = yes
 		NOT = { has_reform = pirate_republic_reform }
@@ -193,15 +191,13 @@ vn_hre_missions_3 = {
 	has_country_shield = no
 	
 	vn_hanseatic_cities = {
-		position = 7
+		position = 11
 		icon = mission_hanseatic_city
 		required_missions = { }
 		trigger = {
-			calc_true_if = {
-				all_owned_province = {
-					has_province_modifier = hanseatic_city
-				}
-				amount = 3
+			num_of_owned_provinces_with = {
+				value = 3
+				has_province_modifier = hanseatic_city
 			}
 		}
 		effect = {

@@ -1,6 +1,6 @@
 #Italian commune
 VN_italian_commune_missions = {
-	slot = 10
+	slot = 5
 	generic = yes
 	ai = yes
 	potential = {
@@ -13,7 +13,8 @@ VN_italian_commune_missions = {
 	
 	vn_guelph_or_ghibelline = {
 		icon = mission_alliances
-		required_missions = { }
+        required_missions = { }
+        position = 5
 		trigger = {
 			custom_trigger_tooltip = {
 				tooltip = vn_guelph_or_ghibelline.tt
@@ -80,9 +81,39 @@ VN_italian_commune_missions = {
 		required_missions = { vn_riches_of_italy }
 		trigger = {
 			NOT = { has_reform = italian_monarchy }
-			NOT = { estate_influence = { estate = estate_nobles influence = 40 } }
-			NOT = { estate_influence = { estate = estate_burghers influence = 40 } }
-			NOT = { estate_influence = { estate = estate_church influence = 40 } }
+            if = {
+                limit = {
+                    has_estate = estate_burghers
+                }
+                NOT = {
+                    estate_influence = { 
+                        estate = estate_burghers 
+                        influence = 40 
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_estate = estate_nobles
+                }
+                NOT = {
+                    estate_influence = { 
+                        estate = estate_nobles
+                        influence = 40 
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_estate = estate_church
+                }
+                NOT = {
+                    estate_influence = { 
+                        estate = estate_church
+                        influence = 40 
+                    }
+                }
+            }
 		}
 		effect = {
 			add_country_modifier = {

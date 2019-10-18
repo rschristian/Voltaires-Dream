@@ -1,6 +1,4 @@
 #Voltaire's Nightmare Generic Missions
-#9 slots, 4 missions each. 10th slot used for REL
-#Below first 5 slots are uniques
 
 #Naval missions
 VN_naval_missions = {
@@ -28,7 +26,6 @@ VN_naval_missions = {
 			}
 		}
 	}
-	
 	establish_high_seas_navy = {
 		icon = mission_establish_high_seas_navy
 		required_missions = { vn_naval_expansion }
@@ -46,7 +43,6 @@ VN_naval_missions = {
 			}
 		}
 	}
-	
 	vn_build_shipyards = {
 		icon = mission_sea_battles
 		required_missions = { establish_high_seas_navy }
@@ -66,7 +62,6 @@ VN_naval_missions = {
 			}
 		}
 	}
-	
 	vn_control_ports = {
 		icon = mission_invade_island
 		required_missions = { vn_build_shipyards }
@@ -104,7 +99,6 @@ VN_trade_missions = {
 			}
 		}
 	}
-	
 	vn_embrace_guilds = {
 		icon = mission_trade_company_region_abroad
 		required_missions = { vn_build_roads }
@@ -122,7 +116,6 @@ VN_trade_missions = {
 			}
 		}
 	}
-	
 	vn_control_trade_centers = {
 		icon = mission_high_income
 		required_missions = { vn_embrace_guilds }
@@ -136,7 +129,6 @@ VN_trade_missions = {
 			}
 		}
 	}
-	
 	dominate_home_trade_node = {
 		icon = mission_dominate_home_trade_node
 		required_missions = { vn_control_trade_centers }
@@ -251,7 +243,6 @@ VN_diplomatic_missions = {
 			}
 		}
 	}
-	
 	have_two_subjects = {
 		icon = mission_have_two_subjects
 		required_missions = { building_alliances }
@@ -263,7 +254,6 @@ VN_diplomatic_missions = {
 			}
 		}
 	}
-	
 	vn_inspire_loyalty = {
 		icon = mission_monarch_in_throne_room
 		required_missions = { have_two_subjects }
@@ -285,7 +275,6 @@ VN_diplomatic_missions = {
 			}
 		}
 	}
-	
 	vn_a_large_subject = {
 		icon = mission_empire
 		required_missions = { vn_inspire_loyalty }
@@ -320,6 +309,7 @@ vn_expansion_missions = {
 	potential = {
 		always = yes
 	}
+
 	expand_country_mission = {
 		icon = mission_conquer_50_development
 		required_missions = { }
@@ -339,7 +329,6 @@ vn_expansion_missions = {
 			}
 		}
 	}
-
 	conquer_states = {
 		icon = mission_conquer_5_states
 		required_missions = { expand_country_mission }
@@ -351,7 +340,6 @@ vn_expansion_missions = {
 			}
 		}
 	}
-	
 	vn_fortify_frontiers = {
 		icon = mission_fort
 		required_missions = { conquer_states }
@@ -382,7 +370,6 @@ vn_expansion_missions = {
 			}
 		}
 	}
-	
 	unite_home_region = {
 		icon = mission_unite_home_region
 		required_missions = { vn_fortify_frontiers }
@@ -412,9 +399,80 @@ vn_expansion_missions = {
 	}
 }
 
+#Titular Missions
+vn_titular_missions = {
+	slot = 5
+	generic = yes
+	ai = yes
+	potential = {
+		always = yes
+	}
+	
+	vn_sizeable_state = {
+		icon = mission_duchy
+        required_missions = { }
+		trigger = {
+			government_rank = 3
+			grown_by_development = 50
+		}
+		effect = {
+			add_prestige = 5
+			add_country_modifier = {
+				name = "sizeable_state_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_regional_power = {
+		icon = mission_principality
+		required_missions = { vn_sizeable_state }
+		trigger = {
+			government_rank = 4
+			grown_by_development = 100
+		}
+		effect = {
+			add_prestige = 15
+			add_country_modifier = {
+				name = "regional_power_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_major_power = {
+		icon = mission_kingdom
+		required_missions = { vn_regional_power }
+		trigger = {
+			government_rank = 5
+			grown_by_development = 200
+		}
+		effect = {
+			add_prestige = 25
+			add_country_modifier = {
+				name = "major_power_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_hegemon = {
+		icon = mission_empire_new
+		required_missions = { vn_major_power }
+		trigger = {
+			government_rank = 6
+			grown_by_development = 400
+		}
+		effect = {
+			add_prestige = 50
+			add_country_modifier = {
+				name = "hegemon_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
 #Military Missions
 vn_military_missions = {
-	slot = 5
+	slot = 1
 	generic = yes
 	ai = yes
 	potential = {
@@ -423,7 +481,8 @@ vn_military_missions = {
 	
 	build_army_mission = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {  }
+        required_missions = {  }
+        position = 5
 		trigger = {
 			army_size_percentage = 1
 		}
@@ -434,7 +493,6 @@ vn_military_missions = {
 			}
 		}
 	}
-	
 	vn_high_tradition = {
 		icon = mission_large_army
 		required_missions = { build_army_mission }
@@ -448,7 +506,6 @@ vn_military_missions = {
 			}
 		}
 	}
-	
 	assemble_an_army = {
 		icon = mission_soldiers_in_line
 		required_missions = { vn_high_tradition }
@@ -460,7 +517,6 @@ vn_military_missions = {
 			}
 		}
 	}
-	
 	vn_professional_armies = {
 		icon = mission_assemble_an_army
 		required_missions = { assemble_an_army }
@@ -482,15 +538,17 @@ vn_military_missions = {
 
 #Buildings Missions
 vn_buildings_missions = {
-	slot = 6
+	slot = 2
 	generic = yes
 	ai = yes
 	potential = {
 		always = yes
 	}
+
 	build_temples = {
 		icon = mission_buildings
-		required_missions = { }
+        required_missions = { }
+        position = 5
 		trigger = {
 			OR = {
 				college = 5
@@ -509,7 +567,6 @@ vn_buildings_missions = {
 			}
 		}
 	}
-	
 	build_treasury = {
 		icon = mission_war_chest
 		required_missions = { build_temples }
@@ -521,7 +578,6 @@ vn_buildings_missions = {
 			}
 		}
 	}
-	
 	vn_build_hospitals = {
 		icon = mission_hospital
 		required_missions = { build_treasury }
@@ -539,7 +595,6 @@ vn_buildings_missions = {
 			}
 		}
 	}
-	
 	build_manufactories = {
 		icon = mission_have_manufactories
 		required_missions = { vn_build_hospitals }
@@ -563,15 +618,17 @@ vn_buildings_missions = {
 
 #Development Missions
 vn_development_missions = {
-	slot = 7
+	slot = 3
 	generic = yes
 	ai = yes
 	potential = {
 		always = yes
 	}
+
 	high_income_mission = {
 		icon = mission_high_income
-		required_missions = {  }
+        required_missions = {  }
+        position = 5
 		trigger = { share_of_starting_income = 1.5 }
 		effect = {
 			add_country_modifier = {
@@ -580,7 +637,6 @@ vn_development_missions = {
 			}
 		}
 	}
-	
 	vn_expand_the_capital = {
 		icon = mission_big_city
 		required_missions = { high_income_mission }
@@ -602,14 +658,13 @@ vn_development_missions = {
 			}
 		}
 	}
-	
 	vn_technological_might = {
 		icon = mission_early_modern_university
 		required_missions = { vn_expand_the_capital }
 		trigger = {
 			innovativeness = 25
 			custom_trigger_tooltip = {
-				tooltip = vn_technological_might.tt
+                tooltip = vn_technological_might.tt
 				calc_true_if = {
 					full_idea_group = logistics_ideas
 					full_idea_group = cultural_ideas
@@ -645,7 +700,6 @@ vn_development_missions = {
 			}
 		}
 	}
-	
 	vn_a_grand_city = {
 		icon = mission_early_game_buildings
 		required_missions = { vn_technological_might }
@@ -662,7 +716,9 @@ vn_development_missions = {
 						NOT = { province_has_center_of_trade_of_level = 3 }
 					}
 				}			
-				add_center_of_trade_level = 3
+				capital_scope = {
+					add_center_of_trade_level = 3
+				}
 			}
 			capital_scope = {
 				add_province_modifier = {
@@ -676,7 +732,7 @@ vn_development_missions = {
 	
 #Administrative Missions
 vn_administrative_missions = {
-	slot = 8
+	slot = 4
 	generic = yes
 	ai = yes
 	potential = {
@@ -685,7 +741,8 @@ vn_administrative_missions = {
 	
 	vn_stable_nation = {
 		icon = mission_high_income
-		required_missions = { }
+        required_missions = { }
+        position = 5
 		trigger = {
 			stability = 3
 		}
@@ -696,7 +753,6 @@ vn_administrative_missions = {
 			}
 		}
 	}
-	
 	vn_expand_court = {
 		icon = mission_noble_council
 		required_missions = { vn_stable_nation }
@@ -718,14 +774,28 @@ vn_administrative_missions = {
 			}
 		}
 	}
-	
 	vn_loyal_estates = {
 		icon = mission_have_two_subjects
 		required_missions = { vn_expand_court }
 		trigger = {
-			estate_loyalty = { estate = estate_burghers loyalty = 70 }
-			estate_loyalty = { estate = estate_nobles loyalty = 70 }
-			estate_loyalty = { estate = estate_church loyalty = 70 }
+            if = {
+                limit = {
+                    has_estate = estate_burghers
+                }
+                estate_loyalty = { estate = estate_burghers loyalty = 70 }
+            }
+			if = {
+                limit = {
+                    has_estate = estate_nobles
+                }
+                estate_loyalty = { estate = estate_nobles loyalty = 70 }
+            }
+            if = {
+                limit = {
+                    has_estate = estate_church
+                }
+                estate_loyalty = { estate = estate_church loyalty = 70 }
+            }
 		}
 		effect = {
 			add_country_modifier = {
@@ -734,7 +804,6 @@ vn_administrative_missions = {
 			}
 		}
 	}
-	
 	vn_absolute_power = {
 		icon = mission_monarch_in_throne_room
 		required_missions = { vn_loyal_estates }
@@ -751,80 +820,6 @@ vn_administrative_missions = {
 		effect = {
 			add_country_modifier = {
 				name = "absolute_power_mission"
-				duration = 9125
-			}
-		}
-	}
-}
-
-#Titular Missions
-vn_titular_missions = {
-	slot = 9
-	generic = yes
-	ai = yes
-	potential = {
-		always = yes
-	}
-	
-	vn_sizeable_state = {
-		icon = mission_duchy
-		required_missions = { }
-		trigger = {
-			government_rank = 3
-			grown_by_development = 50
-		}
-		effect = {
-			add_prestige = 5
-			add_country_modifier = {
-				name = "sizeable_state_mission"
-				duration = 9125
-			}
-		}
-	}
-	
-	vn_regional_power = {
-		icon = mission_principality
-		required_missions = { vn_sizeable_state }
-		trigger = {
-			government_rank = 4
-			grown_by_development = 100
-		}
-		effect = {
-			add_prestige = 15
-			add_country_modifier = {
-				name = "regional_power_mission"
-				duration = 9125
-			}
-		}
-	}
-	
-	vn_major_power = {
-		icon = mission_kingdom
-		required_missions = { vn_regional_power }
-		trigger = {
-			government_rank = 5
-			grown_by_development = 200
-		}
-		effect = {
-			add_prestige = 25
-			add_country_modifier = {
-				name = "major_power_mission"
-				duration = 9125
-			}
-		}
-	}
-	
-	vn_hegemon = {
-		icon = mission_empire_new
-		required_missions = { vn_major_power }
-		trigger = {
-			government_rank = 6
-			grown_by_development = 400
-		}
-		effect = {
-			add_prestige = 50
-			add_country_modifier = {
-				name = "hegemon_mission"
 				duration = 9125
 			}
 		}
