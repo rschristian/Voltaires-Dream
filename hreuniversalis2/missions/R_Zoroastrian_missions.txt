@@ -1,0 +1,97 @@
+vn_zoroastrian_missions = {
+	slot = 3
+	generic = yes
+    ai = yes
+    
+	potential = {
+		religion = zoroastrian
+	}
+
+	vn_humiliate_the_muslims = {
+		position = 9
+		icon = mission_conqer_sindh_mer
+		required_missions = {}
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_humiliate_the_muslims.tt
+				calc_true_if = {
+					all_country = {
+                        religion_group = muslim
+						is_in_war = {
+							attacker_leader = ROOT
+						}
+						NOT = {
+							war_score_against = {
+								who = ROOT
+								value = -74
+							}
+						}
+					}
+					amount = 1
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "humiliate_the_muslims_mission"
+				duration = 9125
+			}
+		}
+    }
+	vn_inimitable_respect = {
+		icon = mission_friends_or_enemies
+		required_missions = {}
+		trigger = {
+			calc_true_if = {
+				all_ally = {
+					NOT = { religion_group = ROOT }
+					has_opinion = {
+						who = ROOT
+						value = 150
+					}
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "inimitable_respect_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_construct_dakhmas = {
+		icon = mission_reclaim_dehli
+		required_missions = { vn_inimitable_respect }
+		trigger = {
+            if = {
+				limit = { has_estate = estate_church }
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+				num_of_owned_provinces_with = {
+					value = 10
+					development = 20
+					has_estate = estate_church
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 10
+					development = 20
+					OR = {
+						has_building = temple
+						has_building = cathedral
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "construct_dakhmas_mission"
+				duration = 9125
+			}
+		}
+	}
+}
