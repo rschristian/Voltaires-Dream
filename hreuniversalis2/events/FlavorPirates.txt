@@ -1,0 +1,124 @@
+###### DHE's to spawn pirate republics ######
+###### by Daniel Tolman ######
+
+namespace = pirates
+normal_or_historical_nations = yes
+
+# The Pirates of Algiers
+country_event = {
+	id = pirates.2
+	title = "pirates.2.t"
+	picture = SMUGGLERS_eventPicture
+	desc = "pirates.2.d"
+	
+	fire_only_once = yes
+	
+	trigger = {
+		has_dlc = "Golden Century"
+		NOT = { started_in = 1510.1.1 }
+		NOT = { exists = ALG }
+		is_year = 1500
+		OR = {
+			AND = {
+				owns_core_province = 1946
+				is_subject = no
+				num_of_cities = 2
+			}
+			any_subject_country = {
+				owns_core_province = 1946
+				num_of_cities = 2
+			}
+		}
+		OR = {
+			1946 = {
+				recent_treasure_ship_passage = yes
+			}
+			1946 = {
+				privateer_power = { share = 5 }
+			}
+			any_country = {
+				capital_scope = { superregion = africa_superregion }
+				war_exhaustion = 5
+			}
+		}
+	}
+	
+	immediate = {
+		hidden_effect = {
+			1946 = {
+				discover_country = ALG
+				add_core = ALG
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # play as the pirates
+		name = "pirates.2.a"
+		# play as ALG
+		trigger = { ai = no }
+		1946 = { owner = { release = ALG } }
+		ALG = {
+			change_government = republic
+			add_government_reform = pirate_republic_reform
+			adopt_reform_progress = ROOT
+			add_republican_tradition = 50
+			capital_scope = {
+				build_to_forcelimit = {
+					infantry = 0.8
+					artillery = 0.2
+					heavy_ship = 0.3
+					light_ship = 0.3
+					transport = 0.3
+				}
+			}
+			define_ruler = {
+				name = "Khidr"
+				dynasty = "Yakupoglu"
+				culture = turkish
+				fixed = yes
+				adm = 3
+				dip = 4
+				mil = 5
+			}
+			swap_free_idea_group = yes
+			set_ruler_flag = historical_pirate
+			swap_non_generic_missions = yes
+		}
+		switch_tag = ALG
+	}
+	option = { # pirates get released
+		name = "pirates.2.b"
+		1946 = { owner = { release = ALG } }
+		ALG = {
+			change_government = republic
+			add_government_reform = pirate_republic_reform
+			adopt_reform_progress = ROOT
+			add_republican_tradition = 50
+			capital_scope = {
+				build_to_forcelimit = {
+					infantry = 0.8
+					artillery = 0.2
+					heavy_ship = 0.3
+					light_ship = 0.3
+					transport = 0.3
+				}
+			}
+			define_ruler = {
+				name = "Khidr"
+				dynasty = "Yakupoglu"
+				culture = turkish
+				fixed = yes
+				adm = 3
+				dip = 4
+				mil = 5
+			}
+			swap_free_idea_group = yes
+			set_ruler_flag = historical_pirate
+			swap_non_generic_missions = yes
+		}
+	}
+}

@@ -1,0 +1,154 @@
+vn_pirate_missions_1 = {
+	slot = 6
+	generic = yes
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Golden Century"
+	}
+	potential = {
+		has_dlc = "Golden Century"
+		has_reform = pirate_republic_reform
+	}
+	
+	pirate_trade_practices = {
+		position = 5
+		icon = mission_raid_on_iceland
+		required_missions = { }
+		trigger = {
+			home_trade_node = {
+				privateer_power = {
+					country = ROOT
+					share = 25
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pirate_trade_practices"
+				duration = 7300
+			}
+		}
+	}
+	pirate_trade_ports = {
+		position = 6
+		icon = mission_claim_hispaniola
+		required_missions = { pirate_trade_practices }
+		provinces_to_highlight = {
+			province_has_center_of_trade_of_level = 1
+			NOT = { province_has_center_of_trade_of_level = 2 }
+			owned_by = ROOT
+		}
+		trigger = {
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+				}
+				num_of_owned_provinces_with = {
+					province_has_center_of_trade_of_level = 2
+					value = 3
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					OR = {
+						has_building = marketplace
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+					value = 5
+				}
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = "pirate_trade_ports"
+				duration = 7300
+			}
+		}
+	}
+	pirate_hoard = {
+		position = 7
+		icon = mission_african_gold
+		required_missions = { }
+		trigger = {
+			treasury = 3000
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pirate_hoard"
+				duration = 7300
+			}
+		}
+	}
+}
+
+vn_pirate_missions_2 = {
+	slot = 7
+	generic = yes
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Golden Century"
+	}
+	potential = {
+		has_dlc = "Golden Century"
+		has_reform = pirate_republic_reform
+	}
+	
+	pirate_a_scourge_on_the_seven_seas = {
+		position = 5
+		icon = mission_raid_christian_trade
+		required_missions = {  }
+		trigger = {
+			has_flagship = yes
+		}
+		effect = {
+			create_admiral = {
+				tradition = 50
+			}
+			add_country_modifier = {
+				name = "pirate_a_scourge_on_the_seven_seas"
+				duration = 7300
+			}
+		}
+	}
+	pirate_a_famous_pirate = {
+		position = 6
+		icon = mission_pirate_havens
+		required_missions = { pirate_a_scourge_on_the_seven_seas }
+		trigger = {
+			has_leader_with = { admiral = yes total_pips = 12 }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pirate_a_famous_pirate"
+				duration = 7300
+			}
+		}
+	}
+	pirate_the_pirate_threat = {
+		position = 7
+		icon = mission_raid_on_genoa
+		required_missions = { pirate_a_famous_pirate }
+		trigger = {
+			if = {
+				limit = { has_dlc = "Rights of Man" }
+				any_rival_country = {
+					is_great_power = yes
+				}
+			}
+			else = {
+				any_rival_country = {
+					total_development = 800
+				}
+			}
+		}
+		effect = {
+			add_mil_power = 100
+			add_country_modifier = {
+				name = "pirate_the_pirate_threat"
+				duration = 7300
+			}
+		}
+	}
+}

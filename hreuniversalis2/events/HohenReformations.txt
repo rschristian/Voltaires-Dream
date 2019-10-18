@@ -1,0 +1,262 @@
+namespace = hohenref_events
+
+########################################
+# Early Heresies
+########################################
+
+province_event = {
+	id = hohenref_events.1
+	title = "hohenref_events.1.t"
+	desc = "hohenref_events.1.d"
+	picture = RELIGION_eventPicture
+	
+	major = yes
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = cathar_heresy_g
+			enable_religion = cathar
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "hohenref_events.1.a"
+		change_religion = cathar
+		add_reform_center = cathar
+		add_permanent_province_modifier = {
+			name = "religious_zeal_at_conv"
+			duration = 9000
+		}
+	}
+}
+
+province_event = {
+	id = hohenref_events.2
+	title = "hohenref_events.2.t"
+	desc = "hohenref_events.2.d"
+	picture = RELIGION_eventPicture
+	
+	major = yes
+	is_triggered_only = yes
+
+	immediate = { hidden_effect = { enable_religion = waldensian } }
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "hohenref_events.2.a"
+		change_religion = waldensian
+		add_reform_center = waldensian
+		add_permanent_province_modifier = {
+			name = "religious_zeal_at_conv"
+			duration = 9000
+		}
+	}
+}
+
+country_event = {
+	id = hohenref_events.3
+	title = "hohenref_events.3.t"
+	desc = "hohenref_events.3.d"
+	picture = RELIGION_eventPicture
+	
+	major = yes
+	fire_only_once = yes
+
+	trigger = {
+		is_year = 1248
+		NOT = { started_in = 1253.1.1 }
+		tag = BOS
+		religion_group = christian
+		NOT = { religion = bogomilist }
+		normal_or_historical_nations = yes
+		NOT = { has_country_modifier = conversion_zeal }
+	}
+
+	mean_time_to_happen = { months = 120 }
+
+	option = {
+		name = "hohenref_events.3.a"
+		ai_chance = {
+			factor = 95
+			modifier = {
+				factor = 0
+				is_papal_controller = yes
+			}
+		}
+		change_religion = bogomilist
+		random_owned_province = {
+			limit = {
+				can_have_center_of_reformation_trigger = {
+					religion = bogomilist
+				}
+			}
+			change_religion = bogomilist
+			add_reform_center = bogomilist
+		}
+		every_neighbor_country = {
+			limit = {
+				OR = {
+					religion = catholic
+					religion = orthodox
+				}
+				is_free_or_tributary_trigger = yes
+			}
+			add_opinion = {
+				who = root
+				modifier = christian_unorthodoxy
+			}
+		}
+	}
+	option = {
+		name = "hohenref_events.3.b"
+		ai_chance = { factor = 5 }
+		add_karma = 5
+		add_papal_influence = 5
+		add_patriarch_authority = 0.05
+		if = {
+			limit = { religion = waldensian }
+			change_personal_deity = vishnu
+		}
+	}
+}
+
+country_event = {
+	id = hohenref_events.4
+	title = "hohenref_events.4.t"
+	desc = "hohenref_events.4.d"
+	picture = POPE_PREACHING_eventPicture
+	
+	major = yes
+	fire_only_once = yes
+
+	trigger = {
+		current_age = age_of_dynasticism
+		NOT = { has_global_flag = fraticelli_heresy_g }
+		NOT = { government = papal_government }
+		religion = catholic
+		papacy_active = yes
+		NOT = { any_province = { religion = fraticelli } }
+		any_province = {
+			region = umbria_region
+			owned_by = ROOT
+			can_have_center_of_reformation_trigger = {
+				religion = fraticelli
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = fraticelli_heresy_g
+			enable_religion = fraticelli
+		}
+	}
+
+	mean_time_to_happen = { months = 240 }
+
+	option = {
+		name = "hohenref_events.4.a"
+		ai_chance = { factor = 70 }
+		random_owned_province = {
+			limit = {
+				region = umbria_region
+				can_have_center_of_reformation_trigger = {
+					religion = fraticelli
+				}
+			}
+			change_religion = fraticelli
+			add_reform_center = fraticelli
+			add_permanent_province_modifier = {
+				name = "religious_zeal_at_conv"
+				duration = 9000
+			}
+		}
+	}
+	option = {
+		name = "hohenref_events.4.b"
+		highlight = yes
+		trigger = { any_owned_province = { trade_goods = peaches } }
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 0
+				is_papal_controller = yes
+			}
+		}
+		if = {
+			limit = { exists = PAP }
+			reverse_add_opinion = { who = PAP modifier = opinion_upset_pope }
+		}
+		change_religion = fraticelli
+		random_owned_province = {
+			limit = {
+				region = umbria_region
+				can_have_center_of_reformation_trigger = {
+					religion = fraticelli
+				}
+			}
+			change_religion = fraticelli
+			add_reform_center = fraticelli
+		}
+		random_owned_province = {
+			limit = { trade_goods = peaches }
+			add_province_modifier = {
+				name = "freeze_peaches"
+				duration = 3650
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hohenref_events.5
+	title = "hohenref_events.5.t"
+	desc = "hohenref_events.5.d"
+	picture = RELIGIOUS_TURMOIL_eventPicture
+	
+	major = yes
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { has_global_flag = hussite_heresy_g }
+		is_institution_enabled = laytheology
+		religion_group = christian
+		NOT = { any_province = { religion = hussite } }
+		any_province = {
+			superregion = bohemia_superregion
+			owned_by = ROOT
+			can_have_center_of_reformation_trigger = {
+				religion = hussite
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = hussite_heresy_g
+			enable_religion = hussite
+		}
+	}
+
+	mean_time_to_happen = { months = 240 }
+
+	option = {
+		name = "hohenref_events.5.a"
+		random_owned_province = {
+			limit = {
+				superregion = bohemia_superregion
+				can_have_center_of_reformation_trigger = {
+					religion = hussite
+				}
+			}
+			change_religion = hussite
+			add_reform_center = hussite
+			add_permanent_province_modifier = {
+				name = "religious_zeal_at_conv"
+				duration = 9000
+			}
+		}
+	}
+}

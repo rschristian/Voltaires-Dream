@@ -1,0 +1,116 @@
+VN_crusader_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		OR = {
+			tag = TEU
+			tag = LIV
+			tag = KNI
+			capital_scope = {
+				superregion = anatolia_superregion
+			}
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = no
+	
+	vn_increase_recruitment = {
+		icon = mission_soldiers_in_line
+		required_missions = {} 
+		trigger = {
+			army_size_percentage = 1
+			manpower_percentage = 0.8
+			armory = 5
+		}
+		effect = {
+			add_country_modifier = {
+				name = "increase_recruitment_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_unity_of_the_crusaders = {
+		icon = mission_religious
+		required_missions = { vn_increase_recruitment } 
+		trigger = {
+			check_variable = { which = num_converted_religion value = 10 }
+			religious_unity = 0.5
+		}
+		effect = {
+			add_country_modifier = {
+				name = "unity_of_the_crusaders_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_templar_forts = {
+		icon = mission_fort
+		required_missions = { vn_unity_of_the_crusaders } 
+		trigger = {
+			if = {
+				limit = {
+					has_dlc = "The Cossacks"
+					OR = {
+						has_estate = estate_holy_orders
+						current_age = age_of_empire
+					}
+				}
+				num_of_owned_provinces_with = {
+					value = 5
+					OR = {
+						has_building = fort_14th
+						has_building = fort_15th
+						has_building = fort_16th
+						has_building = fort_17th
+						has_building = fort_18th
+					}
+				}
+				estate_influence = {
+					estate = estate_holy_orders
+					influence = 60
+				}
+				estate_loyalty = {
+					estate = estate_holy_orders
+					loyalty = 70
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 10
+					OR = {
+						has_building = fort_14th
+						has_building = fort_15th
+						has_building = fort_16th
+						has_building = fort_17th
+						has_building = fort_18th
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "templar_forts_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_crusader_army = {
+		icon = mission_teutonic_knights
+		required_missions = { vn_templar_forts } 
+		trigger = {
+			num_of_generals = 3
+			num_of_cavalry = 10
+		}
+		effect = {
+			add_country_modifier = {
+				name = "crusader_army_mission"
+				duration = 9125
+			}
+		}
+	}
+}

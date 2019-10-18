@@ -1,0 +1,122 @@
+country_decisions = {
+
+	irish_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primitives = no
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { exists = IRE }
+			NOT = { tag = ENG }
+			NOT = { tag = ASE }
+			NOT = { tag = GBR }
+			NOT = { tag = GLY }
+			NOT = { tag = MAF }
+			NOT = { has_country_flag = unformable }
+			capital_scope = { superregion = irish_superregion }
+			OR = {
+				primary_culture = irish
+				primary_culture = hiberno_norman
+				AND = {
+					any_province = { culture = irish }
+					primary_culture = gallowglass
+				}
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 6
+				}
+			}
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 393
+				province_id = 2737
+				province_id = 2619
+				province_id = 921
+				province_id = 2373
+				province_id = 258
+				province_id = 426
+				province_id = 853
+				province_id = 773
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 40
+			is_nomad = no
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			owns = 393			# Ulster
+			owns = 2737			# Meath
+			owns = 2619			# Leinster
+			owns = 921			# Munster
+			owns = 2373			# Connaught
+			owns = 258			# Desmond
+			owns = 426			# Sligo
+			owns = 853			# Kildare
+			owns = 773			# Ulster
+		}
+		effect = {
+			change_tag = IRE
+			irish_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = IRE
+			}
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = {
+					is_tribal = yes
+				}
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+			}
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			if = {
+				limit = {
+					NOT = { primary_culture = irish }
+				}
+				change_primary_culture = irish
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			if = {
+				limit = {
+					NOT = { has_idea_group = irish_ideas }
+					is_playing_custom_nation = no
+				}
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+}

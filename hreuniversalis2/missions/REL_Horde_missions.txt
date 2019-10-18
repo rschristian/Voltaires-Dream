@@ -1,0 +1,179 @@
+VN_generic_horde_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			has_reform = steppe_horde
+			primary_culture = cuman
+			primary_culture = pecheneg
+			primary_culture = jan_mayenese
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = no
+	
+	vn_children_of_the_steppes = {
+		icon = mission_rice_field
+		required_missions = {}
+		trigger = {
+			horses = 3
+			num_of_cavalry = 10
+		}
+		effect = {
+			add_army_tradition = 10
+			add_country_modifier = {
+				name = "children_of_the_steppes_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_improve_horde_infrastructure = {
+		icon = mission_roads
+		required_missions = { vn_children_of_the_steppes }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 10
+				OR = {
+					has_building = road_network
+					has_building = post_office
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "improve_horde_infrastructure_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_development_of_the_horde = {
+		icon = mission_have_manufactories
+		required_missions = { vn_improve_horde_infrastructure }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				development = 12
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "development_of_the_horde_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_stamp_out_nationalism = {
+		icon = mission_tribal_war
+		required_missions = { vn_development_of_the_horde }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 20
+				culture = ROOT
+			}
+		}
+		effect = {
+			add_dip_power = 50
+			add_country_modifier = {
+				name = "stamp_out_nationalism_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+VN_generic_horde_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			has_reform = steppe_horde
+			primary_culture = cuman
+			primary_culture = pecheneg
+			primary_culture = jan_mayenese
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = no
+	
+	vn_raid_kiev = {
+		position = 5
+		icon = mission_non-western_cavalry_raid
+		required_missions = {}
+		provinces_to_highlight = {
+			province_id = 4237
+		}
+		trigger = {
+			4237 = {
+				OR = {
+					owned_by = ROOT
+					AND = {
+						NOT = { country_or_non_sovereign_subject_holds = ROOT }
+						controlled_by = ROOT
+						devastation = 20
+					}
+				}
+			}
+		}
+		effect = {
+			add_horde_unity = 10
+			add_country_modifier = {
+				name = "raid_kiev_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_raid_krakow = {
+		icon = mission_steppe_warriors
+		required_missions = { vn_raid_kiev }
+		provinces_to_highlight = {
+			province_id = 2419
+		}
+		trigger = {
+			2419 = {
+				OR = {
+					owned_by = ROOT
+					AND = {
+						NOT = { country_or_non_sovereign_subject_holds = ROOT }
+						controlled_by = ROOT
+						devastation = 20
+					}
+				}
+			}
+		}
+		effect = {
+			add_horde_unity = 10
+			add_country_modifier = {
+				name = "raid_krakow_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_raid_constantinople = {
+		icon = mission_chinese_general_riding
+		required_missions = { vn_raid_krakow }
+		provinces_to_highlight = {
+			province_id = 2233
+		}
+		trigger = {
+			2233 = {
+				OR = {
+					owned_by = ROOT
+					AND = {
+						NOT = { country_or_non_sovereign_subject_holds = ROOT }
+						controlled_by = ROOT
+						devastation = 20
+					}
+				}
+			}
+		}
+		effect = {
+			add_horde_unity = 10
+			add_country_modifier = {
+				name = "raid_constantinople_mission"
+				duration = 7300
+			}
+		}
+	}
+}

@@ -1,0 +1,235 @@
+country_decisions = {
+
+	netherlands_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primitives = no
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				NOT = { exists = NED }
+				ai = no
+			}
+			NOT = { tag = NED }
+			NOT = { tag = BGU }
+			NOT = { has_country_flag = unformable }
+			OR = {
+				culture_group = dutch_group
+				tag = BUR
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 8
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 95
+				province_id = 331
+				province_id = 328
+				province_id = 1846
+				province_id = 2306
+				province_id = 2204
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 40
+			is_nomad = no
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			NOT = { exists = NED }
+			owns_core_province = 95 # Breda
+			owns_core_province = 331 # Zeeland
+			owns_core_province = 328 # Holland
+			owns_core_province = 1846 # Utrecht
+			owns_core_province = 2306 # Gelre
+			owns_core_province = 2204 # Friesland
+		}
+	 	effect = {
+			if = {
+				limit = {
+					any_owned_province = {
+						is_part_of_hre = yes
+					}
+					is_elector = no
+					is_emperor = no
+				}
+				every_owned_province = {
+					limit = {
+						is_part_of_hre = yes
+					}
+					set_in_empire = no
+				}
+			}
+	  		if = {
+	  			limit = {
+	  				NOT = { primary_culture = dutch }
+	  			}
+	  			change_primary_culture = dutch
+	  			set_capital = 328
+			}
+			if = {
+				limit = {
+					tag = BUR
+					exists = FRA
+				}
+	  			french_superregion = {
+					limit = {
+						owned_by = BUR
+					}
+	  				remove_core = BUR
+	  				add_core = FRA
+	  				cede_province = FRA
+	  			}
+	  			burgundian_superregion = {
+					limit = {
+						owned_by = BUR
+					}
+	  				remove_core = BUR
+	  				add_core = FRA
+	  				cede_province = FRA
+	  			}
+	  		}
+			if = {
+				limit = {
+					government = theocracy
+					religion = catholic
+				}
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+				set_legacy_government = administrative_monarchy
+				PAP = {
+					add_opinion = {
+						who = ROOT
+						modifier = opinion_displeased
+					}
+				}
+			}
+			if = {
+				limit = {
+					government = theocracy
+					religion = catholique
+				}
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+				set_legacy_government = administrative_monarchy
+				AVI = {
+					add_opinion = {
+						who = ROOT
+						modifier = opinion_displeased
+					}
+				}
+			}
+			if = {
+				limit = {
+					government = theocracy
+					NOT = { religion = catholic }
+					NOT = { religion = catholique }
+				}
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+				set_legacy_government = administrative_monarchy
+			}
+			if = {
+				limit = {
+					tag = BUR
+					exists = FRA
+					BUR = {
+						any_subject_country = {
+							french_superregion = {
+								owned_by = PREV
+							}
+						}
+					}
+				}
+				every_subject_country = {
+					limit = {
+						french_superregion = {
+							owned_by = PREV
+						}
+					}
+					french_superregion = {
+						limit = {
+							owned_by = PREV
+						}
+						remove_core = BUR
+						remove_core = PREV
+						add_core = FRA
+						cede_province = FRA
+					}
+				}
+	  		}
+	  		if = {
+				limit = {
+					tag = BUR
+					exists = FRA
+					BUR = {
+						any_subject_country = {
+							burgundian_superregion = {
+								owned_by = PREV
+							}
+						}
+					}
+				}
+				every_subject_country = {
+					limit = {
+						burgundian_superregion = {
+							owned_by = PREV
+						}
+					}
+					burgundian_superregion = {
+						limit = {
+							owned_by = PREV
+						}
+						remove_core = BUR
+						remove_core = PREV
+						add_core = FRA
+						cede_province = FRA
+					}
+				}
+	  		}
+			change_tag = NED
+			lowlands_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = NED
+			}
+			if = {
+				limit = {
+					NOT = {
+						government_rank = 5
+					}
+				}
+				set_government_rank = 5
+			}
+			add_prestige = 25
+			if = {
+				limit = {
+					has_custom_ideas = no
+					NOT = { has_idea_group = NED_ideas }
+				}
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				tag = BUR
+			}
+		}
+		ai_importance = 400
+	}
+	
+}

@@ -1,0 +1,107 @@
+country_decisions = {
+
+	croatian_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primitives = no
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { tag = CRO }
+			NOT = { has_country_flag = unformable }
+			OR = {
+				NOT = { exists = CRO }
+				ai = no
+			}
+			primary_culture = croatian
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 10
+				}
+			}
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2236
+				province_id = 1083
+				province_id = 137
+				province_id = 437
+				province_id = 2369
+				province_id = 1972
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = CRO }
+			is_nomad = no
+			is_free_or_tributary_trigger = yes
+			is_at_war = no			
+			owns_core_province = 2236			# Zagreb
+			owns_core_province = 1083			# Dalmatia
+			owns_core_province = 137			# Ragusa
+			owns_core_province = 437			# Varasd
+			owns_core_province = 2369			# Slavonia
+			owns_core_province = 1972			# Lika
+		}
+		effect = {
+			add_prestige = 25
+			change_tag = CRO
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			croatia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = CRO
+			}
+			dalmatian_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = CRO
+			}
+			CRO = {
+				set_capital = 2236 # Zagreb
+			}
+			if = {
+				limit = {
+					government = republic
+				}
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+}

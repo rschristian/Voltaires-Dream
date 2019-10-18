@@ -1,0 +1,105 @@
+VN_hre_monarchies_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		is_part_of_hre = yes
+		government = monarchy
+	}
+	
+	vn_royal_marriages = {
+		icon = mission_alliances
+		required_missions = { }
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_royal_marriages.tt
+				calc_true_if = {
+					all_country = {
+						is_part_of_hre = yes
+						marriage_with = ROOT
+					}
+					amount = 5
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "royal_marriages_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_secure_our_domain = {
+		icon = mission_landsknecht_soldier
+		required_missions = { vn_royal_marriages }
+		trigger = {
+			stability = 1
+			legitimacy_equivalent = 100
+			army_size_percentage = 1
+			num_of_owned_provinces_with = {
+				value = 3
+				OR = {
+					has_building = fort_14th
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "secure_our_domain_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_reduce_local_autonomy = {
+		icon = mission_high_income
+		required_missions = { vn_secure_our_domain }
+		trigger = {
+			NOT = { average_home_autonomy = 50 }
+			if = {
+				limit = { has_estate = estate_nobles }
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 50
+				}
+				NOT = {
+					estate_influence = {
+						estate = estate_nobles
+						influence = 60
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "reduce_local_autonomy_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_become_elector = {
+		icon = mission_coronation
+		required_missions = { vn_reduce_local_autonomy }
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_become_elector.tt
+				OR = {
+					is_elector = yes
+					any_subject_country = {
+						junior_union_with = ROOT
+						is_elector = yes
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "become_elector_mission"
+				duration = 9125
+			}
+		}
+	}
+}

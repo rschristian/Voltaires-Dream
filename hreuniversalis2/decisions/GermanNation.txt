@@ -1,0 +1,135 @@
+country_decisions = {
+
+	german_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { exists = GER }
+			OR = {
+				tag = NGC
+				tag = SGC
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 30
+					adm_tech = 54
+				}
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					NOT = { government = theocracy }
+				}
+			}
+			culture_group = germanic
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1084
+				province_id = 2643
+				province_id = 2652
+				province_id = 2645
+				province_id = 2803
+				province_id = 2851
+				province_id = 913
+				province_id = 2967
+				province_id = 2541
+				province_id = 1951
+				province_id = 2962
+				province_id = 1943
+				province_id = 2458
+				AND = {
+					province_id = 4854
+					ROOT = { NOT = { owns_core_province = 4854 } }
+				}
+				AND = {
+					province_id = 1959
+					ROOT = { NOT = { owns_core_province = 1959 } }
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 54
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			is_nomad = no
+			is_emperor = no
+			owns_core_province = 1084	# Hamburg
+			owns_core_province = 2643	# Rostock
+			owns_core_province = 2652	# Berlin
+			owns_core_province = 2645	# Brunswick
+			owns_core_province = 2803	# Dresden
+			owns_core_province = 2851	# Thüringen
+			owns_core_province = 913	# München
+			owns_core_province = 2967	# Nürnberg
+			owns_core_province = 2541	# Hessen
+			owns_core_province = 1951	# Köln
+			owns_core_province = 2962 	# Worms
+			owns_core_province = 2956 	# Augsburg
+			owns_core_province = 1943 	# Frankfurt
+			owns_core_province = 2458 	# Stuttgart
+			OR = {
+				owns_core_province = 4854	# Königsberg
+				owns_core_province = 1959	# Strassburg
+			}
+		}
+		effect = {
+			change_tag = GER
+			set_country_flag = unformable
+			if = {
+				limit = { is_part_of_hre = yes }
+				emperor = {
+					add_opinion = {
+						who = root
+						modifier = opinion_left_empire
+					}
+				}
+				set_in_empire = no
+				emperor = {
+					country_event = { id = hre_event.5 }
+				}
+			}
+			set_government_rank = 6
+			germanynorth_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = GER
+			}
+			germanysouth_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = GER
+			}			
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			add_prestige = 25
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+}

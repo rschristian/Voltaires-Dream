@@ -1,0 +1,85 @@
+country_decisions = {
+
+	catalan_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			primary_culture = catalan
+			NOT = { exists = CAT }
+			religion_group = christian
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1955
+				province_id = 2054
+				province_id = 1178
+				province_id = 2052
+				province_id = 313
+				province_id = 4299
+				province_id = 1245
+				AND = {
+					province_id = 1788
+					ROOT = { NOT = { owns_core_province = 521 } }
+				}
+				AND = {
+					province_id = 521
+					ROOT = { NOT = { owns_core_province = 1788 } }
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = CAT }
+			adm_tech = 40	
+			is_at_war = no
+			is_nomad = no
+			owns_core_province = 1955
+			owns_core_province = 2054
+			owns_core_province = 1178
+			owns_core_province = 2052
+			owns_core_province = 313
+			owns_core_province = 4299
+			owns_core_province = 1245
+			OR = {
+				owns_core_province = 1788
+				owns_core_province = 521
+			}
+		}
+		effect = {
+			change_tag = CAT
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			add_prestige = 10
+			set_capital = 1955 # Barcelona
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 3650
+			}
+			catalunya_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

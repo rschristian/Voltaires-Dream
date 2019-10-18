@@ -1,0 +1,73 @@
+vn_gen_africa_1 = {
+	slot = 6
+	generic = yes
+	ai = yes
+	potential = {
+		capital_scope = {
+			superregion = africa_superregion
+		}
+		NOT = { has_reform = pirate_republic_reform }
+	}
+	
+	africa_slave_trade = {
+		position = 5
+		icon = mission_african_soldier
+		required_missions = { }
+		trigger = {
+			OR = {
+				AND = {
+					production_leader = {
+						trade_goods = slaves
+					}
+					slaves = 4
+				}
+				AND = {
+					has_country_modifier = the_abolish_slavery_act
+					NOT = {
+						any_neighbor_country = {
+							slaves = 1
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					production_leader = {
+						trade_goods = slaves
+					}
+				}
+				add_mercantilism = 2
+				add_country_modifier = {
+					name = "africa_slave_trade_mission"
+					duration = 7300
+				}
+			}
+			else = {
+				add_country_modifier = {
+					name = "african_abolitionists"
+					duration = 7300
+				}
+			}
+		}
+	}
+	africa_modernization = {
+		icon = mission_have_manufactories
+		required_missions = { }
+		trigger = {
+			is_tribal = no
+			NOT = { has_reform = iqta }
+			any_neighbor_country = {
+				technology_group = western
+				NOT = {
+					tech_difference = 1
+				}
+			}
+		}
+		effect = {
+			add_innovativeness_big_effect = yes
+			add_prestige = 20
+		}
+	}
+}

@@ -1,0 +1,227 @@
+vn_scottish_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			primary_culture = scottish
+			primary_culture = highland_scottish
+			primary_culture = gallowglass
+		}
+		capital_scope = {
+			OR = {
+				region = scotland_region
+				region = highlands_region
+			}
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	vn_development_of_the_highlands = {
+		icon = mission_have_manufactories
+		required_missions = { }
+		trigger = {
+			capital_scope = {
+				development = 20
+			}
+			total_development = 100
+		}
+		effect = {
+			add_country_modifier = {
+				name = "development_of_the_highlands_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_scottish_fishery = {
+		icon = mission_trade_company_region_abroad
+		required_missions = { vn_development_of_the_highlands }
+		trigger = {
+			fish = 10
+		}
+		effect = {
+			capital_scope = {
+				add_base_production = 1
+			}
+			add_country_modifier = {
+				name = "scottish_fishery_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_celtic_trade = {
+		icon = mission_dominate_home_trade_node
+		required_missions = { vn_scottish_fishery }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1391
+				province_id = 2268
+			}
+			OR = {
+				NOT = { has_trader = ROOT }
+				NOT = {
+					trade_share = {
+						country = ROOT
+						share = 25
+					}
+				}
+			}
+		}
+		trigger = {
+			1391 = {
+				has_trader = ROOT
+				trade_share = {
+					country = ROOT
+					share = 25
+				}
+			}
+			2268 = {
+				has_trader = ROOT
+				trade_share = {
+					country = ROOT
+					share = 25
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "celtic_trade_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_scottish_enlightenment = {
+		icon = mission_religious
+		required_missions = { vn_celtic_trade }
+		provinces_to_highlight = {
+			province_id = 2621
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { has_building = university }
+			}
+		}
+		trigger = {
+			has_institution = enlightenment
+			all_state_province = {
+				enlightenment = 100
+			}
+			if = {
+				limit = { has_dlc = "Rule Britannia" }
+				innovativeness = 25
+			}
+			2621 = {
+				owned_by = ROOT
+				has_building = university
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "scottish_enlightenment_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+	
+vn_scottish_conquest_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			primary_culture = scottish
+			primary_culture = highland_scottish
+			primary_culture = gallowglass
+		}
+		capital_scope = {
+			OR = {
+				region = scotland_region
+				region = highlands_region
+			}
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	vn_unite_scotland = {
+		position = 5
+		icon = mission_unite_home_region
+		required_missions = {}
+		provinces_to_highlight = {
+			OR = {
+				region = scotland_region
+				region = highlands_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			scotland_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			highlands_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "unite_scotland_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_foothold_in_ireland = {
+		icon = mission_invade_island
+		required_missions = { vn_unite_scotland }
+		provinces_to_highlight = {
+			superregion = irish_superregion
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			irish_superregion = {
+				owned_by = ROOT
+				OR = {
+					has_building = fort_14th
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+		effect = {
+			add_army_tradition = 10
+			add_country_modifier = {
+				name = "foothold_on_ireland_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_competition_for_britannia = {
+		icon = mission_assemble_an_army
+		required_missions = { vn_foothold_in_ireland }
+		trigger = {
+			is_subject = no
+			if = {
+				limit = { exists = GBR }
+				total_development = GBR
+			}
+			else_if = {
+				limit = { exists = ENG }
+				total_development = ENG
+			}
+			else_if = {
+				limit = { exists = ASE }
+				total_development = ASE
+			}
+			else = {
+				total_development = 300
+			}
+		}
+		effect = {
+			add_prestige = 15
+			add_country_modifier = {
+				name = "competition_for_britannia_mission"
+				duration = 9125
+			}
+		}
+	}
+}

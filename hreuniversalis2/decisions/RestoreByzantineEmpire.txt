@@ -1,0 +1,142 @@
+country_decisions = {
+
+	restore_byzantine_empire = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { exists = BYZ }
+			NOT = { has_country_flag = unformable }
+			OR = {
+				primary_culture = greek
+				primary_culture = peloponnesian
+			}
+			religion = orthodox
+		}
+		provinces_to_highlight = {
+			if = {
+				limit = { tag = NKA }
+				OR = {
+					province_id = 2233
+					province_id = 573
+					province_id = 1060
+					province_id = 1051
+					province_id = 355
+					province_id = 1054
+					province_id = 2318
+				}
+			}
+			else = {
+				OR = {
+					province_id = 2233
+					province_id = 573
+					province_id = 1060
+					province_id = 1051
+					province_id = 355
+					province_id = 1054
+					province_id = 2318
+					province_id = 708
+					province_id = 611
+					province_id = 2066
+					province_id = 2398
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					owns = 2233 # Constantinople
+					owns = 573	# Edirne
+					owns = 2398	# Salonica
+					owns = 2066	# Macedonia
+					owns = 611	# Morea
+					owns = 1060	# Bithynia
+					owns = 1051	# Bursa
+					owns = 355	# Smyrna
+					owns = 708	# Kozani
+					owns = 1054	# Biga
+					owns = 2318 # Philadelphia
+				}
+				AND = {
+					tag = NKA
+					owns = 2233 # Constantinople
+					owns = 573	# Edirne
+					owns = 1060	# Bithynia
+					owns = 1051	# Bursa
+					owns = 355	# Smyrna
+					owns = 1054	# Biga
+					owns = 2318 # Philadelphia
+				}
+			}
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+			is_nomad = no
+		}
+		effect = {
+			change_tag = BYZ
+			every_province = {
+				limit = {
+					OR = {
+						superregion = anatolia_superregion
+						region = albania_region
+						region = bulgaria_region
+						region = bulgariasouth_region
+					}
+					NOT = { is_core = BYZ }
+				}
+				add_permanent_claim = BYZ
+			}
+			random_owned_province = {
+				limit = { culture = greek }
+				add_base_tax = 1
+			}
+			random_owned_province = {
+				limit = { culture = greek }
+				add_base_tax = 1
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			add_prestige = 10
+			BYZ = {
+				set_capital = 2233 # Constantinople
+				add_core = 2233 # Constantinople
+			}
+			if = {
+				limit = {
+					is_part_of_hre = yes
+				}
+				every_owned_province = {
+					limit = {
+						is_part_of_hre = yes
+					}
+					set_in_empire = no
+				}
+			}
+			if = {
+				limit = { has_global_flag = hagia_sophia_now_mosque }
+				clr_global_flag = hagia_sophia_now_mosque
+				show_ambient_object = hagia_sophia
+				hide_ambient_object = hagia_sophia_minarets
+			}
+			set_government_rank = 6
+			set_country_flag = unformable
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+}

@@ -1,0 +1,130 @@
+country_decisions = {
+
+	andalusian_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { has_country_flag = unformable }
+			NOT = { tag = ADU }
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+			primary_culture = andalucian
+			religion_group = muslim
+			OR = {
+				ai = no
+				AND = {
+					NOT = { exists = ADU }
+					num_of_cities = 10
+					any_owned_province = { region = andalusia_region }
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 267
+				province_id = 443
+				province_id = 1867
+				province_id = 2670
+				province_id = 761
+				province_id = 74
+				province_id = 2920
+				province_id = 1212
+				province_id = 403
+				AND = {
+					OR = {
+						province_id = 1121
+						province_id = 1126
+					}
+					ROOT = { NOT = { owns_core_province = 2326 } }
+					ROOT = { NOT = { owns_core_province = 2024 } }
+				}
+				AND = {
+					OR = {
+						province_id = 2326
+						province_id = 2024
+					}
+					ROOT = { NOT = { owns_core_province = 1121 } }
+					ROOT = { NOT = { owns_core_province = 1126 } }
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = ADU }
+			is_free_or_tributary_trigger = yes
+			is_nomad = no
+			is_at_war = no
+			is_tribal = no
+			owns_core_province = 267			# Murcia
+			owns_core_province = 443			# Granada
+			owns_core_province = 1867			# Andalucia
+			owns_core_province = 2670			# Cordoba
+			owns_core_province = 761			# Gibraltar
+			owns_core_province = 74				# Jaen
+			owns_core_province = 2920			# Cadiz
+			owns_core_province = 1212			# Badajoz
+			owns_core_province = 403			# Almeria
+			OR = {
+				AND = {
+					owns_core_province = 1121			# Algarve
+					owns_core_province = 1126			# Alentejo
+				}
+				AND = {
+					owns_core_province = 2336			# Alicante
+					owns_core_province = 2024			# Valencia
+				}
+			}
+		}
+		effect = {
+			change_tag = ADU
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			add_prestige = 25
+			add_country_modifier = {
+				name = centralization_modifier
+				duration = 3650
+			}
+			if = {
+				limit = {
+					NOT = { tag = MOR }
+				}
+				set_capital = 2670 # Cordoba
+			}
+			andalusia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = ADU
+			}
+			toledan_region = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				add_permanent_claim = ADU
+			}
+		}
+		ai_will_do = {
+			factor = 400
+		}
+	}
+}

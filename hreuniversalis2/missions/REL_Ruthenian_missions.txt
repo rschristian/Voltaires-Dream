@@ -1,0 +1,120 @@
+kievan_rus_ambitions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			has_reform = principality
+			has_reform = tsardom
+			has_reform = veche_republic
+		}
+		NOT = { tag = RUS }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = no
+	
+	vn_establish_druzhina = {
+		icon = mission_assemble_an_army
+		required_missions = {}
+		trigger = {
+			if = {
+				limit = {
+					has_dlc = "Third Rome"
+					OR = {
+						has_reform = principality
+						has_reform = tsardom
+						has_reform = veche_republic
+					}
+				}
+				num_of_streltsy = 10
+			}
+			army_size_percentage = 1
+			has_global_modifier_value = {
+				which = discipline
+				value = 0.1
+				extra_shortcut = yes
+			}
+		}
+		effect = {
+			add_army_professionalism = 0.05
+			add_country_modifier = {
+				name = "establish_druzhina_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_eliminate_devastation = {
+		icon = mission_portico
+		required_missions = { vn_establish_druzhina }
+		trigger = {
+			prestige = 25
+			capital_scope = {
+				development = 25
+				has_building = post_office
+				has_building = arsenal
+				NOT = { devastation = 1 }
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "eliminate_devastation_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_restore_kievan_borders = {
+		icon = mission_unite_home_region
+		required_missions = { vn_eliminate_devastation }
+		provinces_to_highlight = {
+			OR = {
+				region = halicia_region
+				region = volhynia_region
+				region = kiev_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			halicia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			volhynia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kiev_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_stability_or_adm_power = yes
+			add_country_modifier = {
+				name = "restore_kievan_borders_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_eastern_jerusalem = {
+		icon = mission_eastern_european_city
+		required_missions = { vn_restore_kievan_borders }
+		provinces_to_highlight = {
+			province_id = 4237
+		}
+		trigger = {
+			4237 = {
+				owned_by = ROOT
+				has_building = training_fields
+				has_building = town_hall
+				has_building = cathedral
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = "eastern_jerusalem_mission"
+				duration = 9125
+			}
+		}
+	}
+}

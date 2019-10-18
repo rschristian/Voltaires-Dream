@@ -1,0 +1,111 @@
+VN_sicilian_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		religion_group = muslim
+		capital_scope = {
+			region = sicilia_region
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+
+	vn_unite_sicily = {
+		icon = mission_unite_home_region
+		required_missions = {}
+		provinces_to_highlight = {
+			OR = {
+				area = palermo_area
+				area = syracuse_area
+				area = messina_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			palermo_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			syracuse_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			messina_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "unite_sicily_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_magnificent_palermo = {
+		icon = mission_arabian_fort
+		required_missions = { vn_unite_sicily }
+		provinces_to_highlight = {
+			province_id = 2041
+		}
+		trigger = {
+			2041 = {
+				owned_by = ROOT
+				development = 30
+				NOT = { num_free_building_slots = 1 }
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = "magnificent_palermo_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_sicilian_unity = {
+		icon = mission_mosque
+		required_missions = { vn_magnificent_palermo }
+		provinces_to_highlight = {
+			OR = {
+				area = palermo_area
+				area = syracuse_area
+				area = messina_area
+			}
+			NOT = { religion = ROOT }
+		}
+		trigger = {
+			palermo_area = {
+				type = all
+				religion = ROOT
+			}
+			syracuse_area = {
+				type = all
+				religion = ROOT
+			}
+			messina_area = {
+				type = all
+				religion = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "sicilian_unity_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_abolish_iqta_government = {
+		icon = mission_high_income
+		required_missions = { vn_sicilian_unity }
+		trigger = {
+			NOT = { has_reform = iqta }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "abolish_iqta_government_mission"
+				duration = 9125
+			}
+		}
+	}
+}

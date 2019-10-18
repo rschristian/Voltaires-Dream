@@ -1,0 +1,360 @@
+country_decisions = {
+
+	pol_commonwealth = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_plc_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { exists = PLC }
+			NOT = { has_country_flag = unformable }
+			tag = POL
+			LIT = {
+				exists = yes
+				ai = yes
+				was_player = no
+			}
+			OR = {
+				ai = no
+				AND = {
+					senior_union_with = LIT
+					LIT = { NOT = { num_of_cities = 101 } }
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2419
+				province_id = 1138
+				province_id = 402
+				province_id = 4821
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			LIT = { was_player = no }
+			is_nomad = no
+			LIT = { NOT = { num_of_cities = 101 } }
+			adm_tech = 40
+			is_subject = no
+			stability = 1
+			is_at_war = no
+			owns_core_province = 2419				# Krakow
+			owns_core_province = 1138				# Warszawa
+			owns_core_province = 402				# Danzig
+			owns_core_province = 4821				# Marienburg
+			senior_union_with = LIT
+			MAZ = { exists = no }
+		}
+		effect = {
+			change_tag = PLC
+			inherit = LIT
+			if = {
+				limit = { NOT = { accepted_culture = lithuanian } }
+				add_accepted_culture = lithuanian
+			}
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { NOT = { government_rank = 5 } }
+				set_government_rank = 5
+			}
+			if = {
+				limit = {
+					poland_superregion = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				poland_superregion = {
+					add_permanent_claim = PLC
+				}
+			}
+			if = {
+				limit = {
+					lithuania_region = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				lithuania_region = {
+					add_permanent_claim = PLC
+				}
+			}
+			if = {
+				limit = {
+					sudovia_region = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				sudovia_region = {
+					add_permanent_claim = PLC
+				}
+			}
+			random_owned_province = {
+				limit = { culture = polish }
+				add_base_tax = 1
+			}
+			set_country_flag = formed_plc_flag
+			add_prestige = 25
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 400
+		do_not_integrate = LIT
+	}
+
+	lit_commonwealth = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_plc_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { exists = PLC }
+			NOT = { has_country_flag = unformable }
+			tag = LIT
+			POL = {
+				exists = yes
+				ai = yes
+				was_player = no
+			}
+			OR = {
+				ai = no
+				AND = {
+					senior_union_with = POL
+					POL = { NOT = { num_of_cities = 101 } }
+				}
+			}	
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1152
+				province_id = 4243
+				province_id = 4237
+				province_id = 4282
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			POL = { NOT = { num_of_cities = 101 } }
+			adm_tech = 40
+			is_nomad = no
+			is_subject = no
+			stability = 3
+			is_at_war = no
+			owns_core_province = 1152				# Vilna
+			owns_core_province = 4243				# Minsk
+			owns_core_province = 4237				# Kiev
+			owns_core_province = 4282				# Turov
+			senior_union_with = POL
+			MAZ = { exists = no }
+		}
+		effect = {
+			change_tag = PLC
+			inherit = POL
+			if = {
+				limit = { NOT = { accepted_culture = polish } }
+				add_accepted_culture = polish
+			}
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { NOT = { government_rank = 5 } }
+				set_government_rank = 5
+			}
+			if = {
+				limit = {
+					poland_superregion = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				poland_superregion = {
+					add_permanent_claim = PLC
+				}
+			}
+			if = {
+				limit = {
+					lithuania_region = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				lithuania_region = {
+					add_permanent_claim = PLC
+				}
+			}
+			if = {
+				limit = {
+					sudovia_region = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				sudovia_region = {
+					add_permanent_claim = PLC
+				}
+			}
+			random_owned_province = {
+				limit = { culture = lithuanian }
+				add_base_tax = 1
+			}
+			set_country_flag = formed_plc_flag
+			add_prestige = 25
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 200
+		do_not_integrate = POL
+	}
+	
+	commonwealth_enforced = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_plc_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { exists = PLC }
+			LIT = {
+				NOT = { senior_union_with = POL }
+				NOT = { junior_union_with = POL }
+			}
+			POL = {
+				NOT = { senior_union_with = LIT }
+				NOT = { junior_union_with = LIT }
+			}
+			OR = {
+				tag = LIT
+				tag = POL
+			}
+			OR = {
+				ai = no
+				NOT = { exists = POL }
+				NOT = { exists = LIT }
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1152
+				province_id = 4243
+				province_id = 4237
+				province_id = 4282
+				province_id = 2419
+				province_id = 1138
+				province_id = 402
+				province_id = 4821
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 40
+			is_nomad = no
+			is_free_or_tributary_trigger = yes
+			stability = 3
+			is_at_war = no
+			owns_core_province = 1152				# Vilna
+			owns_core_province = 4243				# Minsk
+			owns_core_province = 4237				# Kiev
+			owns_core_province = 4282				# Turov
+			owns_core_province = 2419				# Krakow
+			owns_core_province = 1138				# Warszawa
+			owns_core_province = 402				# Danzig
+			owns_core_province = 4821				# Marienburg
+			MAZ = { exists = no }
+		}
+		effect = {
+			change_tag = PLC
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { NOT = { government_rank = 5 } }
+				set_government_rank = 5
+			}
+			if = {
+				limit = {
+					NOT = { primary_culture = polish }
+					NOT = { accepted_culture = polish }
+				}
+				add_accepted_culture = polish
+			}
+			if = {
+				limit = {
+					NOT = { primary_culture = lithuanian }
+					NOT = { accepted_culture = lithuanian }
+				}
+				add_accepted_culture = lithuanian
+			}
+			if = {
+				limit = {
+					poland_superregion = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				poland_superregion = {
+					add_permanent_claim = PLC
+				}
+			}
+			if = {
+				limit = {
+					lithuania_region = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				lithuania_region = {
+					add_permanent_claim = PLC
+				}
+			}
+			if = {
+				limit = {
+					sudovia_region = {
+						NOT = { owned_by = POL }
+						NOT = { owned_by = LIT }
+						NOT = { owned_by = PLC }
+					}
+				}
+				sudovia_region = {
+					add_permanent_claim = PLC
+				}
+			}
+			random_owned_province = {
+				limit = { has_owner_culture = yes }
+				add_base_tax = 1
+			}
+			set_country_flag = formed_plc_flag
+			add_prestige = 25
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 200
+	}
+	
+}

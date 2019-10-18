@@ -1,0 +1,124 @@
+country_decisions = {
+
+	ruthenian_nation = {
+		major = yes
+		potential = {
+			OR = {
+				has_global_flag = empire_of_china_dismantled
+				NOT = { has_dlc = "Mandate of Heaven" }
+			}
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_ruthenia_flag }
+			primitives = no
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { has_country_flag = unformable }			
+			NOT = { exists = UKR }
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = ruthenian
+				primary_culture = volhynian
+				primary_culture = severian
+				primary_culture = dulebian
+				primary_culture = drevlian
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 6
+				}
+			}
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			if = {
+				limit = { dip = 5 }
+				OR = {
+					province_id = 4237
+					province_id = 604
+				}
+			}
+			else = {
+				OR = {
+					province_id = 4237
+					province_id = 1140
+					province_id = 620
+					province_id = 604
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 40
+			is_nomad = no
+			is_subject = no
+			is_at_war = no
+			OR = {
+				#owns everything
+				AND = {
+					owns_core_province = 4237		# Kiev
+					owns_core_province = 1140		# Halych
+					owns_core_province = 620		# Peremyshl
+					owns_core_province = 604		# Podolia
+				}
+				#or owns only core-core stuff but has god like ruler
+				AND = {
+					owns_core_province = 4237		#Kiev				
+					owns_core_province = 604		#Podolia
+					dip = 5
+				}
+			}
+		}
+		effect = {
+			change_tag = UKR
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { NOT = { government = monarchy } }
+				change_government = monarchy
+			}
+			if = {
+				limit = { NOT = { has_reform = tsardom } }
+				add_government_reform = tsardom
+			}
+			if = {
+				limit = { NOT = { government_rank = 6 } }
+				set_government_rank = 6
+			}
+			russia_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = UKR
+			}
+			halicia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = UKR
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			set_country_flag = formed_ruthenia_flag
+			add_prestige = 25
+		}
+		ai_importance = 500		
+	}
+	
+}

@@ -1,0 +1,99 @@
+VN_hre_theocracies_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		is_part_of_hre = yes
+		government = theocracy
+		NOT = { has_reform = papacy_reform }
+	}
+	
+	vn_pious_ruler = {
+		icon = mission_hands_praying
+		required_missions = { }
+		trigger = {
+			legitimacy_equivalent = 100
+			stability = 1
+			if = {
+				limit = {
+					OR = {
+						religion = catholic
+						religion = catholique
+					}
+				}
+				papal_influence = 25
+			}
+			else_if = {
+				limit = {
+					OR = {
+						religion = protestant
+						religion = anabaptist
+						religion = anglican
+					}
+				}
+				church_power = 50
+			}
+			else_if = {
+				limit = {
+					religion = reformed
+				}
+				fervor = 50
+			}
+			else = {
+				religious_unity = 1
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pious_ruler_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_new_monasteries = {
+		icon = mission_convert_provinces
+		required_missions = { vn_pious_ruler }
+		trigger = {
+			temple = 5
+		}
+		effect = {
+			add_country_modifier = {
+				name = "new_monasteries_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_cathedral_in_capital = {
+		icon = mission_european_church
+		required_missions = { vn_new_monasteries }
+		trigger = {
+			capital_scope = {
+				has_building = cathedral
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "cathedral_in_capital_mission"
+				duration = 9125
+			}
+		}
+	}	
+	vn_achieve_religious_unity = {
+		icon = mission_religious
+		required_missions = { vn_cathedral_in_capital }
+		trigger = {
+			OR  = {
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
+				current_age = age_of_ideology
+			}
+			religious_unity = 0.95
+		}
+		effect = {
+			add_country_modifier = {
+				name = "achieve_religious_unity_mission"
+				duration = 9125
+			}
+		}
+	}
+}

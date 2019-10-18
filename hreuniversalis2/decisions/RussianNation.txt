@@ -1,0 +1,145 @@
+country_decisions = {
+
+	russian_nation = {
+		major = yes
+		potential = {
+			OR = {
+				has_global_flag = empire_of_china_dismantled
+				NOT = { has_dlc = "Mandate of Heaven" }
+			}
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = unformable }	
+			NOT = { has_country_flag = formed_russia_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { tag = POL }
+			NOT = { tag = RUS }
+			OR = {
+				NOT = { exists = RUS }
+				ai = no
+			}
+			OR = {
+				primary_culture = russian
+				primary_culture = novgorodian
+				primary_culture = ryazanian
+				primary_culture = radimich
+				primary_culture = vyatich
+				primary_culture = krivich
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 6
+				}
+			}
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 6594			# Moskva
+				province_id = 6144			# Novgorod
+				AND = {
+					province_id = 3807
+					ROOT = { NOT = { owns_core_province = 6577 } }
+				}
+				AND = {
+					province_id = 6577
+					ROOT = { NOT = { owns_core_province = 3807 } }
+				}
+				AND = {
+					province_id = 6611
+					ROOT = { NOT = { owns_core_province = 3959 } }
+				}
+				AND = {
+					province_id = 3959
+					ROOT = { NOT = { owns_core_province = 6611 } }
+				}
+				AND = {
+					province_id = 6689
+					ROOT = { NOT = { owns_core_province = 6692 } }
+				}
+				AND = {
+					province_id = 6692
+					ROOT = { NOT = { owns_core_province = 6689 } }
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = RUS }
+			adm_tech = 44
+			if = {
+				limit = { has_dlc = "Dharma" }
+				NOT = { has_reform = states_general_reform }
+			}
+			is_subject = no
+			is_nomad = no
+			is_at_war = no
+			owns_core_province = 6594			# Moskva
+			owns_core_province = 6144			# Novgorod
+			OR = {
+				owns_core_province = 3807		# Tver
+				owns_core_province = 6577		# Yaroslavl	
+			}
+			OR = {
+				owns_core_province = 6611		# Ryazan
+				owns_core_province = 3959		# Smolensk
+			}
+			OR = {
+				owns_core_province = 6689		# Nijni-Novgorod
+				owns_core_province = 6692		# Vladimir	
+			}			
+		}
+		effect = {
+			change_tag = RUS
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { NOT = { government = monarchy } }
+				change_government = monarchy
+			}
+			if = {
+				limit = { NOT = { has_reform = tsardom } }
+				add_government_reform = tsardom
+			}
+			if = {
+				limit = { NOT = { government_rank = 6 } }
+				set_government_rank = 6
+			}
+			russia_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = RUS
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			set_country_flag = formed_russia_flag
+			add_prestige = 25
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 400
+	}
+	
+}

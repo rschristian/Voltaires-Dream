@@ -1,0 +1,88 @@
+VN_swiss_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			tag = SWI
+			has_reform = canton_government
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	
+	vn_great_minds_of_switzerland = {
+		icon = mission_early_modern_university
+		required_missions = { }
+		trigger = {
+			has_institution = universities
+			all_state_province = {
+				universities = 100
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "great_minds_of_switzerland_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_swiss_neutrality = {
+		icon = mission_alliances
+		required_missions = { vn_great_minds_of_switzerland }
+		trigger = {
+			diplomatic_reputation = 6
+		}
+		effect = {
+			add_dip_power = 100
+			add_country_modifier = {
+				name = "swiss_neutrality_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_swiss_trade_infrastructure = {
+		icon = mission_hanseatic_cities
+		required_missions = { vn_swiss_neutrality }
+		provinces_to_highlight = {}
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "swiss_trade_infrastructure_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_swiss_enlightenment = {
+		icon = mission_religious
+		required_missions = { vn_swiss_trade_infrastructure }
+		trigger = {
+			has_institution = enlightenment
+			all_state_province = {
+				enlightenment = 100
+			}
+			prestige = 50
+		}
+		effect = {
+			add_country_modifier = {
+				name = "swiss_enlightenment_mission"
+				duration = 9125
+			}
+		}
+	}
+}

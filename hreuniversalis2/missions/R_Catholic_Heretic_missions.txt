@@ -1,0 +1,81 @@
+vn_catholic_heretic_missions = {
+	slot = 8
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			religion = lollardy
+			religion = cathar
+			religion = fraticelli
+			religion = hussite
+			religion = waldensian
+		}
+	}
+	
+	vn_laicization_of_clergy = {
+		position = 5
+		icon = mission_religious
+		required_missions = {}
+		trigger = {
+			has_institution = laytheology
+			all_state_province = {
+				laytheology = 100
+			}
+			if = {
+				limit = { has_estate = estate_church }
+				estate_territory = {
+					estate = estate_church
+					territory = 30
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "laicization_of_clergy_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_spread_heretic_faith = {
+		position = 6
+		icon = mission_hands_praying
+		required_missions = {}
+		trigger = {
+			check_variable = { which = num_converted_religion value = 10 }
+			custom_trigger_tooltip = {
+				tooltip = obj_force_converted_tooltip
+				has_country_flag = force_converted
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "spread_heretic_faith_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_overthrow_the_pope = {
+		position = 7
+		icon = mission_assemble_an_army
+		required_missions = { vn_spread_heretic_faith }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2708
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		trigger = {
+			owns_core_province = 2708
+		}
+		effect = {
+			add_prestige = 20
+			add_country_modifier = {
+				name = "overthrow_the_pope_mission"
+				duration = 9125
+			}
+		}
+	}
+}

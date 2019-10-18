@@ -1,0 +1,295 @@
+#All are Country Scope unless otherwise stated.
+
+#Sets flags to use when generating advisors, must be used in immediate = { } and be followed by erase_advisor_flags_effect in after = {}
+check_if_non_state_advisor_effect = {
+	
+	hidden_effect = { #Variety
+		if = { #Europe
+			limit = {
+				capital_scope = { continent = europe }
+			}
+			random_list = {
+				$chance_of_secondary$ = { set_country_flag = jewish_advisor }
+				$chance_of_secondary$ = { set_country_flag = orthodox_advisor }
+				$chance_of_primary$ = { set_country_flag = state_religion_advisor }
+				$chance_of_tertiary$ = { set_country_flag = heathen_advisor }
+			}
+		}
+		else_if = { #Fallback for Muslim
+			limit = {
+				OR = {
+					capital_scope = { continent = africa }
+					capital_scope = { religion_group = muslim }
+				}
+			}
+			random_list = { #Somewhat higher chance of non-state
+				$chance_of_tertiary$ = { set_country_flag = jewish_advisor }
+				$chance_of_secondary$ = { set_country_flag = sunni_advisor }
+				$chance_of_secondary$ = { set_country_flag = shia_advisor }
+				$chance_of_tertiary$ = { set_country_flag = ibadi_advisor }
+				$chance_of_primary$ = { set_country_flag = state_religion_advisor }
+				$chance_of_tertiary$ = { set_country_flag = heathen_advisor }
+			}
+		}
+		else = {
+			set_country_flag = state_religion_advisor
+		}
+	}
+}
+
+erase_advisor_flags_effect = { #Goes into the after = {} effect after check_if_non_state_advisor_effect
+	trigger_switch = {
+		on_trigger = has_country_flag
+		state_religion_advisor = { clr_country_flag = state_religion_advisor }
+		jewish_advisor = { clr_country_flag = jewish_advisor }
+		orthodox_advisor = { clr_country_flag = orthodox_advisor }
+		heathen_advisor = { clr_country_flag = heathen_advisor }
+		ibadi_advisor = { clr_country_flag = ibadi_advisor }
+		shia_advisor = { clr_country_flag = shia_advisor }
+		sunni_advisor = { clr_country_flag = sunni_advisor }
+	}
+}
+
+internal_advisor_generation_effect = { #Only used within generate_advisor_of_type_and_semi_random_religion_effect
+#Requires check_if_non_state_advisor_effect in immediate as that gives the arguments to generate_advisor_of_type_and_semi_random_religion_effect that then passes it on to this.
+#$advisor_type$ = Advisor type if state religion.
+#$advisor_type_if_not_state$ = Advisor type if non-state religion.
+#$skill$ = Skill Level
+#$discount$ = yes/no for discount
+	trigger_switch = {
+		on_trigger = has_country_flag #Flags set by check_if_non_state_advisor_effect
+		state_religion_advisor = {
+			define_advisor = {
+				type = $advisor_type$
+				skill = $skill$
+				discount = $discount$
+			}
+		}
+		jewish_advisor = {
+			define_advisor = {
+				type = $advisor_type_if_not_state$
+				skill = $skill$
+				discount = $discount$
+				religion = jewish
+			}
+		}
+		heathen_advisor = {
+			if = {
+				limit = {
+					religion_group = christian
+					capital_scope = { continent = europe }
+				}
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					discount = $discount$
+					religion = jewish
+				}
+			}
+			else_if = {
+				limit = {
+					religion_group = christian
+					capital_scope = { continent = africa }
+				}
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					discount = $discount$
+					religion = sunni
+				}
+			}
+			else_if = {
+				limit = {
+					religion_group = muslim
+				}
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					discount = $discount$
+					religion = catholic
+				}
+			}
+			else = {
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					discount = $discount$
+				}
+			}
+		}
+		orthodox_advisor = {
+			if = {
+				limit = { NOT = { religion = orthodox } }
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					religion = orthodox
+					discount = $discount$
+				}
+			}
+			else = {
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					religion = paulician
+					discount = $discount$
+				}
+			}
+		}
+		ibadi_advisor = {
+			if = {
+				limit = { NOT = { religion = ibadi } }
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					religion = ibadi
+					discount = $discount$
+				}
+			}
+			else = {
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					religion = shiite
+					discount = $discount$
+				}
+			}
+		}
+		shia_advisor = {
+			if = {
+				limit = { NOT = { religion = shiite } }
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					religion = shiite
+					discount = $discount$
+				}
+			}
+			else = {
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					religion = ibadi
+					discount = $discount$
+				}
+			}
+		}
+		sunni_advisor = {
+			if = {
+				limit = { NOT = { religion = sunni } }
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					religion = sunni
+					discount = $discount$
+				}
+			}
+			else = {
+				define_advisor = {
+					type = $advisor_type_if_not_state$
+					skill = $skill$
+					religion = shiite
+					discount = $discount$
+				}
+			}
+		}
+	}
+}
+
+generate_advisor_of_type_and_semi_random_religion_effect = {
+#Actual work is done by internal_advisor_generation_effect above but it goes through this first.
+#Requires check_if_non_state_advisor_effect in immediate.
+#$advisor_type$ = Advisor type if state religion.
+#$advisor_type_if_not_state$ = Advisor type if non-state religion.
+#$scaled_skill$ = yes/no
+#$skill$ = Skill Level
+#$discount$ = yes/no for discount
+	
+	[[scaled_skill]
+		if = {
+			limit = {
+				NOT = { monthly_income = 15 }
+			}
+			internal_advisor_generation_effect = {
+				advisor_type = $advisor_type$
+				advisor_type_if_not_state = $advisor_type_if_not_state$
+				skill = 1
+				discount = $discount$
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { monthly_income = 25 }
+			}
+			internal_advisor_generation_effect = {
+				advisor_type = $advisor_type$
+				advisor_type_if_not_state = $advisor_type_if_not_state$
+				skill = 2
+				discount = $discount$
+			}
+		}
+		else = {
+			internal_advisor_generation_effect = {
+				advisor_type = $advisor_type$
+				advisor_type_if_not_state = $advisor_type_if_not_state$
+				skill = 3
+				discount = $discount$
+			}
+		}
+	]
+	[[skill]
+		internal_advisor_generation_effect = {
+			advisor_type = $advisor_type$
+			advisor_type_if_not_state = $advisor_type_if_not_state$
+			skill = $skill$
+			discount = $discount$
+		}
+	]
+}
+
+
+remove_advisor_adm_effect = {
+	if = {
+		limit = {
+			advisor = inquisitor
+		}
+		remove_advisor = inquisitor
+	}
+	if = {
+		limit = {
+			advisor = natural_scientist
+		}
+		remove_advisor = natural_scientist
+	}
+	if = {
+		limit = {
+			advisor = master_of_mint
+		}
+		remove_advisor = master_of_mint
+	}
+	if = {
+		limit = {
+			advisor = theologian
+		}
+		remove_advisor = theologian
+	}
+	if = { 
+		limit = {
+			advisor = artist
+		}
+		remove_advisor = artist
+	}
+	if = {
+		limit = {
+			advisor = philosopher
+		}
+		remove_advisor = philosopher
+	}
+	if = {
+		limit = { 
+			advisor = treasurer
+		}
+		remove_advisor = treasurer
+	}
+}
+

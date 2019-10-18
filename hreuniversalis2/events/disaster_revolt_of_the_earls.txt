@@ -1,0 +1,753 @@
+namespace = revolt_of_the_earls
+
+########################################
+# Anglo Saxon Revolts against Normans
+########################################
+
+# Start
+country_event = {
+	id = revolt_of_the_earls.1
+	title = revolt_of_the_earls.1.t
+	desc = revolt_of_the_earls.1.d
+	picture = BAD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	major = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	immediate = {
+		set_country_flag = had_earls_revolt
+	}
+	
+	option = {
+		name = revolt_of_the_earls.1.a
+		add_stability = -1
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.2
+	title = revolt_of_the_earls.2.t
+	desc = revolt_of_the_earls.2.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = revolt_of_the_earls.2.a
+		ai_chance = { factor = 80 }
+		random_owned_province = {
+			limit = { culture = anglosaxon }
+			change_culture = english
+			add_unrest = 10
+		}
+		add_legitimacy = -2
+	}
+	option = {
+		name = revolt_of_the_earls.2.b
+		ai_chance = { factor = 20 }
+		random_owned_province = {
+			limit = { culture = anglosaxon }
+			add_local_autonomy = 20
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.3
+	title = revolt_of_the_earls.3.t
+	desc = revolt_of_the_earls.3.d
+	picture = CONQUEST_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	trigger = {
+		OR = {
+			AND = {
+				has_dlc = "The Cossacks"
+				NOT = { estate_influence = { estate = estate_nobles influence = 75 } }
+				any_owned_province = {
+					culture = anglosaxon
+					is_capital = no
+					NOT = { has_estate = yes }
+					NOT = { has_province_modifier = foreign_ruler }
+				}
+			}
+			AND = {
+				NOT = { has_dlc = "The Cossacks" }
+				any_owned_province = {
+					culture = anglosaxon
+					is_capital = no
+				}
+				NOT = { has_province_modifier = foreign_ruler }
+			}
+		}
+	}
+	
+	option = {
+		name = revolt_of_the_earls.3.a
+		ai_chance = { factor = 80 }
+		if = {
+			limit = {
+				has_dlc = "The Cossacks"
+			}
+			random_owned_province = {
+				limit = {
+					culture = anglosaxon
+					is_capital = no
+					NOT = { has_estate = yes }
+					NOT = { has_province_modifier = foreign_ruler }
+				}
+				change_culture = english
+				set_estate = estate_nobles
+				add_province_modifier = {
+					name = foreign_ruler
+					duration = 3650
+				}
+				random_neighbor_province = {
+					limit = { culture = anglosaxon }
+					change_culture = english
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_dlc = "The Cossacks" }
+			}
+			random_owned_province = {
+				limit = {
+					culture = anglosaxon
+					is_capital = no
+					NOT = { has_province_modifier = foreign_ruler }
+				}
+				change_culture = english
+				add_local_autonomy = 25
+				add_province_modifier = {
+					name = foreign_ruler
+					duration = 3650
+				}
+				random_neighbor_province = {
+					limit = { culture = anglosaxon }
+					change_culture = english
+				}
+			}
+		}
+	}
+	option = {
+		name = revolt_of_the_earls.3.b
+		ai_chance = { factor = 20 }
+		add_legitimacy = 2
+		add_dip_power = 20
+		random_owned_province = {
+			limit = {
+				culture = anglosaxon
+				NOT = { has_estate = yes }
+				NOT = { has_province_modifier = foreign_ruler }
+			}
+			add_province_modifier = {
+				name = remove_unrest_5_modifier
+				duration = 3650
+			}
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.4
+	title = revolt_of_the_earls.4.t
+	desc = revolt_of_the_earls.4.d
+	picture = BIG_BOOK_eventPicture
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = revolt_of_the_earls.4.a
+		ai_chance = {
+			factor = 80
+			modifier = {
+				factor = 0
+				NOT = {
+					num_of_owned_provinces_with = {
+						value = 3
+						culture = anglosaxon
+					}
+				}
+			}
+		}
+		add_years_of_income = -1.5
+		add_adm_power = -200
+		random_owned_province = {
+			limit = { culture = anglosaxon }
+			change_culture = english
+		}
+		random_owned_province = {
+			limit = { culture = anglosaxon }
+			change_culture = english
+		}
+		random_owned_province = {
+			limit = { culture = anglosaxon }
+			change_culture = english
+		}
+		random_owned_province = {
+			limit = { culture = anglosaxon }
+			change_culture = english
+		}
+	}
+
+	option = {
+		name = revolt_of_the_earls.4.b
+		ai_chance = { factor = 20 }
+		add_corruption = 2
+		add_stability_or_adm_power = yes
+		if = {
+			limit = {
+				NOT = { has_country_modifier = old_rights_granted_to_nobility }
+			}
+			add_country_modifier = {
+				name = "old_rights_granted_to_nobility"
+				duration = 3650
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "The Cossacks"
+				has_estate = estate_nobles
+			}
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.5
+	title = revolt_of_the_earls.5.t
+	desc = revolt_of_the_earls.5.d
+	picture = STREET_SPEECH_eventPicture
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 1 }
+
+	trigger = {
+		any_owned_province = {
+			culture = anglosaxon
+			is_capital = no
+		}
+	}
+
+	immediate = { set_country_flag = edc_flag }
+	
+	option = {
+		name = revolt_of_the_earls.5.a
+		random_owned_province = {
+			limit = {
+				culture = anglosaxon
+				is_capital = no
+			}
+			spawn_rebels = {
+   				type = pretender_rebels
+   				culture = anglosaxon
+    			size = 4
+    			leader = "Eadgar Cerdicing"
+    			win = yes
+			}
+		}
+		random_owned_province = {
+			limit = {
+				culture = anglosaxon
+				is_capital = no
+				NOT = { controlled_by = REB }
+			}
+			spawn_rebels = {
+   				type = pretender_rebels
+    			size = 3
+    			win = yes
+			}
+		}	
+		random_owned_province = {
+			limit = {
+				culture = anglosaxon
+				is_capital = no
+				NOT = { controlled_by = REB }
+			}
+			spawn_rebels = {
+   				type = pretender_rebels
+    			size = 2
+			}
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.6
+	title = revolt_of_the_earls.6.t
+	desc = revolt_of_the_earls.6.d
+	picture = COURT_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = { days = 1 }
+
+	trigger = {
+		any_owned_province = { has_province_modifier = foreign_ruler }
+		has_country_flag = edc_flag
+	}
+	
+	option = {
+		name = revolt_of_the_earls.6.a
+		ai_chance = {
+			factor = 90
+			modifier = {
+				factor = 0
+				has_dlc = "The Cossacks"
+				NOT = {
+					estate_loyalty = {
+						estate = estate_nobles
+						loyalty = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { stability = -1 }
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "The Cossacks"
+			}
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -15
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_dlc = "The Cossacks" }
+			}
+			add_stability = -1
+		}
+		random_owned_province = {
+			limit = { culture = anglosaxon }
+			change_culture = english
+		}
+	}
+
+	option = {
+		name = revolt_of_the_earls.6.b
+		ai_chance = { factor = 10 }
+		random_owned_province = {
+			limit = { has_province_modifier = foreign_ruler }
+			spawn_rebels = {
+				culture = anglosaxon
+   				type = pretender_rebels
+   				leader = "Eadgar Cerdicing"
+    			size = 2
+			}
+			remove_province_modifier = foreign_ruler
+			if = {
+				limit = { has_estate = estate_nobles }
+				remove_estate = estate_nobles
+			}
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.7
+	title = revolt_of_the_earls.7.t
+	desc = revolt_of_the_earls.7.d
+	picture = CORRUPTION_eventPicture
+	
+	mean_time_to_happen = {
+		months = 6
+		modifier = {
+			factor = 2
+			has_dlc = "The Cossacks"
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 60
+			}
+		}
+		modifier = {
+			factor = 2
+			has_dlc = "The Cossacks"
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 80
+			}
+		}
+	}
+
+	trigger = {
+		any_owned_province = {
+			culture = anglosaxon
+			sieged_by = pretender_rebels
+		}
+	}
+	
+	option = {
+		name = revolt_of_the_earls.7.a
+		random_owned_province = {
+			limit = {
+				culture = anglosaxon
+				sieged_by = pretender_rebels
+			}
+			change_controller = REB
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.8
+	title = revolt_of_the_earls.8.t
+	desc = revolt_of_the_earls.8.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = revolt_of_the_earls.8.a
+		ai_chance = { factor = 80 }
+		random_owned_province = {
+			limit = { culture = anglosaxon }
+			change_culture = english
+			noble_rebels = 2
+		}
+	}
+	option = {
+		name = revolt_of_the_earls.8.b
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 0.5
+				corruption = 10
+			}
+		}
+		add_corruption = 1
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.9
+	title = revolt_of_the_earls.9.t
+	desc = revolt_of_the_earls.9.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	trigger = {
+		any_country = {
+			NOT = { has_country_flag = paid_welsh_rebels }
+			primary_culture = welsh
+		}
+		any_owned_province = { culture = welsh }
+	}
+	
+	option = {
+		name = revolt_of_the_earls.9.a
+		random_country = {
+			limit = {
+				NOT = { has_country_flag = paid_welsh_rebels }
+				primary_culture = welsh
+			}
+			country_event = { id = revolt_of_the_earls.10 days = 15 }
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.10
+	title = revolt_of_the_earls.10.t
+	desc = revolt_of_the_earls.10.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	immediate = { set_country_flag = paid_welsh_rebels }
+	
+	option = {
+		name = revolt_of_the_earls.10.a
+		add_yearly_manpower = 0.25
+		ENG = { country_event = { id = revolt_of_the_earls.11 } }
+		ENG = {
+			random_owned_province = {
+				limit = { culture = welsh }
+				nationalist_rebels = 1
+			}
+		}
+		tooltip = {
+			reverse_add_opinion = {
+				who = ENG
+				modifier = supported_rebels
+			}
+		}
+	}
+	option = {
+		name = revolt_of_the_earls.10.b
+		ENG = { country_event = { id = revolt_of_the_earls.12 } }
+		tooltip = {
+			reverse_add_opinion = {
+				who = ENG
+				modifier = did_not_support_rebels
+			}
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.11
+	title = revolt_of_the_earls.11.t
+	desc = revolt_of_the_earls.11.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = revolt_of_the_earls.11.a
+		add_opinion = {
+			who = FROM
+			modifier = supported_rebels
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.12
+	title = revolt_of_the_earls.12.t
+	desc = revolt_of_the_earls.12.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = { days = 1 }
+	
+	option = {
+		name = revolt_of_the_earls.12.a
+		add_opinion = {
+			who = FROM
+			modifier = did_not_support_rebels
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.13
+	title = revolt_of_the_earls.13.t
+	desc = revolt_of_the_earls.13.d
+	picture = CORRUPTION_eventPicture
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	trigger = {
+		any_owned_province = {
+			any_neighbor_province = { owned_by = HSC }
+			NOT = { is_core = HSC }
+		}
+	}
+	
+	option = {
+		name = revolt_of_the_earls.13.a
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 0
+				NOT = { treasury = 100 }
+			}
+		}
+		add_treasury = -100
+	}
+	option = {
+		name = revolt_of_the_earls.13.b
+		ai_chance = { factor = 25 }
+		custom_tooltip = hsc_cb_tooltip
+		hidden_effect = {
+			HSC = { country_event = { id = revolt_of_the_earls.14 } }
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.14
+	title = revolt_of_the_earls.14.t
+	desc = revolt_of_the_earls.14.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = revolt_of_the_earls.14.a
+		add_yearly_manpower = 1
+		add_army_tradition = 10
+		random_owned_province = {
+			limit = {
+				any_neighbor_province = {
+					owned_by = ENG
+					NOT = { is_core = HSC }
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					owned_by = ENG
+					NOT = { is_core = HSC }
+				}
+				add_core = HSC
+			}
+		}
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.15
+	title = revolt_of_the_earls.15.t
+	desc = revolt_of_the_earls.15.d
+	picture = LIBERUM_VETO_eventPicture
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	trigger = {
+		senior_union_with = NRM
+		OR = {
+			AND = {
+				has_dlc = "The Cossacks"
+				NOT = {
+					estate_loyalty = {
+						estate = estate_nobles
+						loyalty = 36
+					}
+				}
+			}
+			AND = {
+				NOT = { has_dlc = "The Cossacks" }
+				NOT = { stability = 1 }
+			}
+		}
+	}
+
+	option = {
+		name = revolt_of_the_earls.15.a
+		ai_chance = { factor = 90 }
+		NRM = { add_liberty_desire = 40 }
+	}
+	option = {
+		name = revolt_of_the_earls.15.b
+		ai_chance = { factor = 10 }
+		break_union = NRM
+		NRM = { define_ruler = { dynasty = ROOT } }
+	}
+}
+
+country_event = {
+	id = revolt_of_the_earls.16
+	title = revolt_of_the_earls.16.t
+	desc = revolt_of_the_earls.16.d
+	picture = CIVIL_WAR_eventPicture
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	trigger = { any_owned_province = { culture = northumbrian } }
+
+	option = {
+		name = revolt_of_the_earls.16.a
+		every_owned_province = {
+			limit = { culture = northumbrian }
+			change_culture = anglosaxon
+		}
+		if = {
+			limit = {
+				overlord_of = NOL
+			}
+			NOL = { add_liberty_desire = 40 }
+		}
+	}
+}
+
+# The Aftermath
+country_event = {
+	id = revolt_of_the_earls.100
+	title = revolt_of_the_earls.100.t
+	desc = revolt_of_the_earls.100.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = revolt_of_the_earls.100.a
+		add_stability = 2
+		add_legitimacy = 25
+		if = {
+			limit = {
+				has_ruler = "Eadgar I"
+				NOT = { senior_union_with = NRM }
+			}
+			change_primary_culture = anglosaxon
+			every_owned_province = {
+				limit = { culture = english }
+				change_culture = anglosaxon
+			}
+		}
+		if = {
+			limit = {
+				has_ruler = "Eadgar I"
+				senior_union_with = NRM
+			}
+			change_primary_culture = anglosaxon
+			every_owned_province = {
+				limit = { culture = english }
+				change_culture = anglosaxon
+			}
+			break_union = NRM
+			NRM = { define_ruler = { dynasty = "Rolloning" } }
+		}
+		clr_country_flag = edc_flag
+		every_country = {
+			limit = { has_country_flag = paid_welsh_rebels }
+			clr_country_flag = paid_welsh_rebels
+		}
+	}
+}

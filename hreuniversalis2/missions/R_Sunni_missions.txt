@@ -1,0 +1,88 @@
+vn_sunni_missions = {
+	slot = 8
+	generic = yes
+	ai = yes
+	potential = {
+		religion = sunni
+	}
+	
+	vn_expand_our_harem = {
+		position = 5
+		icon = mission_ottoman_harem
+		required_missions = { }
+		trigger = {
+			if = {
+				limit = { government = monarchy }
+				num_of_royal_marriages = 3
+			}
+			else = {
+				num_of_allies = 3
+			}
+			prestige = 40
+		}
+		effect = {
+			add_country_modifier = {
+				name = "expand_our_harem_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_legalism_or_mysticism = {
+		position = 6
+		icon = mission_mosque
+		required_missions = { vn_expand_our_harem }
+		trigger = {
+			if = {
+				limit = {
+					uses_piety = yes
+				}
+				OR = {
+					NOT = { piety = -0.9 }
+					piety = 0.9
+				}
+			}
+			else = {
+				religious_unity = 1
+			}
+			prestige = 60
+		}
+		effect = {
+			add_country_modifier = {
+				name = "legalism_or_mysticism_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_fight_a_jihad = {
+		position = 7
+		icon = mission_persian_soldiers
+		required_missions = { }
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_fight_a_jihad.tt
+				calc_true_if = {
+					all_country = {
+						NOT = { religion_group = ROOT }
+						is_in_war = {
+							attacker_leader = ROOT
+						}
+						NOT = {
+							war_score_against = {
+								who = ROOT
+								value = -74
+							}
+						}
+					}
+					amount = 1
+				}
+			}
+		}
+		effect = {
+			add_piety = -0.25
+			add_country_modifier = {
+				name = "fight_a_jihad_mission"
+				duration = 9125
+			}
+		}
+	}
+}

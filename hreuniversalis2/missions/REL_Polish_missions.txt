@@ -1,0 +1,105 @@
+VN_polish_missions = {
+	slot = 10
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			AND = {
+				tag = PML
+				religion_group = christian
+			}
+			primary_culture = schlesian
+			primary_culture = polish
+		}
+		is_part_of_hre = no
+		NOT = { map_setup = map_setup_random }
+	}
+	
+	vn_prove_polish_legitimacy = {
+		icon = mission_coronation
+		required_missions = {}
+		trigger = {
+			stability = 2
+			legitimacy_equivalent = 100
+			if = {
+				limit = { government = monarchy }
+				num_of_royal_marriages = 3
+			}
+			NOT = {
+				any_subject_country = {
+					liberty_desire = 25
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "prove_polish_legitimacy_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_reach_the_sea = {
+		icon = mission_galleys_in_port
+		required_missions = { vn_prove_polish_legitimacy }
+		trigger = {
+			naval_forcelimit = 12
+			navy_size_percentage = 0.9
+		}
+		effect = {
+			add_country_modifier = {
+				name = "reach_the_sea_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_establish_polish_crown_tribunal = {
+		icon = mission_noble_council
+		required_missions = { vn_reach_the_sea }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
+				}
+			}
+		}
+		effect = {
+			add_adm_power = 100
+			add_country_modifier = {
+				name = "establish_polish_crown_tribunal_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_curtail_polish_magnates = {
+		icon = mission_monarch_in_throne_room
+		required_missions = { vn_establish_polish_crown_tribunal }
+		trigger = {
+			absolutism = 50
+			if = {
+				limit = { has_estate = estate_nobles }
+				NOT = {
+					estate_influence = {
+						estate = estate_nobles
+						influence = 50
+					}
+				}
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 50
+				}
+			}
+			else = {
+				stability = 3
+			}
+		}
+		effect = {
+			add_absolutism = 5
+			add_country_modifier = {
+				name = "curtail_polish_magnates_mission"
+				duration = 9125
+			}
+		}
+	}
+}

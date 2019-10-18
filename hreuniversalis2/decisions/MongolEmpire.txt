@@ -1,0 +1,184 @@
+country_decisions = {
+
+	restore_mongol_empire = {
+		major = yes
+		potential = {
+			is_year = 1245
+			normal_or_historical_nations = yes
+			OR = {
+				tag = GLH
+				tag = ILK
+				NOT = { has_country_flag = unformable }
+			}
+			OR = {
+				culture_group = altaic
+				tag = GLH
+			}
+			NOT = { has_country_flag = mongol_empire_flag }
+			NOT = { exists = JMN }
+		}
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					OR = {
+						superregion = central_asia_superregion
+						superregion = pontic_steppe_superregion
+					}
+					NOT = { owned_by = ROOT }
+				}
+				AND = {
+					OR = {
+						superregion = mesopotamia_superregion
+						province_id = 6594
+						province_id = 4237
+					}
+					NOT = { owns_or_vassal_of = ROOT }
+				}
+			}
+		}
+		allow = {
+			OR = {
+				tag = GLH
+				tag = ILK
+			}
+			central_asia_superregion = {
+				type = all
+				owned_by = ROOT
+			}
+			pontic_steppe_superregion = {
+				type = all
+				owned_by = ROOT
+			}
+			mesopotamia_superregion = {
+				type = all
+				owns_or_vassal_of = ROOT
+			}
+			6594 = { owns_or_vassal_of = ROOT }
+			4237 = { owns_or_vassal_of = ROOT }
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+		}
+		effect = {
+			change_tag = JMN
+			if = {
+				limit = { NOT = { government_rank = 6 } }
+				set_government_rank = 6
+			}
+			if = {
+				limit = { is_emperor_of_china = yes }
+				dismantle_empire_of_china = yes
+			}
+			change_government = tribal
+			add_government_reform = great_mongol_state_reform
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			set_country_flag = mongol_empire_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	restore_ilkhanate_decision_march = {
+		major = yes
+		potential = {
+			is_year = 1245
+			normal_or_historical_nations = yes
+			owns = 3477
+			OR = {
+				tag = GLH
+				tag = JMN
+			}
+			NOT = { has_country_flag = restored_ilkhanate_decision_flag }
+			NOT = { exists = ILK }
+			NOT = {
+				capital_scope = { superregion = mesopotamia_superregion }
+			}
+		}
+		provinces_to_highlight = {
+			superregion = mesopotamia_superregion
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			mesopotamia_superregion = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			set_country_flag = restored_ilkhanate_decision_flag
+			mesopotamia_superregion = {
+				limit = { owned_by = ROOT }
+				add_core = ILK
+			}
+			release = ILK
+			create_march = ILK
+			ILK = {
+				change_government = monarchy
+				set_legacy_government = despotic_monarchy
+				change_primary_culture = ROOT
+				change_religion = ROOT
+				define_ruler = {
+					dynasty = ROOT
+					culture = ROOT
+					religion = ROOT
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	restore_ilkhanate_decision = {
+		major = yes
+		potential = {
+			is_year = 1245
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_ilkhanate_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			culture_group = altaic
+			capital_scope = { superregion = mesopotamia_superregion }
+			has_reform = steppe_horde
+			NOT = { tag = TIM }
+			NOT = { tag = PER }
+			NOT = { has_country_flag = unformable }
+		}
+		provinces_to_highlight = {
+			superregion = mesopotamia_superregion
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			NOT = { exists = ILK }
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			mesopotamia_superregion = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			change_tag = ILK
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			add_prestige = 25
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 }
+			}
+			set_country_flag = formed_ilkhanate_flag
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}
