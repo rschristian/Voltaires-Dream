@@ -14,7 +14,7 @@ kievan_rus_ambitions = {
 	has_country_shield = no
 	
 	vn_establish_druzhina = {
-		icon = mission_assemble_an_army
+		icon = mission_recruit_streltsy
         required_missions = {}
         position = 5
 		trigger = {
@@ -45,7 +45,7 @@ kievan_rus_ambitions = {
 		}
 	}
 	vn_eliminate_devastation = {
-		icon = mission_portico
+		icon = mission_conquer_moscow
 		required_missions = { vn_establish_druzhina }
 		trigger = {
 			prestige = 25
@@ -63,42 +63,9 @@ kievan_rus_ambitions = {
 			}
 		}
 	}
-	vn_restore_kievan_borders = {
-		icon = mission_unite_home_region
-		required_missions = { vn_eliminate_devastation }
-		provinces_to_highlight = {
-			OR = {
-				region = halicia_region
-				region = volhynia_region
-				region = kiev_region
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			halicia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			volhynia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			kiev_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			add_stability_or_adm_power = yes
-			add_country_modifier = {
-				name = "restore_kievan_borders_mission"
-				duration = 9125
-			}
-		}
-	}
 	vn_eastern_jerusalem = {
-		icon = mission_eastern_european_city
-		required_missions = { vn_restore_kievan_borders }
+		icon = mission_sovereign_principality
+		required_missions = { vn_eliminate_devastation }
 		provinces_to_highlight = {
 			province_id = 4237
 		}
@@ -114,6 +81,36 @@ kievan_rus_ambitions = {
 			add_prestige = 10
 			add_country_modifier = {
 				name = "eastern_jerusalem_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_restore_kievan_borders = {
+		icon = mission_rule_ruthenia
+		required_missions = { vn_eastern_jerusalem }
+		provinces_to_highlight = {
+			OR = {
+				superregion = russia_superregion
+				superregion = ruthenia_superregion
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			OR = {
+				russia_superregion = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				ruthenia_superregion = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+		}
+		effect = {
+			add_stability_or_adm_power = yes
+			add_country_modifier = {
+				name = "restore_kievan_borders_mission"
 				duration = 9125
 			}
 		}

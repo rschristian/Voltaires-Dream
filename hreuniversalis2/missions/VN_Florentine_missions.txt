@@ -1,0 +1,474 @@
+#Florentine missions
+#By ShyGuy13
+#Also used by Tuscany
+
+vn_lan_missions_slot_1 = {
+	slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = LAN
+			tag = TUS
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_lan_consolidate_rulership = {
+		position = 2
+		icon = mission_rb_rein_in_the_highland_clans
+		required_missions = { vn_lan_loyal_merchants }
+		trigger = {
+			stability = 2
+			legitimacy_equivalent = 100
+			if = {
+				limit = { has_dlc = "Dharma" }
+				has_reform_level = 4
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "lan_consolidate_rulership_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_lan_conquer_lucca = {
+		position = 4
+		icon = mission_unite_home_region
+		required_missions = { vn_lan_conquer_florence }
+		provinces_to_highlight = {
+			area = lucca_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			lucca_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			genoa_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+}
+
+vn_lan_missions_slot_2 = {
+	slot = 7
+	generic = no
+	ai = yes
+	
+	potential = {
+		OR = {
+			tag = LAN
+			tag = TUS
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_lan_loyal_merchants = {
+		position = 1
+		icon = mission_entrepot_of_india
+		required_missions = {}
+		trigger = {
+			if = {
+				limit = { has_estate = estate_burghers }
+				estate_influence = {
+					estate = estate_burghers
+					influence = 60
+				}
+				estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 80
+				}
+			}
+			else = {
+				treasury = 250
+			}
+		}
+		effect = {
+			646 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			2595 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			2705 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			4532 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			add_country_modifier = {
+				name = "lan_loyal_merchants_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_lan_conquer_arezzo = {
+		icon = mission_unite_home_region
+		required_missions = { vn_lan_loyal_merchants }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 646
+				province_id = 2595
+				province_id = 2705
+				province_id = 4532
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			646 = { country_or_non_sovereign_subject_holds = ROOT }
+			2595 = { country_or_non_sovereign_subject_holds = ROOT}
+			2705 = { country_or_non_sovereign_subject_holds = ROOT }
+			4532 = { country_or_non_sovereign_subject_holds = ROOT}
+		}
+		effect = {
+			florence_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "lan_conquer_arezzo_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_lan_conquer_florence = {
+		icon = mission_wine_monopolies
+		required_missions = { vn_lan_conquer_arezzo }
+		provinces_to_highlight = {
+			area = florence_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			florence_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			lucca_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			modena_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			pisa_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "lan_conquer_florence_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+vn_lan_missions_slot_3 = {
+	slot = 8
+	generic = no
+	ai = yes
+	
+	potential = {
+		OR = {
+			tag = LAN
+			tag = TUS
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_lan_laurentian_library = {
+		position = 1
+		icon = mission_rb_the_bank_of_scotland
+		required_missions = {  }
+		provinces_to_highlight = {
+			province_id = 640
+		}
+		trigger = {
+			640 = {
+				owned_by = ROOT
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
+		}
+		effect = {
+			add_innovativeness_small_effect = yes
+			add_country_modifier = {
+				name = "lan_laurentian_library_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_lan_innovative_developments = {
+		icon = mission_early_modern_university
+		required_missions = { vn_lan_laurentian_library }
+		trigger = {
+			if = {
+				limit = { has_dlc = "Rule Britannia" }
+				innovativeness = 25
+			}
+			university = 5
+		}
+		effect = {
+			country_event = { id = vn_missions.2 }
+		}
+	}
+	vn_lan_conquer_pisa = {
+		position = 4
+		icon = mission_seize_north_sea_trade
+		required_missions = { vn_lan_conquer_florence }
+		provinces_to_highlight = {
+			area = pisa_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			pisa_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			siena_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_lan_conquer_siena = {
+		icon = mission_dethrone_the_rurikovichs
+		required_missions = { vn_lan_conquer_pisa }
+		provinces_to_highlight = {
+			area = siena_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			siena_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			romagna_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "lan_conquer_siena_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+vn_lan_missions_slot_4 = {
+	slot = 9
+	generic = no
+	ai = yes
+	
+	potential = {
+		OR = {
+			tag = LAN
+			tag = TUS
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	
+	has_country_shield = yes
+	
+	vn_lan_florentine_bank = {
+		position = 1
+		icon = mission_african_gold
+		trigger = {
+			treasury = 1000
+			monthly_income = 15
+			NOT = { num_of_loans = 1 }
+		}
+		effect = {
+			define_advisor = {
+				type = treasurer
+				name = "Giovanni di Bicci de' Medici"
+				skill = 3
+				discount = yes
+			}
+			add_country_modifier = {
+				name = "lan_florentine_bank_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_lan_italian_athens = {
+		icon = mission_eastern_european_city
+		required_missions = { vn_lan_florentine_bank vn_lan_laurentian_library }
+		trigger = {
+			has_institution = renaissance
+			all_state_province = {
+				renaissance = 100
+			}
+			prestige = 50
+			advisor = artist
+		}
+		effect = {
+			add_country_modifier = {
+				name = "lan_italian_athens_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_lan_santa_maria_del_fiore = {
+		icon = mission_portico
+		required_missions = { vn_lan_italian_athens }
+		provinces_to_highlight = {
+			province_id = 640
+		}
+		trigger = {
+			640 = {
+				owned_by = ROOT
+				has_building = cathedral
+			}
+		}
+		effect = {
+			add_papal_influence = 10
+			add_prestige = 10
+			640 = {
+				add_province_modifier = {
+					name = "lan_santa_maria_del_fiore"
+					duration = -1
+				}
+			}
+		}
+	}
+}
+
+vn_lan_missions_slot_5 = {
+	slot = 10
+	generic = no
+	ai = yes
+	
+	potential = {
+		OR = {
+			tag = LAN
+			tag = TUS
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	
+	has_country_shield = yes
+	
+	vn_lan_promote_textil_trade = {
+		position = 1
+		icon = mission_market_place_with_asian_traders
+		required_missions = {}
+		trigger = {
+			trade_income_percentage = 0.35
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					trade_goods = cloth
+					trade_goods = silk
+					trade_goods = leather
+				}
+			}
+		}
+		effect = {
+			capital_scope = {
+				add_base_production = 3
+				add_province_modifier = {
+					name = "lan_promote_textil_trade_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+	vn_lan_become_trade_empire = {
+		position = 3
+		icon = mission_rb_hanseatic_east
+		required_missions = { vn_lan_promote_textil_trade }
+		trigger = {
+			stock_exchange = 5
+			OR = {
+				AND = {
+					production_leader = {
+						trade_goods = silk
+					}
+					trading_bonus = {
+						trade_goods = silk
+						value = yes
+					}
+				}
+				AND = {
+					production_leader = {
+						trade_goods = cloth
+					}
+					trading_bonus = {
+						trade_goods = cloth
+						value = yes
+					}
+				}
+			}
+		}
+		effect = {
+			add_dip_power = 100
+			add_country_modifier = {
+				name = "lan_become_trade_empire_mission"
+				duration = 9125
+			}
+		}
+	}
+}

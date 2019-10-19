@@ -1,0 +1,473 @@
+#Tuscan missions
+#By ShyGuy13
+#Expanded version of Florence
+
+vn_tus_missions_slot_1 = {
+	slot = 6
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = TUS
+		NOT = { map_setup = map_setup_random }
+	}
+	
+	has_country_shield = yes
+	
+	vn_tus_conquer_genoa = {
+		position = 6
+		icon = mission_dominate_genoa
+		required_missions = { vn_lan_conquer_lucca vn_tus_conquer_reggio }
+		provinces_to_highlight = {
+			area = genoa_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			genoa_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_mercantilism = 2
+			2560 = {
+				add_province_modifier = {
+					name = "tus_conquer_genoa_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+	vn_tus_conquer_lombardy = {
+		icon = mission_empire
+		required_missions = { vn_tus_conquer_po_valley vn_tus_conquer_genoa }
+		provinces_to_highlight = {
+			OR = {
+				area = brescia_area
+				area = milan_area
+				area = pavia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			brescia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			milan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			pavia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_adm_power = 100
+			add_dip_power = 100
+			add_mil_power = 100
+			add_prestige = 25
+			add_country_modifier = {
+				name = "tus_conquer_lombardy_mission"
+				duration = 10950
+			}
+		}
+	}
+}
+
+vn_tus_missions_slot_2 = {
+	slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		tag = TUS
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_tus_conquer_reggio = {
+		position = 5
+		icon = mission_large_army
+		required_missions = { vn_lan_conquer_florence }
+		provinces_to_highlight = {
+			area = modena_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			modena_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			parma_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			mantua_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			modena_area = {
+				add_province_modifier = {
+					name = "tus_recover_reggio_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
+	vn_tus_conquer_po_valley = {
+		icon = mission_advance_to_the_dnieper
+		required_missions = { vn_tus_conquer_reggio }
+		provinces_to_highlight = {
+			OR = {
+				area = parma_area
+				area = mantua_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			parma_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			mantua_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			brescia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			milan_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			pavia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+}
+
+vn_tus_missions_slot_3 = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = TUS
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_tus_weaken_the_pope = {
+		position = 6
+		icon = mission_assemble_an_army
+		required_missions = { vn_lan_conquer_siena }
+		provinces_to_highlight = {
+			region = romagna_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 12
+				region = romagna_region
+			}
+		}
+		effect = {
+			umbria_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			romagna_area = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "tus_weaken_the_pope_mission"
+					duration = 7300
+				}
+			}
+		}
+	}
+	vn_tus_conquer_the_marches = {
+		icon = mission_crusade_for_varna
+		required_missions = { vn_tus_weaken_the_pope }
+		provinces_to_highlight = {
+			region = umbria_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 12
+				region = umbria_region
+			}
+		}
+		effect = {
+			add_army_tradition = 15
+			umbria_region = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "tus_weaken_the_pope_mission"
+					duration = 7300
+				}
+			}
+		}
+	}
+}
+
+vn_tus_missions_slot_4 = {
+	slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		tag = TUS
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_lan_loyal_council = {
+		position = 4
+		icon = mission_junnagadh_fort
+		required_missions = { vn_lan_santa_maria_del_fiore }
+		trigger = {
+			custom_trigger_tooltip = {
+                tooltip = vn_brc_establish_generalitat.tt
+                employed_advisor = {
+                    category = ADM
+                }
+                employed_advisor = {
+                    category = DIP
+                }
+                employed_advisor = {
+                    category = MIL
+                }
+            }
+			num_accepted_cultures = 5
+			NOT = { corruption = 1 }
+		}
+		effect = {
+			add_stability_or_adm_power = yes
+			add_legitimacy = 20
+			add_republican_tradition = 10
+			add_devotion = 20
+		}
+	}	
+	vn_tus_conquer_corsica = {
+		position = 6
+		icon = mission_secure_the_malabar_coast
+		required_missions = { vn_tus_pisa_shipbuilding }
+		provinces_to_highlight = {
+			area = corsica_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT}
+		}
+		trigger = {
+			corsica_area  = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			arborea_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			sassari_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			gallura_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_tus_conquer_sardinia = {
+		icon = mission_unite_coromandel
+		required_missions = { vn_tus_conquer_corsica }
+		provinces_to_highlight = {
+			OR = {
+				area = arborea_area
+				area = sassari_area
+				area = gallura_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT}
+		}
+		trigger = {
+			arborea_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			sassari_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			gallura_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_navy_tradition = 15
+			add_country_modifier = {
+				name = "tus_conquer_sardinia_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+vn_tus_missions_slot_5 = {
+	slot = 10
+	generic = no
+	ai = yes
+	potential = {
+		tag = TUS
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_tus_metropolis_of_tuscany = {
+		position = 4
+		icon = mission_hanseatic_cities
+		required_missions = { vn_lan_santa_maria_del_fiore vn_lan_become_trade_empire }
+		provinces_to_highlight = {
+			province_id = 640
+		}
+		trigger = {
+			640 = {
+				owned_by = ROOT
+				development = 50
+				NOT = { num_free_building_slots = 1 }
+				province_has_center_of_trade_of_level = 3
+			}
+		}
+		effect = {
+			add_prestige = 20
+			640 = {
+				add_province_modifier = {
+					name = "tus_metropolis_of_tuscany_mission"
+					duration = -1
+				}
+			}
+		}
+	}
+	vn_tus_pisa_shipbuilding = {
+		position = 5
+		icon = mission_colonize_the_west
+		required_missions = { vn_lan_conquer_pisa }
+		provinces_to_highlight = {
+			province_id = 115
+		}
+		trigger = {
+			115 = {
+				owned_by = ROOT
+				OR = {
+					has_building = dock
+					has_building = drydock
+				}
+			}
+		}
+		effect = {
+			corsica_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "tus_pisa_shipbuilding_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_tus_modern_navy = {
+		icon = mission_aragonese_navy
+		required_missions = { vn_tus_pisa_shipbuilding }
+		trigger = {
+			navy_tradition = 35
+			navy_size_percentage = 0.95
+		}
+		effect = {
+			create_admiral = { tradition = 75 }
+			2673 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			1836 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			4086 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+		}
+	}
+	vn_tus_defeat_corsars_of_annaba = {
+		icon = mission_combat_barbary_piracy
+		required_missions = { vn_tus_modern_navy }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2673
+				province_id = 1836
+				province_id = 4086
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			2673 = { country_or_non_sovereign_subject_holds = ROOT }
+			1836 = { country_or_non_sovereign_subject_holds = ROOT }
+			4086 = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+			add_treasury = 300
+			add_yearly_sailors = 3
+		}
+	}
+}
