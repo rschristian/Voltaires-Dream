@@ -141,24 +141,23 @@ vn_cas_missions_slot_1_b = {
     vn_cas_repopulate_frontiers = {
         icon = mission_colonial
         required_missions = { }
-        position = 3
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				area = salamanca_area
+				area = segovia_area
+			}
+			NOT = { owned_by = ROOT }
+		}
         trigger = {
-            #should be changed if kath is going to make this stuff uncolonized..
             calc_true_if = {
                 num_of_owned_provinces_with = {
                     value = 4
                     area = salamanca_area
-                    development = 6
                 }
                 num_of_owned_provinces_with = {
                     value = 4
                     area = segovia_area
-                    development = 6
-                }
-                num_of_owned_provinces_with = {
-                    value = 4
-                    area = soria_area
-                    development = 6
                 }
                 amount = 2
             }
@@ -188,13 +187,6 @@ vn_cas_missions_slot_1_b = {
                 }
             }
             segovia_area = {
-                limit = { owned_by = ROOT }
-                add_province_modifier = {
-                    name = "cas_repopulate_frontiers_mission"
-                    duration = 7300
-                }
-            }
-            soria_area = {
                 limit = { owned_by = ROOT }
                 add_province_modifier = {
                     name = "cas_repopulate_frontiers_mission"
@@ -252,7 +244,7 @@ vn_cas_missions_slot_1_c = {
         position = 5
         provinces_to_highlight = {
             OR = {
-                area = burgos_area
+                area = soria_area
                 area = segovia_area
             }
             NOT = {
@@ -264,7 +256,7 @@ vn_cas_missions_slot_1_c = {
             legitimacy = 100
             stability = 2
             is_free_or_tributary_trigger = yes
-            burgos_area = {
+            soria_area = {
                 type = all
                 owned_by = ROOT
                 is_core = ROOT
@@ -283,27 +275,13 @@ vn_cas_missions_slot_1_c = {
 				}
 				add_permanent_claim = ROOT
             }
-            asturias_area = {
+            asturian_region = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
             }
-            galicia_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            ourense_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
         }
     }
     vn_cas_subjugate_galicia = {
@@ -385,14 +363,14 @@ vn_cas_missions_slot_1_c = {
 				}
 				add_claim = ROOT
             }
-            northportugal_region = {
+            beiras_region = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_claim = ROOT }
 				}
 				add_claim = ROOT
             }
-            southportugal_region = {
+            alentejo_region = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_claim = ROOT }
@@ -454,7 +432,7 @@ vn_cas_missions_slot_1_c = {
 			}
 		}
 		effect = {
-			sardinia_area = {
+			sassari_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -462,6 +440,13 @@ vn_cas_missions_slot_1_c = {
 				add_permanent_claim = ROOT
 			}
 			arborea_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			gallura_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -521,7 +506,8 @@ vn_cas_missions_slot_2_a = {
     }
     vn_cas_claim_sevilla = {
         icon = mission_unite_home_region    #placeholder
-        required_missions = { vn_cas_extremadura_campaign }
+		required_missions = { vn_cas_extremadura_campaign }
+		position = 4
         provinces_to_highlight = {
             OR = {
                 area = huelva_area
@@ -540,13 +526,6 @@ vn_cas_missions_slot_2_a = {
             }
         }
         effect = {
-            cadiz_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            } 
             1867 = {
                 add_province_modifier = {
                     name = "cas_claim_sevilla_mission"
@@ -555,32 +534,32 @@ vn_cas_missions_slot_2_a = {
             }
         }
     }
-    vn_cas_advance_to_gibraltar = {
-        icon = mission_rb_take_gibraltar
-        required_missions = { 
-            vn_cas_claim_sevilla
-            vn_cas_capture_cordoba
-        }
-        position = 5
-        provinces_to_highlight = {
-            area = cadiz_area
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-        }
-        trigger = {
-            cadiz_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-        }
-        effect = {
-            761 = {
-                add_province_modifier = {
-                    name = "cas_advance_to_gibraltar_mission"
-                    duration = -1
-                }
-            }
-        }
-    }
+    # vn_cas_advance_to_gibraltar = {
+    #     icon = mission_rb_take_gibraltar
+    #     required_missions = { 
+    #         vn_cas_claim_sevilla
+    #         vn_cas_capture_cordoba
+    #     }
+    #     position = 5
+    #     provinces_to_highlight = {
+    #         area = cadiz_area
+    #         NOT = { country_or_non_sovereign_subject_holds = ROOT }
+    #     }
+    #     trigger = {
+    #         cadiz_area = {
+    #             type = all
+    #             country_or_non_sovereign_subject_holds = ROOT
+    #         }
+    #     }
+    #     effect = {
+    #         761 = {
+    #             add_province_modifier = {
+    #                 name = "cas_advance_to_gibraltar_mission"
+    #                 duration = -1
+    #             }
+    #         }
+    #     }
+    # }
 }
 
 vn_cas_missions_slot_2_b = {
@@ -705,8 +684,8 @@ vn_cas_missions_slot_2_d = {
         position = 8
         provinces_to_highlight = {
             OR = {
-                region = northportugal_region
-                region = southportugal_region
+                region = beiras_region
+                region = alentejo_region
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
@@ -722,11 +701,11 @@ vn_cas_missions_slot_2_d = {
                     }
                 }
                 AND = {
-                    northportugal_region = {
+                    beiras_region = {
                         type = all
                         country_or_non_sovereign_subject_holds = ROOT
                     }
-                    southportugal_region = {
+                    alentejo_region = {
                         type = all
                         country_or_non_sovereign_subject_holds = ROOT
                     }
@@ -824,6 +803,13 @@ vn_cas_missions_slot_3_a = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
+			}
+			madrid_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
             }
             toledo_area = {
 				limit = {
@@ -877,6 +863,20 @@ vn_cas_missions_slot_3_b = {
 				}
 				add_permanent_claim = ROOT
 			}
+			almeria_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			murcia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_cas_capture_cordoba = {
@@ -919,7 +919,11 @@ vn_cas_missions_slot_3_b = {
     }
     vn_cas_gates_of_granada = {
         icon = mission_develop_alhambra
-        required_missions = { vn_cas_capture_cordoba }
+        required_missions = { 
+			vn_cas_capture_cordoba
+			vn_cas_claim_sevilla
+			vn_cas_conquer_almeria
+		}
         provinces_to_highlight = {
             OR = {
                 area = malaga_area
@@ -963,11 +967,7 @@ vn_cas_missions_slot_3_b = {
     }
     vn_cas_triumph_over_islam = {
         icon = mission_golden_century
-        required_missions = { 
-            vn_cas_advance_to_gibraltar
-            vn_cas_gates_of_granada
-            vn_cas_conquer_almeria
-        }
+        required_missions = { vn_cas_gates_of_granada }
         provinces_to_highlight = {
             superregion = iberia_superregion
             religion_group = muslim
@@ -1064,111 +1064,86 @@ vn_cas_missions_slot_4_a = {
             }
         }
         effect = {
-            add_prestige = 10
+			add_prestige = 10
             cuenca_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
-            }
-            guadalajara_area = {
+			}
+			ciudad_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
-			}
+            }
         }
     }
-    vn_cas_conquer_cuenca = {
+    # vn_cas_conquer_cuenca = {
+    #     icon = mission_unite_home_region    #placeholder
+    #     required_missions = { vn_cas_conquer_toledo }
+    #     provinces_to_highlight = {
+    #         area = cuenca_area
+    #         NOT = { country_or_non_sovereign_subject_holds = ROOT }
+    #     }
+    #     trigger = {
+    #         cuenca_area = {
+    #             type = all
+    #             country_or_non_sovereign_subject_holds = ROOT
+    #         }
+    #     }
+    #     effect = {
+            
+    #     }
+    # }
+    # vn_cas_conquer_jaen = {
+    #     icon = mission_unite_home_region    #placeholder
+    #     required_missions = { vn_cas_conquer_cuenca }
+    #     provinces_to_highlight = {
+    #         area = jaen_area
+    #         NOT = { country_or_non_sovereign_subject_holds = ROOT }
+    #     }
+    #     trigger = {
+    #         jaen_area = {
+    #             type = all
+    #             country_or_non_sovereign_subject_holds = ROOT
+    #         }
+    #     }
+    #     effect = {
+    #         almeria_area = {
+	# 			limit = {
+	# 				NOT = { is_core = ROOT }
+	# 				NOT = { is_permanent_claim = ROOT }
+	# 			}
+	# 			add_permanent_claim = ROOT
+	# 		}
+    #     }
+    # }
+    vn_cas_conquer_almeria = {	#Conquer Murcia
         icon = mission_unite_home_region    #placeholder
-        required_missions = { vn_cas_conquer_toledo }
+		required_missions = { vn_cas_conquer_la_mancha }
+		position = 4
         provinces_to_highlight = {
-            OR = {
-                area = cuenca_area
-                area = guadalajara_area
-            }
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-        }
-        trigger = {
-            cuenca_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            guadalajara_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-        }
-        effect = {
-            jaen_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            albacete_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
+			OR = {
+				area = almeria_area
+				area = murcia_area
 			}
-        }
-    }
-    vn_cas_conquer_jaen = {
-        icon = mission_unite_home_region    #placeholder
-        required_missions = { vn_cas_conquer_cuenca }
-        provinces_to_highlight = {
-            OR = {
-                area = jaen_area
-                area = albacete_area
-            }
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-        }
-        trigger = {
-            jaen_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            albacete_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-        }
-        effect = {
-            almeria_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-    vn_cas_conquer_almeria = {
-        icon = mission_unite_home_region    #placeholder
-        required_missions = { vn_cas_conquer_jaen }
-        provinces_to_highlight = {
-            area = almeria_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
             almeria_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
+			}
+			murcia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
             }
         }
         effect = {
-            murcia_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
+            #add
         }
     }
 }
@@ -1192,7 +1167,7 @@ vn_cas_missions_slot_4_b = {
     vn_cas_influence_in_occitania = {
         icon = mission_invade_occitania
         required_missions = { vn_cas_subjugate_navarra }
-        position = 6
+        position = 5
         provinces_to_highlight = {
             region = toulouse_region
             NOT = { owned_by = ROOT }
@@ -1377,23 +1352,6 @@ vn_cas_missions_slot_5_a = {
 				}
 				add_permanent_claim = ROOT
 			}
-        }
-    }
-    vn_cas_seize_biscay_coast = {
-        icon = mission_unite_home_region # placeholder
-        required_missions = { vn_cas_conquer_rioja }
-        position = 3
-        provinces_to_highlight = {
-			area = vizcaya_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			vizcaya_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
 			navarra_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1401,14 +1359,41 @@ vn_cas_missions_slot_5_a = {
 				}
 				add_permanent_claim = ROOT
 			}
-		}	
+        }
     }
+    # vn_cas_seize_biscay_coast = {
+    #     icon = mission_unite_home_region # placeholder
+    #     required_missions = { vn_cas_conquer_rioja }
+    #     position = 3
+    #     provinces_to_highlight = {
+	# 		area = vizcaya_area
+	# 		NOT = { country_or_non_sovereign_subject_holds = ROOT }
+	# 	}
+	# 	trigger = {
+	# 		vizcaya_area = {
+	# 			type = all
+	# 			country_or_non_sovereign_subject_holds = ROOT
+	# 		}
+	# 	}
+	# 	effect = {
+	# 		navarra_area = {
+	# 			limit = {
+	# 				NOT = { is_core = ROOT }
+	# 				NOT = { is_permanent_claim = ROOT }
+	# 			}
+	# 			add_permanent_claim = ROOT
+	# 		}
+	# 	}	
+    # }
     vn_cas_subjugate_navarra = {
         icon = mission_subjugate_navarra
         required_missions = { vn_cas_seize_biscay_coast }
-        position = 5
+        position = 4
         provinces_to_highlight = {
-			area = navarra_area
+			OR = {
+				area = navarra_area
+				area = vizcaya_area
+			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
@@ -1416,9 +1401,13 @@ vn_cas_missions_slot_5_a = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
+			vizcaya_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		effect = {
-			southgascon_region = {
+			gascony_region = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -1431,17 +1420,17 @@ vn_cas_missions_slot_5_a = {
         icon = mission_wine_monopolies
         required_missions = { vn_cas_subjugate_navarra }
         provinces_to_highlight = {
-			region = southgascon_region
+			region = gascony_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			southgascon_region = {
+			gascony_region = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
         effect = {
-            southgascon_region = {
+            gascony_region = {
                 limit = { 
                     trade_goods = wine
                     country_or_non_sovereign_subject_holds = ROOT

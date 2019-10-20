@@ -67,10 +67,13 @@ vn_anj_missions_slot_1_a = {
         required_missions = { vn_anj_breton_marches }
         provinces_to_highlight = {
             province_id = 2173
-            NOT = { owned_by = ROOT }
+            NOT = { 
+				owned_by = ROOT
+				is_core = ROOT 
+			}
         }
         trigger = {
-            owns = 2173
+            owns_core_province = 2173
         }
         effect = {
             add_dip_power = 50
@@ -84,6 +87,7 @@ vn_anj_missions_slot_1_a = {
         icon = mission_establish_high_seas_navy
         required_missions = { vn_anj_loire_river_valley }
         trigger = {
+			#needs more robust trigger
             canal = 6
             drydock = 6
         }
@@ -135,11 +139,11 @@ vn_anj_missions_slot_2_a = {
         icon = mission_humiliate_provence   #placeholder
         required_missions = { vn_anj_subjugation_of_poitou }
         provinces_to_highlight = {
-            region = gascony_region
+            region = aquitaine_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            gascony_region = {
+            aquitaine_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -217,9 +221,7 @@ vn_anj_missions_slot_2_a = {
             OR = {
                 region = southwest_england_region
                 region = southeast_england_region
-                region = east_anglia_region
                 region = midlands_region
-                region = east_midlands_region
                 region = northumbria_region
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -233,15 +235,7 @@ vn_anj_missions_slot_2_a = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
-            east_anglia_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
             midlands_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            east_midlands_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -251,7 +245,7 @@ vn_anj_missions_slot_2_a = {
             }
         }
         effect = {
-            southgascon_region = {
+            gascony_region = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -279,7 +273,7 @@ vn_anj_missions_slot_2_a = {
                 }
                 add_permanent_claim = ROOT
             }
-            perigordsouth_area = {
+            cahors_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -305,18 +299,24 @@ vn_anj_missions_slot_3_a = {
         required_missions = { }
         position = 1
         provinces_to_highlight = {
-            area = anjou_area
+            OR = {
+				province_id = 2163
+				province_id = 1289
+				province_id = 2059
+				province_id = 4496
+				province_id = 4098
+			}
             NOT = { 
                 owned_by = ROOT
                 is_core = ROOT
             }
         }
         trigger = {
-            anjou_area = {
-                type = all
-                owned_by = ROOT
-                is_core = ROOT
-            }
+			owns_core_province = 2163
+			owns_core_province = 1289
+			owns_core_province = 2059
+			owns_core_province = 4496
+			owns_core_province = 4098
             NOT = {
                 any_owned_province = {
                     unrest = 0
@@ -327,13 +327,6 @@ vn_anj_missions_slot_3_a = {
             legitimacy = 90
         }
         effect = {
-            anjou_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
             maine_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -430,13 +423,6 @@ vn_anj_missions_slot_3_a = {
                 }
                 add_permanent_claim = ROOT
             }
-            cotentin_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
             normandy_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -458,24 +444,10 @@ vn_anj_missions_slot_3_a = {
         required_missions = { vn_anj_greater_anjou }
         position = 5
         provinces_to_highlight = {
-            OR = {
-                area = normandy_area
-                province_id = 1167
-                province_id = 1170
-                province_id = 4494
-            }
+            area = normandy_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            1167 = {
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            1170 = {
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            4494 = {
-                country_or_non_sovereign_subject_holds = ROOT
-            }
             normandy_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
@@ -490,21 +462,7 @@ vn_anj_missions_slot_3_a = {
                 }
                 add_permanent_claim = ROOT
             }
-            chartres_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
             normandy_area = {
-                limit = { country_or_non_sovereign_subject_holds = ROOT }
-                add_province_modifier = {
-                    name = "anj_occupy_caen_mission"
-                    duration = 9125
-                }
-            }
-            cotentin_area = {
                 limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = "anj_occupy_caen_mission"
@@ -517,10 +475,7 @@ vn_anj_missions_slot_3_a = {
         icon = mission_humiliate_provence   #placeholder
         required_missions = { vn_anj_occupy_caen }
         provinces_to_highlight = {
-            OR = {
-                area = caux_area
-                area = chartres_area
-            }
+            area = caux_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
@@ -530,7 +485,7 @@ vn_anj_missions_slot_3_a = {
             }
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 				value = 5
-				area = chartres_area
+				area = orleans_area
 			}
             4060 = {
                 country_or_non_sovereign_subject_holds = ROOT
@@ -797,12 +752,15 @@ vn_anj_missions_slot_5_b = {
         }
         trigger = {
             1289 = {
+				owned_by = ROOT
                 has_building = cathedral
             }
             2489 = {
+				owned_by = ROOT
                 has_building = cathedral
             }
             2177 = {
+				owned_by = ROOT
                 has_building = cathedral
             }
             OR = {

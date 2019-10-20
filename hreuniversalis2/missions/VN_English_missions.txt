@@ -253,10 +253,9 @@ vn_eng_missions_slot_1_c = {
         provinces_to_highlight = {
             OR = {
                 region = gascony_region
-                area = perigord_area
-                area = perigordsouth_area
-                area = bordeaux_area
-                area = labourd_area
+				area = perigord_area
+				area = cahors_area
+                region = aquitaine_region
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
@@ -269,21 +268,24 @@ vn_eng_missions_slot_1_c = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
-            perigordsouth_area = {
+            cahors_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
-            bordeaux_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            labourd_area = {
+            aquitaine_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
         }
         effect = {
-            add_prestige = 15
+			add_prestige = 15
+			limousin_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
             auvergne_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -301,7 +303,10 @@ vn_eng_missions_slot_1_c = {
         }
         position = 13
         provinces_to_highlight = {
-            region = auvergne_region
+			OR = {
+				region = auvergne_region
+				area = limousin_area
+			}
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
@@ -481,7 +486,7 @@ vn_eng_missions_slot_2_b = {
             }
         }
         effect = {
-            argyll_area = {
+            caithness_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -516,7 +521,7 @@ vn_eng_missions_slot_2_b = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            argyll_area = {
+            caithness_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -528,7 +533,6 @@ vn_eng_missions_slot_2_b = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
-            #more areas in VN2
         }
         effect = {
             add_country_modifier = {
@@ -679,31 +683,17 @@ vn_eng_missions_slot_2_c = {
                 }
                 add_permanent_claim = ROOT
             }
-            anjou_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }  
         }
     }
     vn_eng_claims_in_anjou = {
         icon = mission_rb_angevin_kingdom
         required_missions = { vn_eng_integrate_normandy }
         provinces_to_highlight = {
-            OR = {
-                area = maine_area
-                area = anjou_area
-            }
+            area = maine_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
             maine_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            anjou_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -750,6 +740,13 @@ vn_eng_missions_slot_2_c = {
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
+			}
+			aquitaine_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
             }
             perigord_area = {
                 limit = {
@@ -758,21 +755,7 @@ vn_eng_missions_slot_2_c = {
                 }
                 add_permanent_claim = ROOT
             }
-            perigordsouth_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            bordeaux_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            labourd_area = {
+            cahors_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -1027,17 +1010,10 @@ vn_eng_missions_slot_3_a = {
         icon = mission_cannons_firing
         required_missions = { vn_eng_integrate_danelaw }
         provinces_to_highlight = {
-            OR = {
-                area = berwick_area
-                area = edinburgh_area
-            }
+            area = edinburgh_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            berwick_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
             edinburgh_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
@@ -1080,7 +1056,6 @@ vn_eng_missions_slot_3_a = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
-            #more areas in VN2
         }
         effect = {
             country_event = { 
@@ -1887,6 +1862,8 @@ vn_eng_missions_slot_5_a = {
         position = 1
         trigger = {
             2268 = {
+				owned_by = ROOT
+				is_core = ROOT
                 development = 25
                 NOT = { num_free_building_slots = 1 }
             }
@@ -1912,12 +1889,16 @@ vn_eng_missions_slot_5_a = {
                 university = 5
             }
             1242 = {
+				owned_by = ROOT
+				is_core = ROOT
                 OR = {
                     has_building = college
                     has_building = university
                 }
             }
             986 = {
+				owned_by = ROOT
+				is_core = ROOT
                 OR = {
                     has_building = college
                     has_building = university
@@ -1980,15 +1961,15 @@ vn_eng_missions_slot_5_b = {
         icon = mission_rb_monopolize_the_channel
         required_missions = { vn_eng_dominate_wool_trade }
         trigger = {
-            linen = 10
+            cloth = 10
             production_leader = {
-                trade_goods = linen
+                trade_goods = cloth
             }
         }
         effect = {
             add_mercantilism = 2
             random_owned_province = {
-                limit = { trade_goods = linen }
+                limit = { trade_goods = cloth }
                 add_province_modifier = {
                     name = "eng_livery_companies_mission"
                     duration = -1
@@ -2051,11 +2032,11 @@ vn_eng_missions_slot_5_d = {
         required_missions = { }
         position = 7
         trigger = {
-            498 = { #Canterbury (Sandwich, Dover, Hythe, New Romney)
+            4688 = { #Dover (Sandwich, Hythe, New Romney)
                 owned_by = ROOT
                 development = 10
                 has_building = canal
-            }
+			}
             627 = { #Hastings
                 owned_by = ROOT
                 development = 10
@@ -2063,7 +2044,7 @@ vn_eng_missions_slot_5_d = {
             }
         }
         effect = {
-            498 = {
+            4688 = {
                 add_province_modifier = {
                     name = "eng_cinque_ports_mission"
                     duration = 9125
@@ -2152,13 +2133,6 @@ vn_eng_missions_slot_5_d = {
             }
         }
         effect = {
-            cadiz_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
             if = {
                 limit = {
                     2711 = {
