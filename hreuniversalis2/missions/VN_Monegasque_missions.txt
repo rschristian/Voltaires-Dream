@@ -1,0 +1,178 @@
+#Monegasque missions
+#Contributed PragmaticRallying
+#Coded by ShyGuy13
+
+vn_mco_missions_slot_2 = {
+	slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		tag = MCO
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+	vn_mco_develop_monaco = {
+		position = 1
+		icon = mission_golden_century
+		required_missions = { }
+		provinces_to_highlight = {
+			province_id = 2262
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 15 }
+			}
+		}
+		trigger = {
+            is_at_war = no
+            legitimacy_equivalent = 90
+			992 = {
+                owned_by = ROOT
+                development = 15
+            }
+		}
+		effect = {
+			add_country_modifier = {
+                name = mco_develop_monaco_mission
+                duration = 9125
+            }
+		}
+	}
+	vn_mco_dominate_local_trade = {
+		icon = mission_trade_with_japan
+		required_missions = { vn_mco_develop_monaco }
+		provinces_to_highlight = {
+			province_id = 2262
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { 
+					OR = {
+						has_building = shipyard
+						has_building = grand_shipyard
+					}
+				}
+			}
+		}
+		trigger = {
+			navy_size_percentage = 0.9
+            home_trade_node = {
+				trade_share = {
+					country = ROOT
+					share = 10
+				}
+			}
+			2262 = {
+				owned_by = ROOT
+				OR = {
+					has_building = shipyard
+					has_building = grand_shipyard
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+                name = mco_dominate_local_trade_mission
+                duration = 9125
+            }
+		}
+	}
+}
+
+vn_mco_missions_slot_3 = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		tag = MCO
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+	vn_mco_conquer_genoa = {
+		position = 3
+		icon = mission_city_of_the_world's_desire
+		required_missions = { vn_mco_dominate_local_trade vn_mco_ally_a_great_power }
+		provinces_to_highlight = {
+			province_id = 2560
+		}
+		trigger = {
+			2560 = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+			add_prestige = 50
+			add_country_modifier = {
+                name = mco_conquer_genoa_mission
+                duration = 9125
+            }
+		}
+	}
+}
+
+vn_mco_missions_slot_4 = {
+	slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		tag = MCO
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+	vn_mco_ally_the_papacy = {
+		position = 1
+		icon = mission_have_two_subjects
+		required_missions = { }
+		trigger = {
+			army_size_percentage = 0.9
+            if = {
+				limit = { exists = PAP }
+				OR = {
+					reverse_has_opinion = {
+						who = PAP
+						value = 125
+					}
+					is_rival = PAP
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+                name = mco_ally_the_papacy_mission
+                duration = 9125
+            }
+		}
+	}
+	vn_mco_ally_a_great_power = {
+		icon = mission_humiliate_provence
+		required_missions = { vn_mco_ally_the_papacy }
+		trigger = {
+            if = {
+				limit = {
+					has_dlc = "Rights of Man"
+				}
+				any_country = {
+					is_great_power = yes
+					OR = {
+						alliance_with = ROOT
+						has_guaranteed = ROOT
+					}
+				}
+			}
+			else = {
+				any_country = {
+					total_development = 250
+					OR = {
+						alliance_with = ROOT
+						has_guaranteed = ROOT
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+                name = mco_ally_a_great_power_mission
+                duration = 9125
+            }
+		}
+	}
+}
