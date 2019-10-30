@@ -165,7 +165,7 @@ vn_hol_missions_slot_1_a = {
             }
         }
         effect = {
-			#add
+			add_adm_power = 100
 		}       
     }
 }
@@ -428,14 +428,22 @@ vn_hol_missions_slot_2_a = {
         icon = mission_village
         required_missions = { vn_hol_flemish_throne }
         trigger = {
-			#! some event?
-			#add
+			any_owned_province = {
+				has_building = town_hall
+				base_tax = 8
+			}
+			NOT = { num_of_loans = 1 }
+			NOT = { inflation = 1 }
+			employed_advisor = {
+				type = master_of_mint
+			}
         }
         effect = {
             add_country_modifier = { 
                 name = "hol_beerenburg_banking"
                 duration = -1
-            }
+			}
+			#add event?
         }
     }
 }
@@ -445,9 +453,7 @@ vn_hol_missions_slot_2_b = {
     generic = no
     ai = yes
     potential = {
-        or = {
-		tag = NED
-		}
+        tag = NED
 		NOT = { map_setup = map_setup_random }
 	}
     has_country_shield = yes
@@ -591,17 +597,30 @@ vn_hol_missions_slot_2_b = {
         icon = mission_build_up_to_force_limit
         required_missions = { vn_hol_lotharingen }
         provinces_to_highlight = {
-            region = burgundy_region
+            OR = {
+				area = burgundy_area
+				area = charolais_area
+				area = nevers_area
+			}
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            burgundy_region = {
+            burgundy_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+			}
+			charolais_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+			}
+			nevers_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
         }
         effect = {
-			#add
+			add_prestige = 10
+			add_influence = 10
         }
     }
     vn_hol_statists = {
@@ -638,7 +657,7 @@ vn_hol_missions_slot_2_b = {
 			army_size_percentage = 1
         }
         effect = {
-			add_army_tradition = 25 
+			add_army_tradition = 15
 			add_prestige = 10
 			add_country_modifier = {
 				name = "hol_army_expansion_mission"
@@ -700,7 +719,7 @@ vn_hol_missions_slot_2_b = {
 				add_local_autonomy = -25
 				add_base_tax = 1
 				add_base_production = 1
-				add_base_manpower = 2
+				add_base_manpower = 1
                 add_province_modifier = {
                     name = "hol_orange_nassau_mission"
                     duration = -1
@@ -712,7 +731,7 @@ vn_hol_missions_slot_2_b = {
 				add_local_autonomy = -25
 				add_base_tax = 1
 				add_base_production = 1
-				add_base_manpower = 2
+				add_base_manpower = 1
                 add_province_modifier = {
                     name = "hol_orange_nassau_mission"
                     duration = -1
@@ -795,7 +814,8 @@ vn_hol_missions_slot_3_a = {
             }
         }
         effect = {
-			#add
+			add_accepted_culture = frisian
+			add_dip_power = 50
         }
 	}
 	vn_hol_brabantian_throne = {
@@ -885,7 +905,7 @@ vn_hol_missions_slot_3_a = {
 					add_base_production = 1
 				}
 				else = {
-					add_base_production = 3
+					add_base_production = 2
 				}
 			}
 		}
@@ -977,7 +997,7 @@ vn_hol_missions_slot_3_b = {
 			navy_size_percentage = 1
         }
         effect = {
-			add_navy_tradition = 25 
+			add_navy_tradition = 10
 			add_prestige = 10
 			add_country_modifier = {
                	name = "hol_naval_expansion_mission"
@@ -993,7 +1013,7 @@ vn_hol_missions_slot_3_b = {
 			num_of_light_ship = 25
         }
         effect = {
-			add_navy_tradition = 50 
+			add_navy_tradition = 15
 			add_prestige = 10
 			add_country_modifier = {
                	name = "hol_dutch_trading_fleet_mission"
@@ -1023,7 +1043,8 @@ vn_hol_missions_slot_3_b = {
             }
         }
         effect = {
-			#add
+			add_influence = 10
+			add_army_tradition = 10
         }
     }
     vn_hol_develop_the_staten = {
@@ -1035,15 +1056,16 @@ vn_hol_missions_slot_3_b = {
             NOT = {
                 OR = {
                     owned_by = ROOT
-                    num_of_times_improved = 6
+                    num_of_times_improved = 1
                     NOT = { devastation = 1 }
                 }
             }
         }
         trigger = {
             netherlands_region = {
+				type = all
                 owned_by = ROOT
-                num_of_times_improved = 6
+                num_of_times_improved = 1
                 NOT = { devastation = 1 }
             }
         }
@@ -1182,7 +1204,13 @@ vn_hol_missions_slot_4_a = {
 			}
         }
         effect = {
-			#add
+			rhenish_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
         }
     }
     vn_hol_port_of_antwerp = {
@@ -1204,8 +1232,9 @@ vn_hol_missions_slot_4_a = {
         effect = {
             2729 = {
 				add_prosperity = 25
+				add_base_production = 1
                 add_province_modifier = {
-                    name = hol_port_of_antwerp_mission 
+                    name = "hol_port_of_antwerp_mission" 
                     duration = -1
                 }
 	     	}
@@ -1229,7 +1258,7 @@ vn_hol_missions_slot_4_b = {
         trigger = {
 			2729 = { #Antwerp
 				has_trader = ROOT
-				has_most_province_trade_power = ROOT
+				is_strongest_trade_power = ROOT
 			}      
 		}
         effect = {
@@ -1604,7 +1633,7 @@ vn_hol_missions_slot_5_a = {
         }
     }
     vn_hol_build_grachtengordel = {	
-		position = 6
+		position = 5
         icon = mission_build_up_to_force_limit
         required_missions = { }
         provinces_to_highlight = {
@@ -1632,7 +1661,8 @@ vn_hol_missions_slot_5_a = {
         }
     }
     vn_hol_worldport_amsterdam = {
-        icon = mission_build_up_to_force_limit
+		icon = mission_build_up_to_force_limit
+		position = 7
         required_missions = { vn_hol_build_grachtengordel }
         provinces_to_highlight = {
             province_id = 328
@@ -1752,7 +1782,16 @@ vn_hol_missions_slot_5_b = {
 			}
 		}
         effect = {
-			#add
+			define_admiral = {
+				name = "Michiel de Ruyter"
+				fire = 4
+				shock = 4
+				manuever = 4
+				siege = 1
+			}
+			country_event = {
+				id = vn_missions.71	#Raid on the Medway
+			}
 		}
     }
     vn_hol_claim_the_throne = {
