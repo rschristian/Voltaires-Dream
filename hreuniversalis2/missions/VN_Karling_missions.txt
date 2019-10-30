@@ -1,0 +1,1349 @@
+#Karling missions
+#Contributed historyperson
+#Coded by ShyGuy13
+
+vn_karling_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = CNY
+			tag = GUI
+			tag = XSS
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_karling_byzantine_relations = {
+        icon = mission_unite_home_region
+        position = 1
+        required_missions = { }
+        trigger = {
+            OR = {
+                is_rival = BYZ
+                reverse_has_opinion = {
+                    who = BYZ
+                    value = 125
+                }
+                NOT = { exists = BYZ }
+            }
+        }
+        effect = {
+            add_dip_power = 25
+            add_country_modifier = {
+                name = karling_byzantine_relations_mission
+                duration = x
+            }
+        }
+	}
+    vn_karling_abbasid_relations = {
+        icon = mission_portuguese_ceylon
+        position = 2
+        required_missions = { vn_karling_byzantine_relations }
+		provinces_to_highlight = {
+			province_id = 6301
+		}
+        trigger = {
+			OR = {
+				owns_core_province = 6301
+				6301 = {
+					owner = {
+						alliance_with = ROOT
+                        has_opinion = {
+                            who = ROOT
+                            value = 125
+                        }
+					}
+				}
+			}
+        }
+        effect = {
+            add_dip_power = 100
+            add_country_modifier = {
+                name = karling_abbasid_relations_mission
+                duration = 9125
+            }
+        }
+	}
+	vn_karling_papal_relations = {
+        icon = mission_coronation
+        position = 3
+        required_missions = {  }
+        provinces_to_highlight = {
+            OR = {
+                superregion = burgundian_superregion
+                superregion = french_superregion
+                region = piedmont_region
+                region = liguria_region
+                region = lombardy_region
+                region = treviso_region
+                region = romagna_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            if = {
+                limit = { uses_papacy = yes }
+                papal_influence = 100
+            }
+            burgundian_superregion = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            french_superregion = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            piedmont_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            liguria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            lombardy_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            treviso_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            romagna_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            #event
+        }
+    }
+    vn_karling_church_reforms = {
+        icon = mission_european_church
+        position = 4
+        required_missions = { vn_karling_papal_relations }
+        trigger = {
+            if = {
+                limit = { uses_papacy = yes }
+                num_of_cardinals = 10
+            }
+            religious_unity = 1
+        }
+        effect = {
+            add_country_modifier = {
+                name = karling_church_reforms_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_karling_conquer_paris = {
+        icon = mission_village
+        position = 6
+        required_missions = { vn_karling_conquer_champagne }
+        provinces_to_highlight = {
+            region = paris_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            paris_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_normandy = {
+        icon = mission_unite_home_region
+        position = 8
+        required_missions = { vn_karling_conquer_paris }
+        provinces_to_highlight = {
+            region = normandy_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            normandy_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_berry = {
+        icon = mission_unite_home_region
+        position = 10
+        required_missions = { vn_karling_conquer_normandy }
+        provinces_to_highlight = {
+            OR = {
+                region = berrichon_region
+                region = angevin_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            berrichon_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            angevin_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+
+        }
+    }
+    vn_karling_conquer_aquitaine = {
+        icon = mission_unite_home_region
+        position = 12
+        required_missions = { vn_karling_conquer_berry }
+        provinces_to_highlight = {
+            OR = {
+                region = aquitaine_region
+                region = guyenne_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            aquitaine_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            guyenne_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_gascony = {
+        icon = mission_unite_home_region
+        position = 13
+        required_missions = { vn_karling_conquer_aquitaine }
+        provinces_to_highlight = {
+            region = gascony_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            gascony_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_catalonia = {
+        icon = mission_unite_home_region
+        position = 14
+        required_missions = { vn_karling_conquer_gascony vn_karling_conquer_languedoc }
+        provinces_to_highlight = {
+            OR = {
+                region = catalunya_region
+                region = basque_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            catalunya_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            basque_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_aragon = {
+        icon = mission_portuguese_interference
+        position = 15
+        required_missions = { vn_karling_conquer_catalonia }
+        provinces_to_highlight = {
+            region = aragon_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            aragon_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+	vn_karling_defeat_the_moors = {
+        icon = mission_reclaim_andalucia
+        position = 16
+        required_missions = { vn_karling_conquer_aragon }
+        provinces_to_highlight = {
+            superregion = iberia_superregion
+            culture = andalucian
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 20
+                superregion = iberia_superregion
+                culture = andalucian
+            }
+        }
+        effect = {
+            add_mil_power = 50
+            add_country_modifier = {
+                name = karling_defeat_the_moors_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_karling_conquer_transdanubia = {
+        icon = mission_unite_home_region
+        position = 17
+        required_missions = { vn_karling_conquer_carinthia }
+        provinces_to_highlight = {
+            region = transdanubia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            transdanubia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+}
+
+vn_karling_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = CNY
+			tag = GUI
+			tag = XSS
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_karling_new_charlemagne = {
+        icon = mission_monarch_in_throne_room
+        position = 1
+        required_missions = {  }
+        trigger = {
+			legitimacy_equivalent = 100
+            calc_true_if = {
+				amount = 2
+				OR = {
+					adm = 5
+					dip = 5
+					mil = 5
+				}
+			}
+        }
+        effect = {
+            add_prestige = 10
+            add_country_modifier = {
+                name = karling_new_charlemagne_mission
+                duration = 7300
+            }
+        }
+    }
+    vn_karling_capital_at_aachen = {
+        icon = mission_european_castle
+        position = 2
+        required_missions = { vn_karling_new_charlemagne }
+		provinces_to_highlight = {
+			province_id = 2995
+		}
+        trigger = {
+            capital = 2995
+        }
+        effect = {
+            2995 = {
+                add_province_modifier = {
+                    name = karling_capital_at_aachen_mission
+                    duration = -1
+                }
+            }
+        }
+    }
+    vn_karling_develop_aachen = {
+        icon = mission_european_castle
+        position = 3
+        required_missions = { vn_karling_capital_at_aachen }
+		provinces_to_highlight = {
+			province_id = 2995
+		}
+        trigger = {
+            2995 = {
+				owned_by = ROOT
+				is_state = yes
+				development = 30
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_convert_germany = {
+        icon = mission_unite_home_region
+        position = 4
+        required_missions = { vn_karling_papal_relations }
+        provinces_to_highlight = {
+            OR = {
+                superregion = germanynorth_superregion
+                superregion = germanysouth_superregion
+            }
+            NOT = { religion = ROOT }
+        }
+        trigger = {
+            germanynorth_superregion = {
+                type = all
+                religion = ROOT
+            }
+            germanysouth_superregion = {
+                type = all
+                religion = ROOT
+            }
+        }
+        effect = {
+            add_papal_influence = 25
+            add_country_modifier = {
+                name = karling_convert_germany_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_karling_conquer_lorraine = {
+        icon = mission_unite_home_region
+        position = 6
+        required_missions = { vn_karling_conquer_champagne }
+        provinces_to_highlight = {
+            region = lorraine_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            lorraine_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_burgundy = {
+        icon = mission_unite_home_region
+        position = 11
+        required_missions = { vn_karling_conquer_lorraine }
+        provinces_to_highlight = {
+            region = burgundy_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            burgundy_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_languedoc = {
+        icon = mission_unite_home_region
+        position = 13
+        required_missions = { vn_karling_conquer_aquitaine }
+        provinces_to_highlight = {
+            OR = {
+                region = provence_region
+                region = toulouse_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            provence_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            toulouse_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_further_austria = {
+        icon = mission_unite_home_region
+        position = 14
+        required_missions = { vn_karling_conquer_switzerland }
+        provinces_to_highlight = {
+            region = tirolia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            tirolia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_carinthia = {
+        icon = mission_unite_home_region
+        position = 16
+        required_missions = { vn_karling_conquer_further_austria }
+        provinces_to_highlight = {
+            OR = {
+                region = inneraustria_region
+                area = carniola_area
+                area = sannmark_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            inneraustria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            carniola_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            sannmark_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_croatia = {
+        icon = mission_unite_home_region
+        position = 17
+        required_missions = { vn_karling_conquer_carinthia }
+        provinces_to_highlight = {
+            OR = {
+                region = croatia_region
+                region = dalmatian_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            croatia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            dalmatian_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_umbria = {
+        icon = mission_unite_home_region
+        position = 18
+        required_missions = { vn_karling_conquer_tuscany }
+        provinces_to_highlight = {
+            region = umbria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            umbria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_adm_power = 100
+            add_dip_power = 100
+            add_mil_power = 100
+        }
+    }
+    vn_karling_conquer_holstein = {
+        icon = mission_unite_home_region
+        position = 19
+        required_missions = { vn_karling_conquer_lower_saxony }
+		provinces_to_highlight = {
+            region = holstein_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            holstein_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+	}
+    vn_karling_conquer_denmark = {
+        icon = mission_unite_home_region
+        position = 20
+        required_missions = { vn_karling_conquer_holstein }
+        provinces_to_highlight = {
+            OR = {
+                region = danishislands_region
+                region = jutland_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            danishislands_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            jutland_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+}
+
+vn_karling_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = CNY
+			tag = GUI
+			tag = XSS
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_karling_carolingian_renaissance = {
+        icon = mission_unite_home_region
+        position = 2
+        required_missions = { vn_karling_new_charlemagne }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_alsace = {
+        icon = mission_unite_home_region
+        position = 7
+        required_missions = { vn_karling_conquer_lorraine }
+        provinces_to_highlight = {
+            region = alsace_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            alsace_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_baden = {
+        icon = mission_unite_home_region
+        position = 8
+        required_missions = { vn_karling_conquer_alsace }
+        provinces_to_highlight = {
+            OR = {
+                region = baden_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            baden_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_swabia = {
+        icon = mission_unite_home_region
+        position = 9
+        required_missions = { vn_karling_conquer_baden }
+        provinces_to_highlight = {
+            OR = {
+                region = swabia_region
+                region = wurttemburg_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            swabia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            wurttemburg_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_bavaria = {
+        icon = mission_unite_home_region
+        position = 10
+        required_missions = { vn_karling_conquer_swabia }
+        provinces_to_highlight = {
+            OR = {
+                region = bavaria_region
+                region = nordgau_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            bavaria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            nordgau_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_bohemia = {
+        icon = mission_cossack_cavalry
+        position = 11
+        required_missions = { vn_karling_conquer_bavaria }
+        provinces_to_highlight = {
+            OR = {
+                region = bohemia_region
+                region = lusatia_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            bohemia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            lusatia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_switzerland = {
+        icon = mission_unite_home_region
+        position = 13
+        required_missions = { vn_karling_conquer_upper_burgundy vn_karling_conquer_cisjurania }
+        provinces_to_highlight = {
+            region = swisseast_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            swisseast_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_milan = {
+        icon = mission_unite_home_region
+        position = 15
+        required_missions = { vn_karling_conquer_piedmont }
+        provinces_to_highlight = {
+            region = lombardy_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            lombardy_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_venetia = {
+        icon = mission_unite_home_region
+        position = 16
+        required_missions = { vn_karling_conquer_milan }
+        provinces_to_highlight = {
+            region = treviso_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            treviso_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_tuscany = {
+        icon = mission_unite_home_region
+        position = 17
+        required_missions = { vn_karling_conquer_venetia vn_karling_conquer_emilia }
+        provinces_to_highlight = {
+            region = tuscany_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            tuscany_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+}
+
+vn_karling_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = CNY
+			tag = GUI
+			tag = XSS
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_karling_silver_currency = {
+        icon = mission_jawal_silver_mine
+        position = 2
+        required_missions = { vn_karling_new_charlemagne }
+        trigger = {
+            silver = 3
+            NOT = { inflation = 1 }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_royal_library = {
+        icon = mission_early_modern_university
+        position = 3
+        required_missions = { vn_karling_carolingian_renaissance }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_liberal_arts = {
+        icon = mission_arts_and_letters
+        position = 4
+        required_missions = { vn_karling_royal_library }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_champagne = {
+        icon = mission_unite_home_region
+        position = 5
+        required_missions = { vn_karling_local_power }
+        provinces_to_highlight = {
+            OR = {
+                area = picardy_area
+                
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            picardy_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+           
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_rhineland = {
+        icon = mission_unite_home_region
+        position = 7
+        required_missions = { vn_karling_conquer_lorraine vn_karling_conquer_liege }
+        provinces_to_highlight = {
+            region = rhenish_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            rhenish_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_hesse = {
+        icon = mission_unite_home_region
+        position = 8
+        required_missions = { vn_karling_conquer_rhineland }
+        provinces_to_highlight = {
+            region = hesse_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            hesse_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_franconia = {
+        icon = mission_unite_home_region
+        position = 9
+        required_missions = { vn_karling_conquer_hesse }
+        provinces_to_highlight = {
+            OR = {
+                region = nurnburg_region
+                area = darmstadt_area
+                area = pfalzeast_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            rhenish_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            darmstadt_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            pfalzeast_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_upper_saxony = {
+        icon = mission_unite_home_region
+        position = 10
+        required_missions = { vn_karling_conquer_franconia }
+        provinces_to_highlight = {
+            OR = {
+                region = thuringia_region
+                region = saxony_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            thuringia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            saxony_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_cisjurania = {
+        icon = mission_unite_home_region
+        position = 12
+        required_missions = { vn_karling_conquer_burgundy }
+        provinces_to_highlight = {
+            region = dauphine_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            dauphine_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_piedmont = {
+        icon = mission_unite_home_region
+        position = 14
+        required_missions = { vn_karling_conquer_cisjurania }
+        provinces_to_highlight = {
+            region = piedmont_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            piedmont_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_liguria = {
+        icon = mission_unite_home_region
+        position = 15
+        required_missions = { vn_karling_conquer_piedmont }
+        provinces_to_highlight = {
+            region = liguria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            liguria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_emilia = {
+        icon = mission_unite_home_region
+        position = 16
+        required_missions = { vn_karling_conquer_milan }
+        provinces_to_highlight = {
+            region = romagna_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            romagna_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_frisia = {
+        icon = mission_sea_battles
+        position = 17
+        required_missions = { vn_karling_conquer_holland }
+        provinces_to_highlight = {
+            region = friesland_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            friesland_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_lower_saxony = {
+        icon = mission_unite_home_region
+        position = 18
+        required_missions = { vn_karling_conquer_frisia }
+        provinces_to_highlight = {
+            region = lowelb_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            lowelb_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_bruswick = {
+        icon = mission_unite_home_region
+        position = 19
+        required_missions = { vn_karling_conquer_lower_saxony vn_karling_conquer_munsterland }
+        provinces_to_highlight = {
+            region = brunswick_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            brunswick_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+}
+
+vn_karling_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = CNY
+			tag = GUI
+			tag = XSS
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_karling_independence = {
+        icon = mission_unite_home_region
+        position = 1
+        required_missions = {  }
+        trigger = {
+            is_subject = no
+            army_size_percentage = 1
+            manpower_percentage = 0.8
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_unite_the_carolingians = {
+        icon = mission_unite_home_region
+        position = 3
+        required_missions = { vn_karling_independence }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 919
+                province_id = 920
+                province_id = 1201
+                province_id = 2886
+                province_id = 2897
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            919 = { country_or_non_sovereign_subject_holds = ROOT }
+            920 = { country_or_non_sovereign_subject_holds = ROOT }
+            1201 = { country_or_non_sovereign_subject_holds = ROOT }
+            2886 = { country_or_non_sovereign_subject_holds = ROOT }
+            2897 = { country_or_non_sovereign_subject_holds = ROOT }
+            if = {
+                limit = { tag = CNY }
+                NOT = { GUI = { dynasty = "Karling" } }
+                NOT = { XSS = { dynasty = "Karling" } }
+            }
+            else_if = {
+                limit = { tag = GUI }
+                NOT = { CNY = { dynasty = "Karling" } }
+                NOT = { XSS = { dynasty = "Karling" } }
+            }
+            else_if = {
+                limit = { tag = XSS }
+                NOT = { CNY = { dynasty = "Karling" } }
+                NOT = { GUI = { dynasty = "Karling" } }
+            }
+            else = {
+                NOT = { exists = CNY }
+                NOT = { exists = GUI }
+                NOT = { exists = XSS }
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_local_power = {
+        icon = mission_intervene_in_castile
+        position = 4
+        required_missions = { vn_karling_unite_the_carolingians }
+        provinces_to_highlight = {
+            
+        }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_liege = {
+        icon = mission_unite_home_region
+        position = 6
+        required_missions = { vn_karling_local_power }
+        provinces_to_highlight = {
+            OR = {
+                area = limburg_area
+                area = liege_area
+                area = luxemburg_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            limburg_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            liege_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            luxemburg_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_wallonia = {
+        icon = mission_unite_home_region
+        position = 9
+        required_missions = { vn_karling_conquer_liege }
+        provinces_to_highlight = {
+            OR = {
+                area = antwerp_area
+                area = hainaut_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            antwerp_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            hainaut_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_flanders = {
+        icon = mission_unite_home_region
+        position = 12
+        required_missions = { vn_karling_conquer_wallonia }
+        provinces_to_highlight = {
+            OR = {
+                area = flanders_area
+                area = artois_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            flanders_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            artois_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_holland = {
+        icon = mission_hanseatic_city
+        position = 16
+        required_missions = { vn_karling_conquer_flanders }
+        provinces_to_highlight = {
+            region = netherlands_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            netherlands_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_munsterland = {
+        icon = mission_unite_home_region
+        position = 18
+        required_missions = { vn_karling_conquer_holland }
+        provinces_to_highlight = {
+            region = westphalia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            westphalia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_karling_conquer_westphalia = {
+        icon = mission_unite_home_region
+        position = 19
+        required_missions = { vn_karling_conquer_munsterland }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+}
