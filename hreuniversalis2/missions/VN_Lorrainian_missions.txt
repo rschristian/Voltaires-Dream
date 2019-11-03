@@ -19,13 +19,15 @@ vn_lor_missions_slot_1_a = {
         required_missions = { }
         position = 1
         trigger = {
-            any_country = {
-                is_emperor_of_china = yes
-                has_opinion = {
-                    who = ROOT
-                    value = 100
-                }
-            }
+            if = {
+				limit = { exists = FRA }
+				FRA = {
+					has_opinion = {
+						who = ROOT
+						value = 100
+					}
+				}
+			}
             reverse_has_opinion = {
                 who = emperor
                 value = 100
@@ -745,14 +747,14 @@ vn_lor_missions_slot_3_a = {
                 value = 1.0
             }
             prestige = emperor
-            any_country = {
-                is_emperor_of_china = yes
-                army_strength = {
-                    who = PREV
+            if = {
+				limit = { exists = FRA }
+				army_strength = {
+                    who = FRA
                     value = 1.0
-                }
-                prestige = PREV
-            }
+				}
+				prestige = FRA
+			}
         }
         effect = {
             add_country_modifier = {
@@ -834,14 +836,16 @@ vn_lor_missions_slot_3_a = {
                 modifier = lor_kingdom_of_lotharingia_opinion
                 years = 50
             }
-            random_country = {
-                limit = { is_emperor_of_china = yes }
-                add_opinion = {
-                    who = ROOT
-                    modifier = lor_kingdom_of_lotharingia_opinion
-                    years = 50
-                }
-            }
+            if = {
+				limit = { exists = FRA }
+				FRA = {
+					add_opinion = {
+						who = ROOT
+						modifier = lor_kingdom_of_lotharingia_opinion
+						years = 50
+					}
+				}
+			}
             add_country_modifier = {
                 name = "lor_kingdom_of_lotharingia_mission"
                 duration = 9125

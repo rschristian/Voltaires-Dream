@@ -116,12 +116,10 @@ vn_nav_missions_slot_1_b = {
         }
         effect = {
 			add_adm_power = 50
-			random_country = {
-				limit = {
-					is_emperor_of_china = yes
-				}
-				reverse_add_casus_belli = {
-					target = ROOT
+			if = {
+				limit = { exists = FRA }
+				add_casus_belli = {
+					target = FRA
 					type = cb_restore_personal_union
 					months = 240
 				}
@@ -218,15 +216,14 @@ vn_nav_missions_slot_2_b = {
         position = 4
         required_missions = { vn_nav_beyond_pyrenees }
         trigger = {
-            any_known_country = {
-				is_emperor_of_china = yes
-				NOT = {
-					army_strength = {
-						who = ROOT
-						value = 1
-					}
+            if = {
+				limit = { exists = FRA }
+				army_strength = {
+					who = FRA
+					value = 1
 				}
 			}
+			#addmore?
         }
         effect = {
 			add_country_modifier = {
@@ -241,15 +238,10 @@ vn_nav_missions_slot_2_b = {
         required_missions = { vn_nav_french_trouble }
         trigger = {
             OR = {
-				is_emperor_of_china = yes
-				any_known_country = {
-					is_emperor_of_china = yes
-					NOT = {
-						army_strength = {
-							who = ROOT
-							value = 0.5
-						}
-					}
+				NOT = { exists = FRA }
+				army_strength = {
+					who = FRA
+					value = 2
 				}
 			}
 			num_of_owned_provinces_with = {
