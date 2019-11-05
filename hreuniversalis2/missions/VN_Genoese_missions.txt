@@ -1,0 +1,861 @@
+vn_bav_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = GEN
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_gen_prosperity_of_genoa = {
+        position = 1
+        icon = mission_entrepot_of_india
+        required_missions = { }
+        trigger = {
+            treasury = 2000
+            NOT = { num_of_loans = 1 }
+        }
+        effect = {
+            add_reform_progress_small_effect = yes
+            add_country_modifier = {
+                name = gen_prosperity_of_genoa_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_gen_invest_in_maona = {
+        icon = mission_rb_the_bank_of_scotland
+        required_missions = { vn_gen_prosperity_of_genoa }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                base_tax = 12
+                NOT = { local_autonomy = 25 }
+                NOT = { devastation = 1 }
+            }
+        }
+        effect = {
+            add_treasury = 100
+            add_country_modifier = {
+                name = gen_invest_in_maona_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_gen_genoese_shipbuilding = {
+        icon = mission_launch_a_flagship
+        required_missions = { }
+        trigger = {
+            calc_true_if = {
+                amount = 2
+                num_of_owned_provinces_with = {
+                    value = 4
+                    area = genoa_area
+                    OR = {
+                        has_building = shipyard
+                        has_building = grand_shipyard
+                    }
+                }
+                num_of_owned_provinces_with = {
+                    value = 4
+                    area = albenga_area
+                    OR = {
+                        has_building = shipyard
+                        has_building = grand_shipyard
+                    }
+                }
+                num_of_owned_provinces_with = {
+                    value = 4
+                    area = lucca_area
+                    OR = {
+                        has_building = shipyard
+                        has_building = grand_shipyard
+                    }
+                }
+            }
+        }
+        effect = {
+            genoa_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = gen_genoese_shipbuilding_mission
+                    duration = 7300
+                }
+            }
+            albenga_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = gen_genoese_shipbuilding_mission
+                    duration = 7300
+                }
+            }
+            lucca_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = gen_genoese_shipbuilding_mission
+                    duration = 7300
+                }
+            }
+        }
+    }
+    vn_gen_expand_la_superba = {
+        icon = mission_mare_nostrum
+        required_missions = { vn_gen_genoese_shipbuilding }
+        trigger = {
+            num_of_merchants = 7
+            share_of_starting_income = 10
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                province_has_center_of_trade_of_level = 1
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = gen_expand_la_superba_mission
+                duration = -1
+            }
+        }
+    }
+    vn_gen_develop_genoa = {
+        icon = mission_guilds_of_barcelona
+        required_missions = { }
+        provinces_to_highlight = {
+            province_id = 2560
+        }
+        trigger = {
+            1619 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            2560 = {
+                owned_by = ROOT
+                development = 40
+                OR = {
+                    has_building = workshop
+                    has_building = counting_house
+                }
+                has_manufactory_trigger = yes
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = gen_develop_genoa_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_gen_genoese_rococo = {
+        icon = mission_arts_and_letters
+        required_missions = { vn_gen_develop_genoa }
+        provinces_to_highlight = {
+            province_id = 2560
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { has_building = cathedral }
+            }
+        }
+        trigger = {
+            2560 = {
+                owned_by = ROOT
+                has_building = cathedral
+            }
+            cathedral = 8
+        }
+        effect = {
+            add_prestige = 15
+            define_advisor = {
+                type = artist
+                skill = 3
+                discount = yes
+            }
+        }
+    }
+    vn_gen_dnieper_trade = {
+        position = 8
+        icon = mission_advance_to_the_dnieper
+        required_missions = { vn_gen_found_kaffa }
+        provinces_to_highlight = {
+            OR = {
+                area = budjak_area
+                area = yedisan_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                OR = {
+                    area = budjak_area
+                    area = yedisan_area
+                }
+            }
+        }
+        effect = {
+            add_dip_power = 100
+            123 = {
+                add_province_modifier = {
+                    name = gen_dnieper_trade_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
+
+vn_bav_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = GEN
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_gen_conclude_trade_contracts = {
+        position = 1
+        icon = mission_sail_to_the_east_indies
+        required_missions = { }
+        trigger = {
+            calc_true_if = {
+                amount = 3
+                all_ally = {
+                    has_opinion = {
+                        who = ROOT
+                        value = 100
+                    }
+                }
+            }
+        }
+        effect = {
+            create_admiral = {
+                tradition = 75
+            }
+        }
+    }
+    vn_gen_conquer_sardinia = {
+        position = 3
+        icon = mission_caribbean_cn
+        required_missions = { vn_gen_conquer_corsica }
+        provinces_to_highlight = {
+            OR = {
+                area = arborea_area
+                area = sassari_area
+                area = gallura_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                OR = {
+                    area = arborea_area
+                    area = sassari_area
+                    area = gallura_area
+                }
+            }
+        }
+        effect = {
+            add_mercantilism = 3
+            sicilia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_gen_conquer_sicily = {
+        icon = mission_invade_island
+        required_missions = { vn_gen_conquer_sardinia }
+        provinces_to_highlight = {
+            region = sicilia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                region = sicilia_region
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = gen_conquer_sicily_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_gen_conquer_crimea = {
+        position = 6
+        icon = mission_conquer_arakan
+        required_missions = { vn_gen_conquer_chios }
+        provinces_to_highlight = {
+            OR = {
+                region = crimea_region
+                province_id = 3087
+                province_id = 3702
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            3087 = { country_or_non_sovereign_subject_holds = ROOT }
+            3702 = { country_or_non_sovereign_subject_holds = ROOT }
+            num_of_owned_provinces_with = {
+                value = 5
+                region = crimea_region
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_gen_found_kaffa = {
+        icon = mission_great_trading_houses
+        required_missions = { vn_gen_conquer_crimea }
+        provinces_to_highlight = {
+            province_id = 3087
+        }
+        trigger = {
+            3087 = {
+                country_or_non_sovereign_subject_holds = ROOT
+                development = 20
+                OR = {
+                    has_building = fort_14th
+                    has_building = fort_15th
+                    has_building = fort_16th
+                    has_building = fort_17th
+                    has_building = fort_18th
+                }
+                OR = {
+                    has_building = workshop
+                    has_building = counting_house
+                }
+            }
+        }
+        effect = {
+            3087 = {
+                add_base_tax = 2
+                add_base_production = 2
+            }
+        }
+    }
+    vn_gen_establish_the_gazaria = {
+        icon = mission_trade_company_region_abroad
+        required_missions = { vn_gen_found_kaffa }
+        provinces_to_highlight = {
+            OR = {
+                region = crimea_region
+                region = azov_region
+            }
+            OR = {
+                NOT = { country_or_non_sovereign_subject_holds = ROOT }
+                local_autonomy = 50
+            }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 25
+                OR = {
+                    region = crimea_region
+                    region = azov_region
+                }
+                NOT = { local_autonomy = 50 }
+            }
+        }
+        effect = {
+            
+        }
+    }
+}
+
+vn_bav_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = GEN
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_gen_marineria_genovese = {
+        position = 1
+        icon = mission_establish_high_seas_navy
+        required_missions = { }
+        trigger = {
+            navy_size_percentage = 1
+            galley_fraction = 0.25
+        }
+        effect = {
+            corsica_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = gen_marineria_genovese_mission
+                duration = 7300
+            }
+        }
+    }
+    vn_gen_conquer_corsica = {
+        icon = mission_retake_ceuta
+        required_missions = { vn_gen_conclude_trade_contracts vn_gen_marineria_genovese }
+        provinces_to_highlight = {
+            area = corsica_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            corsica_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_navy_tradition = 20
+            arborea_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            sassari_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            gallura_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_gen_conquer_chios = {
+        position = 5
+        icon = mission_galleys_in_port
+        required_missions = { vn_gen_conquer_corsica }
+        trigger = {
+            treasury = 250
+            any_ally = {
+                capital_scope = {
+                    superregion = anatolia_superregion
+                }
+                culture_group = byzantine
+                has_opinion = {
+                    who = ROOT
+                    value = 150
+                }
+            }
+        }
+        effect = {
+            country_event = {
+                id = vn_missions.6
+            }
+        }
+    }
+    vn_gen_dominate_greek_trade = {
+        icon = mission_south_indian_trade
+        required_missions = { vn_gen_conquer_chios }
+        provinces_to_highlight = {
+            superregion = anatolia_superregion
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            2233 = { is_strongest_trade_power = ROOT }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                superregion = anatolia_superregion
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = gen_dominate_greek_trade_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_gen_conquer_alexandria = {
+        icon = mission_conquer_alexandria
+        required_missions = { vn_gen_dominate_greek_trade }
+        provinces_to_highlight = {
+            region = lower_egypt_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            5022 = { country_or_non_sovereign_subject_holds = ROOT }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                region = lower_egypt_region
+            }
+        }
+        effect = {
+            add_treasury = 500
+        }
+    }
+    vn_gen_caucasian_trade = {
+        icon = mission_divert_trade_from_bengal
+        required_missions = { vn_gen_found_kaffa }
+        provinces_to_highlight = {
+            OR = {
+                region = georgia_region
+                region = circassia_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                OR = {
+                    region = georgia_region
+                    region = circassia_region
+                }
+            }
+        }
+        effect = {
+            add_mercantilism = 3
+            add_country_modifier = {
+                name = gen_caucasian_trade_mission
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_bav_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = GEN
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_gen_conquer_pisa = {
+        position = 3
+        icon = mission_sea_battles
+        required_missions = { vn_gen_conquer_lucca vn_gen_conquer_corsica }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 115
+                province_id = 319
+                province_id = 1028
+                province_id = 2226
+                province_id = 2601
+                province_id = 4528
+            }
+        }
+        trigger = {
+            115 = { country_or_non_sovereign_subject_holds = ROOT }
+            319 = { country_or_non_sovereign_subject_holds = ROOT }
+            1028 = { country_or_non_sovereign_subject_holds = ROOT }
+            2226 = { country_or_non_sovereign_subject_holds = ROOT }
+            2601 = { country_or_non_sovereign_subject_holds = ROOT }
+            4528 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            add_dip_power = 100
+        }
+    }
+    vn_gen_conquer_tunis = {
+        position = 5
+        icon = mission_combat_barbary_piracy
+        required_missions = { vn_gen_conquer_pisa }
+        provinces_to_highlight = {
+            area = tunis_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            586 = { country_or_non_sovereign_subject_holds = ROOT }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = tunis_area
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = gen_conquer_tunis_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_gen_dominate_slave_trade = {
+        icon = mission_african_trade_post
+        required_missions = { vn_gen_conquer_tunis }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                trade_goods = slaves
+                base_production = 8
+            }
+            trading_bonus = {
+                trade_goods = slaves
+                value = yes
+            }
+        }
+        effect = {
+            add_mercantilism = 3
+            add_country_modifier = {
+                name = gen_dominate_slave_trade_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_gen_conquer_cyprus = {
+        icon = mission_invade_island
+        required_missions = { vn_gen_dominate_greek_trade }
+        provinces_to_highlight = {
+            area = cyprus_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = cyprus_area
+            }
+        }
+        effect = {
+            add_dip_power = 50
+            add_country_modifier = {
+                name = gen_conquer_cyprus_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_gen_conquer_antioch = {
+        icon = mission_rb_inland_india
+        required_missions = { vn_gen_conquer_cyprus vn_gen_conquer_alexandria }
+        provinces_to_highlight = {
+            OR = {
+                region = palestine_region
+                area = lebanon_area
+                area = tartus_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                OR = {
+                    region = palestine_region
+                    area = lebanon_area
+                    area = tartus_area
+                }
+            }
+        }
+        effect = {
+            add_treasury = 250
+            add_country_modifier = {
+                name = gen_conquer_antioch_mission
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_bav_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = GEN
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_gen_conquer_liguria = {
+        position = 1
+        icon = mission_unite_home_region
+        required_missions = { }
+        provinces_to_highlight = {
+            region = liguria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            liguria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            lucca_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_gen_conquer_lucca = {
+        icon = mission_unite_home_region
+        required_missions = { vn_gen_conquer_liguria }
+        provinces_to_highlight = {
+            area = lucca_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            lucca_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            115 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            319 = {
+                if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+            }
+            1028 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+            }
+            2226 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            2601 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            4528 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+        }
+    }
+    vn_gen_venetian_ship_rivalry = {
+        position = 4
+        icon = mission_naval_expansion
+        required_missions = { vn_gen_conquer_pisa }
+        trigger = {
+            if = {
+                limit = { exists = VEN }
+                navy_size = VEN
+            }
+            else = {
+                navy_size = 40
+            }
+        }
+        effect = {
+            112 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+            add_country_modifier = {
+                name = gen_venetian_ship_rivalry_mission
+                duration = 7300
+            }
+        }
+    }
+    vn_gen_conquer_venice = {
+        icon = mission_raid_on_venice
+        required_missions = { vn_gen_venetian_ship_rivalry }
+        provinces_to_highlight = {
+            province_id = 112
+        }
+        trigger = {
+            OR = {
+				112 = { country_or_non_sovereign_subject_holds = ROOT }
+                112 = {
+                    NOT = { country_or_non_sovereign_subject_holds = ROOT }
+                    controlled_by = ROOT
+                    devastation = 50
+                }
+			}
+        }
+        effect = {
+            add_mil_power = 100
+        }
+    }
+    vn_gen_conquer_gibraltar = {
+        icon = mission_rb_take_gibraltar
+        required_missions = { vn_gen_conquer_tunis }
+        provinces_to_highlight = {
+            province_id = 761
+        }
+        trigger = {
+            761 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            add_prestige = 10
+            add_yearly_sailors = 3
+        }
+    }
+    vn_gen_conquer_sale = {
+        position = 8
+        icon = mission_moroccan_ports
+        required_missions = { vn_gen_conquer_gibraltar }
+        provinces_to_highlight = {
+            region = gharb_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                region = gharb_region
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = gen_conquer_sale_mission
+                duration = 9125
+            }
+        }
+    }
+}
