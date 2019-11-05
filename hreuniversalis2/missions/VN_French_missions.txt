@@ -760,16 +760,13 @@ vn_fra_missions_slot_1_c = {
         position = 21
         required_missions = { vn_fra_overthrow_naples }
         trigger = {
-			calc_true_if = {
-				OR = {
-					sardinia_region = {
-						has_claim = ROOT
-					}
-					baleares_area = {
-						has_claim = ROOT
-					}
+			OR = {
+				sardinia_region = {	#atleast 1 prov
+					owned_by = ROOT
 				}
-				amount = 3
+				baleares_region = {
+					owned_by = ROOT
+				}
 			}
         }
         effect = {
@@ -1321,7 +1318,13 @@ vn_fra_missions_slot_2_f = {
         position = 14
         required_missions = { vn_fra_conquer_provence }
         trigger = {
-            #add
+            calc_true_if = {
+				italy_superregion = {
+					type = all
+					is_claim = ROOT
+				}
+				amount = 10
+			}
         }
         effect = {
             liguria_region = {
@@ -1476,7 +1479,10 @@ vn_fra_missions_slot_2_f = {
 			vn_fra_dominate_venice 
 		}
         trigger = {
-            #add
+            italy_superregion = {
+				type = all
+				owns_or_subject_of = ROOT
+			}
         }
         effect = {
             #add
@@ -1739,7 +1745,8 @@ vn_fra_missions_slot_3_a = {
         position = 11
         required_missions = { vn_fra_centralize_state }
         trigger = {
-            empire_of_china_reform_level = 4
+			#empire_of_china_reform_level = 4
+			#add
         }
         effect = {
             #add
@@ -1750,7 +1757,8 @@ vn_fra_missions_slot_3_a = {
         position = 14
         required_missions = { vn_fra_edict_of_moulins }
         trigger = {
-            empire_of_china_reform_level = 5
+			#empire_of_china_reform_level = 5
+			#add
         }
 		effect = {
 			barrois_area = {
@@ -1894,7 +1902,16 @@ vn_fra_missions_slot_3_b = {
         position = 20
         required_missions = {  }
         trigger = {
-            #add
+			is_year = 1700
+			has_institution = enlightenment
+			employed_advisor = {
+				skill = 3
+				OR = {
+					type = philosopher
+					type = natural_scientist
+					type = artist
+				}
+			}
         }
         effect = {
             #add
@@ -1904,10 +1921,33 @@ vn_fra_missions_slot_3_b = {
         #icon = 
         required_missions = { vn_fra_french_enlightenment }
         trigger = {
-            #add
+			has_reform_level = 7
+			OR = {
+				has_reform = political_absolutism_reform
+				has_reform = become_a_republic_reform
+			}
         }
         effect = {
-            #add
+            if = {
+				limit = {
+					has_reform = political_absolutism_reform
+				}
+				add_absolutism = 15
+				add_country_modifier = {
+					name = "fra_fate_of_monarchy_mission"
+					duration = 9125
+				}
+			}
+			else_if = {
+				limit = {
+					has_reform = become_a_republic_reform
+				}
+				add_republican_tradition = 15
+				add_country_modifier = {
+					name = "fra_fate_of_monarchy_mission2"
+					duration = 9125
+				}
+			}
         }
 	}
 }
@@ -1947,7 +1987,7 @@ vn_fra_missions_slot_3_a = {
     generic = no
     ai = yes
     potential = {
-        tag = FRA
+		tag = FKE
         NOT = { map_setup = map_setup_random }
     }
 	has_country_shield = yes
@@ -1957,7 +1997,13 @@ vn_fra_missions_slot_3_a = {
         position = 23
         required_missions = { vn_fra_fate_of_empire }
         trigger = {
-            #add
+			tag = FKE
+			government_rank = 6
+			french_superregion = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
         }
         effect = {
             #add
@@ -2722,7 +2768,10 @@ vn_fra_missions_slot_4_f = {
         position = 22
         required_missions = { vn_fra_natural_border }
         trigger = {
-            #add
+            OR = {
+				is_emperor = yes
+				NOT = { hre_size = 1 }
+			}
         }
         effect = {
             southeast_england_region = {
@@ -3225,6 +3274,7 @@ vn_fra_missions_slot_5_g = {
         trigger = {
             calc_true_if = {
 				alsace_region = {
+					type = all
 					is_claim = ROOT
 				}
 				amount = 10
