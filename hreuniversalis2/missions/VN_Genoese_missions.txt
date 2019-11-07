@@ -77,6 +77,7 @@ vn_bav_missions_slot_1 = {
             }
         }
         effect = {
+            add_prestige = 15
             genoa_area = {
                 limit = { owned_by = ROOT }
                 add_province_modifier = {
@@ -142,6 +143,7 @@ vn_bav_missions_slot_1 = {
             }
         }
         effect = {
+            add_republican_tradition = 10
             add_country_modifier = {
                 name = gen_develop_genoa_mission
                 duration = 9125
@@ -312,7 +314,7 @@ vn_bav_missions_slot_2 = {
             }
         }
         effect = {
-            
+            add_prestige = 15
         }
     }
     vn_gen_found_kaffa = {
@@ -342,6 +344,51 @@ vn_bav_missions_slot_2 = {
             3087 = {
                 add_base_tax = 2
                 add_base_production = 2
+                if = {
+					limit = {	
+						NOT = {
+							province_has_center_of_trade_of_level = 2
+						}
+					}
+					add_center_of_trade_level = 2
+				}
+				else_if = {
+					limit = {	
+						NOT = {
+							province_has_center_of_trade_of_level = 3
+						}
+					}
+					add_center_of_trade_level = 1
+                }
+                add_province_modifier = {
+                    name = gen_found_kaffa_mission
+                    duration = -1
+                }
+            }
+            crimea_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            5602 = {
+                if = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT	
+                }	
+            }
+            3597 = {
+                if = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT	
+                }	
             }
         }
     }
@@ -355,7 +402,7 @@ vn_bav_missions_slot_2 = {
             }
             OR = {
                 NOT = { country_or_non_sovereign_subject_holds = ROOT }
-                local_autonomy = 50
+                local_autonomy = 30
             }
         }
         trigger = {
@@ -365,11 +412,16 @@ vn_bav_missions_slot_2 = {
                     region = crimea_region
                     region = azov_region
                 }
-                NOT = { local_autonomy = 50 }
+                NOT = { local_autonomy = 30 }
             }
         }
         effect = {
-            
+            3087 = {
+                add_province_modifier = {
+                    name = gen_establish_the_gazaria_mission
+                    duration = 10950
+                }
+            }
         }
     }
 }
@@ -403,7 +455,7 @@ vn_bav_missions_slot_3 = {
             }
             add_country_modifier = {
                 name = gen_marineria_genovese_mission
-                duration = 7300
+                duration = 9125
             }
         }
     }
@@ -450,11 +502,8 @@ vn_bav_missions_slot_3 = {
         icon = mission_galleys_in_port
         required_missions = { vn_gen_conquer_corsica }
         trigger = {
-            treasury = 250
+            treasury = 200
             any_ally = {
-                capital_scope = {
-                    superregion = anatolia_superregion
-                }
                 culture_group = byzantine
                 has_opinion = {
                     who = ROOT
@@ -463,8 +512,38 @@ vn_bav_missions_slot_3 = {
             }
         }
         effect = {
-            country_event = {
-                id = vn_missions.6
+            if = {
+                limit = {
+                    NOT = { 2341 = { country_or_non_sovereign_subject_holds = ROOT } }
+                }
+                country_event = { id = vn_missions.6 }
+            }
+            3087 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            3702 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            2233 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
             }
         }
     }
@@ -472,17 +551,21 @@ vn_bav_missions_slot_3 = {
         icon = mission_south_indian_trade
         required_missions = { vn_gen_conquer_chios }
         provinces_to_highlight = {
-            superregion = anatolia_superregion
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+            province_id = 2233
         }
         trigger = {
             2233 = { is_strongest_trade_power = ROOT }
-            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-                value = 10
-                superregion = anatolia_superregion
-            }
         }
         effect = {
+            5022 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
             add_country_modifier = {
                 name = gen_dominate_greek_trade_mission
                 duration = 9125
@@ -505,6 +588,15 @@ vn_bav_missions_slot_3 = {
         }
         effect = {
             add_treasury = 500
+            4944 = {
+                if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+            }
         }
     }
     vn_gen_caucasian_trade = {
@@ -571,6 +663,15 @@ vn_bav_missions_slot_4 = {
         }
         effect = {
             add_dip_power = 100
+            586 = {
+                if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+            }
         }
     }
     vn_gen_conquer_tunis = {
@@ -589,6 +690,15 @@ vn_bav_missions_slot_4 = {
             }
         }
         effect = {
+            761 = {
+                if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+            }
             add_country_modifier = {
                 name = gen_conquer_tunis_mission
                 duration = 9125
@@ -650,6 +760,7 @@ vn_bav_missions_slot_4 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
+            4944 = { country_or_non_sovereign_subject_holds = ROOT }
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
                 value = 10
                 OR = {
@@ -799,7 +910,7 @@ vn_bav_missions_slot_5 = {
             }
             add_country_modifier = {
                 name = gen_venetian_ship_rivalry_mission
-                duration = 7300
+                duration = 9125
             }
         }
     }
@@ -821,6 +932,7 @@ vn_bav_missions_slot_5 = {
         }
         effect = {
             add_mil_power = 100
+            add_prestige = 20
         }
     }
     vn_gen_conquer_gibraltar = {
@@ -835,6 +947,24 @@ vn_bav_missions_slot_5 = {
         effect = {
             add_prestige = 10
             add_yearly_sailors = 3
+            4749 = {
+                if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+            }
+            4672 = {
+                if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}	
+            }
         }
     }
     vn_gen_conquer_sale = {
@@ -846,6 +976,8 @@ vn_bav_missions_slot_5 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
+            4749 = { country_or_non_sovereign_subject_holds = ROOT }
+            4672 = { country_or_non_sovereign_subject_holds = ROOT }
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
                 value = 10
                 region = gharb_region
