@@ -872,12 +872,6 @@ country_decisions = {
 				name = "centralization_modifier"
 				duration = 7300
 			}
-			flanders_region = {
-				limit = {
-					NOT = { owned_by = ROOT }
-				}
-				add_permanent_claim = BGU
-			}
 			wallonian_region = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -1539,12 +1533,7 @@ country_decisions = {
 		potential = {
 			normal_or_historical_nations = yes
 			primitives = no
-			OR = {
-				tag = XMU
-				tag = LSH
-				tag = ING
-				tag = SAU
-			}
+			NOT = { has_country_flag = unformable }
 			primary_culture = bavarian
 			OR = {
 				ai = no
@@ -3137,7 +3126,11 @@ country_decisions = {
 		major = yes
 		potential = {
 			normal_or_historical_nations = yes
-			primary_culture = lithuanian
+			OR = {
+				primary_culture = lithuanian
+				primary_culture = samogitian
+				primary_culture = sudovian
+			}
 			NOT = { has_country_flag = unformable }
 			NOT = { tag = LIT }
 			OR = {
@@ -3191,6 +3184,10 @@ country_decisions = {
 				limit = { government = native }
 				change_government = tribal
 				add_government_reform = tribal_despotism
+			}
+			if = {
+				limit = { NOT = { primary_culture = lithuanian } }
+				change_primary_culture = lithuanian
 			}
 			add_country_modifier = {
 				name = "centralization_modifier"
@@ -3906,6 +3903,88 @@ country_decisions = {
 			curoniasemigallia_region = {
 				limit = { NOT = { owned_by = ROOT } }
 				add_permanent_claim = LVA
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	mazovian_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primitives = no
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				ai = no
+				NOT = { exists = MAZ }
+			}
+			NOT = { has_country_flag = unformable }
+			NOT = { exists = MAZ }
+			NOT = { tag = POL }
+			NOT = { tag = PTH }
+			primary_culture = mazovian
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1138
+				province_id = 2770
+				province_id = 1218
+				province_id = 706
+				AND = {
+					province_id = 1213
+					ROOT = { NOT = { owns_core_province = 1223 } }
+				}
+				AND = {
+					province_id = 1223
+					ROOT = { NOT = { owns_core_province = 1213 } }
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 14
+			is_free_or_tributary_trigger = yes
+			is_nomad = no
+			is_at_war = no
+			owns_core_province = 1138 #Warsaw
+			owns_core_province = 2770 #Rawa
+			owns_core_province = 1218 #Plock
+			owns_core_province = 706 #Dobrzyn
+			OR = {
+				owns_core_province = 1213 #Wizna
+				owns_core_province = 1223 #Nur
+			}
+		}
+		effect = {
+			change_tag = MAZ
+			set_capital = 1138
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = {
+					NOT = { government_rank = 3 }
+				}
+				set_government_rank = 3
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			mazovia_region = {
+				limit = { NOT = { owned_by = ROOT } }
+				add_permanent_claim = MAZ
 			}
 			if = {
 				limit = { has_custom_ideas = no }

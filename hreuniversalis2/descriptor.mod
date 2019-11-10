@@ -1,4 +1,4 @@
-supported_version="1.29.*.*"
+version="1.29"
 tags={
 	"Map"
 	"Religion"

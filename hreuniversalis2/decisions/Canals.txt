@@ -47,8 +47,56 @@ country_decisions = {
 			factor = 1
 		}
 	}
-	
+
 	construct_suez_canal = {
+		major = yes
+		potential = {
+			OR = {
+				ai = no
+				AND = {
+					treasury = 40000
+					owns_or_vassal_of = 5075
+				}
+			}
+			has_discovered = 5075
+			5075 = {
+				range = ROOT
+				NOT = { has_great_project = suez_canal }
+				NOT = { has_construction = canal }
+			}
+			adm_tech = 20
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 5075
+				province_id = 5082
+				province_id = 5052
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { owner = { vassal_of = ROOT } }
+			}
+		}
+		allow = {
+			owns_or_vassal_of = 5075
+			owns_or_vassal_of = 5082
+			owns_or_vassal_of = 5052
+			is_subject = no
+			adm_tech = 60
+			treasury = 20000
+		}
+		effect = {
+			add_treasury = -20000
+			5075 = {	# Suez
+				add_great_project = suez_canal
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	construct_panama_canal = {
 		major = yes
 		potential = {
 			OR = {
@@ -61,7 +109,7 @@ country_decisions = {
 			has_discovered = 614
 			614 = {
 				range = ROOT
-				NOT = { has_great_project = suez_canal }
+				NOT = { has_great_project = panama_canal }
 				NOT = { has_construction = canal }
 			}
 			adm_tech = 54
@@ -82,7 +130,7 @@ country_decisions = {
 		effect = {
 			add_treasury = -10000
 			614 = {	# Corinth
-				add_great_project = suez_canal
+				add_great_project = panama_canal
 			}
 		}
 		ai_will_do = {
@@ -115,8 +163,33 @@ country_decisions = {
 			factor = 0
 		}
 	}
-	
+
 	cancel_suez_canal = {
+		major = yes
+		potential = {
+			ai = no
+			owns_or_vassal_of = 5075
+			is_subject = no
+			5075 = {
+				has_construction = canal
+			}
+		}
+		allow = {
+			5075 = {
+				has_construction = canal
+			}
+		}
+		effect = {
+			5075 = {	# Suez
+				cancel_construction = yes
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	cancel_panama_canal = {
 		major = yes
 		potential = {
 			ai = no
