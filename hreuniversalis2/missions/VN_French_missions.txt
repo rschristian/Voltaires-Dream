@@ -13,7 +13,7 @@ vn_fra_missions_slot_1_a = {
     has_country_shield = yes
 
     vn_fra_alliance_with_church = {
-        #icon = 
+        icon = mission_european_church 
         position = 1
         required_missions = {  }
         trigger = {
@@ -39,11 +39,39 @@ vn_fra_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+            if = {
+				limit = { uses_papacy = yes }
+				add_papal_influence = 25
+			}
+			else_if = {
+				limit = { uses_church_aspects = yes }
+				add_church_power = 25
+			}
+			else_if = {
+				limit = { uses_fervor = yes }
+				add_fervor = 20
+			}
+			if = {
+				limit = {
+					has_estate = estate_church
+				}
+				add_estate_loyalty = {
+					loyalty = 20
+					estate = estate_church
+				}
+				add_estate_influence = {
+					influence = 10
+					estate = estate_church
+				}
+			}
+			add_country_modifier = {
+				name = "fra_alliance_with_church_mission"
+				duration = 9125
+			}
         }
 	}
 	vn_fra_sanction_crusades = {	#WIP
-		#icon = 
+		icon = mission_crusade
         required_missions = { vn_fra_alliance_with_church }
         trigger = {
 			#add
@@ -53,7 +81,7 @@ vn_fra_missions_slot_1_a = {
         }
 	}
     vn_fra_deal_with_templars = {
-        #icon = 
+        icon = mission_teutonic_knights
         required_missions = { vn_fra_sanction_crusades }
         trigger = {
 			has_estate = estate_holy_orders
@@ -61,7 +89,7 @@ vn_fra_missions_slot_1_a = {
 				AND = {
 					estate_loyalty = {
 						estate = estate_holy_orders
-						loyalty = 50
+						loyalty = 60
 					}
 					estate_territory = {
 						estate = estate_holy_orders
@@ -97,7 +125,7 @@ vn_fra_missions_slot_1_b = {
 	has_country_shield = yes
 	
 	vn_fra_up_loire = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 4
 		required_missions = { vn_fra_expand_royal_authority }
 		provinces_to_highlight = {
@@ -128,7 +156,7 @@ vn_fra_missions_slot_1_b = {
         }
     }
     vn_fra_curtail_angevins = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 5
 		required_missions = { vn_fra_up_loire }
 		provinces_to_highlight = {
@@ -142,6 +170,7 @@ vn_fra_missions_slot_1_b = {
 			}
         }
         effect = {
+			add_prestige = 5
             poitou_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -186,7 +215,7 @@ vn_fra_missions_slot_1_b = {
         }
     }
     vn_fra_annex_poitou = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 7
         required_missions = { 
 			vn_fra_curtail_angevins 
@@ -282,7 +311,7 @@ vn_fra_missions_slot_1_b = {
         }
     }
     vn_fra_secure_guyenne = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_annex_poitou }
 		position = 10
 		provinces_to_highlight = {
@@ -505,7 +534,7 @@ vn_fra_missions_slot_1_b = {
     #     }
     # }
     vn_fra_acquire_languedoc = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_secure_guyenne }
 		provinces_to_highlight = {
 			OR = {
@@ -601,7 +630,7 @@ vn_fra_missions_slot_1_b = {
         }
     }
     vn_fra_annex_dauphine = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_acquire_languedoc }
 		provinces_to_highlight = {
 			OR = {
@@ -621,7 +650,18 @@ vn_fra_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+            dauphine_area = {
+				add_province_modifier = {
+					name = "fra_annex_dauphine_mission"
+					duration = 9125
+				}
+			}
+			forez_area = {
+				add_province_modifier = {
+					name = "fra_annex_dauphine_mission2"
+					duration = 9125
+				}
+			}
         }
 	}
 }
@@ -637,7 +677,7 @@ vn_fra_missions_slot_1_c = {
 	has_country_shield = yes
 	
     vn_fra_toulon_shipyard = {
-        #icon = 
+        icon = mission_sea_battles
         position = 13
 		required_missions = { vn_fra_conquer_provence }
 		provinces_to_highlight = {
@@ -664,7 +704,7 @@ vn_fra_missions_slot_1_c = {
         }
     }
     vn_fra_utilize_anjou_claims = {
-        #icon = 
+        icon = mission_humiliate_provence
         position = 15
         required_missions = { 
 			vn_fra_toulon_shipyard 
@@ -691,6 +731,7 @@ vn_fra_missions_slot_1_c = {
 			}
         }
         effect = {
+			add_legitimacy = 10
             sicily_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -701,7 +742,7 @@ vn_fra_missions_slot_1_c = {
         }
     }
     vn_fra_conquest_of_sicily = {
-        #icon = 
+        icon = mission_break_sicily
 		required_missions = { vn_fra_utilize_anjou_claims }
 		provinces_to_highlight = {
 			region = sicily_region
@@ -714,6 +755,7 @@ vn_fra_missions_slot_1_c = {
 			}
         }
         effect = {
+			add_army_tradition = 10
             campania_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -731,7 +773,7 @@ vn_fra_missions_slot_1_c = {
         }
     }
     vn_fra_overthrow_naples = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 18
 		required_missions = { vn_fra_conquest_of_sicily }
 		provinces_to_highlight = {
@@ -756,7 +798,7 @@ vn_fra_missions_slot_1_c = {
         }
 	}
 	vn_fra_mediterranean_ambition = {
-        #icon = 
+        icon = mission_rb_mediterranean_authority
         position = 21
         required_missions = { vn_fra_overthrow_naples }
         trigger = {
@@ -764,7 +806,7 @@ vn_fra_missions_slot_1_c = {
 				sardinia_region = {	#atleast 1 prov
 					owned_by = ROOT
 				}
-				baleares_region = {
+				baleares_area = {
 					owned_by = ROOT
 				}
 			}
@@ -787,7 +829,7 @@ vn_fra_missions_slot_1_c = {
         }
     }
     vn_fra_invade_sardinia = {
-        #icon = 
+        icon = mission_seize_the_isles
 		required_missions = { vn_fra_mediterranean_ambition }
 		provinces_to_highlight = {
 			OR = {
@@ -839,7 +881,7 @@ vn_fra_missions_slot_1_c = {
         }
     }
     vn_fra_barbary_coast = {
-        #icon = 
+        icon = mission_control_the_barbary_coast
 		required_missions = { vn_fra_invade_sardinia }
 		provinces_to_highlight = {
 			OR = {
@@ -864,6 +906,27 @@ vn_fra_missions_slot_1_c = {
 			}
         }
         effect = {
+			tlemcen_region = {
+				type = all
+				add_province_modifier = {
+					name = "fra_barbary_coast_mission"
+					duration = 7300
+				}
+			}
+			kabylia_region = {
+				type = all
+				add_province_modifier = {
+					name = "fra_barbary_coast_mission"
+					duration = 7300
+				}
+			}
+			coastal_tunisia_region = {
+				type = all
+				add_province_modifier = {
+					name = "fra_barbary_coast_mission"
+					duration = 7300
+				}
+			}
             inner_algeria_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -882,7 +945,7 @@ vn_fra_missions_slot_1_c = {
         }
     }
     vn_fra_algeria_and_tunisia = {
-        #icon = 
+        icon = mission_conquer_algiers
 		required_missions = { vn_fra_barbary_coast }
 		provinces_to_highlight = {
 			OR = {
@@ -902,12 +965,28 @@ vn_fra_missions_slot_1_c = {
 			}
         }
         effect = {
-            #add
+            inner_algeria_region = {
+				type = all
+				add_province_modifier = {
+					name = "fra_barbary_coast_mission"
+					duration = 7300
+				}
+			}
+			inner_tunisia_region = {
+				type = all
+				add_province_modifier = {
+					name = "fra_barbary_coast_mission"
+					duration = 7300
+				}
+			}
         }
     }
     vn_fra_dominate_mediterranean = {
-        #icon = 
-        required_missions = { vn_fra_algeria_and_tunisia vn_fra_marca_hispanica }
+        icon = mission_rb_mediterranean_authority
+        required_missions = { 
+			vn_fra_algeria_and_tunisia 
+			vn_fra_marca_hispanica 
+		}
         trigger = {
             2671 = {	#marseille
 				is_strongest_trade_power = ROOT
@@ -929,7 +1008,20 @@ vn_fra_missions_slot_1_c = {
 			}
         }
         effect = {
-            #add
+			add_mercantilism = 5
+			home_trade_node_effect_scope = {
+				random_trade_node_member_province = {
+					limit = { owned_by = ROOT }
+					add_province_modifier = {
+						name = "fra_dominate_mediterranean_mission"
+						duration = -1
+					}
+				}
+			}
+			add_country_modifier = {
+				name = "fra_dominate_mediterranean_mission2"
+				duration = 9125
+			}
         }
     }
 }
@@ -945,7 +1037,7 @@ vn_fra_missions_slot_2_a = {
     has_country_shield = yes
 
     vn_fra_integrate_free_companies = {
-        #icon = 
+        icon = mission_soldiers_in_line
         position = 1
         required_missions = {  }
         trigger = {
@@ -975,7 +1067,7 @@ vn_fra_missions_slot_2_a = {
         }
     }
     vn_fra_standing_army = {
-        #icon = 
+        icon = mission_assemble_an_army
         required_missions = { vn_fra_integrate_free_companies }
         trigger = {
             if = {
@@ -990,11 +1082,15 @@ vn_fra_missions_slot_2_a = {
 			army_size_percentage = 0.75
         }
         effect = {
-            #add
+			add_army_professionalism = 5
+			add_country_modifier = {
+				name = "fra_standing_army_mission"
+				duration = 9125
+			}
         }
     }
     vn_fra_vauban_fortifications = {
-        #icon = 
+        icon = mission_european_castle
         required_missions = { vn_fra_standing_army }
         trigger = {
             num_of_owned_provinces_with = {
@@ -1011,7 +1107,30 @@ vn_fra_missions_slot_2_a = {
 			}
         }
         effect = {
-            #add
+            random_owned_province = {
+				limit = {
+					any_neighbor_province = {
+						NOT = { 
+							owned_by = ROOT
+							OR = {
+								has_building = fort_17th
+								has_building = fort_18th
+							}
+						}
+					}
+				}
+				add_building = fort_17th
+			}
+			add_country_modifier = {
+				name = "fra_vauban_fortifications_mission"
+				duration = 9125
+			}
+			define_advisor = {
+				name = "Sébastien le Prestre de Vauban"
+				skill = 3
+				discount = 0.75
+				type = fortification_expert
+			}
         }
 	}
 }
@@ -1027,7 +1146,7 @@ vn_fra_missions_slot_2_b = {
 	has_country_shield = yes
 	
 	vn_fra_norman_fealty = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder 
         position = 4
 		required_missions = { vn_fra_expand_royal_authority }
 		provinces_to_highlight = {
@@ -1051,7 +1170,7 @@ vn_fra_missions_slot_2_b = {
         }
 	}
     vn_fra_suzerain_of_brittany = {
-		#icon = 
+		icon = mission_unite_home_region	#placeholder 
 		position = 6
         required_missions = { 
 			vn_fra_curtail_angevins
@@ -1068,7 +1187,10 @@ vn_fra_missions_slot_2_b = {
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "bri_military_port_of_brest_mission2"
+				duration = 9125
+			}
         }
 	}
 }
@@ -1084,7 +1206,7 @@ vn_fra_missions_slot_2_c = {
 	has_country_shield = yes
 	
     vn_fra_empty_champagne = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 7
 		required_missions = { vn_fra_bring_fiefs_to_heel }
 		provinces_to_highlight = {
@@ -1098,8 +1220,13 @@ vn_fra_missions_slot_2_c = {
 			}
         }
         effect = {
-			#add
-			#Champagne fairs?
+			champagne_region = {
+				limit = { trade_goods = cloth }
+				add_province_modifier = {
+					name = "fra_empty_champagne_mission"
+					duration = 9125
+				}
+			}
         }
 	}
 }
@@ -1115,7 +1242,7 @@ vn_fra_missions_slot_2_d = {
 	has_country_shield = yes
 	
     vn_fra_advance_into_gascony = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 8
 		required_missions = { vn_fra_annex_poitou }
 		provinces_to_highlight = {
@@ -1146,7 +1273,7 @@ vn_fra_missions_slot_2_d = {
         }
     }
     vn_fra_consolidate_pyrenees = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder 
         required_missions = { 
 			vn_fra_advance_into_gascony 
 			vn_fra_centralize_state 
@@ -1162,12 +1289,17 @@ vn_fra_missions_slot_2_d = {
 			}
         }
         effect = {
-			#add
-			#Fort bonus?
+			bearn_area = {
+				type = all
+				add_province_modifier = {
+					name = "fra_annex_dauphine_mission"
+					duration = 9125
+				}
+			}
         }
     }
     vn_fra_conquer_roussillon = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder 
 		required_missions = { vn_fra_consolidate_pyrenees }
 		provinces_to_highlight = {
 			OR = {
@@ -1193,7 +1325,7 @@ vn_fra_missions_slot_2_d = {
 			}
         }
         effect = {
-            #add
+            add_adm_power = 100
         }
 	}
 }
@@ -1209,7 +1341,7 @@ vn_fra_missions_slot_2_e = {
 	has_country_shield = yes
 	
     vn_fra_integrate_toulouse = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 11
 		required_missions = { vn_fra_secure_guyenne }
 		provinces_to_highlight = {
@@ -1253,7 +1385,17 @@ vn_fra_missions_slot_2_e = {
 			}
         }
         effect = {
-            #add
+			add_dip_power = 50
+			toulouse_area = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "fra_integrate_toulouse_mission"
+					duration = 9125
+				}
+			}
+			2423 = {
+				add_base_production = 2
+			}
         }
 	}
 }
@@ -1269,7 +1411,7 @@ vn_fra_missions_slot_2_f = {
 	has_country_shield = yes
 	
     vn_fra_conquer_provence = {
-        #icon = 
+        icon = mission_humiliate_provence 
         position = 12
 		required_missions = { vn_fra_acquire_languedoc }
 		provinces_to_highlight = {
@@ -1310,11 +1452,37 @@ vn_fra_missions_slot_2_f = {
 			}
         }
         effect = {
-            #add
+            391 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			200 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			202 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
         }
     }
     vn_fra_italian_ambition = {
-        #icon = 
+        icon = mission_rule_italy
         position = 14
         required_missions = { vn_fra_conquer_provence }
         trigger = {
@@ -1327,6 +1495,8 @@ vn_fra_missions_slot_2_f = {
 			}
         }
         effect = {
+			add_army_tradition = 10
+			add_mil_power = 25
             liguria_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1351,7 +1521,7 @@ vn_fra_missions_slot_2_f = {
         }
     }
     vn_fra_ligurian_campaign = {
-        #icon = 
+        icon = mission_dominate_genoa
 		required_missions = { vn_fra_italian_ambition }
 		provinces_to_highlight = {
 			region = liguria_region
@@ -1374,7 +1544,7 @@ vn_fra_missions_slot_2_f = {
         }
     }
     vn_fra_secure_tuscany = {
-        #icon = 
+        icon = mission_italian_conquest
         position = 17
 		required_missions = { vn_fra_ligurian_campaign }
 		provinces_to_highlight = {
@@ -1412,7 +1582,7 @@ vn_fra_missions_slot_2_f = {
         }
     }
     vn_fra_challenge_papal_power = {
-        #icon = 
+        icon = mission_religious
 		required_missions = { 
 			vn_fra_secure_tuscany 
 			vn_fra_conquer_romagna 
@@ -1452,7 +1622,7 @@ vn_fra_missions_slot_2_f = {
         }
     }
     vn_fra_march_on_rome = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder 
         required_missions = { 
 			vn_fra_overthrow_naples 
 			vn_fra_challenge_papal_power 
@@ -1463,17 +1633,15 @@ vn_fra_missions_slot_2_f = {
 		}
         trigger = {
 			controls = 2235
-			latium_area = {
-				owned_by = ROOT
-				controlled_by = ROOT
-			}
         }
         effect = {
-            #add
+            country_event = {
+				id = vn_missions.72
+			}
         }
     }
     vn_fra_italian_hegemony = {
-        #icon = 
+        icon = mission_rule_italy
         required_missions = { 
 			vn_fra_march_on_rome 
 			vn_fra_dominate_venice 
@@ -1485,7 +1653,8 @@ vn_fra_missions_slot_2_f = {
 			}
         }
         effect = {
-            #add
+			add_prestige = 20
+			#addmore
         }
 	}
 }
@@ -1501,7 +1670,7 @@ vn_fra_missions_slot_2_g = {
 	has_country_shield = yes
 	
     vn_fra_to_baleares = {
-        #icon = 
+        icon = mission_invade_island
         position = 22
 		required_missions = { vn_fra_mediterranean_ambition }
 		provinces_to_highlight = {
@@ -1525,7 +1694,7 @@ vn_fra_missions_slot_2_g = {
         }
     }
     vn_fra_reconquer_catalonia = {
-        #icon = 
+        icon = mission_guilds_of_barcelona
 		required_missions = { vn_fra_to_baleares }
 		provinces_to_highlight = {
 			region = catalunya_region
@@ -1562,7 +1731,7 @@ vn_fra_missions_slot_2_g = {
         }
     }
     vn_fra_marca_hispanica = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_reconquer_catalonia }
 		provinces_to_highlight = {
 			OR = {
@@ -1603,7 +1772,7 @@ vn_fra_missions_slot_3_a = {
     has_country_shield = yes
 
     vn_fra_assert_legitimacy = {
-        #icon = 
+        icon = mission_king_of_franks
         position = 1
         required_missions = {  }
         trigger = {
@@ -1614,7 +1783,7 @@ vn_fra_missions_slot_3_a = {
 				}
 				estate_loyalty = {
 					estate = estate_burghers
-					loyalty = 50
+					loyalty = 60
 				}
 			}
 			if = {
@@ -1623,7 +1792,7 @@ vn_fra_missions_slot_3_a = {
 				}
 				estate_loyalty = {
 					estate = estate_church
-					loyalty = 50
+					loyalty = 60
 				}
 			}
 			if = {
@@ -1632,20 +1801,21 @@ vn_fra_missions_slot_3_a = {
 				}
 				estate_loyalty = {
 					estate = estate_nobles
-					loyalty = 50
+					loyalty = 60
 				}
 			}
         }
         effect = {
-            #add
+            change_government_reform_progress = 25
         }
     }
     vn_fra_expand_royal_authority = {
-        #icon = 
+        icon = mission_coronation
         position = 3
         required_missions = { vn_fra_assert_legitimacy }
         trigger = {
-            empire_of_china_reform_level = 1
+			#empire_of_china_reform_level = 1
+			#add
         }
         effect = {
             normandy_region = {
@@ -1672,11 +1842,12 @@ vn_fra_missions_slot_3_a = {
         }
     }
     vn_fra_bring_fiefs_to_heel = {
-        #icon = 
+        icon = mission_have_two_subjects 
         position = 6
         required_missions = { vn_fra_expand_royal_authority }
         trigger = {
-            empire_of_china_reform_level = 2
+			#empire_of_china_reform_level = 2
+			#add
         }
         effect = {
             picard_region = {
@@ -1710,11 +1881,12 @@ vn_fra_missions_slot_3_a = {
         }
     }
     vn_fra_centralize_state = {
-        #icon = 
+        icon = mission_alliances
         position = 8
         required_missions = { vn_fra_bring_fiefs_to_heel }
         trigger = {
-            empire_of_china_reform_level = 3
+			#empire_of_china_reform_level = 3
+			#add
         }
         effect = {
             burgundy_area = {
@@ -1741,7 +1913,7 @@ vn_fra_missions_slot_3_a = {
         }
     }
     vn_fra_edict_of_moulins = {
-        #icon = 
+        icon = mission_noble_council
         position = 11
         required_missions = { vn_fra_centralize_state }
         trigger = {
@@ -1753,7 +1925,7 @@ vn_fra_missions_slot_3_a = {
         }
     }
     vn_fra_letat_cest_moi = {
-        #icon = 
+        icon = mission_monarch_in_throne_room
         position = 14
         required_missions = { vn_fra_edict_of_moulins }
         trigger = {
@@ -1792,7 +1964,7 @@ vn_fra_missions_slot_3_a = {
         }
     }
     vn_fra_beyond_alps = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         required_missions = { vn_fra_italian_ambition }
 		provinces_to_highlight = {
 			OR = {
@@ -1822,7 +1994,7 @@ vn_fra_missions_slot_3_a = {
         }
     }
     vn_fra_secure_lombardy = {
-        #icon = 
+        icon = mission_italian_conquest
 		required_missions = { vn_fra_beyond_alps }
 		provinces_to_highlight = {
 			region = lombardy_region
@@ -1845,7 +2017,7 @@ vn_fra_missions_slot_3_a = {
         }
     }
     vn_fra_conquer_romagna = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_secure_lombardy }
 		provinces_to_highlight = {
 			region = romagna_region
@@ -1868,7 +2040,7 @@ vn_fra_missions_slot_3_a = {
         }
     }
     vn_fra_dominate_venice = {
-        #icon = 
+        icon = mission_control_venice
         position = 19
 		required_missions = { vn_fra_conquer_romagna }
 		provinces_to_highlight = {
@@ -1898,7 +2070,7 @@ vn_fra_missions_slot_3_b = {
 	has_country_shield = yes
 	
     vn_fra_french_enlightenment = {
-        #icon = 
+        icon = mission_alliances	#placeholder?
         position = 20
         required_missions = {  }
         trigger = {
@@ -1918,7 +2090,7 @@ vn_fra_missions_slot_3_b = {
         }
 	}
 	vn_fra_fate_of_monarchy = {
-        #icon = 
+        icon = mission_monarch_in_throne_room
         required_missions = { vn_fra_french_enlightenment }
         trigger = {
 			has_reform_level = 7
@@ -1963,7 +2135,7 @@ vn_fra_missions_slot_3_c = {
 	has_country_shield = yes
 	
     vn_fra_base_in_corsica = {
-        #icon = 
+        icon = mission_invade_island
         position = 22
 		required_missions = { vn_fra_mediterranean_ambition }
 		provinces_to_highlight = {
@@ -1993,7 +2165,7 @@ vn_fra_missions_slot_3_a = {
 	has_country_shield = yes
 	
     vn_fra_empire_of_francia = {
-        #icon = 
+        icon = mission_the_french_menace
         position = 23
         required_missions = { vn_fra_fate_of_empire }
         trigger = {
@@ -2022,7 +2194,7 @@ vn_fra_missions_slot_4_a = {
     has_country_shield = yes
 
     vn_fra_encourage_urbanization = {
-        #icon = 
+        icon = mission_big_city
         position = 1
         required_missions = {  }
         trigger = {
@@ -2040,7 +2212,7 @@ vn_fra_missions_slot_4_a = {
         }
     }
     vn_fra_found_sorbonne = {
-        #icon = 
+        icon = mission_early_modern_university
 		required_missions = { vn_fra_encourage_urbanization }
 		provinces_to_highlight = {
 			province_id = 548
@@ -2056,7 +2228,7 @@ vn_fra_missions_slot_4_a = {
         }
     }
     vn_fra_construct_louvre = {
-        #icon = 
+        icon = mission_early_game_buildings
         required_missions = { 
 			vn_fra_found_sorbonne 
 			vn_fra_notre_dame_cathedral 
@@ -2080,7 +2252,7 @@ vn_fra_missions_slot_4_a = {
         }
     }
     vn_fra_loire_valley_chateaux = {
-        #icon = 
+        icon = mission_european_castle
         position = 5
         required_missions = { vn_fra_construct_louvre }
         trigger = {
@@ -2132,7 +2304,7 @@ vn_fra_missions_slot_4_b = {
 	has_country_shield = yes
 	
     vn_fra_french_renaissance = {
-        #icon = 
+        icon = mission_dominate_home_trade_node
         position = 6
         required_missions = {  }
         trigger = {
@@ -2155,7 +2327,7 @@ vn_fra_missions_slot_4_c = {
 	has_country_shield = yes
 	
     vn_fra_berry_and_bourbon = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 7
 		required_missions = { vn_fra_bring_fiefs_to_heel }
 		provinces_to_highlight = {
@@ -2193,7 +2365,7 @@ vn_fra_missions_slot_4_c = {
         }
     }
     vn_fra_massif_central = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_berry_and_bourbon }
 		provinces_to_highlight = {
 			OR = {
@@ -2229,7 +2401,7 @@ vn_fra_missions_slot_4_d = {
 	has_country_shield = yes
 	
     vn_fra_rein_in_burgundy = {
-        #icon = 
+        icon = mission_rb_repatriate_burgundy
         position = 9
 		required_missions = { vn_fra_centralize_state }
 		provinces_to_highlight = {
@@ -2272,7 +2444,7 @@ vn_fra_missions_slot_4_d = {
         }
     }
     vn_fra_into_franche_comte = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_rein_in_burgundy }
 		provinces_to_highlight = {
 			OR = {
@@ -2316,7 +2488,7 @@ vn_fra_missions_slot_4_d = {
         }
     }
     vn_fra_beyond_jura = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_into_franche_comte }
 		provinces_to_highlight = {
 			OR = {
@@ -2357,7 +2529,7 @@ vn_fra_missions_slot_4_e = {
 	has_country_shield = yes
 	
     vn_fra_divine_right_of_kings = {
-        #icon = 
+		icon = mission_monarch_in_throne_room
         position = 12
         required_missions = { vn_fra_edict_of_moulins }
         trigger = {
@@ -2374,7 +2546,7 @@ vn_fra_missions_slot_4_e = {
         }
     }
     vn_fra_curb_estates = {
-        #icon = 
+        icon = mission_have_two_subjects
         required_missions = { vn_fra_divine_right_of_kings }
         trigger = {
 			absolutism = 75
@@ -2429,7 +2601,7 @@ vn_fra_missions_slot_4_e = {
         }
     }
     vn_fra_unquestioned_rule = {
-        #icon = 
+        icon = mission_assemble_an_army
         required_missions = { vn_fra_curb_estates }
         trigger = {
 			absolutism = 100
@@ -2458,7 +2630,7 @@ vn_fra_missions_slot_4_f = {
 	has_country_shield = yes
 	
     vn_fra_annex_lorraine = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 15
 		required_missions = { vn_fra_letat_cest_moi }
 		provinces_to_highlight = {
@@ -2499,7 +2671,7 @@ vn_fra_missions_slot_4_f = {
         }
     }
     vn_fra_seize_alsace = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder 
         position = 17
         required_missions = { 
 			vn_fra_annex_lorraine 
@@ -2643,7 +2815,7 @@ vn_fra_missions_slot_4_f = {
         }
     }
     vn_fra_cities_on_rhine = {
-        #icon = 
+        icon = mission_hanseatic_city
 		required_missions = { vn_fra_seize_alsace }
 		provinces_to_highlight = {
 			OR = {
@@ -2714,7 +2886,7 @@ vn_fra_missions_slot_4_f = {
         }
     }
     vn_fra_natural_border = {
-        #icon = 
+        icon = mission_advance_to_the_dnieper
         position = 20
         required_missions = { 
 			vn_fra_cities_on_rhine 
@@ -2764,7 +2936,7 @@ vn_fra_missions_slot_4_f = {
         }
 	}
     vn_fra_fate_of_empire = {	#Neither Holy, Nor Roman
-        #icon = 
+		icon = mission_rb_control_electors
         position = 22
         required_missions = { vn_fra_natural_border }
         trigger = {
@@ -2817,7 +2989,7 @@ vn_fra_missions_slot_4_g = {
 	has_country_shield = yes
 	
     vn_fra_break_britannia = {
-        #icon = 
+        icon = mission_invade_england	#placeholder?
         position = 24
 		required_missions = { vn_fra_invade_england }
 		provinces_to_highlight = {
@@ -2859,7 +3031,7 @@ vn_fra_missions_slot_5_a = {
     has_country_shield = yes
 
     vn_fra_gothic_architecture = {
-        #icon = 
+        icon = mission_portico
         position = 1
 		required_missions = {  }
 		provinces_to_highlight = {
@@ -2886,7 +3058,7 @@ vn_fra_missions_slot_5_a = {
         }
     }
     vn_fra_notre_dame_cathedral = {
-        #icon = 
+        icon = mission_european_church
 		required_missions = { vn_fra_gothic_architecture }
 		provinces_to_highlight = {
 			province_id = 548
@@ -2914,7 +3086,7 @@ vn_fra_missions_slot_5_b = {
 	has_country_shield = yes
 	
     vn_fra_conseil_du_roi = {
-        #icon = 
+        icon = mission_noble_council
         position = 3
         required_missions = {  }
         trigger = {
@@ -2937,7 +3109,7 @@ vn_fra_missions_slot_5_b = {
         }
     }
     vn_fra_estates_general = {
-        #icon = 
+        icon = mission_alliances
         required_missions = { vn_fra_conseil_du_roi }
         trigger = {
 			has_estate = estate_burghers
@@ -2954,7 +3126,7 @@ vn_fra_missions_slot_5_b = {
         }
     }
     vn_fra_introduce_taille = {
-        #icon = 
+        icon = mission_african_gold
         required_missions = { vn_fra_estates_general }
         trigger = {
 			num_of_loans = 1
@@ -2963,21 +3135,21 @@ vn_fra_missions_slot_5_b = {
 				limit = { has_estate = estate_burghers }
 				estate_loyalty = {
 					estate = estate_burghers
-					loyalty = 50
+					loyalty = 60
 				}
 			}
 			if = {
 				limit = { has_estate = estate_church }
 				estate_loyalty = {
 					estate = estate_church
-					loyalty = 50
+					loyalty = 60
 				}
 			}
 			if = {
 				limit = { has_estate = estate_nobles }
 				estate_loyalty = {
 					estate = estate_nobles
-					loyalty = 50
+					loyalty = 60
 				}
 			}
         }
@@ -3002,7 +3174,7 @@ vn_fra_missions_slot_5_c = {
 	has_country_shield = yes
 	
     vn_fra_franco_turkish_alliance = {	#Turkish Cooperation
-        #icon = 
+		icon = mission_non-western_soldiers
         position = 6
         required_missions = { }
         trigger = {
@@ -3026,7 +3198,7 @@ vn_fra_missions_slot_5_d = {
 	has_country_shield = yes
 	
     vn_fra_overrun_picardie = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 7
 		required_missions = { vn_fra_bring_fiefs_to_heel }
 		provinces_to_highlight = {
@@ -3050,7 +3222,7 @@ vn_fra_missions_slot_5_d = {
         }
     }
     vn_fra_subjugate_flanders = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_fra_overrun_picardie }
 		provinces_to_highlight = {
 			area = flanders_area
@@ -3100,7 +3272,7 @@ vn_fra_missions_slot_5_d = {
         }
     }
     vn_fra_conquer_wallonia = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         required_missions = { 
 			vn_fra_subjugate_flanders 
 			vn_fra_centralize_state 
@@ -3146,21 +3318,33 @@ vn_fra_missions_slot_5_e = {
 	has_country_shield = yes
 	
     vn_fra_endure_reformation = {
-        #icon = 
+        icon = mission_luther_theses
         position = 10
         required_missions = {  }
         trigger = {
-            #add
+			has_disaster = french_wars_of_religion
         }
         effect = {
             #add
         }
     }
     vn_fra_edict_of_nantes = {	#diff title?
-        #icon = 
+		icon = mission_rb_control_state_religion
         required_missions = { vn_fra_endure_reformation }
         trigger = {
-            #add
+			NOT = { has_disaster = french_wars_of_religion }
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+			stability = 2
+			capital_scope = {
+				controlled_by = ROOT
+			}
+			NOT = {
+				any_owned_province = {
+					superregion = french_superregion
+					has_owner_religion = no
+					unrest = 5
+				}
+			}
         }
         effect = {
             #add
@@ -3179,7 +3363,7 @@ vn_fra_missions_slot_5_f = {
 	has_country_shield = yes
 	
     vn_fra_unify_french = {
-        #icon = 
+        icon = mission_the_french_menace 
         position = 12
         required_missions = { vn_fra_edict_of_moulins }
         trigger = {
@@ -3202,7 +3386,7 @@ vn_fra_missions_slot_5_f = {
         }
     }
     vn_fra_integrate_occitans = {
-        #icon = 
+        icon = mission_invade_occitania
         required_missions = { vn_fra_unify_french }
         trigger = {
             num_of_owned_provinces_with = {
@@ -3223,7 +3407,7 @@ vn_fra_missions_slot_5_f = {
         }
     }
     vn_fra_one_lingua_franca = {
-        #icon = 
+        icon = mission_alliances	#placeholder? 
         required_missions = { vn_fra_integrate_occitans }
         trigger = {
 			num_of_owned_provinces_with = {
@@ -3249,7 +3433,7 @@ vn_fra_missions_slot_5_g = {
 	has_country_shield = yes
 	
     vn_fra_palace_of_versailles = {
-        #icon = 
+        icon = mission_monarch_in_throne_room	#placeholder 
         position = 15
 		required_missions = { vn_fra_letat_cest_moi }
 		provinces_to_highlight = {
@@ -3269,7 +3453,7 @@ vn_fra_missions_slot_5_g = {
         }
     }
     vn_fra_chambers_of_reunion = {
-        #icon = 
+        icon = mission_noble_council
         required_missions = { vn_fra_palace_of_versailles }
         trigger = {
             calc_true_if = {
@@ -3324,7 +3508,7 @@ vn_fra_missions_slot_5_h = {
 	has_country_shield = yes
 	
     vn_fra_conquer_luxembourg = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 18
 		required_missions = { vn_fra_seize_alsace }
 		provinces_to_highlight = {
@@ -3369,7 +3553,7 @@ vn_fra_missions_slot_5_h = {
         }
     }
     vn_fra_into_netherlands = {
-        #icon = 
+        icon = mission_the_austrian_succession 
 		required_missions = { vn_fra_conquer_luxembourg }
 		provinces_to_highlight = {
 			OR = {
@@ -3423,7 +3607,7 @@ vn_fra_missions_slot_5_h = {
         }
     }
     vn_fra_subjugate_dutch = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder 
 		required_missions = { vn_fra_into_netherlands }
 		provinces_to_highlight = {
 			OR = {
@@ -3464,7 +3648,7 @@ vn_fra_missions_slot_5_i = {
 	has_country_shield = yes
 	
 	vn_fra_naval_superiority = {
-        #icon = 
+        icon = mission_rb_a_mighty_fleet 
         position = 21
         required_missions = {  }
         trigger = {
@@ -3496,7 +3680,7 @@ vn_fra_missions_slot_5_i = {
         }
     }
     vn_fra_invade_england = {
-        #icon = 
+        icon = mission_rb_into_england
         position = 23
         required_missions = { 
 			vn_fra_fate_of_empire 
@@ -3561,7 +3745,7 @@ vn_fra_missions_slot_5_i = {
         }
     }
     vn_fra_invasion_of_ireland = {
-        #icon = 
+        icon = mission_rb_into_ireland
 		required_missions = { vn_fra_invade_england }
 		provinces_to_highlight = {
 			superregion = irish_superregion
