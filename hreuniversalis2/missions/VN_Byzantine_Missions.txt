@@ -1,0 +1,2023 @@
+#Byzantine missions
+#By ShyGuy13
+
+VN_BYZ_missions_slot_1_a = {
+	slot = 6
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_byz_battle_of_manzikert = {
+		position = 1
+		icon = mission_steppe_warriors
+		required_missions = { }
+		completed_by = 1071.8.26
+		trigger = {
+			stability = 2
+			custom_trigger_tooltip = {
+				tooltip = vn_byz_battle_of_manzikert.tt
+				has_country_flag = manzikert_happened
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_talented_ruler = {
+		position = 4
+		icon = mission_monarch_in_throne_room
+		required_missions = { vn_byz_battle_of_manzikert }
+		trigger = {
+			months_of_ruling = 120
+			adm = 4
+			dip = 4
+			mil = 4
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_talented_ruler_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_embrace_caesaropapism = {
+		icon = mission_restore_kiev
+		required_missions = { vn_byz_talented_ruler }
+		trigger = {
+			if = {
+				limit = { uses_patriarch_authority = yes }
+				patriarch_authority = 0.25
+			}
+			prestige = 50
+			legitimacy_equivalent = 100
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_embrace_caesaropapism_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_byz_scrinium_barbarorum = {
+		icon = mission_pf_map_table
+		required_missions = { vn_byz_embrace_caesaropapism }
+		trigger = {
+			religious_unity = 0.95
+			num_accepted_cultures = 5
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_scrinium_barbarorum_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+VN_BYZ_missions_slot_2_a = {
+	slot = 7
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_byz_komnenian_succession = {
+		position = 2
+		icon = mission_noble_council
+		required_missions = { vn_byz_battle_of_manzikert }
+		completed_by = 1081.4.4
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = vn_byz_komnenian_succession.tt
+				has_country_flag = komnenian_succession_flag
+			}
+		}
+		effect = {
+			add_yearly_manpower = 1
+		}
+	}
+	vn_byz_pandoras_box = {
+		icon = mission_religious
+		required_missions = { vn_byz_komnenian_succession }
+		trigger = {
+			OR = {
+				AND = {
+					is_rival = PAP
+					PAP = { is_rival = ROOT }
+				}
+				reverse_has_opinion = {
+					who = PAP
+					value = 100
+				}
+				NOT = { exists = PAP }
+			}
+		}
+		effect = {
+			custom_tooltip = vn_byz_pandoras_box.tt
+			hidden_effect = {
+				if = {
+					limit = {
+						PAP = {
+							is_subject = no
+						}
+					}
+					PAP = {
+						country_event = { id = vn_missions.9 days = 30 random = 30 }
+					}
+				}
+			}
+		}
+	}
+	vn_byz_western_ally = {
+		position = 5
+		icon = mission_rb_mediterranean_authority
+		required_missions = { vn_byz_born_in_the_purple vn_byz_talented_ruler }
+		trigger = {
+			if = {
+				limit = { has_dlc = "Rights of Man" }
+				any_ally = {
+					is_great_power = yes
+					technology_group = western
+					has_opinion = {
+						who = ROOT
+						value = 150
+					}
+				}
+			}
+			else = {
+				any_ally = {
+					total_development = 250
+					technology_group = western
+					has_opinion = {
+						who = ROOT
+						value = 150
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = byz_western_ally_mission
+				duration = 9125
+			}
+		}
+	}
+}
+
+VN_BYZ_missions_slot_3_a = {
+	slot = 8
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_byz_fill_treasuries = {
+		position = 1
+		icon = mission_african_gold
+		required_missions = {}
+		trigger = {
+			treasury = 5000
+			NOT = { inflation = 1 }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_fill_treasuries_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_byzantine_silk = {
+		icon = mission_valencian_silk
+		required_missions = { vn_byz_fill_treasuries }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				trade_goods = silk
+				has_building = textile
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_byzantine_silk_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_byzantine_glass = {
+		icon = mission_riches_of_golconda
+		required_missions = { vn_byz_byzantine_silk }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				trade_goods = glassware
+				has_building = mills
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_byzantine_glass_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_born_in_the_purple = {
+		icon = mission_restore_faith_in_the_throne
+		required_missions = { vn_byz_pandoras_box }
+		trigger = {
+			#survive the 11th century disaster
+			legitimacy_equivalent = 100
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+			NOT = { num_of_rebel_armies = 1 }
+			is_at_war = no
+			if = {
+				limit = { has_government_attribute = heir }
+				has_heir = yes
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_born_in_the_purple_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_abolish_eastern_monarchy = {
+		icon = mission_the_third_rome
+		required_missions = { vn_byz_born_in_the_purple }
+		trigger = {
+			stability = 2
+			NOT = { has_reform = eastern_monarchy }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_abolish_eastern_monarchy_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_embrace_renaissance = {
+		icon = mission_arts_and_letters
+		required_missions = { vn_byz_abolish_eastern_monarchy }
+		trigger = {
+			prestige = 75
+			has_institution = renaissance
+			all_state_province = {
+				renaissance = 100
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_embrace_renaissance_mission"
+				duration = 7300
+			}
+		}
+	}
+}
+
+VN_BYZ_missions_slot_4_a = {
+	slot = 9
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_byz_renovate_constantinople = {
+		position = 1
+		icon = mission_trade_with_cathay
+		required_missions = {  }
+		provinces_to_highlight = {
+			province_id = 2233
+		}
+		trigger = {
+			2233 = {
+				owned_by = ROOT
+				development = 30
+				num_of_times_improved = 10
+			}
+		}
+		effect = {
+			add_prestige = 10
+			2233 = {
+				add_province_modifier = {
+					name = byz_renovate_constantinople_mission
+					duration = -1
+				}
+			}
+		}
+	}
+	vn_byz_renovate_athenaeum = {
+		icon = mission_early_modern_university
+		required_missions = { vn_byz_renovate_constantinople }
+		provinces_to_highlight = {
+			province_id = 2233
+		}
+		trigger = {
+			2233 = {
+				owned_by = ROOT
+				has_building = university
+			}
+		}
+		effect = {
+			add_innovativeness_small_effect = yes
+			add_country_modifier = {
+				name = "byz_renovate_athenaeum_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_byz_constantins_walls = {
+		icon = mission_city_of_the_world's_desire
+		required_missions = { vn_byz_renovate_athenaeum }
+		provinces_to_highlight = {
+			province_id = 2233
+		}
+		trigger = {
+			2233 = {
+				owned_by = ROOT
+				OR = {
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+		effect = {
+			add_mil_power = 100
+			2233 = {
+				add_base_manpower = 3
+			}
+		}
+	}
+	vn_byz_court_eunuchs = {
+		position = 5
+		icon = mission_african_trade_post
+		required_missions = { vn_byz_born_in_the_purple }
+		trigger = {
+			slaves = 5
+			has_adm_advisor_3 = yes
+			has_dip_advisor_3 = yes
+			has_mil_advisor_3 = yes
+		}
+		effect = {
+			add_country_modifier = {
+				name = byz_court_eunuchs_mission
+				duration = 9125
+			}
+		}
+	}
+	vn_byz_arab_science = {
+		icon = mission_gunpowder_warfare
+		required_missions = { vn_byz_court_eunuchs }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			culture_group = arab
+			NOT = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
+		}
+		trigger = {
+			num_of_states_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 10
+				culture_group = turko_semitic
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_innovativeness_big_effect = yes
+			define_advisor = {
+				type = natural_scientist
+				skill = 3
+				discount = yes
+				religion = sunni
+				culture = al_suryah_arabic
+			}
+		}
+	}
+}
+
+VN_BYZ_missions_slot_5_a = {
+	slot = 10
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_byz_root_out_heresies = {
+		position = 1
+		icon = mission_rb_control_state_religion
+		required_missions = {  }
+		trigger = {
+			religious_unity = 0.75
+			custom_trigger_tooltip = {
+				tooltip = vn_byz_root_out_heresies.tt
+				if = {
+					limit = { NOT = { religion = bogomilist } }
+					NOT = {
+						num_of_owned_provinces_with = {
+							value = 1
+							religion = bogomilist
+						}
+					}
+				}
+				if = {
+					limit = { NOT = { religion = paulician } }
+					NOT = {
+						num_of_owned_provinces_with = {
+							value = 1
+							religion = paulician
+						}
+					}
+				}
+				if = {
+					limit = { NOT = { religion = iconoclast } }
+					NOT = {
+						num_of_owned_provinces_with = {
+							value = 1
+							religion = iconoclast
+						}
+					}
+				}
+				if = {
+					limit = { NOT = { religion = orthodox } }
+					NOT = {
+						num_of_owned_provinces_with = {
+							value = 1
+							religion = orthodox
+						}
+					}
+				}
+				if = {
+					limit = { NOT = { religion = monothelite } }
+					NOT = {
+						num_of_owned_provinces_with = {
+							value = 1
+							religion = monothelite
+						}
+					}
+				}
+				if = {
+					limit = { NOT = { religion = nestorian } }
+					NOT = {
+						num_of_owned_provinces_with = {
+							value = 1
+							religion = nestorian
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			add_patriarch_authority = 0.1
+			add_country_modifier = {
+				name = "byz_root_out_heresies_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_byz_orthodox_icons = {
+		icon = mission_autocephalous_archbishopric
+		required_missions = { vn_byz_root_out_heresies }
+		trigger = {
+			if = {
+				limit = { has_dlc = "Third Rome" religion = orthodox }
+				patriarch_authority = 0.75
+				OR = {
+					current_icon = icon_michael
+					current_icon = icon_eleusa
+					current_icon = icon_pancreator
+					current_icon = icon_nicholas
+					current_icon = icon_climacus
+				}
+			}
+			else_if = {
+				limit = { has_dlc = "Third Rome" religion = paulician }
+				patriarch_authority = 0.75
+				OR = {
+					current_icon = icon_chrysostom
+					current_icon = icon_maria
+					current_icon = icon_paul
+					current_icon = icon_silvanus
+					current_icon = icon_tapeinosis
+				}
+			}
+			else_if = {
+				limit = { has_dlc = "Third Rome" religion = iconoclast }
+				patriarch_authority = 0.75
+			}
+			else = {
+				religious_unity = 1
+				temple = 10
+			}
+		}
+		effect = {
+			add_patriarch_authority = 0.1
+			add_country_modifier = {
+				name = "byz_orthodox_icons_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_byz_restore_the_pentarchy = {
+		icon = mission_pf_cross
+		required_missions = { vn_byz_orthodox_icons }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2233	#Constaninople
+				province_id = 2708	#Vatican
+				province_id = 4974	#Jerusalem
+				province_id = 5022	#Alexandria
+				province_id = 3053	#Antioch
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { religion = ROOT }
+				OR = {
+					NOT = { has_building = temple }
+					NOT = { has_building = cathedral }
+				}
+			}
+		}
+		trigger = {
+			2233 = {
+				owned_by = ROOT
+				religion = ROOT
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+			2708 = {
+				owned_by = ROOT
+				religion = ROOT
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+			4974 = {
+				owned_by = ROOT
+				religion = ROOT
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+			5022 = {
+				owned_by = ROOT
+				religion = ROOT
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+			3053 = {
+				owned_by = ROOT
+				religion = ROOT
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+		}
+		effect = {
+			country_event = { id = catholic_flavor.3 }
+		}
+	}
+	vn_byz_fortify_coasts = {
+		icon = mission_secure_the_malabar_coast
+		required_missions = { vn_byz_pandoras_box }
+		trigger = {
+			navy_size_percentage = 1
+			custom_trigger_tooltip = {
+				tooltip = vn_byz_fortify_coasts.tt
+				value = 5
+				has_port = yes
+				OR = {
+					has_building = fort_14th
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = byz_fortify_coasts_mission
+				duration = 9125
+			}
+		}
+	}
+	vn_byz_reignite_the_greek_fire = {
+		icon = mission_colonize_the_west
+		required_missions = { vn_byz_fortify_coasts }
+		trigger = {
+			num_of_galley = 20
+			if = {
+				limit = { has_dlc = "Golden Century" }
+				has_flagship = yes
+			}
+		}
+		effect = {
+			add_navy_tradition = 10
+			add_country_modifier = {
+				name = byz_reignite_the_greek_fire_mission
+				duration = 9125
+			}
+		}
+	}
+	vn_byz_naval_hegemony = {
+		icon = mission_raid_christian_trade
+		required_missions = { vn_byz_reignite_the_greek_fire }
+		trigger = {
+			navy_size = 100
+		}
+		effect = {
+			add_country_modifier = {
+				name = byz_naval_hegemony_mission
+				duration = -1
+			}
+		}
+	}
+}
+
+VN_BYZ_missions_slot_1 = {
+	slot = 6
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_byz_conquer_thessalia = {
+		position = 13
+		icon = mission_secure_hajj_ports
+		required_missions = { vn_byz_conquer_macedonia }
+		provinces_to_highlight = {
+			OR = {
+				area = kastoria_area
+				area = thessalia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			kastoria_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			thessalia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_athens = {
+		position = 15
+		icon = mission_portico
+		required_missions = { vn_byz_conquer_thessalia }
+		provinces_to_highlight = {
+			area = athens_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			athens_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_the_peloponnese = {
+		icon = mission_restore_rule_over_mysore
+		required_missions = { vn_byz_conquer_athens }
+		provinces_to_highlight = {
+			OR = {
+				area = achaea_area
+				area = morea_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			achaea_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			morea_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_cyclades = {
+		icon = mission_portuguese_malacca
+		required_missions = { vn_byz_conquer_euboia }
+		provinces_to_highlight = {
+			area = cyclades_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			cyclades_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_crete = {
+		icon = mission_seize_the_bengal_coast
+		required_missions = { vn_byz_conquer_cyclades }
+		provinces_to_highlight = {
+			OR = {
+			
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_bulgaria = {
+		icon = mission_unite_rajputana
+		required_missions = { vn_byz_conquer_rumelia }
+		provinces_to_highlight = {
+			OR = {
+				region = bulgaria_region
+				area = plovdiv_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			bulgaria_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			plovdiv_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_wallachia = {
+		icon = mission_crusade_for_varna
+		required_missions = { vn_byz_conquer_bulgaria }
+		provinces_to_highlight = {
+			region = wallachia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			wallachia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			wallachia_region = {
+				add_province_modifier = {
+					name = byz_conquer_wallachia_mission
+					duration = 7300
+				}
+			}
+		}
+	}
+	vn_byz_conquer_albania = {
+		icon = mission_protect_albania
+		required_missions = { vn_byz_conquer_dardania }
+		provinces_to_highlight = {
+			region = albania_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			albania_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_ragusa = {
+		icon = mission_conquer_riga
+		required_missions = { vn_byz_conquer_rashka }
+		provinces_to_highlight = {
+			OR = {
+				area = ragusa_area
+				area = hum_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			ragusa_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			hum_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			dalmatia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			senj_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_byz_conquer_illyria = {
+		icon = mission_advance_to_the_dnieper
+		required_missions = { vn_byz_conquer_ragusa }
+		provinces_to_highlight = {
+			OR = {
+				area = dalmatia_area
+				area = senj_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			dalmatia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			senj_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_hungary = {
+		position = 25
+		icon = mission_advance_to_the_dnieper
+		required_missions = { vn_byz_conquer_croatia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_austria = {
+		icon = mission_pf_soldier
+		required_missions = { vn_byz_conquer_hungary }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_naples = {
+		icon = mission_seize_north_sea_trade
+		required_missions = { vn_byz_conquer_apulia }
+		provinces_to_highlight = {
+			region = naples_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			naples_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			umbria_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_byz_conquer_rome = {
+		position = 29
+		icon = mission_dethrone_the_rurikovichs
+		required_missions = { vn_byz_conquer_naples }
+		provinces_to_highlight = {
+			region = umbria_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			umbria_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_patriarch_authority = 0.1
+		}
+	}
+	vn_byz_conquer_tuscany = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { vn_byz_conquer_rome }
+		provinces_to_highlight = {
+			region = tuscany_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			tuscany_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_emilia = {
+		icon = mission_advance_to_the_dnieper
+		required_missions = { vn_byz_conquer_tuscany }
+		provinces_to_highlight = {
+			OR = {
+				region = emilia_region
+				region = romagna_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			emilia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			romagna_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_venice = {
+		icon = mission_control_venice
+		required_missions = { vn_byz_conquer_emilia }
+		provinces_to_highlight = {
+			region = treviso_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			treviso_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+}
+
+VN_BYZ_missions_slot_2 = {
+	slot = 7
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_byz_conquer_thrace = {
+		position = 11
+		icon = mission_secure_khandesh
+		required_missions = { vn_byz_prepare_for_conquest }
+		provinces_to_highlight = {
+			OR = {
+				area = thrace_area
+				area = adrianople_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			thrace_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			adrianople_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			macedonia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_byz_conquer_macedonia = {
+		icon = mission_gujarati_diaspora
+		required_missions = { vn_byz_conquer_thrace }
+		provinces_to_highlight = {
+			area = macedonia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			macedonia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_epirus = {
+		position = 14
+		icon = mission_expand_inland
+		required_missions = { vn_byz_conquer_thessalia vn_byz_deploy_athanatoi }
+		provinces_to_highlight = {
+			area = epirus_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			epirus_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_ionian_islands = {
+		icon = mission_demand_garjat_fealty
+		required_missions = { vn_byz_conquer_epirus }
+		provinces_to_highlight = {
+			area = ionianislands_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			ionianislands_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_euboia = {
+		icon = mission_invade_island
+		required_missions = { vn_byz_conquer_athens }
+		provinces_to_highlight = {
+			area = euboia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			euboia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_rumelia = {
+		position = 18
+		icon = mission_break_the_tatar_yoke
+		required_missions = { vn_byz_conquer_euboia }
+		provinces_to_highlight = {
+			OR = {
+				area = sophia_area
+				area = fyrom_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			sophia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			fyrom_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_dardania = {
+		position = 20
+		icon = mission_pf_map_table
+		required_missions = { vn_byz_conquer_rumelia }
+		provinces_to_highlight = {
+			OR = {
+				area = nis_area
+				area = kosovo_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			nis_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kosovo_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_rashka = {
+		icon = mission_recruit_the_cossacks
+		required_missions = { vn_byz_conquer_dardania }
+		provinces_to_highlight = {
+			region = rashkan_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			rashkan_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_serbia = {
+		icon = mission_portuguese_oman
+		required_missions = { vn_byz_conquer_rashka }
+		provinces_to_highlight = {
+			region = serbia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			serbia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_bosnia = {
+		icon = mission_soldiers_in_line
+		required_missions = { vn_byz_conquer_serbia }
+		provinces_to_highlight = {
+			OR = {
+				area = donji_area
+				area = kupres_area
+				area = bobovac_area
+				area = doboj_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			donji_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kupres_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			bobovac_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			doboj_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_croatia = {
+		icon = mission_weather_the_troubles
+		required_missions = { vn_byz_conquer_bosnia vn_byz_conquer_illyria }
+		provinces_to_highlight = {
+			region = croatia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			croatia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_south_italy = {
+		icon = mission_rb_mediterranean_authority
+		required_missions = { vn_byz_conquer_croatia }
+		provinces_to_highlight = {
+			region = calabrian_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			calabrian_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			apulia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_byz_conquer_apulia = {
+		icon = mission_zanzibari_trade
+		required_missions = { vn_byz_conquer_south_italy }
+		provinces_to_highlight = {
+			region = apulia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			apulia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			sicilia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_byz_conquer_sicily = {
+		icon = mission_retake_ceuta
+		required_missions = { vn_byz_conquer_apulia }
+		provinces_to_highlight = {
+			region = sicilia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			sicilia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			sardinia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			arborea_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_byz_conquer_sardinia = {
+		icon = mission_unite_coromandel
+		required_missions = { vn_byz_conquer_sicily }
+		provinces_to_highlight = {
+			OR = {
+				area = sardinia_area
+				area = arborea_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOt }
+		}
+		trigger = {
+			sardinia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			arborea_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}	
+		}
+		effect = {
+			corsica_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_byz_conquer_corsica = {
+		icon = mission_retake_ceuta
+		required_missions = { vn_byz_conquer_sardinia }
+		provinces_to_highlight = {
+			area = corsica_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			corsica_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_restore_rome = {
+		icon = mission_pf_cross
+		required_missions = { vn_byz_conquer_rome }
+		provinces_to_highlight = {
+			province_id = 2235
+		}
+		trigger = {
+			2235 = {
+				owned_by = ROOT
+				religion = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_liguria = {
+		icon = mission_soldiers_in_line
+		required_missions = { vn_byz_conquer_tuscany }
+		provinces_to_highlight = {
+			region = liguria_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			liguria_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_piedmont = {
+		icon = mission_wine_monopolies
+		required_missions = { vn_byz_conquer_liguria }
+		provinces_to_highlight = {
+			region = piedmont_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			piedmont_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_lombardy = {
+		icon = mission_imperial_cities
+		required_missions = { vn_byz_conquer_venice vn_byz_conquer_piedmont }
+		provinces_to_highlight = {
+			region = lombardy_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			lombardy_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+}
+
+VN_BYZ_missions_slot_3 = {
+	slot = 8
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_byz_prepare_for_conquest = {
+		position = 6
+		icon = mission_pf_soldier
+		required_missions = { }
+		trigger = {
+			army_size_percentage = 0.8
+			manpower_percentage = 0.8
+		}
+		effect = {
+			thrace_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			adrianople_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "byz_prepare_for_conquest_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_deploy_athanatoi = {
+		position = 13
+		icon = mission_consolidate_the_state
+		required_missions = { vn_byz_prepare_for_conquest }
+		trigger = {
+			if = {
+				limit = {
+					has_dlc = "Cradle of Civilization"
+				}
+				num_of_regiments_at_full_drill = 10
+			}
+			else = {
+				army_tradition = 50
+			}
+			num_of_infantry = 20
+		}
+		effect = {
+			add_army_professionalism = 0.01
+			add_country_modifier = {
+				name = "byz_deploy_athanatoi"
+				duration = 9125
+			}
+		}
+	}
+
+	vn_byz_curtail_the_estates = {
+		position = 20
+		icon = mission_unite_the_princes
+		required_missions = {  }
+		trigger = {
+			legitimacy_equivalent = 95
+			if = {
+				limit = { has_estate = estate_nobles }
+				NOT = {
+					estate_influence = {
+						estate = estate_nobles
+						influence = 60
+					}
+				}
+			}
+			if = {
+				limit = { has_estate = estate_church }
+				NOT = {
+					estate_influence = {
+						estate = estate_church
+						influence = 60
+					}
+				}
+			}
+			if = {
+				limit = { has_estate = estate_burghers }
+				NOT = {
+					estate_influence = {
+						estate = estate_burghers
+						influence = 60
+					}
+				}
+			}
+			if = {
+				limit = { has_estate = estate_nomadic_tribes }
+				NOT = {
+					estate_influence = {
+						estate = estate_nomadic_tribes
+						influence = 60
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_curtail_the_estates_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_reduce_greek_autonomy = {
+		position = 23
+		icon = mission_establish_the_prikazy
+		required_missions = { vn_byz_curtail_the_estates }
+		provinces_to_highlight = {
+			OR = {
+				region = byzantine_region
+				region = hellas_region
+				region = furthergreece_region
+			}
+			OR = {
+				NOT = { country_or_non_sovereign_subject_holds = ROOt }
+				local_autonomy = 30
+			}
+		}
+		trigger = {
+			byzantine_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				NOT = { local_autonomy = 30 }
+			}
+			hellas_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				NOT = { local_autonomy = 30 }
+			}
+			furthergreece_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				NOT = { local_autonomy = 30 }
+			}
+		}
+		effect = {
+			byzantine_region = {
+				add_province_modifier = {
+					name = byz_reduce_greek_autonomy_mission
+					duration = 9125
+				}
+			}
+			hellas_region = {
+				add_province_modifier = {
+					name = byz_reduce_greek_autonomy_mission
+					duration = 9125
+				}
+			}
+			furthergreece_region = {
+				add_province_modifier = {
+					name = byz_reduce_greek_autonomy_mission
+					duration = 9125
+				}
+			}
+		}
+	}
+	vn_byz_army_reforms = {
+		icon = mission_pf_soldier
+		required_missions = { vn_byz_reduce_greek_autonomy }
+		trigger = {
+			if = {
+				limit = {
+					has_dlc = "Cradle of Civilization"
+				}
+				army_professionalism = 0.5
+			}
+			army_tradition = 50
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_great_strategos = {
+		icon = mission_conquer_romania
+		required_missions = {  }
+		trigger = {
+			has_commanding_three_star = yes
+		}
+		effect = {
+			add_army_professionalism = 0.03
+			add_country_modifier = {
+				name = byz_great_strategos_mission
+				duration = -1
+			}
+		}
+	}
+	vn_byz_rise_of_the_phoenix = {
+		icon = mission_pf_cross
+		required_missions = {  }
+		trigger = {
+			total_development = 3000
+		}
+		effect = {
+			add_country_modifier = {
+				name = byz_rise_of_the_phoenix_mission
+				duration = -1
+			}
+		}
+	}
+	vn_byz_control_silk_road = {
+		icon = mission_modernize_production
+		required_missions = {  }
+		trigger = {
+			
+		}
+		effect = {
+			add_country_modifier = {
+				name = "byz_control_silk_road_mission"
+				duration = 7300
+			}
+		}
+	}
+	vn_byz_establish_prefectures = {
+		icon = mission_claim_hispaniola
+		required_missions = {  }
+		trigger = {
+			num_of_states_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 10
+				has_building = town_hall
+			}
+		}
+		effect = {
+			add_adm_power = 25
+			add_country_modifier = {
+				name = "byz_establish_prefectures_mission"
+				duration = -1
+			}
+		}
+	}
+	vn_byz_imperial_army = {
+		icon = mission_pf_soldier
+		required_missions = {  }
+		trigger = {
+			army_size = 100
+		}
+		effect = {
+			add_army_tradition = 10
+		}
+	}
+	vn_byz_restore_roman_empire = {
+		icon = mission_pf_map_table
+		required_missions = {}
+		trigger = {
+			tag = ROM
+		}
+		effect = {
+			add_prestige = 25
+			add_legitimacy = 25
+			add_adm_power = 250
+			add_dip_power = 250
+			add_mil_power = 250
+			add_country_modifier = {
+				name = byz_restore_roman_empire_mission
+				duration = -1
+			}
+		}
+	}
+}
+
+VN_BYZ_missions_slot_4 = {
+	slot = 9
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_byz_conquer_bithynia = {
+		icon = mission_unite_coromandel
+		required_missions = { vn_byz_prepare_for_conquest }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_caria = {
+		position = 13
+		icon = mission_fortify_rajputana
+		required_missions = { vn_byz_conquer_bithynia vn_byz_conquer_lydia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_phrygia = {
+		icon = mission_conquer_malwa_mer
+		required_missions = { vn_byz_conquer_caria vn_byz_deploy_athanatoi }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_galatia = {
+		icon = mission_conquer_malwa_mer
+		required_missions = { vn_byz_conquer_phrygia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_pontus = {
+		icon = mission_conquer_malwa_mer
+		required_missions = { vn_byz_conquer_galatia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_trebizond = {
+		position = 18
+		icon = mission_conquer_malwa_mer
+		required_missions = {  vn_byz_conquer_pontus vn_byz_fortify_anatolia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			#Move to Mesoptamia later
+			define_advisor = {
+				type = natural_scientist
+				name = "Gregorius Choniades"
+				skill = 3
+				discount = yes
+				religion = orthodox
+				culture = greek
+			}
+		}
+	}
+	vn_byz_conquer_armenia = {
+		icon = mission_conquer_malwa_mer
+		required_missions = { vn_byz_conquer_trebizond }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+}
+
+VN_BYZ_missions_slot_5 = {
+	slot = 10
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = BYZ
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+
+	vn_byz_conquer_mysia = {
+		icon = mission_divert_trade_from_bengal
+		required_missions = { vn_byz_prepare_for_conquest }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_lydia = {
+		icon = mission_control_the_desh
+		required_missions = { vn_byz_conquer_mysia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_ikaria = {
+		icon = mission_arabian_sea_trade
+		required_missions = { vn_byz_conquer_lydia }
+		provinces_to_highlight = {
+			area = chios_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			chios_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_rhodes = {
+		icon = mission_coromandel_expansion
+		required_missions = { vn_byz_conquer_ikaria }
+		provinces_to_highlight = {
+			area = rhodes_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			rhodes_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_cilcia = {
+		icon = mission_coromandel_expansion
+		required_missions = { vn_byz_conquer_phrygia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_cappadocia = {
+		icon = mission_coromandel_expansion
+		required_missions = { vn_byz_conquer_cilcia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_fortify_anatolia = {
+		icon = mission_coromandel_expansion
+		required_missions = { vn_byz_conquer_cappadocia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			add_country_modifier = {
+				name = byz_fortify_anatolia_mission
+				duration = 10950
+			}
+		}
+	}
+	vn_byz_hellenize_anatolia = {
+		icon = mission_coromandel_expansion
+		required_missions = { vn_byz_fortify_anatolia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_conquer_gothia = {
+		icon = mission_coromandel_expansion
+		required_missions = { vn_byz_conquer_trebizond }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_dominate_black_sea = {
+		icon = mission_coromandel_expansion
+		required_missions = { vn_byz_conquer_gothia }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			
+		}
+	}
+	vn_byz_regnum_bospori = {
+		icon = mission_coromandel_expansion
+		required_missions = { vn_byz_dominate_black_sea }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+		effect = {
+			country_event = { id = vn_missions.12 }
+		}
+	}
+}
