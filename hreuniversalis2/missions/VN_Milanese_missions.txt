@@ -188,11 +188,11 @@ vn_mlo_missions_slot_1_c = {
                 development = 30
                 calc_true_if = {
                     has_fort_trigger = yes
-                    has_building = workshop
-                    has_building = marketplace
-                    has_building = temple
-                    has_building = barracks
-                    has_building = shipyard
+                    has_production_building_trigger = yes
+                    has_trade_building_trigger = yes
+                    has_tax_building_trigger = yes
+                    has_shipyard_building_trigger = yes
+                    has_manpower_building_trigger = yes
                     amount = 3
                 }
             }
@@ -365,7 +365,7 @@ vn_mlo_missions_slot_2_c = {
             province_id = 1818
         }
         trigger = {
-            1818 = { #wtf monza didnt make it
+            1818 = {
                 has_building = cathedral
             }
         }
@@ -390,7 +390,6 @@ vn_mlo_missions_slot_2_c = {
                 }
                 add_church_power = 50
             }
-            #add modifier
         }
     }
 }
@@ -640,7 +639,8 @@ vn_mlo_missions_slot_3_a = {
             }
         }
         effect = {
-            #add extra effect
+			add_prestige = 5
+			add_legitimacy = 10
             bologna_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -888,7 +888,7 @@ vn_mlo_missions_slot_4_b = {
     #         }
     #     }
     #     effect = {
-    #         #add
+    #         
     #     }
     # }
     vn_mlo_po_trading_hubs = {
@@ -899,24 +899,16 @@ vn_mlo_missions_slot_4_b = {
 		}
         trigger = {
 			num_of_owned_provinces_with = {
-				value = 5
+				value = 10
 				region = lombardy_region
-				OR = {
-					has_building = marketplace
-					has_building = trade_depot
-					has_building = stock_exchange
-				}
+				has_trade_building_trigger = yes
 			}
         }
         effect = {
             random_owned_province = {
                 limit = { 
                     region = lombardy_region
-                    OR = {
-						has_building = marketplace
-						has_building = trade_depot
-						has_building = stock_exchange
-					}
+                    has_trade_building_trigger = yes
                 }
                 add_province_modifier = {
                     name = "mlo_po_trading_hubs_mission"
@@ -926,10 +918,9 @@ vn_mlo_missions_slot_4_b = {
             random_owned_province = {
                 limit = { 
                     region = lombardy_region
-                    OR = {
-						has_building = marketplace
-						has_building = trade_depot
-						has_building = stock_exchange
+					has_trade_building_trigger = yes
+					NOT = {
+						has_province_modifier = mlo_po_trading_hubs_mission
 					}
                 }
                 add_province_modifier = {
@@ -1067,14 +1058,40 @@ vn_mlo_missions_slot_5_a = {
             }
         }
         effect = {
-            #add
+            trent_area = {
+				type = all
+				add_province_modifier = {
+					name = "mlo_conquer_trent_mission"
+					duration = 9125
+				}
+			}
         }
     }
     vn_mlo_safeguard_alps = {
         icon = mission_european_castle
         required_missions = { vn_mlo_conquer_trent }
         trigger = {
-            #add
+            calc_true_if = {
+				4800 = {
+					has_fort_trigger = yes
+				}
+				1136 = {
+					has_fort_trigger = yes
+				}
+				2291 = {
+					has_fort_trigger = yes
+				}
+				2717 = {
+					has_fort_trigger = yes
+				}
+				2292 = {
+					has_fort_trigger = yes
+				}
+				2269 = {
+					has_fort_trigger = yes
+				}
+				amount = 3
+			}
         }
         effect = {
             add_country_modifier = {

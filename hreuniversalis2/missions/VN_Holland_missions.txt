@@ -443,7 +443,6 @@ vn_hol_missions_slot_2_a = {
                 name = "hol_beerenburg_banking"
                 duration = -1
 			}
-			#add event?
         }
     }
 }
@@ -1289,7 +1288,7 @@ vn_hol_missions_slot_4_b = {
 				add_base_production = 1
 				add_province_modifier = {
 					name = "hol_dutch_trading_culture_mission" 
-					duration = -1	
+					duration = 9125
 				}
 			}
         }
@@ -1315,8 +1314,9 @@ vn_hol_missions_slot_4_b = {
         icon = mission_build_up_to_force_limit
         required_missions = { vn_hol_oostsee_handel }
         trigger = {
-			any_owned_province = {
+			num_of_owned_provinces_with = {
 				has_province_modifier = hanseatic_city
+				value = 5
 			}
         }
         effect = {
@@ -1457,8 +1457,8 @@ vn_hol_missions_slot_4_b = {
         trigger = {
 			is_force_converted = no
 			OR = {
-				religion = protestant
-				religion = reformed
+				uses_church_aspects = yes
+				uses_fervor = yes
 			}
         }
         effect = {
@@ -1475,13 +1475,11 @@ vn_hol_missions_slot_4_b = {
         trigger = {
 			has_institution = printing_press
 			OR = {
-				religion = protestant
-				religion = reformed
+				uses_church_aspects = yes
+				uses_fervor = yes
 			}
         }
         effect = { 
-			#add more
-			#! event that gives the following modifier:
             add_country_modifier = {
                 name = "hol_the_statenvertaling_mission" 
                 duration = -1
@@ -1492,27 +1490,39 @@ vn_hol_missions_slot_4_b = {
         icon = mission_build_up_to_force_limit
         required_missions = { vn_hol_the_statenvertaling }
         trigger = {
-			#! event for above mission fired
+			OR = {
+				temple = 10
+				cathedral = 5
+			}
+			OR = {
+				uses_church_aspects = yes
+				uses_fervor = yes
+			}
         }
-        effect = { #add
-			#! event that gives that sets flag
+        effect = {
             add_country_modifier = {
                 name = "hol_the_beeldenstorm_mission" 
-                duration = 9125 # if not a flag
-            }
+                duration = 9125
+			}
+			country_event = {
+				id = vn_missions.73
+			}
         }
     }
     vn_hol_tolerate_heretics = {
         icon = mission_build_up_to_force_limit
         required_missions = { vn_hol_the_beeldenstorm }
         trigger = {
-			#! event for above mission fired
+			full_idea_group = humanist_ideas
+			num_of_religion = {
+				heretic = yes
+				value = 5
+			}
         }
-        effect = { ###
-			#! removes flag, gives heretic tolerance, gives development cost, ect.
+        effect = {
             add_country_modifier = {
                 name = "hol_tolerate_heretics_mission"
-                duration = 9125 # if not a flag
+                duration = 9125
             } 
         }
     }

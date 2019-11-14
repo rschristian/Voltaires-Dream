@@ -146,6 +146,7 @@ vn_fra_missions_slot_1_b = {
 			}
         }
         effect = {
+			add_prestige = 5
             maine_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -794,7 +795,20 @@ vn_fra_missions_slot_1_c = {
 			}
         }
         effect = {
-            #add
+            campania_region = {
+				type = all
+				add_province_modifier = {
+					name = "fra_overthrow_naples_mission"
+					duration = 9125
+				}
+			}
+			apulia_region = {
+				type = all
+				add_province_modifier = {
+					name = "fra_overthrow_naples_mission"
+					duration = 9125
+				}
+			}
         }
 	}
 	vn_fra_mediterranean_ambition = {
@@ -812,6 +826,7 @@ vn_fra_missions_slot_1_c = {
 			}
         }
         effect = {
+			add_dip_power = 25
             sardinia_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1160,6 +1175,7 @@ vn_fra_missions_slot_2_b = {
 			}
         }
         effect = {
+			add_prestige = 5
             brittany_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1220,6 +1236,7 @@ vn_fra_missions_slot_2_c = {
 			}
         }
         effect = {
+			#tooltip?
 			champagne_region = {
 				limit = { trade_goods = cloth }
 				add_province_modifier = {
@@ -1452,6 +1469,7 @@ vn_fra_missions_slot_2_f = {
 			}
         }
         effect = {
+			add_legitimacy = 10
             391 = {
 				if = {
 					limit = {
@@ -1649,12 +1667,15 @@ vn_fra_missions_slot_2_f = {
         trigger = {
             italy_superregion = {
 				type = all
-				owns_or_subject_of = ROOT
+				country_or_non_sovereign_subject_holds = ROOT
 			}
         }
         effect = {
 			add_prestige = 20
-			#addmore
+			add_country_modifier = {
+				name = "fra_italian_hegemony_mission"
+				duration = 18250
+			}
         }
 	}
 }
@@ -1707,14 +1728,7 @@ vn_fra_missions_slot_2_g = {
 			}
         }
         effect = {
-            vizcaya_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-			}
-			navarra_area = {
+            basque_region = {
                 limit = {
                     NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -1735,18 +1749,13 @@ vn_fra_missions_slot_2_g = {
 		required_missions = { vn_fra_reconquer_catalonia }
 		provinces_to_highlight = {
 			OR = {
-				area = vizcaya_area
-				area = navarra_area
+				region = basque_region
 				area = huesca_area
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-			vizcaya_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			navarra_area = {
+			basque_region = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -1756,7 +1765,51 @@ vn_fra_missions_slot_2_g = {
 			}
         }
         effect = {
-            #add
+            aragon_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			castile_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = navarra_area
+						area = vizcaya_area
+						area = huesca_area
+					}
+				}
+				add_building = fort_15th
+			}
+			navarra_area = {
+				type = all
+				add_province_modifier = {
+					name = "fra_marca_hispanica_mission"
+					duration = 9125
+				}
+			}
+			vizcaya_area = {
+				type = all
+				add_province_modifier = {
+					name = "fra_marca_hispanica_mission"
+					duration = 9125
+				}
+			}
+			huesca_area = {
+				type = all
+				add_province_modifier = {
+					name = "fra_marca_hispanica_mission"
+					duration = 9125
+				}
+			}
         }
     }
 }
@@ -1815,9 +1868,19 @@ vn_fra_missions_slot_3_a = {
         required_missions = { vn_fra_assert_legitimacy }
         trigger = {
 			#empire_of_china_reform_level = 1
-			#add
+			#needs tooltip
+			NOT = {
+				calc_true_if = {
+					all_subject_country = {
+						is_subject_of_type = daimyo_vassal
+					}
+					amount = 70
+				}
+			}
+			grown_by_development = 50
         }
         effect = {
+			change_government_reform_progress = 25
             normandy_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1847,7 +1910,16 @@ vn_fra_missions_slot_3_a = {
         required_missions = { vn_fra_expand_royal_authority }
         trigger = {
 			#empire_of_china_reform_level = 2
-			#add
+			#needs tooltip
+			NOT = {
+				calc_true_if = {
+					all_subject_country = {
+						is_subject_of_type = daimyo_vassal
+					}
+					amount = 50
+				}
+			}
+			grown_by_development = 150
         }
         effect = {
             picard_region = {
@@ -1886,7 +1958,16 @@ vn_fra_missions_slot_3_a = {
         required_missions = { vn_fra_bring_fiefs_to_heel }
         trigger = {
 			#empire_of_china_reform_level = 3
-			#add
+			#needs tooltip
+			NOT = {
+				calc_true_if = {
+					all_subject_country = {
+						is_subject_of_type = daimyo_vassal
+					}
+					amount = 30
+				}
+			}
+			grown_by_development = 300
         }
         effect = {
             burgundy_area = {
@@ -1918,7 +1999,16 @@ vn_fra_missions_slot_3_a = {
         required_missions = { vn_fra_centralize_state }
         trigger = {
 			#empire_of_china_reform_level = 4
-			#add
+			#needs tooltip
+			NOT = {
+				calc_true_if = {
+					all_subject_country = {
+						is_subject_of_type = daimyo_vassal
+					}
+					amount = 10
+				}
+			}
+			grown_by_development = 450
         }
         effect = {
             #add
@@ -1930,7 +2020,13 @@ vn_fra_missions_slot_3_a = {
         required_missions = { vn_fra_edict_of_moulins }
         trigger = {
 			#empire_of_china_reform_level = 5
-			#add
+			#needs tooltip
+			NOT = {
+				any_subject_country = {
+					is_subject_of_type = daimyo_vassal
+				}
+			}
+			grown_by_development = 600
         }
 		effect = {
 			barrois_area = {
@@ -2208,7 +2304,15 @@ vn_fra_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+			capital_scope = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+            add_country_modifier = {
+				name = "fra_encourage_urbanization_mission"
+				duration = 9125
+			}
         }
     }
     vn_fra_found_sorbonne = {
@@ -3078,8 +3182,11 @@ vn_fra_missions_slot_5_b = {
         position = 3
         required_missions = {  }
         trigger = {
+			#needs tooltip
             has_3_lv2_advisors_trigger = yes
-			#addmore
+			employed_advisor = {
+				NOT = { culture = ROOT }
+			}
         }
         effect = {
             #add
