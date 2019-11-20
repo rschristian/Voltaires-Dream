@@ -481,29 +481,9 @@ vn_FOI_missions_slot_5 = {
 	}
     has_country_shield = yes
 
-    vn_FOI_prince_of_andorra = {
-        position = 1
-        icon = mission_roads
-        required_missions = {  }
-        provinces_to_highlight = {
-            province_id = 668
-        }
-        trigger = {
-            owns_core_province = 668
-        }
-        effect = {
-            lerida_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-        }
-    }
     vn_FOI_rousillon = {
         icon = mission_dominate_home_trade_node
-        required_missions = { vn_FOI_prince_of_andorra }
+        required_missions = { }
         provinces_to_highlight = {
             area = lerida_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -516,6 +496,24 @@ vn_FOI_missions_slot_5 = {
         }
         effect = {
             add_prestige = 15
+        }
+    }
+    vn_FOI_prince_of_andorra = {
+        icon = mission_roads
+        required_missions = { vn_FOI_rousillon }
+        provinces_to_highlight = {
+            province_id = 668
+        }
+        trigger = {
+            668 = {
+                owned_by = ROOT
+                is_core = ROOT
+                has_fort_trigger = yes
+                NOT = { unrest = 1 }
+                NOT = { devastation = 1 }
+            }
+        }
+        effect = {
             tarragona_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -534,7 +532,7 @@ vn_FOI_missions_slot_5 = {
     }
     vn_FOI_defeat_urgell = {
         icon = mission_dominate_home_trade_node
-        required_missions = { vn_FOI_rousillon }
+        required_missions = { vn_FOI_prince_of_andorra }
         provinces_to_highlight = {
             OR = {
                 area = tarragona_area

@@ -1,0 +1,570 @@
+#Savoy missions
+#Contributed towerator
+#Coded by ShyGuy13
+
+vn_sar_missions_slot_1 = {
+	slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+            tag = COR	#since there's no own tree I added COR here
+            tag = SAR
+			tag = AOE
+			tag = LGU
+			tag = GLL
+			tag = CGL
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_sar_ally_italy = {
+		position = 1
+		icon = mission_humiliate_provence
+		required_missions = { }
+		trigger = {
+            any_ally = {
+				total_development = 50
+				culture_group = latin
+				has_opinion = {
+					who = ROOT
+					value = 150
+				}
+            }
+		}
+		effect = {
+			sassari_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = sar_ally_italy_mission
+				duration = 9125
+			}
+		}
+    }
+    vn_sar_conquer_sassari = {
+		icon = mission_retake_ceuta
+		required_missions = { vn_sar_ally_italy }
+		provinces_to_highlight = {
+			area = sassari_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+            sassari_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+			add_prestige = 10
+			corsica_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+			gallura_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            arborea_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+    }
+    vn_sar_conquer_sardinia = {
+		icon = mission_unite_home_region
+		required_missions = { vn_sar_conquer_sassari }
+		provinces_to_highlight = {
+			OR = {
+                area = gallura_area
+                area = arborea_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			corsica_area = {
+				type = all
+                country_or_non_sovereign_subject_holds = ROOT
+			}
+            gallura_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            arborea_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            if = {
+                limit = { NOT = { primary_culture = sardinian } }
+                add_accepted_culture = sardinian
+            }
+            if = {
+                limit = { NOT = { primary_culture = corsican } }
+                add_accepted_culture = corsican
+            }
+            319 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
+			add_country_modifier = {
+				name = sar_conquer_sardinia_mission
+				duration = 7300
+			}
+		}
+    }
+    vn_sar_conquer_elba = {
+		icon = mission_portuguese_malacca
+		required_missions = { vn_sar_conquer_sardinia }
+		provinces_to_highlight = {
+			province_id = 319
+		}
+		trigger = {
+            319 = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+			liguria_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+			pisa_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = sar_conquer_elba_mission
+				duration = 9125
+			}
+		}
+    }
+    vn_sar_conquer_genoa = {
+		icon = mission_sea_battles
+		required_missions = { vn_sar_conquer_elba }
+		provinces_to_highlight = {
+			region = liguria_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+            liguria_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_treasury = 250
+			torino_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+			monferrato_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+			aosta_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = sar_conquer_genoa_mission
+				duration = 9125
+			}
+		}
+    }
+    vn_sar_conquer_saluzzo = {
+		icon = mission_humiliate_provence
+		required_missions = { vn_sar_conquer_genoa }
+		provinces_to_highlight = {
+			OR = {
+				area = torino_area
+				area = monferrato_area
+				area = aosta_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			torino_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			monferrato_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			aosta_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = sar_conquer_saluzzo_mission
+				duration = 9125
+			}
+		}
+    }
+}
+
+vn_sar_missions_slot_2 = {
+	slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+            tag = COR
+            tag = SAR
+			tag = AOE
+			tag = LGU
+			tag = GLL
+			tag = CGL
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_sar_conquer_pisa = {
+		position = 5
+		icon = mission_raid_on_genoa
+		required_missions = { vn_sar_conquer_elba vn_sar_gain_papal_support }
+		provinces_to_highlight = {
+			area = pisa_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+            pisa_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			640 = {
+				add_province_modifier = {
+					name = sar_conquer_pisa_mission
+					duration = 7300
+				}
+			}
+		}
+    }
+    vn_sar_dominate_italian_trade = {
+		icon = mission_establish_mint_towns
+		required_missions = { vn_sar_conquer_pisa }
+		provinces_to_highlight = {
+			province_id = 640
+		}
+		trigger = {
+            640 = {
+				is_strongest_trade_power = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = { 2283 = { NOT = { province_has_center_of_trade_of_level = 3 } } }
+				2283 = {
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				add_mercantilism = 3
+			}
+		}
+    }
+}
+
+vn_sar_missions_slot_3 = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+            tag = COR
+            tag = SAR
+			tag = AOE
+			tag = LGU
+			tag = GLL
+			tag = CGL
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_sar_develop_the_isles = {
+		position = 1
+		icon = mission_expand_inland
+		required_missions = { }
+		provinces_to_highlight = {
+            region = insular_region
+            OR = {
+                NOT = { country_or_non_sovereign_subject_holds = ROOT }
+                NOT = { base_tax = 2 }
+                NOT = { base_production = 2 }
+                NOT = { base_manpower = 2 }
+            }
+        }
+        trigger = {
+            insular_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+                base_tax = 2
+                base_production = 2
+                base_manpower = 2
+            }
+        }
+		effect = {
+			add_country_modifier = {
+				name = sar_develop_the_isles_mission
+				duration = 7300
+			}
+		}
+    } 
+    vn_sar_influential_estates = {
+		icon = mission_alliances
+		required_missions = { vn_sar_develop_the_isles }
+		trigger = {
+            if = {
+				limit = { has_estate = estate_nobles }
+				estate_influence = {
+					estate = estate_nobles
+					influence = 75
+				}
+                estate_loyalty = {
+                    estate = estate_nobles
+                    loyalty = 60
+                }
+            }
+            if = {
+				limit = { has_estate = estate_burghers }
+				estate_influence = {
+					estate = estate_burghers
+					influence = 75
+				}
+                estate_loyalty = {
+                    estate = estate_burghers
+                    loyalty = 60
+                }
+            }
+            if = {
+                limit = {
+                    NOT = { has_estate = estate_nobles }
+                    NOT = { has_estate = estate_burghers }
+                }
+                stability = 2
+                legitimacy_equivalent = 95
+            }
+		}
+		effect = {
+			add_adm_power = 50
+			add_country_modifier = {
+				name = sar_influential_estates_mission
+				duration = 9125
+			}
+		}
+    }
+    vn_sar_gain_papal_support = {
+        position = 4
+		icon = mission_coronation
+		required_missions = { vn_sar_influential_estates }
+		trigger = {
+			if = {
+				limit = { religion = catholic exists = PAP }
+				OR = {
+					AND = {
+						reverse_has_opinion = {
+							who = PAP
+							value = 100
+						}
+						papal_influence = 50
+					}
+					AND = {
+						is_in_war = {
+							attacker_leader = ROOT
+							defender_leader = PAP
+							war_score = 75
+						}
+						PAP = {
+							capital_scope = {
+								controlled_by = ROOT
+							}
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { religion = catholique exists = AVI }
+				OR = {
+					AND = {
+						reverse_has_opinion = {
+							who = AVI
+							value = 100
+						}
+						papal_influence = 50
+					}
+					AND = {
+						is_in_war = {
+							attacker_leader = ROOT
+							defender_leader = AVI
+							war_score = 75
+						}
+						AVI = {
+							capital_scope = {
+								controlled_by = ROOT
+							}
+						}
+					}
+				}
+			}
+			else = {
+				grown_by_development = 100
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							religion = catholic
+							exists = PAP
+						}
+						AND = {
+							religion = catholique
+							exists = AVI
+						}
+					}
+				}
+				country_event = { id = vn_missions.14 }
+			}
+			else = {
+				add_prestige = 10
+				add_legitimacy = 15
+			}
+		}
+    }
+}
+
+vn_sar_missions_slot_4 = {
+	slot = 9
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+            tag = COR
+            tag = SAR
+			tag = AOE
+			tag = LGU
+			tag = GLL
+			tag = CGL
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_sar_defend_the_isles = {
+		position = 2
+		icon = mission_portuguese_oman
+		required_missions = { vn_sar_develop_the_isles }
+        trigger = {
+            num_of_owned_provinces_with = {
+				value = 2
+				area  = arborea_area
+				has_fort_trigger = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 2
+				area  = sassari_area
+				has_fort_trigger = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 2
+				area  = gallura_area
+				has_fort_trigger = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 2
+				area  = corsica_area
+				has_fort_trigger = yes
+			}
+        }
+		effect = {
+			add_mil_power = 50
+			add_country_modifier = {
+				name = sar_defend_the_isles_mission
+				duration = 9125
+			}
+		}
+    }
+    vn_sar_prepare_for_war = {
+		icon = mission_aragonese_navy
+		required_missions = { vn_sar_defend_the_isles }
+		trigger = {
+            land_forcelimit = 10
+            army_size_percentage = 1
+            num_of_heavy_ship = 3
+            num_of_transport = 10
+		}
+		effect = {
+			sicilia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = sar_prepare_for_war_mission
+				duration = 9125
+			}
+		}
+    }
+    vn_sar_conquer_sicily = {
+		icon = mission_seize_the_isles
+        required_missions = { vn_sar_prepare_for_war }
+        provinces_to_highlight = {
+            region = sicilia_region
+            has_fort_trigger = yes
+            NOT = { owned_by = ROOT }
+        }
+		trigger = {
+            sicilia_region = {
+                owned_by = ROOT
+                has_fort_trigger = yes
+            }
+		}
+		effect = {
+			add_papal_influence = 10
+			add_prestige = 10
+		}
+    }
+}
