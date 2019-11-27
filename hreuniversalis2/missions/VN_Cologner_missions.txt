@@ -1,0 +1,785 @@
+vn_kol_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = KOL
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_kol_conquer_limburg = {
+        position = 4
+        icon = mission_build_up_to_force_limit
+        required_missions = { vn_kol_conquer_julich }
+        provinces_to_highlight = {
+            area = limburg_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            limburg_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            triernorth_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+            triersouth_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_kol_conquer_trier = {
+        icon = mission_teutonic_knights
+        required_missions = { vn_kol_conquer_limburg }
+        provinces_to_highlight = {
+            OR = {
+                area = triernorth_area
+                area = triersouth_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            triernorth_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            triersouth_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            mainz_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            pfalzwest_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_kol_conquer_zweibrucken = {
+        position = 6
+        icon = mission_village
+        required_missions = { vn_kol_conquer_trier }
+        provinces_to_highlight = {
+            OR = {
+                area = mainz_area
+                area = pfalzwest_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            mainz_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            pfalzwest_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = kol_conquer_zweibrucken_mission
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_kol_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = KOL
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_kol_archchancellor_of_italy = {
+        position = 1
+        icon = mission_religious
+        required_missions = { }
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = vn_kol_archchancellor_of_italy.tt
+                calc_true_if = {
+                    amount = 2
+                    all_ally = {
+                        is_part_of_hre = yes
+                        culture_group = latin
+                        has_opinion = {
+                            who = ROOT
+                            value = 150
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_dip_power = 100
+            162 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            2501 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            160 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            4110 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            157 = { 
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+        }
+    }
+    vn_kol_conquer_cleves = {
+        icon = mission_large_army
+        required_missions = { vn_kol_archchancellor_of_italy }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 162
+                province_id = 2501
+                province_id = 160
+                province_id = 4110
+                province_id = 157
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            162 = { country_or_non_sovereign_subject_holds = ROOT }
+            2501 = { country_or_non_sovereign_subject_holds = ROOT }
+            160 = { country_or_non_sovereign_subject_holds = ROOT }
+            4110 = { country_or_non_sovereign_subject_holds = ROOT }
+            157 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            aachen_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = kol_conquer_cleves_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_kol_conquer_julich = {
+        icon = mission_landsknecht_soldier
+        required_missions = { vn_kol_conquer_cleves }
+        provinces_to_highlight = {
+            area = aachen_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            aachen_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            limburg_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+            guelders_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_kol_conquer_guelders = {
+        position = 5
+        icon = mission_city_of_the_world's_desire
+        required_missions = { vn_kol_conquer_julich }
+        provinces_to_highlight = {
+            area = guelders_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            guelders_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            utrecht_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            overijssel_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_kol_conquer_utrecht = {
+        icon = mission_sea_battles
+        required_missions = { vn_kol_conquer_guelders }
+        provinces_to_highlight = {
+            OR = {
+                area = utrecht_area
+                area = overijssel_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            utrecht_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            overijssel_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 20
+            add_country_modifier = {
+                name = kol_conquer_utrecht_mission
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_kol_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = KOL
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_kol_gain_influence = {
+        position = 1
+        icon = mission_alliances
+        required_missions = { }
+        trigger = {
+            army_size_percentage = 1
+            if = {
+                limit = {
+                    calc_true_if = {
+                        amount = 2
+                        exists = BRE
+                        exists = TRI
+                        exists = MAI
+                        exists = MUN
+                        exists = LIE
+                        exists = UTR
+                    }
+                }
+                calc_true_if = {
+                    amount = 2
+                    OR = {
+                        BRE = {
+                            alliance_with = ROOT
+                            has_opinion = {
+                                who = ROOT
+                                value = 100
+                            }
+                        }
+                        TRI = {
+                            alliance_with = ROOT
+                            has_opinion = {
+                                who = ROOT
+                                value = 100
+                            }
+                        }
+                        MAI = {
+                            alliance_with = ROOT
+                            has_opinion = {
+                                who = ROOT
+                                value = 100
+                            }
+                        }
+                        MUN = {
+                            alliance_with = ROOT
+                            has_opinion = {
+                                who = ROOT
+                                value = 100
+                            }
+                        }
+                        LIE = {
+                            alliance_with = ROOT
+                            has_opinion = {
+                                who = ROOT
+                                value = 100
+                            }
+                        }
+                        UTR = {
+                            alliance_with = ROOT
+                            has_opinion = {
+                                who = ROOT
+                                value = 100
+                            }
+                        }
+                    }
+                }
+            }
+            else = {
+                num_of_allies = 5
+            }
+        }
+        effect = {
+            mark_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_kol_conquer_berg = {
+        icon = mission_unite_rajputana
+        required_missions = { vn_kol_gain_influence }
+        provinces_to_highlight = {
+            area = mark_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            mark_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            westfalen_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_kol_conquer_mark = {
+        position = 4
+        icon = mission_rb_rein_in_the_highland_clans
+        required_missions = { vn_kol_conquer_berg }
+        provinces_to_highlight = {
+            area = westfalen_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            westfalen_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            hesse_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_kol_conquer_westphalia = {
+        icon = mission_unite_home_region
+        required_missions = { vn_kol_conquer_mark }
+        provinces_to_highlight = {
+            region = hesse_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            hesse_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 20
+            hesse_region = {
+                add_province_modifier = {
+                    name = kol_conquer_westphalia_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_kol_conquer_munster = {
+        position = 5
+        icon = mission_cannons_firing
+        required_missions = { vn_kol_conquer_westphalia }
+        provinces_to_highlight = {
+            OR = {
+                area = munster_area
+                area = tecklenburg_area
+                area = osnabruck_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            munster_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            tecklenburg_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            osnabruck_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_kol_ecclesiastical_enlightenment = {
+        icon = mission_hands_praying
+        required_missions = { vn_kol_conquer_munster vn_kol_conquer_utrecht }
+        trigger = {
+            has_institution = enlightenment
+            has_3_lv3_advisors_trigger = yes
+            university = 10
+        }
+        effect = {
+            add_adm_power = 100
+            add_dip_power = 100
+            add_mil_power = 100
+            add_papal_influence = 25
+            add_church_power = 50
+            add_fervor = 25
+            add_country_modifier = {
+                name = kol_ecclesiastical_enlightenment_mission
+                duration = 18250
+            }
+        }
+    }
+}
+
+
+vn_kol_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = KOL
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_kol_develop_cologne = {
+        position = 2
+        icon = mission_big_city
+        required_missions = { vn_kol_rhine_infrastructure }
+        provinces_to_highlight = {
+            province_id = 1951
+            NOT = {
+                OR = {
+                    owned_by = ROOT
+                    num_of_times_improved = 12
+                    NOT = { devastation = 1 }
+                }
+            }
+        }
+        trigger = {
+            if = {
+                limit = {
+                    hre_size = 1
+                    is_emperor = no
+                }
+                reverse_has_opinion = {
+                    who = emperor
+                    value = 150
+                }
+            }
+            1951 = {
+                owned_by = ROOT
+                num_of_times_improved = 12
+                NOT = { devastation = 1 }
+            }
+        }
+        effect = {
+            country_event = { id = vn_missions.18 } 
+        }
+    }
+    vn_kol_finish_the_cathedral = {
+        icon = mission_rb_scottish_conquer_london
+        required_missions = { vn_kol_develop_cologne }
+        provinces_to_highlight = {
+            province_id = 1951
+        }
+        trigger = {
+            1951 = {
+                owned_by = ROOT
+                development = 40
+                has_building = stock_exchange
+                has_building = cathedral
+                has_building = counting_house
+            }
+        }
+        effect = {
+            add_mercantilism = 3
+            1951 = {
+                add_province_modifier = {
+                    name = kol_finish_the_cathedral_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_kol_residence_of_arnsberg = {
+        position = 5
+        icon = mission_buildings
+        required_missions = { vn_kol_conquer_mark }
+        provinces_to_highlight = {
+            province_id = 82
+        }
+        trigger = {
+            82 = {
+                owned_by = ROOT
+                development = 20
+                has_fort_trigger = yes
+            }
+        }
+        effect = {
+            country_event = { id = vn_missions.17 }
+        }
+    }
+}
+
+vn_kol_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = KOL
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_kol_rhine_infrastructure = {
+        position = 1
+        icon = mission_roads
+        required_missions = {  }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 3
+                area = cologne_area
+                has_building = post_office
+            }
+            num_of_owned_provinces_with = {
+                value = 3
+                area = mark_area
+                has_building = post_office
+            }
+        }
+        effect = {
+            cologne_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_prosperity = 25
+                add_province_modifier = {
+                    name = kol_rhine_infrastructure_mission
+                    duration = 9125
+                }
+            }
+            mark_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_prosperity = 25
+                add_province_modifier = {
+                    name = kol_rhine_infrastructure_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_kol_dominate_rhine_trade = {
+        icon = mission_dominate_home_trade_node
+        required_missions = { vn_kol_rhine_infrastructure }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 1943
+                province_id = 1951
+            }
+            OR = {
+                NOT = {
+                    has_trader = ROOT
+                }
+                NOT = {
+                    trade_share = {
+                        country = ROOT
+                        share = 40
+                    }
+                }
+            }
+        }
+        trigger = {
+            trade_income_percentage = 0.3
+            1943 = {
+                has_trader = ROOT
+                trade_share = {
+                    country = ROOT
+                    share = 40
+                }
+            }
+            1951 = {
+                has_trader = ROOT
+                trade_share = {
+                    country = ROOT
+                    share = 40
+                }
+            }
+        }
+        effect = {
+            add_years_of_income = 1
+        }
+    }
+    vn_kol_regulate_mining = {
+        icon = mission_rb_build_furnaces
+        required_missions = { vn_kol_dominate_rhine_trade }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 10
+                base_production = 8
+                has_manufactory_trigger = yes
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = kol_regulate_mining_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_kol_siegburger_reform = {
+        icon = mission_rb_monopolize_the_channel
+        required_missions = {  }
+        trigger = {
+            if = {
+                limit = { has_dlc = "Dharma" }
+                has_reform_level = 3
+            }
+            else = {
+                stability = 3
+            }
+            NOT = { corruption = 1 }
+            NOT = { num_of_rebel_controlled_provinces = 1 }
+			NOT = { num_of_rebel_armies = 1 }
+        }
+        effect = {
+            add_devotion = 10
+            add_legitimacy = 10
+            add_adm_power = 100
+        }
+    }
+    vn_kol_holy_order_of_michael = {
+        icon = mission_defend_the_faith
+        required_missions = { vn_kol_siegburger_reform }
+        trigger = {
+            OR = {
+                temple = 8
+                cathedral = 3
+            }
+            OR = {
+                regimental_camp = 8
+                conscription_center = 3
+            }
+        }
+        effect = {
+            add_army_tradition = 10
+            add_country_modifier = {
+                name = kol_holy_order_of_michael_mission
+                duration = -1
+            }
+        }
+    }
+    vn_kol_seneschal_upheaval = {
+        icon = mission_luther_theses
+        required_missions = { vn_kol_holy_order_of_michael }
+        trigger = {
+            stability = 2
+            custom_trigger_tooltip = {
+                tooltip = vn_kol_seneschal_upheaval.tt
+                OR = {
+                    has_country_flag = had_religious_turmoil
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
+        }
+        effect = {
+            add_stability_or_adm_power = yes
+            add_country_modifier = {
+                name = kol_seneschal_upheaval_mission
+                duration = 9125
+            }
+        }
+    }
+}
