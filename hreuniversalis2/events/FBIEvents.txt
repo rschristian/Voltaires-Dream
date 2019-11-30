@@ -292,8 +292,11 @@ country_event = {
 			}
 			if = {
 				limit = { GAL = { is_subject_of = LON } }
-				break_union = GAL
-				GAL = { define_ruler = { dynasty = "Jiménez" } }
+				free_vassal = GAL
+				GAL = {
+					define_ruler = { dynasty = "Jiménez" }
+					set_government_rank = 5
+				}
 			}
 			every_owned_province = {
 				limit = { is_core = GAL }
@@ -374,29 +377,19 @@ country_event = {
 
 	trigger = {
 		capital_scope = { superregion = italy_superregion }
-		OR = {
-			culture_group = latin
-			primary_culture = langobardic
-		}
-		has_reform = leading_clergy_reform
+		culture_group = latin
 		current_age = age_of_holy_wars
 		NOT = { has_country_flag = had_commune_question }
 		NOT = { num_of_cities = 5 }
+		is_subject = no
+		NOT = { tag = PAP }
 	}
 	
 	mean_time_to_happen = {
-		months = 120
+		months = 480
 		modifier = {
 			factor = 0.75
 			NOT = { num_of_cities = 2 }
-		}
-		modifier = {
-			factor = 0.8
-			NOT = { devotion = 80 }
-		}
-		modifier = {
-			factor = 0.4
-			NOT = { devotion = 40 }
 		}
 		modifier = {
 			factor = 0.8
@@ -3605,7 +3598,7 @@ country_event = {
 	option = {
 		name = "FBIA84"
 		ai_chance = { factor = 20 }
-		change_heir_mil = 1
+		change_heir_mil = -1
 		add_heir_claim = -10
 	}
 	option = {
@@ -6936,6 +6929,10 @@ country_event = {
 			mil = 4
 			fixed = yes
 		}
+		define_heir = {
+			hidden = yes
+			dynasty = "Dùn Chailleann"
+		}
 	}
 }
 
@@ -6951,19 +6948,5 @@ country_event = {
 	option = {
 		name = "FBIA127"
 		HSC = { white_peace = SCY }
-		if = {
-			limit = {
-				is_subject = no
-				ASE = {
-					exists = yes
-					is_subject = no
-					NOT = { war_with = ROOT }
-				}
-			}
-			tooltip = { ASE = { create_march = = ROOT } }
-			ASE = {
-				country_event = { id = hremodevents.65 days = 5 }
-			}
-		}
 	}
 }
