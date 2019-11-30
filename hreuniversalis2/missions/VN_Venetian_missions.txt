@@ -12,22 +12,52 @@ vn_ven_missions_slot_1 = {
     has_country_shield = yes
 
     vn_ven_conquer_venetia = {
-        icon = mission_unite_home_region
+        icon = mission_sea_battles
         position = 1
         required_missions = {  }
+        provinces_to_highlight = {
+            area = venice_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            venice_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            verona_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            bassano_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            friuli_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_ven_conquer_verona = {
-        icon = mission_unite_home_region
+        icon = mission_soldiers_in_line
         position = 2
         required_missions = { vn_ven_conquer_venetia }
         provinces_to_highlight = {
-            area = verona_area
+            OR = {
+                area = verona_area
+                area = bassano_area
+            }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
@@ -35,9 +65,71 @@ vn_ven_missions_slot_1 = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
+            bassano_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            brescia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            mantua_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            2612 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            729 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            113 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            5193 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            1048 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
         }
     }
     vn_ven_conquer_brescia = {
@@ -66,7 +158,7 @@ vn_ven_missions_slot_1 = {
         }
     }
     vn_ven_conquer_milan = {
-        icon = mission_unite_home_region
+        icon = mission_italian_conquest
         position = 4
         required_missions = { vn_ven_conquer_brescia }
         provinces_to_highlight = {
@@ -86,7 +178,7 @@ vn_ven_missions_slot_1 = {
         }
     }
     vn_ven_conquer_crete = {
-        icon = mission_unite_home_region
+        icon = mission_tear_down_spanish_strongholds
         position = 6
         required_missions = { vn_ven_paticipate_in_crusades }
         provinces_to_highlight = {
@@ -100,12 +192,28 @@ vn_ven_missions_slot_1 = {
             }
         }
         effect = {
-            #event
-            #not started after 1204.5.16
+            if = {
+                limit = { NOT = { started_in = 1204.5.16 } }
+                country_event = { id = vn_missions.21 }
+            }
+            chios_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            cyclades_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_ven_conquer_rhodes = {
-        icon = mission_unite_home_region
+        icon = mission_conquer_arakan
         position = 7
         required_missions = { vn_ven_conquer_crete }
         provinces_to_highlight = {
@@ -126,11 +234,33 @@ vn_ven_missions_slot_1 = {
             }
         }
         effect = {
-            
+            if = {
+				limit = {
+					exists = CYP
+					is_free_or_tributary_trigger = yes
+					CYP = {
+						is_free_or_tributary_trigger = yes
+					}
+				}
+				add_casus_belli = {
+					type = cb_vassalize_mission
+					months = 300
+					target = CYP
+				}
+            }
+            else = {
+                cyprus_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+            }
         }
     }
     vn_ven_conquer_cyprus = {
-        icon = mission_unite_home_region
+        icon = mission_humiliate_provence
         position = 9
         required_missions = { vn_ven_conquer_rhodes }
         provinces_to_highlight = {
@@ -144,7 +274,11 @@ vn_ven_missions_slot_1 = {
             }
         }
         effect = {
-            
+           add_prestige = 20
+           add_country_modifier = {
+               name = ven_conquer_cyprus_mission
+               duration = 9125
+           }
         }
 	}
 }
@@ -160,7 +294,7 @@ vn_ven_missions_slot_2 = {
 	has_country_shield = yes
 	
     vn_ven_conquer_aquileia = {
-        icon = mission_unite_home_region
+        icon = mission_have_two_subjects
         position = 2
         required_missions = { vn_ven_conquer_venetia }
         provinces_to_highlight = {
@@ -178,7 +312,7 @@ vn_ven_missions_slot_2 = {
         }
     }
     vn_ven_conquer_ravenna = {
-        icon = mission_unite_home_region
+        icon = mission_sea_battles
         position = 3
         required_missions = { vn_ven_conquer_verona }
         provinces_to_highlight = {
@@ -203,7 +337,7 @@ vn_ven_missions_slot_2 = {
         }
     }
     vn_ven_develop_terraferma = {
-        icon = mission_unite_home_region
+        icon = mission_colonial
         position = 4
         required_missions = { vn_ven_conquer_brescia }
         trigger = {
@@ -216,7 +350,7 @@ vn_ven_missions_slot_2 = {
 				region = lombardy_region
             }
             development_in_provinces = {
-				value = 50
+				value = 100
 				region = romagna_region
 			}
         }
@@ -225,7 +359,7 @@ vn_ven_missions_slot_2 = {
         }
     }
     vn_ven_paticipate_in_crusades = {
-        icon = mission_unite_home_region
+        icon = mission_crusade
         position = 5
         required_missions = {  }
         trigger = {
@@ -233,11 +367,51 @@ vn_ven_missions_slot_2 = {
             #add crusade stuff here later
         }
         effect = {
-            
+            add_manpower = 2.5
+            624 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            623 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            622 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            630 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            add_country_modifier = {
+                name = ven_paticipate_in_crusades_mission
+                duration = 9125
+            }
         }
     }
     vn_ven_conquer_korfu = {
-        icon = mission_unite_home_region
+        icon = mission_invade_island
         position = 6
         required_missions = { vn_ven_paticipate_in_crusades }
         provinces_to_highlight = {
@@ -256,11 +430,30 @@ vn_ven_missions_slot_2 = {
             630 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            
+            add_mercantilism = 2
+            624 = {
+                add_base_production = 1
+            }
+            623 = {
+                add_base_production = 1
+            }
+            622 = {
+                add_base_production = 1
+            }
+            630 = {
+                add_base_production = 1
+            }
+            morea_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_ven_conquer_morea = {
-        icon = mission_unite_home_region
+        icon = mission_have_two_subjects
         position = 7
         required_missions = { vn_ven_conquer_korfu }
         provinces_to_highlight = {
@@ -274,11 +467,17 @@ vn_ven_missions_slot_2 = {
             }
         }
         effect = {
-            
+            euboia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_ven_conquer_negroponte = {
-        icon = mission_unite_home_region
+        icon = mission_golden_century
         position = 8
         required_missions = { vn_ven_conquer_morea vn_ven_conquer_rhodes }
         provinces_to_highlight = {
@@ -296,7 +495,7 @@ vn_ven_missions_slot_2 = {
         }
     }
     vn_ven_greek_trade = {
-        icon = mission_unite_home_region
+        icon = mission_trade_with_cathay
         position = 9
         required_missions = { vn_ven_conquer_negroponte }
         provinces_to_highlight = {
@@ -306,19 +505,49 @@ vn_ven_missions_slot_2 = {
                 province_id = 5449
                 province_id = 355
             }
-            NOT = { is_strongest_trade_power = ROOT }
+            NOT = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
         }
         trigger = {
             calc_true_if = {
                 amount = 3
-                2233 = { is_strongest_trade_power = ROOT }
-                2398 = { is_strongest_trade_power = ROOT }
-                5449 = { is_strongest_trade_power = ROOT }
-                355 = { is_strongest_trade_power = ROOT }
+                2233 = {
+                    trade_share = {
+                        country = ROOT
+                        share = 50
+                    }
+                }
+                2398 = {
+                    trade_share = {
+                        country = ROOT
+                        share = 50
+                    }
+                }
+                5449 = {
+                    trade_share = {
+                        country = ROOT
+                        share = 50
+                    }
+                }
+                355 = { 
+                    trade_share = {
+                        country = ROOT
+                        share = 50
+                    }
+                }
             }
         }
         effect = {
-            
+            add_dip_power = 50
+            add_mercantilism = 2
+            add_country_modifier = {
+                name = ven_greek_trade_mission
+                duration = 9125
+            }
         }
 	}
 }
@@ -334,7 +563,7 @@ vn_ven_missions_slot_3 = {
     has_country_shield = yes
 
     vn_ven_conquer_pagania = {
-        icon = mission_unite_home_region
+        icon = mission_raid_christian_trade
         position = 2
         required_missions = { vn_ven_festa_della_sensa }
         provinces_to_highlight = {
@@ -356,6 +585,7 @@ vn_ven_missions_slot_3 = {
             owns_core_province = 2421
         }
         effect = {
+            add_yearly_sailors = 3
             if = {
                 limit = { 305 = { religion = slavic_pagan } }
                 305 = { change_religion = ROOT }
@@ -375,7 +605,7 @@ vn_ven_missions_slot_3 = {
         }
     }
     vn_ven_conquer_dalmatia = {
-        icon = mission_unite_home_region
+        icon = mission_dominate_home_trade_node
         position = 3
         required_missions = { vn_ven_conquer_pagania }
         provinces_to_highlight = {
@@ -401,11 +631,16 @@ vn_ven_missions_slot_3 = {
             }
         }
         effect = {
-            
+            137 = {
+                add_province_modifier = {
+                    name = ven_conquer_dalmatia_mission
+                    duration = 9125
+                }
+            }
         }
     }
     vn_ven_adriatic_trade = {
-        icon = mission_unite_home_region
+        icon = mission_entrepot_of_india
         position = 5
         required_missions = { vn_ven_conquer_albania }
         provinces_to_highlight = {
@@ -435,35 +670,57 @@ vn_ven_missions_slot_3 = {
             }
         }
         effect = {
-            
+            add_mercantilism = 2
         }
     }
     vn_ven_pactum_warmundi = {
-        icon = mission_unite_home_region
+        icon = mission_envoy_to_ethiopia
         position = 6
         required_missions = { vn_ven_paticipate_in_crusades }
         trigger = {
             any_ally = {
                 culture = outremer
+                has_opinion = {
+                    who = ROOT
+                    value = 150
+                }
             }
         }
         effect = {
-            
+            add_dip_power = 100
+            tartu_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_ven_thalassocracy = {
-        icon = mission_unite_home_region
-        position = 8
+        icon = mission_rb_conquer_bengal
+        position = 7
         required_missions = {  }
         trigger = {
-            
+            monthly_income = 300
+            num_of_trading_bonuses = 3
+            OR = {
+                marketplace = 12
+                trade_depot = 8
+                stock_exchange = 4
+            }
         }
         effect = {
-            
+            random_owned_province = {
+                limit = { is_capital = no }
+                add_base_tax = 2
+                add_base_manpower = 2
+                add_base_manpower = 2
+            }
         }
     }
     vn_ven_modernize_trade = {
-        icon = mission_unite_home_region
+        icon = mission_the_triangle_trade
         position = 9
         required_missions = { vn_ven_thalassocracy }
         trigger = {
@@ -471,9 +728,18 @@ vn_ven_missions_slot_3 = {
             all_owned_province = {
                 global_trade = 100
             }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                has_manufactory_trigger = yes
+            }
         }
         effect = {
-            
+            add_years_of_income = 1.5
+            add_mercantilism = 2
+            add_country_modifier = {
+                name = ven_modernize_trade_mission
+                duration = -1
+            }
         }
 	}
 }
@@ -489,19 +755,65 @@ vn_ven_missions_slot_4 = {
     has_country_shield = yes
 
     vn_ven_festa_della_sensa = {
-        icon = mission_unite_home_region
+        icon = mission_lauch_a_flagship
         position = 1
         required_missions = {  }
         trigger = {
             navy_size_percentage = 1
-            sailors_percentage = 0.7
+            sailors_percentage = 0.8
         }
         effect = {
-            
+            istria_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            305 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            1081 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            2420 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            2421 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+            add_country_modifier = {
+                name = ven_festa_della_sensa_mission
+                duration = 9125
+            }
         }
     }
     vn_ven_conquer_istria = {
-        icon = mission_unite_home_region
+        icon = mission_retake_ceuta
         position = 3
         required_missions = { vn_ven_festa_della_sensa }
         provinces_to_highlight = {
@@ -515,7 +827,20 @@ vn_ven_missions_slot_4 = {
             }
         }
         effect = {
-            
+            durres_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            arbanon_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_ven_conquer_albania = {
@@ -540,11 +865,17 @@ vn_ven_missions_slot_4 = {
             }
         }
         effect = {
-            
+            zeta_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
         }
     }
     vn_ven_conquer_zeta = {
-        icon = mission_unite_home_region
+        icon = mission_sea_battles
         position = 5
         required_missions = { vn_ven_conquer_albania }
         provinces_to_highlight = {
@@ -558,18 +889,32 @@ vn_ven_missions_slot_4 = {
             }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = ven_conquer_zeta_mission
+                duration = 9125
+            }
         }
     }
     vn_ven_conquer_crimea = {
-        icon = mission_unite_home_region
+        icon = mission_portuguese_malabar
         position = 9
         required_missions = { vn_ven_venetian_trade }
+        provinces_to_highlight = {
+            area = cherson_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            cherson_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            cherson_area = {
+                add_base_production = 1
+                add_unrest = -1
+                add_local_autonomy = -15
+            }
         }
 	}
 }
@@ -585,30 +930,46 @@ vn_ven_missions_slot_5 = {
     has_country_shield = yes
 
     vn_ven_expand_la_serenissima = {
-        icon = mission_unite_home_region
+        icon = mission_control_venice
         position = 1
         required_missions = {  }
         trigger = {
-            grown_by_development = 150
+            112 = {
+                owned_by = ROOT
+                num_of_times_improved = 12
+            }
             trade_income_percentage = 0.35
         }
         effect = {
-            
+            add_country_modifier = {
+                name = ven_expand_la_serenissima_mission
+                duration = 9125
+            }
         }
     }
     vn_ven_scuole_grandi = {
-        icon = mission_unite_home_region
+        icon = mission_pacify_the_berbers
         position = 2
         required_missions = { vn_ven_expand_la_serenissima }
         trigger = {
-            
+            112 = {
+                owned_by = ROOT
+                has_building = university
+            }
+            university = 5
         }
         effect = {
-            
+            add_innovativeness_small_effect = yes
+            112 = {
+                add_province_modifier = {
+                    name = ven_scuole_grandi_mission
+                    duration = -1
+                }
+            }
         }
     }
     vn_ven_institutionalize_sapientes = {
-        icon = mission_unite_home_region
+        icon = mission_rb_monopolize_the_channel
         position = 3
         required_missions = {  }
         trigger = {
@@ -624,33 +985,45 @@ vn_ven_missions_slot_5 = {
             }
         }
         effect = {
-            
+            add_reform_progress_medium_effect = yes
         }
     }
     vn_ven_empower_the_doge = {
-        icon = mission_unite_home_region
+        icon = mission_noble_council
         position = 4
         required_missions = { vn_ven_institutionalize_sapientes }
         trigger = {
-            
+            if = {
+                limit = { has_dlc = "Dharma" }
+                has_reform_level = 6
+            }
+            absolutism = 50
+            legitimacy_equivalent = 95
         }
         effect = {
-            
+            increase_legitimacy_medium_effect = yes
         }
     }
     vn_ven_expand_strato_da_mar = {
-        icon = mission_unite_home_region
+        icon = mission_rb_mediterranean_authority
         position = 5
         required_missions = {  }
         trigger = {
             total_own_and_non_tributary_subject_development = 500
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                province_has_center_of_trade_of_level = 3
+            }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = ven_expand_strato_da_mar_mission
+                duration = 9125
+            }
         }
     }
     vn_ven_appoint_colonial_ministers = {
-        icon = mission_unite_home_region
+        icon = mission_establish_jesuit_missions
         position = 6
         required_missions = { vn_ven_expand_strato_da_mar }
         trigger = {
@@ -664,11 +1037,15 @@ vn_ven_missions_slot_5 = {
             }
         }
         effect = {
-            
+            add_adm_power = 100
+            add_country_modifier = {
+                name = ven_appoint_colonial_ministers_mission
+                duration = -1
+            }
         }
     }
     vn_ven_venetian_arsenal = {
-        icon = mission_unite_home_region
+        icon = mission_naval_expansion
         position = 7
         required_missions = {  }
         trigger = {
@@ -687,10 +1064,14 @@ vn_ven_missions_slot_5 = {
         }
         effect = {
             add_navy_tradition = 10
+            add_country_modifier = {
+                name = ven_venetian_arsenal_mission
+                duration = 9125
+            }
         }
     }
     vn_ven_venetian_trade = {
-        icon = mission_unite_home_region
+        icon = mission_rb_control_the_hansa
         position = 8
         required_missions = { vn_ven_venetian_arsenal }
         provinces_to_highlight = {
@@ -720,11 +1101,31 @@ vn_ven_missions_slot_5 = {
             }
         }
         effect = {
-            
+            add_mercantilism = 2
+            cherson_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            2560 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+            add_country_modifier = {
+                name = ven_venetian_trade_mission
+                duration = 9125
+            }
         }
     }
     vn_ven_conquer_genoa = {
-        icon = mission_unite_home_region
+        icon = mission_disrupt_portuguese_trade
         position = 9
         required_missions = { vn_ven_venetian_trade }
         provinces_to_highlight = {
@@ -742,6 +1143,10 @@ vn_ven_missions_slot_5 = {
         }
         effect = {
             add_prestige = 20
+            add_country_modifier = {
+                name = ven_conquer_genoa_mission
+                duration = 9125
+            }
         }
 	}
 }

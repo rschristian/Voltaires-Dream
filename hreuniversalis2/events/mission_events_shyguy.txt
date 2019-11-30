@@ -1,4 +1,31 @@
 namespace = vn_missions
+###TAIFA RELS###
+#Restoration of the Caliphate of Cordoba
+country_event = {
+	id = vn_missions.1
+	title = vn_missions.1.t
+	desc = vn_missions.1.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_missions.1.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { NOT = { government_rank = 6 } }
+			set_government_rank = 6
+		}
+		add_government_reform = feudal_theocracy
+		add_prestige = 25
+	}
+	option = {
+		name = vn_missions.1.b
+		ai_chance = { factor = 0 }
+		add_stability_or_adm_power = yes
+	}
+}
+
 ###FLORENCE###
 #New Writings for our Libraries
 country_event = {
@@ -869,18 +896,95 @@ country_event = {
 	}
 }
 
-###VENICE###
-#The Kingdom of Candia
+###BAVARIA###
+#Take over Palantine Electoral Dignity
 country_event = {
 	id = vn_missions.19
 	title = vn_missions.19.t
 	desc = vn_missions.19.d
-	picture = CONQUEST_eventPicture
+	picture = HRE_eventPicture
 
 	is_triggered_only = yes
 
 	option = {
 		name = "vn_missions.19.a"
+		add_dip_power = -100
+		if = {
+			limit = {
+				PAL = {
+					junior_union_with = ROOT
+					is_elector = yes
+				}
+			}
+			PAL = { elector = no }
+			elector = yes
+		}
+	}
+	option = {
+		name = "vn_missions.19.b"
+		
+	}
+}
+
+#Turn Cologne into a duchy
+country_event = {
+	id = vn_missions.20
+	title = vn_missions.20.t
+	desc = vn_missions.20.d
+	picture = REFORM_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	option = {
+		name = "vn_missions.20.a"
+		ai_chance = { factor = 90 }
+		add_prestige = 25
+		add_historical_friend = KOL
+		KOL = {
+			change_government = monarchy
+			add_government_reform = feudalism_reform
+			change_religion = ROOT
+			change_primary_culture = ROOT
+			add_historical_friend = ROOT
+			define_ruler = {
+				dynasty = ROOT
+				claim = 90
+			}
+		}
+		emperor = {
+			add_opinion = {
+				who = ROOT
+				modifier = bav_feudalized_cologne
+			}
+		}
+		every_elector = {
+			limit = { NOT = { tag = KOL } }
+			add_opinion = {
+				who = ROOT
+				modifier = bav_feudalized_cologne
+			}
+		}
+	}
+	option = {
+		name = "vn_missions.20.b"
+		ai_chance = { factor = 10 }
+		add_prestige = -1
+	}
+}
+
+###VENICE###
+#The Kingdom of Candia
+country_event = {
+	id = vn_missions.21
+	title = vn_missions.21.t
+	desc = vn_missions.21.d
+	picture = CONQUEST_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = "vn_missions.21.a"
 		ai_chance = { factor = 90 }
 		crimea_region = {
 			limit = { owned_by = ROOT }
@@ -916,7 +1020,7 @@ country_event = {
 		}
 	}
 	option = {
-		name = "vn_missions.20.a"
+		name = "vn_missions.21.a"
 		ai_chance = { factor = 10 }
 		5449 = {
 			if = {
