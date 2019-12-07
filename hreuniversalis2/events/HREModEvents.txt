@@ -3430,3 +3430,226 @@ country_event = {
 		inherit = BYZ
 	}
 }
+
+country_event = {
+	id = hremodevents.74
+	title = "HREMT74"
+	desc = "HREMD74"
+	picture = muslimgfx_RELIGIOUS_WARS_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	major = yes
+
+	trigger = {
+		normal_or_historical_nations = yes
+		current_age = age_of_empire
+		tag = MAM
+		government = monarchy
+		religion = shiite
+		has_heir_flag = nizar_heir_flag
+		num_of_cities = 10
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = avoid_choosing_madhhab_flag
+		}
+	}
+
+	option = {
+		name = "HREMA74"
+		ai_chance = { factor = 90 }
+		add_stability = -1
+		define_ruler = { dynasty = ROOT	}
+		if = {
+			limit = { has_heir_flag = nizar_heir_flag }
+			kill_heir = yes
+		}
+		if = {
+			limit = {
+				5022 = {
+					is_capital = no
+					controlled_by = ROOT
+				}
+			}
+			5022 = {
+				spawn_rebels = {
+					size = 3
+					type = zikri_rebels
+					win = yes
+					leader = "al-Mustaf? Ban? F?timah"
+				}
+			}
+		}
+		else = {
+			random_owned_province = {
+				limit = {
+					is_capital = no
+					controlled_by = ROOT
+				}
+				spawn_rebels = {
+					size = 3
+					type = zikri_rebels
+					win = yes
+					leader = "al-Mustaf? Ban? F?timah"
+				}
+			}
+		}
+		clr_country_flag = avoid_choosing_madhhab_flag
+	}
+	option = {
+		name = "HREMB74"
+		ai_chance = { factor = 10 }
+		add_stability = 1
+		change_religion = zikri
+		hidden_effect = {
+			set_religious_school = {
+				group = muslim
+				school = nizari_school
+			}
+		}
+		random_owned_province = {
+			limit = {
+				is_capital = no
+				controlled_by = ROOT
+				OR = {
+					region = lower_egypt_region
+					region = middle_egypt_region
+				}
+			}
+			spawn_rebels = {
+				size = 3
+				type = pretender_rebels
+				religion = shiite
+				leader = "al-Musta‘l? Ban? F?timah"
+			}
+		}
+		clr_country_flag = avoid_choosing_madhhab_flag
+	}
+}
+
+country_event = {
+	id = hremodevents.75
+	title = "HREMT75"
+	desc = "HREMD75"
+	picture = ASSASSINATION_eventPicture
+	
+	fire_only_once = yes
+	major = yes
+
+	trigger = {
+		government = monarchy
+		is_emperor_of_china = no
+		adm_tech = 6
+		has_regency = no
+		num_of_cities = 10
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1136.5.28 }
+		tag = NOV
+		is_at_war = no
+	}
+	
+	mean_time_to_happen = {
+		months = 120	
+		modifier = {
+			factor = 0.9
+			NOT = { legitimacy = 90 }
+		}
+		modifier = {
+			factor = 0.9
+			NOT = { legitimacy = 70 }
+		}
+		modifier = {
+			factor = 0.9
+			NOT = { legitimacy = 50 }
+		}
+		modifier = {
+			factor = 0.5
+			liberty_desire = 51
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { stability = 1 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = {
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 40
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = "HREMA75"
+		ai_chance = { factor = 95 }
+		change_government = republic
+		add_government_reform = veche_republic
+		define_ruler = {
+			dynasty = ROOT
+		}
+		add_mercantilism = 25
+		add_stability = -1
+		if = {
+			limit = { is_subject_of_type = tributary_state }
+			hidden_effect = {
+				overlord = {
+					country_event = {
+						id = hremodevents.76
+					}
+				}
+			}
+			tooltip = { grant_independence = yes }
+		}
+	}
+	option = {
+		name = "HREMB75"
+		ai_chance = { factor = 5 }
+		add_legitimacy = 20
+		random_owned_province = {
+			limit = {
+				is_capital = no
+				controlled_by = owner
+			}
+			spawn_rebels = {
+				type = noble_rebels
+				size = 4
+				win = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.76
+	title = "HREMT76"
+	desc = "HREMD76"
+	picture = ASSASSINATION_eventPicture
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = "HREMA76"
+		reduce_mandate_large_effect = yes
+		FROM = { grant_independence = yes }
+		add_opinion = {
+			who = FROM
+			modifier = tributary_state_broke_free
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = tributary_state_broke_free
+		}
+	}
+}
