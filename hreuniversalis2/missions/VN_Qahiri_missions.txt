@@ -1,0 +1,851 @@
+#Qahiri missions
+#By ShyGuy13
+
+vn_mam_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = MAM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mam_government_quarrels = {
+        icon = mission_deccanis
+        position = 1
+        required_missions = {  }
+        trigger = {
+            stability = 2
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_debilitate_the_vizirate = {
+        icon = mission_rule_the_garjats
+        position = 3
+        required_missions = { vn_mam_two_designations }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_modern_administration = {
+        icon = mission_friends_or_enemies
+        position = 4
+        required_missions = { vn_mam_debilitate_the_vizirate }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_deploy_mercenaries = {
+        icon = mission_new_army
+        position = 5
+        required_missions = {  }
+        trigger = {
+            num_of_mercenaries = 10
+            land_maintenance = 1
+            num_of_generals = 2
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_fight_the_mongols = {
+        icon = mission_protect_granada
+        position = 6
+        required_missions = { vn_mam_deploy_mercenaries }
+        trigger = {
+            OR = {
+				war_with = JMN
+				war_with = ILK
+				war_with = GLH
+			}
+        }
+        effect = {
+			#event?
+            create_general = {
+				tradition = 100
+				culture = turkish
+			}
+			#gain cavalry (Khwarezmiyya)
+        }
+    }
+    vn_mam_conquer_tunis = {
+        icon = mission_have_two_subjects
+        position = 7
+		required_missions = { vn_mam_conquer_tripolitania }
+		provinces_to_highlight = {
+			OR = {
+				area = tunis_area
+				area = sousse_area
+				area = kef_area
+				area = kairouan_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            tunis_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			sousse_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kef_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kairouan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_tlemcen = {
+        icon = mission_conquer_algiers
+        position = 10
+		required_missions = { vn_mam_conquer_tunis }
+		provinces_to_highlight = {
+			OR = {
+				region = tlemcen_region
+				region = kabylia_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            tlemcen_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kabylia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_north_morocco = {
+        icon = mission_fortify_mandu
+        position = 11
+		required_missions = { vn_mam_conquer_tlemcen }
+		provinces_to_highlight = {
+			OR = {
+                region = sus_region
+                region = middle_atlas_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            sus_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			middle_atlas_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_andalusia = {
+        icon = mission_reclaim_andalucia
+        position = 12
+		required_missions = { vn_mam_conquer_north_morocco }
+		provinces_to_highlight = {
+			OR = {
+                region = andalusia_region
+                region = alentejo_region
+                region = extremadura_region
+                region = toledan_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            andalusia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			alentejo_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+            extremadura_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			toledan_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_mam_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = MAM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mam_cultural_matters = {
+        icon = mission_establish_the_black_guard
+        position = 1
+        required_missions = {  }
+        trigger = {
+            if = {
+				limit = { has_estate = estate_dhimmi }
+				estate_loyalty = {
+					estate = estate_dhimmi
+					loyalty = 65
+				}
+				estate_territory = {
+					estate = estate_dhimmi
+					territory = 25
+				}
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_two_designations = {
+        icon = mission_fatimid_caliphate
+        position = 2
+        required_missions = { vn_mam_cultural_matters vn_mam_government_quarrels }
+        trigger = {
+            custom_trigger_tooltip = {
+				tooltip = vn_mam_two_designations.tt
+				NOT = { has_heir_flag = nizar_heir_flag }
+				NOT = { has_ruler = "al-Mustansir" }
+			}
+			NOT = { num_of_rebel_armies = 1 }
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_cyrene = {
+        icon = mission_unite_home_region
+        position = 4
+		required_missions = { vn_mam_two_designations }
+		provinces_to_highlight = {
+			OR = {
+				area = sirte_area
+				area = cyrenaica_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            sirte_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			cyrenaica_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_tripolitania = {
+        icon = mission_reconquer_ceuta
+        position = 6
+		required_missions = { vn_mam_conquer_cyrene }
+		provinces_to_highlight = {
+			OR = {
+				area = tripolitania_area
+				area = djerba_area
+				area = mahdia_area
+				area = djerid_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			is_city = yes
+		}
+        trigger = {
+            tripolitania_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			djerba_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			mahdia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			djerid_area = {
+				type = all
+				OR = {
+					is_city = no
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_create_a_navy = {
+        icon = mission_combat_barbary_piracy
+        position = 8
+        required_missions = { vn_mam_conquer_lebanon vn_mam_conquer_tunis }
+        trigger = {
+			num_of_transport = 20
+			naval_maintenance = 1
+			num_of_admirals = 2
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_sicily = {
+        icon = mission_break_sicily
+        position = 9
+		required_missions = { vn_mam_create_a_navy }
+		provinces_to_highlight = {
+			region = sicilia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            sicilia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_jihad_for_italy = {
+        icon = mission_rule_italy
+        position = 10
+        required_missions = { vn_mam_conquer_sicily }
+        provinces_to_highlight = {
+			OR = {
+				region = apulia_region
+				region = campania_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            apulia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			campania_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_south_morocco = {
+        icon = mission_new_world_power
+        position = 12
+		required_missions = { vn_mam_conquer_north_morocco }
+		provinces_to_highlight = {
+			OR = {
+				region = high_atlas_region
+				region = gharb_region
+				area = draa_area
+				area = taroudant_area
+				area = guelmim_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			is_city = yes
+		}
+        trigger = {
+			high_atlas_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			gharb_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			draa_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			taroudant_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+            guelmim_area = {
+				type = all
+				OR = {
+					is_city = no
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_mam_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = MAM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mam_social_unity = {
+        icon = mission_unite_home_region
+        position = 1
+        required_missions = {  }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_construct_madrasas = {
+        icon = mission_unite_home_region
+        position = 2
+        required_missions = { vn_mam_social_unity }
+        trigger = {
+            num_of_owned_provinces_with = {
+				value = 5
+				religion = ROOT
+				has_building = university
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_improve_army_morale = {
+        icon = mission_marathi_fiefs
+        position = 3
+        required_missions = { vn_mam_two_designations }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_hedjaz = {
+        icon = mission_unite_home_region
+        position = 5
+		required_missions = { vn_mam_improve_army_morale }
+		provinces_to_highlight = {
+			area = tabuk_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			is_city = yes
+		}
+        trigger = {
+            tabuk_area = {
+				type = all
+				OR = {
+					is_city = no
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_lebanon = {
+        icon = mission_unite_home_region
+        position = 7
+		required_missions = { vn_mam_conquer_hedjaz }
+		provinces_to_highlight = {
+			
+		}
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_cyprus = {
+        icon = mission_unite_home_region
+        position = 9
+		required_missions = { vn_mam_create_a_navy vn_mam_conquer_lebanon }
+		provinces_to_highlight = {
+			area = cyprus_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            cyprus_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_crete = {
+        icon = mission_restore_rule_over_mysore
+        position = 11
+		required_missions = { vn_mam_conquer_cyprus }
+		provinces_to_highlight = {
+			area = crete_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            crete_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_constantinople = {
+        icon = mission_city_of_the_world's_desire
+        position = 12
+        required_missions = { vn_mam_conquer_crete vn_mam_conquer_phrygia }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_supreme_caliphate = {
+        icon = mission_fatimid_caliphate
+        position = 13
+        required_missions = { vn_mam_conquer_south_morocco vn_mam_conquer_constantinople vn_mam_conquer_baghdad vn_mam_conquer_andalusia }
+        trigger = {
+            if = {
+				limit = { has_dlc = "Star and Crescent" }
+				has_country_modifier = unified_islam
+			}
+			religious_unity = 1
+        }
+        effect = {
+			add_adm_power = 100
+			add_dip_power = 100
+			add_mil_power = 100
+            #event?
+        }
+	}
+}
+
+vn_mam_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = MAM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mam_streets_and_canals = {
+        icon = mission_merchant_of_gujarat
+        position = 2
+        required_missions = { vn_mam_develop_cairo }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_trade_with_india = {
+        icon = mission_dharma_mission_arabian_trade
+        position = 4
+		required_missions = { vn_mam_streets_and_canals }
+		provinces_to_highlight = {
+			
+		}
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_sessions_of_wisdom = {
+        icon = mission_vedic_education
+        position = 6
+        required_missions = { vn_mam_conquer_hedjaz }
+        trigger = {
+            if = {
+                limit = { has_dlc = "Cradle of Civilization" }
+                has_religious_scholars_trigger = yes
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_syria = {
+        icon = mission_reclaim_lost_territory
+        position = 8
+		required_missions = { vn_mam_conquer_lebanon }
+		provinces_to_highlight = {
+			region = syria_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            syria_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_cilicia = {
+        icon = mission_levantine_restoration
+        position = 9
+		required_missions = { vn_mam_conquer_syria }
+		provinces_to_highlight = {
+			region = cilicia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            cilicia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_cappadocia = {
+        icon = mission_bengal_campaign
+        position = 10
+		required_missions = { vn_mam_conquer_cilicia }
+		provinces_to_highlight = {
+			OR = {
+				region = cappadokia_region
+				region = charsianon_region
+				region = anatolikon_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            cappadokia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			charsianon_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			anatolikon_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_phrygia = {
+        icon = mission_soldiers_in_line
+        position = 11
+		required_missions = { vn_mam_conquer_cappadocia }
+		provinces_to_highlight = {
+			
+		}
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_mam_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = MAM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_mam_develop_cairo = {
+        icon = mission_imperial_cities
+        position = 1
+		required_missions = {  }
+		provinces_to_highlight = {
+			province_id = 5054
+		}
+        trigger = {
+            5054 = {
+				owned_by = ROOT
+				development = 30
+				has_fort_trigger = yes
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_arabic_riches = {
+        icon = mission_dominate_persian_gulf
+        position = 2
+		required_missions = { vn_mam_develop_cairo }
+		provinces_to_highlight = {
+			
+		}
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_develop_the_delta = {
+        icon = mission_growth_of_surat
+        position = 3
+		required_missions = { vn_mam_arabic_riches }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 5030
+				province_id = 5022
+				province_id = 5047
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+			}
+		}
+        trigger = {
+            5030 = {
+				owned_by = ROOT
+
+			}
+			5022 = {
+				owned_by = ROOT
+
+			}
+			5047 = {
+				owned_by = ROOT
+
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_trade_fleet = {
+        icon = mission_sponsor_piracy
+        position = 4
+		required_missions = { vn_mam_develop_the_delta }
+		provinces_to_highlight = {
+			
+		}
+        trigger = {
+			num_of_light_ship = 30
+			light_ship_fraction = 0.3
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_construct_suez_canal = {
+        icon = mission_naval_dominance
+        position = 5
+		required_missions = { vn_mam_trade_with_india vn_mam_trade_fleet }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 5075
+				province_id = 5082
+				province_id = 5052
+			}
+		}
+        trigger = {
+            has_great_project = suez_canal
+        }
+        effect = {
+			add_mercantilism = 2
+        }
+    }
+    vn_mam_conquer_al_jazira = {
+        icon = mission_conquer_malwa_mer
+        position = 9
+		required_missions = { vn_mam_conquer_syria }
+		provinces_to_highlight = {
+			region = al_jazira_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            al_jazira_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_assyria = {
+        icon = mission_into_persia_1
+        position = 11
+		required_missions = { vn_mam_conquer_al_jazira }
+		provinces_to_highlight = {
+			region = assyria_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            assyria_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_mam_conquer_baghdad = {
+        icon = mission_conquer_rewakantha
+        position = 12
+        required_missions = { vn_mam_conquer_assyria }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}
+}
