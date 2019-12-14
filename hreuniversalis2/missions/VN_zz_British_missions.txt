@@ -13,25 +13,67 @@ vn_gbr_missions_slot_1_a = {
 	has_country_shield = yes
 	
 	vn_gbr_london = {
-		#icon =
+		icon = mission_rb_scottish_conquer_london
         required_missions = { vn_gbr_industrial_revolution }
         position = 16
         trigger = {
-            #add
+            2268 = {
+				owned_by = ROOT
+				is_core = ROOT
+				development = 60
+				num_of_times_improved = 10
+				calc_true_if = {
+					amount = 3
+					has_tax_building_trigger = yes
+					has_trade_building_trigger = yes
+					has_dock_building_trigger = yes
+					has_shipyard_building_trigger = yes
+					has_courthouse_building_trigger = yes
+					has_production_building_trigger = yes
+				}
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 3
+				}
+			}
         }
         effect = {
-            #add
+            2268 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = "gbr_london_mission"
+					duration = 18250
+				}
+			}
         }
 	}
 	vn_gbr_reduce_epidemics = {
-		#icon =
+		icon = mission_hospital
         required_missions = { vn_gbr_london }
         position = 17
         trigger = {
-            #add
+            num_of_owned_provinces_with = {
+				value = 15
+				OR = {
+					superregion = british_isles_superregion
+					superregion = irish_superregion
+				}
+				has_building = arsenal
+			}
+			2268 = {
+				has_building = arsenal
+			}
         }
         effect = {
-            #add
+			add_adm_power = 50
+            add_country_modifier = {
+				name = "gbr_reduce_epidemics_mission"
+				duration = 18250
+			}
         }
 	}
 }
@@ -47,14 +89,54 @@ vn_gbr_missions_slot_1_b = {
 	has_country_shield = yes
 	
 	vn_gbr_southern_ports = {
-		#icon =
+		icon = mission_rb_increase_our_reach
         required_missions = { vn_gbr_a_modern_navy }
         position = 18
         trigger = {
-            #add
+            num_of_owned_provinces_with = {
+				value = 6
+				has_port = yes
+				OR = {
+					area = sussex_area
+					area = wessex_area
+					province_id = 4683
+					province_id = 1838
+					province_id = 696
+					province_id = 5209
+					province_id = 118
+					province_id = 320
+					province_id = 2141
+					province_id = 2170
+				}
+				has_shipyard_building_trigger = yes
+				has_dock_building_trigger = yes
+				development = 15
+			}
         }
         effect = {
-            #add
+			add_dip_power = 100
+            random_owned_province = {
+				limit = {
+					OR = {
+						area = sussex_area
+						area = wessex_area
+						province_id = 4683
+						province_id = 1838
+						province_id = 696
+						province_id = 5209
+						province_id = 118
+						province_id = 320
+						province_id = 2141
+						province_id = 2170
+					}
+					has_port = yes
+				}
+				add_unit_construction = {
+					type = heavy_ship
+					cost = 0
+					amount = 10
+				}
+			}
         }
 	}
 }
@@ -70,36 +152,86 @@ vn_gbr_missions_slot_2_a = {
 	has_country_shield = yes
 	
 	vn_gbr_improved_ironmaking = {
-		#icon =
+		icon = mission_state_manufactories
         required_missions = { vn_gbr_industrial_revolution }
         position = 16
         trigger = {
-            #add
+            if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				num_of_owned_provinces_with = {
+					value = 4
+					trade_goods = steel
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 5
+					trade_goods = iron
+					development = 20
+					has_production_building_trigger = yes
+				}
+			}
         }
         effect = {
-            #add
+			add_adm_power = 50
+            if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				random_owned_province = {
+					limit = { trade_goods = steel }
+					add_base_production = 2
+				}
+			}
+			else = {
+				random_owned_province = {
+					limit = { 
+						NOT = { trade_goods = iron } 
+					}
+					change_trade_goods = iron
+					add_base_production = 2
+				}
+			}
         }
 	}
 	vn_gbr_a_modern_navy = {
-		#icon =
+		icon = mission_rb_a_mighty_fleet
         required_missions = { vn_gbr_improved_ironmaking }
         position = 17
         trigger = {
-            #add
+			navy_size = 150	#values may need adjusting
+			navy_size_percentage = 0.75
+			num_of_admirals = 3
+			dip_tech = 70
         }
         effect = {
-            #add
+			add_dip_power = 50
+			add_country_modifier = {
+				name = "gbr_a_modern_navy_mission"
+				duration = 9125
+			}
         }
 	}
 	vn_gbr_naval_innovations = {
-		#icon =
+		icon = mission_sea_battles
         required_missions = { vn_gbr_a_modern_navy }
         position = 18
         trigger = {
-            #add
+			dip_tech = 75
+			NOT = {
+				any_known_country = {
+					navy_size = ROOT
+				}
+			}
         }
         effect = {
-            #add
+			add_prestige = 25
+			add_country_modifier = {
+				name = "gbr_naval_innovations_mission"
+				duration = 9125
+			}
         }
 	}
 }
@@ -115,63 +247,192 @@ vn_gbr_missions_slot_3_a = {
 	has_country_shield = yes
 	
 	vn_gbr_winds_of_change = {
-		#icon =
+		icon = mission_look_west
         required_missions = { }
         trigger = {
-            #add
+            is_institution_enabled = industrialism
         }
         effect = {
-            #add
+            custom_tooltip = vn_gbr_winds_of_change.tt
         }
 	}
 	vn_gbr_industrial_revolution = {
-		#icon =
+		icon = mission_trade_with_cathay
         required_missions = { vn_gbr_winds_of_change }
         position = 15
         trigger = {
-            #add
+            has_institution = industrialism
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "gbr_industrial_revolution_mission"
+				duration = 3650
+			}
         }
 	}
 	vn_gbr_blast_furnaces = {
-		#icon =
+		icon = mission_rb_build_furnaces
         required_missions = { vn_gbr_industrial_revolution }
         position = 16
         trigger = {
-            #add
+            if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				num_of_owned_provinces_with = {
+					value = 10
+					OR = {
+						superregion = british_isles_superregion
+						superregion = irish_superregion
+					}
+					has_building = furnace
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 20
+					OR = {
+						superregion = british_isles_superregion
+						superregion = irish_superregion
+					}
+					has_manufactory_trigger = yes
+				}
+			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "gbr_blast_furnaces_mission"
+				duration = 7300
+			}
         }
 	}
 	vn_gbr_central_belt_industry = {
-		#icon =
+		icon = mission_rb_central_belt_coal_mining
         required_missions = { 
 			vn_gbr_improved_ironmaking
 			vn_gbr_blast_furnaces 
 		}
         position = 17
         trigger = {
-            #add
+            ayrshire_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+			}
+			edinburgh_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+			}
+			if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				ayrshire_area = {
+					trade_goods = coal
+				}
+				edinburgh_area = {
+					trade_goods = coal
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 2
+					OR = {
+						area = ayrshire_area
+						area = edinburgh_area
+					}
+					development = 20
+					base_production = 10
+				}
+				num_of_owned_provinces_with = {
+					value = 5
+					OR = {
+						area = ayrshire_area
+						area = edinburgh_area
+					}
+					development = 15
+					base_production = 7
+				}
+			}
         }
         effect = {
-            #add
+            if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				random_owned_province = {
+					limit = { 
+						area = ayrshire_area
+						trade_goods = coal
+					}
+					add_base_production = 2
+				}
+				random_owned_province = {
+					limit = { 
+						area = edinburgh_area
+						trade_goods = coal
+					}
+					add_base_production = 2
+				}
+			}
+			else = {
+				random_owned_province = {
+					limit = { 
+						OR = {
+							area = ayrshire_area
+							area = edinburgh_area
+						}
+					}
+					add_province_modifier = {
+						name = "gbr_central_belt_industry_mission"
+						duration = 9125
+					}
+				}
+				random_owned_province = {
+					limit = { 
+						OR = {
+							area = ayrshire_area
+							area = edinburgh_area
+						}
+						NOT = { has_province_modifier = gbr_central_belt_industry_mission }
+					}
+					add_province_modifier = {
+						name = "gbr_central_belt_industry_mission"
+						duration = 9125
+					}
+				}
+			}
         }
 	}
 	vn_gbr_glasgow_shipbuilding = {
-		#icon =
+		icon = mission_galleys_in_port
         required_missions = { 
 			vn_gbr_a_modern_navy
 			vn_gbr_central_belt_industry
 		}
         position = 18
         trigger = {
-            #add
+            282 = {
+				has_institution = industrialism
+				owned_by = ROOT
+				is_core = ROOT
+				development = 20
+				num_of_times_improved = 5
+				has_building = grand_shipyard
+				has_building = drydock
+			}
         }
         effect = {
-            #add
+            282 = {
+				add_base_production = 1
+				add_province_modifier = {
+					name = "gbr_glasgow_shipbuilding_mission"
+					duration = 10950
+				}
+			}
         }
 	}
 }
@@ -187,39 +448,101 @@ vn_gbr_missions_slot_4_a = {
 	has_country_shield = yes
 	
 	vn_gbr_midlands_enlightenment = {
-		#icon =
+		icon = mission_rb_the_education_acts
         required_missions = { vn_gbr_industrial_revolution }
         position = 16
         trigger = {
-            #add
+            midlands_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = enlightenment
+			}
+			num_of_owned_provinces_with = {
+				value = 4
+				region = midlands_region
+				development = 20
+				has_institution = industrialism
+				has_production_building_trigger = yes
+			}
+			if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				innovativeness = 25
+			}
+			else = {
+				has_adm_advisor_3 = yes
+			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "gbr_midlands_enlightenment_mission"
+				duration = 9125
+			}
         }
 	}
 	vn_gbr_black_country_coalfields = {
-		#icon =
+		icon = mission_rb_prospect_for_coal
         required_missions = {
 			vn_gbr_blast_furnaces 
 			vn_gbr_midlands_enlightenment 
 		}
         position = 17
         trigger = {
-            #add
+            4693 = {
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+				if = {
+					limit = {
+						has_dlc = "Rule Britannia"
+					}
+					trade_goods = coal
+				}
+				else = {
+					development = 20
+					base_production = 10
+				}
+			}
         }
         effect = {
-            #add
+            west_midlands_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "gbr_black_country_coalfields_mission"
+					duration = 9125
+				}
+			}
         }
 	}
 	vn_gbr_growth_of_birmingham = {
-		#icon =
+		icon = mission_early_game_buildings
         required_missions = { vn_gbr_black_country_coalfields }
         position = 18
         trigger = {
-            #add
+            4693 = {
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+				development = 30
+				num_of_times_improved = 10
+				calc_true_if = {
+					amount = 3
+					has_tax_building_trigger = yes
+					has_trade_building_trigger = yes
+					has_manpower_building_trigger = yes
+					has_courthouse_building_trigger = yes
+					has_forcelimit_building_trigger = yes
+					has_production_building_trigger = yes
+				}
+			}
         }
         effect = {
-            #add
+			add_province_modifier = {
+				name = "gbr_growth_of_birmingham_mission"
+				duration = 18250
+			}
         }
 	}
 }
@@ -235,25 +558,117 @@ vn_gbr_missions_slot_5_a = {
 	has_country_shield = yes
 	
 	vn_gbr_lancashire_textiles = {
-		#icon =
+		icon = mission_have_manufactories
         required_missions = { vn_gbr_industrial_revolution }
         position = 16
         trigger = {
-            #add
+            cumberland_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+			}
+			cheshire_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+			}
+			west_riding_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+			}
+			num_of_owned_provinces_with = {
+				value = 3
+				has_institution = industrialism
+				OR = {
+					trade_goods = cloth
+					trade_goods = wool
+					trade_goods = cotton
+				}
+				OR = {
+					area = cumberland_area
+					area = cheshire_area
+					area = west_riding_area
+				}
+				development = 15
+				OR = {
+					development = 20
+					has_building = textile
+				}
+			}
         }
         effect = {
-            #add
+            random_owned_province = {
+				limit = {
+					OR = {
+						area = cumberland_area
+						area = cheshire_area
+						area = west_riding_area
+					}
+					NOT = {
+						OR = {
+							trade_goods = cloth
+							trade_goods = wool
+							trade_goods = cotton
+						}
+					}
+				}
+				random_list = {
+					33 = {
+						change_trade_goods = cloth
+					}
+					33 = {
+						change_trade_goods = wool
+					}
+					33 = {
+						change_trade_goods = cotton
+					}
+					add_base_production = 2
+				}
+			}
+			4227 = {
+				add_base_production = 1
+				add_province_modifier = {
+					name = "gbr_lancashire_textiles_mission"
+					duration = 9125
+				}
+			}
         }
 	}
 	vn_gbr_grow_cottonopolis = {
-		#icon =
+		icon = mission_rb_hanseatic_east
         required_missions = { vn_gbr_lancashire_textiles }
         position = 17
         trigger = {
-            #add
+            2247 = {
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+				development = 30
+				num_of_times_improved = 10
+				calc_true_if = {
+					amount = 3
+					has_tax_building_trigger = yes
+					has_trade_building_trigger = yes
+					has_manpower_building_trigger = yes
+					has_courthouse_building_trigger = yes
+					has_forcelimit_building_trigger = yes
+					has_production_building_trigger = yes
+				}
+			}
         }
         effect = {
-            #add
+            2247 = {
+				change_trade_goods = cotton
+				add_base_production = 2
+				add_province_modifier = {
+					name = "gbr_grow_cottonopolis_mission"
+					duration = 18250
+				}
+			}
         }
 	}
 }
@@ -268,15 +683,91 @@ vn_gbr_missions_slot_5_b = {
     }
 	has_country_shield = yes
 	
-	vn_gbr_south_wales_mining = {
-		#icon =
+	vn_gbr_south_wales_mining = {	#Welsh Mining Industry
+		icon = mission_establish_mint_towns
         required_missions = { vn_gbr_black_country_coalfields }
         position = 18
         trigger = {
-            #add
+            wales_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				has_institution = industrialism
+			}
+			if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				num_of_owned_provinces_with = {
+					value = 5
+					region = wales_region
+					OR = {
+						trade_goods = coal
+						trade_goods = copper
+						trade_goods = plumbum
+						trade_goods = tin
+					}
+					development = 10
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 5
+					region = wales_region
+					OR = {
+						trade_goods = copper
+						trade_goods = plumbum
+						trade_goods = tin
+					}
+					development = 10
+				}
+			}
         }
         effect = {
-            #add
+            if = {
+				limit = {
+					has_dlc = "Rule Britannia"
+				}
+				random_owned_province = {
+					limit = {
+						region = wales_region
+						OR = {
+							trade_goods = copper
+							trade_goods = plumbum
+							trade_goods = tin
+						}
+					}
+					change_trade_goods = coal
+					add_base_production = 1
+				}
+			}
+			else = {
+				random_owned_province = {
+					limit = {
+						region = wales_region
+						OR = {
+							trade_goods = copper
+							trade_goods = plumbum
+							trade_goods = tin
+						}
+					}
+					add_base_production = 2
+				}
+				#needs tooltip
+				wales_region = {
+					limit = {
+						OR = {
+							trade_goods = copper
+							trade_goods = plumbum
+							trade_goods = tin
+						}
+					}
+					add_province_modifier = {
+						name = "gbr_south_wales_mining_mission"
+						duration = 9125
+					}
+				}
+			}
         }
 	}
 }
