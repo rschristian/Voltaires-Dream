@@ -58,22 +58,24 @@ vn_tou_missions_slot_1 = {
 		position = 4
 		icon = mission_teutonic_knights
 		required_missions = { }
-		provinces_to_highlight = {
-			
-		}
 		trigger = {
-			
-		}
-		effect = {
-			random_owned_province = {
-				limit = { has_port = yes }
-				add_unit_construction = {
-					type = transport
-					cost = 0
-					speed = 0.25
-					amount = 10
+			if = {
+				limit = {
+					OR = {
+						has_estate = estate_holy_orders
+						current_age = age_of_empire
+					}
+				}
+				estate_loyalty = {
+					estate = estate_holy_orders
+					loyalty = 65
 				}
 			}
+			army_size = 25
+			num_of_cavalry = 10
+		}
+		effect = {
+			create_general = { tradition = 75 }
 			3027 = { 
 				if = {
 					limit = {
@@ -119,7 +121,7 @@ vn_tou_missions_slot_1 = {
 	}
 	vn_tou_fortify_tripoli = {
 		icon = mission_conquer_50_development
-		required_missions = { vn_tou_crusading_army }
+		required_missions = { vn_tou_seize_tripoli }
 		provinces_to_highlight = {
 			province_id = 3027
 		}
@@ -165,6 +167,7 @@ vn_tou_missions_slot_2 = {
 			}
 		}
 		effect = {
+			add_dip_power = 50
 			armagnac_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -233,7 +236,7 @@ vn_tou_missions_slot_2 = {
 			}
 		}
 		effect = {
-			add_mil_power = 50
+			add_mil_power = 100
 			bordeaux_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -257,6 +260,7 @@ vn_tou_missions_slot_2 = {
 			}
 		}
 		effect = {
+			add_years_of_income = 0.5
 			angouleme_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -304,8 +308,8 @@ vn_tou_missions_slot_2 = {
 		}
 	}
 	vn_tou_conquer_holy_land = {
-		icon = mission_arabian_city
-		required_missions = { vn_tou_conquer_tripoli }
+		icon = mission_arabian_fort
+		required_missions = { vn_tou_seize_tripoli }
 		provinces_to_highlight = {
 			OR = {
 				area = lebanon_area
@@ -466,9 +470,6 @@ vn_tou_missions_slot_4 = {
 			}
 		}
 		effect = {
-			create_general = {
-				tradition = 75
-			}
 			narbonne_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -482,6 +483,10 @@ vn_tou_missions_slot_4 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = tou_aragonese_rivalry_mission
+				duration = 9125
 			}
 		}
 	}
