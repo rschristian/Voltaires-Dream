@@ -731,7 +731,7 @@ vn_fra_missions_slot_1_c = {
         }
         effect = {
 			add_legitimacy = 10
-            sicily_region = {
+            sicilia_region = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -744,11 +744,11 @@ vn_fra_missions_slot_1_c = {
         icon = mission_break_sicily
 		required_missions = { vn_fra_utilize_anjou_claims }
 		provinces_to_highlight = {
-			region = sicily_region
+			region = sicilia_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-			sicily_region = {
+			sicilia_region = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -825,7 +825,21 @@ vn_fra_missions_slot_1_c = {
         }
         effect = {
 			add_dip_power = 25
-            sardinia_region = {
+            sassari_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			arborea_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			gallura_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -833,6 +847,13 @@ vn_fra_missions_slot_1_c = {
                 add_permanent_claim = ROOT
 			}
 			baleares_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			corsica_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -1137,12 +1158,6 @@ vn_fra_missions_slot_2_a = {
 			add_country_modifier = {
 				name = "fra_vauban_fortifications_mission"
 				duration = 9125
-			}
-			define_advisor = {
-				name = "Sébastien le Prestre de Vauban"
-				skill = 3
-				discount = 0.75
-				type = fortification_expert
 			}
         }
 	}
@@ -1504,6 +1519,7 @@ vn_fra_missions_slot_2_f = {
         position = 14
         required_missions = { vn_fra_conquer_provence }
         trigger = {
+			#add tooltip
             calc_true_if = {
 				italy_superregion = {
 					type = all
@@ -1882,7 +1898,11 @@ vn_fra_missions_slot_3_a = {
 			grown_by_development = 50
         }
         effect = {
-			change_government_reform_progress = 25
+			change_government_reform_progress = 20
+			add_country_modifier = {
+				name = "fra_expand_royal_authority_mission"
+				duration = 3650
+			}
             normandy_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1926,6 +1946,11 @@ vn_fra_missions_slot_3_a = {
 			grown_by_development = 150
         }
         effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = "fra_expand_royal_authority_mission"
+				duration = 3650
+			}
             picard_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1976,6 +2001,10 @@ vn_fra_missions_slot_3_a = {
 			grown_by_development = 300
         }
         effect = {
+			add_country_modifier = {
+				name = "fra_expand_royal_authority_mission"
+				duration = 3650
+			}
             burgundy_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -2019,7 +2048,11 @@ vn_fra_missions_slot_3_a = {
 			grown_by_development = 450
         }
         effect = {
-            #add
+			add_legitimacy = 20
+            add_country_modifier = {
+				name = "fra_expand_royal_authority_mission"
+				duration = 3650
+			}
         }
     }
     vn_fra_letat_cest_moi = {
@@ -2160,7 +2193,22 @@ vn_fra_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+            112 = {
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+				add_devastation = -25
+					add_unrest = -2
+			}
         }
 	}
 }
@@ -2192,7 +2240,13 @@ vn_fra_missions_slot_3_b = {
 			}
         }
         effect = {
-            #add
+			add_innovativeness_big_effect = yes
+            every_owned_province = {
+				add_institution_embracement = {
+					which = enlightenment
+					value = 10
+				}
+			}
         }
 	}
 	vn_fra_fate_of_monarchy = {
@@ -2255,7 +2309,24 @@ vn_fra_missions_slot_3_c = {
 			}
         }
         effect = {
-            #add
+            1247 = {
+				change_trade_goods = naval_supplies
+				if = {
+					limit = {
+						NOT = {
+							OR = {
+								has_building = dock
+								has_building = drydock
+							}
+						}
+					}
+					add_building_construction = {
+						building = dock
+						speed = 0.5
+						cost = 0
+					}
+				}
+			}
         }
 	}
 }
@@ -2338,7 +2409,14 @@ vn_fra_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+			add_adm_power = 25
+			add_dip_power = 25
+			548 = {
+				add_province_modifier = {
+					name = "fra_found_sorbonne_mission"
+					duration = -1
+				}
+			}
         }
     }
     vn_fra_construct_louvre = {
@@ -2362,7 +2440,12 @@ vn_fra_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+			548 = {
+				add_province_modifier = {
+					name = "fra_construct_louvre_mission"
+					duration = -1
+				}
+			}
         }
     }
     vn_fra_loire_valley_chateaux = {
@@ -2425,7 +2508,29 @@ vn_fra_missions_slot_4_b = {
             has_institution = renaissance
         }
         effect = {
-            #add
+            random_list = {
+				33 = {
+					define_advisor = {
+						skill = 3
+						type = philosopher
+						discount = yes
+					}
+				}
+				33 = {
+					define_advisor = {
+						skill = 3
+						type = artist
+						discount = yes
+					}
+				}
+				33 = {
+					define_advisor = {
+						skill = 3
+						type = natural_scientist
+						discount = yes
+					}
+				}
+			}
         }
 	}
 }
@@ -2656,7 +2761,20 @@ vn_fra_missions_slot_4_e = {
 			}
         }
         effect = {
-            #add
+			add_absolutism = 5
+			if = {
+				limit = { uses_papacy = yes }
+				add_papal_influence = 25
+			}
+			else_if = {
+				limit = { uses_church_aspects = yes }
+				add_church_power = 25
+			}
+			else_if = {
+				limit = { uses_fervor = yes }
+				add_fervor = 25
+			}
+			#addmore?
         }
     }
     vn_fra_curb_estates = {
@@ -2711,7 +2829,19 @@ vn_fra_missions_slot_4_e = {
 			}
         }
         effect = {
-            #add
+            add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 10
+			}
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+			#add more
         }
     }
     vn_fra_unquestioned_rule = {
@@ -2720,10 +2850,16 @@ vn_fra_missions_slot_4_e = {
         trigger = {
 			absolutism = 100
 			num_of_cities = 75
+			french_superregion = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
 			NOT = {
 				any_owned_province = {
 					unrest = 1
-					local_autonomy = 80
+					superregion = french_superregion
+					local_autonomy = 30
 				}
 			}
         }
@@ -2997,7 +3133,14 @@ vn_fra_missions_slot_4_f = {
 			}
         }
         effect = {
-            #add
+			add_mil_power = 50
+            2995 = {
+				add_base_tax = 1
+				add_province_modifier = {
+					name = "fra_cities_on_the_rhine_mission"
+					duration = 18250
+				}
+			}
         }
     }
     vn_fra_natural_border = {
@@ -3035,7 +3178,11 @@ vn_fra_missions_slot_4_f = {
 			}
         }
         effect = {
-            #add
+			add_prestige = 20
+			add_country_modifier = {
+				name = "fra_natural_border_mission"
+				duration = 9125
+			}
         }
 	}
     vn_fra_fate_of_empire = {	#Neither Holy, Nor Roman
@@ -3049,6 +3196,9 @@ vn_fra_missions_slot_4_f = {
 			}
         }
         effect = {
+			add_prestige = 25
+			#add event
+			#HRE collapse
             southeast_england_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -3173,7 +3323,24 @@ vn_fra_missions_slot_5_a = {
 			}
         }
         effect = {
-            #add
+			if = {
+				limit = { uses_papacy = yes }
+				add_papal_influence = 50
+			}
+			else_if = {
+				limit = { uses_church_aspects = yes }
+				add_church_power = 50
+			}
+			else_if = {
+				limit = { uses_fervor = yes  }
+				add_fervor = 50
+			}
+            548 = {
+				add_province_modifier = {
+					name = "fra_notre_dame_cathedral_mission"
+					duration = -1
+				}
+			}
         }
 	}
 }
@@ -3202,7 +3369,10 @@ vn_fra_missions_slot_5_b = {
 			}	
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "fra_conseil_du_roi_mission"
+				duration = 9125
+			}
         }
     }
     vn_fra_estates_general = {
@@ -3218,8 +3388,11 @@ vn_fra_missions_slot_5_b = {
 			}
         }
         effect = {
-			#add
-			#modifier Convene the Estates General
+			add_years_of_income = 0.25
+			add_country_modifier = {
+				name = "fra_estates_general_mission"
+				duration = 3650
+			}
         }
     }
     vn_fra_introduce_taille = {
@@ -3251,7 +3424,7 @@ vn_fra_missions_slot_5_b = {
 			}
         }
         effect = {
-			add_years_of_income = 0.25
+			raise_war_taxes = yes
 			add_country_modifier = {
 				name = "fra_introduce_taille_mission"
 				duration = 9125
@@ -3279,7 +3452,14 @@ vn_fra_missions_slot_5_c = {
 			alliance_with = TUR
         }
         effect = {
-            #add
+            reverse_add_opinion = {
+				who = TUR
+				modifier = fra_franco_turkish_alliance_opinion
+			}
+			add_country_modifier = {
+				name = "fra_franco_turkish_alliance_mission"
+				duration = 9125
+			}
         }
 	}
 }
@@ -3399,7 +3579,31 @@ vn_fra_missions_slot_5_d = {
 			}
         }
         effect = {
-            #add
+            hainaut_area = {
+				type = all
+				add_province_modifier = {
+					name = "fra_conquer_wallonia_mission"
+					duration = 9125
+				}
+			}
+			5949 = {
+				add_province_modifier = {
+					name = "fra_conquer_wallonia_mission"
+					duration = 9125
+				}
+			}
+			1866 = {
+				add_province_modifier = {
+					name = "fra_conquer_wallonia_mission"
+					duration = 9125
+				}
+			}
+			897 = {
+				add_province_modifier = {
+					name = "fra_conquer_wallonia_mission"
+					duration = 9125
+				}
+			}
         }
 	}
 }
@@ -3479,7 +3683,10 @@ vn_fra_missions_slot_5_f = {
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "fra_unify_french_mission"
+				duration = 9125
+			}
         }
     }
     vn_fra_integrate_occitans = {
@@ -3546,7 +3753,13 @@ vn_fra_missions_slot_5_g = {
 			}
         }
         effect = {
-            #add
+			add_legitimacy = 15
+			1216 = {
+				add_province_modifier = {
+					name = "fra_palace_of_versailles_mission"
+					duration = -1
+				}
+			}
         }
     }
     vn_fra_chambers_of_reunion = {
@@ -3729,7 +3942,8 @@ vn_fra_missions_slot_5_h = {
 			}
         }
         effect = {
-            #add
+			#add
+			#Event to release Netherlands as vassal/client state?
         }
 	}
 }

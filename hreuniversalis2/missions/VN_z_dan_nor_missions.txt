@@ -40,7 +40,10 @@ vn_dan_nor_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "dan_nor_fortify_danelaw_mission"
+				duration = 9125
+			}
         }
     }
     vn_dan_nor_reestablish_jorvik = {
@@ -66,7 +69,22 @@ vn_dan_nor_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+            1799 = {
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_tax = 1
+					add_base_production = 1
+				}
+				add_province_modifier = {
+					name = "nor_reestablish_jorvik_mission"
+					duration = 9125
+				}
+			}
         }
 	}
 	vn_dan_nor_the_trade_must_flow = {
@@ -115,7 +133,34 @@ vn_dan_nor_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+			add_years_of_income = 0.5
+			add_mercantilism = 5
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+				}
+				random_owned_province = {
+					limit = {
+						NOT = {
+							province_has_center_of_trade_of_level = 3
+						}
+					}
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				random_owned_province = {
+					limit = {
+						OR = {
+							has_building = marketplace
+							has_building = trade_depot
+							has_building = stock_exchange
+						}
+					}
+					add_base_production = 2
+				}
+			}
+			
         }
 	}
 }
@@ -184,7 +229,11 @@ vn_dan_nor_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+			add_years_of_income = 1
+			add_country_modifier = {
+				name = "dan_nor_revive_danegeld_mission"
+				duration = 18250
+			}
         }
 	}
 }
@@ -217,7 +266,11 @@ vn_dan_nor_missions_slot_2_a = {
 			}
         }
         effect = {
-            #add
+			add_army_tradition = 5
+			create_general = {
+				culture = frisian
+				tradition = 75
+			}
         }
 	}
 }
@@ -333,7 +386,39 @@ vn_dan_nor_missions_slot_2_b = {
 			}
         }
         effect = {
-            #add
+            random_owned_province = {
+				limit = {
+					OR = {
+						area = west_riding_area
+						area = east_riding_area
+						area = lincoln_area
+						area = east_anglia_area
+						area = middlesex_area
+						province_id = 2272
+						province_id = 2566
+						province_id = 1125
+						province_id = 2247
+						province_id = 1132
+						province_id = 2261
+						province_id = 4695
+						province_id = 1139
+					}
+					owned_by = ROOT
+					NOT = {
+						OR = {
+							culture = northumbrian
+							culture = danish
+							culture = jutlandic
+							culture = scanian
+						}
+					}
+				}
+				change_culture = ROOT
+			}
+			add_country_modifier = {
+				name = "dan_nor_assimilate_danelaw_mission"
+				duration = 7300
+			}
         }
 	}
 }
@@ -403,10 +488,43 @@ vn_dan_nor_missions_slot_2_d = {
         position = 14
         required_missions = { vn_dan_nor_vanquish_england }
         trigger = {
-            #add
+			stability = 1
+            northumbria_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 1 }
+                NOT = { local_autonomy = 30 }
+			}
+			midlands_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 1 }
+                NOT = { local_autonomy = 30 }
+			}
+			southeast_england_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 1 }
+                NOT = { local_autonomy = 30 }
+			}
+			southwest_england_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 1 }
+                NOT = { local_autonomy = 30 }
+            }
         }
         effect = {
-            #add
+			add_stability = 1
+			#addmore
         }
 	}
 }

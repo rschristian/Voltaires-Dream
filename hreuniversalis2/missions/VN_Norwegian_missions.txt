@@ -609,7 +609,7 @@ vn_nor_missions_slot_3_a = {
 			vn_nor_land_in_jylland 
 			vn_nor_invade_sjaelland 
 			vn_nor_conquer_smaland 
-			vn_nor_take_svealand 
+			vn_nor_conquer_stockholm
 		}
         trigger = {
 			calc_true_if = {
@@ -734,6 +734,20 @@ vn_nor_missions_slot_4_a = {
                 }
                 add_permanent_claim = ROOT
 			}
+			varmland_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			svealand_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_nor_conquer_vastergotland = {
@@ -749,6 +763,10 @@ vn_nor_missions_slot_4_a = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
+			varmland_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
             scandinavia_region = {
@@ -759,13 +777,6 @@ vn_nor_missions_slot_4_a = {
                 add_permanent_claim = ROOT
 			}
 			ostergotland_area = {
-				limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-			}
-			svealand_region = {
 				limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -789,7 +800,14 @@ vn_nor_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+			add_prestige = 10
+			balticislands_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
 	}
 }
@@ -902,7 +920,25 @@ vn_nor_missions_slot_4_b = {
 			}
         }
         effect = {
-            #add
+            1084 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			13 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			add_mercantilism = 5
         }
     }
     vn_nor_down_to_normandy = {
@@ -922,7 +958,15 @@ vn_nor_missions_slot_4_b = {
 			}
         }
         effect = {
-            #add
+			add_accepted_culture = normand
+			add_dip_power = 100
+			paris_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
         }
 	}
 }
@@ -985,8 +1029,8 @@ vn_nor_missions_slot_5_b = {
 	
     vn_nor_take_svealand = {
         icon = mission_unite_home_region	#placeholder
-        position = 3
-        required_missions = { vn_nor_conquer_vastergotland }
+        position = 2
+        required_missions = { vn_nor_against_swedes }
         trigger = {
             svealand_region = {
 				type = all
@@ -994,13 +1038,43 @@ vn_nor_missions_slot_5_b = {
 			}
         }
         effect = {
-            #add
+            uppland_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+        }
+	}
+	vn_nor_conquer_stockholm = {
+        icon = mission_unite_home_region	#placeholder
+        position = 2
+        required_missions = { vn_nor_take_svealand }
+        trigger = {
+            uppland_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            6109 = {
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_years_of_income = 0.5
+				}
+			}
         }
     }
     vn_nor_swedish_copper = {
         icon = mission_entrepot_of_india
         position = 4
-        required_missions = { vn_nor_take_svealand }
+        required_missions = { vn_nor_conquer_stockholm }
         trigger = {
             num_of_owned_provinces_with = {
 				value = 3
@@ -1085,7 +1159,11 @@ vn_nor_missions_slot_5_c = {
 			}
         }
         effect = {
-            #add
+			add_mercantilism = 5
+			add_country_modifier = {
+				name = "nor_trade_with_isles_mission"
+				duration = 9125
+			}
         }
 	}
 }

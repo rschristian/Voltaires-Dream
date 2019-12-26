@@ -199,10 +199,46 @@ vn_dan_missions_slot_2_a = {
         position = 2
         required_missions = { vn_dan_incorporate_slesvig }
         trigger = {
-            #add
+            2384 = {
+				owned_by = ROOT
+				is_core = ROOT
+				has_fort_trigger = yes
+			}
+			1029 = {
+				owned_by = ROOT
+				is_core = ROOT
+				has_fort_trigger = yes
+			}
         }
         effect = {
-            #add
+            2384 = {
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = "dan_reinforce_danevirke_mission"
+					duration = -1
+				}
+			}
+			1029 = {
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = "dan_reinforce_danevirke_mission"
+					duration = -1
+				}
+			}
+			holstein_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			kiel_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_advance_into_holstein = {
@@ -327,7 +363,26 @@ vn_dan_missions_slot_3_a = {
         position = 2
         required_missions = { vn_dan_found_copenhagen }
         trigger = {
-            #add
+            411 = {
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 3
+				}
+				else = {
+					OR = {
+						has_building = marketplace
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}
+			}
+			owns_core_province = 411
+			owns_core_province = 1994
+			owns_core_province = 2731
+			owns_core_province = 654
+			owns_core_province = 1810
         }
         effect = {
             #add
@@ -338,7 +393,18 @@ vn_dan_missions_slot_3_a = {
         position = 3
         required_missions = { vn_dan_control_oresund }
         trigger = {
-            #add
+            13 = {
+				trade_share = {
+					share = 75
+					country = ROOT
+				}
+			}
+			1084 = {
+				trade_share = {
+					share = 75
+					country = ROOT
+				}
+			}
         }
         effect = {
             #add
@@ -355,7 +421,8 @@ vn_dan_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+			#add
+			#Privateer efficiency?
         }
 	}
     vn_dan_danish_scandinavia = {
@@ -450,7 +517,17 @@ vn_dan_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+            6109 = {
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_years_of_income = 0.5
+				}
+			}
         }
     }
     vn_dan_kalmar_union = {
@@ -461,7 +538,22 @@ vn_dan_missions_slot_4_a = {
 			vn_dan_western_norway
 		}
         trigger = {
-            #add
+            scandinavia_superregion = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			NOT = {
+				any_subject_country = {
+					capital_scope = {
+						superregion = scandinavia_superregion
+					}
+					liberty_desire = 50
+				}
+				any_owned_province = {
+					superregion = scandinavia_superregion
+					unrest = 5
+				}
+			}
         }
         effect = {
 			#Kalmar union event
@@ -473,7 +565,8 @@ vn_dan_missions_slot_4_a = {
         position = 5
         required_missions = { vn_dan_kalmar_union }
         trigger = {
-            #add
+			absolutism = 100
+			current_age = age_of_absolutism
         }
         effect = {
             #add
@@ -534,7 +627,19 @@ vn_dan_missions_slot_4_b = {
 			vn_dan_found_cities_in_norway 
 		}
         trigger = {
-            #add
+			current_age = age_of_absolutism	#had reformation
+            vestlandet_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				religion = ROOT
+			}
+			austlandet_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				religion = ROOT
+			}
         }
         effect = {
             #add
@@ -634,7 +739,24 @@ vn_dan_missions_slot_5_b = {
         position = 6
         required_missions = { vn_dan_western_norway }
         trigger = {
-            #add
+            num_of_owned_provinces_with = {
+				value = 10
+				OR = {
+					region = austlandet_region
+					region = vestlandet_region
+				}
+				development = 10
+				NOT = { num_free_building_slots = 1 }
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					region = austlandet_region
+					region = vestlandet_region
+				}
+				development = 15
+				NOT = { num_free_building_slots = 1 }
+			}
         }
         effect = {
             #add
