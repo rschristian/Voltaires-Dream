@@ -15,22 +15,112 @@ vn_wws_missions_slot_1 = {
         icon = mission_rb_import_potatoes
         position = 1
         required_missions = { }
+        provinces_to_highlight = {
+            if = {
+                limit = {
+                    NOT = {
+                        num_of_owned_provinces_with = {
+                            value = 3
+                            trade_goods = livestock
+                            development = 8
+                        }
+                    }
+                }
+                owned_by = ROOT
+                trade_goods = livestock
+                NOT = { development = 8 }
+            }
+            if = {
+                limit = {
+                    NOT = {
+                        num_of_owned_provinces_with = {
+                            value = 3
+                            trade_goods = barley
+                            development = 8
+                        }
+                    }
+                }
+                owned_by = ROOT
+                trade_goods = barley
+                NOT = { development = 8 }
+            }
+            if = {
+                limit = {
+                    NOT = {
+                        num_of_owned_provinces_with = {
+                            value = 3
+                            trade_goods = rye
+                            development = 8
+                        }
+                    }
+                }
+                owned_by = ROOT
+                trade_goods = rye
+                NOT = { development = 8 }
+            }
+            if = {
+                limit = {
+                    NOT = {
+                        num_of_owned_provinces_with = {
+                            value = 3
+                            trade_goods = grain
+                            development = 8
+                        }
+                    }
+                }
+                owned_by = ROOT
+                trade_goods = grain
+                NOT = { development = 8 }
+            }
+        }
         trigger = {
-            
+            num_of_owned_provinces_with = {
+                value = 3
+                trade_goods = livestock
+                development = 8
+            }
+            num_of_owned_provinces_with = {
+                value = 3
+                trade_goods = barley
+                development = 8
+            }
+            num_of_owned_provinces_with = {
+                value = 3
+                trade_goods = rye
+                development = 8
+            }
+            num_of_owned_provinces_with = {
+                value = 3
+                trade_goods = grain
+                development = 8
+            }
         }
         effect = {
-
+            add_ruler_modifier = {
+                name = wws_promote_agriculture_mission
+                duration = -1
+            }
         }
     }
-    vn_wws_capital_germania = {
-        icon = mission_big_city
+    vn_wws_cultural_life = {
+        icon = mission_noble_council
         position = 2
         required_missions = { vn_wws_promote_agriculture }
         trigger = {
-            any_owned_province = {
-				development = 25
-				has_fort_trigger = yes
-			}
+            is_at_war = no
+            NOT = { corruption = 0.01 }
+            employed_advisor = {
+                culture = ROOT
+                category = ADM
+            }
+            employed_advisor = {
+                culture = ROOT
+                category = DIP
+            }
+            employed_advisor = {
+                culture = ROOT
+                category = MIL
+            }
         }
         effect = {
             country_event = { id = vn_missions.25 }
@@ -39,12 +129,17 @@ vn_wws_missions_slot_1 = {
     vn_wws_appoint_vogte = {
         icon = mission_alliances
         position = 3
-        required_missions = { vn_wws_capital_germania }
+        required_missions = { vn_wws_cultural_life }
         trigger = {
-            
+            NOT = { average_autonomy = 40 }
+
         }
         effect = {
-            
+            add_adm_power = 100
+            add_ruler_modifier = {
+                name = wws_appoint_vogte_mission
+                duration = -1
+            }
         }
     }
     vn_wws_trust_in_knights = {
@@ -68,9 +163,27 @@ vn_wws_missions_slot_1 = {
 					}
 				}
 			}
+            OR = {
+                customs_house = 10
+                arsenal = 5
+            }
+            army_size = 25
+            land_maintenance = 1
+            num_of_generals = 2
         }
         effect = {
-            
+            add_army_tradition = 10
+            palestine_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_ruler_modifier = {
+                name = wws_trust_in_knights_mission
+                duration = -1
+            }
         }
     }
     vn_wws_conquer_jerusalem = {
@@ -88,46 +201,73 @@ vn_wws_missions_slot_1 = {
 			}
         }
         effect = {
-            
+            add_prestige = 25
+            add_ruler_modifier = {
+                name = wws_conquer_jerusalem_mission
+                duration = -1
+            }
         }
     }
-    vn_wws_conquer_hohenlohe = {
-        icon = mission_unite_home_region
-        position = 6
-		required_missions = {  }
+    vn_wws_the_old_capital = {
+        icon = mission_big_city
+        position = 7
+		required_missions = { vn_wws_conquer_baden }
 		provinces_to_highlight = {
-			area = hohenlohe_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+            province_id = 1959
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { is_core = ROOT }
+                has_fort_trigger = no
+                has_tax_building_trigger = no
+                has_production_building_trigger = no
+            }
 		}
         trigger = {
-            hohenlohe_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+            if = {
+                limit = { NOT = { primary_culture = boden_alemannic } }
+                accepted_culture = boden_alemannic
+            }
+            if = {
+                limit = { NOT = { primary_culture = swabian } }
+                accepted_culture = swabian
+            }
+            1959 = {
+                owned_by = ROOT
+                is_core = ROOT
+                has_fort_trigger = yes
+                has_tax_building_trigger = yes
+                has_production_building_trigger = yes
+            }
         }
         effect = {
-            
+            1959 = {
+                move_capital_effect = yes
+                add_base_tax = 2
+                add_base_production = 2
+                add_province_modifier = {
+                    name = wws_the_old_capital_mission
+                    duration = -1
+                }
+            }
         }
     }
-    vn_wws_conquer_franconia = {
-        icon = mission_unite_home_region
-        position = 7
-		required_missions = { vn_wws_conquer_hohenlohe }
-		provinces_to_highlight = {
-			OR = {
-				area = wurzburg_area
-				area = bamberg_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
+    vn_wws_castles_of_alsace = {
+        icon = mission_fort
+        position = 8
+        required_missions = { }
         trigger = {
-            wurzburg_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			bamberg_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+            if = {
+                limit = { has_estate = estate_nobles }
+                estate_loyalty = {
+                    estate = estate_nobles
+                    loyalty = 70
+                }
+            }
+            num_of_owned_provinces_with = {
+				value = 8
+				base_manpower = 12
+                has_estate = estate_nobles
+                has_fort_trigger = yes
 			}
         }
         effect = {
@@ -139,13 +279,27 @@ vn_wws_missions_slot_1 = {
         position = 9
         required_missions = {  }
         trigger = {
-			#survive peasants wars disaster
+            stability = 1
+            custom_trigger_tooltip = {
+                tooltip = vn_wws_suppress_the_bundschuhs.tt
+                OR = {
+                    has_country_flag = had_peasant_war
+                    current_age = age_of_reformation
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
 			NOT = { average_unrest = 1 }
 			NOT = { num_of_rebel_armies = 1 }
 			NOT = { num_of_rebel_controlled_provinces = 1 }
         }
         effect = {
-            
+            add_stability_or_adm_power = yes
+            add_ruler_modifier = {
+                name = wws_suppress_the_bundschuhs_mission
+                duration = -1
+            }
         }
     }
     vn_wws_theological_studies = {
@@ -153,12 +307,18 @@ vn_wws_missions_slot_1 = {
         position = 10
         required_missions = { vn_wws_suppress_the_bundschuhs }
         trigger = {
+            has_institution = printing_press
             capital_scope = {
-
-			}
+                has_building = university
+            }
+            has_3_lv3_advisors_trigger = yes
         }
         effect = {
-            
+            add_innovativeness_big_effect = yes
+            add_ruler_modifier = {
+                name = wws_theological_studies_mission
+                duration = -1
+            }
         }
 	}
 }
@@ -178,10 +338,15 @@ vn_wws_missions_slot_2 = {
         position = 2
         required_missions = { vn_wws_promote_agriculture }
         trigger = {
-            
+            treasury = 2500
+            NOT = { num_of_loans = 1 }
         }
         effect = {
-            
+            add_inflation = -1
+            add_ruler_modifier = {
+                name = wws_swabian_greed_mission
+                duration = -1
+            }
         }
     }
     vn_wws_conquer_munich = {
@@ -206,7 +371,27 @@ vn_wws_missions_slot_2 = {
 			}
         }
         effect = {
-            
+            landshut_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            innkreis_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            straubing_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_wws_conquer_passau = {
@@ -236,13 +421,16 @@ vn_wws_missions_slot_2 = {
 			}
         }
         effect = {
-            
+            add_ruler_modifier = {
+                name = wws_conquer_passau_mission
+                duration = -1
+            }
         }
     }
     vn_wws_conquer_wurttemberg = {
         icon = mission_unite_home_region
         position = 5
-		required_missions = {  }
+		required_missions = { vn_wws_conquer_drachgau }
 		provinces_to_highlight = {
 			area = wurttemburg_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -254,13 +442,26 @@ vn_wws_missions_slot_2 = {
 			}
         }
         effect = {
-            
+            baden_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            breisgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_wws_conquer_baden = {
         icon = mission_unite_home_region
         position = 6
-		required_missions = { vn_wws_conquer_wurttemberg }
+		required_missions = { vn_wws_conquer_wurttemberg vn_wws_conquer_hohenzollern }
 		provinces_to_highlight = {
 			OR = {
 				area = baden_area
@@ -279,7 +480,27 @@ vn_wws_missions_slot_2 = {
 			}
         }
         effect = {
-            
+            pfalzeast_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            darmstadt_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            alsace_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_wws_conquer_alsace = {
@@ -297,7 +518,13 @@ vn_wws_missions_slot_2 = {
 			}
         }
         effect = {
-            
+            burgundy_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
 	vn_wws_conquer_burgundy = {
@@ -315,7 +542,11 @@ vn_wws_missions_slot_2 = {
 			}
         }
         effect = {
-            
+            add_legitimacy = 10
+            add_ruler_modifier = {
+                name = wws_conquer_burgundy_mission
+                duration = -1
+            }
         }
 	}
 }
@@ -335,18 +566,43 @@ vn_wws_missions_slot_3 = {
         position = 1
         required_missions = {  }
         trigger = {
-			num_of_royal_marriages = 5
-			#tooltip
-			calc_true_if = {
-				amount = 3
-				all_country = {
-					marriage_with = ROOT
-					prestige = 40
-				}
-			}
+            if = {
+                limit = { government = monarchy }
+                num_of_royal_marriages = 5
+                custom_trigger_tooltip = {
+                    tooltip = vn_wws_prestigious_kinship.tt
+                    calc_true_if = {
+                        amount = 3
+                        all_country = {
+                            marriage_with = ROOT
+                            prestige = 40
+                        }
+                    }
+                }
+            }
+            else = {
+                num_of_allies = 5
+            }
         }
         effect = {
-            
+            augsburg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            riesgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_ruler_modifier = {
+                name = wws_prestigious_kinship_mission
+                duration = -1
+            }
         }
     }
     vn_wws_conquer_riesgau = {
@@ -364,7 +620,27 @@ vn_wws_missions_slot_3 = {
 			}
         }
         effect = {
-            
+            munich_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            ingolstadt_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            drachgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_wws_conquer_drachgau = {
@@ -382,13 +658,19 @@ vn_wws_missions_slot_3 = {
 			}
         }
         effect = {
-            
+            wurttemburg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_wws_conquer_hohenzollern = {
         icon = mission_unite_home_region
         position = 5
-		required_missions = { vn_wws_conquer_drachgau }
+		required_missions = { vn_wws_conquer_drachgau vn_wws_conquer_constance }
 		provinces_to_highlight = {
 			OR = {
 				area = albgau_area
@@ -411,27 +693,85 @@ vn_wws_missions_slot_3 = {
         }
     }
     vn_wws_conquer_speyer = {
-        icon = mission_european_church
+        icon = mission_unite_home_region
         position = 7
 		required_missions = { vn_wws_conquer_baden }
 		provinces_to_highlight = {
-			area = pfalzeast_area
+			OR = {
+                area = pfalzeast_area
+                area = darmstadt_area
+            }
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
            	pfalzeast_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
-			}
+            }
+            darmstadt_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+            }
 		}
         effect = {
-            
+            wurzburg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            hohenlohe_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_wws_conquer_franconia = {
+        icon = mission_unite_home_region
+        position = 8
+		required_missions = { vn_wws_conquer_speyer }
+		provinces_to_highlight = {
+			OR = {
+				area = wurzburg_area
+				area = hohenlohe_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            wurzburg_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			hohenlohe_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            mainz_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            pfalzwest_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_wws_conquer_pfalz = {
-        icon = mission_unite_home_region
-        position = 8
-        required_missions = { vn_wws_conquer_speyer }
+        icon = mission_coronation
+        position = 9
+        required_missions = { vn_wws_conquer_franconia }
         provinces_to_highlight = {
 			OR = {
 				area = mainz_area
@@ -450,26 +790,10 @@ vn_wws_missions_slot_3 = {
 			}
         }
         effect = {
-            
-        }
-    }
-    vn_wws_castles_of_alsace = {
-        icon = mission_fort
-        position = 9
-        required_missions = { vn_wws_conquer_alsace }
-        trigger = {
-			estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 70
-			}
-            num_of_owned_provinces_with = {
-				value = 8
-				base_manpower = 12
-				has_estate = estate_nobles
-			}
-        }
-        effect = {
-            
+            add_ruler_modifier = {
+                name = wws_conquer_pfalz_mission
+                duration = -1
+            }
         }
     }
     vn_wws_hohenstaufer_empire = {
@@ -485,10 +809,18 @@ vn_wws_missions_slot_3 = {
 			else = {
 				government_rank = 6
 			}
-
+            total_development = 1000
         }
         effect = {
-            
+            add_adm_power = 100
+            add_dip_power = 100
+            add_mil_power = 100
+            add_prestige = 25
+            add_imperial_influence = 25
+            add_country_modifier = {
+				name = "wws_hohenstaufer_empire_mission"
+				duration = 36500
+			}
         }
 	}
 }
@@ -518,7 +850,20 @@ vn_wws_missions_slot_4 = {
 			}
         }
         effect = {
-            
+            rammgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            burgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_wws_conquer_ravensburg = {
@@ -543,7 +888,20 @@ vn_wws_missions_slot_4 = {
 			}
         }
         effect = {
-            
+            hegau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            argengau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_wws_conquer_constance = {
@@ -568,7 +926,28 @@ vn_wws_missions_slot_4 = {
 			}
         }
         effect = {
-            
+            albgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			bertoldsbaar_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            1869 = {
+                add_trade_modifier = {
+                    who = ROOT
+                    duration = 9125
+                    power = 10
+                    key = wws_conquer_constance_mission
+                }
+            }
         }
     }
     vn_wws_bodensee_economy = {
@@ -627,21 +1006,10 @@ vn_wws_missions_slot_4 = {
 			}
         }
     }
-    vn_wws_influence_lombardy = {
-        icon = mission_restore_faith_in_the_throne
-        position = 6
-        required_missions = { vn_wws_become_emperor }
-        trigger = {
-            
-        }
-        effect = {
-            
-        }
-    }
     vn_wws_conquer_switzerland = {
-        icon = mission_unite_home_region
-        position = 7
-		required_missions = { vn_wws_influence_lombardy }
+        icon = mission_conquer_50_development
+        position = 6
+		required_missions = { vn_wws_become_emperor }
 		provinces_to_highlight = {
 			OR = {
 				area = thurgau_area
@@ -668,10 +1036,24 @@ vn_wws_missions_slot_4 = {
             
         }
     }
+    vn_wws_influence_lombardy = {
+        icon = mission_humiliate_provence
+        position = 7
+        required_missions = { vn_wws_conquer_switzerland }
+        trigger = {
+            
+        }
+        effect = {
+            add_ruler_modifier = {
+                name = wws_influence_lombardy_mission
+                duration = -1
+            }
+        }
+    }
     vn_wws_raid_milan = {
         icon = mission_steppe_warriors
         position = 8
-		required_missions = { vn_wws_conquer_switzerland }
+		required_missions = { vn_wws_influence_lombardy }
 		provinces_to_highlight = {
 			province_id = 1818
 		}
@@ -694,24 +1076,43 @@ vn_wws_missions_slot_4 = {
     vn_wws_rein_in_italy = {
         icon = mission_break_sicily
         position = 9
-		required_missions = { vn_wws_raid_milan }
+		required_missions = { vn_wws_raid_milan vn_wws_decisions_of_roncaglia }
 		provinces_to_highlight = {
 			owner = {
 				capital_scope = {
 					superregion = italy_superregion
 				}
-				num_of_cities = 10
+				OR = {
+                    num_of_cities = 10
+                    NOT = {
+                        alliance_with = ROOT
+                        has_opinion = {
+                            who = ROOT
+                            value = 150
+                        }
+                    }
+                }
 			}
 		}
         trigger = {
+            #tooltip
             NOT = {
 				any_country = {
 					capital_scope = {
 						superregion = italy_superregion
 					}
-					num_of_cities = 10
+                    OR = {
+                        num_of_cities = 10
+                        NOT = {
+                            alliance_with = ROOT
+                            has_opinion = {
+                                who = ROOT
+                                value = 150
+                            }
+                        }
+                    }
 				}
-			}
+            }
         }
         effect = {
 			if = {
@@ -760,7 +1161,7 @@ vn_wws_missions_slot_4 = {
     vn_wws_conquer_sicily = {
         icon = mission_intervene_in_castile
         position = 10
-		required_missions = { vn_wws_rein_in_italy }
+		required_missions = { vn_wws_rein_in_italy vn_wws_restore_honor_imperii }
 		provinces_to_highlight = {
 			OR = {
 				region = apulia_region
@@ -784,7 +1185,11 @@ vn_wws_missions_slot_4 = {
 			}
         }
         effect = {
-            
+            add_legitimacy = 10
+            add_ruler_modifier = {
+                name = wws_conquer_sicily_mission
+                duration = 1
+            }
         }
 	}
 }
@@ -813,7 +1218,10 @@ vn_wws_missions_slot_5 = {
 			prestige = 50
         }
         effect = {
-            
+            add_ruler_modifier = {
+                name = wws_idealistic_duke_mission
+                duration = -1
+            }
         }
     }
     vn_wws_swabian_antikings = {
@@ -822,11 +1230,15 @@ vn_wws_missions_slot_5 = {
         required_missions = { vn_wws_idealistic_duke }
         trigger = {
 			has_institution = investiture
-			legitimacy_equivalent = 90
+			legitimacy_equivalent = 100
 			months_of_ruling = 120
         }
         effect = {
-            
+            add_dip_power = 50
+            add_ruler_modifier = {
+                name = wws_swabian_antikings_mission
+                duration = -1
+            }
         }
     }
     vn_wws_become_emperor = {
@@ -839,7 +1251,31 @@ vn_wws_missions_slot_5 = {
 			stability = 1
         }
         effect = {
-            
+            thurgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            stgallen_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            waldstatte_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_ruler_modifier = {
+                name = wws_become_emperor_mission
+                duration = -1
+            }
         }
     }
     vn_wws_proclaim_free_cities = {
@@ -849,16 +1285,22 @@ vn_wws_missions_slot_5 = {
         trigger = {
 			is_emperor = yes
 			hre_reform_level = 3
-			#tooltip
-            calc_true_if = {
-				amount = 30
-				all_country = {
-					has_reform = free_city
-				}
-			}
+            custom_trigger_tooltip = {
+                tooltip = wws_proclaim_free_cities.tt
+                calc_true_if = {
+                    amount = 30
+                    all_country = {
+                        has_reform = free_city
+                    }
+                }
+            }
         }
         effect = {
-            
+            add_years_of_income = 0.5
+            add_ruler_modifier = {
+                name = wws_proclaim_free_cities_mission
+                duration = -1
+            }
         }
     }
     vn_wws_decisions_of_roncaglia = {
@@ -867,22 +1309,40 @@ vn_wws_missions_slot_5 = {
         required_missions = { vn_wws_proclaim_free_cities }
         trigger = {
 			is_emperor = yes
-			hre_reform_level = 5
+            hre_reform_level = 5
+            #
         }
         effect = {
-            
+            add_ruler_modifier = {
+                name = wws_decisions_of_roncaglia_mission
+                duration = -1
+            }
         }
     }
     vn_wws_restore_honor_imperii = {
-        icon = mission_humiliate_provence
+        icon = mission_restore_faith_in_the_throne
         position = 9
         required_missions = { vn_wws_decisions_of_roncaglia }
         trigger = {
             is_emperor = yes
-			hre_reform_level = 7
+            hre_reform_level = 7
+            OR = {
+                NOT = { num_of_foreign_hre_provinces = 1 }
+                custom_trigger_tooltip = {
+                    tooltip = vn_wws_restore_honor_imperii.tt
+                    is_in_war = {
+                        attacker_leader = ROOT
+                        war_score = 75
+                        casus_belli = cb_imperial_ban
+                    }
+                }
+            }
         }
         effect = {
-            
+            add_ruler_modifier = {
+                name = wws_restore_honor_imperii_mission
+                duration = -1
+            }
         }
 	}
 }

@@ -1,4 +1,4 @@
-#Toulousan missions
+#Toulousian missions
 #By ShyGuy13
 
 vn_tou_missions_slot_1 = {
@@ -26,6 +26,9 @@ vn_tou_missions_slot_1 = {
 			if = {
 				limit = { NOT = { religion = cathar } }
 				country_event = { id = vn_missions.24 }
+			}
+			else = {
+				add_prestige = 25
 			}
 		}
 	}
@@ -300,10 +303,12 @@ vn_tou_missions_slot_2 = {
 		effect = {
 			add_prestige = 10
 			2324 = {
-				add_province_modifier = {
-					name = "tou_conquer_aquitaine_mission"
-					duration = 9125
-				}
+				add_trade_modifier = {
+                    who = ROOT
+                    duration = 9125
+                    power = 10
+                    key = tou_conquer_aquitaine_mission
+                }
 			}
 		}
 	}
@@ -672,6 +677,47 @@ vn_tou_missions_slot_5 = {
 			add_country_modifier = {
 				name = "tou_occitan_wine_empire_mission"
 				duration = 9125
+			}
+		}
+	}
+	vn_tou_ports_of_languedoc = {
+		position = 5
+		icon = mission_naval_expansion
+		required_missions = { vn_tou_conquer_languedoc }
+		provinces_to_highlight = {
+			region = toulouse_region
+			has_port = yes
+			OR = {
+				has_dock_building_trigger = no
+				has_shipyard_building_trigger = no
+			}
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				region = toulouse_region
+				has_dock_building_trigger = yes
+				has_shipyard_building_trigger = yes
+			}
+		}
+		effect = {
+			add_navy_tradition = 10
+			balears_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			toulouse_region = {
+				limit = {
+					has_port = yes
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = tou_ports_of_languedoc_mission
+					duration = 9125
+				}
 			}
 		}
 	}
