@@ -172,7 +172,9 @@ vn_wws_missions_slot_1 = {
             num_of_generals = 2
         }
         effect = {
-            add_army_tradition = 10
+            create_general = {
+                tradition = 75
+            }
             palestine_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -256,13 +258,7 @@ vn_wws_missions_slot_1 = {
         position = 8
         required_missions = { }
         trigger = {
-            if = {
-                limit = { has_estate = estate_nobles }
-                estate_loyalty = {
-                    estate = estate_nobles
-                    loyalty = 70
-                }
-            }
+            has_estate = estate_nobles
             num_of_owned_provinces_with = {
 				value = 8
 				base_manpower = 12
@@ -271,7 +267,10 @@ vn_wws_missions_slot_1 = {
 			}
         }
         effect = {
-            
+            add_ruler_modifier = {
+                name = wws_castles_of_alsace_mission
+                duration = -1
+            }
         }
     }
     vn_wws_suppress_the_bundschuhs = {
@@ -308,9 +307,11 @@ vn_wws_missions_slot_1 = {
         required_missions = { vn_wws_suppress_the_bundschuhs }
         trigger = {
             has_institution = printing_press
-            capital_scope = {
-                has_building = university
+            if = {
+                limit = { has_dlc = "Rule Britannia" }
+                innovativeness = 50
             }
+            university = 3
             has_3_lv3_advisors_trigger = yes
         }
         effect = {
@@ -902,6 +903,10 @@ vn_wws_missions_slot_4 = {
                 }
                 add_permanent_claim = ROOT
             }
+            add_ruler_modifier = {
+                name = wws_conquer_ravensburg_mission
+                duration = -1
+            }
         }
     }
     vn_wws_conquer_constance = {
@@ -988,12 +993,12 @@ vn_wws_missions_slot_4 = {
 						has_production_building_trigger = yes
 						has_trade_building_trigger = yes
 					}
-					save_event_target_as = reward_province
+					save_event_target_as = bodensee_province
 				}
 			}
 			if = {
-				limit = { has_saved_event_target = reward_province }
-				event_target:reward_province = {
+				limit = { has_saved_event_target = bodensee_province }
+				event_target:bodensee_province = {
 					add_center_of_trade_level = 1
 					add_province_modifier = {
 						name = "wws_bodensee_economy_mission"
@@ -1082,9 +1087,25 @@ vn_wws_missions_slot_4 = {
 				capital_scope = {
 					superregion = italy_superregion
 				}
-				OR = {
-                    num_of_cities = 10
-                    NOT = {
+				num_of_cities = 10
+                NOT = {
+                    alliance_with = ROOT
+                    has_opinion = {
+                        who = ROOT
+                        value = 150
+                    }
+                }
+			}
+		}
+        trigger = {
+            #tooltip
+            all_country = {
+                capital_scope = {
+                    superregion = italy_superregion
+                }
+                OR = {
+                    NOT = { num_of_cities = 10 }
+                    AND = {
                         alliance_with = ROOT
                         has_opinion = {
                             who = ROOT
@@ -1092,26 +1113,6 @@ vn_wws_missions_slot_4 = {
                         }
                     }
                 }
-			}
-		}
-        trigger = {
-            #tooltip
-            NOT = {
-				any_country = {
-					capital_scope = {
-						superregion = italy_superregion
-					}
-                    OR = {
-                        num_of_cities = 10
-                        NOT = {
-                            alliance_with = ROOT
-                            has_opinion = {
-                                who = ROOT
-                                value = 150
-                            }
-                        }
-                    }
-				}
             }
         }
         effect = {
@@ -1327,7 +1328,6 @@ vn_wws_missions_slot_5 = {
             is_emperor = yes
             hre_reform_level = 7
             OR = {
-                NOT = { num_of_foreign_hre_provinces = 1 }
                 custom_trigger_tooltip = {
                     tooltip = vn_wws_restore_honor_imperii.tt
                     is_in_war = {
@@ -1336,6 +1336,7 @@ vn_wws_missions_slot_5 = {
                         casus_belli = cb_imperial_ban
                     }
                 }
+                NOT = { num_of_foreign_hre_provinces = 1 }
             }
         }
         effect = {
