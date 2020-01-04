@@ -59,7 +59,17 @@ fragmentation_of_poland = {
 	}
 	
 	can_stop = {
-		#add
+		OR = {
+			has_any_disaster = yes
+			NOT = { 
+				OR = { 
+					government = monarchy 
+					has_reform = feudal_monarchy
+				}
+			}
+			NOT = { tag = POL }
+			current_age = age_of_dynasticism
+		}
 	}
 		
 	progress = {
@@ -85,15 +95,15 @@ fragmentation_of_poland = {
 		}
 		modifier = {
 			factor = 1
-			NOT = { legitimacy = 75 }
+			NOT = { legitimacy_equivalent = 75 }
 		}
 		modifier = {
 			factor = 0.5
-			NOT = { legitimacy = 50 }
+			NOT = { legitimacy_equivalent = 50 }
 		}
 		modifier = {
 			factor = 0.5
-			NOT = { legitimacy = 25 }
+			NOT = { legitimacy_equivalent = 25 }
 		}
 		modifier = {
 			factor = 1
@@ -110,16 +120,70 @@ fragmentation_of_poland = {
 	
 	modifier = {
 		legitimacy = -1
-		#addmore
+		diplomatic_reputation = -2
 	}	
 	
 	can_end = {
-		#add
+		tag = POL
+		custom_trigger_tooltip = {
+			tooltip = had_disaster_for_ten_years
+			had_country_flag = {
+				flag = poland_fragmentation_active
+				days = 3650
+			}
+		}
+		stability = 1
+		calc_true_if = {
+			OR = {
+				MAZ = {
+					exists = no
+					is_subject_of = ROOT
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = MAZ
+					}
+				}
+			}
+			OR = {
+				SIL = {
+					exists = no
+					is_subject_of = ROOT
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = SIL
+					}
+				}
+			}
+			OR = {
+				WKP = {
+					exists = no
+					is_subject_of = ROOT
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = WKP
+					}
+				}
+			}
+			OR = {
+				SDZ = {
+					exists = no
+					is_subject_of = ROOT
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = SDZ
+					}
+				}
+			}
+			amount = 3
+		}
 	}
-
 	
 	on_start = fragmentation_of_poland.1 #Last Will and Testament of [Root.Monarch.GetName]
-	on_end = fragmentation_of_poland.100 #add
+	on_end = fragmentation_of_poland.100	#End of the Fragmentation Period
 	
 	on_monthly = {
 		events = {
