@@ -370,8 +370,10 @@ country_event = {
 		else = {
 			change_mil = 1
 		}
-		2233 = { add_core = ROOT }
-		set_capital = 2233
+		2233 = {
+			add_core = ROOT
+			move_capital_effect = yes
+		}
 	}
 	option = {
 		name = "vn_missions.7.b"
@@ -409,7 +411,7 @@ country_event = {
 	id = vn_missions.8
 	title = vn_missions.8.t
 	desc = vn_missions.8.d
-	picture = NAVAL_MILITARY_eventPicture
+	picture = BATTLE_VISTULA_LAGOON_eventPicture
 
 	is_triggered_only = yes
 
@@ -422,8 +424,8 @@ country_event = {
 			}
 		}
 		ai_chance = { factor = 75 }
-		set_capital = 4854
 		4854 = {
+			move_capital_effect = yes
 			add_base_tax = 2
 			add_base_production = 2
 			add_base_manpower = 2
@@ -609,8 +611,8 @@ country_event = {
 		FEO = {
 			change_religion = ROOT
 			change_government = monarchy
-			set_legacy_government = administrative_monarchy
-			set_capital = 3089
+			add_government_reform = autocracy_reform
+			3089 = { move_capital_effect = yes }
 			if = {
 				limit = {
 					has_states_general_mechanic = yes
@@ -882,8 +884,8 @@ country_event = {
 				is_capital = no
 			}
 		}
-		set_capital = 1878
 		1878 = {
+			move_capital_effect = yes
 			add_province_modifier = {
 				name = kol_residence_of_arnsberg_mission
 				duration = -1
@@ -899,8 +901,8 @@ country_event = {
 				is_capital = no
 			}
 		}
-		set_capital = 82
 		82 = {
+			move_capital_effect = yes
 			add_province_modifier = {
 				name = kol_residence_of_arnsberg_mission
 				duration = -1
@@ -1182,10 +1184,11 @@ country_event = {
 	picture = RELIGIOUS_CONVERSION_eventPicture
 	
 	is_triggered_only = yes
+	major = yes
 
 	option = {
 		name = "vn_missions.24.a"
-		ai_chance = { factor = 75 }
+		ai_chance = { factor = 45 }
 		add_stability = 1
 		add_country_modifier = {
 			name = "tou_weather_catharism_mission_a"
@@ -1195,10 +1198,21 @@ country_event = {
 	}
 	option = {
 		name = "vn_missions.24.b"
-		ai_chance = { factor = 25 }
+		ai_chance = { factor = 40 }
 		add_papal_influence = 25
 		add_country_modifier = {
 			name = "tou_weather_catharism_mission_b"
+			duration = 10950
+		}
+		set_country_flag = tou_cathar_heresy
+	}
+	option = {
+		name = "vn_missions.24.c"
+		highlight = yes
+		ai_chance = { factor = 5 }
+		change_religion = cathar
+		add_country_modifier = {
+			name = "tou_weather_catharism_mission_c"
 			duration = 10950
 		}
 		set_country_flag = tou_cathar_heresy
@@ -1240,6 +1254,54 @@ country_event = {
 		add_ruler_modifier = {
 			name = wws_capital_germania_mission_c
 			duration = -1
+		}
+	}
+}
+
+#Post Destructionem Mediolani
+country_event = {
+	id = vn_missions.25
+	title = vn_missions.25.t
+	desc = vn_missions.25.d
+	picture = SIEGE_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	option = {
+		name = "vn_missions.26.a"
+		add_treasury = 250
+		if = {
+			limit = { is_emperor = yes }
+			add_imperial_influence = 25
+		}
+		else = {
+			add_prestige = 25
+		}
+		if = {
+			limit = { NOT = { 1818 = { country_or_non_sovereign_subject_holds = ROOT } } }
+			1818 = {
+				add_devastation = 50
+				add_base_tax = -2
+				add_base_production = -2
+				add_base_manpower = -2
+				add_province_modifier = {
+					name = wws_raid_milan_mission
+					duration = 10950
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				capital_scope = {
+					superregion = italy_superregion
+				}
+				is_part_of_hre = yes
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = wws_destroyed_milan_opinion
+			}
 		}
 	}
 }

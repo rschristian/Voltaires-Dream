@@ -132,7 +132,11 @@ vn_wws_missions_slot_1 = {
         required_missions = { vn_wws_cultural_life }
         trigger = {
             NOT = { average_autonomy = 40 }
-
+            num_of_owned_provinces_with = {
+                value = 5
+                development = 20
+                has_courthouse_building_trigger = yes
+            }
         }
         effect = {
             add_adm_power = 100
@@ -147,21 +151,22 @@ vn_wws_missions_slot_1 = {
         position = 4
         required_missions = { }
         trigger = {
+            NOT = { current_age = age_of_empire }
             if = {
 				limit = {
 					OR = {
 						current_age = age_of_empire
 						has_estate = estate_holy_orders
 					}
-					estate_loyalty = {
-						estate = estate_holy_orders
-						loyalty = 70
-					}
-					estate_influence = {
-						estate = estate_holy_orders
-						influence = 60
-					}
-				}
+                }
+                estate_loyalty = {
+                    estate = estate_holy_orders
+                    loyalty = 70
+                }
+                estate_influence = {
+                    estate = estate_holy_orders
+                    influence = 60
+                }
 			}
             OR = {
                 customs_house = 10
@@ -203,7 +208,13 @@ vn_wws_missions_slot_1 = {
 			}
         }
         effect = {
-            add_prestige = 25
+            if = {
+                limit = { uses_papacy = yes }
+                add_papal_influence = 25
+            }
+            else = {
+                add_prestige = 25
+            }
             add_ruler_modifier = {
                 name = wws_conquer_jerusalem_mission
                 duration = -1
@@ -227,11 +238,11 @@ vn_wws_missions_slot_1 = {
         trigger = {
             if = {
                 limit = { NOT = { primary_culture = boden_alemannic } }
-                accepted_culture = boden_alemannic
+                add_accepted_culture = boden_alemannic
             }
             if = {
                 limit = { NOT = { primary_culture = swabian } }
-                accepted_culture = swabian
+                add_accepted_culture = swabian
             }
             1959 = {
                 owned_by = ROOT
@@ -340,6 +351,7 @@ vn_wws_missions_slot_2 = {
         required_missions = { vn_wws_promote_agriculture }
         trigger = {
             treasury = 2500
+            share_of_starting_income = 2.5
             NOT = { num_of_loans = 1 }
         }
         effect = {
@@ -502,6 +514,10 @@ vn_wws_missions_slot_2 = {
                 }
                 add_permanent_claim = ROOT
             }
+            add_ruler_modifier = {
+                name = wws_conquer_baden_mission
+                duration = -1
+            }
         }
     }
     vn_wws_conquer_alsace = {
@@ -543,7 +559,6 @@ vn_wws_missions_slot_2 = {
 			}
         }
         effect = {
-            add_legitimacy = 10
             add_ruler_modifier = {
                 name = wws_conquer_burgundy_mission
                 duration = -1
@@ -690,7 +705,8 @@ vn_wws_missions_slot_3 = {
 			}
         }
         effect = {
-            
+            add_prestige = 15
+            add_army_tradition = 10
         }
     }
     vn_wws_conquer_speyer = {
@@ -903,10 +919,6 @@ vn_wws_missions_slot_4 = {
                 }
                 add_permanent_claim = ROOT
             }
-            add_ruler_modifier = {
-                name = wws_conquer_ravensburg_mission
-                duration = -1
-            }
         }
     }
     vn_wws_conquer_constance = {
@@ -952,6 +964,17 @@ vn_wws_missions_slot_4 = {
                     power = 10
                     key = wws_conquer_constance_mission
                 }
+                if = {
+					limit = { num_free_building_slots = 1 }
+					add_building_construction = {
+						cost = 0
+						speed = 1
+						building = workshop
+					}
+				}
+				else = {
+					add_base_production = 2
+				}
             }
         }
     }
@@ -982,6 +1005,7 @@ vn_wws_missions_slot_4 = {
 			}
         }
         effect = {
+            add_mercantilism = 2
 			hidden_effect = {
 				random_owned_province = {
 					limit = {
@@ -1046,9 +1070,31 @@ vn_wws_missions_slot_4 = {
         position = 7
         required_missions = { vn_wws_conquer_switzerland }
         trigger = {
-            
+            calc_true_if = {
+                amount = 2
+                all_ally = {
+                    capital_scope = {
+                        superregion = italy_superregion
+                    }
+                    is_part_of_hre = yes
+                    num_of_cities = 10
+                    has_opinion = {
+                        who = ROOT
+                        value = 150
+                    }
+                }
+            }
         }
         effect = {
+            1818 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
             add_ruler_modifier = {
                 name = wws_influence_lombardy_mission
                 duration = -1
@@ -1075,7 +1121,7 @@ vn_wws_missions_slot_4 = {
 			}
         }
         effect = {
-			#event?
+            country_event = { id = vn_missions.26 }
         }
     }
     vn_wws_rein_in_italy = {
@@ -1087,9 +1133,9 @@ vn_wws_missions_slot_4 = {
 				capital_scope = {
 					superregion = italy_superregion
 				}
+                is_free_or_tributary_trigger = yes
 				num_of_cities = 10
                 NOT = {
-                    alliance_with = ROOT
                     has_opinion = {
                         who = ROOT
                         value = 150
@@ -1098,18 +1144,21 @@ vn_wws_missions_slot_4 = {
 			}
 		}
         trigger = {
-            #tooltip
-            all_country = {
-                capital_scope = {
-                    superregion = italy_superregion
-                }
-                OR = {
-                    NOT = { num_of_cities = 10 }
-                    AND = {
-                        alliance_with = ROOT
-                        has_opinion = {
-                            who = ROOT
-                            value = 150
+            legitimacy_equivalent = 100
+            custom_trigger_tooltip = {
+                tooltip = vn_wws_rein_in_italy.tt
+                NOT = {
+                    any_country = {
+                        capital_scope = {
+                            superregion = italy_superregion
+                        }
+                        is_free_or_tributary_trigger = yes
+                        num_of_cities = 10
+                        NOT = {
+                            has_opinion = {
+                                who = ROOT
+                                value = 150
+                            }
                         }
                     }
                 }
@@ -1157,6 +1206,10 @@ vn_wws_missions_slot_4 = {
                     add_permanent_claim = ROOT
                 }
             }
+            add_ruler_modifier = {
+                name = wws_rein_in_italy_mission
+                duration = -1
+            }
         }
     }
     vn_wws_conquer_sicily = {
@@ -1186,7 +1239,6 @@ vn_wws_missions_slot_4 = {
 			}
         }
         effect = {
-            add_legitimacy = 10
             add_ruler_modifier = {
                 name = wws_conquer_sicily_mission
                 duration = 1
@@ -1216,7 +1268,7 @@ vn_wws_missions_slot_5 = {
 				dip = 4
 				mil = 4
 			}
-			prestige = 50
+			stability = 1
         }
         effect = {
             add_ruler_modifier = {
@@ -1249,9 +1301,11 @@ vn_wws_missions_slot_5 = {
         trigger = {
 			is_emperor = yes
 			hre_reform_level = 1
-			stability = 1
+			prestige = 50
         }
         effect = {
+            add_stability_or_adm_power = yes
+            add_legitimacy = 10
             thurgau_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1273,10 +1327,6 @@ vn_wws_missions_slot_5 = {
                 }
                 add_permanent_claim = ROOT
             }
-            add_ruler_modifier = {
-                name = wws_become_emperor_mission
-                duration = -1
-            }
         }
     }
     vn_wws_proclaim_free_cities = {
@@ -1297,7 +1347,7 @@ vn_wws_missions_slot_5 = {
             }
         }
         effect = {
-            add_years_of_income = 0.5
+            add_years_of_income = 1
             add_ruler_modifier = {
                 name = wws_proclaim_free_cities_mission
                 duration = -1
@@ -1311,9 +1361,20 @@ vn_wws_missions_slot_5 = {
         trigger = {
 			is_emperor = yes
             hre_reform_level = 5
-            #
+            OR = {
+                is_papal_controller = yes
+                invested_papal_influence = 50
+            }
         }
         effect = {
+            define_advisor = {
+                name = "Ugo di Porta Ravegnana"
+                type = statesman
+                skill = 3
+                religion = catholic
+                culture = emilian
+                cost_multiplier = 0.25
+            }
             add_ruler_modifier = {
                 name = wws_decisions_of_roncaglia_mission
                 duration = -1
