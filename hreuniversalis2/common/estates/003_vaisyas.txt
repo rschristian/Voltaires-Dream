@@ -1,23 +1,29 @@
-estate_burghers =
-{
-	icon = 3
+estate_vaisyas = {
+	icon = 9
 	
-	color = { 35 35 150 }
+	color = { 230 230 15 } #Yellow
 	
 	# Is estate kept in control of province on conquest?
 	keep_on_conquest = no	
 
 	# If true, country will get estate
+	#Replaces Burghers
 	trigger = {	
-		NOT = { has_estate = estate_vaisyas }
-		NOT = { has_reform = pirate_republic_reform }
+		has_dlc = "Dharma"
+		religion = zoroastrian
 		NOT = { has_government_attribute = is_merchant_republic }
+		NOT = { has_reform = pirate_republic_reform }
 		NOT = { has_reform = veche_republic }
 		NOT = { has_reform = trading_city }
 		NOT = { has_reform = revolutionary_republic_reform }
 		NOT = { has_reform = cossacks_reform }
+		NOT = { government = native }
+		NOT = { has_reform = siberian_tribe }
+		OR = {
+			NOT = { has_reform = celestial_empire }
+			has_dlc = "Mandate of Heaven"
+		}
 		is_nomad = no
-		primitives = no
 		is_colonial_nation = no
 	}
 	
@@ -25,13 +31,13 @@ estate_burghers =
 	province_trigger = {
 		OR = {
 			owner = { government = republic }
-			development = 10
+			development = 7
 			province_trade_power = 5
 		}
 	}
 
 	# Is used to weigh importance compared to other estates
-	start_territory_weight = 10
+	start_territory_weight = 25
 	
 	# Min autonomy in estate provinces
 	min_autonomy = 25
@@ -44,24 +50,23 @@ estate_burghers =
 
 	# These scale with loyalty & power
 	country_modifier_happy = {
-		trade_efficiency = 0.2
-		development_cost = -0.1
+		advisor_cost = -0.1
+		production_efficiency = 0.33
 	}
 	country_modifier_neutral = {
-		trade_efficiency = 0.2
+		production_efficiency = 0.33
 	}	
 	country_modifier_angry = {
-		trade_efficiency = -0.1
-		development_cost = 0.1
+		production_efficiency = -0.33
 	}
 	
 	# These do not scale, but only applied in provinces owned by the estate
 	province_modifier_happy = {
-		trade_goods_size_modifier = 0.1
-		province_trade_power_modifier = 0.5
+		trade_value_modifier = 0.2
+		local_development_cost = -0.2
 	}
 	province_modifier_neutral = {
-		province_trade_power_modifier = 0.5
+		trade_value_modifier = 0.2
 	}		
 	province_modifier_angry = {
 		local_unrest = 5
@@ -77,7 +82,17 @@ estate_burghers =
 			}
 		}
 		influence = 5
-	}	
+	}
+	influence_modifier = {	
+		desc = EST_VAL_COT
+		trigger = {
+			NOT = { has_reform = free_city }
+			any_owned_province = {
+				province_has_center_of_trade_of_level = 1
+			}
+		}
+		influence = 5
+	}
 	influence_modifier = {
 		desc = EST_VAL_MERITOCRATIC_RECRUITMENT
 		trigger = {
@@ -85,25 +100,12 @@ estate_burghers =
 		}
 		influence = 10
 	}
-	influence_modifier = {	
-		desc = EST_VAL_IMPERIAL_CITY
+	influence_modifier = {
+		desc = EST_VAL_LOW_TRADE_INCOME
 		trigger = {
-			has_reform = free_city
-		}
-		influence = 30
-	}
-	influence_modifier = {	
-		desc = EST_VAL_COT
-		trigger = {
-			NOT = { has_reform = free_city }
-			any_owned_province = {
-				OR = {
-					has_province_modifier = inland_center_of_trade_modifier
-					has_province_modifier = center_of_trade_modifier
-				}
-			}
-		}
-		influence = 5
+			NOT = { trade_income_percentage = 0.25 }
+		}	
+		influence = -5
 	}
 	influence_modifier = {
 		desc = EST_VAL_PLUTOCRATIC_REFORM
@@ -111,50 +113,6 @@ estate_burghers =
 			has_reform = plutocratic_reform
 		}
 		influence = 5
-	}
-	influence_modifier = {
-		desc = EST_VAL_HANSEATIC_CITY
-		trigger = {
-			NOT = { has_reform = free_city }
-			OR = {
-				capital = 656 #Kalmar
-				capital = 654 #Skåne
-				capital = 12 #Riga
-				capital = 4854 #Königsberg
-				capital = 402 #Danzig
-				capital = 1084 #Hamburg
-				capital = 13 #Lubeck
-				capital = 2996 #Wismar
-				capital = 2623 #Stralsund
-				capital = 2636 #Magdeburg
-				capital = 2627 #Luneburg
-				capital = 628 #Stade
-				capital = 879 #Osnabruck
-				capital = 2794 #Brunswick
-				capital = 1951 #Köln
-				capital = 2973 #Munster
-				capital = 896 #Bruges
-				capital = 2383 #Groningen
-				capital = 2268 #London
-				capital = 2107 #Ipswich
-				capital = 2729 # Antwerp
-				capital = 2417 # Stettin
-				capital = 2768 # Torun
-				capital = 2188 # Bishop's Lynn
-				capital = 429 # Bremen
-				capital = 1152 # Kaunas
-				capital = 2642 # Greifswald
-				capital = 2199 # Stolp
-			}
-		}	
-		influence = 5
-	}
-	influence_modifier = {
-		desc = EST_VAL_LOW_TRADE_INCOME
-		trigger = {
-			NOT = { trade_income_percentage = 0.25 }
-		}	
-		influence = -5
 	}
 	influence_modifier = {
 		desc = EST_VAL_HIGH_TRADE_INCOME
@@ -172,18 +130,12 @@ estate_burghers =
 		influence = 10
 	}
 	influence_modifier = {
-		desc = EST_VAL_CELESTIAL_EMPIRE
-		trigger = {
-			is_emperor_of_china = yes
-		}		
-		influence = -10
-	}
-	influence_modifier = {
 		desc = EST_VAL_OTHER_ESTATE_IN_POWER
 		trigger = {
 			OR = {
-				has_disaster = estate_nobility_disaster
-				has_disaster = estate_church_disaster
+				has_disaster = estate_brahmins_disaster
+				has_disaster = estate_jains_disaster
+				has_disaster = estate_maratha_disaster
 			}
 		}	
 		influence = -40
@@ -193,8 +145,9 @@ estate_burghers =
 		desc = EST_VAL_OTHER_ESTATE_IN_POWER_LOY
 		trigger = {
 			OR = {
-				has_disaster = estate_nobility_disaster
-				has_disaster = estate_church_disaster
+				has_disaster = estate_brahmins_disaster
+				has_disaster = estate_jains_disaster
+				has_disaster = estate_maratha_disaster
 			}
 		}
 		loyalty = -20
@@ -205,27 +158,6 @@ estate_burghers =
 			full_idea_group = plutocracy_ideas
 		}
 		loyalty = 10
-	}
-	loyalty_modifier = {
-		desc = EST_VAL_MERITOCRATIC_RECRUITMENT_LOY
-		trigger = {
-			has_reform = meritocratic_focus_reform
-		}
-		loyalty = 5
-	}
-	
-	#Custom Names
-	custom_name = {
-		desc = estate_bourgeoisie
-		trigger = {
-			culture_group = french
-		}
-	}
-	custom_name = {
-		desc = estate_merchant_guilds
-		trigger = {
-			NOT = { religion_group = christian } #Diversify a bit more.
-		}
 	}
 	
 	# For province assignment
@@ -242,10 +174,7 @@ estate_burghers =
 		modifier = {
 			factor = 0.1
 			has_estate = estate_cossacks
-		}
-		modifier = {
-			factor = 0.1
-			has_estate = estate_holy_orders
+			has_terrain = steppe
 		}
 		modifier = {
 			factor = 4
@@ -254,34 +183,27 @@ estate_burghers =
 		modifier = {
 			factor = 0.25
 			NOT = { local_autonomy = 25 }
-		}	
+		}
 	}	
 	
 	# Does the AI want to give any extra territory beyond the minimum?
 	ai_territory_modifier = {
 		trigger = {
-			government = monarchy
-			technology_group = western
-			num_of_cities = 15
-		}	
-		value = 10
-	}	
-	ai_territory_modifier = {
-		trigger = {
 			has_idea_group = trade_ideas
-			num_of_cities = 15
+			num_of_cities = 10
 		}	
 		value = 5			
 	}
 	ai_territory_modifier = {
 		trigger = {
 			has_idea_group = plutocracy_ideas
-			num_of_cities = 15
+			num_of_cities = 10
 		}	
 		value = 5		
-	}		
+	}
 
 	# Special interactions
+	
 	interaction = {
 		name = "ASK_FOR_CONTRIBUTION"
 		icon = 6
@@ -289,13 +211,14 @@ estate_burghers =
 		years_between_use = 10
 		
 		potential = {
-			NOT = { has_disaster = estate_church_disaster }
-			NOT = { has_disaster = estate_nobility_disaster }
+			NOT = { has_disaster = estate_brahmins_disaster }
+			NOT = { has_disaster = estate_maratha_disaster }
+			NOT = { has_disaster = estate_jains_disaster }
 		}
 		
 		trigger = {
 			estate_loyalty = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				loyalty = 30
 			}				
 		}
@@ -305,7 +228,7 @@ estate_burghers =
 				limit = {
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 50
 						}	
 					}
@@ -315,12 +238,12 @@ estate_burghers =
 			if = {
 				limit = {
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 50
 					}
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 75
 						}	
 					}
@@ -330,12 +253,12 @@ estate_burghers =
 			if = {
 				limit = {
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 75
 					}
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 100
 						}	
 					}
@@ -345,14 +268,14 @@ estate_burghers =
 			if = {
 				limit = {
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 100
 					}
 				}
 				add_years_of_income = 1
 			}				
 			add_estate_loyalty = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				loyalty = -10
 			}
 		}
@@ -363,7 +286,7 @@ estate_burghers =
 				factor = 0
 				NOT = {
 					estate_loyalty = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						loyalty = 50
 					}	
 				}
@@ -375,23 +298,24 @@ estate_burghers =
 		}
 	}
 	interaction = {
-		name = "DEMAND_SUPPORT_BURGHERS"
+		name = "DEMAND_SUPPORT_VAISYAS"
 		icon = 3
 		
 		years_between_use = 20
 		
 		potential = {
-			NOT = { has_disaster = estate_church_disaster }
-			NOT = { has_disaster = estate_nobility_disaster }
+			NOT = { has_disaster = estate_brahmins_disaster }
+			NOT = { has_disaster = estate_maratha_disaster }
+			NOT = { has_disaster = estate_jains_disaster }
 		}
 		
 		trigger = {		
 			estate_loyalty = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				loyalty = 30
 			}	
 			estate_influence = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				influence = 25
 			}			
 		}
@@ -401,7 +325,7 @@ estate_burghers =
 				limit = {
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 50
 						}	
 					}
@@ -411,12 +335,12 @@ estate_burghers =
 			if = {
 				limit = {
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 50
 					}
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 75
 						}	
 					}
@@ -426,12 +350,12 @@ estate_burghers =
 			if = {
 				limit = {
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 75
 					}
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 100
 						}	
 					}
@@ -441,14 +365,14 @@ estate_burghers =
 			if = {
 				limit = {
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 100
 					}
 				}
 				add_dip_power = 200
 			}				
 			add_estate_loyalty = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				loyalty = -20
 			}
 		}
@@ -458,7 +382,7 @@ estate_burghers =
 		}
 	}
 	interaction = {
-		name = "GRANT_MONOPOLY_CHARTER"
+		name = "SEEK_GUILD_SUPPORT"
 		icon = 17
 		
 		years_between_use = 20
@@ -470,13 +394,13 @@ estate_burghers =
 		effect = {
 			add_prestige = -5
 			add_estate_influence_modifier = {
-				estate = estate_burghers
-				desc = EST_VAL_GRANTED_MONOPOLIES
+				estate = estate_vaisyas
+				desc = EST_VAL_GUILD_SUPPORT
 				influence = 10
 				duration = 7300
 			}
 			add_estate_loyalty = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				loyalty = 15
 			}
 		}
@@ -486,14 +410,14 @@ estate_burghers =
 			modifier = {
 				factor = 0
 				estate_influence = {
-					estate = estate_burghers
+					estate = estate_vaisyas
 					influence = 60
 				}				
 			}
 			modifier = {
 				factor = 0
 				estate_loyalty = {
-					estate = estate_burghers
+					estate = estate_vaisyas
 					loyalty = 30
 				}				
 			}			
@@ -506,13 +430,14 @@ estate_burghers =
 		years_between_use = 30
 		
 		potential = {
-			NOT = { has_disaster = estate_church_disaster }
-			NOT = { has_disaster = estate_nobility_disaster }
+			NOT = { has_disaster = estate_brahmins_disaster }
+			NOT = { has_disaster = estate_maratha_disaster }
+			NOT = { has_disaster = estate_jains_disaster }
 		}
 		
 		trigger = {
 			estate_influence = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				influence = 40
 			}
 		}
@@ -521,55 +446,56 @@ estate_burghers =
 			hidden_effect = {
 				random_owned_province = {
 					limit = {
-						has_estate = estate_burghers
+						has_estate = estate_vaisyas
 					}
-					save_event_target_as = burgher_estate_province
+					save_event_target_as = vaisyas_estate_province
 				}
 			}
 			if = {
 				limit = {
 					monthly_income = 25
-					has_saved_event_target = burgher_estate_province
+					has_saved_event_target = vaisyas_estate_province
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 80
 					}
 				}
 				define_advisor = {
 					type = master_of_mint
 					skill = 3
-					culture = event_target:burgher_estate_province
-					religion = event_target:burgher_estate_province
-					location = event_target:burgher_estate_province
+					culture = event_target:vaisyas_estate_province
+					religion = zoroastrian
+					location = event_target:vaisyas_estate_province
 					cost_multiplier = 0.5
 				}
 			}
 			else_if = {
 				limit = {
 					monthly_income = 25
-					NOT = { has_saved_event_target = burgher_estate_province }
+					NOT = { has_saved_event_target = vaisyas_estate_province }
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 80
 					}
 				}
 				define_advisor = {
 					type = master_of_mint
 					skill = 3
+					religion = zoroastrian
 					cost_multiplier = 0.5
 				}
 			}
 			else_if = {
 				limit = {
 					monthly_income = 25
-					has_saved_event_target = burgher_estate_province
+					has_saved_event_target = vaisyas_estate_province
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 60
 					}
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 80
 						}
 					}
@@ -577,23 +503,23 @@ estate_burghers =
 				define_advisor = {
 					type = master_of_mint
 					skill = 3
-					culture = event_target:burgher_estate_province
-					religion = event_target:burgher_estate_province
-					location = event_target:burgher_estate_province
+					culture = event_target:vaisyas_estate_province
+					religion = zoroastrian
+					location = event_target:vaisyas_estate_province
 					cost_multiplier = 0.75
 				}
 			}
 			else_if = {
 				limit = {
 					monthly_income = 25
-					NOT = { has_saved_event_target = burgher_estate_province }
+					NOT = { has_saved_event_target = vaisyas_estate_province }
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 60
 					}
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 80
 						}
 					}
@@ -601,16 +527,17 @@ estate_burghers =
 				define_advisor = {
 					type = master_of_mint
 					skill = 3
+					religion = zoroastrian
 					cost_multiplier = 0.75
 				}
 			}
 			else_if = {
 				limit = {
 					monthly_income = 25
-					has_saved_event_target = burgher_estate_province
+					has_saved_event_target = vaisyas_estate_province
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 60
 						}
 					}
@@ -618,18 +545,18 @@ estate_burghers =
 				define_advisor = {
 					type = master_of_mint
 					skill = 3
-					culture = event_target:burgher_estate_province
-					religion = event_target:burgher_estate_province
-					location = event_target:burgher_estate_province
+					culture = event_target:vaisyas_estate_province
+					religion = zoroastrian
+					location = event_target:vaisyas_estate_province
 				}
 			}
 			else_if = {
 				limit = {
 					monthly_income = 25
-					NOT = { has_saved_event_target = burgher_estate_province }
+					NOT = { has_saved_event_target = vaisyas_estate_province }
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 60
 						}
 					}
@@ -637,14 +564,15 @@ estate_burghers =
 				define_advisor = {
 					type = master_of_mint
 					skill = 3
+					religion = zoroastrian
 				}
 			}
 			else_if = {
 				limit = {
 					NOT = { monthly_income = 25 }
-					has_saved_event_target = burgher_estate_province
+					has_saved_event_target = vaisyas_estate_province
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 80
 					}
 				}
@@ -652,38 +580,39 @@ estate_burghers =
 					type = master_of_mint
 					skill = 2
 					cost_multiplier = 0.5
-					culture = event_target:burgher_estate_province
-					religion = event_target:burgher_estate_province
-					location = event_target:burgher_estate_province
+					culture = event_target:vaisyas_estate_province
+					religion = zoroastrian
+					location = event_target:vaisyas_estate_province
 					
 				}
 			}
 			else_if = {
 				limit = {
 					NOT = { monthly_income = 25 }
-					NOT = { has_saved_event_target = burgher_estate_province }
+					NOT = { has_saved_event_target = vaisyas_estate_province }
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 80
 					}
 				}
 				define_advisor = {
 					type = master_of_mint
 					skill = 2
+					religion = zoroastrian
 					cost_multiplier = 0.5
 				}
 			}
 			else_if = {
 				limit = {
 					NOT = { monthly_income = 25 }
-					has_saved_event_target = burgher_estate_province
+					has_saved_event_target = vaisyas_estate_province
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 60
 					}
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 80
 						}
 					}
@@ -692,23 +621,23 @@ estate_burghers =
 					type = master_of_mint
 					skill = 2
 					cost_multiplier = 0.75
-					culture = event_target:burgher_estate_province
-					religion = event_target:burgher_estate_province
-					location = event_target:burgher_estate_province
+					culture = event_target:vaisyas_estate_province
+					religion = zoroastrian
+					location = event_target:vaisyas_estate_province
 					
 				}
 			}
 			else_if = {
 				limit = {
 					NOT = { monthly_income = 25 }
-					NOT = { has_saved_event_target = burgher_estate_province }
+					NOT = { has_saved_event_target = vaisyas_estate_province }
 					estate_influence = {
-						estate = estate_burghers
+						estate = estate_vaisyas
 						influence = 60
 					}
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 80
 						}
 					}
@@ -716,16 +645,17 @@ estate_burghers =
 				define_advisor = {
 					type = master_of_mint
 					skill = 2
+					religion = zoroastrian
 					cost_multiplier = 0.75
 				}
 			}
 			else_if = {
 				limit = {
 					NOT = { monthly_income = 25 }
-					has_saved_event_target = burgher_estate_province
+					has_saved_event_target = vaisyas_estate_province
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 60
 						}
 					}
@@ -733,18 +663,18 @@ estate_burghers =
 				define_advisor = {
 					type = master_of_mint
 					skill = 2
-					culture = event_target:burgher_estate_province
-					religion = event_target:burgher_estate_province
-					location = event_target:burgher_estate_province
+					culture = event_target:vaisyas_estate_province
+					religion = zoroastrian
+					location = event_target:vaisyas_estate_province
 				}
 			}
 			else_if = {
 				limit = {
 					NOT = { monthly_income = 25 }
-					NOT = { has_saved_event_target = burgher_estate_province }
+					NOT = { has_saved_event_target = vaisyas_estate_province }
 					NOT = {
 						estate_influence = {
-							estate = estate_burghers
+							estate = estate_vaisyas
 							influence = 60
 						}
 					}
@@ -752,10 +682,11 @@ estate_burghers =
 				define_advisor = {
 					type = master_of_mint
 					skill = 2
+					religion = zoroastrian
 				}
 			}
 			add_estate_influence_modifier = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				desc = EST_VAL_BURGHER_MINISTER
 				influence = 15
 				duration = 10950
@@ -767,122 +698,43 @@ estate_burghers =
 		}
 	}
 	interaction = {
-		name = "GRANT_ADMIRALSHIP"
-		icon = 5
-		
-		years_between_use = 10
-		
-		potential = {
-			NOT = { has_disaster = estate_church_disaster }
-			NOT = { has_disaster = estate_nobility_disaster }
-			num_of_ports = 1
-		}
-		
-		trigger = {
-			estate_loyalty = {
-				estate = estate_burghers
-				loyalty = 30
-			}	
-			estate_influence = {
-				estate = estate_burghers
-				influence = 40
-			}			
-		}
-		
-		effect = {
-			create_admiral = { tradition = 40 }	
-			add_estate_influence_modifier = {
-				estate = estate_burghers
-				desc = EST_VAL_GRANTED_ADMIRALSHIP
-				influence = 20
-				duration = 3650
-			}
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	
-	interaction = {
-		name = "GRANT_NEW_WORLD_CHARTER"
-		icon = 16
-		
-		years_between_use = 10
-		
-		potential = {
-			NOT = { has_disaster = estate_church_disaster }
-			NOT = { has_disaster = estate_nobility_disaster }
-			has_idea_group = exploration_ideas
-		}
-		
-		trigger = {
-			estate_loyalty = {
-				estate = estate_burghers
-				loyalty = 30
-			}	
-			estate_influence = {
-				estate = estate_burghers
-				influence = 40
-			}			
-		}
-		
-		effect = {
-			add_country_modifier = {
-				name = "new_world_company"
-				duration = 3650
-			}
-			add_estate_influence_modifier = {
-				estate = estate_burghers
-				desc = EST_VAL_NEW_WORLD_CHARTER
-				influence = 15
-				duration = 3650
-			}
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	
-	interaction = {
 		name = "COMISSION_MERCHANT_SHIPS_FOR_WAR"
 		icon = 18
 		
 		years_between_use = 30
 		
 		potential = {
-			dip_tech = 9
-			NOT = { has_disaster = estate_church_disaster }
-			NOT = { has_disaster = estate_nobility_disaster }
+			NOT = { has_disaster = estate_brahmins_disaster }
+			NOT = { has_disaster = estate_maratha_disaster }
+			NOT = { has_disaster = estate_jains_disaster }
 			num_of_ports = 1
 			primitives = no
 		}
 		
 		trigger = {
 			estate_loyalty = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				loyalty = 30
 			}	
 			estate_influence = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				influence = 40
 			}
 			num_of_ports = 10
 			any_owned_province = {
 				has_port = yes
-				has_estate = estate_burghers
+				has_estate = estate_vaisyas
 			}
 		}
 		
 		effect = {
 			add_estate_loyalty = {
-				estate = estate_burghers
+				estate = estate_vaisyas
 				loyalty = -15
 			}
 			random_owned_province = {
 				limit = {
-					has_estate = estate_burghers
+					has_estate = estate_vaisyas
 					has_port = yes
 				}
 				add_unit_construction = {
@@ -896,6 +748,35 @@ estate_burghers =
 		
 		ai_will_do = {
 			factor = 0
+		}
+	}
+	interaction = {
+		name = "LIMITED_WAR_SUPPORT"
+		icon = 29
+		
+		years_between_use = 20
+		
+		potential = {
+			NOT = { has_disaster = estate_brahmins_disaster }
+			NOT = { has_disaster = estate_maratha_disaster }
+			NOT = { has_disaster = estate_jains_disaster }
+		}
+		trigger = {
+			is_at_war = yes
+			has_wartaxes = no
+			estate_loyalty = {
+				estate = estate_vaisyas
+				loyalty = 30
+			}
+		}
+		effect = {
+			raise_war_taxes = yes
+			add_estate_influence_modifier = {
+				estate = estate_vaisyas
+				desc = EST_VAL_LIMITED_WAR_SUPPORT
+				influence = 15
+				duration = 7300
+			}
 		}
 	}
 }
