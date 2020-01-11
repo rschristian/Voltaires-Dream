@@ -1249,7 +1249,6 @@ country_event = {
 	id = fall_of_arpads.6
 	title = fall_of_arpads.6.t
 	desc = fall_of_arpads.6.d
-	
 	picture = ASSASSINATION_eventPicture
 
 	is_triggered_only = yes
@@ -1293,6 +1292,15 @@ country_event = {
 		name = fall_of_arpads.6.b
 		ai_chance = { factor = 25 }
 		create_march = UNG
+		custom_tooltip = fall_of_arpads.8.tt
+		hidden_effect = {
+			UNG = {
+				every_owned_province = {
+					limit = { is_core = ROOT }
+					remove_core = ROOT
+				}
+			}
+		}
 	}
 	
 	after = {
@@ -1308,7 +1316,7 @@ country_event = {
 	id = fall_of_arpads.7
 	title = fall_of_arpads.7.t
 	desc = fall_of_arpads.7.d
-	picture = CIVIL_WAR_eventPicture
+	picture = ANGRY_MOB_eventPicture
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -1327,7 +1335,6 @@ country_event = {
 				size = 2
 				type = nationalist_rebels
 				friend = UNG
-				leader = "Domokos Aba"
 			}
 		}
 		random_owned_province = {
@@ -1347,7 +1354,7 @@ country_event = {
 	id = fall_of_arpads.8
 	title = fall_of_arpads.8.t
 	desc = fall_of_arpads.8.d
-	picture = CIVIL_WAR_eventPicture
+	picture = ANGRY_MOB_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -1365,10 +1372,73 @@ country_event = {
 
 	option = {
 		name = fall_of_arpads.8.a
+		ai_chance = { factor = 9 }
 		SLO = {
-			declare_war_with_cb = {
-				casus_belli = cb_conquest
-				who = ROOT
+			add_yearly_manpower = 5
+			add_years_of_income = 5
+			declare_war = ROOT
+		}
+	}
+	option = {
+		name = fall_of_arpads.8.b
+		ai_chance = { factor = 1 }
+		add_legitimacy = -10
+		add_prestige = -10
+		custom_tooltip = fall_of_arpads.8.tt
+		hidden_effect = {
+			SLO = {
+				every_owned_province = {
+					limit = { is_core = ROOT }
+					remove_core = ROOT
+				}
+			}
+		}
+	}
+}
+
+#Tyranny in Transylvania
+country_event = {
+	id = fall_of_arpads.9
+	title = fall_of_arpads.9.t
+	desc = fall_of_arpads.9.d
+	picture = BORDER_TENSION_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	trigger = {
+		TRA = {
+			ai = yes
+			has_country_flag = hungarian_ban_split_off
+			NOT = { war_with = ROOT }
+			is_subject = no
+			has_ruler = "László"
+			dynasty = "Kán"
+		}
+	}
+
+	option = {
+		name = fall_of_arpads.9.a
+		ai_chance = { factor = 9 }
+		TRA = {
+			add_yearly_manpower = 5
+			add_years_of_income = 5
+			declare_war = ROOT
+		}
+	}
+	option = {
+		name = fall_of_arpads.9.b
+		ai_chance = { factor = 1 }
+		add_prestige = -10
+		add_papal_influence = -10
+		create_march = TRA
+		custom_tooltip = fall_of_arpads.8.tt
+		hidden_effect = {
+			TRA = {
+				every_owned_province = {
+					limit = { is_core = ROOT }
+					remove_core = ROOT
+				}
 			}
 		}
 	}
