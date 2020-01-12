@@ -15,6 +15,12 @@ country_event = {
 	major = yes
 
 	immediate = {
+		hidden_effect = {
+			export_to_variable = {
+				variable_name = massacre_culture_name
+				value = ruler_culture
+			}
+		}
 		add_stability = -3
 		set_global_flag = had_sicilian_vespers
 	}
@@ -73,7 +79,7 @@ country_event = {
 			add_base_tax = -1
 			spawn_rebels = {
 				type = nationalist_rebels
-				size = 2
+				size = 3
 				friend = TNC
 			}
 		}
@@ -174,7 +180,7 @@ country_event = {
 				kill_units = {
 					who = ROOT
 					type = heavy_ship
-					amount = 3
+					amount = 1
 				}
 			}
 			if = {
@@ -182,7 +188,7 @@ country_event = {
 				kill_units = {
 					who = ROOT
 					type = light_ship
-					amount = 5
+					amount = 3
 				}
 			}
 			if = {
@@ -190,7 +196,7 @@ country_event = {
 				kill_units = {
 					who = ROOT
 					type = galley
-					amount = 5
+					amount = 3
 				}
 			}
 			if = {
@@ -198,7 +204,7 @@ country_event = {
 				kill_units = {
 					who = ROOT
 					type = transport
-					amount = 10
+					amount = 5
 				}
 			}
 		}
@@ -213,6 +219,7 @@ country_event = {
 	picture = DIPLOMACY_eventPicture
 
 	is_triggered_only = yes
+	fire_only_once = yes
 
 	mean_time_to_happen = {
 		days = 1
@@ -347,31 +354,33 @@ country_event = {
 				duration = 9125
 			}
 		}
-		every_known_country = {
-			limit = {
-				OR = {
-					religion = catholic
-					religion = catholique
-				}
-			}
-			if = {
+		hidden_effect = {
+			every_known_country = {
 				limit = {
-					sicilia_region = {
-						OR = {
-							is_core = PREV
-							is_permanent_claim = PREV
-						}
+					OR = {
+						religion = catholic
+						religion = catholique
 					}
 				}
-				sicilia_region = {
+				if = {
 					limit = {
-						OR = {
-							is_core = ROOT
-							is_permanent_claim = ROOT
+						sicilia_region = {
+							OR = {
+								is_core = PREV
+								is_permanent_claim = PREV
+							}
 						}
 					}
-					remove_core = PREV
-					remove_claim = PREV
+					sicilia_region = {
+						limit = {
+							OR = {
+								is_core = ROOT
+								is_permanent_claim = ROOT
+							}
+						}
+						remove_core = PREV
+						remove_claim = PREV
+					}
 				}
 			}
 		}
@@ -379,6 +388,15 @@ country_event = {
 	option = {	#Demand Subordination
 		name = sicilian_vespers.7.b	
 		ai_chance = { factor = 80 }
+		ARA = {
+			if = {
+				limit = {
+					exists = yes
+					num_of_cities = 18
+				}
+				set_country_flag = claim_sic_ara
+			}
+		}
 		random_known_country = {
 			limit = { has_country_flag = def_by_vespers }
 			create_union = TNC
@@ -388,15 +406,9 @@ country_event = {
 						religion = catholic 
 						religion = catholique
 					}
-				}
-				set_country_flag = claim_sic
-			}
-		}
-		ARA = {
-			if = {
-				limit = {
-					exists = yes
-					num_of_cities = 18
+					NOT = {
+						ARA = { has_country_flag = claim_sic_ara }
+					}
 				}
 				set_country_flag = claim_sic
 			}
@@ -428,7 +440,10 @@ country_event = {
 	}
 
 	trigger = {
-		has_country_flag = claim_sic
+		OR = {
+			has_country_flag = claim_sic_ara
+			has_country_flag = claim_sic
+		}
 		TNC = {
 			exists = yes
 			is_subject = yes
@@ -436,10 +451,14 @@ country_event = {
 	}
 
 	immediate = {
-		TNC = {
-			overlord = {
-				save_event_target_as = vespers_sicily_overlord
+		hidden_effect = {
+			TNC = {
+				overlord = {
+					save_event_target_as = vespers_sicily_overlord
+				}
 			}
+			clr_country_flag = claim_sic_ara
+			clr_country_flag = claim_sic
 		}
 	}
 
@@ -476,10 +495,34 @@ country_event = {
 country_event = {
 	id = sicilian_vespers.100
 	title = sicilian_vespers.100.t
-	desc = sicilian_vespers.100.d
+	desc = {
+		trigger = {
+			sicilia_region = {
+				type = all
+				OR = {
+					is_island = yes
+					controlled_by = REB
+				}
+			}
+		}
+		desc = sicilian_vespers.100.da
+	}
+	desc = {
+		trigger = {
+			stability = 1
+			NOT = { has_rebel_faction = nationalist_rebels }
+			NOT = {
+				any_owned_province = {
+					controlled_by = REB
+				}
+			}
+		}
+		desc = sicilian_vespers.100.db
+	}
 	picture = CIVIL_WAR_eventPicture
 
 	is_triggered_only = yes
+	major = yes
 
 	mean_time_to_happen = {
 		days = 1
@@ -505,9 +548,19 @@ country_event = {
 			cede_province = TNC
 			add_core = TNC
 		}
-		every_owned_province = {
-			limit = { culture = sicilian }
-			add_core = TNC
+		custom_tooltip = sicilian_vespers.100.a.tt
+		hidden_effect = {
+			every_owned_province = {
+				limit = { culture = sicilian }
+				add_core = TNC
+			}
+			TNC = {
+				every_owned_province = {
+					kill_units = {
+						who = REB
+					}
+				}
+			}
 		}
 		TNC = {
 			add_country_modifier = {
@@ -520,6 +573,15 @@ country_event = {
 		}
 		add_prestige = -50
 		add_stability = -1
+		if = {
+			limit = {
+				NOT = { capital = 564 }
+				owns = 564
+			}
+			564 = {
+				move_capital_effect = yes
+			}
+		}
 	}
 	option = {	#Rule over Sicily secured
 		name = sicilian_vespers.100.b	
@@ -538,7 +600,7 @@ country_event = {
 			limit = { owned_by = ROOT }
 			add_province_modifier = {
 				name = "vespers_defeated"
-				duration = -1
+				duration = 18250
 			}
 			add_local_autonomy = -25
 		}
