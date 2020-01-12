@@ -12,6 +12,7 @@ country_event = {
 	picture = CIVIL_WAR_eventPicture
 
 	is_triggered_only = yes
+	major = yes
 
 	immediate = {
 		add_stability = -3
@@ -33,6 +34,7 @@ country_event = {
 				size = 3
 				friend = TNC
 			}
+			change_controller = REB
 		}
     }
 }
@@ -45,6 +47,7 @@ country_event = {
 	picture = ANGRY_MOB_eventPicture
 
 	is_triggered_only = yes
+	fire_only_once = yes
 
 	mean_time_to_happen = {
 		days = 1
@@ -53,7 +56,7 @@ country_event = {
 	immediate = {
 		random_owned_province = {
 			limit = {
-				development = 10
+				development = 3 #10
 				owned_by = ROOT
 				NOT = { controlled_by = REB }
 				region = sicilia_region
@@ -219,11 +222,12 @@ country_event = {
 		name = sicilian_vespers.5.a	
 		ai_chance = { factor = 25 }
 		add_dip_power = -25
-		custom_tooltip = sicilian_vespers.5.tt
+		custom_tooltip = sicilian_vespers.5.a.tt
 		hidden_effect = {
 			every_owned_province = {
 				limit = { controlled_by = REB }
-				add_local_autonomy = 10
+				add_local_autonomy = 25
+				add_unrest = -3
 			}
 		}
 	}
@@ -249,7 +253,7 @@ country_event = {
 				owned_by = ROOT
 				NOT = { controlled_by = REB }
 				is_island = no
-				development = 10
+				development = 3 #10
 			}
 			spawn_rebels = {
 				type = nationalist_rebels
@@ -257,6 +261,7 @@ country_event = {
 				friend = TNC
 			}
 		}
+		set_country_flag = vespers_refused_negotiations
     }
 }
 
@@ -268,6 +273,10 @@ country_event = {
 	picture = ANGRY_MOB_eventPicture
 
 	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = vespers_refused_negotiations
+	}
 
 	mean_time_to_happen = {
 		days = 1
@@ -294,7 +303,7 @@ country_event = {
 				region = sicilia_region
 				owned_by = ROOT
 				NOT = { controlled_by = REB }
-				development = 10
+				development = 3 #10
 				is_island = no
 			}
 			spawn_rebels = {
@@ -374,7 +383,12 @@ country_event = {
 			limit = { has_country_flag = def_by_vespers }
 			create_union = TNC
 			every_rival_country = {
-				limit = { religion = TNC }
+				limit = { 
+					OR = {
+						religion = catholic 
+						religion = catholique
+					}
+				}
 				set_country_flag = claim_sic
 			}
 		}
@@ -407,6 +421,7 @@ country_event = {
 	picture = DIPLOMACY_eventPicture
 
 	fire_only_once = yes
+	major = yes
 
 	mean_time_to_happen = {
 		days = 1
@@ -414,16 +429,16 @@ country_event = {
 
 	trigger = {
 		has_country_flag = claim_sic
-		NOT = {
-			sicilia_region = {
-				type = all
-				OR = {
-					country_or_non_sovereign_subject_holds = ROOT
-					AND = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-				}
+		TNC = {
+			exists = yes
+			is_subject = yes
+		}
+	}
+
+	immediate = {
+		TNC = {
+			overlord = {
+				save_event_target_as = vespers_sicily_overlord
 			}
 		}
 	}
@@ -431,7 +446,10 @@ country_event = {
 	option = {	#Succession War!
 		name = sicilian_vespers.8.a	
 		ai_chance = { factor = 100 }
-		#add?
+		declare_war_with_cb = {
+			who = TNC
+			casus_belli = cb_claim_throne
+		}
 	}
 	option = {	#Pass
 		name = sicilian_vespers.8.b	
