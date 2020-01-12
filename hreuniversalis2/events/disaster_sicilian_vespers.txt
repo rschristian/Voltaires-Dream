@@ -1,0 +1,129 @@
+#Sicilian Vespers
+#Concept contributed by historyperson
+
+namespace = sicilian_vespers
+
+
+#Start of Vespers
+country_event = {
+	id = sicilian_vespers.1
+	title = sicilian_vespers.1.t
+	desc = sicilian_vespers.1.d
+	picture = CIVIL_WAR_eventPicture
+
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	immediate = {
+		add_stability = -3
+		hidden_effect = {
+			2041 = {
+				spawn_rebels = {
+					type = nationalist_rebels
+					size = 3
+				}
+			}
+		}
+	}
+
+	option = {	#Defend our possessions!
+		name = sicilian_vespers.1.a
+        ai_chance = { factor = 100 }
+		sicilia_region = {
+			limit = { owned_by = ROOT }
+			add_local_autonomy = 75
+			add_unrest = 8
+		}
+    }
+}
+
+#Massacre of the French Population
+country_event = {
+	id = sicilian_vespers.2
+	title = sicilian_vespers.2.t
+	desc = sicilian_vespers.2.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		random_owned_province = {
+			limit = {
+				development = 10
+				region = sicilia_region
+			}
+			save_event_target_as = french_massacre_province
+		}
+	}
+
+	option = {	#Watch with horror
+		name = sicilian_vespers.2.a	
+		ai_chance = { factor = 100 }
+		event_target:french_massacre_province = {
+			add_base_tax = -1
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 2
+			}
+		}
+		add_manpower = -5
+		add_country_flag = french_massacred
+    }
+}
+
+#Outrage Spreads
+country_event = {
+	id = sicilian_vespers.3
+	title = sicilian_vespers.3.t
+	desc = sicilian_vespers.3.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = french_massacred
+	}
+
+	immediate = {
+		random_owned_province = {
+			limit = { region = sicilia_region }
+			save_event_target_as = vespers_outrage_province
+		}
+	}
+
+	option = {	#Worsened situation
+		name = sicilian_vespers.2.a	
+		ai_chance = { factor = 100 }
+		event_target:vespers_outrage_province = {
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 1
+			}
+		}
+    }
+}
+
+#End of Fragmentation
+country_event = {
+	id = fragmentation_of_poland.100
+	title = fragmentation_of_poland.100.t
+	desc = fragmentation_of_poland.100.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = fragmentation_of_poland.100.a
+        ai_chance = { factor = 100 }
+		add_stability_or_adm_power = yes
+		add_prestige = 25
+		add_legitimacy = 20
+    }
+}
