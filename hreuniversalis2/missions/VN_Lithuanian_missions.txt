@@ -62,54 +62,31 @@ vn_lit_missions_slot_1 = {
             }
         }
         effect = {
-            
+            add_prestige = 10
+            add_country_modifier = {
+                name = lit_conquer_samogitia_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_lithuanian_grand_duchy = {
         icon = mission_monarch_in_throne_room
         position = 3
-        required_missions = { vn_lit_conquer_samogitia vn_lit_found_kaunas }
-        provinces_to_highlight = {
-            OR = {
-                region = lithuania_region
-                area = sudovia_area
-                area = trakai_area
-            }
-            OR = {
-                NOT = { owned_by = ROOT }
-                NOT = { is_core = ROOT }
-                NOT = { devastation = 1 }
-                unrest = 1
-            }
-        }
+        required_missions = { vn_lit_conquer_samogitia vn_lit_iron_wolf_city }
         trigger = {
+            stability = 1
+            is_subject = no
             is_tribal = no
-            lithuania_region = {
-                type = all
-                owned_by = ROOT
-                is_core = ROOT
-                NOT = { devastation = 1 }
-                NOT = { unrest = 1 }
-            }
-            sudovia_area = {
-                type = all
-                owned_by = ROOT
-                is_core = ROOT
-                NOT = { devastation = 1 }
-                NOT = { unrest = 1 }
-            }
-            trakai_area = {
-                type = all
-                owned_by = ROOT
-                is_core = ROOT
-                NOT = { devastation = 1 }
-                NOT = { unrest = 1 }
-            }
+            has_any_disaster = no
+            has_institution = feudalism
         }
         effect = {
             if = {
                 limit = { religion_group = pagan }
-                country_event = { id = vn_missions.26 }
+                country_event = { id = vn_missions.27 }
+            }
+            else = {
+                add_stability_or_adm_power = yes
             }
             curoniasemigallia_region = {
 				limit = {
@@ -128,7 +105,7 @@ vn_lit_missions_slot_1 = {
         }
     }
     vn_lit_conquer_memel = {
-        icon = mission_rule_ruthenia
+        icon = mission_unite_home_region
         position = 4
         required_missions = { vn_lit_lithuanian_grand_duchy }
         provinces_to_highlight = {
@@ -166,7 +143,7 @@ vn_lit_missions_slot_1 = {
         }
     }
     vn_lit_conquer_east_prussia = {
-        icon = mission_rule_ruthenia
+        icon = mission_unite_home_region
         position = 5
         required_missions = { vn_lit_conquer_memel }
         provinces_to_highlight = {
@@ -241,42 +218,57 @@ vn_lit_missions_slot_2 = {
     }
     has_country_shield = yes
 
-    vn_lit_found_kaunas = {
-        icon = mission_early_game_buildings
+    vn_lit_iron_wolf_city = {
+        icon = mission_eastern_european_city
         position = 2
-        required_missions = { vn_lit_iron_wolf_city }
+        required_missions = { vn_lit_found_kaunas }
         provinces_to_highlight = {
-            province_id = 5752
+            province_id = 5732
         }
         trigger = {
-            5752 = {
+            5732 = {
                 owned_by = ROOT
                 has_fort_trigger = yes
+                has_trade_building_trigger = yes
+                development = 20
             }
         }
         effect = {
-            
+            5732 = {
+                add_base_production = 3
+                random_list = {
+                    25 = { change_trade_goods = gems }
+                    25 = { change_trade_goods = oil }
+                    25 = { change_trade_goods = glass }
+                    25 = { change_trade_goods = paper }
+                }
+            }
         }
     }
-    vn_lit_knights_of_lithuania = {
-        icon = mission_recruit_the_cossacks
+    vn_lit_university_of_vilnius = {
+        icon = mission_rb_the_education_acts
         position = 3
-        required_missions = { vn_lit_found_kaunas }
+        required_missions = { vn_lit_iron_wolf_city }
+        provinces_to_highlight = {
+            province_id = 5732
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { has_building = university }
+            }
+        }
         trigger = {
-            num_of_generals = 3
-            land_forcelimit = 50
-            if = {
-                limit = { has_dlc = "Cradle of Civilization" }
-                army_professionalism = 0.5
+            5732 = {
+                owned_by = ROOT
+                has_building = university
             }
-            else = {
-                army_tradition = 50
-            }
-            mil = 5
+            has_3_lv3_advisors_trigger = yes
         }
         effect = {
-            add_army_tradition = 10
-            
+            add_innovativeness_small_effect = yes
+            add_country_modifier = {
+                name = lit_university_of_vilnius_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_conquer_courland = {
@@ -304,7 +296,7 @@ vn_lit_missions_slot_2 = {
         }
     }
     vn_lit_conquer_livonia = {
-        icon = mission_rule_ruthenia
+        icon = mission_unite_home_region
         position = 5
         required_missions = { vn_lit_conquer_courland }
         provinces_to_highlight = {
@@ -331,11 +323,11 @@ vn_lit_missions_slot_2 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
-			}
+            }
         }
     }
     vn_lit_conquer_estonia = {
-        icon = mission_rule_ruthenia
+        icon = mission_unite_home_region
         position = 6
         required_missions = { vn_lit_conquer_livonia }
         provinces_to_highlight = {
@@ -356,7 +348,15 @@ vn_lit_missions_slot_2 = {
             }
         }
         effect = {
-            
+            add_dip_power = 100
+            5889 = {
+                add_trade_modifier = {
+                    who = ROOT
+                    duration = 7300
+                    power = 10
+                    key = lit_conquer_estonia_mission
+                }
+            }
         }
     }
     vn_lit_conquer_moldavia = {
@@ -374,7 +374,10 @@ vn_lit_missions_slot_2 = {
             }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = lit_conquer_moldavia_mission
+                duration = 9125
+            }
         }
     }
 }
@@ -389,53 +392,49 @@ vn_lit_missions_slot_3 = {
     }
     has_country_shield = yes
 
-    vn_lit_iron_wolf_city = {
-        icon = mission_eastern_european_city
+    vn_lit_found_kaunas = {
+        icon = mission_early_game_buildings
         position = 1
         required_missions = {  }
         provinces_to_highlight = {
-            province_id = 5732
+            province_id = 5752
         }
         trigger = {
-            5732 = {
+            5752 = {
                 owned_by = ROOT
                 has_fort_trigger = yes
-                has_trade_building_trigger = yes
-                development = 20
             }
         }
         effect = {
-            5732 = {
-                add_base_production = 3
-                random_list = {
-                    25 = { change_trade_goods = gems }
-                    25 = { change_trade_goods = oil }
-                    25 = { change_trade_goods = glass }
-                    25 = { change_trade_goods = paper }
-                }
+            add_country_modifier = {
+                name = lit_found_kaunas_mission
+                duration = 9125
             }
         }
     }
-    vn_lit_university_of_vilnius = {
-        icon = mission_rb_the_education_acts
+    vn_lit_knights_of_lithuania = {
+        icon = mission_recruit_the_cossacks
         position = 2
-        required_missions = { vn_lit_iron_wolf_city }
-        provinces_to_highlight = {
-            province_id = 5732
-            OR = {
-                NOT = { owned_by = ROOT }
-                NOT = { has_building = university }
-            }
-        }
+        required_missions = { vn_lit_found_kaunas }
         trigger = {
-            5732 = {
-                owned_by = ROOT
-                has_building = university
+            num_of_generals = 3
+            land_forcelimit = 50
+            army_size_percentage = 1
+            if = {
+                limit = { has_dlc = "Cradle of Civilization" }
+                army_professionalism = 0.5
             }
-            has_3_lv3_advisors_trigger = yes
+            else = {
+                army_tradition = 50
+            }
+            mil = 5
         }
         effect = {
-
+            add_army_tradition = 10
+            add_country_modifier = {
+                name = lit_knights_of_lithuania_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_conquer_pripyat = {
@@ -541,10 +540,14 @@ vn_lit_missions_slot_3 = {
 				}
 				add_permanent_claim = ROOT
             }
+            add_country_modifier = {
+                name = lit_conquer_dnieper_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_conquer_halych = {
-        icon = mission_rule_ruthenia
+        icon = mission_unite_home_region
         position = 6
         required_missions = { vn_lit_conquer_dnieper }
         provinces_to_highlight = {
@@ -640,7 +643,7 @@ vn_lit_missions_slot_4 = {
     has_country_shield = yes
 
     vn_lit_novgorod_diplomacy = {
-        icon = mission_russian_patriarchate
+        icon = mission_russian_patriarchatee
         position = 1
         required_missions = {  }
         trigger = {
@@ -654,7 +657,7 @@ vn_lit_missions_slot_4 = {
                 }
                 AND = {
                     is_rival = NOV
-                    ARA = {
+                    NOV = {
 						OR = {
 							has_opinion_modifier = {
 								who = ROOT
@@ -700,13 +703,8 @@ vn_lit_missions_slot_4 = {
             }
         }
         effect = {
-            siveria_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
+            add_mil_power = 50
+            add_army_tradition = 15
             turov_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -731,7 +729,7 @@ vn_lit_missions_slot_4 = {
         }
     }
     vn_lit_conquer_siveria = {
-        icon = mission_rule_ruthenia
+        icon = mission_unite_home_region
         position = 4
         required_missions = { vn_lit_conquer_brest vn_lit_conquer_white_ruthenia }
         provinces_to_highlight = {
@@ -758,7 +756,11 @@ vn_lit_missions_slot_4 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
-			}
+            }
+            add_country_modifier = {
+                name = lit_conquer_siveria_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_conquer_kiev = {
@@ -783,6 +785,7 @@ vn_lit_missions_slot_4 = {
             }
         }
         effect = {
+            add_prestige = 20
             zaporizhia_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -796,6 +799,10 @@ vn_lit_missions_slot_4 = {
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = lit_conquer_kiev_mission
+                duration = -1
             }
         }
     }
@@ -821,7 +828,7 @@ vn_lit_missions_slot_4 = {
             }
         }
         effect = {
-            
+            #event?
         }
     }
     vn_lit_lithuanian_manorialism = {
@@ -829,26 +836,76 @@ vn_lit_missions_slot_4 = {
         position = 7
         required_missions = {  }
         trigger = {
-            grown_by_development = 150
-            has_institution = renaissance
-            all_owned_province = {
-                renaissance = 100
+            num_of_owned_provinces_with = {
+                value = 10
+                NOT = { local_autonomy = 30 }
+                religion = ROOT
+                culture = ROOT
+                has_tax_building_trigger = yes
+                has_production_building_trigger = yes
             }
         }
         effect = {
             add_years_of_income = 0.15
+            add_country_modifier = {
+                name = lit_lithuanian_manorialism_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_baltic_tiger = {
         icon = mission_conquer_bengal_dlh
         position = 8
         required_missions = { vn_lit_lithuanian_manorialism }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 5793
+                province_id = 5889
+                province_id = 5732
+                province_id = 402
+            }
+            NOT = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+        }
         trigger = {
             grown_by_development = 500
-            
+            monthly_income = 50
+            5793 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            5889 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            5732 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            402 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
         }
         effect = {
-            
+            add_estate_burghers_loyalty_effect = yes
+            add_mercantilism = 2
+            add_country_modifier = {
+                name = lit_baltic_tiger_mission
+                duration = 9125
+            }
         }
 	}
 }
@@ -905,7 +962,11 @@ vn_lit_missions_slot_5 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
-			}
+            }
+            add_country_modifier = {
+                name = lit_conquer_grodno_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_conquer_polotsk = {
@@ -923,6 +984,8 @@ vn_lit_missions_slot_5 = {
             }
         }
         effect = {
+            add_prestige = 15
+            add_legitimacy = 5
             minsk_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -933,7 +996,7 @@ vn_lit_missions_slot_5 = {
         }
     }
     vn_lit_conquer_white_ruthenia = {
-        icon = mission_rule_ruthenia
+        icon = mission_unite_home_region
         position = 3
         required_missions = { vn_lit_conquer_polotsk }
         provinces_to_highlight = {
@@ -947,6 +1010,13 @@ vn_lit_missions_slot_5 = {
             }
         }
         effect = {
+            siveria_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
             smolensk_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -998,7 +1068,11 @@ vn_lit_missions_slot_5 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
-			}
+            }
+            add_country_modifier = {
+                name = lit_conquer_smolensk_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_conquer_kursk = {
@@ -1095,7 +1169,13 @@ vn_lit_missions_slot_5 = {
             NOT = { exists = RUS }
         }
         effect = {
-            add_prestige = 25
+            add_adm_power = 50
+            add_dip_power = 50
+            add_mil_power = 50
+            add_country_modifier = {
+                name = lit_conquer_muscovy_mission
+                duration = 10950
+            }
         }
     }
     vn_lit_cultural_assimilation = {
@@ -1106,21 +1186,24 @@ vn_lit_missions_slot_5 = {
             NOT = { average_unrest = 1 }
             if = {
                 limit = { NOT = { culture_group = east_slavic } }
-                calc_true_if = {
-                    amount = 3
-                    OR = {
-                        accepted_culture = russian
-                        accepted_culture = novgorodian
-                        accepted_culture = krivich
-                        accepted_culture = ryazanian
-                        accepted_culture = byelorussian
-                        accepted_culture = ruthenian
-                        accepted_culture = drevlian
-                        accepted_culture = radimich
-                        accepted_culture = severian
-                        accepted_culture = vyatich
-                        accepted_culture = volhynian
-                        accepted_culture = dulebian
+                custom_trigger_tooltip = {
+                    tooltip = vn_lit_cultural_assimilation.tt
+                    calc_true_if = {
+                        amount = 3
+                        OR = {
+                            accepted_culture = russian
+                            accepted_culture = novgorodian
+                            accepted_culture = krivich
+                            accepted_culture = ryazanian
+                            accepted_culture = byelorussian
+                            accepted_culture = ruthenian
+                            accepted_culture = drevlian
+                            accepted_culture = radimich
+                            accepted_culture = severian
+                            accepted_culture = vyatich
+                            accepted_culture = volhynian
+                            accepted_culture = dulebian
+                        }
                     }
                 }
             }
@@ -1129,7 +1212,10 @@ vn_lit_missions_slot_5 = {
             }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = lit_cultural_assimilation_mission
+                duration = 9125
+            }
         }
     }
     vn_lit_religious_compromise = {
@@ -1140,7 +1226,12 @@ vn_lit_missions_slot_5 = {
             religious_unity = 1
         }
         effect = {
-            
+            add_papal_influence = 10
+            add_patriarch_authority = 0.1
+            add_country_modifier = {
+                name = lit_religious_compromise_mission
+                duration = 9125
+            }
         }
 	}
 }
