@@ -12,83 +12,167 @@ vn_dan_missions_slot_1_a = {
     has_country_shield = yes
 
     vn_dan_join_ostsiedlung = {
-        #icon = 
+        icon = mission_build_up_to_force_limit
         position = 1
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            OR = {
+				kiel_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				lubeck_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				wismar_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
         }
         effect = {
-            
+            pomerania_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			kolberg_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			stolp_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_subdue_pomerania = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 3
-        required_missions = { vn_dan_join_ostsiedlung }
+		required_missions = { vn_dan_join_ostsiedlung }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            OR = {
+				pomerania_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				kolberg_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				stolp_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
         }
         effect = {
-            
+            westpreussennorth_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_plunder_pomerelia = {
-        #icon = 
+        icon = mission_danzig_or_war
         position = 4
-        required_missions = { vn_dan_subdue_pomerania }
+		required_missions = { vn_dan_subdue_pomerania }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            westpreussennorth_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_northern_crusade = {
-        #icon = 
+        icon = mission_crusade 
         position = 5
-        required_missions = { vn_dan_plunder_pomerelia }
+		required_missions = { vn_dan_plunder_pomerelia }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 10
+				OR = {
+					region = curoniasemigallia_region
+					region = ostpreussen_region
+					region = latvian_region
+					region = estonia_region
+					region = livonia_region
+				}
+			}
         }
         effect = {
-            
+            curoniasemigallia_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			estonia_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_conquer_kurland = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 6
-        required_missions = { vn_dan_northern_crusade }
-        trigger = {
-            
-        }
-        effect = {
-            
-        }
-    }
-    vn_dan_subjugate_baltic_tribes = {
-        #icon = 
-        position = 8
-		required_missions = { 
-			vn_dan_conquer_kurland 
-			vn_dan_carve_out_estonia 
+		required_missions = { vn_dan_northern_crusade }
+		provinces_to_highlight = {
+			#add highlight
 		}
         trigger = {
-            
+            curoniasemigallia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
-	}
+    }
 	vn_dan_convert_the_balts = {
-        #icon = 
-        position = 9
-        required_missions = { vn_dan_subjugate_baltic_tribes }
+        icon = mission_convert_provinces
+        position = 8
+        required_missions = {
+			vn_dan_conquer_kurland
+			vn_dan_conquer_livonia
+		}
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -105,36 +189,99 @@ vn_dan_missions_slot_2_a = {
     has_country_shield = yes
 
     vn_dan_incorporate_slesvig = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 1
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+			NOT = { exists = SVG }
+            sonderborg_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			slesvig_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_reinforce_danevirke = {
-        #icon = 
+        icon = mission_fort
         position = 2
-        required_missions = { vn_dan_incorporate_slesvig }
+		required_missions = { vn_dan_incorporate_slesvig }
+		provinces_to_highlight = {
+			province_id = 2384
+			province_id = 1029
+		}
         trigger = {
-            
+            2384 = {
+				owned_by = ROOT
+				is_core = ROOT
+				has_fort_trigger = yes
+			}
+			1029 = {
+				owned_by = ROOT
+				is_core = ROOT
+				has_fort_trigger = yes
+			}
         }
         effect = {
-            
+            2384 = {
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = "dan_reinforce_danevirke_mission"
+					duration = -1
+				}
+			}
+			1029 = {
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = "dan_reinforce_danevirke_mission"
+					duration = -1
+				}
+			}
+			holstein_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			kiel_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_advance_into_holstein = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 4
-        required_missions = { vn_dan_reinforce_danevirke }
+		required_missions = { vn_dan_reinforce_danevirke }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            holstein_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kiel_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
 }
@@ -150,36 +297,67 @@ vn_dan_missions_slot_2_b = {
 	has_country_shield = yes
 	
     vn_dan_vistula_raid = {
-        #icon = 
+        icon = mission_advance_to_the_dnieper
         position = 5
         required_missions = { vn_dan_plunder_pomerelia }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
-    }
-    vn_dan_conquer_livonia = {
-        #icon = 
+	}
+	vn_dan_carve_out_estonia = {
+        icon = mission_unite_home_region	#placeholder
         position = 6
-        required_missions = { vn_dan_northern_crusade }
+		required_missions = { vn_dan_northern_crusade }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            estonia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+			#Danish flag event?
+			#add more
+			latvian_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			livonia_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
-    }
-    vn_dan_carve_out_estonia = {
-        #icon = 
+	}
+    vn_dan_conquer_livonia = {
+        icon = mission_conquer_riga
         position = 7
-        required_missions = { vn_dan_conquer_livonia }
+		required_missions = { vn_dan_carve_out_estonia }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            livonia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			latvian_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -195,75 +373,124 @@ vn_dan_missions_slot_3_a = {
     has_country_shield = yes
 
     vn_dan_found_copenhagen = {
-        #icon = 
+        icon = mission_early_game_buildings
         position = 1
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			province_id = 411
+		}
         trigger = {
-            
+            411 = {
+				owned_by = ROOT
+				is_core = ROOT
+				development = 20
+				num_of_times_improved = 5
+				has_trade_building_trigger = yes
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_control_oresund = {
-        #icon = 
+        icon = mission_rb_grow_the_channel
         position = 2
-        required_missions = { vn_dan_found_copenhagen }
+		required_missions = { vn_dan_found_copenhagen }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            411 = {
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 3
+				}
+				else = {
+					OR = {
+						has_building = marketplace
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}
+			}
+			owns_core_province = 411
+			owns_core_province = 1994
+			owns_core_province = 2731
+			owns_core_province = 654
+			owns_core_province = 1810
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_compete_with_hansa = {
-        #icon = 
+        icon = mission_heart_of_the_hansa
         position = 3
-        required_missions = { vn_dan_control_oresund }
+		required_missions = { vn_dan_control_oresund }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            13 = {
+				trade_share = {
+					share = 75
+					country = ROOT
+				}
+			}
+			1084 = {
+				trade_share = {
+					share = 75
+					country = ROOT
+				}
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_seize_gotland = {
-        #icon = 
+        icon = mission_invade_island 
         position = 4
-        required_missions = { vn_dan_compete_with_hansa }
+		required_missions = { vn_dan_compete_with_hansa }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            balticislands_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+			#add
+			#Privateer efficiency?
         }
-    }
-    vn_dan_control_lubeck = {
-        #icon = 
+	}
+    vn_dan_danish_scandinavia = {
+        icon = mission_unite_home_region	#placeholder
         position = 5
         required_missions = { 
 			vn_dan_advance_into_holstein 
-			vn_dan_seize_gotland 
-		}
-        trigger = {
-            
-        }
-        effect = {
-            
-        }
-    }
-    vn_dan_danish_scandinavia = {
-        #icon = 
-        position = 6
-        required_missions = { 
-			vn_dan_control_lubeck 
+			vn_dan_seize_gotland
 			vn_dan_kalmar_union 
 		}
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            scandinavia_superregion = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { controlled_by = REB }
+				NOT = { local_autonomy = 30 }
+				NOT = { unrest = 1 }
+			}
         }
         effect = {
-            
+            #add
         }
     }
 }
@@ -279,64 +506,128 @@ vn_dan_missions_slot_4_a = {
     has_country_shield = yes
 
     vn_dan_conquer_smaland = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 1
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            scandinavia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			ostergotland_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            vastmanland_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
-    vn_dan_reach_stockholm = {
-        #icon = 
+    vn_dan_subjugate_swedes = {	#Conquer Svealand
+	icon = mission_unite_home_region	#placeholder
         position = 2
         required_missions = { 
 			vn_dan_conquer_smaland 
 			vn_dan_conquer_vastergotland 
 		}
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+			svealand_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            uppland_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
-    vn_dan_subjugate_swedes = {
-        #icon = 
-        position = 4
-        required_missions = { vn_dan_reach_stockholm }
+    vn_dan_reach_stockholm = {
+        icon = mission_unite_home_region	#placeholder 
+        position = 3
+		required_missions = { vn_dan_subjugate_swedes }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
-        }
+            uppland_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
         effect = {
-            
+            6109 = {
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_years_of_income = 0.5
+				}
+			}
         }
     }
     vn_dan_kalmar_union = {
-        #icon = 
-        position = 5
+        icon = mission_unite_home_region	#placeholder 
+        position = 4
         required_missions = { 
-			vn_dan_subjugate_swedes 
-			vn_dan_rule_norway 
+			vn_dan_reach_stockholm 
+			vn_dan_western_norway
+		}
+		provinces_to_highlight = {
+			#add highlight
 		}
         trigger = {
-            
+            scandinavia_superregion = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			NOT = {
+				any_subject_country = {
+					capital_scope = {
+						superregion = scandinavia_superregion
+					}
+					liberty_desire = 50
+				}
+				any_owned_province = {
+					superregion = scandinavia_superregion
+					unrest = 5
+				}
+			}
         }
         effect = {
-            
+			#Kalmar union event
+			#add
         }
     }
     vn_dan_era_of_absolutism = {
-        #icon = 
-        position = 6
+        icon = mission_monarch_in_throne_room 
+        position = 5
         required_missions = { vn_dan_kalmar_union }
         trigger = {
-            
+			absolutism = 100
+			current_age = age_of_absolutism
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -352,33 +643,73 @@ vn_dan_missions_slot_4_b = {
 	has_country_shield = yes
 	
     vn_dan_deal_with_reformation = {
-        #icon = 
-        position = 7
-        required_missions = {  }
+        icon = mission_rb_weather_the_reformation 
+        position = 6
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            current_age = age_of_reformation
+            OR = {
+            	OR = {
+                    religion = catholic
+                    religion = catholique
+                }
+				OR = {
+					religion = protestant
+					religion = anabaptist
+					religion = reformed
+					religion = anglican
+				}
+			}
+			jutland_region = {
+				type = all
+				religion = ROOT
+			}
+			danishislands_region = {
+				type = all
+				religion = ROOT
+			}
+			skania_region = {
+				type = all
+				religion = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_convert_norway = {
-        #icon = 
-        position = 8
+        icon = mission_european_church
+        position = 7
         required_missions = { 
 			vn_dan_deal_with_reformation 
 			vn_dan_found_cities_in_norway 
 		}
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+			current_age = age_of_absolutism	#had reformation
+            vestlandet_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				religion = ROOT
+			}
+			austlandet_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				religion = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
-
-
 
 vn_dan_missions_slot_5_a = {
     slot = 10
@@ -391,14 +722,37 @@ vn_dan_missions_slot_5_a = {
     has_country_shield = yes
 
     vn_dan_conquer_vastergotland = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 1
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            dalsland_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			vastergotland_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            varmland_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			dalarna_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
 	}
 }
@@ -414,47 +768,74 @@ vn_dan_missions_slot_5_b = {
 	has_country_shield = yes
 	
     vn_dan_eastern_norway = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder 
         position = 2
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            austlandet_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            vestlandet_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_western_norway = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder 
         position = 3
-        required_missions = { vn_dan_eastern_norway }
+		required_missions = { vn_dan_eastern_norway }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            vestlandet_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
-        }
-    }
-    vn_dan_rule_norway = {
-        #icon = 
-        position = 4
-        required_missions = { vn_dan_western_norway }
-        trigger = {
-            
-        }
-        effect = {
-            
+            #add
         }
     }
     vn_dan_found_cities_in_norway = {
-        #icon = 
-        position = 7
-        required_missions = { vn_dan_rule_norway }
+        icon = mission_scandinavian_port_authority 
+        position = 6
+		required_missions = { vn_dan_western_norway }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            num_of_owned_provinces_with = {
+				value = 10
+				OR = {
+					region = austlandet_region
+					region = vestlandet_region
+				}
+				development = 10
+				NOT = { num_free_building_slots = 1 }
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					region = austlandet_region
+					region = vestlandet_region
+				}
+				development = 15
+				NOT = { num_free_building_slots = 1 }
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }

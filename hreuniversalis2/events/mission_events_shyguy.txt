@@ -370,8 +370,10 @@ country_event = {
 		else = {
 			change_mil = 1
 		}
-		2233 = { add_core = ROOT }
-		set_capital = 2233
+		2233 = {
+			add_core = ROOT
+			move_capital_effect = yes
+		}
 	}
 	option = {
 		name = "vn_missions.7.b"
@@ -404,12 +406,12 @@ country_event = {
 }
 
 ###TEUTONIC ORDER###
-#The Foundation of K?nigsberg
+#The Foundation of Königsberg
 country_event = {
 	id = vn_missions.8
 	title = vn_missions.8.t
 	desc = vn_missions.8.d
-	picture = NAVAL_MILITARY_eventPicture
+	picture = BATTLE_VISTULA_LAGOON_eventPicture
 
 	is_triggered_only = yes
 
@@ -422,8 +424,8 @@ country_event = {
 			}
 		}
 		ai_chance = { factor = 75 }
-		set_capital = 4854
 		4854 = {
+			move_capital_effect = yes
 			add_base_tax = 2
 			add_base_production = 2
 			add_base_manpower = 2
@@ -609,8 +611,8 @@ country_event = {
 		FEO = {
 			change_religion = ROOT
 			change_government = monarchy
-			set_legacy_government = administrative_monarchy
-			set_capital = 3089
+			add_government_reform = autocracy_reform
+			3089 = { move_capital_effect = yes }
 			if = {
 				limit = {
 					has_states_general_mechanic = yes
@@ -790,35 +792,75 @@ country_event = {
 	picture = LIBERUM_VETO_eventPicture
 
 	is_triggered_only = yes
+	major = yes
 
 	option = {
 		name = "vn_missions.16.a"
+		ai_chance = {
+			factor = 33
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = tolerant_personality
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = sinner_personality
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = benevolent_personality
+			}
+		}
 		add_patriarch_authority = 0.1
 		add_country_modifier = {
 			name = geo_conquer_maku_mission_a
-			duration = -1
+			duration = 36500
 		}
 	}
 	option = {
 		name = "vn_missions.16.b"
-		add_patriarch_authority = 0.1
-		every_owned_province = {
-			limit = { culture = armenian }
-			add_province_modifier = {
-				name = geo_conquer_maku_mission_b
-				duration = 9125
+		ai_chance = {
+			factor = 33
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = malevolent_personality
 			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = zealot_personality
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = pious_personality
+			}
+		}
+		add_patriarch_authority = 0.1
+		add_country_modifier = {
+			name = geo_conquer_maku_mission_b
+			duration = 36500
 		}
 	}
 	option = {
 		name = "vn_missions.16.c"
-		add_patriarch_authority = 0.1
-		every_owned_province = {
-			limit = { culture = armenian }
-			add_province_modifier = {
-				name = geo_conquer_maku_mission_c
-				duration = 9125
+		ai_chance = {
+			factor = 33
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = scholar_personality
 			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = lawgiver_personality
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = free_thinker_personality
+			}
+		}
+		add_patriarch_authority = 0.1
+		add_country_modifier = {
+			name = geo_conquer_maku_mission_c
+			duration = 36500
 		}
 	}
 }
@@ -842,8 +884,8 @@ country_event = {
 				is_capital = no
 			}
 		}
-		set_capital = 1878
 		1878 = {
+			move_capital_effect = yes
 			add_province_modifier = {
 				name = kol_residence_of_arnsberg_mission
 				duration = -1
@@ -859,8 +901,8 @@ country_event = {
 				is_capital = no
 			}
 		}
-		set_capital = 82
 		82 = {
+			move_capital_effect = yes
 			add_province_modifier = {
 				name = kol_residence_of_arnsberg_mission
 				duration = -1
@@ -901,14 +943,23 @@ country_event = {
 country_event = {
 	id = vn_missions.19
 	title = vn_missions.19.t
-	desc = vn_missions.19.d
+	desc = {
+        trigger = { is_elector = no }
+        desc = vn_missions.19.d1
+    }
+    desc = {
+        trigger = { is_elector = yes }
+        desc = vn_missions.19.d2
+    }
 	picture = HRE_eventPicture
 
 	is_triggered_only = yes
 
 	option = {
 		name = "vn_missions.19.a"
+		trigger = { is_elector = no }
 		add_dip_power = -100
+		add_prestige = 20
 		if = {
 			limit = {
 				PAL = {
@@ -919,10 +970,39 @@ country_event = {
 			PAL = { elector = no }
 			elector = yes
 		}
+		else = {
+			random_subject_country = {
+				limit = { is_elector = yes }
+				elector = no
+			}
+			elector = yes
+		}
+		emperor = {
+			add_opinion = {
+				who = ROOT
+				modifier = bav_claimed_electorship
+			}
+		}
+		every_elector = {
+			limit = { is_emperor = no }
+			add_opinion = {
+				who = ROOT
+				modifier = bav_claimed_electorship
+			}
+		}
 	}
 	option = {
 		name = "vn_missions.19.b"
-		
+		trigger = { is_elector = no }
+		add_country_modifier = {
+			name = bav_bavarian_electorate_mission
+			duration = 9125
+		}
+	}
+	option = {
+		name = "vn_missions.19.c"
+		highlight = yes
+		trigger = { is_elector = yes }
 	}
 }
 
@@ -959,7 +1039,7 @@ country_event = {
 			}
 		}
 		every_elector = {
-			limit = { NOT = { tag = KOL } }
+			limit = { NOT = { tag = KOL } is_emperor = no }
 			add_opinion = {
 				who = ROOT
 				modifier = bav_feudalized_cologne
@@ -979,18 +1059,14 @@ country_event = {
 	id = vn_missions.21
 	title = vn_missions.21.t
 	desc = vn_missions.21.d
-	picture = CONQUEST_eventPicture
+	picture = MERCHANTS_TALKING_eventPicture
 
 	is_triggered_only = yes
 
 	option = {
 		name = "vn_missions.21.a"
 		ai_chance = { factor = 90 }
-		crimea_region = {
-			limit = { owned_by = ROOT }
-			add_core = CRT
-		}
-		azov_region = {
+		crete_area = {
 			limit = { owned_by = ROOT }
 			add_core = CRT
 		}
@@ -1000,9 +1076,8 @@ country_event = {
 			change_religion = ROOT
 			change_primary_culture = ROOT
 			define_ruler = {
-				religion = ROOT
-				culture = ROOT
-				claim = 95
+				name = "Enrico"
+				dynasty = "de Castello"
 			}
 		}
 		5449 = {
@@ -1035,5 +1110,295 @@ country_event = {
 				add_base_production = 3
 			}
 		}
+	}
+}
+
+###QAHIRA###
+#Resistance of Egypt
+country_event = {
+	id = vn_missions.22
+	title = vn_missions.22.t
+	desc = vn_missions.22.d
+	picture = MAMLUK_WARRIORS_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	option = {
+		name = "vn_missions.22.a"
+		create_general = {
+			tradition = 100
+			culture = turkish
+		}
+		add_manpower = 10
+		add_country_modifier = {
+			name = mam_fight_the_mongols_mission
+			duration = 9125
+		}
+	}
+}
+
+###TOULOUSE###
+#Pricipality of Toulouse
+country_event = {
+	id = vn_missions.23
+	title = vn_missions.23.t
+	desc = vn_missions.23.d
+	picture = COURT_eventPicture
+	
+	is_triggered_only = yes
+
+	option = {
+		name = "vn_missions.23.a"
+		if = {
+			limit = { NOT = { government_rank = 4 } }
+			set_government_rank = 4
+		}
+		add_prestige = 25
+		every_known_country = {
+			limit = {
+				government_rank = 5
+				culture_group = french
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = tou_principality_of_toulouse
+			}
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = tou_principality_of_toulouse
+			}
+		}
+		add_country_modifier = {
+			name = "tou_elevation_to_principality_mission"
+			duration = 18250
+		}
+	}
+}
+
+#Catharism in Toulouse
+country_event = {
+	id = vn_missions.24
+	title = vn_missions.24.t
+	desc = vn_missions.24.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+	
+	is_triggered_only = yes
+	major = yes
+
+	option = {
+		name = "vn_missions.24.a"
+		ai_chance = { factor = 45 }
+		add_stability = 1
+		add_country_modifier = {
+			name = "tou_weather_catharism_mission_a"
+			duration = 10950
+		}
+		set_country_flag = tou_cathar_heresy
+	}
+	option = {
+		name = "vn_missions.24.b"
+		ai_chance = { factor = 40 }
+		add_papal_influence = 25
+		add_country_modifier = {
+			name = "tou_weather_catharism_mission_b"
+			duration = 10950
+		}
+		set_country_flag = tou_cathar_heresy
+	}
+	option = {
+		name = "vn_missions.24.c"
+		highlight = yes
+		ai_chance = { factor = 5 }
+		change_religion = cathar
+		add_country_modifier = {
+			name = "tou_weather_catharism_mission_c"
+			duration = 10950
+		}
+		set_country_flag = tou_cathar_heresy
+	}
+}
+
+###SWABIA###
+#Hoffest of Mainz
+country_event = {
+	id = vn_missions.25
+	title = vn_missions.25.t
+	desc = vn_missions.25.d
+	picture = FEAST_eventPicture
+	
+	is_triggered_only = yes
+
+	option = {
+		name = "vn_missions.25.a"
+		add_years_of_income = -0.75
+		add_prestige = 25
+		add_ruler_modifier = {
+			name = wws_capital_germania_mission_a
+			duration = -1
+		}
+	}
+	option = {
+		name = "vn_missions.25.b"
+		add_years_of_income = -0.5
+		add_prestige = 15
+		add_ruler_modifier = {
+			name = wws_capital_germania_mission_b
+			duration = -1
+		}
+	}
+	option = {
+		name = "vn_missions.25.c"
+		add_years_of_income = -0.25
+		add_prestige = 5
+		add_ruler_modifier = {
+			name = wws_capital_germania_mission_c
+			duration = -1
+		}
+	}
+}
+
+#Post Destructionem Mediolani
+country_event = {
+	id = vn_missions.26
+	title = vn_missions.26.t
+	desc = vn_missions.26.d
+	picture = SIEGE_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	option = {
+		name = "vn_missions.26.a"
+		add_treasury = 250
+		if = {
+			limit = { is_emperor = yes }
+			add_imperial_influence = 25
+		}
+		else = {
+			add_prestige = 25
+		}
+		if = {
+			limit = { NOT = { 1818 = { country_or_non_sovereign_subject_holds = ROOT } } }
+			1818 = {
+				add_devastation = 50
+				add_base_tax = -2
+				add_base_production = -2
+				add_base_manpower = -2
+				add_province_modifier = {
+					name = wws_raid_milan_mission
+					duration = 10950
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				capital_scope = {
+					superregion = italy_superregion
+				}
+				is_part_of_hre = yes
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = wws_destroyed_milan_opinion
+			}
+		}
+	}
+}
+
+###LITHUANIA###
+#Christian Missionaries
+country_event = {
+	id = vn_missions.27
+	title = vn_missions.27.t
+	desc = vn_missions.27.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_missions.27.a
+		ai_chance = {
+			factor = 55
+			modifier = {
+				factor = 2
+				dominant_religion = catholic
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = tolerant_personality
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = free_thinker_personality
+			}
+		}
+		change_religion = catholic
+		add_country_modifier = {
+			name = missionary_zeal
+			duration = 5475
+		}
+		every_neighbor_country = {
+			limit = { religion = catholic }
+			add_opinion = {
+				who = ROOT
+				modifier = lit_converted_to_our_faith_opinion
+			}
+		}
+		hidden_effect = {
+			capital_scope = {
+				change_religion = catholic
+			}
+		}
+	}
+	option = {
+		name = vn_missions.27.b
+		ai_chance = {
+			factor = 35
+			modifier = {
+				factor = 2
+				dominant_religion = orthodox
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = tolerant_personality
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = free_thinker_personality
+			}
+		}
+		change_religion = orthodox
+		add_country_modifier = {
+			name = lit_lithuanian_grand_duchy_mission
+			duration = 5475
+		}
+		every_neighbor_country = {
+			limit = { religion = orthodox }
+			add_opinion = {
+				who = ROOT
+				modifier = lit_converted_to_our_faith_opinion
+			}
+		}
+		hidden_effect = {
+			capital_scope = {
+				change_religion = orthodox
+			}
+		}
+	}
+	option = {
+		name = vn_missions.27.c
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = zealot_personality
+			}
+			modifier = {
+				factor = 1.1
+				ruler_has_personality = pious_personality
+			}
+		}
+		add_prestige = 10
 	}
 }

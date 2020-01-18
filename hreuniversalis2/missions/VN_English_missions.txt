@@ -1,15 +1,18 @@
 #English missions
 #By Isildur
 
-#Mostly finished
-
 vn_eng_missions_slot_1_a = {
     slot = 6
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -24,15 +27,15 @@ vn_eng_missions_slot_1_a = {
             NOT = { average_unrest = 1 }
             estate_loyalty = {
                 estate = estate_nobles
-                loyalty = 50
+                loyalty = 60
             }
             estate_loyalty = {
                 estate = estate_church
-                loyalty = 50
+                loyalty = 60
             }
             estate_loyalty = {
                 estate = estate_burghers
-                loyalty = 50
+                loyalty = 60
             }
         }
         effect = {
@@ -52,36 +55,21 @@ vn_eng_missions_slot_1_a = {
             vn_eng_fortify_england
         }
         trigger = {
-            #needs tooltip
-            calc_true_if = {
-                2240 = {    #Hereford
-                    owned_by = ROOT
-                    is_core = ROOT
-                    has_fort_trigger = yes
-                }
-                2238 = {    #Shrewsbury
-                    owned_by = ROOT
-                    is_core = ROOT
-                    has_fort_trigger = yes
-                }
-                424 = { #Wellington
-                    owned_by = ROOT
-                    is_core = ROOT
-                    has_fort_trigger = yes
-                }
-                2250 = {    #Cheshire
-                    owned_by = ROOT
-                    is_core = ROOT
-                    has_fort_trigger = yes
-                }
-                634 = { #Cheshire East
-                    owned_by = ROOT
-                    is_core = ROOT
-                    has_fort_trigger = yes
-                }
-                amount = 3
-            }
-            
+			2240 = {    #Hereford
+				owned_by = ROOT
+				is_core = ROOT
+				has_fort_trigger = yes
+			}
+			2238 = {    #Shrewsbury
+				owned_by = ROOT
+				is_core = ROOT
+				has_fort_trigger = yes
+			}
+			2250 = {    #Cheshire
+				owned_by = ROOT
+				is_core = ROOT
+				has_fort_trigger = yes
+			}
         }
         effect = {
             wales_region = {
@@ -160,49 +148,67 @@ vn_eng_missions_slot_1_b = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
-    has_country_shield = yes
-
-    vn_eng_centralise_royal_mint = {
-        icon = mission_establish_mint_towns
-        required_missions = { }
-        position = 8
-        trigger = {
-            silver = 1
-            treasury = 200
-            tax_income_percentage = 0.33
-        }
-        effect = {
-            add_inflation = -2
-            define_advisor = {
-                type = master_of_mint 
-                skill = 2
-                culture = english
-                discount = yes
-            }
-        }
-    }
-    vn_eng_bank_of_england = {
-        icon = mission_rb_the_bank_of_scotland
-        required_missions = { vn_eng_centralise_royal_mint }
-        trigger = {
-            employed_advisor = {
-                type = master_of_mint
-            }
-            NOT = { num_of_loans = 1 }
-            NOT = { inflation = 1 }
-        }
-        effect = {
-            add_years_of_income = 0.5
-            add_country_modifier = {
-                name = "eng_bank_of_england_mission"
-                duration = -1
-            }
-        }
-    }
+	has_country_shield = yes
+	
+	vn_eng_integrate_normandy = {
+		icon = mission_unite_home_region
+		required_missions = { }
+		position = 8
+		provinces_to_highlight = {
+			region = normandy_region
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		trigger = {
+			normandy_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
+		effect = {
+			maine_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	vn_eng_claims_in_anjou = {
+		icon = mission_rb_angevin_kingdom
+		required_missions = { vn_eng_integrate_normandy }
+		provinces_to_highlight = {
+			area = maine_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			maine_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			1289 = {
+				add_province_modifier = {
+					name = "eng_claims_in_anjou_mission"
+					duration = 9125
+				}
+			}
+		}
+	}
 }
 
 vn_eng_missions_slot_1_c = {
@@ -210,8 +216,13 @@ vn_eng_missions_slot_1_c = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -389,8 +400,13 @@ vn_eng_missions_slot_2_a = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -406,7 +422,6 @@ vn_eng_missions_slot_2_a = {
 			}
         }
         effect = {
-            #add_manpower = 0.1  #should be 10% of max manpower.
             define_advisor = {
                 type = fortification_expert
                 skill = 2
@@ -422,8 +437,13 @@ vn_eng_missions_slot_2_b = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -538,7 +558,7 @@ vn_eng_missions_slot_2_b = {
                 is_core = ROOT
                 NOT = {
                     controlled_by = REB
-                    average_unrest = 1
+                    unrest = 1
                 }
             }
             highlands_region = {
@@ -547,7 +567,7 @@ vn_eng_missions_slot_2_b = {
                 is_core = ROOT
                 NOT = {
                     controlled_by = REB
-                    average_unrest = 1
+                    unrest = 1
                 }
             }
         }
@@ -581,7 +601,7 @@ vn_eng_missions_slot_2_b = {
                 owned_by = ROOT
                 is_core = ROOT
                 NOT = { controlled_by = REB }
-                NOT = { average_unrest = 1 }
+                NOT = { unrest = 1 }
                 NOT = { local_autonomy = 30 }
             }
             british_isles_superregion = {
@@ -589,7 +609,7 @@ vn_eng_missions_slot_2_b = {
                 owned_by = ROOT
                 is_core = ROOT
                 NOT = { controlled_by = REB }
-                NOT = { average_unrest = 1 }
+                NOT = { unrest = 1 }
                 NOT = { local_autonomy = 30 }
             }
             ADM = 3
@@ -615,64 +635,68 @@ vn_eng_missions_slot_2_c = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
 
-    vn_eng_integrate_normandy = {
-        icon = mission_unite_home_region
-        required_missions = { }
-        position = 8
-        provinces_to_highlight = {
-            region = normandy_region
-            NOT = {
-                owned_by = ROOT
-                is_core = ROOT
-            }
-        }
+    vn_eng_root_out_heresy = {  #Deal with Heresy
+        icon = mission_rb_control_state_religion
+        required_missions = { vn_eng_a_new_religion }
+        position = 9
         trigger = {
-            normandy_region = {
-                type = all
-                owned_by = ROOT
-                is_core = ROOT
+            religious_unity = 1
+            OR = {
+                full_idea_group = religious_ideas
+                full_idea_group = humanist_ideas
             }
         }
         effect = {
-            maine_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
+            if = {
+                limit = { uses_papacy = yes }
+                add_papal_influence = 50
+            }
+            else_if = {
+                limit = { uses_church_aspects = yes }
+                add_church_power = 50
+            }
+            else_if = {
+                limit = { uses_fervor = yes }
+                add_fervor = 25
+            }
+            add_country_modifier = {
+                name = "eng_root_out_heresy_mission"
+                duration = 9125
             }
         }
     }
-    vn_eng_claims_in_anjou = {
-        icon = mission_rb_angevin_kingdom
-        required_missions = { vn_eng_integrate_normandy }
-        provinces_to_highlight = {
-            area = maine_area
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-        }
-        trigger = {
-            maine_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-        }
-        effect = {
-            1289 = {
-                add_province_modifier = {
-                    name = "eng_claims_in_anjou_mission"
-                    duration = 9125
-                }
-            }
-        }
+}
+
+vn_eng_missions_slot_2_d = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
+        NOT = { map_setup = map_setup_random }
     }
+    has_country_shield = yes
+
     vn_eng_renounce_homage = {
-        icon = mission_monarch_in_throne_room
+		icon = mission_monarch_in_throne_room
+		position = 10
         required_missions = { vn_eng_claims_in_anjou }
         trigger = {
             if = {
@@ -756,13 +780,18 @@ vn_eng_missions_slot_2_c = {
     }
 }
 
-vn_eng_missions_slot_2_d = {
+vn_eng_missions_slot_2_e = {
     slot = 7
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -789,27 +818,29 @@ vn_eng_missions_slot_2_d = {
             }
         }
         effect = {
-            #may need tooltip for limit
-            angevin_region = {
-                limit = { 
-                    owned_by = ROOT
-                    trade_goods = wine
-                }
-                add_province_modifier = {
-                    name = "eng_dominate_loire_valley_mission"
-                    duration = 9125
-                }
-            }
-            berrichon_region = {
-                limit = { 
-                    owned_by = ROOT
-                    trade_goods = wine
-                }
-                add_province_modifier = {
-                    name = "eng_dominate_loire_valley_mission"
-                    duration = 9125
-                }
-            }
+			custom_tooltip = vn_eng_dominate_loire_valley.tt
+			hidden_effect = {
+				angevin_region = {
+					limit = { 
+						owned_by = ROOT
+						trade_goods = wine
+					}
+					add_province_modifier = {
+						name = "eng_dominate_loire_valley_mission"
+						duration = 9125
+					}
+				}
+				berrichon_region = {
+					limit = { 
+						owned_by = ROOT
+						trade_goods = wine
+					}
+					add_province_modifier = {
+						name = "eng_dominate_loire_valley_mission"
+						duration = 9125
+					}
+				}
+			}
             auvergne_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -851,16 +882,50 @@ vn_eng_missions_slot_2_d = {
                 duration = 9125
             }
         }
+	}
+	vn_eng_influence_in_empire = {
+        icon = mission_rb_control_electors
+        required_missions = { vn_eng_dual_monarchy }
+        position = 13
+        trigger = {
+            custom_trigger_tooltip = {
+				tooltip = vn_eng_influence_in_empire.tt
+				calc_true_if = {
+					all_elector = {
+						preferred_emperor = ROOT
+					}
+					amount = 3
+				}
+            }
+            any_elector = {
+                has_opinion = {
+                    who = ROOT
+                    value = 100
+                }
+            }
+        }
+        effect = {
+            add_prestige = 15
+            add_country_modifier = {
+                name = "eng_influence_in_empire_mission"
+                duration = 9125
+            }
+        }
     }
 }
 
-vn_eng_missions_slot_2_e = {
+vn_eng_missions_slot_2_f = {
     slot = 7
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -900,56 +965,18 @@ vn_eng_missions_slot_2_e = {
     }
 }
 
-vn_eng_missions_slot_2_f = {
-    slot = 7
-    generic = no
-    ai = yes
-    potential = {
-        tag = ENG
-        #tag = GBR
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
-
-    vn_eng_root_out_heresy = {  #Deal with Heresy
-        icon = mission_rb_control_state_religion
-        required_missions = { vn_eng_a_new_religion }
-        position = 18
-        trigger = {
-            religious_unity = 1
-            OR = {
-                full_idea_group = religious_ideas
-                full_idea_group = humanist_ideas
-            }
-        }
-        effect = {
-            if = {
-                limit = { uses_papacy = yes }
-                add_papal_influence = 50
-            }
-            else_if = {
-                limit = { uses_church_aspects = yes }
-                add_church_power = 50
-            }
-            else_if = {
-                limit = { uses_fervor = yes }
-                add_fervor = 25
-            }
-            add_country_modifier = {
-                name = "eng_root_out_heresy_mission"
-                duration = 9125
-            }
-        }
-    }
-}
-
 vn_eng_missions_slot_3_a = {
     slot = 8
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -962,7 +989,7 @@ vn_eng_missions_slot_3_a = {
             northumbria_region = {
                 type = all
                 owned_by = ROOT
-                NOT = { culture = northumbrian }
+                is_core = ROOT
             }
         }
         effect = {
@@ -1037,8 +1064,13 @@ vn_eng_missions_slot_3_b = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1069,53 +1101,143 @@ vn_eng_missions_slot_3_b = {
     }
 }
 
-# vn_eng_missions_slot_3_c = {
-#     slot = 8
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = ENG
-#         #tag = GBR
-#         NOT = { map_setup = map_setup_random }
-#     }
-
-#     vn_eng_magna_carta = {
-#         icon = mission_colonial #placeholder
-#         required_missions = { }
-#         position = 8
-#         trigger = {
-#             has_reform = feudal_monarchy
-#             NOT = { has_reform = english_monarchy_legacy }
-#             government_reform_progress = 100
-#         }
-#         effect = {
-#             change_government = english_monarchy_legacy #needs testing
-#             change_government_reform_progress = -100
-#             add_government_reform = english_monarchy
-#         }
-#     }
-#     vn_eng_reform_monarchy = {  #Constitutional Reforms
-#         icon = mission_colonial #placeholder
-#         required_missions = { vn_eng_magna_carta }
-#         trigger = {
-#             OR = {
-#                 has_reform = administrative_monarchy
-#                 has_reform = constitutional_monarchy
-#             }
-#         }
-#         effect = {
-            
-#         }
-#     }
-# }
+vn_eng_missions_slot_3_c = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_eng_order_of_the_garter = {
+		icon = mission_defend_the_faith
+		required_missions = { }
+		position = 7
+		trigger = {
+			if = {
+				limit = { uses_church_aspects = yes }
+				church_power = 150
+			}
+			else_if = {
+				limit = { uses_papacy = yes	}
+				papal_influence = 100
+				num_of_cardinals = 1
+			}
+			else_if = {
+				limit = { uses_fervor = yes }
+				fervor = 75
+			}
+		}
+		effect = {
+			add_army_tradition = 15
+			add_country_modifier = {
+				name = "eng_order_of_the_garter_mission"
+				duration = -1
+			}
+		}
+	}
+	vn_eng_a_new_religion = {
+		icon = mission_rb_weather_the_reformation
+		required_missions = { vn_eng_order_of_the_garter }
+		trigger = {
+			OR = {
+				OR = {
+					AND = {
+						OR = {
+							religion = anglican
+							religion = protestant
+							religion = anabaptist
+						}
+						church_power = 100
+					}
+					religion = reformed
+					fervor = 50
+				}
+				AND = {
+					OR = {
+						religion = catholic
+						religion = catholique
+					}
+					papal_influence = 100
+				}
+			}
+			religious_unity = 0.75
+			current_age = age_of_reformation
+			current_age = age_of_reformation
+		}
+		effect = {
+			if = {
+				limit = {
+					uses_papacy = yes
+				}
+				add_papal_influence = 50
+			}
+			else_if = {
+				limit = {
+					uses_church_aspects = yes
+				}
+				add_church_power = 50
+			}
+			else_if = {
+				limit = {
+					uses_fervor = yes
+				}
+				add_fervor = 25
+			}
+			add_country_modifier = {
+				name = "eng_a_new_religion_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_eng_act_of_uniformity = {
+        icon = mission_hands_praying
+        required_missions = { vn_eng_a_new_religion }
+        trigger = {
+            OR = {
+                religion = anglican
+                religion = protestant
+                religion = anabaptist
+                religion = reformed
+            }
+            has_country_modifier = the_act_of_uniformity    #took decision
+        }
+        effect = {
+            if = {
+                limit = { uses_fervor = yes }
+                add_fervor = 50
+            }
+            else = {
+                add_church_power = 50
+            }
+            add_country_modifier = {
+                name = "eng_act_of_uniformity_mission"
+                duration = 7300
+            }
+        }
+    }
+}
 
 vn_eng_missions_slot_3_d = {
     slot = 8
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1159,8 +1281,13 @@ vn_eng_missions_slot_3_e = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1170,7 +1297,9 @@ vn_eng_missions_slot_3_e = {
         required_missions = { vn_eng_renounce_homage }
         position = 11
         trigger = {
-            #needs tooltip if FRA doesn't exist to bypass this mission.
+            custom_trigger_tooltip = {
+				tooltip = vn_eng_claim_french_throne.tt
+			}
             if = {
                 limit = { exists = FRA }
                 FRA = {
@@ -1189,7 +1318,8 @@ vn_eng_missions_slot_3_e = {
                     target = FRA
                     months = 300
                 }
-            }
+			}
+			add_legitimacy = 10
         }
     }
     vn_eng_occupy_paris = {
@@ -1235,129 +1365,6 @@ vn_eng_missions_slot_3_e = {
             }
         }
     }
-    vn_eng_influence_in_empire = {
-        icon = mission_rb_control_electors
-        required_missions = { vn_eng_dual_monarchy }
-        position = 15
-        trigger = {
-            custom_trigger_tooltip = {
-				#add tooltip
-				calc_true_if = {
-					all_elector = {
-						preferred_emperor = ROOT
-					}
-					amount = 3
-				}
-            }
-            any_elector = {
-                has_opinion = {
-                    who = ROOT
-                    value = 100
-                }
-            }
-        }
-        effect = {
-            add_prestige = 15
-            add_country_modifier = {
-                name = "eng_influence_in_empire_mission"
-                duration = 9125
-            }
-        }
-    }
-}
-
-vn_eng_missions_slot_3_f = {
-    slot = 8
-    generic = no
-    ai = yes
-    potential = {
-        tag = ENG
-        #tag = GBR
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
-
-    vn_eng_order_of_the_garter = {
-        icon = mission_defend_the_faith
-        required_missions = { }
-        position = 16
-        trigger = {
-            if = {
-				limit = { uses_church_aspects = yes }
-                church_power = 150
-			}
-			else_if = {
-				limit = { uses_papacy = yes	}
-				papal_influence = 100
-				num_of_cardinals = 1
-			}
-			else_if = {
-				limit = { uses_fervor = yes }
-				fervor = 75
-			}
-        }
-        effect = {
-            add_army_tradition = 15
-            add_country_modifier = {
-                name = "eng_order_of_the_garter_mission"
-                duration = -1
-            }
-        }
-    }
-    vn_eng_a_new_religion = {
-        icon = mission_rb_weather_the_reformation
-        required_missions = { vn_eng_order_of_the_garter }
-        trigger = {
-            OR = {
-				OR = {
-					AND = {
-						OR = {
-							religion = anglican
-							religion = protestant
-							religion = anabaptist
-						}
-						church_power = 100
-					}
-					religion = reformed
-					fervor = 50
-				}
-                AND = {
-					OR = {
-						religion = catholic
-						religion = catholique
-					}
-					papal_influence = 100
-				}
-			}
-			religious_unity = 0.75
-			current_age = age_of_reformation
-            current_age = age_of_reformation
-        }
-        effect = {
-            if = {
-                limit = {
-                    uses_papacy = yes
-                }
-                add_papal_influence = 50
-            }
-            else_if = {
-                limit = {
-                    uses_church_aspects = yes
-                }
-                add_church_power = 50
-			}
-			else_if = {
-				limit = {
-					uses_fervor = yes
-				}
-				add_fervor = 25
-			}
-            add_country_modifier = {
-                name = "eng_a_new_religion_mission"
-                duration = 9125
-            }
-        }
-    }
 }
 
 vn_eng_missions_slot_4_a = {
@@ -1365,8 +1372,13 @@ vn_eng_missions_slot_4_a = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1423,8 +1435,13 @@ vn_eng_missions_slot_4_b = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1593,8 +1610,68 @@ vn_eng_missions_slot_4_c = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_eng_centralise_royal_mint = {
+        icon = mission_establish_mint_towns
+        required_missions = { }
+        position = 7
+        trigger = {
+            silver = 1
+            treasury = 200
+            tax_income_percentage = 0.33
+        }
+        effect = {
+            add_inflation = -2
+            define_advisor = {
+                type = master_of_mint 
+                skill = 2
+                culture = english
+                discount = yes
+            }
+        }
+    }
+    vn_eng_bank_of_england = {
+        icon = mission_rb_the_bank_of_scotland
+        required_missions = { vn_eng_centralise_royal_mint }
+        trigger = {
+            employed_advisor = {
+                type = master_of_mint
+            }
+            NOT = { num_of_loans = 1 }
+            NOT = { inflation = 1 }
+        }
+        effect = {
+            add_years_of_income = 0.5
+            add_country_modifier = {
+                name = "eng_bank_of_england_mission"
+                duration = -1
+            }
+        }
+    }
+}
+
+vn_eng_missions_slot_4_d = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1632,13 +1709,18 @@ vn_eng_missions_slot_4_c = {
     }
 }
 
-vn_eng_missions_slot_4_d = {
+vn_eng_missions_slot_4_e = {
     slot = 9
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1668,10 +1750,7 @@ vn_eng_missions_slot_4_d = {
         required_missions = { vn_eng_trade_in_low_countries }
         trigger = {
             13 = {    #Lubeck
-                trade_share = {
-                    country = ROOT
-                    share = 35
-                }
+                is_strongest_trade_power = ROOT
             }
         }
         effect = {
@@ -1684,17 +1763,31 @@ vn_eng_missions_slot_4_d = {
                 }
             }	
         }
+	}
+	vn_eng_muscovy_company = {
+        #icon =
+        required_missions = { vn_eng_scandinavian_trade }
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
+        }
     }
-    #TBA: Muscovy Company (trade with Russia)
 }
 
-vn_eng_missions_slot_4_e = {
+vn_eng_missions_slot_4_f = {
     slot = 9
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1737,30 +1830,29 @@ vn_eng_missions_slot_4_e = {
         icon = mission_rb_mediterranean_authority
         required_missions = { vn_eng_mercantilist_policy }
         trigger = {
-            #needs tooltip - 3 of the 7 must be true
             calc_true_if = {
                 1955 = {    #Barcelona
+					is_strongest_trade_power = ROOT
+				}
+				1949 = {    #Montpellier
                     is_strongest_trade_power = ROOT
                 }
                 2671 = {    #Marseille
                     is_strongest_trade_power = ROOT
                 }
 				2560 = { #Genua
-                    is_strongest_trade_power = ROOT
+					is_strongest_trade_power = ROOT
                 }
                 640 = { #Firenze
-                    is_strongest_trade_power = ROOT
-                }
-                2235 = {    #Roma
-                    is_strongest_trade_power = ROOT
+					is_strongest_trade_power = ROOT
                 }
                 564 = { #Naples
-                    is_strongest_trade_power = ROOT
+					is_strongest_trade_power = ROOT
                 }
                 586 = { #Tunis
-                    is_strongest_trade_power = ROOT
+					is_strongest_trade_power = ROOT
                 }
-                amount = 3
+                amount = 4
             }
         }
         effect = {
@@ -1772,53 +1864,18 @@ vn_eng_missions_slot_4_e = {
     }
 }
 
-vn_eng_missions_slot_4_f = {
-    slot = 9
-    generic = no
-    ai = yes
-    potential = {
-        tag = ENG
-        #tag = GBR
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
-
-    vn_eng_act_of_uniformity = {
-        icon = mission_hands_praying
-        required_missions = { vn_eng_a_new_religion }
-        position = 18
-        trigger = {
-            OR = {
-                religion = anglican
-                religion = protestant
-                religion = anabaptist
-                religion = reformed
-            }
-            has_country_modifier = the_act_of_uniformity    #took decision
-        }
-        effect = {
-            if = {
-                limit = { uses_fervor = yes }
-                add_fervor = 50
-            }
-            else = {
-                add_church_power = 50
-            }
-            add_country_modifier = {
-                name = "eng_act_of_uniformity_mission"
-                duration = 7300
-            }
-        }
-    }
-}
-
 vn_eng_missions_slot_5_a = {
     slot = 10
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1831,7 +1888,8 @@ vn_eng_missions_slot_5_a = {
             2268 = {
 				owned_by = ROOT
 				is_core = ROOT
-                development = 25
+				development = 25
+				num_of_times_improved = 5
                 NOT = { num_free_building_slots = 1 }
             }
         }
@@ -1897,8 +1955,13 @@ vn_eng_missions_slot_5_b = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1951,8 +2014,13 @@ vn_eng_missions_slot_5_c = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1988,8 +2056,13 @@ vn_eng_missions_slot_5_d = {
     generic = no
     ai = yes
     potential = {
-        tag = ENG
-        #tag = GBR
+        OR = {
+			tag = ENG
+			AND = {
+				tag = GBR
+				was_tag = ENG
+			}
+		}
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -2029,7 +2102,6 @@ vn_eng_missions_slot_5_d = {
         icon = mission_scandinavian_port_authority
         required_missions = { vn_eng_cinque_ports }
         trigger = {
-            #may need tooltip
             num_of_owned_provinces_with = {
                 has_port = yes
                 OR = {
@@ -2053,7 +2125,6 @@ vn_eng_missions_slot_5_d = {
         trigger = {
             navy_size_percentage = 0.75
             num_of_heavy_ship = 5
-            #tooltip?
             calc_true_if = {
                 num_of_galley = 10
                 num_of_light_ship = 10
@@ -2127,10 +2198,34 @@ vn_eng_missions_slot_5_d = {
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
+			}
+			cyprus_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
             }
         }
+	}
+	vn_eng_land_in_cyprus = {
+        #icon =
+        required_missions = { vn_eng_conquer_malta }
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
+        }
+	}
+	vn_eng_join_crusades = {
+        #icon =
+        required_missions = { vn_eng_land_in_cyprus }
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
+        }
     }
-    #more WIP stuff after this
 }
-
-#Gonna expand this with the "British Missions" from draw.io which are no longer GB exclusive 

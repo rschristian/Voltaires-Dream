@@ -1,0 +1,610 @@
+#Sicilian Vespers
+#Concept contributed by historyperson
+
+namespace = sicilian_vespers
+
+
+#Start of Vespers
+country_event = {
+	id = sicilian_vespers.1
+	title = sicilian_vespers.1.t
+	desc = sicilian_vespers.1.d
+	picture = CIVIL_WAR_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	immediate = {
+		hidden_effect = {
+			export_to_variable = {
+				variable_name = massacre_culture_name
+				value = ruler_culture
+			}
+		}
+		add_stability = -3
+		set_global_flag = had_sicilian_vespers
+	}
+
+	option = {	#Defend our possessions!
+		name = sicilian_vespers.1.a
+        ai_chance = { factor = 100 }
+		sicilia_region = {
+			limit = { owned_by = ROOT }
+			add_core = TNC
+			add_local_autonomy = 75
+			add_unrest = 8
+		}
+		2041 = {
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 3
+				friend = TNC
+			}
+			change_controller = REB
+		}
+    }
+}
+
+#Massacre of the French Population
+country_event = {
+	id = sicilian_vespers.2
+	title = sicilian_vespers.2.t
+	desc = sicilian_vespers.2.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	immediate = {
+		random_owned_province = {
+			limit = {
+				development = 3 #10
+				owned_by = ROOT
+				NOT = { controlled_by = REB }
+				region = sicilia_region
+				is_island = no
+			}
+			save_event_target_as = french_massacre_province
+		}
+	}
+
+	option = {	#Watch with horror
+		name = sicilian_vespers.2.a	
+		ai_chance = { factor = 100 }
+		event_target:french_massacre_province = {
+			add_base_tax = -1
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 3
+				friend = TNC
+			}
+		}
+		add_manpower = -5
+		set_country_flag = french_massacred
+    }
+}
+
+#Outrage Spreads
+country_event = {
+	id = sicilian_vespers.3
+	title = sicilian_vespers.3.t
+	desc = sicilian_vespers.3.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	trigger = {
+		has_country_flag = french_massacred
+	}
+
+	immediate = {
+		random_owned_province = {
+			limit = { 
+				region = sicilia_region 
+				owned_by = ROOT
+				NOT = { controlled_by = REB }
+				is_island = no
+			}
+			save_event_target_as = vespers_outrage_province
+		}
+	}
+
+	option = {	#Worsened situation
+		name = sicilian_vespers.3.a	
+		ai_chance = { factor = 100 }
+		event_target:vespers_outrage_province = {
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 1
+				friend = TNC
+			}
+		}
+    }
+}
+
+#Destruction of the Fleet
+country_event = {
+	id = sicilian_vespers.4
+	title = sicilian_vespers.4.t
+	desc = sicilian_vespers.4.d
+	picture = HARBOUR_eventPicture
+
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	trigger = {
+		sicilia_region = {
+			owned_by = ROOT
+			OR = {
+				heavy_ships_in_province = 1
+				light_ships_in_province = 1
+				galleys_in_province = 1
+				transports_in_province = 1
+			}
+		}
+	}
+
+	immediate = {
+		random_owned_province = {
+			limit = { 
+				region = sicilia_region
+				owned_by = ROOT
+				OR = {
+					heavy_ships_in_province = 1
+					light_ships_in_province = 1
+					galleys_in_province = 1
+					transports_in_province = 1
+				}
+			}
+			save_event_target_as = vespers_navy_province
+		}
+	}
+
+	option = {	#A grave loss
+		name = sicilian_vespers.4.a	
+		ai_chance = { factor = 100 }
+		event_target:vespers_navy_province = {
+			if = {
+				limit = { heavy_ships_in_province = 1 }
+				kill_units = {
+					who = ROOT
+					type = heavy_ship
+					amount = 1
+				}
+			}
+			if = {
+				limit = { light_ships_in_province = 1 }
+				kill_units = {
+					who = ROOT
+					type = light_ship
+					amount = 3
+				}
+			}
+			if = {
+				limit = { galleys_in_province = 1 }
+				kill_units = {
+					who = ROOT
+					type = galley
+					amount = 3
+				}
+			}
+			if = {
+				limit = { transports_in_province = 1 }
+				kill_units = {
+					who = ROOT
+					type = transport
+					amount = 5
+				}
+			}
+		}
+    }
+}
+
+#Opportunity to Negotiate
+country_event = {
+	id = sicilian_vespers.5
+	title = sicilian_vespers.5.t
+	desc = sicilian_vespers.5.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {	#Attempt to negotiate
+		name = sicilian_vespers.5.a	
+		ai_chance = { factor = 25 }
+		add_dip_power = -25
+		custom_tooltip = sicilian_vespers.5.a.tt
+		hidden_effect = {
+			every_owned_province = {
+				limit = { controlled_by = REB }
+				add_local_autonomy = 25
+				add_unrest = -3
+			}
+		}
+	}
+	option = {	#We can defeat them ourselves
+		name = sicilian_vespers.5.b	
+		ai_chance = { factor = 75 }
+		random_owned_province = {
+			limit = {
+				region = sicilia_region
+				owned_by = ROOT
+				NOT = { controlled_by = REB }
+				is_island = no
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 1
+				friend = TNC
+			}
+		}
+		random_owned_province = {
+			limit = {
+				region = sicilia_region
+				owned_by = ROOT
+				NOT = { controlled_by = REB }
+				is_island = no
+				development = 3 #10
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 2
+				friend = TNC
+			}
+		}
+		set_country_flag = vespers_refused_negotiations
+    }
+}
+
+#Support Spreads
+country_event = {
+	id = sicilian_vespers.6
+	title = sicilian_vespers.6.t
+	desc = sicilian_vespers.6.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = vespers_refused_negotiations
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {	#We will crush them!
+		name = sicilian_vespers.6.a	
+		ai_chance = { factor = 100 }
+		random_owned_province = {
+			limit = {
+				region = sicilia_region
+				owned_by = ROOT
+				NOT = { controlled_by = REB }
+				is_island = no
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 1
+				friend = TNC
+			}
+		}
+		random_owned_province = {
+			limit = {
+				region = sicilia_region
+				owned_by = ROOT
+				NOT = { controlled_by = REB }
+				development = 3 #10
+				is_island = no
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 2
+				friend = TNC
+			}
+		}
+	}
+}
+
+### triggered outside of random ###
+
+#Revolt in Sicily
+country_event = {
+	id = sicilian_vespers.7
+	title = sicilian_vespers.7.t
+	desc = sicilian_vespers.7.d
+	picture = POPE_PREACHING_eventPicture
+
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	trigger = {
+		tag = PAP
+		TNC = {
+			exists = yes
+			has_country_modifier = vespers_victorious
+		}
+	}
+
+	option = {	#Recognize Sicily
+		name = sicilian_vespers.7.a	
+		ai_chance = { factor = 20 }
+		TNC = {
+			add_country_modifier = {
+				name = "vespers_papal_recognition"
+				duration = 9125
+			}
+		}
+		hidden_effect = {
+			every_known_country = {
+				limit = {
+					OR = {
+						religion = catholic
+						religion = catholique
+					}
+				}
+				if = {
+					limit = {
+						sicilia_region = {
+							OR = {
+								is_core = PREV
+								is_permanent_claim = PREV
+							}
+						}
+					}
+					sicilia_region = {
+						limit = {
+							OR = {
+								is_core = ROOT
+								is_permanent_claim = ROOT
+							}
+						}
+						remove_core = PREV
+						remove_claim = PREV
+					}
+				}
+			}
+		}
+	}
+	option = {	#Demand Subordination
+		name = sicilian_vespers.7.b	
+		ai_chance = { factor = 80 }
+		ARA = {
+			if = {
+				limit = {
+					exists = yes
+					num_of_cities = 18
+				}
+				set_country_flag = claim_sic_ara
+			}
+		}
+		random_known_country = {
+			limit = { has_country_flag = def_by_vespers }
+			create_union = TNC
+			every_rival_country = {
+				limit = { 
+					OR = {
+						religion = catholic 
+						religion = catholique
+					}
+					NOT = {
+						ARA = { has_country_flag = claim_sic_ara }
+					}
+				}
+				set_country_flag = claim_sic
+			}
+		}
+		TNC = {
+			add_liberty_desire = 100
+			overlord = {
+				reverse_add_opinion = {
+					who = TNC
+					modifier = "vespers_tyrant_rule"
+				}
+			}
+		}
+	}
+}
+
+#Press Sicilian Claims
+country_event = {
+	id = sicilian_vespers.8
+	title = sicilian_vespers.8.t
+	desc = sicilian_vespers.8.d
+	picture = DIPLOMACY_eventPicture
+
+	fire_only_once = yes
+	major = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	trigger = {
+		OR = {
+			has_country_flag = claim_sic_ara
+			has_country_flag = claim_sic
+		}
+		TNC = {
+			exists = yes
+			is_subject = yes
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			TNC = {
+				overlord = {
+					save_event_target_as = vespers_sicily_overlord
+				}
+			}
+			clr_country_flag = claim_sic_ara
+			clr_country_flag = claim_sic
+		}
+	}
+
+	option = {	#Succession War!
+		name = sicilian_vespers.8.a	
+		ai_chance = { factor = 100 }
+		declare_war_with_cb = {
+			who = TNC
+			casus_belli = cb_claim_throne
+		}
+	}
+	option = {	#Pass
+		name = sicilian_vespers.8.b	
+		ai_chance = { factor = 0 }
+		sicilia_region = {
+			limit = {
+				OR = {
+					is_core = ROOT
+					is_permanent_claim = ROOT
+				}
+			}
+			remove_core = ROOT
+			remove_claim = ROOT
+		}
+		add_prestige = -10
+		add_country_modifier = {
+			name = "vespers_refused_sicily"
+			duration = 9125
+		}
+	}
+}
+
+#End of Vespers
+country_event = {
+	id = sicilian_vespers.100
+	title = sicilian_vespers.100.t
+	desc = {
+		trigger = {
+			sicilia_region = {
+				type = all
+				OR = {
+					is_island = yes
+					controlled_by = REB
+				}
+			}
+		}
+		desc = sicilian_vespers.100.da
+	}
+	desc = {
+		trigger = {
+			stability = 1
+			NOT = { has_rebel_faction = nationalist_rebels }
+			NOT = {
+				any_owned_province = {
+					controlled_by = REB
+				}
+			}
+		}
+		desc = sicilian_vespers.100.db
+	}
+	picture = CIVIL_WAR_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {	#Loss of control
+		name = sicilian_vespers.100.a	
+		ai_chance = { factor = 100 }
+		trigger = {
+			sicilia_region = {
+				type = all
+				OR = {
+					is_island = yes
+					controlled_by = REB
+				}
+			}
+		}
+		sicilia_region = {
+			limit = { controlled_by = REB }
+			owner = {
+				remove_core = PREV
+			}
+			cede_province = TNC
+			add_core = TNC
+		}
+		custom_tooltip = sicilian_vespers.100.a.tt
+		hidden_effect = {
+			every_owned_province = {
+				limit = { culture = sicilian }
+				add_core = TNC
+			}
+			TNC = {
+				every_owned_province = {
+					kill_units = {
+						who = REB
+					}
+				}
+			}
+		}
+		TNC = {
+			add_country_modifier = {
+				name = "vespers_victorious"
+				duration = -1
+			}
+		}
+		hidden_effect = {
+			set_country_flag = def_by_vespers
+		}
+		add_prestige = -50
+		add_stability = -1
+		if = {
+			limit = {
+				NOT = { capital = 564 }
+				owns = 564
+			}
+			564 = {
+				move_capital_effect = yes
+			}
+		}
+	}
+	option = {	#Rule over Sicily secured
+		name = sicilian_vespers.100.b	
+		ai_chance = { factor = 100 }
+		trigger = {
+			stability = 1
+			NOT = { has_rebel_faction = nationalist_rebels }
+			NOT = {
+				any_owned_province = {
+					controlled_by = REB
+				}
+			}
+		}
+		add_prestige = 20
+		sicilia_region = {
+			limit = { owned_by = ROOT }
+			add_province_modifier = {
+				name = "vespers_defeated"
+				duration = 18250
+			}
+			add_local_autonomy = -25
+		}
+		add_stability_or_adm_power = yes
+		change_mil = 1
+	}
+}

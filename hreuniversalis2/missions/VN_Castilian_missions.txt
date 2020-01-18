@@ -1,6 +1,5 @@
 #Castilian Missions
 #by Isildur
-#some WIP missions here that should be added in vn2.
 
 vn_cas_missions_slot_1_a = {
     slot = 6
@@ -972,54 +971,32 @@ vn_cas_missions_slot_3_b = {
             }
         }
         effect = {
-            add_prestige = 5
+			add_prestige = 5
+			#addmore
             #should add perm claims to moroccan stuff (vn2)
         }
     }
-    # vn_cas_moroccan_outposts = {  #ADD IN VN2
-    #     #icon =
-    #     required_missions = { vn_cas_triumph_over_islam }
-    #     position = 8
-    #     trigger = {
-
-    #     }
-    #     effect = {
-
-    #     }
-    # }
-    # vn_cas_riches_of_maghreb = {
-    #     #icon =
-    #     required_missions = { vn_cas_moroccan_outposts }
-    #     trigger = {
-
-    #     }
-    #     effect = {
-
-    #     }
-    # }
-    vn_cas_curb_barbary_piracy = {
-        icon = mission_combat_barbary_piracy
-        required_missions = { 
-            #vn_cas_moroccan_outposts
-            vn_cas_triumph_over_islam #change this for VN2.
-        }
-        position = 9
+    vn_cas_moroccan_outposts = {
+        #icon =
+        required_missions = { vn_cas_triumph_over_islam }
+        position = 8
         trigger = {
-            586 = {
-                trade_share = {
-                    country = ROOT
-                    share = 25
-                }
-            }
-            num_ships_privateering = 15
+			#add - WIP
         }
         effect = {
-            add_country_modifier = {
-                name = "cas_curb_barbary_piracy_mission"
-                duration = 9125
-            }
+			#add - WIP
         }
     }
+    vn_cas_riches_of_maghreb = {
+        #icon =
+        required_missions = { vn_cas_moroccan_outposts }
+        trigger = {
+			#add - WIP
+        }
+        effect = {
+			#add - WIP
+        }
+	}
 }
 
 vn_cas_missions_slot_4_a = {
@@ -1249,12 +1226,6 @@ vn_cas_missions_slot_4_c = {
             NOT = { full_idea_group = humanist_ideas }
         }
         effect = {
-            define_advisor = {
-                type = inquisitor
-                name = "Tomás de Torquemada"
-                skill = 2
-                discount = 0.25
-            }
             add_country_modifier = {
                 name = "cas_spanish_inquisition_mission"
                 duration = 9125
@@ -1302,6 +1273,46 @@ vn_cas_missions_slot_4_c = {
             }
         }
     }
+}
+
+vn_cas_missions_slot_4_d = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = CAS
+            AND = {
+                tag = SPA
+                was_tag = CAS
+            }
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+	vn_cas_curb_barbary_piracy = {
+		icon = mission_combat_barbary_piracy
+		position = 9
+		required_missions = { 
+			vn_cas_moroccan_outposts
+		}
+		trigger = {
+			1946 = {
+				trade_share = {
+					country = ROOT
+					share = 25
+				}
+			}
+			num_ships_privateering = 15
+		}
+		effect = {
+			add_country_modifier = {
+				name = "cas_curb_barbary_piracy_mission"
+				duration = 9125
+			}
+		}
+	}
 }
 
 vn_cas_missions_slot_5_a = {
@@ -1472,9 +1483,11 @@ vn_cas_missions_slot_5_b = {
         icon = mission_patronize_art_and_religion
         required_missions = { vn_cas_policy_of_tolerance }
         trigger = {
-            employed_advisor = {
-                NOT = { culture_group = iberian }
-            }
+			NOT = { 
+				employed_advisor = {
+					culture = castillian
+				}
+			}
             num_accepted_cultures = 3
             accepted_culture = andalucian
         }

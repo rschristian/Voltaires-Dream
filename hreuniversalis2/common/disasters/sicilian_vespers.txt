@@ -1,0 +1,118 @@
+sicilian_vespers = {
+	potential = {
+		religion_group = christian
+		NOT = { tag = TNC }
+		OR = {
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		sicilia_region = {
+			type = all
+			owned_by = ROOT
+		}
+		any_owned_province = {
+			NOT = { region = sicilia_region }
+		}
+		NOT = { has_global_flag = had_sicilian_vespers }
+	}
+
+	can_start = {
+		NOT = { ruler_culture = sicilian }
+		sicilia_region = {
+			type = all
+			NOT = { local_autonomy = 30 }
+		}
+		has_any_disaster = no
+	}
+	
+	can_stop = {
+		OR = {
+			sicilia_region = {
+				has_province_modifier = recent_uprising
+			}
+			average_autonomy = 25
+			has_any_disaster = yes
+		}
+	}
+		
+	progress = {
+		modifier = {
+			factor = 1
+			NOT = { stability = 1 }
+		}
+		modifier = {
+			factor = 1
+			NOT = { accepted_culture = sicilian }
+		}
+		modifier = {
+			factor = 2
+			NOT = { 
+				capital_scope = {
+					region = sicilia_region
+				}
+			}
+		}
+		modifier = {
+			factor = 2
+			is_at_war = yes
+		}
+		modifier = {
+			factor = 1
+			war_exhaustion = 4
+		}
+		modifier = {
+			factor = 2
+			war_exhaustion = 8
+		}
+		modifier = {
+			factor = 1
+			NOT = { average_autonomy = 10 }
+		}
+		modifier = {
+			factor = 2
+			average_unrest = 0
+		}
+	}
+	
+	modifier = {
+		global_unrest = 5
+		stability_cost_modifier = 0.5
+	}	
+	
+	can_end = {
+		OR = {
+			AND = {
+				stability = 1
+				NOT = {
+					has_rebel_faction = nationalist_rebels
+					any_owned_province = {
+						controlled_by = REB
+					}
+				}
+			}
+			sicilia_region = {
+				type = all
+				OR = {
+					is_island = yes
+					controlled_by = REB
+				}
+			}
+		}
+	}
+	
+	on_start = sicilian_vespers.1
+	on_end = sicilian_vespers.100
+	
+	on_monthly = {
+		events = {
+			sicilian_vespers.2 #Massacre of the French Population
+		}
+		random_events = {
+			1000 = 0
+			100 = sicilian_vespers.3 #Outrage Spreads
+			100 = sicilian_vespers.4 #Destruction of the Fleet
+			100 = sicilian_vespers.5 #Opportunity to Negotiate
+			100 = sicilian_vespers.6 #Support Spreads
+		}
+	}
+}

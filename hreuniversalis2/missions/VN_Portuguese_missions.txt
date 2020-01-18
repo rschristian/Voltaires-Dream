@@ -1,6 +1,5 @@
 #Portucale/Portugal Missions
 #by Isildur
-#mostly done, still needs icons etc
 
 vn_por_missions_slot_1_a = {
     slot = 6
@@ -43,33 +42,58 @@ vn_por_missions_slot_1_a = {
         trigger = {
             num_of_owned_provinces_with = {
                 value = 5
-                has_port = yes
-                development = 10
-                OR = {
-                    has_building = canal
-                    has_building = dock
-                    has_building = drydock
-                } 
+				has_port = yes
+				OR = {
+					AND = {
+						development = 10
+                		has_dock_building_trigger = yes
+					}
+					AND = {
+						has_building = canal
+						development = 15
+					}
+				}
             }
         }
         effect = {
-            #fix tooltip
-            every_owned_province = {
+            random_owned_province = {
                 limit = { 
                     has_port = yes
-                    development = 10
-                    # OR = {
-                    #     has_building = canal
-                    #     has_building = dock
-                    #     has_building = drydock
-					# }
-					has_dock_building_trigger = yes
+                    OR = {
+						AND = {
+							development = 10
+							has_dock_building_trigger = yes
+						}
+						AND = {
+							has_building = canal
+							development = 15
+						}
+					}
                 }
                 add_province_modifier = {
                     name = "por_prosperous_ports_mission"
                     duration = 9125
                 }
-            }
+			}
+			random_owned_province = {
+                limit = { 
+                    has_port = yes
+                    OR = {
+						AND = {
+							development = 10
+							has_dock_building_trigger = yes
+						}
+						AND = {
+							has_building = canal
+							development = 15
+						}
+					}
+                }
+                add_province_modifier = {
+                    name = "por_prosperous_ports_mission"
+                    duration = 9125
+                }
+			}
         }
     }
     vn_por_advanced_shipbuilding = {
@@ -94,6 +118,43 @@ vn_por_missions_slot_1_a = {
                 name = "por_advanced_shipbuilding_mission"
                 duration = 9125
             }
+        }
+	}
+	vn_por_colonize_azores = {
+        #icon =
+        required_missions = { vn_por_advanced_shipbuilding }
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
+        }
+	}
+	vn_por_toward_canaries = {
+        #icon =
+        required_missions = { 
+			vn_por_colonize_azores
+			vn_por_land_in_madeira 
+		}
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
+        }
+	}
+	vn_por_control_moroccan_trade = {
+		#icon =
+		position = 8
+        required_missions = { 
+			vn_por_toward_canaries
+			vn_por_moroccan_ports 
+		}
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
         }
     }
 }
@@ -128,50 +189,60 @@ vn_por_missions_slot_2_a = {
             }
         }
         effect = {
-            #fix tooltip
-            porto_area = {
-                limit = {
-                    country_or_non_sovereign_subject_holds = ROOT
-                    trade_goods = wine
-                }
-                add_province_modifier = {
-                    name = "por_douro_trade_mission"
-                    duration = 9125
-                }
-            }
-            braganca_area = {
-                limit = {
-                    country_or_non_sovereign_subject_holds = ROOT
-                    trade_goods = wine
-                }
-                add_province_modifier = {
-                    name = "por_douro_trade_mission"
-                    duration = 9125
-                }
-            }
+			custom_tooltip = vn_por_douro_trade.tt
+			hidden_effect = {
+				porto_area = {
+					limit = {
+						owned_by = ROOT
+						trade_goods = wine
+					}
+					add_province_modifier = {
+						name = "por_douro_trade_mission"
+						duration = 9125
+					}
+				}
+				braganca_area = {
+					limit = {
+						owned_by = ROOT
+						trade_goods = wine
+					}
+					add_province_modifier = {
+						name = "por_douro_trade_mission"
+						duration = 9125
+					}
+				}
+			}
         }
     }
     vn_por_exotic_trade_goods = {
         icon = mission_rb_colonise_spice_islands
         required_missions = { vn_por_douro_trade }
         trigger = {
-            peaches = 1
-            olive = 1
+            peaches = 5
+			olive = 3
+			rice = 3
+			hemp = 3
+			spices = 3
             any_owned_province = {
                 OR = {
                     trade_goods = peaches
-                    trade_goods = olive
+					trade_goods = olive
+					trade_goods = rice
+					trade_goods = hemp
+					trade_goods = spices
                 }
                 has_trade_building_trigger = yes
             }
         }
         effect = {
-            #needs tooltip
             random_owned_province = {
                 limit = {
                     OR = {
                         trade_goods = peaches
-                        trade_goods = olive
+						trade_goods = olive
+						trade_goods = rice
+						trade_goods = hemp
+						trade_goods = spices
                     }
                     has_trade_building_trigger = yes
                 }
@@ -180,26 +251,33 @@ vn_por_missions_slot_2_a = {
                     duration = 9125
                 }
             }
-            #this doesn't need tooltip
             random_owned_province = {
                 limit = {
                     NOT = {
                         OR = {
                             trade_goods = peaches
                             trade_goods = olive
-                            trade_goods = bananas
+                            trade_goods = rice
+							trade_goods = hemp
+							trade_goods = spices
                         }
                     }
                 }
                 random_list = {
-                    33 = {
+                    20 = {
                         change_trade_goods = peaches
                     }
-                    33 = {
+                    20 = {
                         change_trade_goods = olive
                     }
-                    33 = {
-                        change_trade_goods = bananas
+                    20 = {
+                        change_trade_goods = rice
+					}
+					20 = {
+                        change_trade_goods = hemp
+					}
+					20 = {
+                        change_trade_goods = spices
                     }
                 }
             }
@@ -214,6 +292,12 @@ vn_por_missions_slot_2_a = {
         position = 4
         trigger = {
             1135 = {
+                is_strongest_trade_power = ROOT
+			}
+			740 = {
+                is_strongest_trade_power = ROOT
+			}
+			2160 = {
                 is_strongest_trade_power = ROOT
             }
             1208 = {
@@ -232,6 +316,17 @@ vn_por_missions_slot_2_a = {
                 name = "por_monopoly_in_iberia_mission"
                 duration = 7300
             }
+        }
+	}
+	vn_por_land_in_madeira = {
+        #icon =
+        required_missions = { vn_por_advanced_shipbuilding }
+        position = 5
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
         }
     }
 }
@@ -308,7 +403,7 @@ vn_por_missions_slot_2_b = {
             }
         }
         effect = {
-            #needs tooltip
+            custom_tooltip = vn_por_deal_with_moors.tt
             if = {
                 limit = {
                     full_idea_group = humanist_ideas
@@ -364,7 +459,21 @@ vn_por_missions_slot_3_a = {
 			}
         }
         effect = {
-            add_army_tradition = 10
+			add_army_tradition = 10
+			porto_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			braganca_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
             coimbra_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -502,8 +611,51 @@ vn_por_missions_slot_3_b = {
                 }
             }
         }
-    }
-    #more WIP missions TBA
+	}
+	vn_por_claim_ceuta = {
+        #icon =
+        required_missions = { vn_por_seize_algarve }
+        provinces_to_highlight = {
+            #add - WIP
+        }
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
+        }
+	}
+	vn_por_moroccan_ports = {
+        #icon =
+        required_missions = { vn_por_claim_ceuta }
+        provinces_to_highlight = {
+            #add - WIP
+        }
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
+        }
+	}
+	vn_por_dominate_maghreb = {
+        #icon =
+        required_missions = { 
+			vn_por_control_moroccan_trade 
+			vn_por_moroccan_ports
+			vn_por_establish_feitorias
+		}
+		position = 9
+        provinces_to_highlight = {
+            #add - WIP
+        }
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
+        }
+	}
 }
 
 vn_por_missions_slot_4_a = {
@@ -648,10 +800,85 @@ vn_por_missions_slot_4_c = {
     }
     has_country_shield = yes
 
+	vn_por_portuguese_cortes = {	#Cortes-Gerais
+        icon = mission_noble_council
+        required_missions = {
+			vn_por_a_new_capital
+			vn_por_kingdom_of_portugal
+		}
+        position = 5
+        trigger = {
+            if = {
+				limit = {
+					has_estate = estate_nobles
+				}
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 60
+				}
+			}
+			else = {
+				has_mil_advisor_2 = yes
+			}
+			if = {
+				limit = {
+					has_estate = estate_church
+				}
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+			}
+			else = {
+				has_adm_advisor_2 = yes
+			}
+			if = {
+				limit = {
+					has_estate = estate_burghers
+				}
+				estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 60
+				}
+			}
+			else = {
+				has_dip_advisor_2 = yes
+			}
+			beiras_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { unrest = 1 }
+			}
+			alentejo_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { unrest = 1 }
+			}
+        }
+        effect = {
+            2264 = {
+				add_base_tax = 1
+			}
+			1126 = {
+				add_base_tax = 1
+			}
+			2265 = {
+				add_base_tax = 1
+			}
+			2243 = {
+				add_base_tax = 1
+			}
+			4446 = {
+				add_base_tax = 1
+			}
+        }
+    }
     vn_por_portuguese_renaissance = {
         icon = mission_arts_and_letters
-        required_missions = { vn_por_kingdom_of_portugal }
-        position = 5
+        required_missions = { }
+        position = 6
         trigger = {
             has_institution = renaissance
             current_age = age_of_discovery
@@ -711,6 +938,32 @@ vn_por_missions_slot_4_d = {
                 name = "por_castilian_diplomacy_mission"
                 duration = 9125
             }
+        }
+    }
+}
+
+vn_por_missions_slot_4_e = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+            tag = PCA
+            tag = POR
+        }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_por_establish_feitorias = {
+        #icon =
+        required_missions = { vn_por_moroccan_ports }
+        position = 8
+        trigger = {
+            #add - WIP
+        }
+        effect = {
+            #add - WIP
         }
     }
 }

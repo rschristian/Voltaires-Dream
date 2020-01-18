@@ -1,0 +1,223 @@
+fragmentation_of_poland = {
+	potential = {
+		OR = {
+			AND = {
+				tag = POL
+				NOT = { has_global_flag = had_fragmentation_of_poland }
+			}
+			AND = {
+				tag = KRA
+				has_global_flag = had_fragmentation_of_poland
+			}
+		}
+		OR = {
+            current_age = age_of_empire
+            current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		is_emperor_of_china = no
+		is_emperor = no
+		normal_or_historical_nations = yes
+		government = monarchy
+	}
+
+	can_start = {
+		has_any_disaster = no
+		current_age = age_of_holy_wars
+		num_of_cities = 50
+		calc_true_if = {
+			SDZ = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+				}
+			}
+			WKP = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+				}
+			}
+			KSZ = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+				}
+			}
+			KRA = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+				}
+			}
+			SIR = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+				}
+			}
+			MAZ = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+				}
+			}
+			SIL = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+				}
+			}
+			amount = 4
+		}
+	}
+	
+	can_stop = {
+		OR = {
+			has_any_disaster = yes
+			NOT = { government = monarchy }
+			NOT = { tag = POL }
+			current_age = age_of_dynasticism
+		}
+	}
+		
+	progress = {
+		modifier = {
+			factor = 0.5
+			dynasty = "Piast"
+		}
+		modifier = {
+			factor = 1
+			has_heir = yes
+		}
+		modifier = {
+			factor = 1
+			NOT = { stability = 1 }
+		}
+		modifier = {
+			factor = 1
+			NOT = { stability = 0 }
+		}
+		modifier = {
+			factor = 0.5
+			average_unrest = 1
+		}
+		modifier = {
+			factor = 1
+			NOT = { legitimacy_equivalent = 75 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { legitimacy_equivalent = 50 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { legitimacy_equivalent = 25 }
+		}
+		modifier = {
+			factor = 1
+			NOT = {
+				any_owned_province = {
+					OR = {
+						region = hinterpommern_region
+						region = westpreussen_region
+					}
+				}
+			}
+		}
+	}
+	
+	modifier = {
+		legitimacy = -1
+		diplomatic_reputation = -2
+	}	
+	
+	can_end = {
+		tag = POL
+		custom_trigger_tooltip = {
+			tooltip = had_disaster_for_ten_years
+			had_country_flag = {
+				flag = poland_fragmentation_active
+				days = 3650
+			}
+		}
+		stability = 1
+		calc_true_if = {
+			OR = {
+				MAZ = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = MAZ
+					}
+				}
+			}
+			OR = {
+				SIL = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = SIL
+					}
+				}
+			}
+			OR = {
+				WKP = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = WKP
+					}
+				}
+			}
+			OR = {
+				SDZ = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = SDZ
+					}
+				}
+			}
+			amount = 3
+		}
+	}
+	
+	on_start = fragmentation_of_poland.1 #Last Will and Testament of [Root.Monarch.GetName]
+	on_end = fragmentation_of_poland.100	#End of the Fragmentation Period
+	
+	on_monthly = {
+		events = {
+		}
+		random_events = {
+			1000 = 0
+			#All triggered outside of random
+			#100 = fragmentation_of_poland.2 #triggered
+			#100 = fragmentation_of_poland.3 #Sale of Lubusz
+			#100 = fragmentation_of_poland.4 #Pomeranian Ties Broken
+			#100 = fragmentation_of_poland.5 #Acts of Cienia
+			#100 = fragmentation_of_poland.6 #Magdeburg Laws
+			#100 = fragmentation_of_poland.7 #Support from the Church
+			#100 = fragmentation_of_poland.8 #Depopulation Crisis
+			#100 = fragmentation_of_poland.9 #Halychian Raid
+			#100 = fragmentation_of_poland.10 #Devastation from Mongol Raids (tba)
+		}
+	}
+}

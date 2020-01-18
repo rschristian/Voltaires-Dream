@@ -1249,4 +1249,58 @@ country_decisions = {
 		}
 		ai_importance = 400
 	}
+	curtail_estate_maratha = {
+		major = yes
+		potential = {
+			has_country_flag = estate_maratha_triggered
+		}
+		allow = {
+			stability = 1
+			NOT = { num_of_rebel_armies = 1 }
+			NOT = { num_of_rebel_controlled_provinces = 1 }			
+			NOT = {
+				estate_influence = {
+					estate = estate_maratha
+					influence = 60
+				}				
+			}
+		}
+		effect = {
+			add_stability = -3
+			add_prestige = -25
+			clr_country_flag = estate_maratha_triggered
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	reform_elective_monarchy = {
+		major = yes
+		potential = {
+			has_reform = elective_monarchy
+			NOT = { tag = POL }
+			NOT = { tag = PLC }
+			is_lesser_in_union = no
+		}
+		allow = {
+			OR = {
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
+				current_age = age_of_ideology
+			}
+			stability = 1
+			is_at_war = no
+		}
+		effect = {
+			change_government = monarchy
+			add_government_reform = feudalism_reform
+			set_legacy_government = administrative_monarchy
+			if = { limit = { has_foreign_heir = yes } remove_heir = yes }
+			add_absolutism = 10
+			add_stability = -1
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
 }

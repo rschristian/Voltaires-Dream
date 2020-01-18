@@ -2627,18 +2627,47 @@ country_event = {
 	trigger = {
         religion = zoroastrian
         is_month = 9
-        has_estate = estate_church
+        OR = {
+            has_estate = estate_church
+            has_estate = estate_brahmins
+        }
     }
     mean_time_to_happen = { days = 1 }
 
 	option = {
         name = "vn_religious_events.105.a"
         add_years_of_income = -0.2
-        add_estate_church_loyalty_effect = yes
+        if = {
+            limit = { has_estate = estate_church }
+            add_estate_loyalty = {
+                estate = estate_church
+                loyalty = 10
+            }
+        }
+        if = {
+            limit = { has_estate = estate_brahmins }
+            add_estate_loyalty = {
+                estate = estate_brahmins
+                loyalty = 10
+            }
+        }
     }
     option = {
         name = "vn_religious_events.105.b"
-        reduce_estate_church_loyalty_effect = yes
+        if = {
+            limit = { has_estate = estate_church }
+            add_estate_loyalty = {
+                estate = estate_church
+                loyalty = -10
+            }
+        }
+        if = {
+            limit = { has_estate = estate_brahmins }
+            add_estate_loyalty = {
+                estate = estate_brahmins
+                loyalty = -10
+            }
+        }
     }
 }
 

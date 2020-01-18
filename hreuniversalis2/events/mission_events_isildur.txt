@@ -40,7 +40,7 @@ namespace = vn_missions
 # 			age = 20
 # 		}
 # 		inherit = FLA
-# 		#add claims
+# 		#claims
 # 		artois_area = {
 # 			limit = {
 # 				NOT = { owned_by = ROOT }
@@ -102,7 +102,7 @@ country_event = {
 	option = {	#Move it!
 		name = vn_missions.52.a
 		ai_chance = { factor = 75 }
-		set_capital = 989
+		989 = { move_capital_effect = yes }
 	}
 	option = {	#No thanks
 		name = vn_missions.52.b
@@ -133,7 +133,7 @@ country_event = {
 		}
 		add_country_modifier = {
 			name = "bur_third_kingdom_of_burgundy_mission"
-			duration = 7300
+			duration = 36500
 		}
 	}
 }
@@ -335,7 +335,7 @@ country_event = {
 					NOT = { is_capital = yes }
 				}
 			}
-			set_capital = 2268
+			2268 = { move_capital_effect = yes }
 		}
 	}
 	option = {	#Don't move capital
@@ -664,7 +664,7 @@ country_event = {
         trigger = {
             NOT = { capital = 2995 }
         }
-        set_capital = 2995
+        2995 = { move_capital_effect = yes }
     }
     option = {
 		name = vn_missions.68.b
@@ -678,7 +678,7 @@ country_event = {
         trigger = {
             NOT = { capital = 34 }
         }
-        set_capital = 34
+        34 = { move_capital_effect = yes }
     }
     option = {
 		name = vn_missions.68.c
@@ -692,7 +692,7 @@ country_event = {
         trigger = {
             NOT = { capital = 869 }
         }
-        set_capital = 869
+        869 = { move_capital_effect = yes }
 	}
     option = {
 		name = vn_missions.68.e
@@ -814,14 +814,14 @@ country_event = {
 			}
 			add_permanent_claim = ROOT
 		}
-		westhungary_region = {
+		transdanubia_region = {
 			limit = {
 				NOT = { is_core = ROOT }
 				NOT = { is_permanent_claim = ROOT }
 			}
 			add_permanent_claim = ROOT
 		}
-		easthungary_region = {
+		alfold_region = {
 			limit = {
 				NOT = { is_core = ROOT }
 				NOT = { is_permanent_claim = ROOT }
@@ -1033,7 +1033,215 @@ country_event = {
 		}
     }
 }
-#74-76 free 
+
+#Varangian Guard
+country_event = {
+	id = vn_missions.74
+	title = vn_missions.74.t
+	desc = vn_missions.74.d
+	picture = MILITARY_CAMP_eventPicture
+
+    is_triggered_only = yes
+
+	option = {
+		name = vn_missions.74.a
+        ai_chance = { 
+			factor = 100 
+			modifier = {
+				factor = 0
+				NOT = {
+					NOT = {
+						army_size_percentage = 0.9
+					}
+					treasury = 100
+					NOT = { num_of_loans = 1 }
+				}
+			}
+		}
+		capital_scope = {
+			add_unit_construction = {
+				type = infantry
+				cost = 0
+				speed = 0
+				amount = 6
+			}
+		}
+		add_treasury = -75
+		add_country_modifier = {
+			name = "nor_varangian_guard"
+			duration = 9125
+		}
+		FROM = {
+			add_treasury = 75
+		}
+	}
+	option = {
+		name = vn_missions.74.b
+		ai_chance = { 
+			factor = 0 
+			modifier = {
+				factor = 100
+				NOT = {
+					NOT = {
+						army_size_percentage = 0.9
+					}
+					treasury = 100
+					NOT = { num_of_loans = 1 }
+				}
+			}
+		}
+		add_prestige = -10
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = nor_refused_varangians
+			}
+		}
+	}
+}
+
+#Raid on London (75)
+country_event = {
+	id = vn_missions.75
+	title = vn_missions.75.t
+	desc = vn_missions.75.d
+	picture = SIEGE_eventPicture
+
+    is_triggered_only = yes
+
+	option = {	#strong
+		name = vn_missions.75.a
+        ai_chance = { 
+			factor = 75
+		}
+		add_prestige = 20
+		add_years_of_income = 1
+		2268 = {
+			add_devastation = 75
+			add_province_modifier = {
+				name = "dan_nor_london_raid_strong"
+				duration = 18250
+			}
+			if = {
+				limit = { religion = catholic }
+				every_known_country = {
+					limit = { religion = catholic }
+					add_opinion = {
+						who = ROOT
+						modifier = dan_nor_london_raid_strong_opinion
+					}
+				}
+			}
+		}
+		add_country_modifier = {
+			name = "dan_nor_london_raid_strong_country"
+			duration = 3650
+		}
+	}
+	option = {	#medium
+		name = vn_missions.75.b
+		ai_chance = { 
+			factor = 50
+		}
+		add_prestige = 15
+		add_years_of_income = 0.5
+		2268 = {
+			add_devastation = 50
+			add_province_modifier = {
+				name = "dan_nor_london_raid_medium"
+				duration = 18250
+			}
+			if = {
+				limit = { religion = catholic }
+				every_known_country = {
+					limit = { religion = catholic }
+					add_opinion = {
+						who = ROOT
+						modifier = dan_nor_london_raid_medium_opinion
+					}
+				}
+			}
+		}
+	}
+	option = {	#weak
+		name = vn_missions.75.c
+		ai_chance = { 
+			factor = 25
+		}
+		add_prestige = 10
+		add_years_of_income = 0.25
+		2268 = {
+			add_devastation = 25
+			add_province_modifier = {
+				name = "dan_nor_london_raid_weak"
+				duration = 18250
+			}
+			if = {
+				limit = { religion = catholic }
+				every_known_country = {
+					limit = { religion = catholic }
+					add_opinion = {
+						who = ROOT
+						modifier = dan_nor_london_raid_weak_opinion
+					}
+				}
+			}
+		}
+		add_country_modifier = {
+			name = "dan_nor_london_raid_weak_country"
+			duration = 3650
+		}
+	}
+}
+
+# Fate of the Holy Roman Empire (76)
+country_event = {
+	id = vn_missions.76
+	title = vn_missions.76.t
+	desc = vn_missions.76.d
+	# title = {
+	# 	trigger = { is_emperor = yes }
+	# 	title = vn_missions.76.t1
+	# }
+	# title = {
+	# 	trigger = { NOT = { hre_size = 1 } }
+	# 	title = vn_missions.76.t2
+	# }
+	# desc = {
+	# 	trigger = { is_emperor = yes }
+	# 	desc = vn_missions.76.da
+	# }
+	# desc = {
+	# 	trigger = { NOT = { hre_size = 1 } }
+	# 	desc = vn_missions.76.db
+	# }
+	picture = HRE_eventPicture
+
+    is_triggered_only = yes
+
+	option = {
+		name = vn_missions.76.a
+		ai_chance = { factor = 100 }
+		trigger = { is_emperor = yes }
+		add_imperial_influence = 10
+		add_prestige = 15
+		every_elector = {
+			add_opinion = {
+				who = ROOT
+				modifier = fra_fate_of_hre_opinion
+			}
+		}
+	}
+	option = {
+		name = vn_missions.76.b
+		ai_chance = { factor = 100 }
+		trigger = { NOT = { hre_size = 1 } }
+		add_country_modifier = {
+			name = "fra_fate_of_hre_fall"
+			duration = 9125
+		}
+    }
+}
 
 # Manifestis Probatum (77)
 country_event = {

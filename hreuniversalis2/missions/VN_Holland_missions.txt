@@ -80,7 +80,11 @@ vn_hol_missions_slot_1_a = {
         icon = mission_build_up_to_force_limit
         required_missions = { vn_hol_autonomy_from_utrecht }
         provinces_to_highlight = {
-            province_id = 2306
+			province_id = 2306
+			NOT = {
+				owned_by = ROOT
+				controlled_by = ROOT
+			}
         }
         trigger = {
             2306 = {
@@ -221,7 +225,20 @@ vn_hol_missions_slot_1_b = {
     }
     vn_hol_the_act_of_abjuration = {
         icon = mission_build_up_to_force_limit
-        required_missions = { vn_hol_the_republic }
+		required_missions = { vn_hol_the_republic }
+		provinces_to_highlight = {
+			OR = {
+				area = westfrisia_area
+				area = overijssel_area
+				region = netherlands_region
+				region = wallonian_region
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			unrest = 1
+			nationalism = 1
+		}
         trigger = {
 			has_reform = dutch_republic
 			westfrisia_area = {
@@ -463,6 +480,7 @@ vn_hol_missions_slot_2_b = {
 			vn_hol_incorporate_walloon_elite 
 			vn_hol_hertog_van_luxemburg 
 		}
+		position = 7
         provinces_to_highlight = {
 			OR = {
                 region = wallonian_region
@@ -619,7 +637,7 @@ vn_hol_missions_slot_2_b = {
         }
         effect = {
 			add_prestige = 10
-			add_influence = 10
+			add_imperial_influence = 10
         }
     }
     vn_hol_statists = {
@@ -1042,7 +1060,7 @@ vn_hol_missions_slot_3_b = {
             }
         }
         effect = {
-			add_influence = 10
+			add_imperial_influence = 10
 			add_army_tradition = 10
         }
     }
@@ -1212,7 +1230,20 @@ vn_hol_missions_slot_4_a = {
 			}
         }
     }
-    vn_hol_port_of_antwerp = {
+}
+
+vn_hol_missions_slot_4_b = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = NED
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+	vn_hol_port_of_antwerp = {
+		position = 6
         icon = mission_build_up_to_force_limit
         required_missions = { vn_hol_brabantian_throne }
         provinces_to_highlight = {
@@ -1239,24 +1270,11 @@ vn_hol_missions_slot_4_a = {
 	     	}
         }
     }
-}
-
-vn_hol_missions_slot_4_b = {
-    slot = 9
-    generic = no
-    ai = yes
-    potential = {
-        tag = NED
-		NOT = { map_setup = map_setup_random }
-	}
-    has_country_shield = yes
-
     vn_hol_merchant_throne = {
         icon = mission_build_up_to_force_limit
         required_missions = { vn_hol_port_of_antwerp }
         trigger = {
 			2729 = { #Antwerp
-				has_trader = ROOT
 				is_strongest_trade_power = ROOT
 			}      
 		}
@@ -1426,7 +1444,7 @@ vn_hol_missions_slot_4_b = {
 		}
         effect = {
 			add_country_modifier = {
-               	name = "vn_hol_rule_the_hansa_mission" 
+               	name = "hol_rule_the_hansa_mission" 
               	duration = -1 
             }
         }
@@ -1440,7 +1458,6 @@ vn_hol_missions_slot_4_b = {
         trigger = {
 			2729 = {
 				highest_value_trade_node = yes
-				has_trader = ROOT
 				is_strongest_trade_power = ROOT
 			}
         }
@@ -1551,7 +1568,6 @@ vn_hol_missions_slot_5_a = {
 			NOT = {
 				has_fort_trigger = yes
 			}
-			
         }
         trigger = {
             num_of_owned_provinces_with = {
@@ -1580,7 +1596,7 @@ vn_hol_missions_slot_5_a = {
 			}
         }
         effect = {
-            change_innovativeness = 25
+            change_innovativeness = 10
             add_country_modifier = {
                 name = "hol_university_of_leiden_mission_country" 
                 duration = -1
@@ -1614,7 +1630,7 @@ vn_hol_missions_slot_5_a = {
         trigger = {
 			is_elector = yes
 			is_part_of_hre = yes 			
-			calc_if_true = {
+			calc_true_if = {
 				all_province = {
 					culture = dutch
 					is_part_of_hre = yes 
@@ -1729,11 +1745,13 @@ vn_hol_missions_slot_5_b = {
            	    duration = 9125
             }	
 			2268 = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
 			}
         }
     }

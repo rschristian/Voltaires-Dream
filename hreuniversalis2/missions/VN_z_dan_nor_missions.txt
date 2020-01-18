@@ -1,3 +1,6 @@
+#shared missions for Denmark/Norway
+#By Isildur
+
 vn_dan_nor_missions_slot_1_a = {
     slot = 6
     generic = no
@@ -12,28 +15,163 @@ vn_dan_nor_missions_slot_1_a = {
 	has_country_shield = yes
 	
     vn_dan_nor_fortify_danelaw = {
-        #icon = 
-        position = 11
-        required_missions = { vn_dan_nor_reconquer_danelaw }
+        icon = mission_european_castle
+        position = 10
+		required_missions = { vn_dan_nor_reconquer_danelaw }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            num_of_owned_provinces_with = {
+				value = 10
+				OR = {
+					area = west_riding_area
+					area = east_riding_area
+					area = lincoln_area
+					area = east_anglia_area
+					area = middlesex_area
+					province_id = 2272
+					province_id = 2566
+					province_id = 1125
+					province_id = 2247
+					province_id = 1132
+					province_id = 2261
+					province_id = 4695
+					province_id = 1139
+				}
+				has_fort_trigger = yes
+			}
         }
         effect = {
-            
+            add_country_modifier = {
+				name = "dan_nor_fortify_danelaw_mission"
+				duration = 9125
+			}
         }
     }
     vn_dan_nor_reestablish_jorvik = {
-        #icon = 
-        position = 12
+        icon = mission_hanseatic_city
+        position = 11
         required_missions = { 
 			vn_dan_nor_fortify_danelaw 
 			vn_dan_nor_assimilate_danelaw 
 		}
+		provinces_to_highlight = {
+			province_id = 1799
+		}
         trigger = {
-            
+            1799 = {
+				owned_by = ROOT
+				is_core = ROOT
+				num_of_times_improved = 5
+				development = 20
+				calc_true_if = {
+					has_trade_building_trigger = yes
+					has_manpower_building_trigger = yes
+					has_production_building_trigger = yes
+					has_shipyard_building_trigger = yes
+					has_dock_building_trigger = yes
+					amount = 3
+				}
+			}
         }
         effect = {
-            
+            1799 = {
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_tax = 1
+					add_base_production = 1
+				}
+				add_province_modifier = {
+					name = "nor_reestablish_jorvik_mission"
+					duration = 9125
+				}
+			}
+        }
+	}
+	vn_dan_nor_the_trade_must_flow = {
+        icon = mission_dominate_home_trade_node
+        position = 12
+        required_missions = { 
+			vn_dan_nor_reestablish_jorvik 
+			vn_dan_nor_advance_to_wessex 
+		}
+		provinces_to_highlight = {
+			#add highlight
+		}
+        trigger = {
+            if = {
+				limit = {
+					has_dlc = "Dharma"
+				}
+				OR = {
+					1799 = {
+						province_has_center_of_trade_of_level = 3
+					}
+					num_of_owned_provinces_with = {
+						value = 5
+						OR = {
+							region = northumbria_region
+							region = midlands_region
+							region = southwest_england_region
+							region = southeast_england_region
+						}
+						province_has_center_of_trade_of_level = 2
+					}	
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 10
+					OR = {
+						region = northumbria_region
+						region = midlands_region
+						region = southwest_england_region
+						region = southeast_england_region
+					}
+					OR = {
+						has_building = marketplace
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}	
+			}
+        }
+        effect = {
+			add_years_of_income = 0.5
+			add_mercantilism = 5
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+				}
+				random_owned_province = {
+					limit = {
+						province_has_center_of_trade_of_level = 1
+						NOT = {
+							province_has_center_of_trade_of_level = 3
+						}
+					}
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				random_owned_province = {
+					limit = {
+						OR = {
+							has_building = marketplace
+							has_building = trade_depot
+							has_building = stock_exchange
+						}
+					}
+					add_base_production = 2
+				}
+			}
+			
         }
 	}
 }
@@ -52,14 +190,61 @@ vn_dan_nor_missions_slot_1_b = {
 	has_country_shield = yes
 	
     vn_dan_nor_revive_danegeld = {	#Revive Geld Tax
-        #icon = 
-        position = 15
-        required_missions = { vn_dan_nor_divide_spoils }
+        icon = mission_african_gold
+        position = 13
+        required_missions = { vn_dan_nor_vanquish_england }
         trigger = {
-            
+			has_adm_advisor_3 = yes
+            employed_advisor = {
+				type = master_of_mint
+			}
+			west_midlands_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				calc_true_if = {
+					has_building = courthouse
+					amount = 1
+				}
+			}
+			devon_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				calc_true_if = {
+					has_building = courthouse
+					amount = 1
+				}
+			}
+			somerset_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				calc_true_if = {
+					has_building = courthouse
+					amount = 1
+				}
+			}
+			wessex_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				calc_true_if = {
+					has_building = courthouse
+					amount = 1
+				}
+			}
+			sussex_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				calc_true_if = {
+					has_building = courthouse
+					amount = 1
+				}
+			}
         }
         effect = {
-            
+			add_years_of_income = 1
+			add_country_modifier = {
+				name = "dan_nor_revive_danegeld_mission"
+				duration = 18250
+			}
         }
 	}
 }
@@ -78,14 +263,28 @@ vn_dan_nor_missions_slot_2_a = {
 	has_country_shield = yes
 
     vn_dan_nor_conquer_frisia = {	#The Frisian Coast
-        #icon = 
-        position = 9
-        required_missions = { vn_dan_nor_prepare_invasion_fleet }
+        icon = mission_invade_island
+        position = 8
+		required_missions = { vn_dan_nor_prepare_invasion_fleet }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            westfrisia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			eastfrisia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+			add_army_tradition = 5
+			create_general = {
+				culture = frisian
+				tradition = 75
+			}
         }
 	}
 }
@@ -104,25 +303,142 @@ vn_dan_nor_missions_slot_2_b = {
 	has_country_shield = yes
 
     vn_dan_nor_reconquer_danelaw = {
-        #icon = 
-        position = 10
-        required_missions = { vn_dan_nor_invade_england }
+        icon = mission_rb_into_england
+        position = 9
+		required_missions = { vn_dan_nor_invade_england }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            west_riding_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			east_riding_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			lincoln_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			norwich_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			middlesex_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2272 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2566 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1125 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2247 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1132 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2261 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			4695 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1139 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            cheshire_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			west_midlands_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_nor_assimilate_danelaw = {
-        #icon = 
-        position = 11
-        required_missions = { vn_dan_nor_reconquer_danelaw }
+        icon = mission_village 
+        position = 10
+		required_missions = { vn_dan_nor_reconquer_danelaw }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            num_of_owned_provinces_with = {
+				value = 20
+				OR = {
+					area = west_riding_area
+					area = east_riding_area
+					area = lincoln_area
+					area = east_anglia_area
+					area = middlesex_area
+					province_id = 2272
+					province_id = 2566
+					province_id = 1125
+					province_id = 2247
+					province_id = 1132
+					province_id = 2261
+					province_id = 4695
+					province_id = 1139
+				}
+				OR = {
+					culture = northumbrian
+					culture = danish
+					culture = jutlandic
+					culture = scanian
+				}
+			}
         }
         effect = {
-            
+            random_owned_province = {
+				limit = {
+					OR = {
+						area = west_riding_area
+						area = east_riding_area
+						area = lincoln_area
+						area = east_anglia_area
+						area = middlesex_area
+						province_id = 2272
+						province_id = 2566
+						province_id = 1125
+						province_id = 2247
+						province_id = 1132
+						province_id = 2261
+						province_id = 4695
+						province_id = 1139
+					}
+					owned_by = ROOT
+					NOT = {
+						OR = {
+							culture = northumbrian
+							culture = danish
+							culture = jutlandic
+							culture = scanian
+						}
+					}
+				}
+				change_culture = ROOT
+			}
+			add_country_modifier = {
+				name = "dan_nor_assimilate_danelaw_mission"
+				duration = 7300
+			}
         }
 	}
 }
@@ -140,20 +456,41 @@ vn_dan_nor_missions_slot_2_c = {
     }
 	has_country_shield = yes
 
-    vn_dan_nor_the_trade_must_flow = {
-        #icon = 
-        position = 13
-        required_missions = { 
-			vn_dan_nor_reestablish_jorvik 
-			vn_dan_nor_advance_to_wessex 
+    vn_dan_nor_vanquish_england = {
+        icon = mission_rb_scottish_conquer_london
+        position = 12
+		required_missions = { vn_dan_nor_advance_to_wessex }
+		provinces_to_highlight = {
+			#add highlight
 		}
         trigger = {
-            
+            northumbria_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			midlands_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			southwest_england_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			southeast_england_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+			wales_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
-	}
+    }
 }
 
 vn_dan_nor_missions_slot_2_d = {
@@ -169,26 +506,51 @@ vn_dan_nor_missions_slot_2_d = {
     }
 	has_country_shield = yes
 
-    vn_dan_nor_divide_spoils = {
-        #icon = 
-        position = 14
-        required_missions = { vn_dan_nor_vanquish_england }
-        trigger = {
-            
-        }
-        effect = {
-            
-        }
-    }
     vn_dan_nor_consolidation_of_england = {
-        #icon = 
-        position = 15
-        required_missions = { vn_dan_nor_divide_spoils }
+        icon = mission_rb_invade_england
+        position = 14
+		required_missions = { vn_dan_nor_vanquish_england }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+			stability = 1
+            northumbria_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 1 }
+                NOT = { local_autonomy = 30 }
+			}
+			midlands_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 1 }
+                NOT = { local_autonomy = 30 }
+			}
+			southeast_england_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 1 }
+                NOT = { local_autonomy = 30 }
+			}
+			southwest_england_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                NOT = { controlled_by = REB }
+                NOT = { unrest = 1 }
+                NOT = { local_autonomy = 30 }
+            }
         }
         effect = {
-            
+			add_stability_or_adm_power = yes
+			#addmore
         }
 	}
 }
@@ -207,36 +569,217 @@ vn_dan_nor_missions_slot_3_a = {
 	has_country_shield = yes
 	
     vn_dan_nor_prepare_invasion_fleet = {
-        #icon = 
-        position = 8
+        icon = mission_corsairs_of_the_north_sea
+        position = 7
         required_missions = {  }
         trigger = {
-            
+			navy_size = 25
+			num_of_admirals = 1
+			navy_tradition = 30
+			navy_size_percentage = 0.9
         }
         effect = {
-            
+            westfrisia_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			eastfrisia_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			east_riding_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			west_riding_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			hebrides_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			caithness_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			morvern_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_nor_invade_england = {
-        #icon = 
-        position = 9
-        required_missions = { vn_dan_nor_prepare_invasion_fleet }
+        icon = mission_rb_into_england
+        position = 8
+		required_missions = { vn_dan_nor_prepare_invasion_fleet }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            OR = {
+				northumbria_region = {
+					controlled_by = ROOT
+					has_port = yes
+				}
+				midlands_region = {
+					controlled_by = ROOT
+					has_port = yes
+				}
+				southeast_england_region = {
+					controlled_by = ROOT
+					has_port = yes
+				}
+				southwest_england_region = {
+					controlled_by = ROOT
+					has_port = yes
+				}
+			}
         }
         effect = {
-            
+			lincoln_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			norwich_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			middlesex_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			2272 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2566 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1125 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2247 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1132 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2261 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4695 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1139 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
         }
     }
     vn_dan_nor_raid_on_london = {
-        #icon = 
-        position = 10
-        required_missions = { vn_dan_nor_invade_england }
+        icon = mission_rb_scottish_conquer_london
+        position = 9
+		required_missions = { vn_dan_nor_invade_england }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            2268 = {
+				NOT = {
+					owned_by = ROOT
+				}
+				controlled_by = ROOT
+				owner = {
+					war_with = ROOT
+					NOT = { navy_size = ROOT }
+				}
+				is_blockaded = yes
+			}
         }
         effect = {
-            
+			country_event = {
+				id = vn_missions.75
+			}
+			2268 = {
+				change_controller = ROOT
+			}
         }
 	}
 }
@@ -255,47 +798,84 @@ vn_dan_nor_missions_slot_3_b = {
 	has_country_shield = yes
 	
     vn_dan_nor_overrun_mercia = {
-        #icon = 
-        position = 11
-        required_missions = { vn_dan_nor_reconquer_danelaw }
+        icon = mission_village
+        position = 10
+		required_missions = { vn_dan_nor_reconquer_danelaw }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            cheshire_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			west_midlands_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            southwest_england_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_nor_advance_to_wessex = {
-        #icon = 
-        position = 12
-        required_missions = { vn_dan_nor_overrun_mercia }
+        icon = mission_soldiers_in_line
+        position = 11
+		required_missions = { vn_dan_nor_overrun_mercia }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            southwest_england_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
-        }
-    }
-    vn_dan_nor_vanquish_england = {
-        #icon = 
-        position = 13
-        required_missions = { vn_dan_nor_advance_to_wessex }
-        trigger = {
-            
-        }
-        effect = {
-            
+            northumbria_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			midlands_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			southeast_england_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_nor_bring_welsh_to_heel = {
-        #icon = 
-        position = 14
-        required_missions = { vn_dan_nor_vanquish_england }
+        icon = mission_rb_conquer_wales
+        position = 13
+		required_missions = { vn_dan_nor_vanquish_england }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            wales_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -314,17 +894,17 @@ vn_dan_nor_missions_slot_3_c = {
 	has_country_shield = yes
 	
     vn_dan_nor_restore_north_sea_empire = {
-        #icon = 
-        position = 16
+        icon = mission_empire
+        position = 15
         required_missions = { 
 			vn_dan_nor_consolidation_of_england 
 			vn_dan_nor_danish_britannia 
 		}
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -343,62 +923,96 @@ vn_dan_nor_missions_slot_4_a = {
 	has_country_shield = yes
 	
     vn_dan_nor_seize_western_isles = {
-        #icon = 
-        position = 9
+        icon = mission_rb_conquer_the_isles 
+        position = 8
         required_missions = { vn_dan_nor_prepare_invasion_fleet }
         trigger = {
-            
+            hebrides_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			4706 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			4707 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            galloway_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			ayrshire_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_nor_onward_to_ireland = {
-        #icon = 
-        position = 11
+        icon = mission_rb_into_ireland 
+        position = 10
         required_missions = { vn_dan_nor_seize_western_isles }
         trigger = {
-            
+            irish_superregion = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
         }
         effect = {
-            
+            irish_superregion = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_nor_defeat_clans = {
-        #icon = 
-        position = 13
+        icon = mission_rb_unite_the_clans
+        position = 12
         required_missions = { vn_dan_nor_onward_to_ireland }
         trigger = {
-            
+            irish_superregion = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_nor_ireland_consolidated = {
-        #icon = 
-        position = 14
+        icon = mission_rb_beyond_the_pale 
+        position = 13
         required_missions = { vn_dan_nor_defeat_clans }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_nor_danish_britannia = {
-        #icon = 
-        position = 15
+        icon = mission_invade_england
+        position = 14
         required_missions = { 
 			vn_dan_nor_bring_welsh_to_heel 
 			vn_dan_nor_ireland_consolidated 
 			vn_dan_nor_scotland_subjugated 
 		}
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -417,39 +1031,77 @@ vn_dan_nor_missions_slot_5_a = {
 	has_country_shield = yes
 	
     vn_dan_nor_conquer_highlands = {
-        #icon = 
-        position = 9
+        icon = mission_rb_conquer_the_highlands
+        position = 8
         required_missions = { vn_dan_nor_prepare_invasion_fleet }
         trigger = {
-            
+            caithness_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			morvern_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            angus_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			fife_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			edinburgh_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_nor_occupy_lowlands = {
-        #icon = 
-        position = 10
+        icon = mission_rb_unite_the_clans
+        position = 9
         required_missions = { 
 			vn_dan_nor_seize_western_isles 
 			vn_dan_nor_conquer_highlands 
 		}
         trigger = {
-            
+            angus_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			fife_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			edinburgh_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_dan_nor_scotland_subjugated = {
-        #icon = 
-        position = 14
+        icon = mission_rb_rein_in_the_highland_clans
+        position = 13
         required_missions = { vn_dan_nor_occupy_lowlands }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
 	}
 }

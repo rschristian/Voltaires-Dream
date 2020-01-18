@@ -1,6 +1,5 @@
 #Milanese Missions
 #By Isildur
-#unfinished
 
 vn_mlo_missions_slot_1_a = {
     slot = 6
@@ -61,7 +60,8 @@ vn_mlo_missions_slot_1_a = {
             }
         }
         effect = {
-            #add
+			add_mil_power = 50
+			add_legitimacy = 10
         }
     }
 }
@@ -81,19 +81,14 @@ vn_mlo_missions_slot_1_b = {
         position = 5
         required_missions = { }
         trigger = {
-            #needs tooltip
             calc_true_if = {
                 all_country = {
-                    capital_scope = {
-						OR = {
-							region = lombardy_region
-							region = piedmont_region
-							region = treviso_region
-							region = romagna_region
-							region = liguria_region
-							region = tuscany_region
+					custom_trigger_tooltip = {
+						tooltip = vn_mlo_support_from_city_states.tt
+						capital_scope = {
+							superregion = italy_superregion
 						}
-                    }
+					}
                     has_opinion = {
                         who = ROOT
                         value = 100
@@ -113,7 +108,6 @@ vn_mlo_missions_slot_1_b = {
         icon = mission_rule_italy
         required_missions = { vn_mlo_support_from_city_states }
         trigger = {
-            #needs tooltip
             NOT = { is_year = 1250 }
             is_emperor = no
             emperor = {
@@ -124,9 +118,12 @@ vn_mlo_missions_slot_1_b = {
 			num_of_cities = 10
             calc_true_if = {
                 all_country = {
-                    capital_scope = {
-                        superregion = italy_superregion
-                    }
+                    custom_trigger_tooltip = {
+						tooltip = vn_mlo_support_from_city_states.tt
+						capital_scope = {
+							superregion = italy_superregion
+						}
+					}
                     alliance_with = ROOT
                 }
                 amount = 4
@@ -404,12 +401,15 @@ vn_mlo_missions_slot_3_a = {
         required_missions = { }
         trigger = {
             army_size_percentage = 1
-            war_exhaustion = 0
-            any_neighbor_country = {
-                any_owned_province = {
-					is_claim = ROOT
+			war_exhaustion = 0
+			custom_trigger_tooltip = {
+				tooltip = vn_mlo_expansion_of_milan.tt
+				any_neighbor_country = {
+					any_owned_province = {
+						is_claim = ROOT
+					}
 				}
-            }
+			}
         }
         effect = {
             monferrato_area = {
@@ -433,60 +433,13 @@ vn_mlo_missions_slot_3_a = {
                 }
                 add_permanent_claim = ROOT
 			}
-			2717 = {
-                if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-            }
-            2291 = {
-                if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-            }
-            1136 = {
-                if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-            }
-            2292 = {
-                if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-            }
-            2269 = {
-                if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
+			milan_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
 			}
-			4800 = {
-                if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-            }
         }
     }
     vn_mlo_beyond_the_po = {
@@ -782,7 +735,7 @@ vn_mlo_missions_slot_3_b = {
 #             #perhaps Lombardy should have this?
 #         }
 #         effect = {
-#             #add
+#             
 #         }
 #     }
 # }
@@ -945,7 +898,7 @@ vn_mlo_missions_slot_4_b = {
                 owned_by = ROOT
                 is_strongest_trade_power = ROOT
             }
-            640 = {    #Pisa
+            640 = {    #Florence
                 owned_by = ROOT
                 is_strongest_trade_power = ROOT
             }
@@ -998,35 +951,14 @@ vn_mlo_missions_slot_5_a = {
         position = 2
         required_missions = { vn_mlo_expansion_of_milan }
         provinces_to_highlight = {
-            OR = {
-                province_id = 2717
-                province_id = 2291
-                province_id = 1136
-                province_id = 2292
-				province_id = 2269
-				province_id = 4800
-            }
+            area = milan_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            2717 = {
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            2291 = {
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            1136 = {
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            2292 = {
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            2269 = {
-                country_or_non_sovereign_subject_holds = ROOT
+            milan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
 			}
-			4800 = {
-                country_or_non_sovereign_subject_holds = ROOT
-            }
         }
         effect = {
             trent_area = {
@@ -1053,7 +985,7 @@ vn_mlo_missions_slot_5_a = {
         }
         effect = {
             trent_area = {
-				type = all
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
 				add_province_modifier = {
 					name = "mlo_conquer_trent_mission"
 					duration = 9125
@@ -1128,7 +1060,8 @@ vn_mlo_missions_slot_5_b = {
             }
         }
         effect = {
-            #add
+			add_adm_power = 50
+			add_prestige = 10
         }
     }
     vn_mlo_fleet_to_match_venice = {
