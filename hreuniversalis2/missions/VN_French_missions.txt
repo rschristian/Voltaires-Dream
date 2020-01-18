@@ -103,7 +103,32 @@ vn_fra_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+            if = {
+				limit = {
+					NOT = {
+						estate_influence = {
+							estate = estate_holy_orders
+							influence = 35
+						}
+						estate_territory = {
+							estate = estate_holy_orders
+							territory = 15
+						}
+					}
+				}
+				add_mil_power = 25
+				add_country_modifier = {
+					name = "fra_deal_with_templars_mission"
+					duration = 9125
+				}
+			}
+			else = {
+				add_dip_power = 25
+				add_country_modifier = {
+					name = "fra_deal_with_templars_mission2"
+					duration = 9125
+				}
+			}
         }
 	}
 }
@@ -2368,7 +2393,7 @@ vn_fra_missions_slot_3_c = {
 	}
 }
 
-vn_fra_missions_slot_3_a = {
+vn_fra_missions_slot_3_d = {
     slot = 8
     generic = no
     ai = yes
@@ -2383,7 +2408,11 @@ vn_fra_missions_slot_3_a = {
         position = 23
 		required_missions = { vn_fra_fate_of_empire }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = french_superregion
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
 		}
         trigger = {
 			tag = FKE
@@ -2395,8 +2424,20 @@ vn_fra_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
-        }
+			add_prestige = 25
+			add_legitimacy = 20
+			add_adm_power = 75
+			add_dip_power = 75
+			add_mil_power = 75
+			change_government_reform_progress = 100
+			french_superregion = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		} 
     }
 }
 
@@ -2493,7 +2534,20 @@ vn_fra_missions_slot_4_a = {
         position = 5
 		required_missions = { vn_fra_construct_louvre }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				area = maine_area
+				area = tours_area
+				area = orleans_area
+			}
+			owned_by = ROOT
+			NOT = {
+				OR = {
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
 		}
         trigger = {
             num_of_owned_provinces_with = {
@@ -2528,7 +2582,26 @@ vn_fra_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+            random_owned_province = {
+				limit = {
+					OR = {
+						area = maine_area
+						area = tours_area
+						area = orleans_area
+					}
+					OR = {
+						has_building = fort_15th
+						has_building = fort_16th
+						has_building = fort_17th
+						has_building = fort_18th
+					}
+				}
+				add_base_manpower = 2
+			}
+			add_country_modifier = {
+				name = "fra_loire_valley_chateaux_mission"
+				duration = 9125
+			}
         }
 	}
 }
@@ -2657,7 +2730,7 @@ vn_fra_missions_slot_4_c = {
 			}
         }
         effect = {
-            #add
+            add_mil_power = 100
         }
 	}
 }
@@ -2791,7 +2864,10 @@ vn_fra_missions_slot_4_d = {
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "fra_beyond_jura_mission"
+				duration = 9125
+			}
         }
 	}
 }
@@ -2833,7 +2909,10 @@ vn_fra_missions_slot_4_e = {
 				limit = { uses_fervor = yes }
 				add_fervor = 25
 			}
-			#addmore?
+			add_country_modifier = {
+				name = "fra_divine_right_of_kings_mission"
+				duration = 18250
+			}
         }
     }
     vn_fra_curb_estates = {
@@ -3257,8 +3336,6 @@ vn_fra_missions_slot_4_f = {
         }
         effect = {
 			add_prestige = 25
-			#add event
-			#HRE collapse
             southeast_england_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -3286,6 +3363,9 @@ vn_fra_missions_slot_4_f = {
 					NOT = { is_claim = ROOT }
                 }
                 add_claim = ROOT
+			}
+			country_event = {
+				id = vn_missions.76
 			}
         }
 	}
@@ -3328,7 +3408,10 @@ vn_fra_missions_slot_4_g = {
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "fra_break_britannia_mission"
+				duration = 7300
+			}
         }
     }
 }
@@ -3353,7 +3436,7 @@ vn_fra_missions_slot_5_a = {
         trigger = {
             548 = {
 				owned_by = ROOT
-				has_building = temple	#hope buildings get changed so churches aren't locked til tech 36
+				has_building = temple
 			}
 			num_of_owned_provinces_with = {
 				value = 5
@@ -3693,7 +3776,8 @@ vn_fra_missions_slot_5_e = {
         position = 10
         required_missions = {  }
         trigger = {
-			has_disaster = french_wars_of_religion
+			#add
+			#disaster french wars of religion
         }
         effect = {
             #add
