@@ -479,8 +479,8 @@ vn_bav_missions_slot_2 = {
                 }
             }
             OR = {
-                temple = 10
-                cathedral = 5
+                temple = 20
+                cathedral = 10
             }
         }
         effect = {
@@ -940,51 +940,30 @@ vn_bav_missions_slot_5 = {
 	}
     has_country_shield = yes
 
-    vn_bav_develop_munich = {
-        position = 1
-        icon = mission_buildings
-        required_missions = { }
-        provinces_to_highlight = {
-            province_id = 913
-        }
+    vn_bav_bavarian_emperor = {
+        position = 2
+        icon = mission_alliances
+        required_missions = { vn_bav_imperial_marriage }
         trigger = {
-			913 = {
-                owned_by = ROOT
-                development = 24
-                OR = {
-                    has_building = temple
-                    has_building = cathedral
+            if = {
+                limit = { hre_size = 1 }
+                is_emperor = yes
+                custom_trigger_tooltip = {
+                    tooltip = vn_bav_bavarian_emperor.tt
+                    calc_true_if = {
+                        amount = 5
+                        all_elector = {
+                            preferred_emperor = ROOT
+                        }
+                    }
                 }
-                OR = {
-                    has_building = workshop
-                    has_building = counting_house
-                }
+            }
+            else = {
+                government_rank = 6
             }
         }
         effect = {
-            add_years_of_income = 1
-        }
-    }
-    vn_bav_reinheitsgebot = {
-        icon = mission_have_manufactories
-        required_missions = { vn_bav_develop_munich }
-        trigger = {
-            trading_bonus = {
-                trade_goods = beer
-                value = yes
-            }
-            num_of_owned_provinces_with = {
-                trade_goods = beer
-                has_building = farm_estate
-                value = 8
-            }
-        }
-        effect = {
-            add_mercantilism = 2
-            add_country_modifier = {
-                name = bav_reinheitsgebot_mission
-                duration = -1
-            }
+            add_prestige = 25
         }
     }
     vn_bav_conquer_hainaut = {
@@ -1019,6 +998,12 @@ vn_bav_missions_slot_5 = {
         }
         trigger = {
             OR = {
+                current_age = age_of_reformation
+                current_age = age_of_absolutism
+                current_age = age_of_revolutions
+                current_age = age_of_ideology
+            }
+            OR = {
 				AND = {
 					alliance_with = KOL
 					reverse_has_opinion = {
@@ -1052,6 +1037,54 @@ vn_bav_missions_slot_5 = {
             }
             else = {
                 add_prestige = 25
+            }
+        }
+    }
+    vn_bav_develop_munich = {
+        position = 7
+        icon = mission_buildings
+        required_missions = { }
+        provinces_to_highlight = {
+            province_id = 913
+        }
+        trigger = {
+			913 = {
+                owned_by = ROOT
+                development = 24
+                OR = {
+                    has_building = temple
+                    has_building = cathedral
+                }
+                OR = {
+                    has_building = workshop
+                    has_building = counting_house
+                }
+            }
+        }
+        effect = {
+            add_years_of_income = 1
+        }
+    }
+    vn_bav_reinheitsgebot = {
+        position = 8
+        icon = mission_have_manufactories
+        required_missions = { vn_bav_develop_munich }
+        trigger = {
+            trading_bonus = {
+                trade_goods = beer
+                value = yes
+            }
+            num_of_owned_provinces_with = {
+                trade_goods = beer
+                has_building = farm_estate
+                value = 8
+            }
+        }
+        effect = {
+            add_mercantilism = 2
+            add_country_modifier = {
+                name = bav_reinheitsgebot_mission
+                duration = -1
             }
         }
     }
