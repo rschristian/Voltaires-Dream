@@ -16,18 +16,33 @@ vn_ase_missions_slot_1_a = {
         position = 2
         required_missions = { vn_ase_elect_new_king }
         trigger = {
-            all_owned_province = {
-                NOT = { controlled_by = REB }
-            }
-            is_in_war = {
-                attacker_leader = NOL
-                defender_leader = ROOT
-                casus_belli = cb_independence_war
-            }
-            war_score_against = {
-                who = NOL
-                value = 75
-            }
+			is_subject = no
+			OR = {
+				AND = {
+					is_in_war = {
+						attacker_leader = NOL
+						defender_leader = ROOT
+						casus_belli = cb_independence_war
+					}
+					war_score_against = {
+						who = NOL
+						value = 75
+					}
+				}
+				AND = {
+					all_owned_province = {
+						NOT = { controlled_by = REB }
+					}
+					NOT = { exists = NOL }
+				}
+				AND = {
+					exists = NOL
+					has_opinion_modifier = {
+						who = NOL
+						value = full_reconciliation
+					}
+				}
+			}
         }
         effect = {
             add_war_exhaustion = -2
@@ -234,8 +249,40 @@ vn_ase_missions_slot_2_a = {
         position = 1
         required_missions = { }
         trigger = {
-            has_ruler = "Hereweald"
-            dynasty = "Godwining"
+			OR = {
+				AND = {
+					has_ruler = "Hereweald"
+					dynasty = "Godwining"
+					custom_trigger_tooltip = {
+						tooltip = vn_ase_elect_new_king.tt
+						NOT = { has_ruler_flag = edward_the_confessor_flag }
+					}
+				}
+				AND = {
+					is_year = 1070
+					OR = {
+						has_opinion_modifier = {
+							who = NRM
+							modifier = full_reconciliation
+						}
+						custom_trigger_tooltip = {
+							tooltip = vn_ase_elect_new_king.tt2
+							has_ruler_flag = edward_the_confessor_flag
+						}
+						custom_trigger_tooltip = {
+							tooltip = vn_ase_elect_new_king.tt3
+							NRM = {
+								has_ruler_flag = eng_repromised_throne_flag
+							}
+						}
+					}
+				}
+				is_in_war = {
+					attacker_leader = NRM
+					defender_leader = ROOT
+					casus_belli = cb_fabricated_claims
+				}
+			}
         }
         effect = {
             add_legitimacy = 10
@@ -477,17 +524,31 @@ vn_ase_missions_slot_3_a = {
         position = 2
         required_missions = { vn_ase_elect_new_king }
         trigger = {
-            is_in_war = {
-                attacker_leader = NRM
-                defender_leader = ROOT
-                casus_belli = cb_fabricated_claims
-                war_score = 25
-            }
-            NOT = {
-                any_owned_province = {
-                    controlled_by = NRM
-                }
-            }
+			is_subject = no
+			OR = {
+				AND = {
+					is_in_war = {
+						attacker_leader = NRM
+						defender_leader = ROOT
+						casus_belli = cb_fabricated_claims
+						war_score = 25
+					}
+					NOT = {
+						any_owned_province = {
+							controlled_by = NRM
+						}
+					}
+				}
+				AND = {
+					is_year = 1070
+					NOT = { war_with = NRM }
+					custom_trigger_tooltip = {
+						tooltip = vn_ase_elect_new_king.tt
+						NOT = { has_ruler_flag = edward_the_confessor_flag }
+					}
+				}
+			}
+            
         }
         effect = {
             add_war_exhaustion = -2
@@ -519,7 +580,6 @@ vn_ase_missions_slot_3_b = {
         effect = {
             add_prestige = 10
             add_legitimacy = 10
-            #no modifier since its purpose is to unlock the rest of the tree once you take the decision
         }
     }
 }
@@ -763,13 +823,14 @@ vn_ase_missions_slot_4_b = {
         required_missions = { vn_ase_drive_out_normans }
         trigger = {
             OR = {
-                NOT = { exists = NRM }
                 is_in_war = {
                     attacker_leader = ROOT
                     defender_leader = NRM
                     war_score = 75
-                }
-            }
+				}
+				NOT = { exists = NRM }
+			}
+			is_subject = no
         }
         effect = {
             normandy_region = {
