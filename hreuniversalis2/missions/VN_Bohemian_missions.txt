@@ -54,209 +54,29 @@ vn_boh_missions_slot_1 = {
             }
         }
     }
-    vn_boh_conquer_lower_silesia = {
-        icon = mission_unite_home_region
-        position = 3
-		required_missions = { vn_boh_conquer_moravia }
-		provinces_to_highlight = {
-			OR = {
-                area = legnica_area
-                area = glogow_area
-                area = silesiawest_area
-            }
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            legnica_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            glogow_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            silesiawest_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-        }
-        effect = {
-            opava_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            opole_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            silesiaeast_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            legnica_area = {
-                add_province_modifier = {
-                    name = boh_conquer_lower_silesia_mission
-                    duration = 7300
-                }
-            }
-            glogow_area = {
-                add_province_modifier = {
-                    name = boh_conquer_lower_silesia_mission
-                    duration = 7300
-                }
-            }
-            silesiawest_area = {
-                add_province_modifier = {
-                    name = boh_conquer_lower_silesia_mission
-                    duration = 7300
-                }
-            }
-        }
-    }
-    vn_boh_conquer_upper_silesia = {
-        icon = mission_unite_home_region
-        position = 4
-		required_missions = { vn_boh_conquer_lower_silesia }
-		provinces_to_highlight = {
-			OR = {
-                area = opava_area
-                area = opole_area
-                area = silesiaeast_area
-            }
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            opava_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            opole_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            silesiaeast_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-        }
-        effect = {
-            if = {
-                limit = {
-                    exists = POL
-                    is_subject = no
-                    government = monarchy
-                    religion_group = christian
-                    POL = {
-                        is_free_or_tributary_trigger = yes
-                        government = monarchy
-                    }
-                }
-                add_casus_belli = {
-                    type = cb_fabricated_claims
-                    months = 300
-                    target = POL
-                }
-            }
-            else = {
-                wielkopolska_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-                malopolska_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-            }
-            opava_area = {
-                add_province_modifier = {
-                    name = boh_conquer_lower_silesia_mission
-                    duration = 7300
-                }
-            }
-            opole_area = {
-                add_province_modifier = {
-                    name = boh_conquer_lower_silesia_mission
-                    duration = 7300
-                }
-            }
-            silesiaeast_area = {
-                add_province_modifier = {
-                    name = boh_conquer_lower_silesia_mission
-                    duration = 7300
-                }
-            }
-        }
-    }
     vn_boh_rivalry_with_austria = {
         icon = mission_humiliate_provence
-        position = 5
+        position = 4
         required_missions = {  }
         trigger = {
-            if = {
-                limit = {
-                    OR = {
-                        exists = HAB
-                        exists = STY
-                        exists = TIR
-                        exists = SLZ
-                        exists = CTH
-                    }
-                }
+            any_rival_country = {
+                culture = austrian
                 OR = {
-                    AND = {
-                        is_rival = HAB
-                        army_strength = {
-                            who = HAB
-                            value = 1.33
-                        }
+                    has_opinion_modifier = {
+                        who = ROOT
+                        modifier = insulted
                     }
-                    AND = {
-                        is_rival = STY
-                        army_strength = {
-                            who = STY
-                            value = 1.33
-                        }
-                    }
-                    AND = {
-                        is_rival = TIR
-                        army_strength = {
-                            who = TIR
-                            value = 1.33
-                        }
-                    }
-                    AND = {
-                        is_rival = SLZ
-                        army_strength = {
-                            who = SLZ
-                            value = 1.33
-                        }
-                    }
-                    AND = {
-                        is_rival = CTH
-                        army_strength = {
-                            who = CTH
-                            value = 1.33
-                        }
+                    has_opinion_modifier = {
+                        who = ROOT
+                        modifier = scornfully_insulted
                     }
                 }
-            }
-            else = {
-                owns_core_province = 2172
+                NOT = {
+                    army_strength = {
+                        who = ROOT
+                        value = 1
+                    }
+                }
             }
         }
         effect = {
@@ -271,7 +91,7 @@ vn_boh_missions_slot_1 = {
     }
     vn_boh_conquer_austria = {
         icon = mission_the_austrian_succession
-        position = 6
+        position = 5
 		required_missions = { vn_boh_rivalry_with_austria }
 		provinces_to_highlight = {
 			region = austria_region
@@ -480,10 +300,158 @@ vn_boh_missions_slot_2 = {
             }
         }
     }
+    vn_boh_conquer_lower_silesia = {
+        icon = mission_unite_home_region
+        position = 3
+		required_missions = { vn_boh_conquer_moravia }
+		provinces_to_highlight = {
+			OR = {
+                area = legnica_area
+                area = glogow_area
+                area = silesiawest_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            legnica_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            glogow_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            silesiawest_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            opava_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            opole_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            silesiaeast_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            legnica_area = {
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+            glogow_area = {
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+            silesiawest_area = {
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+        }
+    }
+    vn_boh_conquer_upper_silesia = {
+        icon = mission_unite_home_region
+        position = 4
+		required_missions = { vn_boh_conquer_lower_silesia }
+		provinces_to_highlight = {
+			OR = {
+                area = opava_area
+                area = opole_area
+                area = silesiaeast_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            opava_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            opole_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            silesiaeast_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    exists = POL
+                    is_subject = no
+                    government = monarchy
+                    religion_group = christian
+                    POL = {
+                        is_free_or_tributary_trigger = yes
+                        government = monarchy
+                    }
+                }
+                add_casus_belli = {
+                    type = cb_fabricated_claims
+                    months = 300
+                    target = POL
+                }
+            }
+            else = {
+                wielkopolska_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                malopolska_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
+            opava_area = {
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+            opole_area = {
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+            silesiaeast_area = {
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+        }
+    }
     vn_boh_conquer_poland = {
         icon = mission_unite_home_region
         position = 5
-		required_missions = { vn_boh_conquer_upper_silesia vn_boh_conquer_moravia }
+		required_missions = { vn_boh_conquer_upper_silesia }
 		provinces_to_highlight = {
             OR = {
                 region = wielkopolska_region
@@ -502,11 +470,36 @@ vn_boh_missions_slot_2 = {
             }
         }
         effect = {
-            add_dip_power = 100
+            mazovia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
             add_country_modifier = {
                 name = boh_conquer_poland_mission
                 duration = 9125
             }
+        }
+    }
+    vn_boh_conquer_mazovia = {
+        icon = mission_unite_home_region
+        position = 6
+		required_missions = { vn_boh_conquer_poland }
+		provinces_to_highlight = {
+            region = mazovia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            mazovia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 15
+            add_dip_power = 100
         }
     }
     vn_boh_law_of_emphyteusis = {
@@ -517,6 +510,10 @@ vn_boh_missions_slot_2 = {
             absolutism = 50
             if = {
                 limit = { has_estate = estate_nobles }
+                estate_loyalty = {
+                    estate = estate_nobles
+                    loyalty = 40
+                }
                 NOT = {
                     estate_influence = {
                         estate = estate_nobles
@@ -631,7 +628,7 @@ vn_boh_missions_slot_3 = {
     }
     vn_boh_conquer_hungary = {
         icon = mission_unite_home_region
-        position = 5
+        position = 4
 		required_missions = { vn_boh_conquer_nitra }
 		provinces_to_highlight = {
 			OR = {
@@ -675,6 +672,7 @@ vn_boh_missions_slot_3 = {
         position = 6
 		required_missions = {  }
         trigger = {
+            has_institution = renaissance
             calc_true_if = {
                 amount = 2
                 adm = 4
@@ -742,7 +740,7 @@ vn_boh_missions_slot_3 = {
             }
         }
         effect = {
-            reduce_innovativeness_big_effect = yes
+            add_innovativeness_big_effect = yes
             781 = {
                 add_province_modifier = {
                     name = boh_university_of_prague_mission
@@ -916,8 +914,8 @@ vn_boh_missions_slot_4 = {
     }
     vn_boh_castles_of_ottokar = {
         icon = mission_european_castle
-        position = 7
-        required_missions = { vn_boh_golden_age }
+        position = 6
+        required_missions = { }
         trigger = {
             num_of_owned_provinces_with = {
                 value = 5
@@ -939,7 +937,7 @@ vn_boh_missions_slot_4 = {
     }
     vn_boh_defense_from_the_mongols = {
         icon = mission_fort
-        position = 8
+        position = 7
         required_missions = { vn_boh_castles_of_ottokar }
         trigger = {
             num_of_generals = 3
@@ -999,11 +997,14 @@ vn_boh_missions_slot_5 = {
                     territory = 25
                 }
             }
+            else = {
+                temple = 10
+            }
         }
         effect = {
             add_country_modifier = {
                 name = boh_archbishoric_of_prague_mission
-                duration = 7300
+                duration = 9125
             }
         }
     }
@@ -1017,7 +1018,7 @@ vn_boh_missions_slot_5 = {
                 laytheology = 100
             }
             custom_trigger_tooltip = {
-                tooltip = boh_protestant_bohemia.tt
+                tooltip = vn_boh_protestant_bohemia.tt
                 OR = {
                     has_country_flag = hussite_wars_ended
                     current_age = age_of_reformation
@@ -1131,7 +1132,7 @@ vn_boh_missions_slot_5 = {
     }
     vn_boh_develop_gold_mines = {
         icon = mission_african_gold
-        position = 7
+        position = 6
 		required_missions = { }
 		provinces_to_highlight = {
 			OR = {
@@ -1179,15 +1180,33 @@ vn_boh_missions_slot_5 = {
     }
     vn_boh_manufactories_and_furnaces = {
         icon = mission_rb_prospect_for_coal
-        position = 8
+        position = 7
         required_missions = { vn_boh_develop_gold_mines }
         provinces_to_highlight = {
             OR = {
                 province_id = 5136
                 province_id = 5137
             }
+            if = {
+                limit = { has_dlc = "Rule Britannia" }
+                OR = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_core = ROOT }
+                    NOT = { has_institution = industrialism }
+                    NOT = { has_building = furnace }
+                }
+            }
+            else = {
+                OR = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_core = ROOT }
+                    NOT = { has_institution = industrialism }
+                    has_manufactory_trigger = no
+                }
+            }
         }
         trigger = {
+            has_institution = industrialism
             if = {
                 limit = { has_dlc = "Rule Britannia" }
                 5136 = {

@@ -1,0 +1,643 @@
+#Commonwealth missions
+#For both POL/LIT
+#By Shyguy13
+
+vn_plc_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+		OR = {
+			tag = LIT
+			tag = PLC
+			tag = POL
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_plc_turkish_threat = {
+        icon = mission_ottoman_diplomacy
+        position = 8
+        required_missions = {  }
+        trigger = {
+            any_neighbor_country = {
+				religion_group = muslim
+				culture = turkish
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_conquer_wallachia = {
+        icon = mission_soldiers_in_line
+        position = 9
+		required_missions = { vn_plc_turkish_threat }
+		provinces_to_highlight = {
+			
+		}
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_conquer_bulgaria = {
+        icon = mission_crusade_for_varna
+        position = 10
+		required_missions = { vn_plc_conquer_wallachia }
+		provinces_to_highlight = {
+			
+		}
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_conquer_thrace = {
+        icon = mission_pf_cross
+        position = 11
+		required_missions = { vn_plc_conquer_bulgaria }
+		provinces_to_highlight = {
+			
+		}
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_agricultural_ecomonics = {
+        icon = mission_colonial
+        position = 12
+        required_missions = {  }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_great_lithuanian_route = {
+        icon = mission_trade_company_region_abroad
+        position = 14
+        required_missions = { vn_plc_export_grain }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_plc_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+		OR = {
+			tag = LIT
+			tag = PLC
+			tag = POL
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_plc_baltic_trade = {
+        icon = mission_heart_of_the_hansa
+        position = 10
+        required_missions = { vn_plc_baltic_navy }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_export_grain = {
+        icon = mission_rb_import_potatoes
+        position = 12
+        required_missions = { }
+        trigger = {
+			trading_part = {
+				trade_goods = grain
+				value = 0.35
+			}
+            trading_bonus = {
+				trade_goods = grain
+				value = yes
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_develop_the_country_side = {
+        icon = mission_rb_scottish_the_darien_scheme
+        position = 13
+        required_missions = { vn_plc_export_grain vn_plc_agricultural_ecomonics }
+        trigger = {
+            num_of_owned_provinces_with = {
+				value = 10
+				development = 20
+			}
+			num_of_owned_provinces_with = {
+				value = 50
+				development = 10
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_general_industrialization = {
+        icon = mission_rb_build_furncaces
+        position = 14
+        required_missions = { vn_plc_develop_the_country_side }
+        trigger = {
+			has_institution = industrialism
+			if = {
+				limit = { has_dlc = "Rule Britannia" }
+				num_of_owned_provinces_with = {
+					value = 5
+					OR = {
+						trade_goods = coal
+						trade_goods = steel
+					}
+					has_building = furnace
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 10
+				has_manufactory_trigger = yes
+			}
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_plc_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = LIT
+			tag = PLC
+			tag = POL
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_plc_baltic_navy = {
+        icon = mission_naval_expansion
+        position = 9
+        required_missions = {  }
+        trigger = {
+            402 = {
+				owned_by = ROOT
+				has_shipyard_building_trigger = yes
+				has_dock_building_trigger = yes
+			}
+        }
+        effect = {
+			define_advisor = {
+				name = "Aleksander Seton"
+				type = naval_reformer
+				skill = 3
+				discount = yes
+			}
+            402 = {
+				add_unit_construction = {
+					type = heavy_ship
+					cost = 0
+					speed = 0.25
+					amount = 5
+				}
+			}
+			add_country_modifier = {
+				name = plc_baltic_navy_mission
+				duration = 9125
+			}
+        }
+    }
+    vn_plc_conquer_gotland = {
+        icon = mission_sea_battles
+        position = 10
+		required_missions = { vn_plc_baltic_navy }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2697
+				province_id = 6130
+				province_id = 6131
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+			2697 = { country_or_non_sovereign_subject_holds = ROOT }
+			6130 = { country_or_non_sovereign_subject_holds = ROOT }
+			6131 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            add_yearly_sailors = 3
+        }
+    }
+    vn_plc_conquer_sweden = {
+        icon = mission_invade_island
+        position = 11
+        required_missions = { vn_plc_conquer_gotland vn_plc_baltic_trade }
+		provinces_to_highlight = {
+			
+		}
+		trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_invite_lipka_tatars = {
+        icon = mission_extent_yasak_to_the_east
+        position = 12
+        required_missions = {  }
+        trigger = {
+            
+        }
+        effect = {
+            create_general = {
+				tradition = 100
+				culture = mishary
+			}
+        }
+    }
+    vn_plc_expand_royal_guards = {
+        icon = mission_conquer_5_states
+        position = 13
+        required_missions = { vn_plc_invite_lipka_tatars }
+        trigger = {
+			all_rival_country = {
+				NOT = { army_size = ROOT }
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_textile_industry = {
+        icon = mission_have_manufactories
+        position = 14
+        required_missions = { vn_plc_develop_the_country_side }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}	
+}
+
+vn_plc_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = LIT
+			tag = PLC
+			tag = POL
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_plc_befriend_the_cossacks = {
+        icon = mission_recruit_the_cossacks
+        position = 9
+        required_missions = {  }
+        trigger = {
+            if = {
+				limit = { has_estate = estate_cossacks }
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 70
+				}
+				estate_influence = {
+					estate = estate_brahmins
+					influence = 60
+				}
+			}
+        }
+        effect = {
+			lower_don_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+            add_country_modifier = {
+				name = plc_befriend_the_cossacks_mission
+				duration = 9125
+			}
+        }
+    }
+	vn_plc_conquer_lower_don = {
+        icon = mission_recruit_the_cossacks
+        position = 11
+        required_missions = { vn_plc_befriend_the_cossacks }
+		provinces_to_highlight = {
+			region = lower_don_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			is_city = yes
+		}
+        trigger = {
+            lower_don_region = {
+                type = all
+                OR = {
+                    is_city = no
+				    country_or_non_sovereign_subject_holds = ROOT
+                }
+			}
+        }
+        effect = {
+            
+        }
+	}
+    vn_plc_free_royal_cities_act = {
+        icon = mission_eastern_european_city
+        position = 12
+        required_missions = {  }
+        trigger = {
+            custom_trigger_tooltip = {
+				tooltip = vn_plc_free_royal_cities_act.tt
+				num_of_owned_provinces_with = {
+					value = 5
+					has_estate = estate_burghers
+					province_has_center_of_trade_of_level = 2
+				}
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_curtail_the_nobility = {
+        icon = mission_noble_council
+        position = 13
+        required_missions = { vn_plc_free_royal_cities_act }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_plc_expand_kwarta = {
+        icon = mission_restore_kiev
+        position = 14
+        required_missions = { vn_plc_curtail_the_nobility }
+        trigger = {
+			NOT = { has_reform = elective_monarchy }
+			absolutism = 50
+			#crown land
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_plc_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        OR = {
+			tag = LIT
+			tag = PLC
+			tag = POL
+		}
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_plc_black_seas_ports = {
+        icon = mission_conquer_riga
+        position = 9
+        required_missions = {  }
+        trigger = {
+            
+        }
+        effect = {
+            poltava_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			pryazovia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			maeotida_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+	vn_plc_conquer_poltava = {
+        icon = mission_conquer_riga
+        position = 10
+		required_missions = { vn_plc_black_seas_ports }
+		provinces_to_highlight = {
+			OR = {
+				area = poltava_area
+				area = pryazovia_area
+				area = maeotida_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            poltava_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			pryazovia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			maeotida_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            qale_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			qirim_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			cherson_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+	vn_plc_conquer_crimea = {
+        icon = mission_conquer_riga
+        position = 11
+        required_missions = { vn_plc_conquer_poltava }
+        provinces_to_highlight = {
+			OR = {
+				area = qale_area
+				area = qirim_area
+				area = cherson_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            qale_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			qirim_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			cherson_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            taman_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			kuban_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			krasnodar_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+	vn_plc_conquer_asov = {
+        icon = mission_conquer_riga
+        position = 12
+        required_missions = { vn_plc_conquer_crimea vn_plc_conquer_lower_don }
+        provinces_to_highlight = {
+			OR = {
+				area = taman_area
+				area = kuban_area
+				area = krasnodar_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			is_city = yes
+		}
+        trigger = {
+            taman_area = {
+				type = all
+				OR = {
+					is_city = no
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+			kuban_area = {
+				type = all
+				OR = {
+					is_city = no
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+			krasnodar_area = {
+				type = all
+				OR = {
+					is_city = no
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+        }
+        effect = {
+            add_country_modifier = {
+				name = plc_conquer_asov_mission
+				duration = 10950
+			}
+        }
+    }
+    vn_plc_establish_yeshivot = {
+        icon = mission_rb_weather_the_reformation
+        position = 13
+        required_missions = { vn_plc_free_royal_cities_act }
+        trigger = {
+			full_idea_group = humanist_ideas
+			num_of_owned_provinces_with = {
+				value = 3
+				has_building = university
+				development = 30
+				num_of_times_improved = 10
+			}
+        }
+        effect = {
+            country_event = { id = vn_missions.29 }
+        }
+    }
+    vn_plc_repelling_foreign_influences = {
+        icon = mission_mediterranean_islands
+        position = 14
+        required_missions = { vn_plc_establish_yeshivot }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { culture = ROOT }
+		}
+        trigger = {
+            num_of_owned_provinces_with = {
+				value = 50
+				culture = ROOT
+			}
+        }
+        effect = {
+            
+        }
+	}
+}

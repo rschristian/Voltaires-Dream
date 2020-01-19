@@ -1402,3 +1402,146 @@ country_event = {
 		add_prestige = 10
 	}
 }
+
+###COMMONWEALTH###
+#
+country_event = { 
+	id = vn_missions.29
+	title = vn_missions.29.t
+	desc = vn_missions.29.d
+	picture = UNIVERSITY_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { religion = jewish }
+		any_owned_province = {
+			religion = ROOT
+			is_state = yes
+			culture_group = ROOT
+			is_capital = no
+			controlled_by = ROOT
+		}
+		mission_completed = vn_plc_establish_yeshivot
+	}
+	
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					religion = ROOT
+					is_state = yes
+					culture_group = ROOT
+					is_capital = no
+					controlled_by = ROOT
+				}
+				save_event_target_as = new_jewish_community
+			}
+			random_list = {
+				20 = {
+					set_variable = {
+						which = jews_in_poland
+						value = 1
+					}
+				}
+				20 = {
+					set_variable = {
+						which = jews_in_poland
+						value = 2
+					}
+				}
+				20 = {
+					set_variable = {
+						which = jews_in_poland
+						value = 3
+					}
+				}
+				20 = {
+					set_variable = {
+						which = jews_in_poland
+						value = 4
+					}
+				}
+				20 = {
+					set_variable = {
+						which = jews_in_poland
+						value = 5
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = vn_missions.29.a
+		ai_chance = { factor = 90 }
+		event_target:new_jewish_community = {
+			change_religion = jewish
+			add_province_modifier = {
+				name = plc_establish_yeshivot_mission
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = jews_in_poland
+					value = 5
+				}
+			}
+			add_country_modifier = {
+				name = "rb_eng_passage_spheres"
+				duration = 3650
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = jews_in_poland
+					value = 4
+				}
+			}
+			add_country_modifier = {
+				name = "rb_eng_theory_warfare"
+				duration = 3650
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = jews_in_poland
+					value = 3
+				}
+			}
+			add_country_modifier = {
+				name = "rb_eng_philosophy_royalty"
+				duration = 3650
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = jews_in_poland
+					value = 2
+				}
+			}
+			add_country_modifier = {
+				name = "rb_eng_divine_common"
+				duration = 3650
+			}
+		}
+		else = {
+			add_country_modifier = {
+				name = "rb_eng_national_economy"
+				duration = 3650
+			}
+		}
+		custom_tooltip = vn_missions.29.tt
+		hidden_effect = {
+			country_event = {
+				id = vn_missions.29
+				days = 7300
+			}
+		}
+	}
+}
