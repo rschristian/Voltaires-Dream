@@ -28,18 +28,23 @@ vn_ase_missions_slot_1_a = {
 						who = NOL
 						value = 75
 					}
-				}
-				AND = {
 					all_owned_province = {
 						NOT = { controlled_by = REB }
 					}
-					NOT = { exists = NOL }
 				}
-				AND = {
-					exists = NOL
-					has_opinion_modifier = {
-						who = NOL
-						value = full_reconciliation
+				NOT = { exists = NOL }
+				OR = {
+					west_riding_area = {
+						owned_by = ROOT
+					}
+					east_riding_area = {
+						owned_by = ROOT
+					}
+					cumberland_area = {
+						owned_by = ROOT
+					}
+					northumberland_area = {
+						owned_by = ROOT
 					}
 				}
 			}
@@ -260,36 +265,32 @@ vn_ase_missions_slot_2_a = {
 				}
 				AND = {
 					is_year = 1070
-					OR = {
-						has_opinion_modifier = {
-							who = NRM
-							modifier = full_reconciliation
-						}
-						custom_trigger_tooltip = {
-							tooltip = vn_ase_elect_new_king.tt2
-							has_ruler_flag = edward_the_confessor_flag
-						}
-						custom_trigger_tooltip = {
-							tooltip = vn_ase_elect_new_king.tt3
-							NRM = {
-								has_ruler_flag = eng_repromised_throne_flag
-							}
-						}
+					custom_trigger_tooltip = {
+						tooltip = vn_ase_elect_new_king.tt
+						NOT = { has_ruler_flag = edward_the_confessor_flag }
 					}
-				}
-				is_in_war = {
-					attacker_leader = NRM
-					defender_leader = ROOT
-					casus_belli = cb_fabricated_claims
 				}
 			}
         }
         effect = {
-            add_legitimacy = 10
-            add_country_modifier = {
-                name = "ase_elect_new_king_mission"
-                duration = 1825
-            }
+			if = {
+				limit = {
+					has_ruler = "Hereweald"
+					dynasty = "Godwining"
+					custom_trigger_tooltip = {
+						tooltip = vn_ase_elect_new_king.tt
+						NOT = { has_ruler_flag = edward_the_confessor_flag }
+					}
+				}
+				add_legitimacy = 10
+				add_country_modifier = {
+					name = "ase_elect_new_king_mission"
+					duration = 1825
+				}
+			}
+            else = {
+				custom_tooltip = vn_ase_elect_new_king.tt4
+			}
         }
     }
 }
@@ -548,7 +549,6 @@ vn_ase_missions_slot_3_a = {
 					}
 				}
 			}
-            
         }
         effect = {
             add_war_exhaustion = -2
