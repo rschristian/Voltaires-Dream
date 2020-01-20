@@ -349,6 +349,18 @@ country_event = {
                 type = "El Cid"
             }
             set_country_flag = cid_sent_help
+			define_exiled_ruler = {
+				exiled_as = cid_ruler
+				name = "Rodrigo Díaz"
+				dynasty = "Laínez"
+				min_age = 40
+				max_age = 55
+				culture = castillian
+				adm = 3
+				dip = 5
+				mil = 6
+				fixed = yes
+			}
             2024 = {
                 owner = {
                     country_event = {
@@ -436,33 +448,7 @@ country_event = {
 
     immediate = {
         hidden_effect = {
-            every_owned_province = {
-                limit = { area = valencia_area }
-                cede_province = VAL
-            }
-            random_known_country = {
-				limit = { tag = VAL }
-                define_ruler = {
-                    name = "Rodrigo Díaz"
-                    dynasty = "Laínez"
-                    min_age = 40
-                    max_age = 55
-                    culture = castillian
-                    adm = 3
-                    dip = 5
-                    mil = 6
-                    fixed = yes
-                }
-                define_ruler_to_general = {
-                    fire = 4
-                    shock = 5
-                    manuever = 4
-                    siege = 2
-                }
-                add_treasury = 100
-                add_manpower = 2
-            }
-            set_country_flag = cid_rebelled
+			set_country_flag = cid_rebelled  
         }
     }
 
@@ -475,8 +461,22 @@ country_event = {
                 is_at_war = yes
             }
         }
-        random_known_country = {
+		every_owned_province = {
+			limit = { area = valencia_area }
+			add_core = VAL
+            cede_province = VAL
+		}
+		random_country = {
 			limit = { tag = VAL }
+			set_ruler = cid_ruler
+			define_ruler_to_general = {
+				fire = 4
+				shock = 5
+				manuever = 4
+				siege = 2
+			}
+			add_treasury = 100
+			add_manpower = 2
             declare_war_with_cb = {
                 casus_belli = cb_independence_war
                 who = ROOT
@@ -512,19 +512,27 @@ country_event = {
                 num_of_loans = 1
             }
         }
-        hidden_effect = {
-            clr_country_flag = cid_rebelled
-        }
         every_owned_province = {
             limit = { area = valencia_area }
+			add_core = VAL
             cede_province = VAL
         }
-        random_known_country = {
+		random_country = {
 			limit = { tag = VAL }
+			set_ruler = cid_ruler
+			define_ruler_to_general = {
+				fire = 4
+				shock = 5
+				manuever = 4
+				siege = 2
+			}
+			add_treasury = 100
+			add_manpower = 2
             white_peace = ROOT
             add_truce_with = ROOT
         }
         hidden_effect = {
+			clr_country_flag = cid_rebelled
             if = {
                 limit = {
                     FROM = { has_country_flag = cid_sent_help }
@@ -571,9 +579,10 @@ country_event = {
         }
         valencia_area = {
             limit = { owned_by = ROOT }
+			add_core = VAL
             cede_province = VAL
         }
-        random_known_country = {
+        random_country = {
 			limit = { tag = VAL }
             white_peace = ROOT
             add_truce_with = ROOT
@@ -627,10 +636,11 @@ country_event = {
         }
         if = {
             limit = { exists = VAL }
-            random_known_country = {
+            random_country = {
 				limit = { tag = VAL }
                 every_owned_province = {
                     cede_province = ROOT
+					remove_core = VAL
                 }
             }
         }
