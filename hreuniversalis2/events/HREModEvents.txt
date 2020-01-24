@@ -2870,6 +2870,16 @@ province_event = {
 			add_core = RUS
 			cede_province = RUS
 		}
+		if = {
+			limit = { controlled_by = GLH }
+			add_core = GLH
+			cede_province = GLH
+		}
+		if = {
+			limit = { controlled_by = ILK }
+			add_core = ILK
+			cede_province = ILK
+		}
 	}
 	option = {
 		name = "HREMB61"
@@ -3690,5 +3700,188 @@ country_event = {
             name = "nor_harald_troops"
             duration = 9125
         }
+    }
+}
+
+country_event = {
+    id = hremodevents.78
+    title = "HREMT78"
+    desc = "HREMD78"
+    picture = MONGOL_BANNERS_eventPicture
+ 
+	major = yes
+ 
+    trigger = {
+		OR = {
+			AND = {
+				NOT = { has_global_flag = golden_horde_invaded }
+				NOT = { started_in = 1237.1.1 }
+				is_year = 1237
+				owns = 6438
+				OR = {
+					ai = yes
+					OR = {
+						6438 = { is_capital = no }
+						num_of_cities = 2
+					}
+				}
+			}
+			AND = {
+				NOT = { has_global_flag = ilkhanate_invaded }
+				NOT = { started_in = 1237.1.1 }
+				is_year = 1237
+				owns = 6374
+				OR = {
+					ai = yes
+					OR = {
+						6374 = { is_capital = no }
+						num_of_cities = 2
+					}
+				}
+			}
+		}
+    }
+ 
+    mean_time_to_happen = {
+        months = 60
+    }
+ 
+    immediate = {
+        hidden_effect = {
+			if = {
+				limit = { owns = 6438 }
+				set_global_flag = golden_horde_invaded
+				set_country_flag = invaded_by_golden_horde
+				6438 = {
+					cede_province = GLH
+					add_core = GLH
+					add_building = fort_14th
+				}
+				GLH = {
+					remove_heir = yes
+					define_ruler = {
+						name = "Batu"
+						dynasty = "Borjigin"
+						adm = 4
+						dip = 4
+						mil = 5
+						fixed = yes
+					}
+					define_ruler_to_general = {
+						fire = 6
+						shock = 6
+						manuever = 5
+						siege = 6
+					}
+					add_ruler_personality = strict_personality
+					add_ruler_personality = tactical_genius_personality
+					add_ruler_personality = conqueror_personality
+					add_country_modifier = {
+						name = invasion_nation_m
+						duration = 7300
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_country_modifier = extensive_holdings
+							}
+						}
+						add_country_modifier = {
+							name = "extensive_holdings"
+							duration = -1
+						}
+					}
+					add_treasury = 500
+					add_prestige = 50
+					add_manpower = 35
+					capital_scope = {
+						build_to_forcelimit = {
+							infantry = 0.6
+							cavalry = 0.4
+						}
+					}
+				}
+				every_province = {
+					GLH = {
+						discover_province = PREV
+					}
+				}
+			}
+			else = {
+				set_global_flag = ilkhanate_invaded
+				6374 = {
+					cede_province = ILK
+					add_core = ILK
+					add_building = fort_14th
+				}
+				ILK = {
+					remove_heir = yes
+					define_ruler = {
+						name = "?gedei"
+						dynasty = "Borjigin"
+						adm = 5
+						dip = 4
+						mil = 6
+						fixed = yes
+					}
+					define_ruler_to_general = {
+						fire = 5
+						shock = 4
+						manuever = 4
+						siege = 5
+					}
+					add_country_modifier = {
+						name = invasion_nation_m
+						duration = 7300
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_country_modifier = extensive_holdings
+							}
+						}
+						add_country_modifier = {
+							name = "extensive_holdings"
+							duration = -1
+						}
+					}
+					add_treasury = 500
+					add_prestige = 50
+					add_manpower = 35
+					capital_scope = {
+						build_to_forcelimit = {
+							infantry = 0.6
+							cavalry = 0.4
+						}
+					}
+				}
+				every_province = {
+					ILK = {
+						discover_province = PREV
+					}
+				}
+			}
+		}
+	}
+    option = {
+		name = "HREMA78"
+		if = {
+			limit = { has_country_flag = invaded_by_golden_horde }
+			clr_country_flag = invaded_by_golden_horde
+			GLH = {
+				declare_war_with_cb = {
+					casus_belli = cb_horde_vs_civ
+					who = ROOT
+				}
+			}
+		}
+		else = {
+			ILK = {
+				declare_war_with_cb = {
+					casus_belli = cb_horde_vs_civ
+					who = ROOT
+				}
+			}
+		}
     }
 }
