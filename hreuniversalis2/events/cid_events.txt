@@ -448,6 +448,22 @@ country_event = {
 
     immediate = {
         hidden_effect = {
+			every_owned_province = {
+				limit = { area = valencia_area }
+				add_core = AVL
+				cede_province = AVL
+			}
+			AVL = {
+				set_ruler = cid_ruler
+				define_ruler_to_general = {
+					fire = 4
+					shock = 5
+					manuever = 4
+					siege = 2
+				}
+				add_treasury = 100
+				add_manpower = 2
+			}
 			set_country_flag = cid_rebelled  
         }
     }
@@ -461,21 +477,7 @@ country_event = {
                 is_at_war = yes
             }
         }
-		every_owned_province = {
-			limit = { area = valencia_area }
-			add_core = AVL
-            cede_province = AVL
-		}
 		AVL = {
-			set_ruler = cid_ruler
-			define_ruler_to_general = {
-				fire = 4
-				shock = 5
-				manuever = 4
-				siege = 2
-			}
-			add_treasury = 100
-			add_manpower = 2
             declare_war_with_cb = {
                 casus_belli = cb_independence_war
                 who = ROOT
@@ -511,21 +513,7 @@ country_event = {
                 num_of_loans = 1
             }
         }
-        every_owned_province = {
-            limit = { area = valencia_area }
-			add_core = AVL
-            cede_province = AVL
-        }
 		AVL = {
-			set_ruler = cid_ruler
-			define_ruler_to_general = {
-				fire = 4
-				shock = 5
-				manuever = 4
-				siege = 2
-			}
-			add_treasury = 100
-			add_manpower = 2
             white_peace = ROOT
             add_truce_with = ROOT
         }
@@ -581,8 +569,11 @@ country_event = {
             cede_province = AVL
         }
         AVL = {
-            white_peace = ROOT
-            add_truce_with = ROOT
+			every_known_country = {
+				limit = { war_with = AVL }
+				white_peace = AVL
+				add_truce_with = AVL
+			}
         }
     }
 }
