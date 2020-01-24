@@ -126,6 +126,7 @@ vn_slo_missions_slot_2_a = {
 		}
 		trigger = {
 			army_size_percentage = 1
+			is_subject = no
 			if = {
 				limit = { exists = HUN }
 				HUN = {
@@ -216,8 +217,11 @@ vn_slo_missions_slot_2_a = {
 		required_missions = { vn_slo_zlucenie }
 		icon = mission_rb_control_electors
 		trigger = {
-			capital_scope = {
-				is_part_of_hre = yes
+			OR = {
+				capital_scope = {
+					is_part_of_hre = yes
+				}
+				total_development = 100
 			}
 		}
 		effect = {
@@ -247,17 +251,9 @@ vn_slo_missions_slot_2_a = {
 		required_missions = { vn_slo_join_empire }
 		icon = mission_alliances
 		trigger = {
-			if = {
-				limit = { exists = MRV }
-				MRV = {
-					is_subject_of = ROOT
-				}
-			}
-			else = {
-				moravia_region = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
+			moravia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		effect = {
@@ -265,6 +261,7 @@ vn_slo_missions_slot_2_a = {
 				name = "slo_nasi_bratia_mission"
 				duration = 9125
 			}
+			add_accepted_culture = moravian
 			fejer_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -435,6 +432,7 @@ vn_slo_missions_slot_2_b = {
 				region = silesia_region
 				region = transdanubia_region
 				region = danubia_region
+				region = slovakia_region
 				region = malopolska_region
 				region = lusatia_region
 			}
@@ -455,6 +453,11 @@ vn_slo_missions_slot_2_b = {
 				is_core = ROOT
 			}
 			danubia_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			slovakia_region = {
 				type = all
 				owned_by = ROOT
 				is_core = ROOT
@@ -525,6 +528,68 @@ vn_slo_missions_slot_3_a = {
     }
 	has_country_shield = yes
 	
+	vn_slo_czechian_cities = {
+		required_missions = { vn_slo_our_second_capital }
+		icon = mission_big_city
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				province_id = 781
+				province_id = 2871
+			}
+		}
+		trigger = {
+			781 = {
+				owned_by = ROOT
+				development = 30
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
+			2871 = {
+				owned_by = ROOT
+				development = 20
+			}
+		}
+		effect = {
+			781 = {
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_production = 2
+				}
+			}
+			2871 = {
+				if = {
+					limit = {
+						NOT = { has_building = arsenal }
+					}
+					add_building = arsenal
+				}
+				add_province_modifier = {
+					name = "slo_czechian_cities_mission"
+					duration = -1
+				}
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_3_b = {
+	slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
 	vn_slo_entrance_to_poland = {
 		required_missions = { vn_slo_nasi_bratia }
 		icon = mission_unite_home_region #placeholder
@@ -563,7 +628,46 @@ vn_slo_missions_slot_3_a = {
 	}
 }
 
+
+
 vn_slo_missions_slot_3_c = {
+	slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_decline_of_bohemia = {
+		required_missions = { vn_slo_czech_invasion }
+		icon = mission_unite_home_region #placeholder
+		position = 7
+		trigger = {
+			OR = {
+				religion = catholic
+				religion = catholique
+			}
+			alliance_with = emperor
+			is_part_of_hre = yes
+			if = {
+				limit = { exists = BOH }
+				total_development = BOH
+			}
+			else = {
+				total_development = 150
+			}
+		}
+		effect = {
+			add_historical_rival = BOH
+			BOH = { add_prestige = -25 }
+			add_prestige = 25
+		}
+	}
+}
+
+vn_slo_missions_slot_3_d = {
 	slot = 8
     generic = no
     ai = yes
@@ -623,7 +727,18 @@ vn_slo_missions_slot_4_a = {
 			}
 		}
 		effect = {
-			440 = { move_capital_effect = yes }
+			440 = { 
+				move_capital_effect = yes 
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_production = 2
+				}
+			}
 			slovakia_region = {
 				limit = { owned_by = ROOT }
 				add_province_modifier = {
@@ -631,15 +746,12 @@ vn_slo_missions_slot_4_a = {
 					duration = 7300
 				}
 			}
-			440 = {
-				add_center_of_trade_level = 1
-			}
 		}
 	}
 	vn_slo_our_second_capital = {
 		required_missions = { vn_slo_our_namesake }
 		icon = mission_eastern_european_city
-		position = 3
+		position = 2
 		provinces_to_highlight = {
 			province_id = 2911
 		}
@@ -663,7 +775,15 @@ vn_slo_missions_slot_4_a = {
 				}
 			}
 			2911 = {
-				add_center_of_trade_level = 1
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_production = 2
+				}
 			}
 		}
 	}
@@ -701,6 +821,42 @@ vn_slo_missions_slot_4_b = {
 			add_country_modifier = {
 				name = "slo_our_sorbian_neighbors_mission"
 				duration = 9125
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_5_a = {
+	slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_grand_city_of_pest = {
+		required_missions = { vn_slo_our_second_capital }
+		icon = mission_big_city
+		position = 3
+		provinces_to_highlight = {
+			province_id = 444
+		}
+		trigger = {
+			444 = {
+				owned_by = ROOT
+				development = 25
+				NOT = { num_free_building_slots = 1 }
+			}
+		}
+		effect = {
+			444 = {
+				change_culture = slovak
+			}
+			every_owned_province = {
+				limit = { culture = hungarian }
+				add_unrest = -1	#add tooltip
 			}
 		}
 	}
