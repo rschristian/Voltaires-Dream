@@ -56,7 +56,11 @@ vn_pro_missions_slot_1 = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
-                add_claim = ROOT
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = pro_catalan_union_mission
+                duration = -1 #!
             }
         }
     }
@@ -112,10 +116,7 @@ vn_pro_missions_slot_1 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-	    OR = {
-            	541 = { province_has_center_of_trade_of_level = 3 }
-		development = 30
-	    }
+            541 = { province_has_center_of_trade_of_level = 3 }
             forez_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
@@ -123,7 +124,6 @@ vn_pro_missions_slot_1 = {
         }
         effect = {
             541 = {
-		add_base_production = 2
                 add_province_modifier = {
                     name = pro_trade_of_lyon_mission
                     duration = 9125 #!
@@ -194,18 +194,14 @@ vn_pro_missions_slot_2 = {
         position = 1
         required_missions = {  }
         provinces_to_highlight = {
-            OR = {
+            and = {
                 area = forcalquier_area
                 area = arles_area
             }  
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            forcalquier_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            arles_area = {
+            provence_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -336,7 +332,7 @@ vn_pro_missions_slot_2 = {
             add_mil_power = 50   
             add_country_modifier = {
                 name = pro_regnum_arelatense_mission
-                duration = 9125 #!
+                duration = -1 #!
             }      
         }
     }
@@ -449,7 +445,7 @@ vn_pro_missions_slot_3 = {
 			add_prestige = 10
 			add_country_modifier = {
                	name = "pro_a_merchant_fleet_mission"
-              	duration = 9125
+              	duration = -1 
             }
         }
     }
@@ -469,15 +465,11 @@ vn_pro_missions_slot_3 = {
         }
         effect = {	
             2560 = {
-		if = {
-                    limit = {
-                        NOT = { province_has_center_of_trade_of_level = 3 }
-                    }
-                    add_center_of_trade_level = 1
-		else = {
-		    add_base_production = 2
-		}
-            }  
+                limit = {
+                    NOT = { province_has_center_of_trade_of_level = 3 }
+                }
+                add_center_of_trade_level = 1
+            }            
 	    piedmont_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -507,7 +499,7 @@ vn_pro_missions_slot_3 = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
-                add_claim = ROOT
+                add_permanent_claim = ROOT
             } 
             add_country_modifier = {
                 name = pro_italian_expansion_mission
@@ -535,7 +527,6 @@ vn_pro_missions_slot_4 = {
             provence_region = {
                 type = all
                 culture = provencal
-	    	owned_by = ROOT	
             }            
         }
         effect = {
@@ -580,7 +571,6 @@ vn_pro_missions_slot_4 = {
         trigger = {
             num_of_admirals = 1 #From Venetian Missions
             2330 = {
-		owned_by = ROOT
                 OR = {
                     has_building = dock
                     has_building = drydock
@@ -701,14 +691,14 @@ vn_pro_missions_slot_4 = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
-                add_claim = ROOT
+                add_permanent_claim = ROOT
             }   
 	        achaea_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
-                add_claim = ROOT
+                add_permanent_claim = ROOT
             }          
         }
     }
@@ -739,7 +729,7 @@ vn_pro_missions_slot_4 = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
-                add_claim = ROOT
+                add_permanent_claim = ROOT
             }  
             add_country_modifier = {
                 name = pro_greek_expansion_mission
@@ -763,24 +753,16 @@ vn_pro_missions_slot_5 = {
         icon = mission_alliances
         position = 1
         required_missions = {  }
-	trigger = {
- 	   calc_true_if = {
-	        all_known_country = {
-  	          marriage_with = ROOT
-  	          total_development = 50
-  	      }
-  	      amount = 4
-  	  }
-	}
+        trigger = {
+	    ROOT = {
+                num_of_royal_marriages = 4
+		limit = {
+		    development = 50	
+		}
+	    }
+        }
         effect = {
-	        poitou_area = { 
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_claim = ROOT
-            }
-	        angevin_region = { 
+	        morea_area = { #Different from Sicilian Ideas
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -922,13 +904,10 @@ vn_pro_missions_slot_5 = {
         position = 8
         required_missions = { vn_pro_revenge_on_the_saracens }
         trigger = {
-	    num_of_owned_provinces_with = {
+            num_of_religion = {
+	        religion_group = muslim
 	        value = 20
-		OR = {
-		    culture_group = maghrebi
-		    culture_group = turko_semitic
-		}
-	    }
+            }	
         }
         effect = {
 	    add_adm_power = 100
