@@ -3446,7 +3446,7 @@ country_event = {
 	id = hremodevents.74
 	title = "HREMT74"
 	desc = "HREMD74"
-	picture = muslimgfx_RELIGIOUS_WARS_eventPicture
+	picture = RELIGIOUS_WARS_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -3706,39 +3706,19 @@ country_event = {
 country_event = {
     id = hremodevents.78
     title = "HREMT78"
-    desc = "HREMD78"
+	desc = "HREMD78"
     picture = MONGOL_BANNERS_eventPicture
  
+	fire_only_once = yes
 	major = yes
  
     trigger = {
+		NOT = { started_in = 1221.1.1 }
+		is_year = 1216
+		owns = 6438
 		OR = {
-			AND = {
-				NOT = { has_global_flag = golden_horde_invaded }
-				NOT = { started_in = 1237.1.1 }
-				is_year = 1237
-				owns = 6438
-				OR = {
-					ai = yes
-					OR = {
-						6438 = { is_capital = no }
-						num_of_cities = 2
-					}
-				}
-			}
-			AND = {
-				NOT = { has_global_flag = ilkhanate_invaded }
-				NOT = { started_in = 1237.1.1 }
-				is_year = 1237
-				owns = 6374
-				OR = {
-					ai = yes
-					OR = {
-						6374 = { is_capital = no }
-						num_of_cities = 2
-					}
-				}
-			}
+			ai = yes
+			num_of_cities = 2
 		}
     }
  
@@ -3748,139 +3728,155 @@ country_event = {
  
     immediate = {
         hidden_effect = {
-			if = {
-				limit = { owns = 6438 }
-				set_global_flag = golden_horde_invaded
-				set_country_flag = invaded_by_golden_horde
-				6438 = {
-					cede_province = GLH
-					add_core = GLH
-					add_building = fort_14th
+			6438 = {
+				cede_province = GLH
+				add_core = GLH
+				add_building = fort_14th
+			}
+			GLH = {
+				remove_heir = yes
+				define_ruler = {
+					name = "Batu"
+					dynasty = "Borjigin"
+					adm = 4
+					dip = 4
+					mil = 5
+					fixed = yes
 				}
-				GLH = {
-					remove_heir = yes
-					define_ruler = {
-						name = "Batu"
-						dynasty = "Borjigin"
-						adm = 4
-						dip = 4
-						mil = 5
-						fixed = yes
+				define_ruler_to_general = {
+					fire = 6
+					shock = 6
+					manuever = 5
+					siege = 6
+				}
+				add_ruler_personality = strict_personality
+				add_ruler_personality = tactical_genius_personality
+				add_ruler_personality = conqueror_personality
+				add_country_modifier = {
+					name = invasion_nation_m
+					duration = 7300
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_country_modifier = extensive_holdings
+						}
 					}
-					define_ruler_to_general = {
-						fire = 6
-						shock = 6
-						manuever = 5
-						siege = 6
-					}
-					add_ruler_personality = strict_personality
-					add_ruler_personality = tactical_genius_personality
-					add_ruler_personality = conqueror_personality
 					add_country_modifier = {
-						name = invasion_nation_m
-						duration = 7300
-					}
-					if = {
-						limit = {
-							NOT = {
-								has_country_modifier = extensive_holdings
-							}
-						}
-						add_country_modifier = {
-							name = "extensive_holdings"
-							duration = -1
-						}
-					}
-					add_treasury = 500
-					add_prestige = 50
-					add_manpower = 35
-					capital_scope = {
-						build_to_forcelimit = {
-							infantry = 0.6
-							cavalry = 0.4
-						}
+						name = "extensive_holdings"
+						duration = -1
 					}
 				}
-				every_province = {
-					GLH = {
-						discover_province = PREV
+				add_treasury = 500
+				add_prestige = 50
+				add_manpower = 35
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.6
+						cavalry = 0.4
 					}
 				}
 			}
-			else = {
-				set_global_flag = ilkhanate_invaded
-				6374 = {
-					cede_province = ILK
-					add_core = ILK
-					add_building = fort_14th
-				}
-				ILK = {
-					remove_heir = yes
-					define_ruler = {
-						name = "?gedei"
-						dynasty = "Borjigin"
-						adm = 5
-						dip = 4
-						mil = 6
-						fixed = yes
-					}
-					define_ruler_to_general = {
-						fire = 5
-						shock = 4
-						manuever = 4
-						siege = 5
-					}
-					add_country_modifier = {
-						name = invasion_nation_m
-						duration = 7300
-					}
-					if = {
-						limit = {
-							NOT = {
-								has_country_modifier = extensive_holdings
-							}
-						}
-						add_country_modifier = {
-							name = "extensive_holdings"
-							duration = -1
-						}
-					}
-					add_treasury = 500
-					add_prestige = 50
-					add_manpower = 35
-					capital_scope = {
-						build_to_forcelimit = {
-							infantry = 0.6
-							cavalry = 0.4
-						}
-					}
-				}
-				every_province = {
-					ILK = {
-						discover_province = PREV
-					}
+			every_province = {
+				GLH = {
+					discover_province = PREV
 				}
 			}
 		}
 	}
     option = {
 		name = "HREMA78"
-		if = {
-			limit = { has_country_flag = invaded_by_golden_horde }
-			clr_country_flag = invaded_by_golden_horde
-			GLH = {
-				declare_war_with_cb = {
-					casus_belli = cb_horde_vs_civ
-					who = ROOT
+		GLH = {
+			declare_war_with_cb = {
+				casus_belli = cb_horde_vs_civ
+				who = ROOT
+			}
+		}
+    }
+}
+
+country_event = {
+    id = hremodevents.79
+    title = "HREMT79"
+	desc = "HREMD79"
+    picture = MONGOL_BANNERS_eventPicture
+ 
+	fire_only_once = yes
+	major = yes
+
+	trigger = {
+		NOT = { has_global_flag = ilkhanate_invaded }
+		NOT = { started_in = 1236.1.1 }
+		is_year = 1231
+		owns = 6374
+		OR = {
+			ai = yes
+			num_of_cities = 2
+		}
+	}
+ 
+	immediate = {
+		hidden_effect = {
+			6374 = {
+				cede_province = ILK
+				add_core = ILK
+				add_building = fort_14th
+			}
+			ILK = {
+				remove_heir = yes
+				define_ruler = {
+					name = "Ögedei"
+					dynasty = "Borjigin"
+					adm = 5
+					dip = 4
+					mil = 6
+					fixed = yes
+				}
+				define_ruler_to_general = {
+					fire = 5
+					shock = 4
+					manuever = 4
+					siege = 5
+				}
+				add_country_modifier = {
+					name = invasion_nation_m
+					duration = 7300
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_country_modifier = extensive_holdings
+						}
+					}
+					add_country_modifier = {
+						name = "extensive_holdings"
+						duration = -1
+					}
+				}
+				add_treasury = 500
+				add_prestige = 50
+				add_manpower = 35
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.6
+						cavalry = 0.4
+					}
+				}
+			}
+			every_province = {
+				ILK = {
+					discover_province = PREV
 				}
 			}
 		}
-		else = {
-			ILK = {
-				declare_war_with_cb = {
-					casus_belli = cb_horde_vs_civ
-					who = ROOT
-				}
+	}
+
+	option = {
+		name = "HREMA79"
+		ILK = {
+			declare_war_with_cb = {
+				casus_belli = cb_horde_vs_civ
+				who = ROOT
 			}
 		}
     }
