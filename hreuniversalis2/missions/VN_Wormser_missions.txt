@@ -1,0 +1,627 @@
+#Venetian Missions
+#By ShyGuy13
+
+vn_die_missions_slot_1 = {
+	slot = 6
+	generic = no
+	ai = yes
+	
+    potential = {
+        tag = DIE
+        NOT = { has_reform = free_city }
+        NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    vn_die_secure_loyality = {
+        position = 1
+        icon = mission_seize_the_dragon_throne
+		required_missions = { }
+		trigger = {
+            if = {
+                limit = { has_estate = estate_nobles }
+                estate_loyalty = {
+                    estate = estate_nobles
+                    loyalty = 60
+                }
+            }
+            if = {
+                limit = { has_estate = estate_church }
+                estate_loyalty = {
+                    estate = estate_church
+                    loyalty = 60
+                }
+            }
+            if = {
+                limit = { has_estate = estate_burghers }
+                estate_loyalty = {
+                    estate = estate_burghers
+                    loyalty = 60
+                }
+            }
+            custom_trigger_tooltip = {
+				tooltip = vn_eng_influence_in_empire.tt
+				calc_true_if = {
+					all_elector = {
+						preferred_emperor = ROOT
+					}
+					amount = 3
+				}
+            }
+		}
+		effect = {
+            add_country_modifier = {
+                name = die_secure_loyality_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_die_saxon_rebellion = {
+        position = 2
+        icon = mission_assemble_an_army
+		required_missions = { vn_die_secure_loyality }
+		trigger = {
+            grown_by_development = 50
+            if = {
+                limit = { has_dlc = "Art of War" }
+                num_of_war_reparations = 3
+            }
+            else = {
+                monthly_income = 10
+            }
+        }
+        effect = {
+            add_mil_power = 100
+            add_country_modifier = {
+                name = die_saxon_rebellion_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_die_italian_alliances = {
+        position = 4
+        icon = mission_rb_control_electors
+		required_missions = { vn_die_saxon_rebellion }
+		trigger = {
+            custom_trigger_tooltip = {
+                tooltip = vn_die_italian_alliances.tt
+                calc_true_if = {
+                    amount = 3
+                    all_ally = {
+                        capital_scope = {
+                            superregion = lombardy_superregion
+                        }
+                        has_opinion = {
+                            who = ROOT
+                            value = 150
+                        }
+                    }
+                }
+            }
+		}
+		effect = {
+            add_dip_power = 50
+            add_country_modifier = {
+                name = die_italian_alliances_mission
+                duration = 7300
+            }
+		}
+    }
+	vn_die_conquer_rome = {
+		icon = mission_soldiers_in_line
+		required_missions = { vn_die_italian_alliances }
+		provinces_to_highlight = {
+			province_id = 2708
+        }
+        trigger = {
+            2708 = {
+                OR = {
+                    owned_by = ROOT
+                    controlled_by = ROOT
+                }
+            }
+        }
+		effect = {
+			add_treasury = 200
+            add_country_modifier = {
+                name = die_conquer_rome_mission
+                duration = 9125
+            }
+		}
+    }
+}
+
+vn_die_missions_slot_2 = {
+	slot = 7
+	generic = no
+	ai = yes
+	
+    potential = {
+        tag = DIE
+        NOT = { has_reform = free_city }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+    
+    vn_die_connect_worms_and_speyer = {
+        position = 1
+        icon = mission_heart_of_the_hansa
+        required_missions = { }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 2962
+                province_id = 2405
+                province_id = 2986
+                province_id = 159
+                province_id = 151
+            }
+            OR = {
+                NOT = { owned_by = ROOT }
+                has_trade_building_trigger = yes
+            }
+        }
+		trigger = {
+            2962 = {
+                owned_by = ROOT
+                has_trade_building_trigger = yes
+            }
+            2405 = {
+                owned_by = ROOT
+                has_trade_building_trigger = yes
+            }
+            2986 = {
+                owned_by = ROOT
+                has_trade_building_trigger = yes
+            }
+            159 = {
+                owned_by = ROOT
+                has_trade_building_trigger = yes
+            }
+            151 = {
+                owned_by = ROOT
+                has_trade_building_trigger = yes
+            }
+		}
+		effect = {
+            2962 = {
+                add_trade_modifier = {
+                    who = ROOT
+                    duration = 9125
+                    power = 10
+                    key = die_connect_worms_and_speyer_mission
+                }
+            }
+            2962 = {
+                add_province_modifier = {
+                    name = die_connect_worms_and_speyer_mission
+                    duration = 9125
+                }
+            }
+            2405 = {
+                add_province_modifier = {
+                    name = die_connect_worms_and_speyer_mission
+                    duration = 9125
+                }
+            }
+            2986 = {
+                add_province_modifier = {
+                    name = die_connect_worms_and_speyer_mission
+                    duration = 9125
+                }
+            }
+            159 = {
+                add_province_modifier = {
+                    name = die_connect_worms_and_speyer_mission
+                    duration = 9125
+                }
+            }
+            151 = {
+                add_province_modifier = {
+                    name = die_connect_worms_and_speyer_mission
+                    duration = 9125
+                }
+            }
+		}
+    }
+    vn_die_construct_speyer_cathedral = {
+        position = 2
+		icon = mission_rb_trinity_college_dublin
+		required_missions = { vn_die_italian_alliances vn_die_connect_worms_and_speyer }
+        provinces_to_highlight = {
+            province_id = 151
+        }
+        trigger = {
+            stability = 2
+			151 = {
+                owned_by = ROOT
+                num_of_times_improved = 10
+            }
+		}
+		effect = {
+			country_event = {
+                id = vn_missions.30
+            }
+		}
+    }
+    vn_die_weaken_the_princes = {
+        position = 3
+        icon = mission_king_of_franks
+		required_missions = { vn_die_saxon_rebellion }
+		trigger = {
+            is_emperor = yes
+            grown_by_development = 200
+            num_of_electors = 7
+            custom_trigger_tooltip = {
+                tooltip = vn_die_weaken_the_princes.tt
+                if = {
+                    limit = { is_elector = yes }
+                    calc_true_if = {
+                        amount = 6
+                        all_elector = {
+                            NOT = { total_development = ROOT }
+                        }
+                    }
+                }
+                else = {
+                    all_elector = {
+                        NOT = { total_development = ROOT }
+                    }
+                }
+            }
+		}
+		effect = {
+            
+		}
+    }
+    vn_die_solve_the_investiture_controversy = {
+        position = 5
+        icon = mission_rb_weather_the_reformation
+		required_missions = { vn_die_italian_alliances }
+		trigger = {
+            #investiture controversy imperial incident has been overcome
+            is_emperor = yes
+            has_institution = investiture
+            all_state_province = {
+                investiture = 100
+            }
+            if = {
+                limit = { religion = catholic }
+                reverse_has_opinion = {
+                    who = PAP
+                    value = 150
+                }
+            }
+            if = {
+                limit = { religion = catholique }
+                reverse_has_opinion = {
+                    who = AVI
+                    value = 150
+                }
+            }
+		}
+		effect = {
+            add_papal_influence = 10
+            add_country_modifier = {
+                name = die_solve_the_investiture_controversy_mission
+                duration = 9125
+            }
+		}
+    }
+}
+
+vn_die_missions_slot_3 = {
+	slot = 8
+	generic = no
+	ai = yes
+	
+    potential = {
+        tag = DIE
+        NOT = { has_reform = free_city }
+        NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_die_conquer_wormsgau = {
+        position = 1
+        icon = mission_landsknecht_soldier
+        required_missions = { }
+        provinces_to_highlight = {
+            OR = {
+                area = mainz_area
+                area = pfalzwest_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            mainz_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            pfalzwest_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            darmstadt_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            metz_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            saar_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_die_conquer_metz = {
+        position = 2
+        icon = mission_landsknecht_soldier
+        required_missions = { vn_die_conquer_wormsgau }
+        provinces_to_highlight = {
+            OR = {
+                area = metz_area
+                area = saar_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            metz_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            saar_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            barrois_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            toul_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_die_conquer_lorraine = {
+        position = 4
+        icon = mission_crusade_for_varna
+        required_missions = { vn_die_conquer_metz }
+        provinces_to_highlight = {
+            OR = {
+                area = barrois_area
+                area = toul_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            barrois_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            toul_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            add_prestige = 20
+            burgundy_region = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = die_conquer_lorraine_mission
+                duration = 9125
+            }
+		}
+    }
+}
+
+vn_die_missions_slot_4 = {
+	slot = 9
+	generic = no
+	ai = yes
+	
+    potential = {
+        tag = DIE
+        NOT = { has_reform = free_city }
+        NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_die_conquer_erbach = {
+        position = 2
+        icon = mission_roads
+        required_missions = { vn_die_conquer_wormsgau }
+        provinces_to_highlight = {
+            area = darmstadt_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            darmstadt = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            nurnburg_region = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+		}
+    }
+    vn_die_conquer_franconia = {
+        icon = mission_coronation
+        required_missions = { vn_die_conquer_erbach }
+        provinces_to_highlight = {
+            region = nurnburg_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            nurnburg_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            add_mercantilism = 2
+            bavaria_region = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = die_conquer_franconia_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_die_conquer_bavaria = {
+        icon = mission_coronation
+        required_missions = { vn_die_conquer_franconia vn_die_conquer_swabia }
+        provinces_to_highlight = {
+            region = bavaria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            bavaria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            
+		}
+    }
+    vn_die_conquer_burgundy = {
+        icon = mission_coronation
+        required_missions = { vn_die_conquer_bavaria vn_die_conquer_lorraine }
+        provinces_to_highlight = {
+            region = burgundy_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            burgundy_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            
+		}
+    }
+}
+
+vn_die_missions_slot_5 = {
+	slot = 10
+	generic = no
+	ai = yes
+	
+    potential = {
+        tag = DIE
+        NOT = { has_reform = free_city }
+        NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_die_feudal_obligations = {
+        icon = mission_coronation
+        required_missions = { }
+		trigger = {
+           
+		}
+		effect = {
+            baden_region = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            pfalzeast_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+		}
+    }
+    vn_die_conquer_baden = {
+        icon = mission_coronation
+        required_missions = { vn_die_feudal_obligations }
+        provinces_to_highlight = {
+            OR = {
+                region = baden_region
+                area = pfalzeast_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            baden_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            pfalzeast_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            wurttemburg_region = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+		}
+    }
+    vn_die_conquer_swabia = {
+        icon = mission_coronation
+        required_missions = { vn_die_conquer_baden }
+        provinces_to_highlight = {
+            region = wurttemburg_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT } 
+        }
+		trigger = {
+            wurttemburg_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            
+		}
+    }
+}

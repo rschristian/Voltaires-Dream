@@ -74,22 +74,31 @@ country_event = {
 
 	option = {
 		name = vn_missions.3.a
-		ai_chance = { factor = 75 }
-		add_stability_or_adm_power = yes
-		every_owned_province = {
-			limit = { region = sicilia_region }
-			change_culture = ROOT
+		ai_chance = { factor = 25 }
+		if = {
+			limit = { NOT = { primary_culture = normand } }
+			change_primary_culture = normand
+			set_ruler_culture = normand
+			if = { limit = { has_heir = yes } set_heir_culture = normand }
+		}
+		add_prestige = 20
+		add_country_modifier = {
+			name = apl_kingdom_of_sicily_mission
+			duration = 9125
 		}
 	}
 	option = {
 		name = vn_missions.3.b
-		ai_chance = { factor = 25 }
-		change_primary_culture = sicilian
-		set_ruler_culture = sicilian
-		if = { limit = { has_heir = yes } set_heir_culture = sicilian }
-		if = { limit = { has_consort = yes } set_consort_culture = sicilian }
-		every_owned_province = {
-			limit = { region = sicilia_region }
+		ai_chance = { factor = 75 }
+		if = {
+			limit = { NOT = { primary_culture = sicilian } }
+			change_primary_culture = sicilian
+			set_ruler_culture = sicilian
+			if = { limit = { has_heir = yes } set_heir_culture = sicilian }
+		}
+		add_stability_or_adm_power = yes
+		sicilia_region = {
+			limit = { owned_by = ROOT }
 			add_unrest = -10
 		}
 	}
@@ -1544,6 +1553,55 @@ country_event = {
 				id = vn_missions.29
 				days = 7300
 			}
+		}
+	}
+}
+
+###WORMS###
+#Completion of Speyer Cathedral
+country_event = {
+	id = vn_missions.30
+	title = vn_missions.30.t
+	desc = vn_missions.30.d
+	picture = CITY_VIEW_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = "vn_missions.30.a"
+		ai_chance = {
+			factor = 75
+		}
+		add_years_of_income = -0.3
+		add_prestige = 25
+		add_papal_influence = 25
+		add_country_modifier = {
+			name = "die_construct_speyer_cathedral_mission"
+			duration = -1
+		}
+	}
+	option = {
+		name = "vn_missions.30.b"
+		ai_chance = {
+			factor = 20
+		}
+		add_years_of_income = -0.15
+		add_prestige = 10
+		add_papal_influence = 10
+		add_country_modifier = {
+			name = "die_construct_speyer_cathedral_mission"
+			duration = -1
+		}
+	}
+	option = {
+		name = "vn_missions.30.c"
+		ai_chance = {
+			factor = 5
+		}
+		add_prestige = -5
+		add_country_modifier = {
+			name = "die_construct_speyer_cathedral_mission"
+			duration = -1
 		}
 	}
 }
