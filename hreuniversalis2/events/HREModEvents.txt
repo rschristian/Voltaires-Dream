@@ -3806,7 +3806,6 @@ country_event = {
 	major = yes
 
 	trigger = {
-		NOT = { has_global_flag = ilkhanate_invaded }
 		NOT = { started_in = 1236.1.1 }
 		is_year = 1231
 		owns = 6374
@@ -3886,4 +3885,119 @@ country_event = {
 			}
 		}
     }
+}
+
+country_event = {
+    id = hremodevents.80
+    title = "HREMT80"
+	desc = "HREMD80"
+	picture = LIBERUM_VETO_eventPicture
+	
+	fire_only_once = yes
+
+	trigger = {
+		tag = APL
+		is_free_or_tributary_trigger = yes
+		religion = catholic
+		culture_group = latin
+		BYZ = {
+			NOT = {
+				any_owned_province = {
+					superregion = sicily_superregion
+				}
+			}
+		}
+		any_owned_province = {
+			superregion = sicily_superregion
+			OR = {
+				is_core = BYZ
+				religion = orthodox
+				culture = greek
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 240
+	}
+
+	option = {
+		name = "HREMA80"
+		ai_chance = { factor = 1 }
+		add_stability = -1
+		sicily_superregion = {
+			limit = {
+				owned_by = ROOT
+				OR = {
+					is_core = BYZ
+					religion = orthodox
+					culture = greek
+				}
+			}
+			remove_core = BYZ
+			change_religion = catholic
+			change_culture = sicilian
+		}
+	}
+	option= {
+		name = "HREMB80"
+		ai_chance = { factor = 0 }
+		add_stability_or_adm_power = yes
+		sicily_superregion = {
+			limit = {
+				owned_by = ROOT
+				OR = {
+					is_core = BYZ
+					religion = orthodox
+					culture = greek
+				}
+			}
+			add_province_modifier = {
+				name = remove_unrest_5_modifier
+				duration = 7300
+			}
+		}
+	}
+}
+
+country_event = {
+    id = hremodevents.81
+    title = "HREMT81"
+	desc = "HREMD81"
+	picture = MILITARY_CAMP_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { started_in = 1132.1.1 }
+		current_age = age_of_holy_wars
+		is_year = 1125
+		owns = 3108
+		num_of_cities = 2
+		#crusaders took the Levant
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	option = {
+		name = "HREMA81"
+		add_stability = -1
+		3108 = {
+			add_core = HAH
+			cede_province = HAH
+			remove_core = ROOT
+			add_building = fort_14th
+			change_religion = zikri
+			change_culture = al_suryah_arabic
+		}
+		hidden_effect = {
+			HAH = {
+				define_ruler = {
+					dynasty = "Nizâriyya"
+				}
+			}
+		}
+	}
 }

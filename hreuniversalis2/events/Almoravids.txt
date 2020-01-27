@@ -30,7 +30,7 @@ country_event = {
 		change_tag = MOR
 		add_treasury = 200
 		add_prestige = 40
-		add_manpower = 5
+		add_manpower = 20
 		if = {
 			limit = { MRK = { ai = yes was_player = no } }
 			inherit = MRK
@@ -56,7 +56,7 @@ country_event = {
 			change_government = monarchy
 			add_government_reform = iqta
 			set_capital = 4762
-			add_accepted_culture = moroccan
+            add_accepted_culture = moroccan
 			country_event = { id = ideagroups.1 }
 		}
 	}
@@ -104,13 +104,15 @@ country_event = {
     option = {
         name = "almoravids_events.2.a"
         ai_chance = { factor = 100 }
-        MOR = {
-            country_event = {
-                id = almoravids_events.3
-                days = 30
+        custom_tooltip = almoravids_events.tt.2
+        hidden_effect = {
+            MOR = {
+                country_event = {
+                    id = almoravids_events.3
+                    days = 30
+                }
             }
         }
-        custom_tooltip = almoravids_events.tt.2
     }
     option = {
         name = "almoravids_events.2.b"
@@ -147,15 +149,33 @@ country_event = {
                 factor = 0.5
                 is_bankrupt = yes
             }
+            modifier = {
+                factor = 1.5
+                has_opinion = {
+                    who = FROM
+                    value = 100
+                }
+            }
+            modifier = {
+                factor = 0.5
+                NOT = {
+                    has_opinion = {
+                        who = FROM
+                        value = -100
+                    }
+                }
+            }
         }
         add_prestige = 25
-        add_treasury = -300
-        add_manpower = -20
-    	add_truce_with = FROM
-        FROM = {
-            country_event = {
-                id = almoravids_events.4
-                days = 30
+        add_treasury = -200
+        add_manpower = -10
+        add_truce_with = FROM
+        hidden_effect = {
+            FROM = {
+                country_event = {
+                    id = almoravids_events.4
+                    days = 30
+                }
             }
         }
     }
@@ -164,7 +184,7 @@ country_event = {
         ai_chance = {
             factor = 25
         }
-        add_prestige = -1
+        add_prestige = -10
     }
 }
 
@@ -182,10 +202,11 @@ country_event = {
     option = {
         name = "almoravids_events.4.a"
         ai_chance = { factor = 100 }
-        add_treasury = 300
-        add_manpower = 20
+        add_treasury = 200
+        add_manpower = 10
+        add_truce_with = FROM
         hidden_effect = {
-            set_variable = { which = almoravid1_index value = 20 }
+            set_variable = { which = almoravid1_index value = 10 }
             while = {
                 limit = {
                     check_variable = { which = almoravid1_index value = 1 }
@@ -259,7 +280,11 @@ country_event = {
                 is_free_or_tributary_trigger = yes
                 religion_group = muslim
                 capital_scope = {
-                     superregion = iberia_superregion
+                    OR = {
+                        region = andalusia_region
+                        region = alentejo_region
+                        area = murcia_area
+                    }
                 }
             }
         }
@@ -269,50 +294,95 @@ country_event = {
         months = 12
     }
 
+    immediate = {
+        hidden_effect = {
+            clr_global_flag = mor_leaves_andalus
+            if = {
+                limit = {
+                    NOT = {
+                        any_subject_country = {
+                            owns = 761
+                        }
+                    }
+                }
+                761 = {
+                    owner = {
+                        save_event_target_as = mor_invasion_target
+                    }
+                }
+            }
+            else = {
+                random_neighbor_country = {
+                    limit = {
+                        is_free_or_tributary_trigger = yes
+                        religion_group = muslim
+                        capital_scope = {
+                            OR = {
+                                region = andalusia_region
+                                region = alentejo_region
+                                area = murcia_area
+                            }
+                        }
+                    }
+                    save_event_target_as = mor_invasion_target
+                }
+            }
+        }
+    }
+
     option = {
         name = "almoravids_events.6.a"
         ai_chance = {
             factor = 65
-            }
-        set_country_flag = almoravid_invasion_of_andalusia
-        custom_tooltip = almoravids_events.tt.6
-        if = {
-            limit = {
-                NOT = {
-                    any_subject_country = {
-                        owns = 761
+            modifier = {
+                factor = 0.5
+                any_country = {
+                    war_with = ROOT
+                    war_score_against = {
+                        who = ROOT
+                        value = 25
                     }
                 }
             }
-            761 = {
-                owner = {
-                    ROOT = {
-                        declare_war = PREV
-                    }
-                    hidden_effect = {
-                        country_event = {
-                            id = almoravids_events.7
-                        }
+            modifier = {
+                factor = 0
+                any_country = {
+                    war_with = ROOT
+                    war_score_against = {
+                        who = ROOT
+                        value = 50
                     }
                 }
+            }
+            modifier = {
+                factor = 0
+                has_any_disaster = yes
             }
         }
-        else = {
-            random_neighbor_country = {
+        set_country_flag = almoravid_invasion_of_andalusia
+        custom_tooltip = almoravids_events.tt.6
+        declare_war = event_target:mor_invasion_target
+        hidden_effect = {
+            event_target:mor_invasion_target = {
+                country_event = {
+                    id = almoravids_events.7
+                }
+            }
+            every_country = {
                 limit = {
-                    is_free_or_tributary_trigger = yes
-                    religion_group = muslim
                     capital_scope = {
-                        superregion = iberia_superregion
+                        OR = {
+                            region = andalusia_region
+                            region = alentejo_region
+                            area = murcia_area
+                        }
                     }
+                    religion_group = muslim
+                    NOT = { tag = ROOT }
+                    NOT = { tag = event_target:mor_invasion_target }
                 }
-                ROOT = {
-                    declare_war = PREV
-                }
-                hidden_effect = {
-                    country_event = {
-                        id = almoravids_events.7
-                    }
+                country_event = {
+                    id = almoravids_events.9
                 }
             }
         }
@@ -331,12 +401,10 @@ country_event = {
     desc = "almoravids_events.7.d"
     picture = OVEREXTENSION_eventPicture
 
-    fire_only_once = yes
     is_triggered_only = yes
 
     immediate = {
         hidden_effect = {
-            clr_global_flag = mor_leaves_andalus
             761 = {
                 cede_province = MOR
                 add_core = MOR
@@ -352,18 +420,6 @@ country_event = {
             murcia_area = {
                 limit = { owned_by = ROOT }
                 add_core = FROM
-            }
-            andalusia_region = {
-                limit = { NOT = { owned_by = ROOT } }
-                add_claim = FROM
-            }
-            alentejo_region = {
-                limit = { NOT = { owned_by = ROOT } }
-                add_claim = FROM
-            }
-            murcia_area = {
-                limit = { NOT = { owned_by = ROOT } }
-                add_claim = FROM
             }
         }
     }
@@ -489,5 +545,22 @@ country_event = {
         name = "almoravids_events.8.b"
         ai_chance = { factor = 65 }
         add_prestige = 25
+    }
+}
+
+#Give MOR claims on all muslim provinces in Iberia
+country_event = {
+    id = almoravids_events.9
+    title = "almoravids_events.9.t"
+    desc = "almoravids_events.9.d"
+    picture = SIEGE_eventPicture
+
+    is_triggered_only = yes
+
+    option = {
+        name = "almoravids_events.9.a"
+        every_owned_province = {
+            add_claim = FROM
+        }
     }
 }
