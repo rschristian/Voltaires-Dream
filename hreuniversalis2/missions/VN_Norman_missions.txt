@@ -11,7 +11,6 @@ vn_nrm_missions_slot_1_a = {
 	}
 	has_country_shield = yes
     
-    #Naval Ventures
 	vn_nrm_naval_ventures = {
 		position = 1
 		icon = mission_establish_high_seas_navy
@@ -30,7 +29,6 @@ vn_nrm_missions_slot_1_a = {
 			}
 		}
     }
-    #Support Normans in Italy
 	vn_nrm_support_normans_in_italy = {
 		position = 3
 		icon = mission_seize_the_isles
@@ -42,7 +40,7 @@ vn_nrm_missions_slot_1_a = {
 					capital_scope = { superregion = sicily_superregion }
 					has_opinion = {
 						who = ROOT
-						value = 150
+						value = 125
 					}
 					ruler_culture = normand
 				}
@@ -55,27 +53,25 @@ vn_nrm_missions_slot_1_a = {
 			}
 		}
 	}
-	#Byzantine Bargains
 	vn_nrm_byzantine_bargains = {
 		position = 5
 		icon = mission_pf_soldier
 		required_missions = { vn_nrm_support_normans_in_italy }
 		trigger = {
-			exists = BYZ
-			NOT = { war_with = BYZ }
-			reverse_has_opinion = {
-				who = BYZ
-				value = 100
-			}
-			manpower = 15
 			BYZ = {
+				exists = yes
+				NOT = { war_with = ROOT }
+				has_opinion = {
+					who = ROOT
+					value = 100
+				}
 				treasury = 250
 				ai = yes
 			}
+			manpower = 15
 		}
 		effect = {
 			country_event = {
-				#Byzantium Agrees to our Offer
 				id = vn_missions.54
 			}
 		}
@@ -92,7 +88,6 @@ vn_nrm_missions_slot_2_a = {
 	}
     has_country_shield = yes
     
-	#The English Succession
 	vn_nrm_english_succession = {
 		position = 1
 		icon = mission_alliances
@@ -117,8 +112,7 @@ vn_nrm_missions_slot_2_a = {
 						}
 					}
 				}
-				if = {
-					limit = { NOT = { exists = BRI } }
+				else = {
 					random_country = {
 						limit = {
 							exists = yes
@@ -142,8 +136,7 @@ vn_nrm_missions_slot_2_a = {
 						}
 					}
 				}
-				if = {
-					limit = { NOT = { exists = FLA } }
+				else = {
 					random_country = {
 						limit = {
 							exists = yes
@@ -167,8 +160,7 @@ vn_nrm_missions_slot_2_a = {
 						}
 					}
 				}
-				if = {
-					limit = { NOT = { exists = AQT } }
+				else = {
 					random_country = {
 						limit = {
 							exists = yes
@@ -184,7 +176,6 @@ vn_nrm_missions_slot_2_a = {
 			}
 		}
     }
-    #Alea Iacta Est!
 	vn_nrm_alea_iacta_est = {
 		position = 3
 		icon = mission_invade_island
@@ -201,7 +192,6 @@ vn_nrm_missions_slot_2_a = {
 			add_years_of_income = 1
 			add_legitimacy = 20
 			add_papal_influence = 25
-			#no boosts here because I believe normandy already gets them from an event.
 		}
 	}
 }
@@ -253,11 +243,20 @@ vn_nrm_missions_slot_3_a = {
 	}
 	has_country_shield = yes
     
-    #Consolidate the Duchy
 	vn_nrm_consolidate_duchy = {
 		position = 1
 		icon = mission_noble_council
 		required_missions = { }
+		provinces_to_highlight = {
+			OR = {
+				area = normandy_area
+				area = caux_area
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+		}
 		trigger = {
 			stability = 1
 			army_size_percentage = 1
@@ -279,6 +278,7 @@ vn_nrm_missions_slot_3_a = {
 		effect = {
 			hidden_effect = {
 				every_owned_province = {
+					limit = { region = normandy_region }
 					add_local_autonomy = -10
 				}
 			}
@@ -289,7 +289,6 @@ vn_nrm_missions_slot_3_a = {
 			}
 		}
     }
-    #Claim Maine
 	vn_nrm_claim_maine = {
 		icon = mission_build_up_to_force_limit
 		required_missions = { vn_nrm_consolidate_duchy }
@@ -373,7 +372,6 @@ vn_nrm_missions_slot_3_a = {
 			}
 		}
     }
-    #Invade Anjou
 	vn_nrm_invade_anjou = {
 		icon = mission_wine_monopolies
 		required_missions = { vn_nrm_claim_maine }
@@ -449,7 +447,6 @@ vn_nrm_missions_slot_3_b = {
 	}
 	has_country_shield = yes
 
-    #Subjugate England
 	vn_nrm_subjugate_england = {
         icon = mission_rb_invade_england
         position = 4
@@ -497,23 +494,6 @@ vn_nrm_missions_slot_4_a = {
 	}
 	has_country_shield = yes
     
-    #Norman Architecture
-	vn_nrm_norman_architecture = {
-		position = 1
-		icon = mission_portico
-		required_missions = { }
-		trigger = {
-			road_network = 2	#unlocked very early on so this will have to do
-		}
-		effect = {
-			add_years_of_income = 0.1
-			add_country_modifier = {
-				name = "nrm_norman_architecture_mission"
-				duration = 7300
-			}
-		}
-    }
-    #Safeguard Borders
 	vn_nrm_safeguard_borders = {
 		icon = mission_european_castle
 		required_missions = {
@@ -539,7 +519,6 @@ vn_nrm_missions_slot_4_a = {
 			}
 		}
     }
-    #Conquer Brittany
 	vn_nrm_conquer_brittany = {
 		position = 4
 		icon = mission_corsairs_of_the_north_sea
@@ -561,7 +540,6 @@ vn_nrm_missions_slot_4_a = {
 			}
 		}
     }
-    #Control la Manche
 	vn_nrm_control_channel = {
 		icon = mission_rb_grow_the_channel
 		required_missions = {
@@ -582,8 +560,6 @@ vn_nrm_missions_slot_4_a = {
 				province_id = 1167
 				province_id = 2067
 				province_id = 1171
-				province_id = 1255
-				province_id = 1172
 				province_id = 4495
 				province_id = 2948
 				province_id = 2156
@@ -596,7 +572,6 @@ vn_nrm_missions_slot_4_a = {
 				province_id = 627
 				province_id = 497
 				province_id = 2611
-				province_id = 722
 				province_id = 695
 				province_id = 2499
 				province_id = 1838
@@ -605,8 +580,13 @@ vn_nrm_missions_slot_4_a = {
 				province_id = 320
 				province_id = 2170
 				province_id = 2141
+				#new
+				province_id = 5209
+				province_id = 4683
+				province_id = 4687
+				province_id = 4688
+				province_id = 397
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
 			custom_trigger_tooltip = {
@@ -623,8 +603,6 @@ vn_nrm_missions_slot_4_a = {
 				owns_or_vassal_of = 1167
 				owns_or_vassal_of = 2067
 				owns_or_vassal_of = 1171
-				owns_or_vassal_of = 1255
-				owns_or_vassal_of = 1172
 				owns_or_vassal_of = 4495
 				owns_or_vassal_of = 2948
 				owns_or_vassal_of = 2156
@@ -633,12 +611,12 @@ vn_nrm_missions_slot_4_a = {
 				owns_or_vassal_of = 1901
 				owns_or_vassal_of = 1957
 				owns_or_vassal_of = 142
+				owns_or_vassal_of = 397
 				#England
 				owns_or_vassal_of = 498
 				owns_or_vassal_of = 627
 				owns_or_vassal_of = 497
 				owns_or_vassal_of = 2611
-				owns_or_vassal_of = 722
 				owns_or_vassal_of = 695
 				owns_or_vassal_of = 2499
 				owns_or_vassal_of = 1838
@@ -647,6 +625,10 @@ vn_nrm_missions_slot_4_a = {
 				owns_or_vassal_of = 320
 				owns_or_vassal_of = 2170
 				owns_or_vassal_of = 2141
+				owns_or_vassal_of = 5209
+				owns_or_vassal_of = 4683
+				owns_or_vassal_of = 4687
+				owns_or_vassal_of = 4688
 			}
 		}
 		effect = {
@@ -668,8 +650,37 @@ vn_nrm_missions_slot_5_a = {
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
-    
-    #Contest Vexin
+	
+	vn_nrm_norman_architecture = {
+		position = 2
+		icon = mission_portico
+		required_missions = { vn_nrm_consolidate_duchy }
+		trigger = {
+			OR = {
+				temple = 5
+				cathedral = 3
+			}
+		}
+		effect = {
+			add_years_of_income = 0.5
+			add_country_modifier = {
+				name = "nrm_norman_architecture_mission"
+				duration = 7300
+			}
+		}
+	}
+}
+
+vn_nrm_missions_slot_5_b = {
+	slot = 10
+	generic = no
+	ai = yes
+	potential = {
+		tag = NRM
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
 	vn_nrm_conquer_vexin = {
 		position = 3
 		icon = mission_unite_home_region
@@ -704,7 +715,6 @@ vn_nrm_missions_slot_5_a = {
 			}
 		}
     }
-    #Claim Ponthieu
 	vn_nrm_claim_ponthieu = {
 		icon = mission_cannons_firing
 		required_missions = { vn_nrm_conquer_vexin }
@@ -730,17 +740,34 @@ vn_nrm_missions_slot_5_a = {
 		effect = {
 			add_adm_power = 50
 			1256 = {
-				add_permanent_claim = ROOT
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 			1957 = {
-				add_permanent_claim = ROOT
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 			142 = {
-				add_permanent_claim = ROOT
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
     }
-    #Attack France
 	vn_nrm_attack_france = {
 		icon = mission_the_french_menace
 		required_missions = { vn_nrm_claim_ponthieu }

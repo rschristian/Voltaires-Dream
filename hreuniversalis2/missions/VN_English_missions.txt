@@ -588,7 +588,10 @@ vn_eng_missions_slot_2_b = {
             vn_eng_irish_plantations
         }
         provinces_to_highlight = {
-            superregion = british_isles_superregion
+			OR = {
+				superregion = british_isles_superregion
+				superregion = irish_superregion
+			}
             NOT = {
                 owned_by = ROOT
                 is_core = ROOT
@@ -703,7 +706,10 @@ vn_eng_missions_slot_2_d = {
                 limit = { exists = FRA }
 				OR = {
 					AND = {
-						is_rival = FRA
+						OR = {
+							is_rival = FRA
+							is_enemy = FRA
+						}
 						NOT = { is_subject_of = FRA }
 					}
 					army_strength = {
@@ -713,7 +719,7 @@ vn_eng_missions_slot_2_d = {
 				}
 			}
 			else = {
-				army_size = 20
+				army_size = 35
 			}
         }
         effect = {
@@ -900,7 +906,7 @@ vn_eng_missions_slot_2_e = {
             any_elector = {
                 has_opinion = {
                     who = ROOT
-                    value = 100
+                    value = 125
                 }
             }
         }
@@ -933,20 +939,32 @@ vn_eng_missions_slot_2_f = {
     vn_eng_gascon_wine_trade = {
         icon = mission_wine_monopolies
         required_missions = { vn_eng_conquer_languedoc }
-        position = 15
+		position = 15
+		provinces_to_highlight = {
+			OR = {
+				area = bordeaux_area
+				area = labourd_area
+			}
+			trade_goods = wine
+		}
         trigger = {
             bordeaux_area = {
+				owned_by = ROOT
                 trade_goods = wine
                 has_building = farm_estate
             }
             labourd_area = {
+				owned_by = ROOT
                 trade_goods = wine
                 has_building = farm_estate
             }
         }
         effect = {
             bordeaux_area = {
-				limit = { trade_goods = wine }
+				limit = { 
+					trade_goods = wine 
+					owned_by = ROOT
+				}
 				add_base_production = 1
 				add_province_modifier = {
 					name = "eng_gascon_wine_trade_mission"
@@ -954,7 +972,10 @@ vn_eng_missions_slot_2_f = {
 				}
 			}
 			labourd_area = {
-				limit = { trade_goods = wine }
+				limit = { 
+					trade_goods = wine 
+					owned_by = ROOT
+				}
 				add_base_production = 1
 				add_province_modifier = {
 					name = "eng_gascon_wine_trade_mission"
@@ -984,7 +1005,14 @@ vn_eng_missions_slot_3_a = {
     vn_eng_integrate_danelaw = {
         icon = mission_rb_into_england
         required_missions = { }
-        position = 1
+		position = 1
+		provinces_to_highlight = {
+			region = northumbria_region
+			NOT = {
+				owned_by = ROOT
+                is_core = ROOT
+			}
+		}
         trigger = {
             northumbria_region = {
                 type = all
@@ -1149,15 +1177,15 @@ vn_eng_missions_slot_3_c = {
 		required_missions = { vn_eng_order_of_the_garter }
 		trigger = {
 			OR = {
-				OR = {
-					AND = {
-						OR = {
-							religion = anglican
-							religion = protestant
-							religion = anabaptist
-						}
-						church_power = 100
+				AND = {
+					OR = {
+						religion = anglican
+						religion = protestant
+						religion = anabaptist
 					}
+					church_power = 100
+				}
+				AND = {
 					religion = reformed
 					fervor = 50
 				}
@@ -1170,7 +1198,6 @@ vn_eng_missions_slot_3_c = {
 				}
 			}
 			religious_unity = 0.75
-			current_age = age_of_reformation
 			current_age = age_of_reformation
 		}
 		effect = {
@@ -1317,18 +1344,24 @@ vn_eng_missions_slot_3_e = {
                     type = cb_fabricated_claims
                     target = FRA
                     months = 300
-                }
+				}
+				add_legitimacy = 10
 			}
-			add_legitimacy = 10
+			else = {
+				custom_tooltip = vn_ase_elect_new_king.tt4
+			}
         }
     }
     vn_eng_occupy_paris = {
         icon = mission_big_city
-        required_missions = { vn_eng_claim_french_throne }
+		required_missions = { vn_eng_claim_french_throne }
+		provinces_to_highlight = {
+			province_id = 548
+		}
         trigger = {
             548 = {
                 OR = {
-                    owned_by = ROOT
+					country_or_non_sovereign_subject_holds = ROOT
                     controlled_by = ROOT
                 }
             }
@@ -1346,7 +1379,14 @@ vn_eng_missions_slot_3_e = {
     }
     vn_eng_dual_monarchy = {    #Overcome France
         icon = mission_rb_invade_england
-        required_missions = { vn_eng_occupy_paris }
+		required_missions = { vn_eng_occupy_paris }
+		provinces_to_highlight = {
+			OR = {
+				region = paris_region
+				region = champagne_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
             paris_region = {
                 type = all
@@ -1449,10 +1489,15 @@ vn_eng_missions_slot_4_b = {
     vn_eng_a_base_in_ireland = {
         icon = mission_rb_into_ireland
         required_missions = { }
-        position = 3
+		position = 3
+		provinces_to_highlight = {
+			superregion = irish_superregion
+			has_port = yes
+		}
         trigger = {
             irish_superregion = {   #at least 1 prov
-                owned_by = ROOT
+				owned_by = ROOT
+				has_port = yes
                 is_core = ROOT
             }
         }
@@ -1648,7 +1693,7 @@ vn_eng_missions_slot_4_c = {
                 type = master_of_mint
             }
             NOT = { num_of_loans = 1 }
-            NOT = { inflation = 1 }
+            NOT = { inflation = 0 }
         }
         effect = {
             add_years_of_income = 0.5
@@ -1796,7 +1841,11 @@ vn_eng_missions_slot_4_f = {
     vn_eng_conquer_baleares = {
         icon = mission_invade_island
         required_missions = { vn_eng_acquire_gibraltar }
-        position = 13
+		position = 13
+		provinces_to_highlight = {
+			area = balears_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
             balears_area = {
                 type = all
@@ -1884,7 +1933,10 @@ vn_eng_missions_slot_5_a = {
     vn_eng_growth_of_london = {
         icon = mission_rb_scottish_conquer_london
         required_missions = { }
-        position = 1
+		position = 1
+		provinces_to_highlight = {
+			province_id = 2268
+		}
         trigger = {
             2268 = {
 				owned_by = ROOT
@@ -1908,7 +1960,13 @@ vn_eng_missions_slot_5_a = {
     }
     vn_eng_found_universities = {
         icon = mission_rb_renovate_oxbridge
-        required_missions = { vn_eng_growth_of_london }
+		required_missions = { vn_eng_growth_of_london }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1242
+				province_id = 986
+			}
+		}
         trigger = {
             OR = {
                 college = 5
@@ -2071,7 +2129,13 @@ vn_eng_missions_slot_5_d = {
     vn_eng_cinque_ports = {
         icon = mission_galleys_in_port
         required_missions = { }
-        position = 7
+		position = 7
+		provinces_to_highlight = {
+			OR = {
+				province_id = 4688
+				province_id = 627
+			}
+		}
         trigger = {
             4688 = { #Dover (Sandwich, Hythe, New Romney)
                 owned_by = ROOT
@@ -2164,7 +2228,14 @@ vn_eng_missions_slot_5_d = {
     vn_eng_acquire_gibraltar = {
         icon = mission_rb_take_gibraltar
         required_missions = { vn_eng_secure_channel }
-        position = 12
+		position = 12
+		provinces_to_highlight = {
+			province_id = 761
+			NOT = {
+				owned_by = ROOT
+                is_core = ROOT
+			}
+		}
         trigger = {
             761 = {
                 owned_by = ROOT
@@ -2185,7 +2256,14 @@ vn_eng_missions_slot_5_d = {
     }
     vn_eng_conquer_malta = {
         icon = mission_invade_island
-        required_missions = { vn_eng_acquire_gibraltar }
+		required_missions = { vn_eng_acquire_gibraltar }
+		provinces_to_highlight = {
+			province_id = 2711
+			NOT = {
+				owned_by = ROOT
+                is_core = ROOT
+			}
+		}
         trigger = {
             2711 = {
                 owned_by = ROOT

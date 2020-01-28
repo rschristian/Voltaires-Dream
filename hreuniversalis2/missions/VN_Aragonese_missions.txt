@@ -17,7 +17,6 @@ vn_ara_missions_slot_1_a = {
 	}
 	has_country_shield = yes
     
-    #Issue Fueros
 	vn_ara_issue_fueros = {
 		position = 1
 		icon = mission_taula_de_canvi
@@ -41,15 +40,25 @@ vn_ara_missions_slot_1_a = {
 			}
 		}
     }
-    #Unite the Nobility
 	vn_ara_unite_nobility = {
 		position = 3
 		icon = mission_have_two_subjects
 		required_missions = { vn_ara_issue_fueros }
 		trigger = {
-			estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 70
+			if = {
+				limit = {
+					has_estate = estate_nobles
+				}
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 60
+				}
+				NOT = {
+					any_owned_province = {
+						limit = { has_estate = estate_nobles }
+						unrest = 0.5
+					}
+				}
 			}
 		}
 		effect = {
@@ -59,7 +68,6 @@ vn_ara_missions_slot_1_a = {
 			}
 		}
     }
-    #Corts of Aragon
 	vn_ara_corts_of_aragon = {
 		icon = mission_noble_council
 		required_missions = { vn_ara_unite_nobility }
@@ -85,17 +93,16 @@ vn_ara_missions_slot_1_a = {
 			owns_core_province = 711
 			owns_core_province = 1955
 			owns_core_province = 2024
-			#Aragon, Barcelona&Valencia
 		}
 		effect = {
 			add_corruption = -2
+			change_government_reform_progress = 15
 			add_country_modifier = {
 				name = "ara_corts_of_aragon_mission"
 				duration = 9125
 			}
 		}
     }
-    #Catalan Patronage
 	vn_ara_catalan_patronage = {
 		icon = mission_guilds_of_barcelona
 		required_missions = {
@@ -121,7 +128,6 @@ vn_ara_missions_slot_1_a = {
 			}
 		}
     }
-    #Consulate of the Sea
 	vn_ara_consulate_of_the_sea = {
 		icon = mission_consulate_of_the_sea
 		required_missions = { vn_ara_catalan_patronage }
@@ -168,7 +174,6 @@ vn_ara_missions_slot_1_b = {
 	}
 	has_country_shield = yes
     
-    #Maghreb Footholds
 	vn_ara_ports_on_maghreb = {
 		position = 7
 		icon = mission_control_the_barbary_coast
@@ -205,7 +210,6 @@ vn_ara_missions_slot_1_b = {
 			}
 		}
     }
-    #Carthago Delenda Est
 	vn_ara_carthago_delenda_est = {
 		position = 9
 		icon = mission_conquer_tunisia
@@ -283,7 +287,6 @@ vn_ara_missions_slot_2_a = {
 	}
 	has_country_shield = yes
     
-    #Support from Allies
 	vn_ara_support_from_allies = {
 		position = 1
 		icon = mission_alliances
@@ -321,7 +324,6 @@ vn_ara_missions_slot_2_b = {
 	}
 	has_country_shield = yes
     
-    #Move Court to Zaragoza
 	vn_ara_move_court_to_zaragoza = {
 		position = 3
 		icon = mission_big_city
@@ -366,7 +368,6 @@ vn_ara_missions_slot_2_c = {
 	}
 	has_country_shield = yes
     
-    #The Catalan Company
 	vn_ara_the_catalan_company = {
 		position = 4
 		icon = mission_italian_condottiere
@@ -394,6 +395,10 @@ vn_ara_missions_slot_2_c = {
 			}
 		}
 		effect = {
+			create_general = {
+				culture = catalan
+				tradition = 75
+			}
 			add_country_modifier = {
 				name = "ara_the_catalan_company_mission"
 				duration = 7300
@@ -425,32 +430,6 @@ vn_ara_missions_slot_2_d = {
 	}
 	has_country_shield = yes
 
-    #Conquer Murcia
-	# vn_ara_conquer_murcia = {
-	# 	position = 6
-	# 	icon = mission_unite_home_region	#placeholder
-	# 	required_missions = { vn_ara_advance_to_valencia }
-	# 	provinces_to_highlight = {
-	# 		area = murcia_area
-	# 		NOT = { country_or_non_sovereign_subject_holds = ROOT }
-	# 	}
-	# 	trigger = {
-	# 		murcia_area = {
-	# 			type = all
-	# 			country_or_non_sovereign_subject_holds = ROOT
-	# 		}
-	# 	}
-	# 	effect = {
-	# 		almeria_area = {
-	# 			limit = {
-	# 				NOT = { is_core = ROOT }
-	# 				NOT = { is_permanent_claim = ROOT }
-	# 			}
-	# 			add_permanent_claim = ROOT
-	# 		}
-	# 	}
-    # }
-    #Conquer Almeria
 	vn_ara_conquer_almeria = {
 		icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_ara_advance_to_valencia }
@@ -489,7 +468,6 @@ vn_ara_missions_slot_2_d = {
 			}
 		}
     }
-    #Riches of Granada
 	vn_ara_riches_of_granada = {
 		icon = mission_develop_alhambra
 		required_missions = { vn_ara_conquer_almeria }
@@ -543,21 +521,30 @@ vn_ara_missions_slot_2_e = {
 	}
 	has_country_shield = yes
     
-    #Control Lisbon
 	vn_ara_control_lisbon = {
 		position = 8
 		icon = mission_portuguese_interference
 		required_missions = { vn_ara_iberian_wedding }
 		provinces_to_highlight = {
 			province_id = 1135
-			NOT = { controlled_by = ROOT }
+			NOT = {
+				OR = {
+					owned_by = ROOT
+					controlled_by = ROOT
+				}
+			}
 		}
 		trigger = {
-			any_known_country = {
+			OR = {
+				AND = {
+					any_known_country = {
+						owns = 1135
+						war_with = ROOT
+					}
+					controls = 1135
+				}
 				owns = 1135
-				war_with = ARA
 			}
-			controls = 1135
 		}
 		effect = {
 			beiras_region = {
@@ -576,7 +563,6 @@ vn_ara_missions_slot_2_e = {
 			}
 		}
     }
-    #Aragonese Portugal
 	vn_ara_aragonese_portugal = {
 		icon = mission_union_with_portugal
 		required_missions = { vn_ara_control_lisbon }
@@ -623,7 +609,6 @@ vn_ara_missions_slot_3_a = {
 	}
 	has_country_shield = yes
     
-    #Prepare Reconquista
 	vn_ara_prepare_reconquista = {
 		position = 1
 		icon = mission_build_up_to_force_limit
@@ -640,7 +625,6 @@ vn_ara_missions_slot_3_a = {
 					religion = sunni
 				}
 			}
-			
 		}
 		effect = {
 			huesca_area = {
@@ -688,7 +672,6 @@ vn_ara_missions_slot_3_a = {
 			}
 		}
     }
-    #Reach the Ebro
 	vn_ara_reach_ebro = {
 		icon = mission_advance_to_the_dnieper
 		required_missions = {
@@ -740,7 +723,6 @@ vn_ara_missions_slot_3_a = {
 			}
 		}
     }
-    #Conquer Teruel
 	vn_ara_conquer_teruel = {
 		icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_ara_reach_ebro }
@@ -778,7 +760,6 @@ vn_ara_missions_slot_3_a = {
 			}
 		}
     }
-    #Advance to Valencia
 	vn_ara_advance_to_valencia = {
 		icon = mission_raid_on_valencia
 		required_missions = { vn_ara_conquer_teruel }
@@ -817,7 +798,6 @@ vn_ara_missions_slot_3_a = {
 			}
         }
     }
-    #Crown of Aragon
 	vn_ara_crown_of_aragon = {
 		icon = mission_empire
 		position = 6
@@ -864,7 +844,6 @@ vn_ara_missions_slot_3_a = {
 			}
 		}
     }
-    #Iberian Wedding
 	vn_ara_iberian_wedding = {
 		icon = mission_castillian_aggression
 		required_missions = { vn_ara_crown_of_aragon }
@@ -921,17 +900,20 @@ vn_ara_missions_slot_3_a = {
 			}
 		}
     }
-    #Centralize the Kingdom
 	vn_ara_centralize_kingdom = {
 		icon = mission_noble_council
 		required_missions = { vn_ara_iberian_wedding }
-		trigger = {
-			if = {
-				limit = {
-					has_dlc = "Dharma"
-				}
-				has_reform_level = 5
+		provinces_to_highlight = {
+			OR = {
+				region = aragon_region
+				region = catalunya_region
+				region = valencian_region
 			}
+			local_autonomy = 30
+			controlled_by = REB
+		}
+		trigger = {
+			has_reform_level = 5
 			aragon_region = {
 				type = all
 				owned_by = ROOT
@@ -958,8 +940,18 @@ vn_ara_missions_slot_3_a = {
 			}
 		}
 		effect = {
-			every_owned_province = {
-				add_local_autonomy = -5
+			custom_tooltip = vn_ara_centralize_kingdom.tt
+			hidden_effect = {
+				every_owned_province = {
+					limit = {
+						OR = {
+							region = aragon_region
+							region = catalunya_region
+							region = valencia_region
+						}
+					}
+					add_local_autonomy = -10
+				}
 			}
 			add_country_modifier = {
 				name = "ara_centralize_kingdom_mission"
@@ -967,15 +959,17 @@ vn_ara_missions_slot_3_a = {
 			}
 		}
     }
-    #Convert the Moors
 	vn_ara_convert_moors = {
 		icon = mission_convert_provinces
 		required_missions = { vn_ara_centralize_kingdom }
 		trigger = {
-			all_owned_province = {
+			num_of_owned_provinces_with = {
+				value = 50
 				superregion = iberia_superregion
-				NOT = { religion_group = muslim }
-				NOT = { culture = andalucian }
+				NOT = { 
+					religion_group = muslim 
+					culture = andalucian
+				}
 			}
 		}
 		effect = {
@@ -1004,7 +998,6 @@ vn_ara_missions_slot_4_a = {
 	}
 	has_country_shield = yes
 	
-	#Subjugate Navarra
 	vn_ara_subjugate_navarra = {
 		position = 1
 		icon = mission_subjugate_navarra
@@ -1036,7 +1029,6 @@ vn_ara_missions_slot_4_a = {
 			}
 		}	
 	}
-    #The Catalan Question
 	vn_ara_the_catalan_question = {
 		position = 3
 		icon = mission_have_two_subjects
@@ -1053,20 +1045,18 @@ vn_ara_missions_slot_4_a = {
 							marriage_with = ROOT
 							alliance_with = ROOT
 							has_opinion = {
-								who = ARA
-								value = 175
+								who = ROOT
+								value = 150
 							}
 						}
-						AND = {
+						OR = {
 							OR = {
 								is_enemy = ROOT
 								is_rival = ROOT
 							}
-							NOT = {
-								has_opinion = {
-									who = ARA
-									value = 25
-								}
+							has_opinion = {
+								who = ROOT
+								value = -125
 							}
 						}
 					}
@@ -1080,20 +1070,18 @@ vn_ara_missions_slot_4_a = {
 							marriage_with = ROOT
 							alliance_with = ROOT
 							has_opinion = {
-								who = ARA
-								value = 175
+								who = ROOT
+								value = 150
 							}
 						}
-						AND = {
+						OR = {
 							OR = {
 								is_enemy = ROOT
 								is_rival = ROOT
 							}
-							NOT = {
-								has_opinion = {
-									who = ARA
-									value = 25
-								}
+							has_opinion = {
+								who = ROOT
+								value = -125
 							}
 						}
 					}
@@ -1110,7 +1098,6 @@ vn_ara_missions_slot_4_a = {
 			}
 		}	
     }
-    #Catalan-Aragonese Union
 	vn_ara_catalan_aragonese_union = {
 		position = 5
 		icon = mission_unite_home_region	#placeholder
@@ -1160,7 +1147,6 @@ vn_ara_missions_slot_4_b = {
 	}
 	has_country_shield = yes
     
-    #Intrigues in Greece
 	vn_ara_intrigues_in_greece = {
 		position = 7
 		icon = mission_unite_home_region	#placeholder
@@ -1174,11 +1160,19 @@ vn_ara_missions_slot_4_b = {
 				}
 				OR = {
 					has_opinion = {
-						who = ARA
+						who = ROOT
 						value = 100
 					}
-					is_enemy = ARA
-					is_rival = ARA
+					OR = {
+						OR = {
+							is_enemy = ROOT
+							is_rival = ROOT
+						}
+						has_opinion = {
+							who = ROOT
+							value = -125
+						}
+					}
 				}
 			}
 		}
@@ -1199,7 +1193,6 @@ vn_ara_missions_slot_4_b = {
 			}
 		}	
     }
-    #Conquer Athens
 	vn_ara_conquer_athens = {
 		icon = mission_unite_home_region	#placeholder
 		required_missions = {
@@ -1252,11 +1245,14 @@ vn_ara_missions_slot_4_c = {
 	}
 	has_country_shield = yes
     
-    #Homogenize Culture
 	vn_ara_homogenize_culture = {
 		position = 9
 		icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_ara_centralize_kingdom }
+		provinces_to_highlight = {
+			region = aragon_region
+			NOT = { culture = aragonese }
+		}
 		trigger = {
 			aragon_region = {
 				type = all
@@ -1293,7 +1289,6 @@ vn_ara_missions_slot_5_a = {
 	}
 	has_country_shield = yes
     
-    #Conquer Septimania
 	vn_ara_conquer_septimania = {
 		position = 4
 		icon = mission_unite_home_region	#placeholder
@@ -1325,7 +1320,6 @@ vn_ara_missions_slot_5_a = {
 			}
 		}	
     }
-    #Occitan Counties
 	vn_ara_occitan_counties = {
 		icon = mission_invade_occitania
 		required_missions = { vn_ara_conquer_septimania }
@@ -1340,6 +1334,7 @@ vn_ara_missions_slot_5_a = {
 			}
 		}
 		effect = {
+			add_prestige = 10
 			provence_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1349,7 +1344,6 @@ vn_ara_missions_slot_5_a = {
 			}
 		}	
     }
-    #Into Provence
 	vn_ara_into_provence = {
 		icon = mission_humiliate_provence
 		required_missions = { vn_ara_occitan_counties }
@@ -1365,9 +1359,7 @@ vn_ara_missions_slot_5_a = {
 		}
 		effect = {
 			provence_region = {
-				limit = {
-					has_port = yes
-				}
+				limit = { has_port = yes }
 				add_province_modifier = {
 					name = "ara_into_provence_mission"
 					duration = 9125
@@ -1393,18 +1385,17 @@ vn_ara_missions_slot_5_b = {
 	}
 	has_country_shield = yes
 
-    #Aragonese Navy
 	vn_ara_establish_a_navy = {
 		position = 7
 		icon = mission_aragonese_navy
 		required_missions = { vn_ara_crown_of_aragon }
 		trigger = {
-			naval_forcelimit = 25
+			naval_forcelimit = 30
 			calc_true_if = {
-				num_of_heavy_ship = 4
-				num_of_galley = 8
-				num_of_light_ship = 8
-				num_of_transport = 10
+				num_of_heavy_ship = 5
+				num_of_galley = 10
+				num_of_light_ship = 10
+				num_of_transport = 15
 				amount = 3
 			}
 		}
@@ -1415,7 +1406,6 @@ vn_ara_missions_slot_5_b = {
 			}
 		}	
     }
-    #Take the Baleares
 	vn_ara_take_baleares = {
 		icon = mission_invade_island
 		required_missions = { vn_ara_establish_a_navy }

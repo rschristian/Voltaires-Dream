@@ -19,12 +19,12 @@ vn_por_missions_slot_1_a = {
         required_missions = { }
         position = 1
         trigger = {
-            naval_forcelimit = 25
+            naval_forcelimit = 30
 			calc_true_if = {
-				num_of_heavy_ship = 4
-				num_of_galley = 8
-				num_of_light_ship = 8
-				num_of_transport = 10
+				num_of_heavy_ship = 5
+				num_of_galley = 10
+				num_of_light_ship = 10
+				num_of_transport = 15
 				amount = 3
 			}
         }
@@ -49,8 +49,8 @@ vn_por_missions_slot_1_a = {
                 		has_dock_building_trigger = yes
 					}
 					AND = {
-						has_building = canal
 						development = 15
+						has_building = canal
 					}
 				}
             }
@@ -65,8 +65,8 @@ vn_por_missions_slot_1_a = {
 							has_dock_building_trigger = yes
 						}
 						AND = {
-							has_building = canal
 							development = 15
+							has_building = canal
 						}
 					}
                 }
@@ -84,10 +84,11 @@ vn_por_missions_slot_1_a = {
 							has_dock_building_trigger = yes
 						}
 						AND = {
-							has_building = canal
 							development = 15
+							has_building = canal
 						}
 					}
+					NOT = { has_province_modifier = por_prosperous_ports_mission }
                 }
                 add_province_modifier = {
                     name = "por_prosperous_ports_mission"
@@ -100,13 +101,11 @@ vn_por_missions_slot_1_a = {
         icon = mission_launch_a_flagship
         required_missions = { vn_por_prosperous_ports }
         trigger = {
-            num_of_heavy_ship = 6
-            calc_true_if = {
-                all_owned_province = {
-                    has_shipyard_building_trigger = yes
-                }
-                amount = 2
-            }
+			num_of_heavy_ship = 10
+			num_of_owned_provinces_with = {
+				value = 5
+				has_shipyard_building_trigger = yes
+			}
         }
         effect = {
             define_advisor = {
@@ -187,7 +186,7 @@ vn_por_missions_slot_2_a = {
                 }
                 OR = {
                     province_has_center_of_trade_of_level = 2
-                    province_trade_power = 25
+                    has_trade_building_trigger = yes
                 } 
             }
         }
@@ -248,7 +247,8 @@ vn_por_missions_slot_2_a = {
 						trade_goods = spices
                     }
                     has_trade_building_trigger = yes
-                }
+				}
+				add_base_production = 2
                 add_province_modifier = {
                     name = "por_exotic_trade_goods_mission"
                     duration = 9125
@@ -265,7 +265,8 @@ vn_por_missions_slot_2_a = {
 							trade_goods = spices
                         }
                     }
-                }
+				}
+				add_base_production = 2
                 random_list = {
                     20 = {
                         change_trade_goods = peaches
@@ -314,7 +315,7 @@ vn_por_missions_slot_2_a = {
             }
         }
         effect = {
-            add_years_of_income = 0.15
+            add_years_of_income = 0.25
             add_country_modifier = {
                 name = "por_monopoly_in_iberia_mission"
                 duration = 7300
@@ -354,20 +355,29 @@ vn_por_missions_slot_2_b = {
         position = 6
         trigger = {
             num_of_owned_provinces_with = {
-                value = 10
+				value = 10
+				OR = {
+					region = beiras_region
+					region = alentejo_region
+				}
                 development = 10
             }
             num_of_owned_provinces_with = {
-                value = 4
+				value = 5
+				OR = {
+					region = beiras_region
+					region = alentejo_region
+				}
                 development = 15
             }
         }
         effect = {
             random_owned_province = {
                 limit = {
-                    NOT = { fort_level = 1 }
+                    NOT = { has_fort_trigger = yes }
                 }
-                add_building = fort_14th
+				add_building = fort_14th
+				add_base_manpower = 2
             }
             random_owned_province = {
                 limit = {
@@ -394,17 +404,6 @@ vn_por_missions_slot_2_b = {
                 }
             }
             religious_unity = 1
-            OR = {
-				num_of_owned_provinces_with = {
-					value = 5
-					religion_group = muslim
-				}
-                NOT = {
-                    any_owned_province = {
-                        religion_group = muslim
-                    }
-                }
-            }
         }
         effect = {
             custom_tooltip = vn_por_deal_with_moors.tt
@@ -527,7 +526,10 @@ vn_por_missions_slot_3_a = {
     }
     vn_por_university_of_coimbra = {
         icon = mission_early_modern_university
-        required_missions = { vn_por_beyond_douro }
+		required_missions = { vn_por_beyond_douro }
+		provinces_to_highlight = {
+			province_id = 2243
+		}
         trigger = {
             2243 = {
                 owned_by = ROOT
@@ -584,7 +586,7 @@ vn_por_missions_slot_3_b = {
             }
         }
         effect = {
-            add_prestige = 5
+            add_prestige = 10
             algarve_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -703,6 +705,7 @@ vn_por_missions_slot_4_a = {
             }
         }
         effect = {
+			add_dip_power = 50
             galicia_area = {
                 limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
@@ -749,7 +752,10 @@ vn_por_missions_slot_4_b = {
             }
         }
         effect = {
-            add_prestige = 10
+			add_legitimacy = 10
+			1135 = {
+				add_nationalism = -5
+			}
             avis_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -867,18 +873,38 @@ vn_por_missions_slot_4_c = {
         effect = {
             2264 = {
 				add_base_tax = 1
+				add_province_modifier = {
+					name = "por_portuguese_cortes_mission"
+					duration = -1
+				}
 			}
 			1126 = {
 				add_base_tax = 1
+				add_province_modifier = {
+					name = "por_portuguese_cortes_mission"
+					duration = -1
+				}
 			}
 			2265 = {
 				add_base_tax = 1
+				add_province_modifier = {
+					name = "por_portuguese_cortes_mission"
+					duration = -1
+				}
 			}
 			2243 = {
 				add_base_tax = 1
+				add_province_modifier = {
+					name = "por_portuguese_cortes_mission"
+					duration = -1
+				}
 			}
 			4446 = {
 				add_base_tax = 1
+				add_province_modifier = {
+					name = "por_portuguese_cortes_mission"
+					duration = -1
+				}
 			}
         }
     }
@@ -888,9 +914,12 @@ vn_por_missions_slot_4_c = {
         position = 6
         trigger = {
             has_institution = renaissance
-            current_age = age_of_discovery
+			all_owned_province = {
+				has_institution = renaissance
+			}
         }
         effect = {
+			add_years_of_income = 0.1
             define_advisor = {
                 type = artist
                 culture = portuguese
@@ -922,23 +951,28 @@ vn_por_missions_slot_4_d = {
             government_rank = 5
             is_subject = no
             tag = POR
-            exists = CAS
-            OR = {
-                AND = {
-                    reverse_has_opinion = {
-                        who = CAS
+			exists = CAS
+			CAS = {
+				exists = yes
+				OR = {
+					has_opinion = {
+                        who = ROOT
                         value = 125
                     }
                     OR = {
-                        marriage_with = CAS
-                        alliance_with = CAS
+                        marriage_with = ROOT
+                        alliance_with = ROOT
                     }
                 }
                 OR = {
-                    is_enemy = CAS
-                    is_rival = CAS
+                    is_enemy = ROOT
+					is_rival = ROOT
+					has_opinion = {
+						who = ROOT
+						value = -125
+					}
                 }
-            }
+			}
         }
         effect = {
             add_country_modifier = {
@@ -994,7 +1028,8 @@ vn_por_missions_slot_5_a = {
         required_missions = { }
         position = 1
         trigger = {
-            is_subject = no
+			is_subject = no
+			num_of_allies = 1
         }
         effect = {
             add_legitimacy = 10

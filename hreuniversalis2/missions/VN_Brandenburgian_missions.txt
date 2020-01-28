@@ -24,7 +24,7 @@ vn_bra_missions_slot_1_a = {
             2652 = {
 				owned_by = ROOT
 				is_core = ROOT
-				development = 17
+				development = 20
 				has_fort_trigger = yes
 			}
         }
@@ -45,7 +45,7 @@ vn_bra_missions_slot_1_a = {
         required_missions = { vn_bra_berlin_and_colln }
         trigger = {
             num_of_owned_provinces_with = {
-				value = 3
+				value = 5
 				region = brandenburg_region
 				has_fort_trigger = yes
 			}
@@ -205,6 +205,7 @@ vn_bra_missions_slot_1_c = {
 				}
 				2652 = {
 					add_center_of_trade_level = 1
+					add_base_production = 2
 				}
 			}
 			else = {
@@ -218,33 +219,23 @@ vn_bra_missions_slot_1_c = {
 				}
 				402 = {
 					add_center_of_trade_level = 1
+					add_base_production = 2
 				}
 			}
 			else = {
 				add_years_of_income = 1
 			}
-			
         }
     }
     vn_bra_trade_with_hansa = {
         icon = mission_hanseatic_city
         required_missions = { vn_bra_baltic_entrepots }
         trigger = {
-            1607 = {	#Lubeck
+            13 = {	#Lubeck
 				trade_share = {
 					country = ROOT
-					share = 20
+					share = 25
 				}
-			}
-			calc_true_if = {
-				all_country = {
-					has_trader = 1607
-					has_opinion = {
-						who = ROOT
-						value = 100
-					}
-				}
-				amount = 3
 			}
         }
         effect = {
@@ -321,6 +312,7 @@ vn_bra_missions_slot_2_a = {
 			}
         }
         effect = {
+			add_army_tradition = 10
 			843 = {
 				if = {
 					limit = {
@@ -360,8 +352,8 @@ vn_bra_missions_slot_2_a = {
 					add_claim = ROOT
 				}
 				reverse_add_casus_belli = {
-					type = cb_conquest
-					target = THIS
+					type = cb_vassalize_mission
+					target = ROOT
 				}
 			}
         }
@@ -640,6 +632,7 @@ vn_bra_missions_slot_3_b = {
 			}
         }
         effect = {
+			add_mil_power = 50
             2783 = {
 				if = {
 					limit = {
@@ -651,15 +644,25 @@ vn_bra_missions_slot_3_b = {
 			}
         }
     }
-    vn_bra_eastern_frontier = {	#Reinforce Frontier
+    vn_bra_eastern_frontier = {
 		icon = mission_unite_home_region	#placeholder
 		required_missions = { vn_bra_conquer_neumark }
 		provinces_to_highlight = {
-			province_id = 2783
+			OR = {
+				province_id = 2783
+				province_id = 3210
+				province_id = 4809
+			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             2783 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			3210 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			4809 = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -939,10 +942,15 @@ vn_bra_missions_slot_4_a = {
 		position = 1
         required_missions = {  }
         trigger = {
-			is_elector = yes
-			reverse_has_opinion = {
-				who = emperor
-				value = 100
+			OR = {
+				AND = {
+					is_elector = yes
+					reverse_has_opinion = {
+						who = emperor
+						value = 100
+					}
+				}
+				is_emperor = yes
 			}
         }
         effect = {
@@ -1046,8 +1054,8 @@ vn_bra_missions_slot_4_d = {
     }
 	has_country_shield = yes
 
-    vn_bra_send_german_colonists = {	#Send (Culture) Colonists
-		icon = mission_unite_home_region	#placeholder
+    vn_bra_send_german_colonists = {
+		icon = mission_settlers_north_america
 		position = 5
 		provinces_to_highlight = {
 			area = neumark_area
@@ -1295,20 +1303,25 @@ vn_bra_missions_slot_5_a = {
 			vn_bra_curb_robber_baronry
 			vn_bra_electorate
 		}
-        trigger = {
-			if = {
-				limit = {
-					has_dlc = "Dharma"
-				}
-				has_reform_level = 3
+		provinces_to_highlight = {
+			OR = {
+				region = brandenburg_region
+				area = neumark_area
 			}
-			else = {
-				num_of_owned_provinces_with = {
-					value = 3
-					OR = {
-						has_building = courthouse
-						has_building = town_hall
-					}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			local_autonomy = 30
+			controlled_by = REB
+		}
+        trigger = {
+			has_reform_level = 3
+			num_of_owned_provinces_with = {
+				value = 3
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
 				}
 			}
 			brandenburg_region = {
@@ -1394,8 +1407,10 @@ vn_bra_missions_slot_5_c = {
 						}
 						church_power = 100
 					}
-					religion = reformed
-					fervor = 50
+					AND = {
+						religion = reformed
+						fervor = 50
+					}
 				}
                 AND = {
 					OR = {
@@ -1516,9 +1531,22 @@ vn_bra_missions_slot_5_c = {
 				}
 			}
 			else = {
-				add_adm_power = 25
-				add_dip_power = 25
-				add_mil_power = 25
+				add_years_of_income = 0.5
+				add_adm_power = 50
+				add_dip_power = 50
+				add_mil_power = 50
+				if = {
+					limit = { uses_papacy = yes }
+					add_papal_influence = 20
+				}
+				else_if = {
+					limit = { uses_church_power = yes }
+					add_church_power = 20
+				}
+				else_if = {
+					limit = { uses_fervor = yes }
+					add_fervor = 15
+				}
 			}
         }
 	}

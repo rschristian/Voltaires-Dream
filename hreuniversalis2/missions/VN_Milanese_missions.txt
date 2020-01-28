@@ -400,14 +400,19 @@ vn_mlo_missions_slot_3_a = {
         position = 1
         required_missions = { }
         trigger = {
-            army_size_percentage = 1
+			army_size_percentage = 1
+			num_of_generals = 1
+			manpower_percentage = 0.5
 			war_exhaustion = 0
 			custom_trigger_tooltip = {
-				tooltip = vn_mlo_expansion_of_milan.tt
-				any_neighbor_country = {
-					any_owned_province = {
+				tooltip = vn_mlo_expansion_of_milan.tt2
+				calc_true_if = {
+					italy_superregion = {
+						type = all
+						NOT = { country_or_non_sovereign_subject_holds = ROOT }
 						is_claim = ROOT
 					}
+					amount = 5
 				}
 			}
         }
@@ -463,6 +468,7 @@ vn_mlo_missions_slot_3_a = {
             }
         }
         effect = {
+			add_legitimacy = 10
 			500 = {
 				if = {
 					limit = {
@@ -587,7 +593,6 @@ vn_mlo_missions_slot_3_a = {
         }
         effect = {
 			add_prestige = 5
-			add_legitimacy = 10
             bologna_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -706,40 +711,6 @@ vn_mlo_missions_slot_3_b = {
     }
 }
 
-# vn_mlo_missions_slot_3_c = {
-#     slot = 8
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = MLO
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
-
-#     vn_mlo_iron_crown_of_lombardy = {
-#         icon = mission_empire
-#         position = 9
-#         required_missions = {
-#             vn_mlo_elevation_to_duchy
-#             vn_mlo_mediterranean_powerhouse
-#         }
-#         trigger = {
-#             government_rank = 5
-#             prestige = 50
-#             legitimacy = 95
-#             italy_superregion = {
-#                 type = all
-#                 owned_by = ROOT
-#                 is_core = ROOT
-#             }
-#             #perhaps Lombardy should have this?
-#         }
-#         effect = {
-#             
-#         }
-#     }
-# }
-
 vn_mlo_missions_slot_4_a = {
     slot = 9
     generic = no
@@ -760,7 +731,10 @@ vn_mlo_missions_slot_4_a = {
         trigger = {
             1012 = {
 				owned_by = ROOT
-                has_building = university
+				OR = {
+					has_building = college
+					has_building = university
+				}
             }
         }
         effect = {
@@ -818,26 +792,6 @@ vn_mlo_missions_slot_4_b = {
             }
         }
     }
-    # vn_mlo_conquer_ferrara = {
-    #     icon = mission_italian_condottiere  #placeholder
-    #     required_missions = {
-    #         vn_mlo_seize_mantua
-    #         vn_mlo_conquer_emilia
-    #     }
-    #     provinces_to_highlight = {
-    #         area = ferrara_area
-    #         NOT = { country_or_non_sovereign_subject_holds = ROOT }
-    #     }
-    #     trigger = {
-    #         ferrara_area = {
-    #             type = all
-    #             country_or_non_sovereign_subject_holds = ROOT
-    #         }
-    #     }
-    #     effect = {
-    #         
-    #     }
-    # }
     vn_mlo_po_trading_hubs = {
         icon = mission_dominate_home_trade_node
         required_missions = { 
@@ -866,9 +820,7 @@ vn_mlo_missions_slot_4_b = {
                 limit = { 
                     region = lombardy_region
 					has_trade_building_trigger = yes
-					NOT = {
-						has_province_modifier = mlo_po_trading_hubs_mission
-					}
+					NOT = { has_province_modifier = mlo_po_trading_hubs_mission }
                 }
                 add_province_modifier = {
                     name = "mlo_po_trading_hubs_mission"
@@ -913,10 +865,11 @@ vn_mlo_missions_slot_4_b = {
 								NOT = { province_has_center_of_trade_of_level = 3 }
 							}
 							add_center_of_trade_level = 1
+							add_base_production = 1
 						}
                         else = {
-							add_base_production = 1
-						}  
+							add_base_production = 2
+						} 
                     }
                 }
                 25 = {
@@ -926,9 +879,10 @@ vn_mlo_missions_slot_4_b = {
 								NOT = { province_has_center_of_trade_of_level = 3 }
 							}
 							add_center_of_trade_level = 1
+							add_base_production = 1
 						}
                         else = {
-							add_base_production = 1
+							add_base_production = 2
 						}  
                     }
                 }
@@ -939,9 +893,10 @@ vn_mlo_missions_slot_4_b = {
 								NOT = { province_has_center_of_trade_of_level = 3 }
 							}
 							add_center_of_trade_level = 1
+							add_base_production = 1
 						}
                         else = {
-							add_base_production = 1
+							add_base_production = 2
 						}  
                     }
                 }
@@ -952,9 +907,10 @@ vn_mlo_missions_slot_4_b = {
 								NOT = { province_has_center_of_trade_of_level = 3 }
 							}
 							add_center_of_trade_level = 1
+							add_base_production = 1
 						}
                         else = {
-							add_base_production = 1
+							add_base_production = 2
 						}  
                     }
                 }
@@ -989,6 +945,7 @@ vn_mlo_missions_slot_5_a = {
 			}
         }
         effect = {
+			add_legitimacy = 5
             trent_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1023,31 +980,52 @@ vn_mlo_missions_slot_5_a = {
     }
     vn_mlo_safeguard_alps = {
         icon = mission_european_castle
-        required_missions = { vn_mlo_conquer_trent }
+		required_missions = { vn_mlo_conquer_trent }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 4800
+				province_id = 1136
+				province_id = 2291
+				province_id = 2717
+				province_id = 2292
+				province_id = 2269
+			}
+			NOT = {
+				has_fort_trigger = yes
+				owned_by = ROOT
+			}
+		}
         trigger = {
             calc_true_if = {
 				4800 = {
 					has_fort_trigger = yes
+					owned_by = ROOT
 				}
 				1136 = {
 					has_fort_trigger = yes
+					owned_by = ROOT
 				}
 				2291 = {
 					has_fort_trigger = yes
+					owned_by = ROOT
 				}
 				2717 = {
 					has_fort_trigger = yes
+					owned_by = ROOT
 				}
 				2292 = {
 					has_fort_trigger = yes
+					owned_by = ROOT
 				}
 				2269 = {
 					has_fort_trigger = yes
+					owned_by = ROOT
 				}
 				amount = 3
 			}
         }
         effect = {
+			add_mil_power = 25
             add_country_modifier = {
                 name = "mlo_safeguard_alps_mission"
                 duration = 9125
@@ -1097,15 +1075,21 @@ vn_mlo_missions_slot_5_b = {
         required_missions = { vn_mlo_beyond_lago_di_garda }
         trigger = {
             if = {
-                limit = { exists = VEN }
-                num_of_heavy_ship = VEN
-                num_of_galley = VEN
-                num_of_transport = VEN
+				limit = { exists = VEN }
+				calc_true_if = {
+					num_of_heavy_ship = VEN
+					num_of_galley = VEN
+					num_of_transport = VEN
+					amount = 2
+				}
             }
             else = {
-                num_of_heavy_ship = 5
-                num_of_galley = 10
-                num_of_transport = 15
+				calc_true_if = {
+					num_of_heavy_ship = 10
+					num_of_galley = 15
+					num_of_transport = 20
+					amount = 2
+				}
             }
         }
         effect = {

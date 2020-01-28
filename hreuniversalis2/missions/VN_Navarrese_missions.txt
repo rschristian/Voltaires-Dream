@@ -19,6 +19,7 @@ vn_nav_missions_slot_1_a = {
             num_of_owned_provinces_with = {
 				value = 3
 				development = 10
+				has_institution = investiture
 			}
 			has_institution = investiture
         }
@@ -37,7 +38,7 @@ vn_nav_missions_slot_1_a = {
         trigger = {
 			stability = 1
 			has_reform_level = 3
-			NOT = { corruption = 0.5 }
+			NOT = { corruption = 0 }
         }
         effect = {
 			add_adm_power = 50
@@ -90,7 +91,7 @@ vn_nav_missions_slot_1_b = {
 			}
         }
     }
-    vn_nav_keep_conquests = {	#Claim our Inheritance
+    vn_nav_keep_conquests = {
 		icon = mission_iberian_conquistador 	#placeholder
         position = 6
 		required_missions = { vn_nav_southern_france }
@@ -102,7 +103,6 @@ vn_nav_missions_slot_1_b = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-			#normandy or champagne
 			OR = {
 				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 					value = 5
@@ -146,6 +146,14 @@ vn_nav_missions_slot_2_a = {
             num_of_owned_provinces_with = {
 				value = 5
 				development = 15
+				calc_true_if = {
+					has_trade_building_trigger = yes
+					has_manpower_building_trigger = yes
+					has_production_building_trigger = yes
+					has_shipyard_building_trigger = yes
+					has_dock_building_trigger = yes
+					amount = 3
+				}
 			}
         }
         effect = {
@@ -211,7 +219,7 @@ vn_nav_missions_slot_2_b = {
 			}
         }
 	}
-    vn_nav_french_trouble = {	#Challenge France
+    vn_nav_french_trouble = {
 		icon = mission_the_french_menace
         position = 4
         required_missions = { vn_nav_beyond_pyrenees }
@@ -223,8 +231,24 @@ vn_nav_missions_slot_2_b = {
 					value = 1
 				}
 			}
+			else = {
+				any_known_country = {
+					limit = {
+						culture = french
+						total_development = 100
+					}
+					ROOT = {
+						army_strength = {
+							who = PREV
+							value = 1
+						}
+					}
+				}
+			}
         }
         effect = {
+			add_mil_power = 50
+			add_army_professionalism = 0.025
 			add_country_modifier = {
 				name = "nav_french_trouble_mission"
 				duration = 7300
@@ -249,7 +273,7 @@ vn_nav_missions_slot_2_b = {
 			}
         }
         effect = {
-			add_prestige = 10
+			add_prestige = 15
 			paris_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -287,18 +311,13 @@ vn_nav_missions_slot_3_a = {
 				}
 			}
 			any_owned_province = {
-				any_neighbor_province = {
-					NOT = { owned_by = ROOT }
-				}
 				has_fort_trigger = yes
 				base_manpower = 5
 			}
         }
         effect = {
             random_owned_province = {
-				limit = {
-					has_fort_trigger = yes
-				}
+				limit = { has_fort_trigger = yes }
 				add_base_manpower = 2
 				add_province_modifier = {
 					name = "nav_fortify_borders_mission"
@@ -317,7 +336,7 @@ vn_nav_missions_slot_3_a = {
 				all_ally = {
 					has_opinion = {
 						who = ROOT
-						value = 125
+						value = 150
 					}
 				}
 				amount = 3
@@ -387,12 +406,10 @@ vn_nav_missions_slot_3_b = {
 		}
         trigger = {
             if = {
-				limit = {
-					has_dlc = "Rights of Man"
-				}
+				limit = { has_dlc = "Rights of Man" }
 				is_great_power = yes
 			}
-			prestige = 60
+			prestige = 50
 			legitimacy = 95
 			stability = 2
 			manpower_percentage = 0.6
@@ -450,7 +467,7 @@ vn_nav_missions_slot_4_b = {
     }
 	has_country_shield = yes
 	
-    vn_nav_iberian_domains = {	#Lessons of Atapuerca
+    vn_nav_iberian_domains = {
 		icon = mission_soldiers_in_line 
         position = 3
 		required_missions = { vn_nav_seeking_alliances }
@@ -476,9 +493,7 @@ vn_nav_missions_slot_4_b = {
 		required_missions = { vn_nav_iberian_domains }
         trigger = {
 			if = {
-				limit = {
-					exists = CAS
-				}
+				limit = { exists = CAS }
 				OR = {
 					AND = {
 						is_rival = CAS
@@ -499,15 +514,24 @@ vn_nav_missions_slot_4_b = {
 					}
 				}
 			}
+			else = {
+				#nothing
+			}
 		}
         effect = {
-			add_legitimacy = 5
-            castile_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+			if = {
+				limit = { exists = CAS }
+				add_legitimacy = 5
+				castile_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+			}
+			else = {
+				custom_tooltip = vn_ase_elect_new_king.tt4
 			}
         }
     }
@@ -604,7 +628,16 @@ vn_nav_missions_slot_5_a = {
     vn_nav_strengthen_culture = {
         icon = mission_early_modern_university
         position = 1
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			region = basque_region
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+				culture = ROOT
+				religion = ROOT
+			}
+		}
         trigger = {
             basque_region = {
 				type = all
@@ -631,9 +664,7 @@ vn_nav_missions_slot_5_a = {
         required_missions = { vn_nav_strengthen_culture }
         trigger = {
 			if = {
-				limit = {
-					has_dlc = "Rule Britannia"
-				}
+				limit = { has_dlc = "Rule Britannia" }
 				innovativeness = 10
 			}
 			num_of_different_cultures_in_court = 3
@@ -675,9 +706,7 @@ vn_nav_missions_slot_5_b = {
         required_missions = { vn_nav_iberian_domains }
         trigger = {
             if = {
-				limit = {
-					exists = ARA
-				}
+				limit = { exists = ARA }
 				OR = {
 					AND = {
 						is_rival = ARA
@@ -698,15 +727,24 @@ vn_nav_missions_slot_5_b = {
 					}
 				}
 			}
+			else = {
+				#nothing
+			}
         }
         effect = {
-			add_legitimacy = 5
-            aragon_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+			if = {
+				limit = { exists = ARA }
+				add_legitimacy = 5
+				aragon_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+			}
+			else = {
+				custom_tooltip = vn_ase_elect_new_king.tt4
 			}
         }
     }
@@ -729,7 +767,6 @@ vn_nav_missions_slot_5_b = {
             aragon_region = {
 				limit = { country_or_non_sovereign_subject_holds = ROOT }
 				add_nationalism = -5
-				add_unrest = -1
 			}
         }
 	}

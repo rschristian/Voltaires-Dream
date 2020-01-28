@@ -31,14 +31,24 @@ vn_lor_missions_slot_1_a = {
             reverse_has_opinion = {
                 who = emperor
                 value = 100
-            }
-            any_known_country = {
-                OR = {
-                    primary_culture = brabantian
-                    primary_culture = wallonian
-                }
-                alliance_with = ROOT
-            }
+			}
+			if = {
+				limit = {
+					any_known_country = {
+						OR = {
+							primary_culture = brabantian
+							primary_culture = wallonian
+						}
+					}
+				}
+				any_known_country = {
+					OR = {
+						primary_culture = brabantian
+						primary_culture = wallonian
+					}
+					alliance_with = ROOT
+				}
+			}
         }
         effect = {
             add_country_modifier = {
@@ -82,7 +92,7 @@ vn_lor_missions_slot_1_a = {
             }
         }
         effect = {
-            add_prestige = 20
+            add_prestige = 15
             add_country_modifier = {
                 name = "lor_a_national_identity_mission"
                 duration = 9125
@@ -115,9 +125,15 @@ vn_lor_missions_slot_2_a = {
             869 = { #Nancy
                 owned_by = ROOT
                 is_core = ROOT
-                development = 25
-                has_building = cathedral
-                has_building = town_hall
+				development = 25
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
+				}
             }
         }
         effect = {
@@ -683,6 +699,7 @@ vn_lor_missions_slot_3_a = {
                 is_core = ROOT
             }
             2995 = {
+				owned_by = ROOT
                 development = 30
             }
         }
@@ -705,12 +722,17 @@ vn_lor_missions_slot_3_a = {
                 limit = { has_dlc = "Rights of Man" }
                 is_great_power = yes
             }
-            total_development = 1000
-            army_strength = {
-                who = emperor
-                value = 1.0
-            }
-            prestige = emperor
+			total_development = 1000
+			if = {
+				limit = {
+					emperor = { exists = yes }
+				}
+				army_strength = {
+					who = emperor
+					value = 1.0
+				}
+				prestige = emperor
+			}
             if = {
 				limit = { exists = FRA }
 				army_strength = {
@@ -794,12 +816,19 @@ vn_lor_missions_slot_3_a = {
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
-            }
-            reverse_add_opinion = {
-                who = emperor
-                modifier = lor_kingdom_of_lotharingia_opinion
-                years = 50
-            }
+			}
+			if = {
+				limit = {
+					emperor = { exists = yes }
+				}
+				emperor = {
+					add_opinion = {
+						who = ROOT
+						modifier = lor_kingdom_of_lotharingia_opinion
+                		years = 50
+					}
+				}
+			}
             if = {
 				limit = { exists = FRA }
 				FRA = {
@@ -1070,14 +1099,19 @@ vn_lor_missions_slot_5_a = {
         required_missions = { vn_lor_ecclesiastical_relations }
         position = 5
         trigger = {
-            estate_loyalty = {
-                estate = estate_church
-                loyalty = 70
-            }
-            estate_influence = {
-                estate = estate_church
-                influence = 50
-            }
+			if = {
+				limit = {
+					has_estate = estate_church
+				}
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+				estate_influence = {
+					estate = estate_church
+					influence = 50
+				}
+			}
             if = {
                 limit = {
                     has_estate = estate_holy_orders
@@ -1117,7 +1151,6 @@ vn_lor_missions_slot_5_b = {
         position = 6
         provinces_to_highlight = {
             province_id = 2960
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
             2960 = {
