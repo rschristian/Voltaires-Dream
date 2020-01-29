@@ -2837,6 +2837,9 @@ province_event = {
 	trigger = {
 		controller = { has_country_modifier = invasion_nation_m }
 		owner = { NOT = { has_country_modifier = invasion_nation_m } }
+		any_neighbor_province = {
+			owned_by = controller
+		}
 		has_siege = no
 		is_capital = no
 		NOT = { has_province_modifier = add_unrest_5_modifier }
@@ -3714,6 +3717,7 @@ country_event = {
  
     trigger = {
 		NOT = { started_in = 1221.1.1 }
+		current_age = age_of_crisis
 		is_year = 1216
 		owns = 6438
 		OR = {
@@ -3807,6 +3811,7 @@ country_event = {
 
 	trigger = {
 		NOT = { started_in = 1236.1.1 }
+		current_age = age_of_crisis
 		is_year = 1231
 		owns = 6374
 		OR = {
@@ -3974,7 +3979,11 @@ country_event = {
 		is_year = 1125
 		owns = 3108
 		num_of_cities = 2
-		#crusaders took the Levant
+		levant_superregion = {
+			owner = {
+				religion = catholic
+			}
+		}
 	}
 
 	mean_time_to_happen = {
@@ -3997,6 +4006,83 @@ country_event = {
 				define_ruler = {
 					dynasty = "Nizâriyya"
 				}
+			}
+		}
+	}
+}
+
+country_event = {
+    id = hremodevents.82
+    title = "HREMT82"
+	desc = "HREMD82"
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	major = yes
+
+	trigger = {
+		NOT = { started_in = 1079.1.1 }
+		is_year = 1060
+		NOT = { is_year = 1100 }
+		tag = SWE
+		religion = norse_pagan_reformed
+		NOT = { has_ruler_flag = emund_of_munso_flag }
+		NOT = { exists = GTH }
+		any_owned_province = {
+			is_core = GTH
+		}
+	}
+
+	option = {
+		name = "HREMA82"
+		ai_chance = {
+			factor = 25
+		}
+		add_prestige = 20
+		custom_tooltip = hrema82.tt
+		hidden_effect = {
+			every_owned_province = {
+				limit = { is_core = GTH }
+				cede_province = GTH
+			}
+			vassalize = GTH
+			GTH = {
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+				change_religion = catholic
+				define_ruler = {
+					name = "Erik"
+					dynasty = "Steinkellskr"
+					adm = 0
+					dip = 3
+					mil = 3
+					fixed = yes
+				}
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.7
+						cavalry = 0.3
+					}
+				}
+				declare_war_with_cb = {
+					casus_belli = cb_independence_war
+					who = ROOT
+				}
+			}
+		}
+	}
+	option = {
+		name = "HREMB82"
+		ai_chance = {
+			factor = 75
+		}
+		change_religion = catholic
+		every_neighbor_country = {
+			limit = { religion_group = christian }
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_ruler_of_our_religion
 			}
 		}
 	}
