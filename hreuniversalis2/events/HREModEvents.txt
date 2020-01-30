@@ -3507,7 +3507,7 @@ country_event = {
 					controlled_by = ROOT
 				}
 				spawn_rebels = {
-					size = 3
+					size = 4
 					type = zikri_rebels
 					win = yes
 					leader = "al-Mustafâ Banû Fâtimah"
@@ -3537,8 +3537,9 @@ country_event = {
 				}
 			}
 			spawn_rebels = {
-				size = 3
+				size = 4
 				type = pretender_rebels
+				win = yes
 				religion = shiite
 				leader = "al-Musta‘lî Banû Fâtimah"
 			}
@@ -3977,8 +3978,16 @@ country_event = {
 		NOT = { started_in = 1132.1.1 }
 		current_age = age_of_holy_wars
 		is_year = 1125
-		owns = 3108
-		num_of_cities = 2
+		OR = {
+			AND = {
+				owns = 3108
+				num_of_cities = 2
+			}
+			any_subject_country = {
+				owns = 3108
+				num_of_cities = 2
+			}
+		}
 		levant_superregion = {
 			owner = {
 				religion = catholic
@@ -3996,7 +4005,7 @@ country_event = {
 		3108 = {
 			add_core = HAH
 			cede_province = HAH
-			remove_core = ROOT
+			remove_core = owner
 			add_building = fort_14th
 			change_religion = zikri
 			change_culture = al_suryah_arabic
@@ -4029,8 +4038,12 @@ country_event = {
 		religion = norse_pagan_reformed
 		NOT = { has_ruler_flag = emund_of_munso_flag }
 		NOT = { exists = GTH }
+		is_subject = no
 		any_owned_province = {
 			is_core = GTH
+		}
+		any_owned_province = {
+			NOT = { is_core = GTH }
 		}
 	}
 
@@ -4078,6 +4091,17 @@ country_event = {
 			factor = 75
 		}
 		change_religion = catholic
+		random_owned_province = {
+			limit = {
+				is_capital = no
+				controlled_by = owner
+			}
+			spawn_rebels = {
+				type = norse_pagan_reformed_rebels
+				size = 3
+				win = yes
+			}
+		}
 		every_neighbor_country = {
 			limit = { religion_group = christian }
 			add_opinion = {
