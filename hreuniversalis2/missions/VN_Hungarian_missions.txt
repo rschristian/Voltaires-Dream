@@ -1,0 +1,993 @@
+vn_hun_missions_slot_1 = {
+	slot = 6
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = HUN
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_hun_balkan_alliances = {
+		position = 1
+		icon = mission_noble_council
+        required_missions = {  }
+		trigger = {
+			any_ally = {
+                culture_group = south_slavic
+                has_opinion = {
+                    who = ROOT
+                    value = 150
+                }
+            }
+		}
+		effect = {
+			slavonia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            varazdin_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            srijem_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            bosnia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = "hun_balkan_alliances_mission"
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_conquer_slavonia = {
+		icon = mission_unite_home_region
+        required_missions = { vn_hun_balkan_alliances }
+        provinces_to_highlight = {
+            OR = {
+                area = slavonia_area
+                area = srijem_area
+                area = varazdin_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            slavonia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            varazdin_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            srijem_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+			if = {
+				limit = {
+					exists = CRO
+					is_subject = no
+					government = monarchy
+					religion_group = christian
+					CRO = {
+						is_free_or_tributary_trigger = yes
+						government = monarchy
+					}
+				}
+				add_casus_belli = {
+					type = cb_fabricated_claims
+					months = 300
+					target = CRO
+				}
+			}
+			else = {
+				zagreb_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+                senj_area = {
+                    limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+                dalmatia_area = {
+                    limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+            }
+            slavonia_area = {
+                add_province_modifier = {
+                    name = "hun_conquer_slavonia_mission"
+                    duration = 9125
+                }
+            }
+            srijem_area = {
+                add_province_modifier = {
+                    name = "hun_conquer_slavonia_mission"
+                    duration = 9125
+                }
+            }
+            varazdin_area = {
+                add_province_modifier = {
+                    name = "hun_conquer_slavonia_mission"
+                    duration = 9125
+                }
+            }
+		}
+    }
+    vn_hun_conquer_croatia = {
+        position = 4
+        icon = mission_restore_faith_in_the_throne
+        required_missions = { vn_hun_conquer_slavonia }
+        provinces_to_highlight = {
+            OR = {
+                area = zagreb_area
+                area = senj_area
+                area = dalmatia_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			zagreb_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            senj_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            dalmatia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            add_prestige = 10
+            add_country_modifier = {
+                name = hun_conquer_croatia_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_found_buda = {
+        position = 1
+        icon = mission_eastern_european_city
+        required_missions = { }
+        provinces_to_highlight = {
+            province_id = 5475
+        }
+		trigger = {
+			5475 = {
+                owned_by = ROOT
+                development = 30
+                has_fort_trigger = yes
+                has_tax_building_trigger = yes
+                has_production_building_trigger = yes
+            }
+		}
+		effect = {
+            444 = {
+                move_capital_effect = yes
+                add_base_tax = 2
+                add_base_production = 2
+                add_base_manpower = 2
+            }
+		}
+    }
+    vn_hun_prince_of_renaissance = {
+        icon = mission_rb_weather_the_reformation
+        required_missions = { vn_hun_found_buda }
+		trigger = {
+            num_of_owned_provinces_with = {
+                value = 5
+                OR = {
+                    has_building = college
+                    has_building = university
+                }
+            }
+			has_institution = renaissance
+			all_state_province = {
+				renaissance = 100
+			}
+		}
+        effect = {
+            add_innovativeness_big_effect = yes
+            add_country_modifier = {
+                name = hun_prince_of_renaissance_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_hun_silver_mining = {
+        icon = mission_jawal_silver_mine
+        required_missions = { }
+        provinces_to_highlight = {
+            owned_by = ROOT
+            trade_goods = silver
+            OR = {
+                NOT = { development = 12 }
+                has_production_building_trigger = no
+            }
+        }
+		trigger = {
+            num_of_owned_provinces_with = {
+                value = 3
+                trade_goods = silver
+                development = 12
+                has_production_building_trigger = yes
+            }
+		}
+		effect = {
+            add_years_of_income = 0.25
+            random_owned_province = {
+                limit = { trade_goods = silver }
+                add_province_modifier = {
+                    name = "hun_silver_mining_mission"
+                    duration = -1
+                }
+            }
+		}
+    }
+}
+
+vn_hun_missions_slot_2 = {
+	slot = 7
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = HUN
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+    vn_hun_conquer_bosnia = {
+        position = 2
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_balkan_alliances }
+        provinces_to_highlight = {
+            region = bosnia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			bosnia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            serbia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            rashkan_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+		}
+    }
+    vn_hun_conquer_serbia = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_bosnia }
+        provinces_to_highlight = {
+            OR = {
+                region = serbia_region
+                region = rashkan_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			serbia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            rashkan_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            albania_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = hun_conquer_serbia_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_conquer_albania = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_serbia }
+        provinces_to_highlight = {
+            region = albania_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			albania_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            macedonia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            bulgariasouth_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+		}
+    }
+    vn_hun_conquer_rumelia = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_albania }
+        provinces_to_highlight = {
+            OR = {
+                region = macedonia_region
+                region = bulgariasouth_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            macedonia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+			bulgariasouth_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            add_country_modifier = {
+                name = hun_conquer_rumelia_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_early_mercantilism = {
+        position = 7
+        icon = mission_dominate_home_trade_node
+        required_missions = { }
+		trigger = {
+            num_of_owned_provinces_with = {
+                value = 10
+                has_trade_building_trigger = yes
+            }
+			mercantilism = 25
+		}
+		effect = {
+            add_country_modifier = {
+                name = hun_early_mercantilism_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_pearl_of_the_danube = {
+        icon = mission_dominate_home_trade_node
+        required_missions = { vn_hun_early_mercantilism vn_hun_silver_mining }
+        trigger = {
+            
+            development_in_provinces = {
+                value = 250
+                region = transdanubia_region
+            }
+            development_in_provinces = {
+                value = 250
+                region = danubia_region
+            }
+            num_of_owned_provinces_with = {
+                value = 10
+                has_manufactory_trigger = yes
+            }
+		}
+		effect = {
+            add_mercantilism = 5
+            add_country_modifier = {
+                name = hun_pearl_of_the_danube
+                duration = 18250
+            }
+		}
+    }
+}
+
+vn_hun_missions_slot_3 = {
+	slot = 8
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = HUN
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+    vn_hun_black_army = {
+        position = 2
+        icon = mission_recruit_the_cossacks
+        required_missions = { vn_hun_assimilate_the_magyars }
+		trigger = {
+            army_size = 60
+		}
+		effect = {
+            add_country_modifier = {
+                name = hun_black_army_mission
+                duration = 10950
+            }
+		}
+    }
+    vn_hun_conquer_wallachia = {
+        position = 3
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_transylvania }
+        provinces_to_highlight = {
+            region = wallachia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			wallachia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+        effect = {
+            bulgaria_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_hun_conquer_bulgaria = {
+        position = 5
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_wallachia }
+        provinces_to_highlight = {
+            region = bulgaria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			bulgaria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            thrace_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+		}
+    }
+    vn_hun_conquer_macedonia = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_bulgaria vn_hun_conquer_rumelia }
+        provinces_to_highlight = {
+            region = thrace_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			thrace_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            add_prestige = 25
+            add_country_modifier = {
+                name = hun_conquer_macedonia_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_convert_the_balkans = {
+        icon = mission_hands_praying
+        required_missions = { vn_hun_conquer_macedonia }
+		trigger = {
+            religious_unity = 1
+            is_defender_of_faith = yes
+		}
+		effect = {
+            add_country_modifier = {
+                name = hun_convert_the_balkans_mission
+                duration = -1
+            }
+		}
+    }
+}
+
+vn_hun_missions_slot_4 = {
+	slot = 9
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = HUN
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+    
+    vn_hun_assimilate_the_magyars = {
+        position = 1
+        icon = mission_tribe
+        required_missions = { }
+        provinces_to_highlight = {
+            OR = {
+                region = danubia_region
+                region = alfold_region
+            }
+            country_or_non_sovereign_subject_holds = ROOT
+            religion = tengri_pagan_reformed
+        }
+		trigger = {
+			danubia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+                NOT = { religion = tengri_pagan_reformed }
+            }
+            alfold_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+                NOT = { religion = tengri_pagan_reformed }
+            }
+		}
+		effect = {
+            transylvania_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = "hun_assimilate_the_magyars_mission"
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_conquer_transylvania = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_assimilate_the_magyars vn_hun_weaken_the_oligarchs }
+        provinces_to_highlight = {
+            region = transylvania_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            NOT = { exists = TRA }
+			transylvania_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+        effect = {
+            moldavia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            wallachia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            transylvania_region = {
+                add_province_modifier = {
+                    name = hun_conquer_transylvania_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_hun_conquer_moldavia = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_transylvania }
+        provinces_to_highlight = {
+            region = moldavia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			moldavia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            sacz_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            krakow_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = hun_conquer_moldavia_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_conquer_krakow = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_moldavia vn_hun_survive_fall_of_arpads }
+        provinces_to_highlight = {
+            OR = {
+                area = sacz_area
+                area = krakow_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			sacz_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            krakow_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            add_dip_power = 50
+            if = {
+                limit = {
+                    exists = POL
+                    is_subject = no
+                    government = monarchy
+                    religion_group = christian
+                    POL = {
+                        is_free_or_tributary_trigger = yes
+                        government = monarchy
+                    }
+                }
+                add_casus_belli = {
+                    type = cb_fabricated_claims
+                    months = 300
+                    target = POL
+                }
+            }
+            else = {
+                malopolska_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                mazovia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                wielkopolska_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
+		}
+    }
+    vn_hun_conquer_poland = {
+        icon = mission_empire
+        required_missions = { vn_hun_conquer_krakow }
+        provinces_to_highlight = {
+            OR = {
+                region = malopolska_region
+                region = mazovia_region
+                region = wielkopolska_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			malopolska_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            mazovia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            wielkopolska_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+        effect = {
+            add_country_modifier = {
+                name = hun_conquer_poland_mission
+                duration = 10950
+            }
+        }
+    }
+    vn_hun_conquer_styria = {
+        icon = mission_steppe_warriors
+        required_missions = { vn_hun_humiliate_rivals }
+        provinces_to_highlight = {
+            OR = {
+                area = styria_area
+                area = murmark_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			styria_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            murmark_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            austria_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = hun_conquer_styria_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_conquer_austria = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_conquer_styria vn_hun_hungarian_emperor }
+        provinces_to_highlight = {
+            region = austria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			austria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            add_country_modifier = {
+                name = "hun_conquer_austria_mission"
+                duration = 9125
+            }
+		}
+    }
+}
+
+vn_hun_missions_slot_5 = {
+	slot = 10
+	generic = no
+	ai = yes
+	
+	potential = {
+		tag = HUN
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_hun_weaken_the_oligarchs = {
+        position = 1
+        icon = mission_dethrone_the_rurikovichs
+        required_missions = { }
+        trigger = {
+            is_at_war = no
+            NOT = { num_of_rebel_armies = 1 }
+            NOT = { num_of_rebel_controlled_provinces = 1 }
+            all_subject_country = {
+                NOT = { liberty_desire = 25 }
+            }
+		}
+		effect = {
+            add_prestige = 10
+            add_country_modifier = {
+                name = "hun_weaken_the_oligarchs_mission"
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_survive_fall_of_arpads = {
+        position = 3
+        icon = mission_rb_war_of_the_roses
+        required_missions = { vn_hun_weaken_the_oligarchs }
+		trigger = {
+            stability = 2
+            custom_trigger_tooltip = {
+                tooltip = vn_hun_survive_fall_of_arpads.tt
+                OR = {
+                    has_country_flag = had_fall_of_arpads
+                    NOT = {
+                        current_age = age_of_empire
+                        current_age = age_of_holy_wars
+                        current_age = age_of_crisis
+                        current_age = age_of_dynasticism
+                    }
+                }
+            }
+		}
+		effect = {
+            add_country_modifier = {
+                name = hun_survive_fall_of_arpads_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_humiliate_rivals = {
+        position = 5
+        icon = mission_the_french_menace
+        required_missions = { vn_hun_survive_fall_of_arpads }
+		trigger = {
+            grown_by_development = 250
+            prestige = 50
+		}
+		effect = {
+            styria_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            murmark_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = "hun_humiliate_rivals_mission"
+                duration = 9125
+            }
+		}
+    }
+    vn_hun_hungarian_emperor = {
+        icon = mission_intervene_in_castile
+        required_missions = { vn_hun_humiliate_rivals }
+		trigger = {
+            OR = {
+                is_emperor = yes
+                government_rank = 6
+            }
+		}
+        effect = {
+            add_adm_power = 75
+            add_dip_power = 75
+            add_mil_power = 75
+            moravia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_hun_conquer_moravia = {
+        icon = mission_unite_home_region
+        required_missions = { vn_hun_hungarian_emperor }
+        provinces_to_highlight = {
+            region = moravia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			moravia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            if = {
+                limit = {
+                    exists = BOH
+                    is_subject = no
+                    government = monarchy
+                    religion_group = christian
+                    BOH = {
+                        is_free_or_tributary_trigger = yes
+                        government = monarchy
+                    }
+                }
+                add_casus_belli = {
+                    type = cb_fabricated_claims
+                    months = 300
+                    target = BOH
+                }
+            }
+            else = {
+                bohemia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
+		}
+    }
+    vn_hun_conquer_bohemia = {
+        icon = mission_empire
+        required_missions = { vn_hun_conquer_moravia }
+        provinces_to_highlight = {
+            region = bohemia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			bohemia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+        effect = {
+            add_prestige = 20
+            add_country_modifier = {
+                name = hun_conquer_bohemia_mission
+                duration = 9125
+            }
+        }
+    }
+}

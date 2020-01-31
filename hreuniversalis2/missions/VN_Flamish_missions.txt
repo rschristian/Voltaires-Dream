@@ -1,0 +1,718 @@
+vn_fla_missions_slot_1 = {
+	slot = 6
+	generic = no
+    ai = yes
+    
+	potential = {
+		tag = FLA
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+    vn_fla_conquer_calais = {
+		position = 1
+		icon = mission_sea_battles
+        required_missions = { }
+        provinces_to_highlight = {
+            province_id = 142
+        }
+		trigger = {
+			142 = {
+                OR = {
+                    owned_by = ROOT
+                    controlled_by = ROOT
+                }
+            }
+		}
+		effect = {
+            1957 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            4085 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            314 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+            4083 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+            }
+            918 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+            5702 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+        }
+    }
+    vn_fla_conquer_artois = {
+        position = 2
+		icon = mission_sea_battles
+        required_missions = { vn_fla_conquer_calais }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 1957
+                province_id = 4085
+                province_id = 314
+                province_id = 4083
+                province_id = 918
+                province_id = 5702
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            1957 = { country_or_non_sovereign_subject_holds = ROOT }
+            4085 = { country_or_non_sovereign_subject_holds = ROOT }
+            314 = { country_or_non_sovereign_subject_holds = ROOT }
+            4083 = { country_or_non_sovereign_subject_holds = ROOT }
+            918 = { country_or_non_sovereign_subject_holds = ROOT }
+            5702 = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+            vermandois_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            picardy_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        } 
+    }
+    vn_fla_conquer_picardy = {
+		icon = mission_control_the_barbary_coast
+        required_missions = { vn_fla_conquer_artois }
+        provinces_to_highlight = {
+            OR = {
+                area = vermandois_area
+                area = picardy_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			vermandois_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            picardy_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            
+        }
+    }
+    vn_fla_pilgrimage_to_jersualem = {
+		icon = mission_teutonic_knights
+        required_missions = { }
+		trigger = {
+            land_forcelimit = 16
+            army_size_percentage = 1
+            num_of_generals = 2
+            manpower_percentage = 0.7
+            if = {
+                limit = {
+                    OR = {
+                        current_age = age_of_empire
+                        has_estate = estate_holy_orders
+                    }
+                    estate_loyalty = {
+                        estate = estate_holy_orders
+                        loyalty = 60
+                    }
+                }
+            }
+		}
+		effect = {
+            palestine_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_fla_conquer_the_holy_land = {
+        icon = mission_crusade
+        required_missions = { vn_fla_pilgrimage_to_jersualem }
+        provinces_to_highlight = {
+            region = palestine_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 20
+                region = palestine_region
+            }
+		}
+		effect = {
+            
+        }
+    }
+}
+
+vn_fla_missions_slot_2 = {
+	slot = 7
+	generic = no
+    ai = yes
+    
+	potential = {
+		tag = FLA
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+    vn_fla_join_the_hundred_years_war = {
+        position = 2
+		icon = mission_humiliate_provence
+        required_missions = { vn_fla_twofold_fiefdom vn_fla_conquer_calais }
+		trigger = {
+            custom_trigger_tooltip = {
+               tooltip = vn_fla_join_the_hundred_years_war.tt
+                has_global_flag = eng_had_start_of_hundred_years_war
+            }    
+            OR = {
+                AND = {
+                    alliance_with = ENG
+                    FRA = {
+                        war_with = ENG
+                        war_with = ROOT
+                    }
+                }
+                AND = {
+                    alliance_with = FRA
+                    ENG = {
+                        war_with = FRA
+                        war_with = ROOT
+                    }
+                }
+            }
+		}
+		effect = {
+			if = {
+                limit = { alliance_with = ENG }
+                create_general = {
+                    tradition = 75
+                    culture = english
+                }
+            }
+            else_if = {
+                limit = { alliance_with = FRA }
+                create_general = {
+                    tradition = 75
+                    culture = cosmopolitan_french
+                }
+            }
+            else = {
+                create_general = {
+                    tradition = 75
+                }
+            }
+            add_country_modifier = {
+                name = fla_join_the_hundred_years_war_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fla_conquer_brabant = {
+        position = 3
+        icon = mission_have_two_subjects
+        required_missions = { vn_fla_conquer_antwerp }
+        provinces_to_highlight = {
+            area = brabant_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            brabant_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            utrecht_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_fla_conquer_utrecht = {
+        icon = mission_have_two_subjects
+        required_missions = { vn_fla_conquer_brabant }
+        provinces_to_highlight = {
+            area = utrecht_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            utrecht_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            holland_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_fla_conquer_holland = {
+		icon = mission_have_two_subjects
+        required_missions = { vn_fla_conquer_utrecht }
+        provinces_to_highlight = {
+            area = holland_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			holland_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+			add_country_modifier = {
+                name = fla_conquer_holland_mission
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_fla_missions_slot_3 = {
+	slot = 8
+	generic = no
+    ai = yes
+    
+	potential = {
+		tag = FLA
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_fla_twofold_fiefdom = {
+		position = 1
+		icon = mission_alliances
+        required_missions = { }
+		trigger = {
+            is_free_or_tributary_trigger = yes
+            calc_true_if = {
+                amount = 2
+                calc_true_if = {
+                    amount = 2
+                    all_ally = {
+                        culture_group = french
+                        has_opinion = {
+                            who = ROOT
+                            value = 150
+                        }
+                    }
+                }
+                calc_true_if = {
+                    amount = 2
+                    all_ally = {
+                        culture_group = germanic
+                        has_opinion = {
+                            who = ROOT
+                            value = 150
+                        }
+                    }
+                }
+                calc_true_if = {
+                    amount = 2
+                    all_ally = {
+                        culture_group = dutch_group
+                        has_opinion = {
+                            who = ROOT
+                            value = 150
+                        }
+                    }
+                }
+            }
+		}
+		effect = {
+            antwerp_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = fla_twofold_fiefdom_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fla_conquer_antwerp = {
+        icon = mission_intervene_in_castile
+        required_missions = { vn_fla_twofold_fiefdom }
+		provinces_to_highlight = {
+			area = antwerp_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			antwerp_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 20
+            liege_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            brabant_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_fla_conquer_liege = {
+        position = 4
+		icon = mission_bengal_campaign
+        required_missions = { vn_fla_conquer_antwerp }
+        provinces_to_highlight = {
+            area = liege_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			liege_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            luxemburg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            chiny_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = fla_conquer_liege_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fla_conquer_chiny = {
+        position = 5
+		icon = mission_bengal_campaign
+        required_missions = { vn_fla_conquer_liege }
+        provinces_to_highlight = {
+            area = chiny_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			chiny_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            
+        }
+    }
+}
+
+vn_fla_missions_slot_4 = {
+	slot = 9
+	generic = no
+    ai = yes
+    
+	potential = {
+		tag = FLA
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+    vn_fla_renovate_gravensteen = {
+		position = 2
+		icon = mission_fort
+        required_missions = { vn_fla_twofold_fiefdom }
+        provinces_to_highlight = {
+            province_id = 90
+        }
+		trigger = {
+			90 = {
+                owned_by = ROOT
+                OR = {
+                    has_building = fort_14th
+                    has_building = fort_15th
+                    has_building = fort_16th
+                    has_building = fort_17th
+                    has_building = fort_18th
+                }
+            }
+		}
+		effect = {
+			if = {
+				limit = {
+					exists = HAI
+					is_free_or_tributary_trigger = yes
+					government = monarchy
+					religion_group = christian
+					HAI = {
+						is_free_or_tributary_trigger = yes
+						government = monarchy
+						religion_group = christian
+					}
+				}
+				add_casus_belli = {
+					type = cb_restore_personal_union
+					months = 300
+					target = HAI
+				}
+			}
+			else = {
+				hainaut_area = {
+                    limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+            }
+            add_mil_power = 50
+            90 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+            }
+        }
+    }
+    vn_fla_conquer_hainaut = {
+		icon = mission_intervene_in_castile
+        required_missions = { vn_fla_conquer_antwerp vn_fla_renovate_gravensteen }
+		provinces_to_highlight = {
+			area = hainaut_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			hainaut_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 20
+        }
+    }
+    vn_fla_conquer_luxembourg = {
+        position = 5
+		icon = mission_bengal_campaign
+        required_missions = { vn_fla_conquer_liege }
+        provinces_to_highlight = {
+            area = luxemburg_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+		trigger = {
+			luxemburg_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+		effect = {
+            
+        }
+    }
+}
+
+vn_fla_missions_slot_5 = {
+	slot = 10
+	generic = no
+    ai = yes
+    
+	potential = {
+		tag = FLA
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vn_fla_establish_wool_guilds = {
+		position = 1
+		icon = mission_trade_company_region_abroad
+        required_missions = {}
+        provinces_to_highlight = {
+            area = flanders_area
+            OR = {
+                NOT = { country_or_non_sovereign_subject_holds = ROOT }
+                NOT = { development = 10 }
+                NOT = { guilds = 100 }
+                NOT = { has_trade_building_trigger = yes }
+            }
+        }
+		trigger = {
+            has_institution = guilds
+            flanders_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+                development = 10
+                guilds = 100
+                has_trade_building_trigger = yes
+            }
+		}
+		effect = {
+            add_mercantilism = 2
+            add_estate_burghers_loyalty_effect = yes
+        }
+    }
+    vn_fla_flamish_trade_fleet = {
+		icon = mission_south_indian_trade
+		required_missions = { vn_fla_establish_wool_guilds }
+		trigger = {
+            navy_size_percentage = 1
+			light_ship_fraction = 0.25
+		}
+		effect = {
+            add_yearly_sailors = 2.5
+            2729 = {
+                add_province_modifier = {
+                    name = fla_flamish_trade_fleet_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_fla_expand_brugges = {
+		icon = mission_shipyards_of_gujarat
+        required_missions = { vn_fla_flamish_trade_fleet vn_fla_renovate_gravensteen }
+        provinces_to_highlight = {
+            province_id = 896
+        }
+		trigger = {
+			896 = {
+                owned_by = ROOT
+                num_of_times_improved = 10
+                OR = {
+                    has_building = dock
+                    has_building = drydock
+                }
+                OR = {
+                    has_building = shipyard
+                    has_building = grand_shipyard
+                }
+            }
+		}
+		effect = {
+            add_years_of_income = 0.5
+            896 = {
+                add_province_modifier = {
+                    name = fla_expand_brugges_mission
+                    duration = -1
+                }
+            }
+        }
+    }
+    vn_fla_establish_cloth_hall = {
+		icon = mission_guilds_of_barcelona
+		required_missions = { vn_fla_expand_brugges }
+		trigger = {
+            trading_bonus = {
+                trade_goods = cloth
+                value = yes
+            }
+			num_of_owned_provinces_with = {
+                value = 5
+                trade_goods = cloth
+                has_building = plantations
+            }
+		}
+		effect = {
+			add_country_modifier = {
+                name = fla_establish_cloth_hall_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fla_dominate_the_channel = {
+		icon = mission_entrepot_of_india
+		required_missions = { vn_fla_establish_cloth_hall }
+		provinces_to_highlight = {
+			province_id = 2268
+		}
+        trigger = {
+            2268 = {
+                is_strongest_trade_power = ROOT
+                trade_share = {
+                    country = ROOT
+                    share = 50                    
+                }
+            }
+        }
+		effect = {
+			capital_scope = {
+                add_base_tax = 3
+                add_base_production = 3
+                add_base_manpower = 3
+            }
+            add_country_modifier = {
+                name = "fla_dominate_the_channel_mission"
+                duration = 9125
+            }
+        }
+    }
+}
