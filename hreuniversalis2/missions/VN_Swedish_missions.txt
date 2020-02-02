@@ -12,47 +12,68 @@ vn_swe_missions_slot_1_a = {
     has_country_shield = yes
 
     vn_swe_birger_magnusson = {
-        #icon = 
+        icon = mission_restore_faith_in_the_throne
         position = 1
         required_missions = {  }
         trigger = {
-            
+			#addmore
+			has_reform_level = 2
         }
         effect = {
-            
+            define_advisor = {
+				name = "Birger Magnusson"
+				culture = swedish
+				religion = catholic
+				skill = 3
+				discount = yes
+				type = statesman
+			}
         }
     }
     vn_swe_develop_stockholm = {
-        #icon = 
+        icon = mission_seize_north_sea_trade
         position = 2
         required_missions = { vn_swe_birger_magnusson }
         trigger = {
-            
+            6109 = {
+				owned_by = ROOT
+				is_core = ROOT
+				num_of_times_improved = 5
+				development = 20
+				calc_true_if = {
+					has_trade_building_trigger = yes
+					has_manpower_building_trigger = yes
+					has_production_building_trigger = yes
+					has_shipyard_building_trigger = yes
+					has_dock_building_trigger = yes
+					amount = 3
+				}
+			}
         }
         effect = {
-            
+            #add
         }
     }
-    vn_swe_abolish_serfdom = {
-        #icon = 
+    vn_swe_abolish_serfdom = {	#Question of Serfdom
+        icon = mission_colonial 
         position = 3
         required_missions = { vn_swe_develop_stockholm }
         trigger = {
-            
+			#add
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_riksdag_of_estates = {
-        #icon = 
+        icon = mission_noble_council 
         position = 4
         required_missions = { vn_swe_abolish_serfdom }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -68,47 +89,112 @@ vn_swe_missions_slot_1_b = {
 	has_country_shield = yes
 	
 	vn_swe_copper_mines_of_falun = {
-        #icon = 
+        icon = mission_entrepot_of_india
         position = 5
         required_missions = {  }
         trigger = {
-            
+			6123 = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			6122 = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			num_of_owned_provinces_with = {
+				value = 3
+				trade_goods = copper
+				superregion = scandinavia_superregion
+				development = 10
+				base_production = 4
+			}
         }
         effect = {
-            
+            #add
         }
 	}
     vn_swe_urban_expansion = {
-        #icon = 
+        icon = mission_early_game_buildings
         position = 6
         required_missions = { vn_swe_copper_mines_of_falun }
         trigger = {
-            
+            num_of_owned_provinces_with = {
+				value = 10
+				OR = {
+					region = svealand_region
+					region = scandinavia_region
+					region = gotaland_region
+					region = uppland_region
+				}
+				development = 10
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					region = svealand_region
+					region = scandinavia_region
+					region = gotaland_region
+					region = uppland_region
+				}
+				development = 15
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_found_gothenburg = {
-        #icon = 
+        icon = mission_hanseatic_city
         position = 7
         required_missions = { vn_swe_urban_expansion }
         trigger = {
-            
+            6070 = {
+				owned_by = ROOT
+				is_core = ROOT
+				development = 20
+				num_of_times_improved = 5
+				calc_true_if = {
+					has_trade_building_trigger = yes
+					has_manpower_building_trigger = yes
+					has_production_building_trigger = yes
+					has_shipyard_building_trigger = yes
+					has_dock_building_trigger = yes
+					amount = 3
+				}
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_swedish_exports = {
-        #icon = 
+        icon = mission_state_manufactories
         position = 8
         required_missions = { vn_swe_found_gothenburg }
         trigger = {
-            
+            OR = {
+				lumber = 10
+				num_of_owned_provinces_with = {
+					value = 5
+					trade_goods = lumber
+					development = 10
+					base_production = 4
+					has_manufactory_trigger = yes
+				}
+			}
+			OR = {
+				iron = 10
+				num_of_owned_provinces_with = {
+					value = 5
+					trade_goods = iron
+					development = 10
+					base_production = 4
+					has_manufactory_trigger = yes
+				}
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -124,36 +210,92 @@ vn_swe_missions_slot_1_c = {
 	has_country_shield = yes
 	
     vn_swe_convert_sweden = {
-        #icon = 
+        icon = mission_religious
         position = 9
         required_missions = {  }
         trigger = {
-            
+			OR = {
+				religion_group = christian
+				religion = norse_pagan_reformed
+			}
+			NOT = {
+				any_owned_province = {
+					OR = {
+						region = svealand_region
+						region = scandinavia_region
+						region = gotaland_region
+						region = uppland_region
+					}
+					NOT = { religion = ROOT }
+				}
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_position_on_reformation = {
-        #icon = 
+        icon = mission_hands_praying 
         position = 10
         required_missions = { vn_swe_convert_sweden }
         trigger = {
-            
+			current_age = age_of_reformation
+			OR = {
+				religion = norse_pagan_reformed
+				OR = {
+					AND = {
+						religion = reformed
+						fervor = 75
+					}
+					AND = {
+						religion = catholic
+						papal_influence = 150
+					}
+					AND = {
+						OR = {
+							religion = protestant
+							religion = anabaptist
+							religion = anglican
+						}
+						church_power = 150
+					}
+				}
+			}
         }
         effect = {
-            
+            if = {
+				limit = {
+					religion = norse_pagan_reformed
+				}
+				custom_tooltip = vn_ase_elect_new_king.tt4
+			}
+			else = {
+				#add
+			}
         }
     }
     vn_swe_gott_mit_uns = {
-        #icon = 
+        icon = mission_cannons_firing 
         position = 11
         required_missions = { vn_swe_position_on_reformation }
         trigger = {
-            
+			OR = {
+				is_league_leader = yes
+				is_in_league_war = yes
+			}
         }
         effect = {
-            
+            if = {
+				limit = { is_league_leader = yes }
+				#stronger modifier
+				add_country_modifier = {
+					#name = 
+					#duration =
+				}
+			}
+			else = {
+				#weaker modifier
+			}
         }
 	}
 }
@@ -169,25 +311,37 @@ vn_swe_missions_slot_2_a = {
     has_country_shield = yes
 
     vn_swe_eastern_norway = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 1
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            austlandet_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_western_norway = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 3
         required_missions = { vn_swe_eastern_norway }
+        provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            vestlandet_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -203,14 +357,34 @@ vn_swe_missions_slot_2_b = {
 	has_country_shield = yes
 	
     vn_swe_reductions = {
-        #icon = 
+        icon = mission_have_two_subjects
         position = 4
         required_missions = { vn_swe_abolish_serfdom }
         trigger = {
-            
+            if = {
+				limit = {
+					has_estate = estate_nobles
+				}
+				NOT = {
+					estate_territory = {
+						estate = estate_nobles
+						territory = 20
+					}
+				}
+				NOT = {
+					estate_influence = {
+						estate = estate_nobles
+						influence = 50
+					}
+				}
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 40
+				}
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -226,14 +400,20 @@ vn_swe_missions_slot_2_c = {
 	has_country_shield = yes
 	
 	vn_swe_schleswig_holstein = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 5
-        required_missions = { vn_swe_scandinavia_united }
+		required_missions = { vn_swe_scandinavia_united }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            holstein_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -249,58 +429,83 @@ vn_swe_missions_slot_2_d = {
 	has_country_shield = yes
 
     vn_swe_economic_reforms = {
-        #icon = 
+        icon = mission_high_income 
         position = 6
         required_missions = { vn_swe_copper_mines_of_falun }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_military_reforms = {	#Indelningsverket
-        #icon = 
+        icon = mission_build_up_to_force_limit
         position = 7
         required_missions = { vn_swe_economic_reforms }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_stormakstiden = {
-        #icon = 
+		icon = mission_empire
         position = 8
         required_missions = { vn_swe_military_reforms }
         trigger = {
-            
+			total_development = 1000
+			government_rank = 6
+			is_great_power = yes
+			all_rival_country = {
+				NOT = {
+					army_strength = {
+						who = ROOT
+						value = 1.0
+					}
+				}
+			}
+			army_size = 80
+			navy_size = 50
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_swedish_enlightenment = {
-        #icon = 
+        icon = mission_early_modern_university 
         position = 9
         required_missions = { vn_swe_stormakstiden }
         trigger = {
-            
+			has_institution = enlightenment
+			all_state_province = {
+				enlightenment = 100
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				has_building = university
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_archdiocese_of_sweden = {
-        #icon = 
+        icon = mission_european_church
         position = 10
         required_missions = { vn_swe_convert_sweden }
         trigger = {
-            
+			uses_papacy = yes
+			papal_influence = 200
+			num_of_cardinals = 3
+			reverse_has_opinion = {
+				who = PAP
+				value = 125
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -316,110 +521,295 @@ vn_swe_missions_slot_3_a = {
     has_country_shield = yes
 
     vn_swe_conquest_of_skane = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 1
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            skania_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_across_the_belt = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 2
-        required_missions = { vn_swe_conquest_of_skane }
+		required_missions = { vn_swe_conquest_of_skane }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            danishislands_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_conquer_jutland = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 3
-        required_missions = { vn_swe_across_the_belt }
+		required_missions = { vn_swe_across_the_belt }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            jutland_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_scandinavia_united = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 4
         required_missions = { 
 			vn_swe_western_norway 
 			vn_swe_conquer_jutland 
 			vn_swe_end_kingdom_of_gotland 
 		}
-        trigger = {
-            
-        }
+		provinces_to_highlight = {
+			#add highlight
+		}
+		trigger = {
+			scandinavia_superregion = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { controlled_by = REB }
+				NOT = { local_autonomy = 30 }
+				NOT = { unrest = 1 }
+			}
+		}
         effect = {
-            
+            #add
         }
     }
     vn_swe_swedish_pomerania = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 6
-        required_missions = { vn_swe_scandinavia_united }
+		required_missions = { vn_swe_scandinavia_united }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            vorpommern_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kolberg_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			stolp_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_cities_of_mecklenburg = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 8
-        required_missions = { vn_swe_swedish_pomerania }
+		required_missions = { vn_swe_swedish_pomerania }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            mecklenburg_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_dominum_maris_baltici = {
-        #icon = 
+        icon = mission_scandinavian_port_authority
         position = 9
         required_missions = { 
 			vn_swe_stormakstiden 
 			vn_swe_cities_of_mecklenburg 
 			vn_swe_occupy_prussia 
 		}
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+			baltic_sea_region = {
+				type = all
+				NOT = {
+					any_neighbor_province = {
+						has_port = yes
+						NOT = {
+							owned_by = ROOT
+							is_core = ROOT
+						}
+					}
+				}
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_seize_bremen = {
-        #icon = 
+        icon = mission_hanseatic_cities
         position = 10
         required_missions = { vn_swe_dominum_maris_baltici }
         trigger = {
-            
+            429 = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			#addmore
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_destroy_hansa = {
-        #icon = 
+        icon = mission_heart_of_the_hansa
         position = 11
         required_missions = { vn_swe_seize_bremen }
         trigger = {
-            
+			calc_true_if = {
+				1084 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				429 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				13 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				2996 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				2417 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				2636 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				402 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				4854 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				5793 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				2383 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				328 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				896 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				2729 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				2230 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				5889 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				3427 = {
+					OR = {
+						owned_by = ROOT
+						controlled_by = ROOT
+					}
+				}
+				amount = 8
+			}
+            1084 = {
+				is_strongest_trade_power = ROOT
+			}
+			13 = {
+				is_strongest_trade_power = ROOT
+			}
+			2652 = {
+				is_strongest_trade_power = ROOT
+			}
+			5793 = {
+				is_strongest_trade_power = ROOT
+			}
+			5889 = {
+				is_strongest_trade_power = ROOT
+			}
+			3427 = {
+				is_strongest_trade_power = ROOT
+			}
+			2230 = {
+				is_strongest_trade_power = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -435,25 +825,39 @@ vn_swe_missions_slot_4_a = {
     has_country_shield = yes
 
     vn_swe_prepare_for_crusade = {
-        #icon = 
+        icon = mission_large_army
         position = 1
         required_missions = {  }
         trigger = {
-            
+            stockholm_area = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			num_of_generals = 2
+			army_size_percentage = 0.9
+			stability = 1
+			manpower_percentage = 0.5
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_conquer_finland = {
-        #icon = 
+        icon = mission_conquer_finland
         position = 2
-        required_missions = { vn_swe_prepare_for_crusade }
+		required_missions = { vn_swe_prepare_for_crusade }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            finland_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -469,50 +873,96 @@ vn_swe_missions_slot_4_b = {
 	has_country_shield = yes
 
     vn_swe_end_kingdom_of_gotland = {
-        #icon = 
+        icon = mission_sea_battles
         position = 3
-        required_missions = {  }
+		required_missions = {  }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            6131 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2697 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			6130 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_conquer_estonia = {
-        #icon = 
-        position = 5
+        icon = mission_unite_home_region	#placeholder
+        position = 4
         required_missions = { 
-			vn_swe_end_kingdom_of_gotland 
-			vn_swe_across_neva 
+			vn_swe_end_kingdom_of_gotland
+			vn_swe_conquer_karelia
+		}
+		provinces_to_highlight = {
+			#add highlight
 		}
         trigger = {
-            
+            estonia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			livonia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_into_livonia = {
-        #icon = 
+        icon = mission_conquer_riga
         position = 7
-        required_missions = { vn_swe_conquer_estonia }
+		required_missions = { vn_swe_conquer_estonia }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            latvian_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			curoniasemigallia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_occupy_prussia = {
-        #icon = 
+        icon = mission_danzig_or_war
         position = 8
-        required_missions = { vn_swe_into_livonia }
+		required_missions = { vn_swe_into_livonia }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            calc_true_if = {
+				OR = {
+					ostpreussen_region = {
+						type = all
+						controlled_by = ROOT
+					}
+					westpreussen_region = {
+						type = all
+						controlled_by = ROOT
+					}
+				}
+				amount = 20
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -528,14 +978,21 @@ vn_swe_missions_slot_4_c = {
 	has_country_shield = yes
 
     vn_swe_ottoman_diplomacy = {
-        #icon = 
+        icon = mission_ottoman_diplomacy 
         position = 10
         required_missions = { vn_swe_wars_with_poland }
         trigger = {
-            
+			TUR = {
+				exists = yes
+				alliance_with = ROOT
+				has_opinion = {
+					who = ROOT
+					value = 150
+				}
+			}
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -551,47 +1008,64 @@ vn_swe_missions_slot_5_a = {
     has_country_shield = yes
 
     vn_swe_conquer_karelia = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 3
-        required_missions = { vn_swe_conquer_finland }
+		required_missions = { vn_swe_conquer_finland }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
-            
+            vyborg_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			neva_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			ingria_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_across_neva = {
-        #icon = 
-        position = 4
-        required_missions = { vn_swe_conquer_karelia }
+        icon = mission_develop_nevas_port
+        position = 5
+		required_missions = { vn_swe_conquer_karelia }
+		provinces_to_highlight = {
+			province_id = 3427
+		}
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_subjugate_novgorod = {
-        #icon = 
-        position = 5
+        icon = mission_conquer_novgorod
+        position = 6
         required_missions = { vn_swe_across_neva }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_strike_into_russia = {
-        #icon = 
-        position = 6
+        icon = mission_defeat_muscovy
+        position = 7
         required_missions = { vn_swe_subjugate_novgorod }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -607,14 +1081,14 @@ vn_swe_missions_slot_5_b = {
 	has_country_shield = yes
 	
     vn_swe_swedish_settlement = {
-        #icon = 
+        icon = mission_settlers_north_america
         position = 8
         required_missions = { vn_swe_into_livonia }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
 	}
 }
@@ -630,36 +1104,36 @@ vn_swe_missions_slot_5_c = {
 	has_country_shield = yes
 	
     vn_swe_wars_with_poland = {
-        #icon = 
+        icon = mission_partition_poland
         position = 9
         required_missions = { vn_swe_occupy_prussia }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_support_from_cossacks = {
-        #icon = 
+        icon = mission_recruit_the_cossacks
         position = 10
         required_missions = { vn_swe_wars_with_poland }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
     }
     vn_swe_deluge = {
-        #icon = 
+        icon = mission_steppe_warriors
         position = 11
         required_missions = { vn_swe_support_from_cossacks }
         trigger = {
-            
+            #add
         }
         effect = {
-            
+            #add
         }
 	}
 }
