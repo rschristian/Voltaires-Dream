@@ -104,24 +104,28 @@ vn_nor_missions_slot_1_a = {
         position = 3
 		required_missions = { vn_nor_strong_ruler }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = austlandet_region
+				region = vestlandet_region
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { local_autonomy = 30 }
+			}
 		}
         trigger = {
             austlandet_region = {
 				type = all
 				owned_by = ROOT
 				is_core = ROOT
-				NOT = {
-					local_autonomy = 30
-				}
+				NOT = { local_autonomy = 30 }
 			}
 			vestlandet_region = {
 				type = all
 				owned_by = ROOT
 				is_core = ROOT
-				NOT = {
-					local_autonomy = 30
-				}
+				NOT = { local_autonomy = 30 }
 			}
 			if = {
 				limit = {
@@ -284,12 +288,9 @@ vn_nor_missions_slot_1_c = {
         icon = mission_european_castle 
         position = 8
 		required_missions = { vn_nor_bahus_fortress }
-		provinces_to_highlight = {
-			#add highlight
-		}
         trigger = {
             num_of_owned_provinces_with = {
-				value = 5
+				value = 6
 				fort_level = 2
 				has_fort_trigger = yes
 			}
@@ -350,7 +351,8 @@ vn_nor_missions_slot_2_b = {
         position = 3
 		required_missions = { vn_nor_into_skane }
 		provinces_to_highlight = {
-			#add highlight
+			region = jutland_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             jutland_region = {
@@ -526,26 +528,31 @@ vn_nor_missions_slot_3_a = {
         icon = mission_alliances	#placeholder
         position = 1
 		required_missions = {  }
-		provinces_to_highlight = {
-			#add highlight
-		}
         trigger = {
-			#add tooltip
             OR = {
 				AND = {
-					exists = DAN
 					DAN = {
-						num_of_owned_provinces_with = {
-							superregion = scandinavia_superregion
-							is_claim = ROOT
-							value = 3
+						exists = yes
+						custom_trigger_tooltip = {
+							tooltip = vn_nor_resist_danes.tt
+							num_of_owned_provinces_with = {
+								superregion = scandinavia_superregion
+								is_claim = ROOT
+								value = 3
+							}
 						}
 					}
 				}
-				skania_region = {
-					type = all
+				custom_trigger_tooltip = {
+					tooltip = vn_nor_resist_danes.tt2
 					calc_true_if = {
-						is_claim = ROOT
+						skania_region = {
+							type = all
+							OR = {
+								is_claim = ROOT
+								is_core = ROOT
+							}
+						}
 						amount = 2
 					}
 				}
@@ -567,7 +574,8 @@ vn_nor_missions_slot_3_a = {
         position = 2
 		required_missions = { vn_nor_resist_danes }
 		provinces_to_highlight = {
-			#add highlight
+			region = skania_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             skania_region = {
@@ -597,7 +605,8 @@ vn_nor_missions_slot_3_a = {
         position = 3
 		required_missions = { vn_nor_into_skane }
 		provinces_to_highlight = {
-			#add highlight
+			region = danishislands_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             danishislands_region = {
@@ -670,7 +679,14 @@ vn_nor_missions_slot_3_a = {
         position = 6
 		required_missions = { vn_nor_control_baltic_trade }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = scandinavia_superregion
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { controlled_by = REB }
+				NOT = { local_autonomy = 30 }
+				NOT = { unrest = 1 }
+			}
 		}
         trigger = {
             scandinavia_superregion = {
@@ -705,36 +721,45 @@ vn_nor_missions_slot_4_a = {
         icon = mission_alliances	#placeholder
         position = 1
 		required_missions = {  }
-		provinces_to_highlight = {
-			#add highlight
-		}
         trigger = {
-			#add tooltip
             OR = {
 				AND = {
-					exists = SWE
 					SWE = {
-						num_of_owned_provinces_with = {
-							superregion = scandinavia_superregion
-							is_claim = ROOT
-							value = 5
+						exists = yes
+						custom_trigger_tooltip = {
+							tooltip = vn_nor_against_swedes.tt
+							num_of_owned_provinces_with = {
+								superregion = scandinavia_superregion
+								is_claim = ROOT
+								value = 5
+							}
 						}
 					}
 				}
 				AND = {
-					svealand_region = {
-						type = all
+					custom_trigger_tooltip = {
+						tooltip = vn_nor_against_swedes.tt2
 						calc_true_if = {
-							NOT = { owned_by = ROOT }
-							is_claim = ROOT
+							svealand_region = {
+								type = all
+								OR = {
+									is_claim = ROOT
+									is_core = ROOT
+								}
+							}
 							amount = 2
 						}
 					}
-					gotaland_region = {
-						type = all
+					custom_trigger_tooltip = {
+						tooltip = vn_nor_against_swedes.tt3
 						calc_true_if = {
-							NOT = { owned_by = ROOT }
-							is_claim = ROOT
+							gotaland_region = {
+								type = all
+								OR = {
+									is_claim = ROOT
+									is_core = ROOT
+								}
+							}
 							amount = 2
 						}
 					}
@@ -777,7 +802,12 @@ vn_nor_missions_slot_4_a = {
         position = 2
 		required_missions = { vn_nor_against_swedes }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				area = dalsland_area
+				area = vastergotland_area
+				area = varmland_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             dalsland_area = {
@@ -815,7 +845,11 @@ vn_nor_missions_slot_4_a = {
         position = 3
 		required_missions = { vn_nor_conquer_vastergotland }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = scandinavia_region
+				area = ostergotland_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             scandinavia_region = {
@@ -853,10 +887,7 @@ vn_nor_missions_slot_4_b = {
     vn_nor_develop_fish_trade = {	#Develop Whaling Trade
         icon = mission_scandinavian_port_authority 
         position = 4
-		required_missions = {  }
-		provinces_to_highlight = {
-			#add highlight
-		}
+		required_missions = { }
         trigger = {
 			whales = 10
 			num_of_owned_provinces_with = {
@@ -874,7 +905,7 @@ vn_nor_missions_slot_4_b = {
 					}
 					trade_goods = whales
 				}
-				add_trade_modifier = {	#LOCALIZE
+				add_trade_modifier = {
 					who = ROOT
                     duration = 7300
                     power = 10
@@ -898,9 +929,6 @@ vn_nor_missions_slot_4_b = {
         icon = mission_colonial 
         position = 5
 		required_missions = { vn_nor_develop_fish_trade }
-		provinces_to_highlight = {
-			#add highlight
-		}
         trigger = {
 			lumber = 10
 			num_of_owned_provinces_with = {
@@ -918,7 +946,7 @@ vn_nor_missions_slot_4_b = {
 					}
 					trade_goods = lumber
 				}
-				add_trade_modifier = {	#LOCALIZE
+				add_trade_modifier = {
 					who = ROOT
                     duration = 7300
                     power = 10
@@ -972,7 +1000,7 @@ vn_nor_missions_slot_4_b = {
 					add_permanent_claim = ROOT
 				}
 			}
-			add_mercantilism = 5
+			add_mercantilism = 2
         }
     }
     vn_nor_down_to_normandy = {
@@ -983,7 +1011,8 @@ vn_nor_missions_slot_4_b = {
 			vn_nor_trade_with_isles 
 		}
 		provinces_to_highlight = {
-			#add highlight
+			region = normandy_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             2173 = {
@@ -1036,12 +1065,14 @@ vn_nor_missions_slot_5_a = {
 				value = 10
 				has_estate = estate_church
 			}
-			#add tooltip
-			any_known_country = {
-				religion = catholic
-				has_opinion = {
-					who = ROOT
-					value = 100
+			custom_trigger_tooltip = {
+				tooltip = vn_nor_archdiocese_of_nidaros.tt
+				any_known_country = {
+					religion = catholic
+					has_opinion = {
+						who = ROOT
+						value = 125
+					}
 				}
 			}
         }
@@ -1070,7 +1101,8 @@ vn_nor_missions_slot_5_b = {
         position = 2
 		required_missions = { vn_nor_against_swedes }
 		provinces_to_highlight = {
-			#add highlight
+			region = svealand_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             svealand_region = {
@@ -1093,7 +1125,8 @@ vn_nor_missions_slot_5_b = {
         position = 2
 		required_missions = { vn_nor_take_svealand }
 		provinces_to_highlight = {
-			#add highlight
+			region = uppland_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             uppland_region = {
@@ -1121,7 +1154,8 @@ vn_nor_missions_slot_5_b = {
         position = 4
 		required_missions = { vn_nor_conquer_stockholm }
 		provinces_to_highlight = {
-			#add highlight
+			region = svealand_region
+			trade_goods = copper
 		}
         trigger = {
             num_of_owned_provinces_with = {

@@ -36,12 +36,29 @@ vn_eng_missions_slot_1_a = {
             estate_loyalty = {
                 estate = estate_burghers
                 loyalty = 60
+			}
+			custom_trigger_tooltip = {
+                tooltip = vn_eng_consolidate_our_rule.tt
+                OR = {
+					has_country_flag = had_earls_revolt
+					current_age = age_of_holy_wars
+					current_age = age_of_crisis
+					current_age = age_of_dynasticism
+					current_age = age_of_discovery
+					current_age = age_of_reformation
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
             }
-        }
+		}
         effect = {
-            every_owned_province = {
-                add_nationalism = -5
-            }
+			custom_tooltip = vn_eng_consolidate_our_rule.tt2
+			hidden_effect = {
+				every_owned_province = {
+					add_nationalism = -5
+				}
+			}	
             add_country_modifier = {
                 name = "eng_consolidate_our_rule_mission"
                 duration = 9125
@@ -55,17 +72,17 @@ vn_eng_missions_slot_1_a = {
             vn_eng_fortify_england
         }
         trigger = {
-			2240 = {    #Hereford
+			2240 = {
 				owned_by = ROOT
 				is_core = ROOT
 				has_fort_trigger = yes
 			}
-			2238 = {    #Shrewsbury
+			2238 = {
 				owned_by = ROOT
 				is_core = ROOT
 				has_fort_trigger = yes
 			}
-			2250 = {    #Cheshire
+			2250 = {
 				owned_by = ROOT
 				is_core = ROOT
 				has_fort_trigger = yes
@@ -1324,28 +1341,22 @@ vn_eng_missions_slot_3_e = {
         required_missions = { vn_eng_renounce_homage }
         position = 11
         trigger = {
-            custom_trigger_tooltip = {
-				tooltip = vn_eng_claim_french_throne.tt
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = vn_eng_claim_french_throne.tt
+					has_global_flag = eng_had_start_of_hundred_years_war
+				}
+				custom_trigger_tooltip = {
+					tooltip = vn_eng_claim_french_throne.tt
+					NOT = { has_global_flag = eng_had_start_of_hundred_years_war }
+				}
 			}
-            if = {
-                limit = { exists = FRA }
-                FRA = {
-                    OR = {
-                        has_heir = no
-                        NOT = { heir_claim = 50 }
-                    }
-                }
-            }
         }
         effect = {
             if = {
-                limit = { exists = FRA }
-                add_casus_belli = {
-                    type = cb_fabricated_claims
-                    target = FRA
-                    months = 300
-				}
+                limit = { has_global_flag = eng_had_start_of_hundred_years_war }
 				add_legitimacy = 10
+				add_prestige = 15
 			}
 			else = {
 				custom_tooltip = vn_ase_elect_new_king.tt4

@@ -852,7 +852,13 @@ vn_fra_missions_slot_1_c = {
         position = 21
 		required_missions = { vn_fra_overthrow_naples }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				area = gallura_area
+				area = arborea_area
+				area = sassari_area
+				area = balears_area
+			}
+			NOT = { owned_by = ROOT }
 		}
         trigger = {
 			OR = {
@@ -1175,9 +1181,6 @@ vn_fra_missions_slot_2_a = {
     vn_fra_vauban_fortifications = {
         icon = mission_european_castle
 		required_missions = { vn_fra_standing_army }
-		provinces_to_highlight = {
-			#add highlight
-		}
         trigger = {
             num_of_owned_provinces_with = {
 				value = 50
@@ -2322,31 +2325,39 @@ vn_fra_missions_slot_3_b = {
         icon = mission_monarch_in_throne_room
         required_missions = { vn_fra_french_enlightenment }
         trigger = {
-			has_reform_level = 7
-			OR = {
-				has_reform = political_absolutism_reform
-				has_reform = become_a_republic_reform
-			}
+			custom_trigger_tooltip = {
+                tooltip = vn_fra_fate_of_monarchy.tt
+                OR = {
+                    has_country_flag = had_revolution
+                    current_age = age_of_ideology
+                }
+            }
         }
         effect = {
             if = {
 				limit = {
-					has_reform = political_absolutism_reform
+					NOT = { has_reform = revolutionary_republic_reform }
+					government = monarchy
 				}
-				add_absolutism = 15
 				add_country_modifier = {
 					name = "fra_fate_of_monarchy_mission"
-					duration = 9125
+					duration = 7300
 				}
 			}
 			else_if = {
 				limit = {
-					has_reform = become_a_republic_reform
+					NOT = { has_reform = revolutionary_republic_reform }
+					government = republic
 				}
-				add_republican_tradition = 15
 				add_country_modifier = {
 					name = "fra_fate_of_monarchy_mission2"
-					duration = 9125
+					duration = 7300
+				}
+			}
+			else = {
+				add_country_modifier = {
+					name = "fra_fate_of_monarchy_mission3"
+					duration = 7300
 				}
 			}
         }
@@ -3786,15 +3797,21 @@ vn_fra_missions_slot_5_e = {
         position = 10
         required_missions = {  }
         trigger = {
-			#add
-			#disaster french wars of religion
-			always = no	#remove later
+			custom_trigger_tooltip = {
+                tooltip = vn_fra_endure_reformation.tt
+                OR = {
+                    has_country_flag = FRA_wars_of_religion_ended
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
         }
         effect = {
             #add
         }
     }
-    vn_fra_edict_of_nantes = {	#diff title?
+    vn_fra_edict_of_nantes = {
 		icon = mission_rb_control_state_religion
         required_missions = { vn_fra_endure_reformation }
         trigger = {
@@ -3808,7 +3825,7 @@ vn_fra_missions_slot_5_e = {
 				any_owned_province = {
 					superregion = french_superregion
 					has_owner_religion = no
-					unrest = 5
+					unrest = 3
 				}
 			}
         }
@@ -3833,7 +3850,16 @@ vn_fra_missions_slot_5_f = {
         position = 12
 		required_missions = { vn_fra_edict_of_moulins }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = normandy_region
+				region = angevin_region
+				region = paris_region
+				region = champagne_region
+				region = picard_region
+				region = berrichon_region
+				region = burgundy_region
+			}
+			NOT = { culture = ROOT }
 		}
         trigger = {
             num_of_owned_provinces_with = {
@@ -3861,7 +3887,15 @@ vn_fra_missions_slot_5_f = {
         icon = mission_invade_occitania
 		required_missions = { vn_fra_unify_french }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = gascony_region
+				region = guyenne_region
+				region = auvergne_region
+				region = toulouse_region
+				region = provence_region
+				region = dauphine_region
+			}
+			NOT = { culture = ROOT }
 		}
         trigger = {
             num_of_owned_provinces_with = {
@@ -3885,7 +3919,8 @@ vn_fra_missions_slot_5_f = {
         icon = mission_alliances	#placeholder? 
 		required_missions = { vn_fra_integrate_occitans }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = french_superregion
+			NOT = { culture = ROOT }
 		}
         trigger = {
 			num_of_owned_provinces_with = {
@@ -3940,13 +3975,18 @@ vn_fra_missions_slot_5_g = {
         icon = mission_noble_council
         required_missions = { vn_fra_palace_of_versailles }
         trigger = {
-			#add tooltip
-            calc_true_if = {
-				alsace_region = {
-					type = all
-					is_claim = ROOT
+			custom_trigger_tooltip = {
+				tooltip = vn_fra_chambers_of_reunion.tt
+				calc_true_if = {
+					alsace_region = {
+						type = all
+						OR = {
+							is_claim = ROOT
+							is_core = ROOT
+						}
+					}
+					amount = 10
 				}
-				amount = 10
 			}
         }
         effect = {

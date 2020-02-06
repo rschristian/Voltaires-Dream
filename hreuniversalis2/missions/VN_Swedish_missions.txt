@@ -18,6 +18,15 @@ vn_swe_missions_slot_1_a = {
         trigger = {
 			#addmore
 			has_reform_level = 2
+			stability = 1
+			NOT = {
+				any_owned_province = {
+					controlled_by = REB
+				}
+			}
+			ADM = 2
+			DIP = 2
+			MIL = 2
         }
         effect = {
             define_advisor = {
@@ -55,11 +64,19 @@ vn_swe_missions_slot_1_a = {
         }
     }
     vn_swe_abolish_serfdom = {	#Question of Serfdom
-        icon = mission_colonial 
+        icon = mission_landsknecht_soldier
         position = 3
         required_missions = { vn_swe_develop_stockholm }
         trigger = {
-			#add
+			custom_trigger_tooltip = {
+                tooltip = vn_swe_abolish_serfdom.tt
+                OR = {
+                    has_country_flag = had_the_dacke_feud
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
         }
         effect = {
             #add
@@ -70,7 +87,11 @@ vn_swe_missions_slot_1_a = {
         position = 4
         required_missions = { vn_swe_abolish_serfdom }
         trigger = {
-            #add
+			OR = {
+				has_reform = general_estates_reform
+				has_reform = regional_representation_reform
+				has_reform = legislative_houses_reform
+			}
         }
         effect = {
             #add
@@ -315,7 +336,8 @@ vn_swe_missions_slot_2_a = {
         position = 1
 		required_missions = {  }
 		provinces_to_highlight = {
-			#add highlight
+			region = austlandet_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             austlandet_region = {
@@ -332,7 +354,8 @@ vn_swe_missions_slot_2_a = {
         position = 3
         required_missions = { vn_swe_eastern_norway }
         provinces_to_highlight = {
-			#add highlight
+			region = vestlandet_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             vestlandet_region = {
@@ -404,7 +427,8 @@ vn_swe_missions_slot_2_c = {
         position = 5
 		required_missions = { vn_swe_scandinavia_united }
 		provinces_to_highlight = {
-			#add highlight
+			region = holstein_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             holstein_region = {
@@ -433,7 +457,13 @@ vn_swe_missions_slot_2_d = {
         position = 6
         required_missions = { vn_swe_copper_mines_of_falun }
         trigger = {
-            #add
+			share_of_starting_income = 2.0
+			OR = {
+				master_of_mint = 3
+				treasurer = 3
+			}
+			NOT = { inflation = 1 }
+			is_in_deficit = no
         }
         effect = {
             #add
@@ -444,7 +474,19 @@ vn_swe_missions_slot_2_d = {
         position = 7
         required_missions = { vn_swe_economic_reforms }
         trigger = {
-            #add
+			manpower_percentage = 0.75
+			OR = {
+				quartermaster = 3
+				army_reformer = 3
+			}
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				army_professionalism = 20
+			}
+			else = {
+				army_tradition = 50
+			}
+			has_commanding_three_star = yes
         }
         effect = {
             #add
@@ -525,7 +567,8 @@ vn_swe_missions_slot_3_a = {
         position = 1
 		required_missions = {  }
 		provinces_to_highlight = {
-			#add highlight
+			region = skania_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             skania_region = {
@@ -542,7 +585,8 @@ vn_swe_missions_slot_3_a = {
         position = 2
 		required_missions = { vn_swe_conquest_of_skane }
 		provinces_to_highlight = {
-			#add highlight
+			region = danishislands_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             danishislands_region = {
@@ -559,7 +603,8 @@ vn_swe_missions_slot_3_a = {
         position = 3
 		required_missions = { vn_swe_across_the_belt }
 		provinces_to_highlight = {
-			#add highlight
+			region = jutland_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             jutland_region = {
@@ -580,7 +625,14 @@ vn_swe_missions_slot_3_a = {
 			vn_swe_end_kingdom_of_gotland 
 		}
 		provinces_to_highlight = {
-			#add highlight
+			region = scandinavia_superregion
+			NOT = { 
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { controlled_by = REB }
+				NOT = { local_autonomy = 30 }
+				NOT = { unrest = 1 }
+			}
 		}
 		trigger = {
 			scandinavia_superregion = {
@@ -601,10 +653,15 @@ vn_swe_missions_slot_3_a = {
         position = 6
 		required_missions = { vn_swe_scandinavia_united }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				area = pomerania_area
+				area = kolberg_area
+				area = stolp_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            vorpommern_area = {
+            pomerania_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -626,7 +683,8 @@ vn_swe_missions_slot_3_a = {
         position = 8
 		required_missions = { vn_swe_swedish_pomerania }
 		provinces_to_highlight = {
-			#add highlight
+			region = mecklenburg_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             mecklenburg_region = {
@@ -647,7 +705,11 @@ vn_swe_missions_slot_3_a = {
 			vn_swe_occupy_prussia 
 		}
 		provinces_to_highlight = {
-			#add highlight
+			has_port = yes
+			any_neighbor_province = {
+				is_sea = yes
+				region = baltic_sea_region
+			}
 		}
         trigger = {
 			baltic_sea_region = {
@@ -848,7 +910,8 @@ vn_swe_missions_slot_4_a = {
         position = 2
 		required_missions = { vn_swe_prepare_for_crusade }
 		provinces_to_highlight = {
-			#add highlight
+			region = finland_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             finland_region = {
@@ -877,7 +940,12 @@ vn_swe_missions_slot_4_b = {
         position = 3
 		required_missions = {  }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				province_id = 6131
+				province_id = 2697
+				province_id = 6130
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             6131 = {
@@ -902,7 +970,11 @@ vn_swe_missions_slot_4_b = {
 			vn_swe_conquer_karelia
 		}
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = estonia_region
+				region = livonia_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             estonia_region = {
@@ -923,7 +995,11 @@ vn_swe_missions_slot_4_b = {
         position = 7
 		required_missions = { vn_swe_conquer_estonia }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = latvian_region
+				region = curoniasemigallia_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             latvian_region = {
@@ -944,7 +1020,11 @@ vn_swe_missions_slot_4_b = {
         position = 8
 		required_missions = { vn_swe_into_livonia }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = ostpreussen_region
+				region = westpreussen_region
+			}
+			NOT = { controlled_by = ROOT }
 		}
         trigger = {
             calc_true_if = {
@@ -1012,7 +1092,12 @@ vn_swe_missions_slot_5_a = {
         position = 3
 		required_missions = { vn_swe_conquer_finland }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				area = vyborg_area
+				area = neva_area
+				area = ingria_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             vyborg_area = {
@@ -1040,7 +1125,20 @@ vn_swe_missions_slot_5_a = {
 			province_id = 3427
 		}
         trigger = {
-            #add
+            3427 = {
+				owned_by = ROOT
+				is_core = ROOT
+				num_of_times_improved = 5
+				development = 20
+				calc_true_if = {
+					has_trade_building_trigger = yes
+					has_manpower_building_trigger = yes
+					has_production_building_trigger = yes
+					has_shipyard_building_trigger = yes
+					has_dock_building_trigger = yes
+					amount = 3
+				}
+			}
         }
         effect = {
             #add
