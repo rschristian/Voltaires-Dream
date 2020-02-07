@@ -12,7 +12,7 @@ vn_kie_missions_slot_1 = {
     has_country_shield = yes
 
 	vn_kie_ruriks_residences = {
-		icon = mission_unite_home_region
+		icon = mission_eastern_european_city
         position = 1
 		required_missions = { }
 		provinces_to_highlight = {
@@ -88,49 +88,25 @@ vn_kie_missions_slot_1 = {
 			}
         }
 	}
-	vn_kie_ruthenian_trade = {
-		icon = mission_dominate_home_trade_node
-        position = 2
-		required_missions = { }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 4237
-				province_id = 3959
-				province_id = 4278
-				province_id = 6144
-				province_id = 6692
-				province_id = 6611
-				province_id = 3920
-			}
-			NOT = { is_strongest_trade_power = ROOT }
-		}
-		trigger = {
-			4237 = { is_strongest_trade_power = ROOT }
-			3959 = { is_strongest_trade_power = ROOT }
-			4278 = { is_strongest_trade_power = ROOT }
-			6144 = { is_strongest_trade_power = ROOT }
-			6692 = { is_strongest_trade_power = ROOT }
-			6611 = { is_strongest_trade_power = ROOT }
-			3920 = { is_strongest_trade_power = ROOT }
-		}
-		effect = {
-
-		}
-	}
-	vn_kie_support_against_the_mongols = {
-		icon = mission_dominate_home_trade_node
+	vn_kie_golden_gates_of_kiev = {
+		icon = mission_fort
         position = 3
-		required_missions = { }
-		trigger = {
-			OR = {
-				war_with = GLH
-				war_with = ILK
-				war_with = JMN
+		required_missions = { vn_kie_tempering_the_druzhina }
+		provinces_to_highlight = {
+			province_id = 4237
+		}
+        trigger = {
+            4237 = {
+				owned_by = ROOT
+				OR = {
+					has_building = fort_17th
+					has_building = fort_18th
+				}
 			}
-		}
-		effect = {
-			#events to ask POL, HUN, MAZ... for military assistance
-		}
+        }
+        effect = {
+            
+        }
 	}
     vn_kie_conquer_chernigov = {
         icon = mission_unite_home_region
@@ -350,6 +326,59 @@ vn_kie_missions_slot_1 = {
             
         }
 	}
+	vn_kie_open_up_trade_opportunities = {
+		icon = mission_trade_company_region_abroad
+        position = 12
+		required_missions = { }
+		trigger = {
+			trade_income_percentage = 0.3
+			num_of_owned_provinces_with = {
+				value = 10
+				has_trade_building_trigger = yes
+			}
+		}
+		effect = {
+			add_mercantilism = 2
+			define_advisor = {
+				type = trader
+				skill = 3
+				discount = yes
+			}
+		}
+	}
+	vn_kie_ruthenian_trade = {
+		icon = mission_dominate_home_trade_node
+        position = 13
+		required_missions = { vn_kie_open_up_trade_opportunities }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 4237
+				province_id = 3959
+				province_id = 4278
+				province_id = 6144
+				province_id = 6692
+				province_id = 6611
+				province_id = 3920
+			}
+			NOT = { is_strongest_trade_power = ROOT }
+		}
+		trigger = {
+			4237 = { is_strongest_trade_power = ROOT }
+			3959 = { is_strongest_trade_power = ROOT }
+			4278 = { is_strongest_trade_power = ROOT }
+			6144 = { is_strongest_trade_power = ROOT }
+			6692 = { is_strongest_trade_power = ROOT }
+			6611 = { is_strongest_trade_power = ROOT }
+			3920 = { is_strongest_trade_power = ROOT }
+		}
+		effect = {
+			add_years_of_income = 1
+			add_country_modifier = {
+				name = kie_ruthenian_trade_mission
+				duration = 9125
+			}
+		}
+	}
 	vn_kie_ruthenian_navy = {
 		icon = mission_launch_a_flagship
         position = 14
@@ -370,7 +399,7 @@ vn_kie_missions_slot_1 = {
         }
 	}
 	vn_kie_conquer_sweden = {
-		icon = mission_corsairs_of_the_north
+		icon = mission_corsairs_of_the_north_sea
         position = 15
 		required_missions = { vn_kie_ruthenian_navy vn_kie_unite_the_rus }
 		provinces_to_highlight = {
@@ -421,33 +450,39 @@ vn_kie_missions_slot_2 = {
     }
     has_country_shield = yes
 
-	vn_kie_golden_gates_of_kiev = {
-		icon = mission_unite_home_region
+	vn_kie_build_up_army = {
+		icon = mission_build_up_to_force_limit
         position = 1
-		required_missions = { }
-		provinces_to_highlight = {
-			
-		}
+		required_missions = {  }
         trigger = {
-            4237 = {
-				OR = {
-					has_building = fort_17th
-					has_building = fort_18th
+			army_size_percentage = 1
+            if = {
+				limit = {
+					has_dlc = "Third Rome"
+					has_government_mechanic = russian_mechanic
 				}
+				num_of_streltsy = 10
 			}
+			else = {
+				num_of_infantry = 10
+			}
+			infantry_fraction = 0.4
         }
         effect = {
-            
+            add_country_modifier = {
+				name = kie_build_up_army_mission
+				duration = 9125
+			}
         }
 	}
 	vn_kie_tempering_the_druzhina = {
-		icon = mission_unite_home_region
+		icon = mission_recruit_streltsy
         position = 2
-		required_missions = { }
+		required_missions = { vn_kie_build_up_army }
         trigger = {
 			has_global_modifier_value = {
 				which = discipline
-				value = 0.1
+				value = 0.15
 				extra_shortcut = yes
 			}
             if = {
@@ -455,29 +490,128 @@ vn_kie_missions_slot_2 = {
 					has_dlc = "Third Rome"
 					has_government_mechanic = russian_mechanic
 				}
-				num_of_streltsy = 20
+				num_of_streltsy = 30
 			}
 			else = {
-				num_of_infantry = 20
+				num_of_infantry = 30
 			}
+			infantry_fraction = 0.4
         }
         effect = {
-            
+            add_country_modifier = {
+				name = kie_tempering_the_druzhina_mission
+				duration = 9125
+			}
         }
 	}
-	vn_kie_survive_the_black_death = {
-		icon = mission_unite_home_region
+	vn_kie_support_against_the_mongols = {
+		icon = mission_steppe_warriors
         position = 3
-		required_missions = { }
-        trigger = {
-            custom_trigger_tooltip = {
-				tooltip = vn_kie_survive_the_black_death.tt
-				has_country_flag = had_black_death
+		required_missions = { vn_kie_tempering_the_druzhina }
+		trigger = {
+			OR = {
+				war_with = GLH
+				war_with = ILK
+				war_with = JMN
 			}
-        }
-        effect = {
-            
-        }
+		}
+		effect = {
+			if = {
+				limit = { exists = POL POL = { is_emperor = no } }
+				POL = {
+					country_event = {
+						id = vn_missions.31
+						days = 60
+						random = 60
+					}
+				}
+			}
+			else = {
+				random_country = {
+					limit = {
+						exists = yes
+						primary_culture = polish
+						is_emperor = no
+					}
+					country_event = {
+						id = vn_missions.31
+						days = 60
+						random = 60
+					}
+				}
+			}
+			if = {
+				limit = { exists = MAZ MAZ = { is_emperor = no } }
+				MAZ = {
+					country_event = {
+						id = vn_missions.31
+						days = 60
+						random = 60
+					}
+				}
+			}
+			else = {
+				random_country = {
+					limit = {
+						exists = yes
+						primary_culture = mazovian
+						is_emperor = no
+					}
+					country_event = {
+						id = vn_missions.31
+						days = 60
+						random = 60
+					}
+				}
+			}
+			if = {
+				limit = { exists = HUN HUN = { is_emperor = no } }
+				HUN = {
+					country_event = {
+						id = vn_missions.31
+						days = 60
+						random = 60
+					}
+				}
+			}
+			else = {
+				random_country = {
+					limit = {
+						exists = yes
+						primary_culture = hungarian
+						is_emperor = no
+					}
+					country_event = {
+						id = vn_missions.31
+						days = 60
+						random = 60
+					}
+				}
+			}
+			if = {
+				limit = { hre_size = 1 is_emperor = no }
+				emperor = {
+					country_event = {
+						id = vn_missions.31
+						days = 60
+						random = 60
+					}
+				}
+			}
+			else = {
+				random_country = {
+					limit = {
+						exists = yes
+						culture_group = germanic
+					}
+					country_event = {
+						id = vn_missions.31
+						days = 60
+						random = 60
+					}
+				}
+			}
+		}
 	}
     vn_kie_conquer_pereyaslavl = {
         icon = mission_unite_home_region
@@ -717,11 +851,18 @@ vn_kie_missions_slot_2 = {
         position = 12
         required_missions = { vn_kie_conquer_pskov vn_kie_introduce_primogeniture }
         provinces_to_highlight = {
-			region = novgorod_region
+			OR = {
+				region = novgorod_region
+				area = ladoga_area
+			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             novgorod_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			ladoga_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -811,7 +952,28 @@ vn_kie_missions_slot_3 = {
         required_missions = { }
 		trigger = {
 			stability = 2
-			has_3_lv2_advisors_trigger = yes
+			has_3_advisors_trigger = yes
+			if = {
+				limit = { has_estate = estate_nobles }
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 60
+				}
+			}
+			if = {
+				limit = { has_estate = estate_church }
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+			}
+			if = {
+				limit = { has_estate = estate_burghers }
+				estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 60
+				}
+			}
 		}
 		effect = {
 			
@@ -887,7 +1049,34 @@ vn_kie_missions_slot_3 = {
 			}
 		}
 		effect = {
-			
+			turov_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			pinsk_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			volodymyr_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			lutsk_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
 		}
 	}
 	vn_kie_restrict_the_peasantry = {
@@ -994,20 +1183,7 @@ vn_kie_missions_slot_4 = {
         position = 1
         required_missions = { }
 		trigger = {
-			if = {
-				limit = { has_estate = estate_church }
-				estate_loyalty = {
-					estate = estate_church
-					loyalty = 60
-				}
-				estate_influence = {
-					estate = estate_church
-					influence = 50
-				}
-			}
-			else = {
-				stability = 2
-			}
+			stability = 2
 			land_forcelimit = 30
 			army_size_percentage = 1
 		}
@@ -1129,7 +1305,7 @@ vn_kie_missions_slot_4 = {
         }
     }
     vn_kie_conquer_maeotida = {
-        icon = mission_unite_home_region
+        icon = mission_collect_yasak
         position = 6
         required_missions = { vn_kie_conquer_zaporizhia vn_kie_control_dnieper_trade }
         provinces_to_highlight = {
@@ -1266,18 +1442,11 @@ vn_kie_missions_slot_4 = {
         position = 9
         required_missions = { vn_kie_restrict_the_peasantry }
 		provinces_to_highlight = {
-			OR = {
-				region = oka_region
-				area = ladoga_area	
-			}
+			region = oka_region	
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             oka_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			ladoga_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -1448,7 +1617,7 @@ vn_kie_missions_slot_5 = {
 				}
 				num_of_owned_provinces_with = {
 					value = 10
-					has_trade_building_trigger = yes
+					has_manpower_building_trigger = yes
 				}
 			}
 		}
@@ -1479,14 +1648,52 @@ vn_kie_missions_slot_5 = {
         position = 3
         required_missions = { }
 		trigger = {
-			
+			exists = BYZ
+			OR = {
+				AND = {
+					is_rival = BYZ
+					BYZ = {
+						OR = {
+							has_opinion_modifier = {
+								who = ROOT
+								modifier = insulted
+							}
+							has_opinion_modifier = {
+								who = ROOT
+								modifier = scornfully_insulted
+							}
+						}
+					}
+				}
+				AND = {
+					alliance_with = BYZ
+					reverse_has_opinion = {
+						who = BYZ
+						value = 150
+					}
+				}
+			}
 		}
 		effect = {
-			
+			if = {
+				limit = { is_rival = BYZ }
+				add_prestige = 10
+				add_country_modifier = {
+					name = kie_byzantine_diplomacy_mission_1
+					duration = 9125
+				}
+			}
+			else = {
+				add_manpower = 5
+				add_country_modifier = {
+					name = kie_byzantine_diplomacy_mission_2
+					duration = 9125
+				}
+			}
 		}
 	}
 	vn_kie_repopulate_zaporizhia = {
-		icon = mission_land_of_churches
+		icon = mission_settlers_north_america
         position = 5
         required_missions = { vn_kie_conquer_zaporizhia }
 		provinces_to_highlight = {
@@ -1530,7 +1737,7 @@ vn_kie_missions_slot_5 = {
 		}
 	}
 	vn_kie_conquer_lower_don = {
-        icon = mission_unite_home_region
+        icon = mission_chinese_general_riding
         position = 6
         required_missions = { vn_kie_repopulate_zaporizhia }
 		provinces_to_highlight = {
@@ -1560,7 +1767,7 @@ vn_kie_missions_slot_5 = {
         }
     }
     vn_kie_conquer_qirim = {
-        icon = mission_unite_home_region
+        icon = mission_conquer_novgorod
         position = 7
         required_missions = { vn_kie_conquer_maeotida }
         provinces_to_highlight = {
@@ -1591,7 +1798,7 @@ vn_kie_missions_slot_5 = {
         }
     }
     vn_kie_conquer_qale = {
-        icon = mission_unite_home_region
+        icon = mission_heart_of_the_hansa
         position = 8
         required_missions = { vn_kie_conquer_qirim }
 		provinces_to_highlight = {

@@ -1677,3 +1677,129 @@ country_event = {
 		}
 	}
 }
+
+###KIEV###
+#Kievs asks for assistance against Mongols
+country_event = {
+	id = vn_missions.31
+	title = vn_missions.31.t
+	desc = vn_missions.31.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_missions.31.a
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 0
+				NOT = { manpower = 5 }
+			}
+			modifier = {
+				factor = 0.5
+				NOT = { treasury = 100 }
+			}
+			modifier = {
+				factor = 0
+				is_bankrupt = yes
+			}
+			modifier = {
+				factor = 0
+				num_of_loans = 10
+			}
+			modifier = {
+				factor = 0.5
+				is_at_war = yes
+			}
+			modifier = {
+				factor = 1.5
+				manpower = 10
+			}
+			modifier = {
+				factor = 1.5
+				treasury = 200
+			}
+		}
+		add_treasury = -100
+		add_manpower = -5
+		FROM = {
+			country_event = {
+				id = vn_missions.32
+				days = 60
+				random = 60
+				tooltip = vn_missions.31.tt
+			}
+		}
+	}
+	
+	option = {
+		name = vn_missions.31.b
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 0
+				manpower = 5
+			}
+		}
+		FROM = {
+			country_event = {
+				id = vn_missions.33
+				days = 60
+				random = 60
+				tooltip = vn_missions.31.tt
+			}
+		}
+	}
+}
+
+#Positive Response
+country_event = {
+	id = vn_missions.32
+	title = vn_missions.32.t
+	desc = vn_missions.32.d
+	picture = MILITARY_CAMP_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_missions.32.a
+		add_treasury = 100
+		random_owned_province = {
+			limit = { is_in_capital_area = yes }
+			add_unit_construction = {
+				type = infantry
+				amount = 4
+				speed = 0.1
+				cost = 0
+			}
+			add_unit_construction = {
+				type = cavalry
+				amount = 1
+				speed = 0.1
+				cost = 0
+			}
+		}
+		add_country_modifier = {
+			name = "nrm_sent_troops"
+			duration = 3650
+		}
+	}
+}
+
+#Negative Response
+country_event = {
+	id = vn_missions.33
+	title = vn_missions.33.t
+	desc = vn_missions.33.d
+	picture = WOUNDED_SOLDIERS_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		add_opinion = {
+			who = FROM
+			modifier = nrm_refused_troops
+		}
+	}
+}

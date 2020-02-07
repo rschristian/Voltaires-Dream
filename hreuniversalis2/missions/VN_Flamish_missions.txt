@@ -233,12 +233,12 @@ vn_fla_missions_slot_2 = {
 		icon = mission_humiliate_provence
         required_missions = { vn_fla_twofold_fiefdom vn_fla_conquer_calais }
 		trigger = {
-            custom_trigger_tooltip = {
-               tooltip = vn_fla_join_the_hundred_years_war.tt
-                has_global_flag = eng_had_start_of_hundred_years_war
-            }    
             OR = {
                 AND = {
+                    custom_trigger_tooltip = {
+                        tooltip = vn_fla_join_the_hundred_years_war.tt
+                        has_global_flag = eng_had_start_of_hundred_years_war
+                    }
                     alliance_with = ENG
                     FRA = {
                         war_with = ENG
@@ -246,11 +246,27 @@ vn_fla_missions_slot_2 = {
                     }
                 }
                 AND = {
+                    custom_trigger_tooltip = {
+                        tooltip = vn_fla_join_the_hundred_years_war.tt
+                        has_global_flag = eng_had_start_of_hundred_years_war
+                    }
                     alliance_with = FRA
                     ENG = {
                         war_with = FRA
                         war_with = ROOT
                     }
+                }
+                AND = {
+                    custom_trigger_tooltip = {
+                        tooltip = vn_fla_join_the_hundred_years_war.ss
+                        OR = {
+                            has_global_flag = eng_had_start_of_hundred_years_war
+                            has_global_flag = eng_had_end_of_hundred_years_war
+                        }
+                    }
+                    is_subject = no
+                    NOT = { war_with = ENG }
+                    NOT = { war_with = FRA }
                 }
             }
 		}
@@ -261,6 +277,10 @@ vn_fla_missions_slot_2 = {
                     tradition = 75
                     culture = english
                 }
+                add_country_modifier = {
+                    name = fla_join_the_hundred_years_war_mission_1
+                    duration = 9125
+                }
             }
             else_if = {
                 limit = { alliance_with = FRA }
@@ -268,15 +288,18 @@ vn_fla_missions_slot_2 = {
                     tradition = 75
                     culture = cosmopolitan_french
                 }
-            }
-            else = {
-                create_general = {
-                    tradition = 75
+                add_country_modifier = {
+                    name = fla_join_the_hundred_years_war_mission_1
+                    duration = 9125
                 }
             }
-            add_country_modifier = {
-                name = fla_join_the_hundred_years_war_mission
-                duration = 9125
+            else = {
+                add_stability_or_adm_power = yes
+                add_mercantilism = 2
+                add_country_modifier = {
+                    name = fla_join_the_hundred_years_war_mission_2
+                    duration = 9125
+                }
             }
         }
     }
