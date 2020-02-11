@@ -1376,9 +1376,18 @@ country_event = {
 	trigger = {
 		has_dlc = "The Cossacks"
 		religion = tengri_pagan_reformed
-		secondary_religion = catholic
-		exists = PAP
-		NOT = { war_with = PAP }
+		OR = {
+			AND = {
+				secondary_religion = catholic
+				exists = PAP
+				NOT = { war_with = PAP }
+			}
+			AND = {
+				secondary_religion = catholique
+				exists = AVI
+				NOT = { war_with = AVI }
+			}
+		}
 		has_reform = steppe_horde
 	}
 	
@@ -1392,10 +1401,22 @@ country_event = {
 			factor = 1
 		}
 		add_prestige = 10
-		PAP = {
-			add_opinion = {
-				who = ROOT
-				modifier = tengri_pope_spurned
+		if = {
+			limit = { secondary_religion = catholic }
+			PAP = {
+				add_opinion = {
+					who = ROOT
+					modifier = tengri_pope_spurned
+				}
+			}
+		}
+		if = {
+			limit = { secondary_religion = catholique }
+			AVI = {
+				add_opinion = {
+					who = ROOT
+					modifier = tengri_pope_spurned
+				}
 			}
 		}
 	}
@@ -1440,6 +1461,10 @@ country_event = {
 			secondary_religion = anglican
 			secondary_religion = catholic
 			secondary_religion = catholique
+			secondary_religion = nestorian
+			secondary_religion = coptic
+			secondary_religion = iconoclast
+			secondary_religion = monothelite
 		}
 		any_owned_province = {
 			NOT = { religion_group = christian }
@@ -1604,6 +1629,10 @@ country_event = {
 			secondary_religion = anglican
 			secondary_religion = catholic
 			secondary_religion = catholique
+			secondary_religion = nestorian
+			secondary_religion = coptic
+			secondary_religion = iconoclast
+			secondary_religion = monothelite
 		}
 		any_subject_country = {
 			religion_group = christian
@@ -1657,6 +1686,10 @@ country_event = {
 			secondary_religion = anglican
 			secondary_religion = catholic
 			secondary_religion = catholique
+			secondary_religion = nestorian
+			secondary_religion = coptic
+			secondary_religion = iconoclast
+			secondary_religion = monothelite
 		}
 		NOT = { stability = 3 }
 	}
@@ -1717,6 +1750,10 @@ country_event = {
 			secondary_religion = anglican
 			secondary_religion = catholic
 			secondary_religion = catholique
+			secondary_religion = nestorian
+			secondary_religion = coptic
+			secondary_religion = iconoclast
+			secondary_religion = monothelite
 		}
 		dominant_religion = secondary
 		OR = {
@@ -1806,6 +1843,49 @@ country_event = {
 	}
 }
 
+#Zoroastrianism
+
+#Like sugar in milk
+country_event = {
+	id = tengri_events.50
+	title = tengri_events.50.t
+	desc = tengri_events.50.d
+	picture = RELIGIOUS_MIGRANTS_eventPicture
+	
+	
+	trigger = {
+		has_dlc = "The Cossacks"
+		religion = tengri_pagan_reformed
+		secondary_religion = zoroastrian
+		NOT = { has_country_modifier = zoroastrian_traders }
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+	}
+	
+	option = {
+		name = tengri_events.50.a #
+		add_country_modifier = {
+			name = "zoroastrian_traders"
+			duration = 7300
+		}
+	}
+	option = {
+		name = tengri_events.50.b #
+		random_owned_province = {
+			limit = { 
+				is_capital = no
+				NOT = { religion = zoroastrian }
+			}
+			change_religion =  zoroastrian
+			add_base_tax = 1
+			add_base_production = 1
+			add_base_manpower = 1
+		}
+	}
+}
+
 #Growing Pantheon
 country_event = {
 	id = tengri_events.51
@@ -1824,6 +1904,12 @@ country_event = {
 			secondary_religion = hellenic_pagan
 			secondary_religion = druwi
 			secondary_religion = dievturiba
+			secondary_religion = maausko
+			secondary_religion = uralinusko
+			secondary_religion = uatsdin
+			secondary_religion = khabze
+			secondary_religion = vainakh
+			secondary_religion = egyptian_religion
 		}
 		NOT = { has_country_modifier = tengri_animist_pantheon }
 	}
@@ -1883,6 +1969,43 @@ country_event = {
 	}
 }
 
+#Confiscation of Deities
+province_event = {
+	id = tengri_events.55
+	title = tengri_events.55.t
+	desc = tengri_events.55.d
+	picture = SENCRATIC_ALTER_eventPicture
+	
+	
+	trigger = {
+		has_dlc = "The Cossacks"
+		owner = {
+			religion = tengri_pagan_reformed
+			secondary_religion = egyptian_religion
+		}
+		NOT = { religion = tengri_pagan_reformed }
+		NOT = { religion = egyptian_religion }
+		nationalism = 5
+	}
+	
+	mean_time_to_happen = {
+		months = 360
+	}
+	
+	is_mtth_scaled_to_size = 1
+	
+	option = {
+		name = tengri_events.55.a #
+		add_nationalism = -8
+	}
+	option = {
+		name = tengri_events.55.b #
+		owner = {
+			add_prestige = 10
+		}
+	}
+}
+
 #New Bible Translation
 country_event = {
 	id = tengri_events.57
@@ -1921,7 +2044,11 @@ country_event = {
 	trigger = {
 		has_dlc = "The Cossacks"
 		religion = tengri_pagan_reformed
-		secondary_religion = reformed
+		OR = {
+			secondary_religion = reformed
+			secondary_religion = anabaptist
+			secondary_religion = anglican
+		}
 	}
 	
 	mean_time_to_happen = {
