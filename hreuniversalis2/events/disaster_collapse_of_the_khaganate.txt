@@ -301,11 +301,11 @@ country_event = {
 	desc = collapse_of_the_khaganate.2.d
 	picture = {
 		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = BATTLE_eventPicture
+		picture = CIVIL_WAR_eventPicture
 	}
 	picture = {
 		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_BATTLE_eventPicture
+		picture = muslimgfx_CIVIL_WAR_eventPicture
 	}
 
 	is_triggered_only = yes
@@ -372,18 +372,14 @@ country_event = {
 
 	is_triggered_only = yes
 
-	trigger = {
-		NOT = { has_country_modifier = mongol_corruption }
-	}
-
 	option = {
 		name = collapse_of_the_khaganate.4.a
-		add_years_of_income = -1
-		add_disaster_modifier = {
-			name = mongol_corruption
-			duration = -1
-			disaster = collapse_of_the_khaganate
-		}
+		add_corruption = 0.25
+		add_years_of_income = -0.25
+	}
+	option = {
+		name = collapse_of_the_khaganate.4.b
+		add_adm_power = -50
 	}
 }
 
@@ -403,18 +399,84 @@ country_event = {
 
 	is_triggered_only = yes
 
-	trigger = {
-		NOT = { has_country_modifier = mongol_diplomatic_termination }
-	}
-
 	option = {
 		name = collapse_of_the_khaganate.5.a
-		add_stability = -1
-		add_disaster_modifier = {
-			name = mongol_diplomatic_termination
-			duration = -1
-			disaster = collapse_of_the_khaganate
+		if = {
+			limit = {
+				any_subject_country = {
+					NOT = {
+						has_opinion_modifier = {
+							who = ROOT
+							modifier = opinion_displeased
+						}
+					}
+				}
+			}
+			random_subject_country = {
+				limit = {
+					NOT = {
+						has_opinion_modifier = {
+							who = ROOT
+							modifier = opinion_displeased
+						}
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = opinion_displeased
+				}
+				add_trust = {
+					who = ROOT
+					value = -10
+				}
+			}
 		}
+		else_if = {
+			limit = {
+				any_ally = {
+					NOT = {
+						has_opinion_modifier = {
+							who = ROOT
+							modifier = opinion_displeased
+						}
+					}
+				}
+			}
+			random_ally = {
+				limit = {
+					NOT = {
+						has_opinion_modifier = {
+							who = ROOT
+							modifier = opinion_displeased
+						}
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = opinion_displeased
+				}
+				add_trust = {
+					who = ROOT
+					value = -10
+				}
+			}
+		}
+		else = {
+			random_neighbor_country = {
+				add_opinion = {
+					who = ROOT
+					modifier = opinion_displeased
+				}
+				add_trust = {
+					who = ROOT
+					value = -10
+				}
+			}
+		}
+	}
+	option = {
+		name = collapse_of_the_khaganate.5.b
+		add_dip_power = -50
 	}
 }
 
@@ -434,17 +496,76 @@ country_event = {
 
 	is_triggered_only = yes
 
+	option = {
+		name = collapse_of_the_khaganate.6.a
+		random_province = {
+			limit = { can_spawn_rebels = nationalist_rebels }
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 1
+			}
+		}
+	}
+	option = {
+		name = collapse_of_the_khaganate.6.b
+		add_mil_power = -50
+	}
+}
+
+#Ruler is captured
+country_event = {
+	id = collapse_of_the_khaganate.7
+	title = collapse_of_the_khaganate.7.t
+	desc = collapse_of_the_khaganate.7.d
+	picture = {
+		trigger = { NOT = { has_dlc = "Star and Crescent" } }
+		picture = BATTLE_eventPicture
+	}
+	picture = {
+		trigger = { has_dlc = "Star and Crescent" }
+		picture = muslimgfx_BATTLE_eventPicture
+	}
+
+	is_triggered_only = yes
+
 	trigger = {
-		NOT = { has_country_modifier = mongol_social_unrest }
+		NOT = { has_country_flag = ruler_was_captured_flag }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = ruler_was_captured_flag
+		}
 	}
 
 	option = {
-		name = collapse_of_the_khaganate.6.a
-		add_inflation = 5
-		add_disaster_modifier = {
-			name = mongol_social_unrest
-			duration = -1
-			disaster = collapse_of_the_khaganate
+		name = collapse_of_the_khaganate.7.a
+		add_years_of_income = -0.5
+		change_adm = -1
+		change_dip = -1
+		change_mil = -1
+		define_ruler_to_general = {
+			fire = 1
+			shock = 0
+			manuever = 0
+			siege = 0
+		}
+	}
+	option = {
+		name = collapse_of_the_khaganate.7.b
+		trigger = { heir_age = 15 }
+		add_prestige = -10
+		kill_ruler = yes
+	}
+	option = {
+		name = collapse_of_the_khaganate.7.c
+		trigger = { NOT = { heir_age = 15 } }
+		add_stability = -1
+		add_prestige = -15
+		define_ruler = { hide_skills = yes }
+		if = {
+			limit = { has_heir = yes }
+			remove_heir = yes
 		}
 	}
 }
@@ -467,6 +588,7 @@ country_event = {
 
 	option = {
 		name = collapse_of_the_khaganate.100.a
+		clr_country_flag = ruler_was_captured_flag
 		add_stability = 1
 		add_horde_unity = 25
 		add_legitimacy = 25
