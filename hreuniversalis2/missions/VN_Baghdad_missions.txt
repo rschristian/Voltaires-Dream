@@ -16,12 +16,10 @@ vn_bgh_missions_slot_1 = {
         position = 1
         required_missions = {  }
         trigger = {
-            baghdad_area = {
-		OR = {
-		    has_owner_religion = yes
-		    religion_group = muslim
-		}
-	    }
+            lower_mesopotamia_region = {
+                type = all
+		religion_group = muslim
+            }
         }
         effect = {
             add_country_modifier = {
@@ -72,14 +70,16 @@ vn_bgh_missions_slot_1 = {
 	    if = { limit = NOT = { has_building = university } }
 		add_building = university
 	    }
-	    else = {
-		add_adm_power = 50
-		add_dip_power = 50
-	    }
             add_country_modifier = {
-                name = bgh_center_of_learning_mission
+                name = bgh_country_center_of_learning_mission #!
                 duration = 9125 
-            }            
+            } 
+	    6301 = {
+		add_province_modifier = {
+		    name = "bgh_province_center_of_learning_mission" #!
+		    duration = -1
+		}
+	    }           
         }
     }
     vn_bgh_house_of_wisdom = {
@@ -90,9 +90,11 @@ vn_bgh_missions_slot_1 = {
             6301 = {
 		has_building = university
 	    }  
-	    has_3_lv3_advisors_trigger = yes          
+	    has_3_lv2_advisors_trigger = yes          
         }
         effect = {
+	    add_adm_power = 50
+	    add_dip_power = 50
             add_country_modifier = {
                 name = bgh_house_of_wisdom_mission
                 duration = 9125 
@@ -104,10 +106,21 @@ vn_bgh_missions_slot_1 = {
         position = 6
         required_missions = { vn_bgh_house_of_wisdom }
         trigger = {
-            
+            6301 = {
+		has_building = university
+	    } 
+            any_neighbor_country = {
+		tech_difference = 2
+	    } 
+	    has_3_lv2_advisors_trigger = yes          
         }
         effect = {
-            
+	    add_adm_power = 50
+	    add_dip_power = 50
+            add_country_modifier = {
+                name = bgh_translation_movement_mission
+                duration = 9125 
+            }              
         }
     }
     vn_bgh_islamic_golden_age = {
@@ -115,32 +128,33 @@ vn_bgh_missions_slot_1 = {
         position = 7
         required_missions = { vn_bgh_translation_movement }
         trigger = {
-            
+            6301 = {
+		has_building = university
+	    } 
+            in_golden_age = yes
+	    has_3_lv3_advisors_trigger = yes                   
         }
         effect = {
-            
+	    add_adm_power = 100
+	    add_dip_power = 100
+            add_country_modifier = {
+                name = bgh_islamic_golden_age_mission
+                duration = 9125 
+            }              
         }
     }
     vn_bgh_scientific_innovations = {
         icon = mission_have_manufactories
-        position = 8
+        position = 9 #8
         required_missions = { vn_bgh_islamic_golden_age }
         trigger = {
-            
+            innovativeness = 50
         }
         effect = {
-            
-        }
-    }
-    vn_bgh_industrial_mills = {
-        icon = mission_have_manufactories
-        position = 9
-        required_missions = { vn_bgh_scientific_innovations }
-        trigger = {
-            
-        }
-        effect = {
-            
+            add_country_modifier = {
+                name = bgh_scientific_innovations_mission
+                duration = 9125 
+            }            
         }
     }
     vn_bgh_the_red_sea_coast = {
@@ -149,7 +163,6 @@ vn_bgh_missions_slot_1 = {
         required_missions = { vn_bgh_the_sinai_recovered }
         provinces_to_highlight = {
             area = red_sea_coast_area
-
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
@@ -159,7 +172,7 @@ vn_bgh_missions_slot_1 = {
             }
         }
         effect = {
-            add_adm_power = 50
+            add_mil_power = 50
         }
     }
     vn_bgh_agricultual_revolution = {
@@ -167,32 +180,101 @@ vn_bgh_missions_slot_1 = {
         position = 11
         required_missions = {  }
         trigger = {
-            
+            production_income_percentage = 0.33
+	    production_efficiency = 0.20
+	    OR = {
+	        production_leader = {
+		    trade_goods = barley
+	    	}
+	    	trading_bonus = {
+		    trade_goods = barley
+		    value = yes
+	        }
+	    }
+	    OR = {
+	        production_leader = {
+		    trade_goods = rice
+	    	}
+	    	trading_bonus = {
+		    trade_goods = rice
+		    value = yes
+	        }
+	    }
+	    OR = {
+	        production_leader = {
+		    trade_goods = rye
+	    	}
+	    	trading_bonus = {
+		    trade_goods = rye
+		    value = yes
+	        }
+	    }
         }
         effect = {
-            
-        }
-    }
-    vn_bgh_sahib_almiqyas = {
-        icon = mission_rice_field
-        position = 12
-        required_missions = { vn_bgh_agricultural_heartland vn_bgh_agricultual_revolution }
-        trigger = {
-            
-        }
-        effect = {
-            
+            add_adm_power = 50
+            add_country_modifier = {
+                name = bgh_agricultual_revolution_mission
+                duration = 9125 
+            }            
         }
     }
     vn_bgh_barley_producer = {
         icon = mission_rice_field
-        position = 13
-        required_missions = { vn_bgh_sahib_almiqyas }
-        trigger = {
-            
+        position = 12
+        required_missions = { vn_bgh_agricultural_heartland vn_bgh_agricultual_revolution }
+        trigger = { 
+	    trading_part = {
+		trade_goods = barley
+		value = 0.33
+	    } 
+	    production_leader = {
+		trade_goods = barley
+	    }        
         }
         effect = {
-            
+            add_adm_power = 50
+            add_country_modifier = {
+                name = bgh_barley_producer_mission
+                duration = 9125 
+            }            
+        }
+    }
+    vn_bgh_sahib_almiqyas = {
+        icon = mission_rice_field
+        position = 13
+        required_missions = { vn_bgh_barley_producer }
+        trigger = {
+	    trading_bonus = {
+		trade_goods = barley
+		value = yes
+	    } 
+	    trading_bonus = {
+		trade_goods = rice
+		value = yes
+	    }
+	    trading_bonus = {
+		trade_goods = rye
+		value = yes
+	    }  
+	    trading_part = {
+		trade_goods = barley
+		value = 0.33
+	    }
+	    trading_part = {
+		trade_goods = rice
+		value = 0.33
+	    }
+	    trading_part = {
+		trade_goods = rye
+		value = 0.33
+	    }          
+        }
+        effect = {
+            add_adm_power = 100
+            add_country_modifier = {
+                name = bgh_sahib_almiqyas_mission
+                duration = -1 
+            }            
         }
     }
     vn_bgh_emir_of_sicily = {
@@ -229,7 +311,7 @@ vn_bgh_missions_slot_1 = {
         }
         trigger = {
 	    num_of_owned_provinces_with = {
-		value = 10 #10 owned provinces in Apulia
+		value = 10 
 		region = apulia_region
 	    }            
         }
@@ -325,13 +407,10 @@ vn_bgh_missions_slot_1 = {
             }
         }
         effect = { 
-            add_country_modifier = {
-                name = bgh_invade_the_atlas_mission
-                duration = 9125
-            }
-            add_adm_power = 100  
-            add_dip_power = 100           
-            add_mil_power = 100                    
+	    add_prestige = 10
+            add_adm_power = 50  
+            add_dip_power = 50           
+            add_mil_power = 50                    
         }
     }
 }
@@ -418,7 +497,10 @@ vn_bgh_missions_slot_2 = {
 	    }
         }
         effect = {
-            
+            add_country_modifier = {
+		name = "bgh_islamic_architecture_mission"
+		duration = 9125
+	    }             
         }
     }
     vn_bgh_splendor_of_baghdad = {
@@ -435,13 +517,13 @@ vn_bgh_missions_slot_2 = {
         }
         effect = {
 	    6301 = {
+		add_base_tax = 1
+		add_base_production = 1
+		add_base_manpower = 1
 		add_province_modifier = {
 		    name = "bgh_splendor_of_baghdad_mission"
 		    duration = -1
 		}
-		add_base_tax = 1
-		add_base_production = 1
-		add_base_manpower = 1
 	    }            
         }
     }
@@ -710,7 +792,7 @@ vn_bgh_missions_slot_2 = {
     vn_bgh_reach_the_atlantic = {
         icon = mission_invade_island
         position = 17
-        required_missions = { vn_bgh_alJazair}
+        required_missions = { vn_bgh_alJazair }
         provinces_to_highlight = {
             region = rif_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }          
@@ -839,7 +921,6 @@ vn_bgh_missions_slot_3 = {
     vn_bgh_lower_mesopotamia = {
         icon = mission_build_up_to_force_limit
         position = 1
-        required_missions = {  }
         provinces_to_highlight = {
             region = lower_mesopotamia_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }          
@@ -873,9 +954,6 @@ vn_bgh_missions_slot_3 = {
                 add_permanent_claim = ROOT
             }           
         }
-        effect = {
-            
-        }
     }
     vn_bgh_arabian_sea_coast = {
         icon = mission_unite_home_region
@@ -892,7 +970,7 @@ vn_bgh_missions_slot_3 = {
             }
         }
         effect = {
-            add_adm_power = 50
+            add_mil_power = 50
         }
     }
     vn_bgh_trade_in_baghdad = {
@@ -900,30 +978,30 @@ vn_bgh_missions_slot_3 = {
         position = 3
         required_missions = { vn_bgh_facilitate_urban_growth }
         provinces_to_highlight = {
-            province_id = 6031
+            province_id = 6301
             NOT = { country_or_non_sovereign_subject_holds = ROOT }          
         }
         trigger = {
-	    6031 = {
+	    6301 = {
 		has_trade_building_trigger = yes
 	    }
 	    if = {
                 limit = { has_dlc = "Dharma" }
-            	6031 = { province_has_center_of_trade_of_level = 2 }
+            	6301 = { province_has_center_of_trade_of_level = 2 }
 	    }
 	    else = {
-		6031 = {
+		6301 = {
 	    	    development = 30	
 		}
 	    }            
         }
         effect = {
 	    add_dip_power = 50
-            6031 = {
+            6301 = {
 		add_base_production = 2
                 add_province_modifier = {
                     name = bgh_trade_in_baghdad_mission
-                    duration = -1 
+                    duration = 9125 
                 }
             }
             add_mercantilism = 5            
@@ -934,13 +1012,13 @@ vn_bgh_missions_slot_3 = {
         position = 4
         required_missions = { vn_bgh_trade_in_baghdad }
         provinces_to_highlight = {
-            province_id = 6031
+            province_id = 6301
             NOT = { country_or_non_sovereign_subject_holds = ROOT }          
         }
         trigger = {
 	    if = {
                 limit = { has_dlc = "Dharma" }
-            	6031 = { province_has_center_of_trade_of_level = 3 }
+            	6301 = { province_has_center_of_trade_of_level = 3 }
 	    	num_of_owned_provinces_with = {
 		    value = 10
 		    OR = {
@@ -950,7 +1028,7 @@ vn_bgh_missions_slot_3 = {
 	    	}
 	    }
 	    else = {
-		6031 = {
+		6301 = {
 	    	    development = 30	
 		}
 	    	num_of_owned_provinces_with = {
@@ -972,8 +1050,8 @@ vn_bgh_missions_slot_3 = {
         position = 5
         required_missions = { vn_bgh_revive_trade }
         trigger = {
-            monthly_income = 50
-	    trade_income_percentage = 0.40
+            monthly_income = 100
+	    trade_income_percentage = 0.33
         }
         effect = {
             add_dip_power = 50
@@ -986,22 +1064,25 @@ vn_bgh_missions_slot_3 = {
         position = 6
         required_missions = { vn_bgh_riches_of_the_silk_road }
         provinces_to_highlight = {
-	    province_id = 6031
-	    province_id = 2233 
-	    province_id = 3065 
-	    province_id = 3111  
-	    limit = { has_dlc = "Dharma" }
+	    OR = {
+	    	province_id = 6301
+	    	province_id = 2233 
+	   	province_id = 3065 
+	        province_id = 3111  
+	    	limit = { has_dlc = "Dharma" }
+	    }
         }
         trigger = {
+	    num_of_trading_bonuses = 3
 	    if = {
                 limit = { has_dlc = "Dharma" }
-            	6031 = { province_has_center_of_trade_of_level = 3 } #Baghdad
+            	6301 = { province_has_center_of_trade_of_level = 3 } #Baghdad
             	2233 = { province_has_center_of_trade_of_level = 3 } #Constantinple
             	3065 = { province_has_center_of_trade_of_level = 3 } #Damascus
             	3111 = { province_has_center_of_trade_of_level = 3 } #Aleppo
 	    }
 	    else = {
-		6031 = {
+		6301 = {
 	    	    development = 30	
 		}
 	    	num_of_owned_provinces_with = {
@@ -1079,7 +1160,13 @@ vn_bgh_missions_slot_3 = {
         required_missions = { vn_bgh_the_holy_city }
         trigger = {
             navy_size = 50
-	    NOT = { 2233 = { owner = { navy_size = { ROOT } } } }
+	    2233 = { 
+		owner = { 
+		    NOT = { 
+			navy_size = ROOT 
+		    } 
+		}
+	    }
         }
         effect = {
             cyprus_region = {
@@ -1143,7 +1230,7 @@ vn_bgh_missions_slot_3 = {
         effect = {
             add_mil_power = 50
             country_event = {
-		id = vn_missions.201 #!
+		id = vn_missions.201 #! Ship Durability Research
 	    }	
         }
     }
@@ -1152,23 +1239,17 @@ vn_bgh_missions_slot_3 = {
         position = 12
         required_missions = { vn_bgh_emirate_of_crete }
         trigger = {
-	    is_in_war = {
-    		participant = { owner = { 2233 } }
+	    2233 = { 
+		owner = { 
+		    is_in_war = {
+			participants = ROOT 
+		    } 
+		}
 	    }
 	    2233 = { is_blockaded = yes }
-            OR = {
-		has_global_modifier_value = {
-		    which = ship_durability
-	       	    value = 0.05
-		}
-		2233 = { 
-		    owner = { 
-			tech_difference = 1
-		    }
-		}
-	    }
         }
         effect = {
+	    add_dip_power = 25
             add_country_modifier = {
 		name = "bgh_resist_greek_fire_mission"
 		duration = 9125
@@ -1179,14 +1260,17 @@ vn_bgh_missions_slot_3 = {
         icon = mission_conquer_50_development
         position = 13
         required_missions = { vn_bgh_resist_greek_fire }
+        provinces_to_highlight = {
+            province_id = 2233
+        }
         trigger = {
 	    OR = {
-		2233 = { sieged_by = ROOT }
-		owns_or_non_sovereign_subject_of = 2233  
+		2233 = { sieged_by = BGH }
+		2233 = { owns_or_non_sovereign_subject_of = BGH }  
 	    }         
         }
         effect = {
-	    add_mil_power = 100
+	    add_mil_power = 50
             add_country_modifier = {
 		name = "bgh_siege_of_constantinople_mission"
 		duration = 9125
@@ -1197,6 +1281,9 @@ vn_bgh_missions_slot_3 = {
         icon = mission_conquer_50_development
         position = 14
         required_missions = { vn_bgh_siege_of_constantinople }
+        provinces_to_highlight = {
+            province_id = 2233
+        }
         trigger = {	    
 	    OR = {
 		controls = 2233
@@ -1204,6 +1291,15 @@ vn_bgh_missions_slot_3 = {
 	    }        
         }
         effect = {
+	    add_mil_power = 100
+	    add_legitimacy = 15
+            thrace_region = { 
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }	    
             add_country_modifier = {
 		name = "bgh_fall_of_constantinople_mission"
 		duration = -1
@@ -1214,6 +1310,9 @@ vn_bgh_missions_slot_3 = {
         icon = mission_eastern_european_city
         position = 15
         required_missions = { vn_bgh_fall_of_constantinople }
+        provinces_to_highlight = {
+            province_id = 2233
+        }
         trigger = {
 	    owns_or_non_sovereign_subject_of = 2233
 	    if = {
@@ -1228,7 +1327,7 @@ vn_bgh_missions_slot_3 = {
 	    }	               
         }
         effect = {
- 	    add_legitimacy = 10
+ 	    add_prestige = 10
 	    2233 = {
 		add_province_modifier = {
 		    name = "bgh_restoration_of_the_city_mission"
@@ -1241,6 +1340,9 @@ vn_bgh_missions_slot_3 = {
         icon = mission_eastern_european_city
         position = 17
         required_missions = { vn_bgh_restoration_of_the_city }
+        provinces_to_highlight = {
+            province_id = 2233
+        }
         trigger = {
 	    owns_or_non_sovereign_subject_of = 2233
 	    if = {
@@ -1259,20 +1361,37 @@ vn_bgh_missions_slot_3 = {
 	    2233 = {
 		add_province_modifier = {
 		    name = "bgh_jewel_of_our_realm_mission"
-		    duration = -1
+		    duration = 9125
 		}
 	    }           
         }
     }
-    vn_bgh_end_of_the_byzantines = {
+    vn_bgh_end_of_the_byzantines = { 
         icon = mission_pf_map_table
         position = 19
         required_missions = { vn_bgh_jewel_of_our_realm }
         trigger = {
-           
+	    2233 = { 
+		owner = { 
+		    NOT = { 
+			navy_size = ROOT 
+		    } 
+		}
+	    }
+	    2233 = { 
+		owner = { 
+		    NOT = { 
+			army_size = ROOT 
+		    } 
+		}
+	    }       
         }
         effect = {
-
+ 	    add_legitimacy = 10
+ 	    add_prestige = 10
+ 	    add_adm_power = 50
+ 	    add_dip_power = 50
+ 	    add_mil_power = 50
         }
     }
     vn_bgh_unite_islam = {
@@ -1301,86 +1420,16 @@ vn_bgh_missions_slot_3 = {
             	has_country_modifier = unified_islam
 	    }
 	    else = {
-		if = { 
-		    limit = {
-			2670 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 2670 #Cordoba
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			2233 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 2233 #Constantinople
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			2703 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 2703 #Messina
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			2041 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 2041 #Palermo
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			6301 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 6301 #Baghdad
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			5012 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 5012 #Mecca
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			6232 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 6232 #Derbent
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			3065 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 3065 #Damascus
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			4731 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 4731 #Ifni
-		}
-		else = {
-		}
-		if = { 
-		    limit = {
-			3111 = { religion_group = muslim}
-		    }
-		    owns_or_non_sovereign_subject_of = 3111 #Aleppo
-		}
-		else = {
-		}	
+		owns_or_non_sovereign_subject_of = 2670 #Cordoba
+		owns_or_non_sovereign_subject_of = 2233 #Constantinople
+		owns_or_non_sovereign_subject_of = 2703 #Messina
+		owns_or_non_sovereign_subject_of = 2041 #Palermo
+		owns_or_non_sovereign_subject_of = 6301 #Baghdad
+		owns_or_non_sovereign_subject_of = 5012 #Mecca
+		owns_or_non_sovereign_subject_of = 6232 #Derbent
+		owns_or_non_sovereign_subject_of = 3065 #Damascus
+		owns_or_non_sovereign_subject_of = 4731 #Ifni
+		owns_or_non_sovereign_subject_of = 3111 #Aleppo	
 	    }            
         }
         effect = {
@@ -1400,14 +1449,21 @@ vn_bgh_missions_slot_3 = {
         position = 21
         required_missions = { vn_bgh_unite_islam vn_bgh_bedouins_controlled }
         trigger = {
-	    religion_group = muslim  
-            all_provinces = {
-		limit = {
-		    religion_group = muslim
-		}
-	    }
+            all_province = {
+                type = all
+                OR = {
+                    AND = {
+                        owned_by = ROOT
+                        religion_group = muslim
+                    }
+                    NOT = { religion_group = muslim }
+                }
+            }
         }
         effect = {
+	    add_adm_power = 50
+	    add_dip_power = 50
+	    add_mil_power = 50
             add_country_modifier = {
 		name = "bgh_undisputed_caliph_mission"
 		duration = -1
@@ -1569,19 +1625,21 @@ vn_bgh_missions_slot_4 = {
         required_missions = { vn_bgh_surrender_of_cyprus vn_bgh_sieze_cilicia }
         provinces_to_highlight = {
             superregion = anatolia_superregion
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+	    has_fort_trigger = yes          
         }        
 	trigger = {
             anatolia_superregion = {
                 any_province = {
-		    limit = { 
+		    AND = { 
 			has_fort_trigger = yes
+			controlled_by = BGH 
 		    }
-		    controlled_by = BGH 
 		}
             }             
         }
         effect = {
+	    add_mil_power = 50
             add_country_modifier = {
 		name = "bgh_breach_anatolia_mission"
 		duration = 9125
@@ -1696,21 +1754,26 @@ vn_bgh_missions_slot_4 = {
             }             
         }
         effect = {
+	    add_mil_power = 50
             add_country_modifier = {
 		name = "bgh_capture_nicaea_mission"
 		duration = 9125
 	    }                    
         }
     }
-    vn_bgh_greece_in_our_hands = {
-        icon = mission_pf_map_table
+    vn_bgh_the_iqta = {
+        icon = mission_rice_field
         position = 15
-        required_missions = { vn_bgh_capture_nicaea vn_bgh_fall_of_constantinople }
+        required_missions = { vn_bgh_viziers }
         trigger = {
-            
+            tax_income_percentage = 0.33
+	    monthly_income = 100
         }
         effect = {
-            
+            add_country_modifier = {
+		name = "bgh_iqta_mission"
+		duration = 9125
+	    }            
         }
     }
     vn_bgh_black_flags = {
@@ -1718,10 +1781,19 @@ vn_bgh_missions_slot_4 = {
         position = 16
         required_missions = {  }
         trigger = {
-            
+	    army_size_percentage = 1
+	    has_global_modifier_value = {
+		which = discipline 
+		value = 0.1
+	    }            
         }
         effect = {
-            
+	    add_mil_power = 50
+	    add_army_tradition = 15
+            add_country_modifier = {
+		name = "bgh_black_flags_mission"
+		duration = 9125
+	    }            
         }
     }
     vn_bgh_a_professional_army = {
@@ -1729,10 +1801,14 @@ vn_bgh_missions_slot_4 = {
         position = 17
         required_missions = { vn_bgh_black_flags }
         trigger = {
-            
+	    army_professionalism = 1
+            army_tradition = 50
         }
         effect = {
-            
+            add_country_modifier = {
+		name = "bgh_a_professional_army_mission"
+		duration = 9125
+	    }            
         }
     }
     vn_bgh_avoid_the_mongol_wrath = {
@@ -1807,7 +1883,7 @@ vn_bgh_missions_slot_4 = {
         effect = {
             add_country_modifier = {
                 name = bgh_bedouins_controlled_mission
-                duration = -1 
+                duration = -1
             }             
         }
     }
@@ -2054,17 +2130,17 @@ vn_bgh_missions_slot_5 = {
         position = 10
         required_missions = { vn_bgh_astrakhan }
         provinces_to_highlight = {
-	    area = astrakhan_area
+	    region = kazakhstan_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }          
         }        
 	trigger = {
-            astrakhan_area = {
+            kazakhstan_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }         
         }
         effect = {
-            kazakhstan_region = {
+            khwarezmia_region = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -2088,9 +2164,9 @@ vn_bgh_missions_slot_5 = {
             }         
         }
         effect = {
-            add_adm_power = 100
-            add_dip_power = 100
-            add_mil_power = 100
+            add_adm_power = 50
+            add_dip_power = 50
+            add_mil_power = 50
 	    add_country_modifier = {
                	name = "bgh_control_of_the_caspian_mission"
               	duration = 9125 
@@ -2123,61 +2199,87 @@ vn_bgh_missions_slot_5 = {
     }
     vn_bgh_viziers = {
         icon = mission_ottoman_harem
-        position = 13
+        position = 14 #13
         required_missions = {  }
+        provinces_to_highlight = {
+	    development = 20
+            country_or_non_sovereign_subject_holds = ROOT      
+        }
         trigger = {
-            
+            development = 1000
+            num_of_states = 15	    
         }
         effect = {
-            
-        }
-    }
-    vn_bgh_the_iqta = {
-        icon = mission_rice_field
-        position = 14
-        required_missions = { vn_bgh_viziers }
-        trigger = {
-            
-        }
-        effect = {
-            
+            country_event = {
+		id = vn_missions.202 #! Viziers
+	    }	            
         }
     }
     vn_bgh_curb_noble_power = {
         icon = mission_noble_council
-        position = 15
-        required_missions = { vn_bgh_the_iqta }
+        position = 15 
+        required_missions = { vn_bgh_viziers }
         trigger = {
-            
+            NOT = { corruption = 0.01 }
+            if = {
+                limit = { has_estate = estate_church }
+                NOT = {
+                    estate_influence = {
+                        estate = estate_church
+                        influence = 50
+                    }
+                }
+            }
+            if = {
+                limit = { has_estate = estate_burghers }
+                NOT = {
+                    estate_influence = {
+                        estate = estate_burghers
+                        influence = 50
+                    }
+                }
+            }
+            if = {
+                limit = { has_estate = estate_nobles }
+                NOT = {
+                    estate_influence = {
+                        estate = estate_nobles
+                        influence = 50
+                    }
+                }
+            }
         }
         effect = {
-            
-        }
-    }
-    vn_bgh_centralized_power = {
-        icon = mission_rb_monopolize_the_channel
-        position = 16
-        required_missions = { vn_bgh_curb_noble_power }
-        trigger = {
-            
-        }
-        effect = {
-            
+            add_legitimacy = 10 
+            add_adm_power = 50 
         }
     }
     vn_bgh_centralization = {
         icon = mission_rb_monopolize_the_channel
-        position = 17
-        required_missions = { vn_bgh_centralized_power }
+        position = 16 
+        required_missions = { vn_bgh_curb_noble_power }
         trigger = {
-            
+	    NOT = { average_autonomy = 50 }
+            all_owned_province = {
+                OR = {
+                    AND = {
+			development = 20
+                        NOT = { local_autonomy = 30 }
+                    }
+                    NOT = { development = 20 }
+                }
+            }
         }
         effect = {
-            
+            add_absolutism = 10 
+            add_country_modifier = {
+                name = bgh_centralization_mission
+                duration = 9125
+            }            
         }
     }
     vn_bgh_repeal_the_crusaders = {
-        icon = mission_impaled_soldies
+        icon = mission_crusade_for_varna
         position = 18
         required_missions = { vn_bgh_a_professional_army }
         trigger = {
