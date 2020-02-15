@@ -571,10 +571,10 @@ vn_dan_nor_missions_slot_2_d = {
 			NOT = {
 				owned_by = ROOT
                 is_core = ROOT
-                NOT = { controlled_by = REB }
-                NOT = { unrest = 1 }
-                NOT = { local_autonomy = 30 }
 			}
+			controlled_by = REB
+			local_autonomy = 30
+			unrest = 1
 		}
         trigger = {
 			stability = 1
@@ -582,33 +582,41 @@ vn_dan_nor_missions_slot_2_d = {
                 type = all
                 owned_by = ROOT
                 is_core = ROOT
-                NOT = { controlled_by = REB }
-                NOT = { unrest = 1 }
-                NOT = { local_autonomy = 30 }
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB 
+				}
 			}
 			midlands_region = {
                 type = all
                 owned_by = ROOT
                 is_core = ROOT
-                NOT = { controlled_by = REB }
-                NOT = { unrest = 1 }
-                NOT = { local_autonomy = 30 }
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB 
+				}
 			}
 			southeast_england_region = {
                 type = all
                 owned_by = ROOT
                 is_core = ROOT
-                NOT = { controlled_by = REB }
-                NOT = { unrest = 1 }
-                NOT = { local_autonomy = 30 }
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB 
+				}
 			}
 			southwest_england_region = {
                 type = all
                 owned_by = ROOT
                 is_core = ROOT
-                NOT = { controlled_by = REB }
-                NOT = { unrest = 1 }
-                NOT = { local_autonomy = 30 }
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB 
+				}
             }
         }
         effect = {
@@ -976,12 +984,67 @@ vn_dan_nor_missions_slot_3_c = {
 			vn_dan_nor_consolidation_of_england 
 			vn_dan_nor_danish_britannia 
 		}
+		provinces_to_highlight = {
+			OR = {
+				superregion = british_isles_superregion
+				superregion = irish_superregion
+			}
+            NOT = {
+                owned_by = ROOT
+                is_core = ROOT
+			}
+			controlled_by = REB
+			unrest = 1
+			local_autonomy = 30
+        }
         trigger = {
-			#add
-			always = no	#remove later
+            irish_superregion = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB 
+				}
+            }
+            british_isles_superregion = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB 
+				}
+            }
+            ADM = 3
+            DIP = 3
+			MIL = 3
+			prestige = 50
+			army_size_percentage = 0.6
+			navy_size_percentage = 0.6
+			legitimacy = 95
         }
         effect = {
-            #add
+            add_adm_power = 75
+            add_dip_power = 75
+            add_mil_power = 75
+            add_prestige = 25
+            add_legitimacy = 20
+            if = {
+				limit = {
+					NOT = { government_rank = 6 }
+				}
+				set_government_rank = 6
+			}
+			else = {
+				add_years_of_income = 1
+			}
+			add_country_modifier = {
+				name = "dan_nor_restore_north_sea_empire_mission"
+				duration = -1
+			}
         }
 	}
 }
@@ -1002,7 +1065,10 @@ vn_dan_nor_missions_slot_4_a = {
     vn_dan_nor_seize_western_isles = {
         icon = mission_rb_conquer_the_isles 
         position = 8
-        required_missions = { vn_dan_nor_prepare_invasion_fleet }
+		required_missions = { vn_dan_nor_prepare_invasion_fleet }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
             hebrides_area = {
 				type = all
@@ -1035,7 +1101,10 @@ vn_dan_nor_missions_slot_4_a = {
     vn_dan_nor_onward_to_ireland = {
         icon = mission_rb_into_ireland 
         position = 10
-        required_missions = { vn_dan_nor_seize_western_isles }
+		required_missions = { vn_dan_nor_seize_western_isles }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
             irish_superregion = {
 				owned_by = ROOT
@@ -1055,7 +1124,10 @@ vn_dan_nor_missions_slot_4_a = {
     vn_dan_nor_defeat_clans = {
         icon = mission_rb_unite_the_clans
         position = 12
-        required_missions = { vn_dan_nor_onward_to_ireland }
+		required_missions = { vn_dan_nor_onward_to_ireland }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
             irish_superregion = {
 				type = all
@@ -1063,16 +1135,41 @@ vn_dan_nor_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+            add_army_tradition = 10
+			irish_superregion = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "dan_nor_defeat_clans_mission"
+					duration = 9125
+				}
+			}
         }
     }
     vn_dan_nor_ireland_consolidated = {
         icon = mission_rb_beyond_the_pale 
         position = 13
-        required_missions = { vn_dan_nor_defeat_clans }
+		required_missions = { vn_dan_nor_defeat_clans }
+		provinces_to_highlight = {
+			superregion = irish_superregion
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			local_autonomy = 30
+			unrest = 1
+			controlled_by = REB
+		}
         trigger = {
-			#add
-			always = no	#remove later
+			irish_superregion = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB
+				}
+			}
         }
         effect = {
             #add
@@ -1086,9 +1183,27 @@ vn_dan_nor_missions_slot_4_a = {
 			vn_dan_nor_ireland_consolidated 
 			vn_dan_nor_scotland_subjugated 
 		}
+		provinces_to_highlight = {
+			superregion = british_isles_superregion
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			local_autonomy = 30
+			unrest = 1
+			controlled_by = REB
+		}
         trigger = {
-			#add
-			always = no	#remove later
+			british_isles_superregion = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB
+				}
+			}
         }
         effect = {
             #add
@@ -1112,7 +1227,10 @@ vn_dan_nor_missions_slot_5_a = {
     vn_dan_nor_conquer_highlands = {
         icon = mission_rb_conquer_the_highlands
         position = 8
-        required_missions = { vn_dan_nor_prepare_invasion_fleet }
+		required_missions = { vn_dan_nor_prepare_invasion_fleet }
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
             caithness_area = {
 				type = all
@@ -1154,6 +1272,9 @@ vn_dan_nor_missions_slot_5_a = {
 			vn_dan_nor_seize_western_isles 
 			vn_dan_nor_conquer_highlands 
 		}
+		provinces_to_highlight = {
+			#add highlight
+		}
         trigger = {
             angus_area = {
 				type = all
@@ -1175,10 +1296,41 @@ vn_dan_nor_missions_slot_5_a = {
     vn_dan_nor_scotland_subjugated = {
         icon = mission_rb_rein_in_the_highland_clans
         position = 13
-        required_missions = { vn_dan_nor_occupy_lowlands }
+		required_missions = { vn_dan_nor_occupy_lowlands }
+		provinces_to_highlight = {
+			OR = {
+				region = scotland_region
+				region = highlands_region
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			local_autonomy = 30
+			unrest = 1
+			controlled_by = REB
+		}
         trigger = {
-			#add
-			always = no	#remove later
+			scotland_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB
+				}
+			}
+			highlands_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				NOT = { 
+					local_autonomy = 30
+					unrest = 1
+					controlled_by = REB
+				}
+			}
         }
         effect = {
             #add

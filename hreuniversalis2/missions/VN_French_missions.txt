@@ -2313,10 +2313,13 @@ vn_fra_missions_slot_3_b = {
         }
         effect = {
 			add_innovativeness_big_effect = yes
-            every_owned_province = {
-				add_institution_embracement = {
-					which = enlightenment
-					value = 10
+			#add tooltip
+			hidden_effect = {
+				every_owned_province = {
+					add_institution_embracement = {
+						which = enlightenment
+						value = 10
+					}
 				}
 			}
         }
@@ -2635,7 +2638,7 @@ vn_fra_missions_slot_4_b = {
 	has_country_shield = yes
 	
     vn_fra_french_renaissance = {
-        icon = mission_dominate_home_trade_node
+        icon = mission_early_modern_university
         position = 6
         required_missions = {  }
         trigger = {
@@ -3000,7 +3003,10 @@ vn_fra_missions_slot_4_e = {
 				estate = estate_nobles
 				loyalty = 10
 			}
-			#add more
+			add_country_modifier = {
+				name = "fra_curb_estates_mission"
+				duration = 9125
+			}
         }
     }
     vn_fra_unquestioned_rule = {
@@ -3023,7 +3029,10 @@ vn_fra_missions_slot_4_e = {
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "fra_unquestioned_rule_mission"
+				duration = 18250
+			}
         }
 	}
 }
@@ -3076,8 +3085,10 @@ vn_fra_missions_slot_4_f = {
 			}
         }
         effect = {
-			#add
-			#chambers of reunion gives claims to alsace
+			add_country_modifier = {
+				name = "fra_annex_lorraine_mission"
+				duration = 9125
+			}
         }
     }
     vn_fra_seize_alsace = {
@@ -3808,7 +3819,19 @@ vn_fra_missions_slot_5_e = {
             }
         }
         effect = {
-            #add
+			add_stability_or_adm_power = yes
+			if = {
+				limit = { uses_papacy = yes }
+				add_papal_influence = 25
+			}
+			else_if = {
+				limit = { uses_church_aspects = yes }
+				add_church_power = 25
+			}
+			else_if = {
+				limit = { uses_fervor = yes }
+				add_fervor = 10
+			}
         }
     }
     vn_fra_edict_of_nantes = {
@@ -3830,7 +3853,23 @@ vn_fra_missions_slot_5_e = {
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "fra_edict_of_nantes_mission"
+				duration = -1
+			}
+			custom_tooltip = vn_fra_edict_of_nantes.tt
+			hidden_effect = {
+				every_owned_province = {
+					limit = { 
+						NOT = { religion = ROOT } 
+						religion_group = ROOT
+					}
+					add_province_modifier = {
+						name = "fra_edict_of_nantes_mission2"
+						duration = 9125
+					}
+				}
+			}	
         }
 	}
 }
@@ -3877,6 +3916,7 @@ vn_fra_missions_slot_5_f = {
 			}
         }
         effect = {
+			add_dip_power = 50
             add_country_modifier = {
 				name = "fra_unify_french_mission"
 				duration = 9125
@@ -3912,7 +3952,49 @@ vn_fra_missions_slot_5_f = {
 			}
         }
         effect = {
-            #add
+			add_dip_power = 100
+			gascony_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "fra_integrate_occitans_mission"
+					duration = 7300
+				}
+			}
+			guyenne_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "fra_integrate_occitans_mission"
+					duration = 7300
+				}
+			}
+			auvergne_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "fra_integrate_occitans_mission"
+					duration = 7300
+				}
+			}
+			toulouse_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "fra_integrate_occitans_mission"
+					duration = 7300
+				}
+			}
+			provence_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "fra_integrate_occitans_mission"
+					duration = 7300
+				}
+			}
+			dauphine_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "fra_integrate_occitans_mission"
+					duration = 7300
+				}
+			}
         }
     }
     vn_fra_one_lingua_franca = {
@@ -3930,7 +4012,14 @@ vn_fra_missions_slot_5_f = {
 			}
         }
         effect = {
-            #add
+			add_prestige = 10
+			add_accepted_culture = normand
+			add_accepted_culture = burgundian
+			add_accepted_culture = angevin_culture
+			add_accepted_culture = poitevin
+			add_accepted_culture = berrichon
+			add_accepted_culture = orleanais
+			add_accepted_culture = champenois
         }
 	}
 }
@@ -4155,10 +4244,12 @@ vn_fra_missions_slot_5_h = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
+			NOT = { exists = NED }
         }
         effect = {
-			#add
-			#Event to release Netherlands as vassal/client state?
+			country_event = {
+				id = vn_missions.61	#Batavian Republic
+			}
         }
 	}
 }
@@ -4202,7 +4293,11 @@ vn_fra_missions_slot_5_i = {
 			}
         }
         effect = {
-            #add
+			add_navy_tradition = 20
+			add_country_modifier = {
+				name = "fra_naval_superiority_mission"
+				duration = 9125
+			}
         }
     }
     vn_fra_invade_england = {
@@ -4284,7 +4379,13 @@ vn_fra_missions_slot_5_i = {
 			}
         }
         effect = {
-            #add
+            irish_superregion = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "fra_invasion_of_ireland_mission"
+					duration = 7300
+				}
+			}
         }
     }
 }
