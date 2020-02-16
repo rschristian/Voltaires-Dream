@@ -35,3 +35,127 @@ country_event = {
 		}
 	}
 }
+###BAGHDAD
+#Ship Durability Research
+country_event = {
+	id = vn_missions.201
+	title = vn_missions.201.t
+	desc = vn_missions.201.d
+	picture = INVENTION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = "vn_missions.201.a"
+		add_years_of_income = -0.5
+		add_country_modifier = {
+			name = "bgh_ship_research_mission"
+			duration = 9125
+	    }
+	}
+	option = {
+		name = "vn_missions.201.b"
+		add_prestige = -10
+		add_country_modifier = {
+			name = "bgh_denied_ship_research_event"
+			duration = 9125
+	    }
+	}
+}
+#Viziers
+country_event = {
+	id = vn_missions.202
+	title = vn_missions.202.t
+	desc = vn_missions.202.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = "vn_missions.202.a"
+		add_estate_influence_modifier = {
+			estate = estate_nobles
+			desc = "vn_missions.202.ab"
+			influence = 10
+			duration = 7300
+		}	
+	}
+}
+###Luxembourg
+#Golden Bull of 1356
+country_event = {
+	id = vn_missions.203
+	title = vn_missions.203.t
+	desc = vn_missions.203.d
+	picture = REFORM_eventPicture
+
+	is_triggered_only = yes
+
+    option = {
+        name = "vn_missions.203.a"
+        trigger = { num_of_electors = 7 }
+        if = { 
+            limit = {
+                any_elector = { 
+					AND = {
+						is_rival = ROOT 
+						is_subject = no
+						was_player = no
+					}
+				}
+            }
+            random_elector = {
+                limit = { 
+					is_rival = ROOT 
+					is_subject = no
+					was_player = no 
+				}
+                elector = no
+                reverse_add_opinion = {
+                    who = ROOT
+                    modifier = lux_golden_bull_opinion
+                }
+            }        
+        }
+		else_if = {
+            random_elector = { 
+                limit = {
+					is_subject = no
+					was_player = no 				
+                    NOT = {
+                        has_opinion = {
+                            who = ROOT
+                            value = 50
+                        }
+                    }
+                }
+                elector = no
+                reverse_add_opinion = {
+                    who = ROOT
+                    modifier = lux_golden_bull_opinion
+                }
+            }		
+		}
+        else = {
+			random_elector = { 
+				elector = no
+				reverse_add_opinion = {
+                    who = ROOT
+                    modifier = lux_golden_bull_opinion
+                }
+			}
+        }
+        add_imperial_influence = 50
+        elector = yes
+    }
+    option = {
+        name = "vn_missions.203.b"
+        trigger = { 
+            NOT = { 
+                num_of_electors = 7 
+            }
+        }
+        add_imperial_influence = 50
+        elector = yes
+    }
+}
