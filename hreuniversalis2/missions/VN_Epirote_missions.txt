@@ -601,13 +601,16 @@ vn_epi_missions_slot_5 = {
             2773 = {
                 owned_by = ROOT
                 development = 25
-                NOT = { devastation = 1 }
-                NOT = { unrest = 1 }
                 has_fort_trigger = yes
             }
         }
         effect = {
-            
+            2773 = {
+                add_province_modifier = {
+                    name = epi_develop_atra_mission
+                    duration = 9125
+                }
+            }
         }
     }
     vn_epi_church_of_the_parigoritissa = {
@@ -616,10 +619,25 @@ vn_epi_missions_slot_5 = {
         required_missions = { vn_epi_develop_atra }
         provinces_to_highlight = {
             province_id = 2773
+            OR = {
+                devastation = 1
+                unrest = 1
+                has_state_patriach = no
+                has_tax_building_trigger = no
+            }
         }
         trigger = {
+            if = {
+                limit = { has_estate = estate_church }
+                estate_territory = {
+                    estate = estate_church
+                    territory = 25
+                }
+            }
             2773 = {
                 owned_by = ROOT
+                NOT = { devastation = 1 }
+                NOT = { unrest = 1 }
                 if = {
                     limit = {
                         owner = { uses_patriarch_authority = yes }

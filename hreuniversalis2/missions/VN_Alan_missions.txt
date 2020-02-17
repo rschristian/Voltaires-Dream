@@ -1,0 +1,553 @@
+#Alan missions
+#by ShyGuy13
+
+vn_aan_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = AAN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_aan_alliance_against_cumans = {
+        icon = mission_din_i_llahi
+        position = 1
+        required_missions = {  }
+        trigger = {
+            if = {
+				limit = {
+					OR = {
+						exists = CMN
+						exists = QYP
+					}
+				}
+				any_ally = {
+					OR = {
+						is_rival = CMN
+						is_rival = QYP
+					}
+				}
+			}
+			else = {
+				num_of_diplomatic_relations = 5
+				NOT = { num_of_free_diplomatic_relations = 1 }
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_conquer_qara_cay = {
+        icon = mission_mountain_riders
+        position = 2
+		required_missions = { vn_aan_alliance_against_cumans }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 3757
+				province_id = 3753
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+			3757 = { country_or_non_sovereign_subject_holds = ROOT }
+			3753 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_conquer_circassia = {
+        icon = mission_rein_in_the_velamas
+        position = 3
+		required_missions = { vn_aan_conquer_qara_cay }
+		provinces_to_highlight = {
+			OR = {
+				area = adygea_area
+				province_id = 3208
+				province_id = 3750
+				province_id = 3751
+				province_id = 3743
+				province_id = 3756
+				province_id = 3752
+				province_id = 3749
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            adygea_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			3208 = { country_or_non_sovereign_subject_holds = ROOT }
+			3750 = { country_or_non_sovereign_subject_holds = ROOT }
+			3751 = { country_or_non_sovereign_subject_holds = ROOT }
+			3743 = { country_or_non_sovereign_subject_holds = ROOT }
+			3756 = { country_or_non_sovereign_subject_holds = ROOT }
+			3752 = { country_or_non_sovereign_subject_holds = ROOT }
+			3749 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            add_country_modifier = {
+				name = aan_conquer_circassia_mission
+				duration = 9125
+			}
+        }
+    }
+    vn_aan_conquer_abkhazia = {
+        icon = mission_subdue_rajputana
+        position = 4
+		required_missions = { vn_aan_conquer_circassia }
+		provinces_to_highlight = {
+			OR = {
+				area = shapsug_area
+				area = abkhazia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            shapsug_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			abkhazia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_conquer_georgia = {
+        icon = mission_unite_home_region
+        position = 6
+		required_missions = { vn_aan_conquer_abkhazia vn_aan_gate_of_the_alans }
+		provinces_to_highlight = {
+			OR = {
+				area = imereti_area
+				area = argveti_area
+				area = samtskhe_area
+				area = kartli_area
+				area = kakheti_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+			imereti_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			argveti_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			samtskhe_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kartli_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kakheti_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+			add_prestige = 20
+			add_country_modifier = {
+				name = aan_conquer_georgia_mission
+				duration = -1
+			}
+        }
+	}
+}
+
+vn_aan_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = AAN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_aan_disembowel_our_neighbours = {
+        icon = mission_have_two_subjects
+        position = 2
+        required_missions = { vn_aan_raiding_hordes }
+        trigger = {
+			treasury = 500
+			share_of_starting_income = 2
+        }
+        effect = {
+           	if = {
+				limit = { uses_doom = yes }
+				add_doom = -10
+			}
+			else = {
+				add_prestige = 10
+			}
+        }
+    }
+    vn_aan_perennial_supplies = {
+        icon = mission_war_chest
+        position = 3
+        required_missions = { vn_aan_disembowel_our_neighbours }
+        trigger = {
+            OR = {
+				num_of_war_reparations = 5
+				num_of_non_tributary_subjects = 5
+			}
+        }
+        effect = {
+            if = {
+				limit = { uses_doom = yes }
+				add_doom = -10
+			}
+			else = {
+				add_prestige = 10
+			}
+        }
+    }
+    vn_aan_gate_of_the_alans = {
+        icon = mission_conquer_50_development
+        position = 5
+		required_missions = {  }
+		provinces_to_highlight = {
+			province_id = 3612
+		}
+        trigger = {
+            3612 = {
+				owned_by = ROOT
+				has_fort_trigger = yes
+			}
+        }
+        effect = {
+            3612 = {
+				add_base_manpower = 2
+				add_province_modifier = {
+					name = aan_gate_of_the_alans_mission
+					duration = 9125
+				}
+			}
+        }
+	}
+}
+
+vn_aan_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = AAN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_aan_raiding_hordes = {
+        icon = mission_chinese_general_riding
+        position = 1
+        required_missions = {  }
+        trigger = {
+			num_of_generals = 2
+			army_size_percentage = 1
+            manpower_percentage = 0.6
+        }
+        effect = {
+           
+        }
+    }
+    vn_aan_conquer_chechnya = {
+        icon = mission_conquer_malwa_mer
+        position = 2
+		required_missions = { vn_aan_raiding_hordes }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 3773
+				province_id = 3772
+				province_id = 3769
+				province_id = 3646
+				province_id = 3645
+				province_id = 3644
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            3773 = { country_or_non_sovereign_subject_holds = ROOT }
+			3772 = { country_or_non_sovereign_subject_holds = ROOT }
+			3769 = { country_or_non_sovereign_subject_holds = ROOT }
+			3647 = { country_or_non_sovereign_subject_holds = ROOT }
+			3646 = { country_or_non_sovereign_subject_holds = ROOT }
+			3645 = { country_or_non_sovereign_subject_holds = ROOT }
+			3644 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_conquer_avaria = {
+        icon = mission_subjugate_rajputana
+        position = 3
+        required_missions = { vn_aan_conquer_chechnya }
+        provinces_to_highlight = {
+			OR = {
+				province_id = 3775
+				province_id = 3774
+				province_id = 3648
+				province_id = 3647
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            3775 = { country_or_non_sovereign_subject_holds = ROOT }
+			3774 = { country_or_non_sovereign_subject_holds = ROOT }
+			3648 = { country_or_non_sovereign_subject_holds = ROOT }
+			3647 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            add_mil_power = 25
+			change_mil = 1
+			add_country_modifier = {
+				name = aan_conquer_avaria_mission
+				duration = 9125
+			}
+        }
+    }
+    vn_aan_conquer_lekia = {
+        icon = mission_unite_home_region
+        position = 4
+        required_missions = { vn_aan_conquer_avaria }
+        provinces_to_highlight = {
+			OR = {
+				area = lekia_area
+				province_id = 6231
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            lekia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			6231 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_conquer_shirvan = {
+        icon = mission_control_surat
+        position = 5
+        required_missions = { vn_aan_conquer_lekia vn_aan_conquer_derbent }
+		provinces_to_highlight = {
+			OR = {
+				area = shirvan_area
+				area = shaki_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+            shirvan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			shaki_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+			add_country_modifier = {
+				name = aan_conquer_shirvan_mission
+				duration = 9125
+			}
+        }
+	}
+}
+
+vn_aan_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = AAN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_aan_conquer_khazaria = {
+        icon = mission_impaled_soldies
+        position = 1
+		required_missions = {  }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 3763
+				province_id = 3792
+				province_id = 3793
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+			3763 = { country_or_non_sovereign_subject_holds = ROOT }
+			3792 = { country_or_non_sovereign_subject_holds = ROOT }
+			3793 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            add_country_modifier = {
+				name = aan_conquer_khazaria_mission
+				duration = 9125
+			}
+        }
+    }
+    vn_aan_conquer_huns = {
+        icon = mission_unite_home_region
+        position = 2
+		required_missions = { vn_aan_conquer_khazaria }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 6242
+				province_id = 6241
+				province_id = 6240
+				province_id = 6235
+				province_id = 6234
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            6242 = { country_or_non_sovereign_subject_holds = ROOT }
+			6241 = { country_or_non_sovereign_subject_holds = ROOT }
+			6240 = { country_or_non_sovereign_subject_holds = ROOT }
+			6235 = { country_or_non_sovereign_subject_holds = ROOT }
+			6234 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+			add_army_tradition = 15
+        }
+    }
+    vn_aan_conquer_derbent = {
+        icon = mission_unite_home_region
+        position = 4
+		required_missions = { vn_aan_conquer_avaria }
+		provinces_to_highlight = {
+			area = derbent_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            derbent_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_modernize_the_state = {
+        icon = mission_court_education
+        position = 5
+        required_missions = {  }
+        trigger = {
+			is_tribal = no
+			has_institution = feudalism
+
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_aan_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = AAN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_aan_conquer_astrakhan = {
+        icon = mission_invade_island
+        position = 2
+		required_missions = { vn_aan_conquer_khazaria }
+		provinces_to_highlight = {
+			OR = {
+				area = astrakhan_area
+				province_id = 3794
+				province_id = 3795
+				province_id = 3796
+				province_id = 3797
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            astrakhan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			3794 = { country_or_non_sovereign_subject_holds = ROOT }
+			3795 = { country_or_non_sovereign_subject_holds = ROOT }
+			3796 = { country_or_non_sovereign_subject_holds = ROOT }
+			3797 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_cultural_advancement = {
+        icon = mission_caucasian_village
+        position = 3
+        required_missions = {  }
+        trigger = {
+			NOT = { average_unrest = 1 }
+            num_accepted_cultures = 3
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_reform_our_religion = {
+        icon = mission_ossetian_ritual
+        position = 5
+        required_missions = { vn_aan_cultural_advancement }
+        trigger = {
+            if = {
+				limit = {
+					has_dlc = "Conquest of Paradise"
+					OR = {
+						religion = khabze
+						religion = uatsdin
+						religion = vainakh
+					}
+				}
+				is_religion_reformed = yes
+			}
+			else = {
+				religious_unity = 1
+			}
+        }
+        effect = {
+            
+        }
+    }
+    vn_aan_kingdom_of_alania = {
+        icon = mission_the_ganges_campaign
+        position = 6
+        required_missions = { vn_aan_reform_our_religion vn_aan_modernize_the_state }
+        trigger = {
+			government_rank = 5
+			capital_scope = {
+				development = 30
+			}
+        }
+        effect = {
+            
+        }
+	}
+}
