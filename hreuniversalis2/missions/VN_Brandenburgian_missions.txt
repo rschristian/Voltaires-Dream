@@ -96,7 +96,6 @@ vn_bra_missions_slot_1_b = {
 			4917 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-			#addmore?
             lusatianorth_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -197,7 +196,6 @@ vn_bra_missions_slot_1_c = {
 				}
 			}
 			else = {
-				add_years_of_income = 1
 				2652 = {
 					add_base_production = 2
 				}
@@ -214,7 +212,6 @@ vn_bra_missions_slot_1_c = {
 				}
 			}
 			else = {
-				add_years_of_income = 1
 				402 = {
 					add_base_production = 2
 				}
@@ -286,7 +283,10 @@ vn_bra_missions_slot_2_a = {
 			2662 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-			add_army_tradition = 10
+			add_country_modifier = {
+				name = "bra_beyond_havel_mission"
+				duration = 5475
+			}
 			843 = {
 				if = {
 					limit = {
@@ -312,25 +312,6 @@ vn_bra_missions_slot_2_a = {
 						NOT = { is_core = ROOT }
 					}
 					add_permanent_claim = ROOT
-				}
-			}
-			random_neighbor_country = {
-				limit = { primary_culture = pommeranian }
-				every_owned_province = {
-					limit = {
-						OR = {
-							area = pomerania_area
-							area = kolberg_area
-						}
-					}
-					add_claim = ROOT
-				}
-				ROOT = {
-					add_casus_belli = {
-						type = cb_vassalize_mission
-						target = PREV
-						months = 240
-					}
 				}
 			}
         }
@@ -365,7 +346,16 @@ vn_bra_missions_slot_2_b = {
 			4804 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-			add_army_tradition = 10
+			random_neighbor_country = {
+				limit = { primary_culture = pommeranian }
+				ROOT = {
+					add_casus_belli = {
+						type = cb_vassalize_mission
+						target = PREV
+						months = 240
+					}
+				}
+			}
 			kolberg_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -444,7 +434,6 @@ vn_bra_missions_slot_2_b = {
 			}
         }
         effect = {
-			#addmore?
 			westpreussennorth_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -527,7 +516,7 @@ vn_bra_missions_slot_2_b = {
 			}
         }
         effect = {
-			390 = {
+			4854 = {
 				add_province_modifier = {
 					name = "bra_brandenburg_prussia_mission"
 					duration = 9125
@@ -560,11 +549,14 @@ vn_bra_missions_slot_3_a = {
         required_missions = {  }
         trigger = {
             any_neighbor_country = {
-				religion = slavic_pagan
-				primary_culture = polabian
+				custom_trigger_tooltip = {
+					tooltip = vn_bra_ostsiedlung.tt
+					religion = slavic_pagan
+					primary_culture = polabian
+				}
 			}
 			army_size_percentage = 1
-			religion = catholic
+			religion_group = christian
 			primary_culture = central_margravian
 		}
         effect = {
@@ -615,6 +607,15 @@ vn_bra_missions_slot_3_b = {
 					add_permanent_claim = ROOT
 				}
 			}
+			5250 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
         }
     }
     vn_bra_eastern_frontier = {
@@ -625,6 +626,7 @@ vn_bra_missions_slot_3_b = {
 				province_id = 2783
 				province_id = 3210
 				province_id = 4809
+				province_id = 5250
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -632,14 +634,22 @@ vn_bra_missions_slot_3_b = {
 			2783 = { country_or_non_sovereign_subject_holds = ROOT }
 			3210 = { country_or_non_sovereign_subject_holds = ROOT }
 			4809 = { country_or_non_sovereign_subject_holds = ROOT }
+			5250 = { country_or_non_sovereign_subject_holds = ROOT }
 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 				value = 3
 				area = neumark_area
 				has_fort_trigger = yes
+				base_manpower = 3
 			}
         }
         effect = {
-			#addmore?
+			neumark_area = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "bra_eastern_frontier_mission"
+					duration = 9125
+				}
+			}
             silesia_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -664,10 +674,7 @@ vn_bra_missions_slot_3_b = {
         }
         effect = {
 			silesia_region = {
-				limit = { 
-					country_or_non_sovereign_subject_holds = ROOT
-					development = 6
-				}
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
 				add_province_modifier = {
 					name = "bra_into_silesia_mission"
 					duration = 9125
@@ -707,6 +714,7 @@ vn_bra_missions_slot_3_b = {
 			}
         }
         effect = {
+			add_dip_power = 50
             silesia_region = {
 				limit = { owned_by = ROOT }
 				add_province_modifier = {
@@ -949,21 +957,37 @@ vn_bra_missions_slot_4_b = {
 		position = 2
         required_missions = { vn_bra_ostsiedlung }
         trigger = {
-            any_neighbor_country = {
-				religion = slavic_pagan
-				primary_culture = polabian
-				war_with = ROOT
+			OR = {
+				any_neighbor_country = {
+					custom_trigger_tooltip = {
+						tooltip = vn_bra_ostsiedlung.tt
+						religion = slavic_pagan
+						primary_culture = polabian
+					}
+					war_with = ROOT
+					NOT = {
+						war_score_against = {
+							who = ROOT
+							value = -50
+						}
+					}
+				}
 				NOT = {
-					war_score_against = {
-						who = ROOT
-						value = -50
+					any_known_country = {
+						primary_culture = polabian
+						brandenburg_region = {
+							owned_by = PREV
+						}
 					}
 				}
 			}
 			religion_group = christian
         }
         effect = {
-			add_army_tradition = 15
+			if = {
+				limit = { uses_papacy = yes }
+				add_papal_influence = 25
+			}
             add_country_modifier = {
 				name = "bra_wendish_crusade_mission"
 				duration = 3650
@@ -1001,6 +1025,7 @@ vn_bra_missions_slot_4_c = {
 			}
         }
         effect = {
+			add_dip_power = 50
             brandenburg_region = {
 				limit = { owned_by = ROOT }
 				add_province_modifier = {
@@ -1048,6 +1073,7 @@ vn_bra_missions_slot_4_d = {
 			}
         }
         effect = {
+			add_dip_power = 50
             neumark_area = {
 				limit = { owned_by = ROOT }
 				add_province_modifier = {
@@ -1216,6 +1242,7 @@ vn_bra_missions_slot_5_a = {
 				num_of_owned_provinces_with = {
 					value = 3
 					has_estate = estate_nobles
+					region = brandenburg_region
 					NOT = { 
 						unrest = 1
 						local_autonomy = 30 
@@ -1225,6 +1252,7 @@ vn_bra_missions_slot_5_a = {
 			else = {
 				num_of_owned_provinces_with = {
 					value = 6
+					region = brandenburg_region
 					NOT = {
 						unrest = 1
 						local_autonomy = 10
@@ -1234,8 +1262,10 @@ vn_bra_missions_slot_5_a = {
         }
         effect = {
             every_owned_province = {
-				limit = { has_estate = estate_nobles }
-				add_unrest = -2
+				limit = { 
+					has_estate = estate_nobles
+					region = brandenburg_region
+				}
 				add_province_modifier = {
 					name = "bra_curb_robber_baronry_mission"
 					duration = 7300
@@ -1294,7 +1324,7 @@ vn_bra_missions_slot_5_a = {
         effect = {
 			add_corruption = -2
 			add_stability_or_adm_power = yes
-			change_government_reform_progress = 100
+			change_government_reform_progress = 25
         }
 	}
 }
