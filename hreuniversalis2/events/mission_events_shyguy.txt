@@ -783,10 +783,9 @@ country_event = {
 	id = vn_missions.16
 	title = vn_missions.16.t
 	desc = vn_missions.16.d
-	picture = LIBERUM_VETO_eventPicture
+	picture = PRINCE_AND_BOYARS_eventPicture
 
 	is_triggered_only = yes
-	major = yes
 
 	option = {
 		name = "vn_missions.16.a"
@@ -806,9 +805,15 @@ country_event = {
 			}
 		}
 		add_patriarch_authority = 0.1
-		add_country_modifier = {
-			name = geo_conquer_maku_mission_a
-			duration = 36500
+		custom_tooltip = vn_missions.16.a.tt
+		hidden_effect = {
+			every_owned_province = {
+				limit = { culture = armenian }
+				add_province_modifier = {
+					name = geo_conquer_maku_mission_a
+					duration = 36500
+				}
+			}
 		}
 	}
 	option = {
@@ -829,9 +834,15 @@ country_event = {
 			}
 		}
 		add_patriarch_authority = 0.1
-		add_country_modifier = {
-			name = geo_conquer_maku_mission_b
-			duration = 36500
+		custom_tooltip = vn_missions.16.b.tt
+		hidden_effect = {
+			every_owned_province = {
+				limit = { culture = armenian }
+				add_province_modifier = {
+					name = geo_conquer_maku_mission_b
+					duration = 36500
+				}
+			}
 		}
 	}
 	option = {
@@ -852,9 +863,15 @@ country_event = {
 			}
 		}
 		add_patriarch_authority = 0.1
-		add_country_modifier = {
-			name = geo_conquer_maku_mission_c
-			duration = 36500
+		custom_tooltip = vn_missions.16.c.tt
+		hidden_effect = {
+			every_owned_province = {
+				limit = { culture = armenian }
+				add_province_modifier = {
+					name = geo_conquer_maku_mission_c
+					duration = 36500
+				}
+			}
 		}
 	}
 }
@@ -1431,7 +1448,7 @@ country_event = {
 		}
 		release = ZAZ
 		create_march = ZAZ
-		FEO = {
+		ZAZ = {
 			change_religion = ROOT
 			change_government = republic
 			add_government_reform = cossacks_reform
@@ -1802,5 +1819,76 @@ country_event = {
 			who = FROM
 			modifier = nrm_refused_troops
 		}
+	}
+}
+
+###SAXONY###
+#Formation of the Schmalkaldic League
+country_event = {
+	id = vn_missions.34
+	title = vn_missions.34.t
+	desc = vn_missions.34.d
+	picture = PROTESTANT_CATHOLIC_DEBATE_eventPicture
+
+	is_triggered_only = yes
+    major = yes
+
+	option = {
+		name = vn_missions.34.a
+        ai_chance = { factor = 100 }
+        add_country_modifier = {
+            name = "sax_schmalkaldic_league_mission"
+            duration = -1
+		}
+        every_known_country = {
+            limit = {
+				is_part_of_hre = yes
+				religion = ROOT
+                capital_scope = {
+					superregion = germanynorth_superregion
+                }
+                OR = {
+                    alliance_with = ROOT
+                    has_opinion = {
+                        who = ROOT
+                        value = 100
+                    }
+                }
+            }
+            add_country_modifier = {
+                name = "sax_schmalkaldic_league_mission"
+                duration = -1
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = sax_schmalkaldic_league_opinion
+			}
+        }
+	}
+}
+
+#Schmalkaldic League Dissolution
+country_event = {
+	id = vn_missions.35
+	title = vn_missions.35.t
+	desc = vn_missions.35.d
+	picture = PROTESTANT_CATHOLIC_DEBATE_eventPicture
+
+	trigger = {
+		has_country_modifier = sax_schmalkaldic_league_mission
+		OR = {
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+			current_age = age_of_ideology
+		}
+    }
+
+    mean_time_to_happen = {
+        months = 1
+    }
+
+	option = {
+		name = vn_missions.35.a
+        remove_country_modifier = sax_schmalkaldic_league_mission
 	}
 }

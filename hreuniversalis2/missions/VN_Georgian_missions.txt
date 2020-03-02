@@ -170,7 +170,8 @@ vn_geo_missions_slot_1 = {
 			}
         }
         effect = {
-            add_dip_power = 100
+			add_prestige = 10
+            add_adm_power = 50
             2233 = {
 				if = {
 					limit = {
@@ -194,14 +195,7 @@ vn_geo_missions_slot_1 = {
 			province_id = 2233
 		}
         trigger = {
-			OR = {
-				2233 = { country_or_non_sovereign_subject_holds = ROOT }
-                2233 = {
-                    NOT = { country_or_non_sovereign_subject_holds = ROOT }
-                    controlled_by = ROOT
-                    devastation = 50
-                }
-			}
+			owns_core_province = 2233
         }
         effect = {
             add_prestige = 25
@@ -310,6 +304,7 @@ vn_geo_missions_slot_2 = {
 			}
         }
         effect = {
+			add_dip_power = 50
             kari_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -391,6 +386,8 @@ vn_geo_missions_slot_2 = {
 			}
         }
         effect = {
+			add_prestige = 10
+			add_patriarch_authority = 0.1
             mosul_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -411,7 +408,7 @@ vn_geo_missions_slot_2 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
-            }
+			}
         }
     }
     vn_geo_conquer_assyria = {
@@ -491,17 +488,31 @@ vn_geo_missions_slot_3 = {
 			province_id = 3621
 		}
         trigger = {
-			capital = 3621
+			3621 = {
+				owned_by = ROOT
+				is_core = ROOT
+				controlled_by = ROOT
+				is_capital_of = ROOT
+			}
         }
         effect = {
             3621 = {
-                add_base_tax = 1
-                add_base_production = 1
+				add_base_tax = 1
                 add_base_manpower = 1
-                add_province_modifier = {
-                    name = geo_court_at_tbilisi_mission
-                    duration = -1
-                }
+				if = {
+					limit = {
+						num_free_building_slots = 1
+						has_fort_trigger = no
+					}
+					add_building_construction = {
+						building = fort_14th
+						speed = 0.5
+						cost = 0
+					}
+				}
+				else = {
+					add_base_production = 2
+				}
             }
         }
     }
@@ -515,17 +526,33 @@ vn_geo_missions_slot_3 = {
         trigger = {
 			3621 = {
 				owned_by = ROOT
-				development = 30
-				has_fort_trigger = yes
+				has_trade_building_trigger = yes
+				has_tax_building_trigger = yes
 				has_manufactory_trigger = yes
 			}
         }
         effect = {
-            add_stability_or_adm_power = yes
-			3621 = {
-				add_base_tax = 1
-                add_base_production = 1
-                add_base_manpower = 1
+            3621 = {
+				if = {
+					limit = {	
+						NOT = {
+							province_has_center_of_trade_of_level = 2
+						}
+					}
+					add_center_of_trade_level = 2
+				}
+				else_if = {
+					limit = {	
+						NOT = {
+							province_has_center_of_trade_of_level = 3
+						}
+					}
+					add_center_of_trade_level = 1
+				}
+				add_province_modifier = {
+                    name = geo_expand_tbilisi_mission
+                    duration = -1
+                }
 			}
         }
     }
@@ -704,7 +731,11 @@ vn_geo_missions_slot_4 = {
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
-            }
+			}
+			add_country_modifier = {
+				name = geo_conquer_hereti_mission
+				duration = 9125
+			}
         }
     }
     vn_geo_conquer_ganja = {
@@ -760,7 +791,7 @@ vn_geo_missions_slot_4 = {
         }
     }
     vn_geo_conquer_gegham = {
-        icon = mission_non-western_soldiers
+        icon = mission_non-western_cavalry_raid
         position = 4
         required_missions = { vn_geo_conquer_ganja }
 		provinces_to_highlight = {
@@ -781,10 +812,13 @@ vn_geo_missions_slot_4 = {
 			}
         }
         effect = {
-			add_mil_power = 50
             create_general = {
 				tradition = 75
 				culture = armenian
+			}
+			add_country_modifier = {
+				name = geo_conquer_gegham_mission
+				duration = 9125
 			}
         }
     }
@@ -841,13 +875,10 @@ vn_geo_missions_slot_5 = {
         position = 1
         required_missions = {  }
         trigger = {
-            if = {
-                limit = { has_dlc = "Dharma" }
-                has_reform_level = 4
-            }
             has_3_lv3_advisors_trigger = yes
         }
         effect = {
+			add_reform_progress_medium_effect = yes
             add_country_modifier = {
                 name = geo_establish_the_darbazi_mission
                 duration = 9125
@@ -863,7 +894,7 @@ vn_geo_missions_slot_5 = {
 			monthly_income = 250
         }
         effect = {
-            add_inflation = -2
+            add_legitimacy = 25
             add_country_modifier = {
                 name = geo_peasants_like_nobles_mission
                 duration = 36500
@@ -871,7 +902,7 @@ vn_geo_missions_slot_5 = {
         }
     }
     vn_geo_conquer_shirvan = {
-        icon = mission_non-western_cavalry_raid
+        icon = mission_mountain_riders
         position = 3
         required_missions = { vn_geo_conquer_hereti }
 		provinces_to_highlight = {
