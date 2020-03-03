@@ -3,7 +3,25 @@
 
 namespace = vn_missions
 
-#51 free
+#The Dannebrog (51)
+country_event = {
+	id = vn_missions.51
+	title = vn_missions.51.t
+	desc = vn_missions.51.d
+	picture = BATTLE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_missions.51.a
+		ai_chance = { factor = 100 }
+		add_prestige = 25
+		add_country_modifier = {
+			name = "dan_dannebrog"
+			duration = -1
+		}
+	}
+}
 
 #A New Capital? (52)
 country_event = {
@@ -14,12 +32,13 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	option = {	#Move it!
+	option = {
 		name = vn_missions.52.a
 		ai_chance = { factor = 75 }
 		989 = { move_capital_effect = yes }
+		#add - CHANGE TAG NAME in 1.30 to Arles
 	}
-	option = {	#No thanks
+	option = {
 		name = vn_missions.52.b
 		ai_chance = { factor = 25 }
 	}
@@ -62,14 +81,14 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	option = {	#These troops are now yours
+	option = {
 		name = vn_missions.54.a
 		ai_chance = { factor = 100 }
 		add_manpower = -15
 		add_treasury = 250
 		BYZ = {
 			add_treasury = -250
-			capital_scope = {	#10 inf 5 cav
+			capital_scope = {
 				infantry = BYZ
 				infantry = BYZ
 				infantry = BYZ
@@ -107,7 +126,7 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	option = {	#Gladly, if your cause is just...
+	option = {
 		name = vn_missions.55.a
 		custom_tooltip = vn_missions.55.a.tt
 		ai_chance = {
@@ -130,12 +149,12 @@ country_event = {
 				id = vn_missions.56
 				days = 15
 				random = 5
-				tooltip = vn_missions.55.a.tt2	#We send a diplomat back to Normandy informing them of our response.
+				tooltip = vn_missions.55.a.tt2
 			}
 		}
 	}
 	
-	option = {	#We can't send any troops at the moment
+	option = {
 		name = vn_missions.55.b
 		ai_chance = {
 			factor = 25
@@ -149,7 +168,7 @@ country_event = {
 				id = vn_missions.57
 				days = 15
 				random = 5
-				tooltip = vn_missions.55.a.tt2	#We send a diplomat back to Normandy informing them of our response.
+				tooltip = vn_missions.55.a.tt2
 			}
 		}
 	}
@@ -326,6 +345,7 @@ country_event = {
 	is_triggered_only = yes
 
 	option = {	#Restore the Dutch Republic
+		#add - CHANGE TAG NAME in 1.30
 		name = vn_missions.61.a
 		ai_chance = {
 			factor = 50 
@@ -733,7 +753,7 @@ country_event = {
 
     is_triggered_only = yes
 
-	option = {	#Endless Glory!
+	option = {
 		name = vn_missions.70.a
         ai_chance = { factor = 100 }
 		2911 = {
@@ -822,6 +842,7 @@ country_event = {
 			name = "slo_endless_glory"
 			duration = -1
 		}
+		#add - CHANGE TAG NAME in 1.30
     }
 }
 
@@ -970,11 +991,11 @@ country_event = {
 
     is_triggered_only = yes
 
-	option = {	#Encourage the destruction of icons
+	option = {
 		name = vn_missions.73.a
 		ai_chance = { factor = 75 }
 		add_stability = -1
-		#needs tooltip
+		#add tooltip
 		every_owned_province = {
 			limit = {
 				OR = {
@@ -1006,10 +1027,10 @@ country_event = {
 			add_unrest = -5
 		}
 	}
-	option = {	#Arrest the troublemakers
+	option = {
 		name = vn_missions.73.b
 		ai_chance = { factor = 25 }
-		#needs tooltip
+		#add tooltip
 		every_owned_province = {
 			limit = {
 				OR = {
@@ -1243,5 +1264,132 @@ country_event = {
             name = "por_papal_recognition"
             duration = 9125
         }
+    }
+}
+
+#78 free
+
+#Kalmar Union (79)
+country_event = {
+	id = vn_missions.79
+	title = vn_missions.79.t
+	desc = vn_missions.79.d
+	picture = CONQUEST_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	option = {	#Delegate rule to subjects
+		name = vn_missions.79.a
+		ai_chance = { 
+			factor = 50
+			modifier = {
+				factor = 2
+				NOT = { 
+					exists = NOR 
+					exists = SWE
+				}
+			}
+			modifier = {
+				factor = 1.25
+				ruler_has_personality = benevolent_personality
+			}
+			modifier = {
+				factor = 0.75
+				ruler_has_personality = malevolent_personality
+			}
+		}
+		#NOR union
+        vestlandet_region = {
+			limit = { owned_by = ROOT }
+			remove_core = ROOT
+			cede_province = NOR
+			add_core = NOR
+		}
+		austlandet_region = {
+			limit = { owned_by = ROOT }
+			remove_core = ROOT
+			cede_province = NOR
+			add_core = NOR
+		}
+		if = {
+			limit = {
+				NOR = { 
+					NOT = { junior_union_with = ROOT } 
+				}
+			}
+			create_union = NOR
+		}
+		#SWE union
+		svealand_region = {
+			limit = { owned_by = ROOT }
+			remove_core = ROOT
+			cede_province = SWE
+			add_core = SWE
+		}
+		uppland_region = {
+			limit = { owned_by = ROOT }
+			remove_core = ROOT
+			cede_province = SWE
+			add_core = SWE
+		}
+		scandinavia_region = {
+			limit = { owned_by = ROOT }
+			remove_core = ROOT
+			cede_province = SWE
+			add_core = SWE
+		}
+		gotaland_region = {
+			limit = { owned_by = ROOT }
+			remove_core = ROOT
+			cede_province = SWE
+			add_core = SWE
+		}
+		finland_region = {
+			limit = { owned_by = ROOT }
+			remove_core = ROOT
+			cede_province = SWE
+			add_core = SWE
+		}
+		if = {
+			limit = {
+				SWE = { 
+					NOT = { junior_union_with = ROOT } 
+				}
+			}
+			create_union = SWE
+		}
+		add_ruler_modifier = {
+			name = "dan_kalmar_union"
+			duration = -1
+		}
+	}
+	option = {	#Direct rule
+		name = vn_missions.79.b
+		ai_chance = { 
+			factor = 50
+			modifier = {
+				factor = 0.75
+				ruler_has_personality = benevolent_personality
+			}
+			modifier = {
+				factor = 1.25
+				ruler_has_personality = malevolent_personality
+			} 
+		}
+		#add tooltip
+		scandinavia_superregion = {
+			limit = { 
+				owned_by = ROOT
+				OR = {
+					is_core = NOR
+					is_core = SWE
+				}
+			}
+			add_province_modifier = {
+				name = "dan_no_kalmar_union"
+				duration = 9125
+			}
+		}
     }
 }
