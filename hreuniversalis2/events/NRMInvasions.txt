@@ -1,0 +1,274 @@
+#Norman Invasion Events
+
+namespace = nrm_invasions
+
+#Ireland chain
+
+country_event = {
+	id = nrm_invasions.1
+	title = nrm_invasions.1.t
+	desc = nrm_invasions.1.d
+	picture = CIVIL_WAR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		current_age = age_of_holy_wars
+		NOT = { started_in = 1169.1.1 }
+		OR = {
+			LEI = {
+				OR = {
+					primary_culture = dalcassian
+					primary_culture = eoganachta
+					primary_culture = laigin
+					primary_culture = irish
+					primary_culture = erainn
+					primary_culture = ulaidh
+				}
+				is_subject = no
+				ai = yes
+				any_owned_province = {
+					region = ireland_region
+					has_port = yes
+				}
+				#add - Is NOT High King
+			}
+			any_known_country = {
+				OR = {
+					primary_culture = dalcassian
+					primary_culture = eoganachta
+					primary_culture = laigin
+					primary_culture = irish
+					primary_culture = erainn
+					primary_culture = ulaidh
+				}
+				is_subject = no
+				ai = yes
+				any_owned_province = {
+					region = ireland_region
+					has_port = yes
+				}
+				#add - Is NOT High King
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 240
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				LEI = {
+					OR = {
+						primary_culture = dalcassian
+						primary_culture = eoganachta
+						primary_culture = laigin
+						primary_culture = irish
+						primary_culture = erainn
+						primary_culture = ulaidh
+					}
+					is_subject = no
+					ai = yes
+					any_owned_province = {
+						region = ireland_region
+						has_port = yes
+					}
+					#add - Is NOT High King
+				}
+			}
+			LEI = {
+				save_event_target_as = irish_invasion_tag
+				set_country_flag = irish_invasion_flag
+			}
+		}
+		else = {
+			random_known_country = {
+				limit = {
+					OR = {
+						primary_culture = dalcassian
+						primary_culture = eoganachta
+						primary_culture = laigin
+						primary_culture = irish
+						primary_culture = erainn
+						primary_culture = ulaidh
+					}
+					is_subject = no
+					ai = yes
+					any_owned_province = {
+						region = ireland_region
+						has_port = yes
+					}
+					#add - Is NOT High King
+				}
+				save_event_target_as = irish_invasion_tag
+				set_country_flag = irish_invasion_flag
+			}
+		}
+		
+	}
+
+	option = {	#Accept support
+		name = nrm_invasions.1.a
+		ai_chance = { 
+			factor = 90 
+			#add modifiers
+		}
+		event_target:irish_invasion_tag = {
+			define_general = {
+				name = "Strongbow"
+				fire = 4
+				shock = 5
+				manuever = 1
+				siege = 0
+			}
+			random_owned_province = {
+				limit = { controlled_by = PREV }
+				build_to_forcelimit = {
+					infantry = 0.7
+					cavalry = 0.3
+				}
+			}
+			create_alliance = ROOT
+		}
+		#add - High King declares war on this tag
+	}
+	option = {	#Decline support
+		name = nrm_invasions.1.b
+		ai_chance = { 
+			factor = 10 
+			#add modifiers
+		}
+		add_prestige = -10
+		#add - High King declares war on this tag
+	}
+}
+
+country_event = {
+	id = nrm_invasions.2
+	title = nrm_invasions.2.t
+	desc = nrm_invasions.2.d
+	picture = CIVIL_WAR_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		has_leader = "Strongbow"
+		has_country_flag = irish_invasion_flag
+	}
+
+	option = {	#Strongbow becomes ruler
+		name = nrm_invasions.2.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			kill_leader = "Strongbow"
+		}
+		#add tooltip
+		define_ruler = {
+			name = "Richard"
+			dynasty = "de Clare"
+			culture = english
+			adm = 5
+			dip = 5
+			mil = 6
+			fixed = yes
+		}
+		add_ruler_personality = intricate_web_weaver_personality
+		add_ruler_personality = conqueror_personality
+		define_ruler_to_general = {
+			fire = 4
+			shock = 5
+			manuever = 1
+			siege = 0
+		}
+		change_primary_culture = hiberno_norman
+		define_heir = {
+			dynasty = "de Clare"
+			culture = hiberno_norman
+		}
+		clr_country_flag = irish_invasion_flag
+		set_global_flag = norman_invasion_started
+	}
+}
+
+country_event = {
+	id = nrm_invasions.3
+	title = nrm_invasions.3.t
+	desc = nrm_invasions.3.d
+	picture = CIVIL_WAR_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_global_flag = norman_invasion_started
+		NOT = { 
+			had_global_flag = {
+				flag = norman_invasion_started 
+				days = 9125
+			}
+		}
+		NOT = { primary_culture = hiberno_norman }
+		capital_scope = { superregion = irish_superregion }
+		OR = {
+			primary_culture = dalcassian
+			primary_culture = eoganachta
+			primary_culture = laigin
+			primary_culture = irish
+			primary_culture = erainn
+			primary_culture = ulaidh
+		}
+		is_subject = no
+		#add - Is NOT High King
+	}
+
+	mean_time_to_happen = {
+		months = 24
+	}
+
+	immediate = {
+		hidden_effect = {
+			define_exiled_ruler = {
+				exiled_as = norman_invasion_ruler
+				age = 18
+				culture = english
+			}
+		}
+	}
+
+	option = {	#Accept Norman ruler
+		name = nrm_invasions.3.a
+		ai_chance = { 
+			factor = 50 
+			#add modifiers
+		}
+		set_ruler = norman_invasion_ruler
+		change_primary_culture = hiberno_norman
+		define_heir = {
+			age = 0
+			dynasty = original_dynasty
+			culture = hiberno_norman
+		}
+		add_truce_with = ENG
+	}
+	option = {	#Fight Norman ruler
+		name = nrm_invasions.3.b
+		ai_chance = { 
+			factor = 50 
+			#add modifiers
+		}
+		add_stability = -1
+		random_owned_province = {
+			limit = { superregion = irish_superregion }
+			spawn_rebels = {
+				type = pretender_rebels
+				leader = norman_invasion_ruler
+				size = 3
+				friend = ENG
+				win = yes
+			}
+		}
+	}
+}
