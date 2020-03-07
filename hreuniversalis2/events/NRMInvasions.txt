@@ -25,6 +25,7 @@ country_event = {
 					primary_culture = irish
 					primary_culture = erainn
 					primary_culture = ulaidh
+					primary_culture = connachta
 				}
 				is_subject = no
 				ai = yes
@@ -42,6 +43,7 @@ country_event = {
 					primary_culture = irish
 					primary_culture = erainn
 					primary_culture = ulaidh
+					primary_culture = connachta
 				}
 				is_subject = no
 				ai = yes
@@ -69,6 +71,7 @@ country_event = {
 						primary_culture = irish
 						primary_culture = erainn
 						primary_culture = ulaidh
+						primary_culture = connachta
 					}
 					is_subject = no
 					ai = yes
@@ -81,7 +84,6 @@ country_event = {
 			}
 			LEI = {
 				save_event_target_as = irish_invasion_tag
-				set_country_flag = irish_invasion_flag
 			}
 		}
 		else = {
@@ -94,6 +96,7 @@ country_event = {
 						primary_culture = irish
 						primary_culture = erainn
 						primary_culture = ulaidh
+						primary_culture = connachta
 					}
 					is_subject = no
 					ai = yes
@@ -104,7 +107,6 @@ country_event = {
 					#add - Is NOT High King
 				}
 				save_event_target_as = irish_invasion_tag
-				set_country_flag = irish_invasion_flag
 			}
 		}
 		
@@ -131,6 +133,7 @@ country_event = {
 					cavalry = 0.3
 				}
 			}
+			set_country_flag = irish_invasion_flag
 			create_alliance = ROOT
 		}
 		#add - High King declares war on this tag
@@ -160,11 +163,24 @@ country_event = {
 		has_country_flag = irish_invasion_flag
 	}
 
+	immediate = {
+		ENG = {
+			save_event_target_as = norman_culture_scope
+		}
+		set_saved_name = {
+			key = strongbow_heir
+			type = advisor
+			scope = event_target:norman_culture_scope
+		}
+	}
+
 	option = {	#Strongbow becomes ruler
 		name = nrm_invasions.2.a
 		ai_chance = { factor = 100 }
 		hidden_effect = {
-			kill_leader = "Strongbow"
+			kill_leader = {
+				type = "Strongbow"
+			}
 		}
 		#add tooltip
 		define_ruler = {
@@ -176,8 +192,6 @@ country_event = {
 			mil = 6
 			fixed = yes
 		}
-		add_ruler_personality = intricate_web_weaver_personality
-		add_ruler_personality = conqueror_personality
 		define_ruler_to_general = {
 			fire = 4
 			shock = 5
@@ -185,12 +199,20 @@ country_event = {
 			siege = 0
 		}
 		change_primary_culture = hiberno_norman
+		add_accepted_culture = irish
+		change_government = monarchy
+		add_government_reform = feudalism_reform
 		define_heir = {
+			name = strongbow_heir
 			dynasty = "de Clare"
 			culture = hiberno_norman
 		}
 		clr_country_flag = irish_invasion_flag
 		set_global_flag = norman_invasion_started
+	}
+	after = {
+		add_ruler_personality = intricate_web_weaver_personality
+		add_ruler_personality = conqueror_personality
 	}
 }
 
@@ -200,8 +222,6 @@ country_event = {
 	desc = nrm_invasions.3.d
 	picture = CIVIL_WAR_eventPicture
 
-	is_triggered_only = yes
-
 	trigger = {
 		has_global_flag = norman_invasion_started
 		NOT = { 
@@ -210,7 +230,12 @@ country_event = {
 				days = 9125
 			}
 		}
-		NOT = { primary_culture = hiberno_norman }
+		NOT = { 
+			OR = {
+				primary_culture = hiberno_norman
+				has_country_flag = refused_norman_ruler
+			}
+		}
 		capital_scope = { superregion = irish_superregion }
 		OR = {
 			primary_culture = dalcassian
@@ -219,21 +244,37 @@ country_event = {
 			primary_culture = irish
 			primary_culture = erainn
 			primary_culture = ulaidh
+			primary_culture = connachta
+		}
+		any_neighbor_country = {
+			primary_culture = hiberno_norman
 		}
 		is_subject = no
 		#add - Is NOT High King
 	}
 
 	mean_time_to_happen = {
-		months = 24
+		months = 60
 	}
 
 	immediate = {
 		hidden_effect = {
-			define_exiled_ruler = {
-				exiled_as = norman_invasion_ruler
-				age = 18
-				culture = english
+			ENG = {
+				save_event_target_as = norman_culture_scope
+			}
+			set_saved_name = {
+				key = norman_invasion_ruler
+				type = advisor
+				scope = event_target:norman_culture_scope
+			}
+			set_saved_name = {
+				key = norman_invasion_heir
+				type = advisor
+				scope = event_target:norman_culture_scope
+			}
+			if = {
+				limit = { has_heir = yes }
+				exile_heir_as = norman_invasion_former_heir
 			}
 		}
 	}
@@ -244,12 +285,17 @@ country_event = {
 			factor = 50 
 			#add modifiers
 		}
-		set_ruler = norman_invasion_ruler
 		change_primary_culture = hiberno_norman
-		define_heir = {
-			age = 0
-			dynasty = original_dynasty
-			culture = hiberno_norman
+		add_accepted_culture = irish
+		change_government = monarchy
+		add_government_reform = feudalism_reform
+		#add tooltip
+		hidden_effect = {
+			define_ruler = {
+				name = norman_invasion_ruler
+				age = 18
+				culture = english
+			}
 		}
 		add_truce_with = ENG
 	}
@@ -260,15 +306,97 @@ country_event = {
 			#add modifiers
 		}
 		add_stability = -1
+		set_country_flag = refused_norman_ruler
+		hidden_effect = {
+			define_heir = {
+				name = norman_invasion_heir
+				age = 18
+				culture = english
+			}
+		}
 		random_owned_province = {
 			limit = { superregion = irish_superregion }
 			spawn_rebels = {
 				type = pretender_rebels
-				leader = norman_invasion_ruler
+				use_heir_as_leader = yes
 				size = 3
 				friend = ENG
-				win = yes
+				culture = english
 			}
 		}
+	}
+	after = {
+		if = {
+			limit = { primary_culture = hiberno_norman }
+			define_heir = {
+				name = norman_invasion_heir
+				age = 0
+				dynasty = ROOT
+				culture = hiberno_norman
+			}
+		}
+		else_if = {
+			limit = { 
+				has_country_flag = refused_norman_ruler
+				has_heir = yes 
+			}
+			set_heir = norman_invasion_former_heir
+		}
+	}
+}
+
+country_event = {
+	id = nrm_invasions.4
+	title = nrm_invasions.4.t
+	desc = nrm_invasions.4.d
+	picture = CIVIL_WAR_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		ruler_culture = english
+		has_country_flag = refused_norman_ruler
+		capital_scope = { superregion = irish_superregion }
+		OR = {
+			primary_culture = dalcassian
+			primary_culture = eoganachta
+			primary_culture = laigin
+			primary_culture = irish
+			primary_culture = erainn
+			primary_culture = ulaidh
+			primary_culture = connachta
+		}
+		has_global_flag = norman_invasion_started
+	}
+
+	immediate = {
+		hidden_effect = {
+			ENG = {
+				save_event_target_as = norman_culture_scope
+			}
+			set_saved_name = {
+				key = norman_invasion_heir2
+				type = advisor
+				scope = event_target:norman_culture_scope
+			}
+		}
+	}
+
+	option = {	#Change govt
+		name = nrm_invasions.4.a
+		ai_chance = { factor = 100 }
+		change_primary_culture = hiberno_norman
+		add_accepted_culture = irish
+		change_government = monarchy
+		add_government_reform = feudalism_reform
+		add_stability = 1
+		clr_country_flag = refused_norman_ruler
+		define_heir = {
+			name = norman_invasion_heir2
+			age = 0
+			dynasty = ROOT
+			culture = hiberno_norman
+		}
+		add_truce_with = ENG
 	}
 }
