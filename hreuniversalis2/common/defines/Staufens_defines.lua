@@ -101,6 +101,7 @@ NDefines.NGraphics.MAX_TRADE_NODE_FLAGS_SHOWN = 8
 NDefines.NGraphics.WATER_MAP_MODE_COLOR_R = 0.20
 NDefines.NGraphics.WATER_MAP_MODE_COLOR_G = 0.29
 NDefines.NGraphics.WATER_MAP_MODE_COLOR_B = 0.50
+NDefines.NGraphics.BORDER_WIDTH = 2
 
 NDefines.NFrontend.FRONTEND_POS_X = 3850.0
 NDefines.NFrontend.FRONTEND_POS_Y = 1900.0

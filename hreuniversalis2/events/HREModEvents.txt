@@ -1,13 +1,78 @@
 namespace = hremodevents
 
-#Norman Conquest of England
+# Harold Godwinson
 country_event = {
 	id = hremodevents.1
 	title = "HREMT1"
 	desc = "HREMD1"
-	picture = DEATH_OF_HEIR_eventPicture
+	picture = NEW_HEIR_eventPicture
 
 	fire_only_once = yes
+
+	trigger = {
+		tag = ASE
+		government = monarchy
+		has_heir = no
+		is_lesser_in_union = no
+		has_ruler_flag = edward_the_confessor_flag
+	}
+
+	mean_time_to_happen = {
+		months = 6
+	}
+
+	immediate = {
+		clr_ruler_flag = edward_the_confessor_flag
+	}
+
+	option = {
+		name = "HREMA1"
+		define_heir = {
+			name = "Hereweald"
+			dynasty = "Godwining"
+			age = 30
+			adm = 3
+			dip = 3
+			mil = 4
+		}
+		custom_tooltip = hrema1.tt
+	}
+}
+
+#Northern Revolt
+country_event = {
+	id = hremodevents.2
+	title = "HREMT2"
+	desc = "HREMD2"
+	picture = CIVIL_WAR_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = "HREMA2"
+		add_prestige = -10
+	}
+}
+
+#Conquest of England
+country_event = {
+	id = hremodevents.3
+	title = "HREMT3"
+	desc = {
+		trigger = { tag = NRM }
+		desc = "HREMD3"
+	}
+	desc = {
+		trigger = { tag = NOR }
+		desc = "HREMDD3"
+	}
+	picture = DEATH_OF_HEIR_eventPicture
+
 	is_triggered_only = yes
 	major = yes
 
@@ -16,29 +81,30 @@ country_event = {
 	}
 
 	option = {
-		name = "HREMA1"
-		trigger = { ai = yes }
-		ai_chance = {
-			factor = 95
-			modifier = {
-				factor = 0
-				is_at_war = yes
-			}
+		name = "HREMA3"
+		ai_chance = { factor = 100 }
+		every_country = {
+			limit = { war_with = ROOT }
+			white_peace = ROOT
 		}
-		custom_tooltip = hrema1.tt
+		custom_tooltip = hrema3.tt
 		hidden_effect = {
 			if = {
-				limit = { FRA = { overlord_of = NRM } }
+				limit = {
+					tag = NRM
+					FRA = { overlord_of = NRM }
+				}
 				FRA = { free_vassal = NRM }
 			}
 			if = {
 				limit = {
+					tag = NRM
 					XEV = {
 						exists = yes
 						is_at_war = no
 						NOT = { is_rival = NRM }
 						NOT = { is_enemy = NRM }
-						is_free_or_tributary_trigger = yes
+						is_lesser_in_union = no
 					}
 				}
 				FRA = { free_vassal = XEV }
@@ -47,12 +113,13 @@ country_event = {
 			}
 			if = {
 				limit = {
+					tag = NRM
 					ALE = {
 						exists = yes
 						is_at_war = no
 						NOT = { is_rival = NRM }
 						NOT = { is_enemy = NRM }
-						is_free_or_tributary_trigger = yes
+						is_lesser_in_union = no
 					}
 				}
 				FRA = { free_vassal = ALE }
@@ -61,12 +128,13 @@ country_event = {
 			}
 			if = {
 				limit = {
+					tag = NRM
 					XAU = {
 						exists = yes
 						is_at_war = no
 						NOT = { is_rival = NRM }
 						NOT = { is_enemy = NRM }
-						is_free_or_tributary_trigger = yes
+						is_lesser_in_union = no
 					}
 				}
 				FRA = { free_vassal = XAU }
@@ -75,12 +143,13 @@ country_event = {
 			}
 			if = {
 				limit = {
+					tag = NRM
 					EUU = {
 						exists = yes
 						is_at_war = no
 						NOT = { is_rival = NRM }
 						NOT = { is_enemy = NRM }
-						is_free_or_tributary_trigger = yes
+						is_lesser_in_union = no
 					}
 				}
 				FRA = { free_vassal = EUU }
@@ -135,227 +204,13 @@ country_event = {
 		add_prestige = 20
 	}
 	option = {
-		name = "HREMB1"
-		ai_chance = {
-			factor = 95
-			modifier = {
-				factor = 0
-				is_at_war = no
-			}
-		}
-		custom_tooltip = hremb1.tt
-		add_casus_belli = {
-			type = cb_fabricated_claims
-			months = 240
-			target = ASE
-		}
-		set_country_flag = nrm_chose_wait
-	}
-	option = {
-		name = "HREMC1"
-		ai_chance = { factor = 5 }
+		name = "HREMB3"
+		ai_chance = { factor = 0 }
 		add_stability = 1
 		add_prestige = -10
 		reverse_add_opinion = {
 			who = ASE
 			modifier = full_reconciliation
-		}
-	}
-}
-
-# War with England after wait
-country_event = {
-	id = hremodevents.3
-	title = "HREMT3"
-	desc = "HREMD3"
-	picture = BATTLE_eventPicture
-
-	fire_only_once = yes
-
-	trigger = {
-		tag = NRM
-		has_country_flag = nrm_chose_wait
-		NOT = { has_country_modifier = normanconquestmod }
-		any_country = {
-			is_in_war = {
-				defender_leader = ASE
-				attacker_leader = NRM
-				casus_belli = cb_fabricated_claims
-			}
-		}
-	}
-
-	immediate = { clr_country_flag = nrm_chose_wait }
-
-	mean_time_to_happen = {
-		days = 1
-	}
-
-	option = {
-		name = "HREMA3"
-		custom_tooltip = hrema1.tt
-		hidden_effect = {
-			add_country_modifier = {
-				name = "normanconquestmod"
-				duration = 3650
-			}
-			random_owned_province = {
-				limit = {
-					OR = {
-						has_port = yes
-						has_port = no
-					}
-				}
-				infantry = ROOT
-				infantry = ROOT
-				infantry = ROOT
-				infantry = ROOT
-				infantry = ROOT
-				infantry = ROOT
-				infantry = ROOT
-				cavalry = ROOT
-				cavalry = ROOT
-				cavalry = ROOT
-			}
-			random_owned_province = {
-				limit = {
-					has_port = yes
-				}
-				galley = ROOT
-				galley = ROOT
-				galley = ROOT
-				transport = ROOT
-				transport = ROOT
-				transport = ROOT
-				transport = ROOT
-				transport = ROOT
-				transport = ROOT
-				transport = ROOT
-				transport = ROOT
-				transport = ROOT
-				transport = ROOT
-			}
-		}
-		add_prestige = 20
-	}
-}
-
-# Remove modifier
-country_event = {
-	id = hremodevents.4
-	title = "HREMT4"
-	desc = "HREMD4"
-	picture = CONQUEST_eventPicture
-
-	trigger = {
-		has_country_modifier = normanconquestmod
-		NOT = { war_with = ASE }
-	}
-
-	mean_time_to_happen = {
-		months = 2
-	}
-
-	option = {
-		name = "HREMA4"
-		remove_country_modifier = normanconquestmod
-		if = {
-			limit = {
-				has_country_modifier = commandant_boost
-			}
-			remove_country_modifier = commandant_boost
-		}
-	}
-}
-
-# Harold Godwinson
-country_event = {
-	id = hremodevents.5
-	title = "HREMT5"
-	desc = "HREMD5"
-	picture = NEW_HEIR_eventPicture
-
-	fire_only_once = yes
-
-	trigger = {
-		tag = ASE
-		government = monarchy
-		has_heir = no
-		is_lesser_in_union = no
-		has_ruler_flag = edward_the_confessor_flag
-	}
-
-	mean_time_to_happen = {
-		months = 6
-	}
-
-	immediate = {
-		clr_ruler_flag = edward_the_confessor_flag
-	}
-
-	option = {
-		name = "HREMA5"
-		ai_chance = { factor = 60 }
-		define_heir = {
-			name = "Hereweald"
-			dynasty = "Godwining"
-			adm = 3
-			dip = 3
-			mil = 4
-			birth_date = 1022.1.1
-		}
-	}
-
-	option = {
-		name = "HREMB5"
-		ai_chance = { factor = 10 }
-		add_prestige = 5
-		add_stability = -1
-	}
-
-	option = {
-		name = "HREMC5"
-		ai_chance = { factor = 30 }
-		trigger = {
-			NRM = {
-				exists = yes
-				NOT = { war_with = ASE }
-				is_lesser_in_union = no
-				has_ruler_flag = eng_promised_throne_flag
-			}
-		}
-		hidden_effect = {
-			NRM = { country_event = { id = hremodevents.6 } }
-		}
-		tooltip = {
-			reverse_add_opinion = {
-				who = NRM
-				modifier = opinion_choose_heir
-			}
-		}
-	}
-}
-
-# Eadweard approved
-country_event = {
-	id = hremodevents.6
-	title = "HREMT6"
-	desc = "HREMD6"
-	picture = NEW_HEIR_eventPicture
-
-	fire_only_once = yes
-	is_triggered_only = yes
-
-	mean_time_to_happen = { days = 1 }
-
-	option = {
-		name = "HREMA6"
-		add_prestige = 5
-		custom_tooltip = hrema6.tt
-		set_ruler_flag = eng_repromised_throne_flag
-		add_opinion = {
-			who = ASE
-			modifier = opinion_choose_heir
 		}
 	}
 }
@@ -367,18 +222,18 @@ country_event = {
 	desc = "HREMD7"
 	picture = RELIGION_eventPicture
 
-	is_triggered_only = yes
+	fire_only_once = yes
 
-	# trigger = {
-	# 	tag = ASE
-	# 	owns = 2268
-	# 	NOT = { is_year = 1075 }
-	# 	NOT = { has_country_modifier = westminster_abbey }
-	# }
+	trigger = {
+		tag = ASE
+		owns = 2268
+		NOT = { is_year = 1075 }
+		NOT = { has_country_modifier = westminster_abbey }
+	}
 
-	# mean_time_to_happen = {
-	# 	months = 120
-	# }
+	mean_time_to_happen = {
+		months = 120
+	}
 
 	option = {
 		name = "HREMA7"
@@ -392,222 +247,6 @@ country_event = {
 	option = {
 		name = "HREMB7"
 		add_prestige = -5
-	}
-}
-
-# Northern Revolt
-country_event = {
-	id = hremodevents.8
-	title = "HREMT8"
-	desc = "HREMD8"
-	picture = CIVIL_WAR_eventPicture
-
-	fire_only_once = yes
-	is_triggered_only = yes
-
-	mean_time_to_happen = {
-		days = 1
-	}
-
-	option = {
-		name = "HREMA8"
-		trigger = {
-			NOL = {
-				exists = yes
-				OR = {
-					is_subject = no
-					is_subject_of = ASE
-				}
-			}
-		}
-		hidden_effect = { NOL = { country_event = { id = hremodevents.9 } } }
-		tooltip = {
-			NOL = {
-				declare_war_with_cb = {
-					who = ASE
-					casus_belli = cb_independence_war
-				}
-			}
-		}
-		if = {
-			limit = {
-				any_owned_province = {
-					OR = {
-						area = east_riding_area
-						area = lincoln_area
-						area = norwich_area
-					}
-				}
-			}
-			random_owned_province = {
-				limit = {
-					OR = {
-						area = east_riding_area
-						area = lincoln_area
-						area = norwich_area
-					}
-				}
-				spawn_rebels = {
-   					type = pretender_rebels
-   					culture = swedish
-    				size = 3
-    				leader = "Haraldr Hårfagreætta"
-    				friend = NOL
-				}
-			}
-		}
-		if = {
-			limit = {
-				NOT = { any_owned_province = { area = east_riding_area } }
-				NOT = { any_owned_province = { area = lincoln_area } }
-				NOT = { any_owned_province = { area = norwich_area } }
-			}
-			random_owned_province = {
-				limit = {
-					continent = europe
-				}
-				spawn_rebels = {
-   					type = pretender_rebels
-   					culture = swedish
-    				size = 3
-    				leader = "Haraldr Hårfagreætta"
-    				friend = NOL
-				}
-			}
-		}
-	}
-	option = {
-		name = "HREMB8"
-		trigger = {
-			NOL = {
-				OR = {
-					exists = no
-					AND = {
-						is_subject = yes
-						NOT = { is_subject_of = ASE }
-					}
-				}
-			}
-		}
-		hidden_effect = {
-			if  = {
-				limit = {
-					NOT = { war_with = NRM }
-					NRM = { is_free_or_tributary_trigger = yes }
-					NRM = { has_ruler_flag = eng_promised_throne_flag }
-					NRM = { NOT = { has_ruler_flag = eng_repromised_throne_flag } }
-				}
-				NRM = { country_event = { id = hremodevents.1 } }
-				NRM = { clr_ruler_flag = eng_promised_throne_flag }
-			}
-		}
-		if = {
-			limit = {
-				any_owned_province = {
-					OR = {
-						area = east_riding_area
-						area = lincoln_area
-						area = norwich_area
-					}
-				}
-			}
-			random_owned_province = {
-				limit = {
-					OR = {
-						area = east_riding_area
-						area = lincoln_area
-						area = norwich_area
-					}
-				}
-				spawn_rebels = {
-   					type = pretender_rebels
-   					culture = swedish
-    				size = 4
-    				leader = "Haraldr Hårfagreætta"
-				}
-			}
-		}
-		if = {
-			limit = {
-				NOT = { any_owned_province = { area = east_riding_area } }
-				NOT = { any_owned_province = { area = lincoln_area } }
-				NOT = { any_owned_province = { area = norwich_area } }
-			}
-			random_owned_province = {
-				limit = {
-					continent = europe
-				}
-				spawn_rebels = {
-   					type = pretender_rebels
-   					culture = swedish
-    				size = 3
-    				leader = "Haraldr Hårfagreætta"
-				}
-			}
-		}
-	}
-}
-
-# Revolt for NOL
-country_event = {
-	id = hremodevents.9
-	title = "HREMT9"
-	desc = "HREMD9"
-	picture = CORRUPTION_eventPicture
-
-	fire_only_once = yes
-	is_triggered_only = yes
-
-	mean_time_to_happen = {
-		days = 1
-	}
-
-	option = {
-		name = "HREMA9"
-		ai_chance = { factor = 100 }
-		if = {
-			limit = {
-				ASE = { overlord_of = NOL }
-			}
-			ASE = { free_vassal = NOL }
-		}
-		declare_war_with_cb = {
-			who = ASE
-			casus_belli = cb_independence_war
-		}
-		add_years_of_income = 0.5
-		hidden_effect = {
-			if  = {
-				limit = {
-					ASE = { NOT = { war_with = NRM } }
-					NRM = { is_free_or_tributary_trigger = yes }
-					NRM = { has_ruler_flag = eng_promised_throne_flag }
-					NRM = { NOT = { has_ruler_flag = eng_repromised_throne_flag } }
-				}
-				NRM = { country_event = { id = hremodevents.1 } }
-				NRM = { clr_ruler_flag = eng_promised_throne_flag }
-			}
-		}
-	}
-	option = {
-		name = "HREMB9"
-		ai_chance = { factor = 0 }
-		reverse_add_opinion = {
-			who = ASE
-			modifier = full_reconciliation
-		}
-		hidden_effect = {
-			if  = {
-				limit = {
-					ASE = { NOT = { war_with = NRM } }
-					NRM = { is_free_or_tributary_trigger = yes }
-					NRM = { has_ruler_flag = eng_promised_throne_flag }
-					NRM = { NOT = { has_ruler_flag = eng_repromised_throne_flag } }
-				}
-				NRM = { country_event = { id = hremodevents.1 } }
-				NRM = { clr_ruler_flag = eng_promised_throne_flag }
-			}
-		}
 	}
 }
 
