@@ -9,7 +9,7 @@ country_event = {
 	id = nrm_invasions.1
 	title = nrm_invasions.1.t
 	desc = nrm_invasions.1.d
-	picture = CIVIL_WAR_eventPicture
+	picture = DIPLOMACY_eventPicture
 
 	fire_only_once = yes
 
@@ -123,6 +123,7 @@ country_event = {
 			factor = 90 
 			#add modifiers
 		}
+		add_treasury = -50
 		event_target:irish_invasion_tag = {
 			define_general = {
 				name = "Strongbow"
@@ -159,13 +160,13 @@ country_event = {
 	id = nrm_invasions.2
 	title = nrm_invasions.2.t
 	desc = nrm_invasions.2.d
-	picture = CIVIL_WAR_eventPicture
+	picture = DEATH_OF_HEIR_eventPicture
 
 	is_triggered_only = yes
 	fire_only_once = yes
+	major = yes
 
 	trigger = {
-		has_leader = "Strongbow"
 		has_country_flag = irish_invasion_flag
 	}
 
@@ -183,26 +184,34 @@ country_event = {
 	option = {	#Strongbow becomes ruler
 		name = nrm_invasions.2.a
 		ai_chance = { factor = 100 }
-		hidden_effect = {
-			kill_leader = {
-				type = "Strongbow"
+		if = {
+			limit = { has_leader = "Strongbow" }
+			hidden_effect = {
+				kill_leader = {
+					type = "Strongbow"
+				}
+			}
+			define_ruler = {
+				name = "Richard"
+				dynasty = "de Clare"
+				culture = english
+				adm = 5
+				dip = 5
+				mil = 6
+				fixed = yes
+			}
+			define_ruler_to_general = {
+				fire = 4
+				shock = 5
+				manuever = 1
+				siege = 0
 			}
 		}
-		#add tooltip
-		define_ruler = {
-			name = "Richard"
-			dynasty = "de Clare"
-			culture = english
-			adm = 5
-			dip = 5
-			mil = 6
-			fixed = yes
-		}
-		define_ruler_to_general = {
-			fire = 4
-			shock = 5
-			manuever = 1
-			siege = 0
+		else = {
+			define_ruler = {
+				dynasty = "de Clare"
+				culture = english
+			}
 		}
 		change_primary_culture = hiberno_norman
 		add_accepted_culture = irish
@@ -217,8 +226,13 @@ country_event = {
 		set_global_flag = norman_invasion_started
 	}
 	after = {
-		add_ruler_personality = intricate_web_weaver_personality
-		add_ruler_personality = conqueror_personality
+		if = {
+			limit = {
+				has_ruler = "Richard de Clare"
+			}
+			add_ruler_personality = intricate_web_weaver_personality
+			add_ruler_personality = conqueror_personality
+		}
 	}
 }
 
@@ -227,14 +241,14 @@ country_event = {
 	id = nrm_invasions.3
 	title = nrm_invasions.3.t
 	desc = nrm_invasions.3.d
-	picture = CIVIL_WAR_eventPicture
+	picture = BORDER_TENSION_eventPicture
 
 	trigger = {
 		has_global_flag = norman_invasion_started
 		NOT = { 
 			had_global_flag = {
 				flag = norman_invasion_started 
-				days = 9125
+				days = 14600
 			}
 		}
 		NOT = { 
@@ -262,7 +276,7 @@ country_event = {
 	}
 
 	mean_time_to_happen = {
-		months = 300
+		months = 120
 	}
 
 	immediate = {
@@ -271,12 +285,12 @@ country_event = {
 				save_event_target_as = norman_culture_scope
 			}
 			set_saved_name = {
-				key = norman_invasion_ruler
+				key = norman_invasion_heir
 				type = advisor
 				scope = event_target:norman_culture_scope
 			}
 			set_saved_name = {
-				key = norman_invasion_heir
+				key = norman_invasion_heir2
 				type = advisor
 				scope = event_target:norman_culture_scope
 			}
@@ -297,10 +311,11 @@ country_event = {
 		add_accepted_culture = irish
 		change_government = monarchy
 		add_government_reform = feudalism_reform
-		#add tooltip
+		custom_tooltip = nrm_invasions.3.a.tt
+		custom_tooltip = nrm_invasions.3.a.tt2
 		hidden_effect = {
 			define_ruler = {
-				name = norman_invasion_ruler
+				name = norman_invasion_heir
 				age = 18
 				culture = english
 			}
@@ -337,7 +352,7 @@ country_event = {
 		if = {
 			limit = { primary_culture = hiberno_norman }
 			define_heir = {
-				name = norman_invasion_heir
+				name = norman_invasion_heir2
 				age = 0
 				dynasty = ROOT
 				culture = hiberno_norman
@@ -358,7 +373,7 @@ country_event = {
 	id = nrm_invasions.4
 	title = nrm_invasions.4.t
 	desc = nrm_invasions.4.d
-	picture = CIVIL_WAR_eventPicture
+	picture = BAD_WITH_MONARCH_eventPicture
 
 	is_triggered_only = yes
 
@@ -379,19 +394,6 @@ country_event = {
 		has_global_flag = norman_invasion_started
 	}
 
-	immediate = {
-		hidden_effect = {
-			ENG = {
-				save_event_target_as = norman_culture_scope
-			}
-			set_saved_name = {
-				key = norman_invasion_heir2
-				type = advisor
-				scope = event_target:norman_culture_scope
-			}
-		}
-	}
-
 	option = {	#Change govt
 		name = nrm_invasions.4.a
 		ai_chance = { factor = 100 }
@@ -410,3 +412,93 @@ country_event = {
 		add_truce_with = ENG
 	}
 }
+
+#Pale establishment event
+country_event = {
+	id = nrm_invasions.5
+	title = nrm_invasions.5.t
+	desc = nrm_invasions.5.d
+	picture = HARBOUR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		any_known_country = {
+			primary_culture = hiberno_norman
+			capital_scope = { superregion = irish_superregion }
+			owns = 2737
+		}
+		has_global_flag = norman_invasion_started
+	}
+
+	mean_time_to_happen = {
+		months = 240
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_known_country = {
+				limit = {
+					primary_culture = hiberno_norman
+					capital_scope = { superregion = irish_superregion }
+					owns = 2737
+				}
+				save_event_target_as = pale_owner_country
+			}
+		}
+	}
+
+	option = {	#Annex the Pale
+		name = nrm_invasions.5.b
+		ai_chance = { 
+			factor = 50 
+			#add modifiers
+		}
+		add_adm_power = -50
+		add_treasury = -100
+		2737 = {
+			if = {
+				limit = {
+					owned_by = event_target:pale_owner_country
+				}
+				remove_core = event_target:pale_owner_country
+				cede_province = ROOT
+				add_core = ROOT
+			}
+		}
+		4729 = {
+			if = {
+				limit = {
+					owned_by = event_target:pale_owner_country
+				}
+				remove_core = event_target:pale_owner_country
+				cede_province = ROOT
+				add_core = ROOT
+			}
+		}
+		2622 = {
+			if = {
+				limit = {
+					owned_by = event_target:pale_owner_country
+				}
+				remove_core = event_target:pale_owner_country
+				cede_province = ROOT
+				add_core = ROOT
+			}
+		}
+		add_truce_with = event_target:pale_owner_country
+	}
+	option = {	#Leave Irish to govern
+		name = nrm_invasions.5.b
+		ai_chance = { 
+			factor = 50 
+			#add modifiers
+		}
+		add_prestige = -10
+		add_truce_with = event_target:pale_owner_country
+	}
+}
+
+#More events forthcoming
+#Statutes of Kilkenny, Parliament of Ireland, Lordship of Ireland
