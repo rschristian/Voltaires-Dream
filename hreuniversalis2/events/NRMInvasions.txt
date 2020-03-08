@@ -20,7 +20,7 @@ country_event = {
 		NOT = { 
 			OR = {
 				has_global_flag = norman_invasion_started
-				has_country_flag = nrm_declined_support 
+				has_country_flag = had_nrm_invasion_event
 			}
 		}
 		OR = {
@@ -70,6 +70,7 @@ country_event = {
 	}
 
 	immediate = {
+		set_country_flag = had_nrm_invasion_event
 		if = {
 			limit = {
 				LEI = {
@@ -155,7 +156,6 @@ country_event = {
 			#add modifiers
 		}
 		add_prestige = -10
-		set_country_flag = nrm_declined_support
 		#add - High King declares war on this tag
 	}
 }
@@ -303,7 +303,7 @@ country_event = {
 		}
 		NOT = { 
 			OR = {
-				primary_culture = hiberno_norman
+				has_country_flag = nrm_was_invaded
 				has_country_flag = refused_norman_ruler
 			}
 		}
@@ -319,14 +319,17 @@ country_event = {
 			primary_culture = gallowglass
 		}
 		any_neighbor_country = {
-			primary_culture = hiberno_norman
+			OR = {
+				primary_culture = hiberno_norman
+				has_country_flag = nrm_was_invaded
+			}
 		}
 		is_subject = no
 		#add - Is NOT High King
 	}
 
 	mean_time_to_happen = {
-		months = 300
+		months = 180
 	}
 
 	immediate = {
@@ -382,12 +385,17 @@ country_event = {
 				limit = { culture = connachta }
 				ROOT = { add_accepted_culture = connachta }
 			}
+			if = {
+				limit = { culture = gallowglass }
+				ROOT = { add_accepted_culture = gallowglass }
+			}
 		}
 		change_government = monarchy
 		add_government_reform = feudalism_reform
 		custom_tooltip = nrm_invasions.3.a.tt
 		custom_tooltip = nrm_invasions.3.a.tt2
 		hidden_effect = {
+			set_country_flag = nrm_was_invaded
 			define_ruler = {
 				name = norman_invasion_heir
 				age = 18
@@ -506,11 +514,16 @@ country_event = {
 				limit = { culture = connachta }
 				ROOT = { add_accepted_culture = connachta }
 			}
+			if = {
+				limit = { culture = gallowglass }
+				ROOT = { add_accepted_culture = gallowglass }
+			}
 		}
 		change_government = monarchy
 		add_government_reform = feudalism_reform
 		add_stability = 1
 		clr_country_flag = refused_norman_ruler
+		set_country_flag = nrm_was_invaded
 		define_heir = {
 			name = norman_invasion_heir2
 			age = 0
@@ -573,6 +586,7 @@ country_event = {
 				remove_core = event_target:pale_owner_country
 				cede_province = ROOT
 				add_core = ROOT
+				change_culture = hiberno_norman
 			}
 		}
 		4729 = {
