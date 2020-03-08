@@ -140,7 +140,6 @@ country_event = {
 				}
 			}
 			set_country_flag = irish_invasion_flag
-			create_alliance = ROOT
 		}
 		#add - High King declares war on this tag
 	}
@@ -159,7 +158,14 @@ country_event = {
 country_event = {
 	id = nrm_invasions.2
 	title = nrm_invasions.2.t
-	desc = nrm_invasions.2.d
+	desc = {
+		trigger = { has_leader = "Strongbow" }
+		desc = nrm_invasions.2.da
+	}
+	desc = {
+		trigger = { NOT = { has_leader = "Strongbow" } }
+		desc = nrm_invasions.2.db
+	}
 	picture = DEATH_OF_HEIR_eventPicture
 
 	is_triggered_only = yes
@@ -171,17 +177,24 @@ country_event = {
 	}
 
 	immediate = {
-		ENG = {
-			save_event_target_as = norman_culture_scope
-		}
-		set_saved_name = {
-			key = strongbow_heir
-			type = advisor
-			scope = event_target:norman_culture_scope
-		}
+		hidden_effect = {
+			ENG = {
+				save_event_target_as = norman_culture_scope
+			}
+			set_saved_name = {
+				key = strongbow_heir
+				type = advisor
+				scope = event_target:norman_culture_scope
+			}
+			set_saved_name = {
+				key = strongbow_other_ruler
+				type = advisor
+				scope = event_target:norman_culture_scope
+			}
+		}	
 	}
 
-	option = {	#Strongbow becomes ruler
+	option = {
 		name = nrm_invasions.2.a
 		ai_chance = { factor = 100 }
 		if = {
@@ -192,7 +205,7 @@ country_event = {
 				}
 			}
 			define_ruler = {
-				name = "Richard"
+				name = "Richard I"
 				dynasty = "de Clare"
 				culture = english
 				adm = 5
@@ -209,6 +222,7 @@ country_event = {
 		}
 		else = {
 			define_ruler = {
+				name = strongbow_other_ruler
 				dynasty = "de Clare"
 				culture = english
 			}
@@ -223,12 +237,13 @@ country_event = {
 			culture = hiberno_norman
 		}
 		clr_country_flag = irish_invasion_flag
+		custom_tooltip = nrm_invasions.2.a.tt
 		set_global_flag = norman_invasion_started
 	}
 	after = {
 		if = {
 			limit = {
-				has_ruler = "Richard de Clare"
+				has_ruler = "Richard I"
 			}
 			add_ruler_personality = intricate_web_weaver_personality
 			add_ruler_personality = conqueror_personality
@@ -248,7 +263,7 @@ country_event = {
 		NOT = { 
 			had_global_flag = {
 				flag = norman_invasion_started 
-				days = 14600
+				days = 18250
 			}
 		}
 		NOT = { 
@@ -304,8 +319,7 @@ country_event = {
 	option = {	#Accept Norman ruler
 		name = nrm_invasions.3.a
 		ai_chance = { 
-			factor = 50 
-			#add modifiers
+			factor = 25
 		}
 		change_primary_culture = hiberno_norman
 		add_accepted_culture = irish
@@ -325,8 +339,27 @@ country_event = {
 	option = {	#Fight Norman ruler
 		name = nrm_invasions.3.b
 		ai_chance = { 
-			factor = 50 
-			#add modifiers
+			factor = 75
+			modifier = {
+				factor = 0.25
+				is_at_war = yes
+			}
+			modifier = {
+				factor = 1.25
+				ruler_has_personality = fierce_negotiator_personality
+			}
+			modifier = {
+				factor = 0.5
+				num_of_rebel_controlled_provinces = 1
+			}
+			modifier = {
+				factor = 0.75
+				num_of_loans = 1
+			}
+			modifier = {
+				factor = 0.5
+				NOT = { stability = 0 }
+			}
 		}
 		add_stability = -1
 		set_country_flag = refused_norman_ruler
@@ -342,7 +375,7 @@ country_event = {
 			spawn_rebels = {
 				type = pretender_rebels
 				use_heir_as_leader = yes
-				size = 3
+				size = 2
 				friend = ENG
 				culture = english
 			}
@@ -394,7 +427,7 @@ country_event = {
 		has_global_flag = norman_invasion_started
 	}
 
-	option = {	#Change govt
+	option = {
 		name = nrm_invasions.4.a
 		ai_chance = { factor = 100 }
 		change_primary_culture = hiberno_norman
@@ -450,7 +483,7 @@ country_event = {
 	}
 
 	option = {	#Annex the Pale
-		name = nrm_invasions.5.b
+		name = nrm_invasions.5.a
 		ai_chance = { 
 			factor = 50 
 			#add modifiers
@@ -500,5 +533,81 @@ country_event = {
 	}
 }
 
-#More events forthcoming
-#Statutes of Kilkenny, Parliament of Ireland, Lordship of Ireland
+#Statutes of Kilkenny
+country_event = {
+	id = nrm_invasions.6
+	title = nrm_invasions.6.t
+	desc = nrm_invasions.6.d
+	picture = REFORM_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		has_global_flag = norman_invasion_started
+		OR = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 5
+				superregion = irish_superregion
+			}
+			any_known_country = {
+				primary_culture = hiberno_norman
+				capital_scope = { superregion = irish_superregion }
+			}
+		}
+		current_age = age_of_dynasticism
+	}
+
+	mean_time_to_happen = {
+		months = 240
+	}
+
+	option = {	#Make the Statutes law
+		name = nrm_invasions.6.a
+		ai_chance = { 
+			factor = 75
+			#add modifiers
+		}
+		custom_tooltip = nrm_invasions.6.a.tt
+		hidden_effect = {
+			every_known_country = {
+				limit = { 
+					primary_culture = hiberno_norman
+					capital_scope = { superregion = irish_superregion }
+				}
+				country_event = {
+					id = nrm_invasions.7
+					days = 30
+					random = 10
+				}
+			}
+		}
+	}
+	option = {	#Leave it
+		name = nrm_invasions.6.b
+		ai_chance = { 
+			factor = 25
+			#add modifiers
+		}
+		add_prestige = -10
+	}
+}
+
+#Statutes of Kilkenny for Norman tags
+country_event = {
+	id = nrm_invasions.7
+	title = nrm_invasions.7.t
+	desc = nrm_invasions.7.d
+	picture = REFORM_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = nrm_invasions.7.a
+		ai_chance = { factor = 100 }
+		add_country_modifier = {
+			name = "kilkennystatutesmod"
+			duration = -1
+		}
+	}
+}
