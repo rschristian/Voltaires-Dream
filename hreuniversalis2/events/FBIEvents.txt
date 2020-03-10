@@ -6696,8 +6696,19 @@ country_event = {
 	
 	option = {
 		name = "FBIA121"
-		trigger = { ai = yes }
-		SJK = { inherit = ROOT }
+		if = {
+			limit = { ai = yes }
+			SJK = { inherit = ROOT }
+		}
+		else = {
+			random_owned_province = {
+				limit = {}
+				add_core = SJK
+				cede_province = SJK
+				add_building = fort_14th
+			}
+			SJK = { declare_war = ROOT }
+		}
 		hidden_effect = {
 			SJK = {
 				add_treasury = 200
@@ -6722,65 +6733,11 @@ country_event = {
 				add_ruler_personality = strict_personality
 				add_ruler_personality = conqueror_personality
 				if = {
-					limit = {
-						NOT = {
-							has_country_modifier = extensive_holdings
-						}
-					}
+					limit = { ai = no }
 					add_country_modifier = {
-						name = "extensive_holdings"
-						duration = -1
+						name = "invasion_nation_m"
+						duration = 2920
 					}
-				}
-				random_owned_province = {
-					build_to_forcelimit = {
-						infantry = 0.7
-						cavalry = 0.3
-					}
-				}
-			}
-			every_province = {
-				limit = {}
-				discover_country = SJK
-			}
-		}
-	}
-
-	option = {
-		name = "FBIB121"
-		trigger = { ai = no }
-		random_owned_province = {
-			limit = {}
-			add_core = SJK
-			cede_province = SJK
-			add_building = fort_14th
-		}
-		hidden_effect = {
-			SJK = {
-				add_treasury = 200
-				add_prestige = 40
-				add_manpower = 5
-				add_accepted_culture = al_iraqiya_arabic
-				remove_heir = yes
-				define_ruler = {
-					name = "Alp Arslan"
-					dynasty = "Selçukoglu"
-					fixed = yes
-					adm = 5
-					dip = 5
-					mil = 5
-				}
-				define_ruler_to_general = {
-					fire = 5
-					shock = 4
-					manuever = 1
-					siege = 3
-				}
-				add_ruler_personality = strict_personality
-				add_ruler_personality = conqueror_personality
-				add_country_modifier = {
-					name = "invasion_nation_m"
-					duration = 2920
 				}
 				if = {
 					limit = {
@@ -6804,12 +6761,13 @@ country_event = {
 				limit = {}
 				discover_country = SJK
 			}
-			every_province = {
-				limit = { owned_by = ROOT }
-				add_claim = SJK
+			if = {
+				limit = { ai = no }
+				every_owned_province = {
+					add_claim = SJK
+				}
 			}
 		}
-		SJK = { declare_war = ROOT }
 	}
 }
 
