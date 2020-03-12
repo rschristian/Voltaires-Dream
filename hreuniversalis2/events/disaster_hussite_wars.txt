@@ -158,6 +158,30 @@ country_event = {
 		has_country_flag = king_dead_during_hussite_wars
 	}
 
+	immediate = {
+		hidden_effect = {
+			random_country = {
+				limit = {
+					NOT = { tag = ROOT }
+					OR = {
+						culture_group = west_slavic
+						primary_culture = lithuanian
+					}
+					OR = {
+						religion = catholic
+						religion = catholique
+					}
+				}
+				save_event_target_as = hussite_pretender
+			}
+			set_saved_name = {
+				key = hussite_pretender_ruler
+				type = advisor
+				scope = event_target:hussite_pretender
+			}
+		}
+	}
+
 	option = {
 		name = hussite_wars.3.a
 		ai_chance = { factor = 90 }
@@ -167,7 +191,12 @@ country_event = {
 		name = hussite_wars.3.b
 		ai_chance = { factor = 10 }
 		tooltip = { kill_ruler = yes }
-		define_ruler = { claim = 75 }
+		define_ruler = {
+			name = hussite_pretender_ruler
+			age = 27
+			culture = event_target:hussite_pretender
+			claim = 75
+		}
 		if = {
 			limit = { has_heir = yes }
 			remove_heir = yes
