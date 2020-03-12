@@ -1,0 +1,1319 @@
+namespace = byz_crisis
+
+########################################
+# Crisis of the 11th Century
+########################################
+
+# Start
+country_event = {
+	id = byz_crisis.1
+	title = "byz_crisis.1.t"
+	desc = "byz_crisis.1.d"
+	picture = BATTLE_eventPicture
+
+	major = yes
+	is_triggered_only = yes
+	mean_time_to_happen = { days = 1 }
+
+	immediate = { hidden_effect = { set_country_flag = manzikert_happened } }
+
+	option = {
+		name = "byz_crisis.1.a"
+		add_years_of_income = -2
+		add_yearly_manpower = -1
+	}
+}
+
+country_event = {
+	id = byz_crisis.2
+	title = "byz_crisis.2.t"
+	desc = "byz_crisis.2.d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_modifier = byz_defunding_mil } }
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "byz_crisis.2.a"
+		ai_chance = { factor = 10 }
+		add_yearly_manpower = -1
+	}
+	option = {
+		name = "byz_crisis.2.b"
+		ai_chance = { factor = 90 }
+		add_country_modifier = {
+			name = "byz_defunding_mil"
+			duration = 730
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.3
+	title = "byz_crisis.3.t"
+	desc = "byz_crisis.3.d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_modifier = byz_defunding_man } }
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "byz_crisis.3.a"
+		ai_chance = { factor = 10 }
+		add_yearly_manpower = -1
+	}
+	option = {
+		name = "byz_crisis.3.b"
+		ai_chance = { factor = 90 }
+		add_country_modifier = {
+			name = "byz_defunding_man"
+			duration = 730
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.4
+	title = "byz_crisis.4.t"
+	desc = "byz_crisis.4.d"
+	picture = NAVAL_MILITARY_eventPicture
+
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_modifier = byz_defunding_naval } }
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "byz_crisis.4.a"
+		ai_chance = { factor = 10 }
+		add_yearly_sailors = -1
+	}
+	option = {
+		name = "byz_crisis.4.b"
+		ai_chance = { factor = 90 }
+		add_country_modifier = {
+			name = "byz_defunding_naval"
+			duration = 730
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.5
+	title = "byz_crisis.5.t"
+	desc = "byz_crisis.5.d"
+	picture = NAVAL_MILITARY_eventPicture
+
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_modifier = byz_defunding_sailors } }
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "byz_crisis.5.a"
+		ai_chance = { factor = 10 }
+		add_yearly_sailors = -1
+	}
+	option = {
+		name = "byz_crisis.5.b"
+		ai_chance = { factor = 90 }
+		add_country_modifier = {
+			name = "byz_defunding_sailors"
+			duration = 730
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.6
+	title = "byz_crisis.6.t"
+	desc = "byz_crisis.6.d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_modifier = byz_defunding_adm } }
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "byz_crisis.6.a"
+		ai_chance = { factor = 10 }
+		add_years_of_income = -0.5
+	}
+	option = {
+		name = "byz_crisis.6.b"
+		ai_chance = { factor = 90 }
+		add_country_modifier = {
+			name = "byz_defunding_adm"
+			duration = 730
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.7
+	title = "byz_crisis.7.t"
+	desc = "byz_crisis.7.d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_modifier = byz_defunding_states } }
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "byz_crisis.7.a"
+		ai_chance = { factor = 10 }
+		add_years_of_income = -0.5
+	}
+	option = {
+		name = "byz_crisis.7.b"
+		ai_chance = { factor = 90 }
+		add_country_modifier = {
+			name = "byz_defunding_states"
+			duration = 730
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.8
+	title = "byz_crisis.8.t"
+	desc = "byz_crisis.8.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = AHL }
+		any_owned_province = {
+			region = corduene_region
+			NOT = { area = taron_area }
+			NOT = { area = sasun_area }
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					region = corduene_region
+					NOT = { area = taron_area }
+					NOT = { area = sasun_area }
+				}
+				add_core = AHL
+				cede_province = AHL
+			}
+			if = {
+				limit = { AHL = { ai = yes } }
+				AHL = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Sökmen"
+						dynasty = "Sökmenoglu"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.8.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			AHL = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+					if = {
+						limit = { religion = orthodox }
+						change_religion = sunni
+					}
+					if = {
+						limit = { culture_group = byzantine }
+						change_culture = turkish
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.8.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = AHL
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.9
+	title = "byz_crisis.9.t"
+	desc = "byz_crisis.9.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = SAS }
+		any_owned_province = {
+			OR = {
+				area = taron_area
+				area = sasun_area
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					OR = {
+						area = taron_area
+						area = sasun_area
+					}
+				}
+				add_core = SAS
+				cede_province = SAS
+			}
+			if = {
+				limit = { SAS = { ai = yes } }
+				SAS = {
+					set_in_empire = no
+					set_government_rank = 4
+					define_ruler = {
+						name = "Tornik"
+						dynasty = "Taronites"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.9.a"
+		ai_chance = { factor = 100 }
+		SAS = {
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			SAS = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.9.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = SAS
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.10
+	title = "byz_crisis.10.t"
+	desc = "byz_crisis.10.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = SLT }
+		any_owned_province = {
+			area = karin_area
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = { area = karin_area }
+				add_core = SLT
+				cede_province = SLT
+			}
+			if = {
+				limit = { SLT = { ai = yes } }
+				SLT = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Saltuk"
+						dynasty = "Saltukoglu"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.10.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			SLT = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+					if = {
+						limit = { religion = orthodox }
+						change_religion = sunni
+					}
+					if = {
+						limit = { culture_group = byzantine }
+						change_culture = turkish
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.10.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = SLT
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.11
+	title = "byz_crisis.11.t"
+	desc = "byz_crisis.11.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = MGJ }
+		any_owned_province = {
+			region = cappadokia_region
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = { region = cappadokia_region }
+				add_core = MGJ
+				cede_province = MGJ
+			}
+			if = {
+				limit = { MGJ = { ai = yes } }
+				MGJ = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Mengücek"
+						dynasty = "Mengüçoglu"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.11.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			MGJ = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+					if = {
+						limit = { religion = orthodox }
+						change_religion = sunni
+					}
+					if = {
+						limit = { culture_group = byzantine }
+						change_culture = turkish
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.11.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = MGJ
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.12
+	title = "byz_crisis.12.t"
+	desc = "byz_crisis.12.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = HRP }
+		any_owned_province = {
+			region = sophene_region
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = { region = sophene_region }
+				add_core = HRP
+				cede_province = HRP
+			}
+			if = {
+				limit = { HRP = { ai = yes } }
+				HRP = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Çubuk"
+						dynasty = "Çubukoglu"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.12.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			HRP = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+					if = {
+						limit = { religion = orthodox }
+						change_religion = sunni
+					}
+					if = {
+						limit = { culture_group = byzantine }
+						change_culture = turkish
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.12.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = HRP
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.13
+	title = "byz_crisis.13.t"
+	desc = "byz_crisis.13.d"
+	picture = CIVIL_WAR_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = CLC }
+		any_owned_province = {
+			OR = {
+				region = cilicia_region
+				region = syria_region
+				region = outremer_region
+				region = al_jazira_region
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					OR = {
+						region = cilicia_region
+						region = syria_region
+						region = outremer_region
+						region = al_jazira_region
+					}
+				}
+				add_core = CLC
+				cede_province = CLC
+			}
+			if = {
+				limit = { CLC = { ai = yes } }
+				CLC = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Vahram"
+						dynasty = "Varaznuni"
+						adm = 4
+						dip = 2
+						mil = 5
+						fixed = yes
+					}
+					define_ruler_to_general = {
+						fire = 4
+						shock = 5
+						manuever = 0
+						siege = 0
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.13.a"
+		ai_chance = { factor = 90 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			CLC = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.13.b"
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				has_ruler = "Nikephoros"
+			}
+		}
+		inherit = CLC
+		add_stability = -2
+		define_ruler = {
+			name = "Philaretos"
+			dynasty = "Varaznuni"
+			culture = armenian
+			religion = coptic
+			claim = 50
+			adm = 4
+			dip = 2
+			mil = 5
+			fixed = yes
+		}
+		kill_heir = yes
+		hidden_effect = {
+			define_ruler_to_general = {
+				fire = 4
+				shock = 5
+				manuever = 0
+				siege = 0
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.13.c"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = CLC
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.14
+	title = "byz_crisis.14.t"
+	desc = "byz_crisis.14.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = KYP }
+		any_owned_province = {
+			OR = {
+				region = cyprus_region
+				region = kibyrraioton_region
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					OR = {
+						region = cyprus_region
+						region = kibyrraioton_region
+					}
+				}
+				add_core = KYP
+				cede_province = KYP
+			}
+			if = {
+				limit = { KYP = { ai = yes } }
+				KYP = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Ioseph"
+						dynasty = "Tarchaneiotes"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.14.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			KYP = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.14.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = KYP
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.15
+	title = "byz_crisis.15.t"
+	desc = "byz_crisis.15.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = DNM }
+		any_owned_province = {
+			region = charsianon_region
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = { region = charsianon_region }
+				add_core = DNM
+				cede_province = DNM
+			}
+			if = {
+				limit = { DNM = { ai = yes } }
+				DNM = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Dânishmend"
+						dynasty = "Dânishmendoglu"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.15.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			DNM = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+					if = {
+						limit = { religion = orthodox }
+						change_religion = sunni
+					}
+					if = {
+						limit = { culture_group = byzantine }
+						change_culture = turkish
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.15.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = DNM
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.16
+	title = "byz_crisis.16.t"
+	desc = "byz_crisis.16.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = TAO }
+		NOT = { exists = TRE }
+		any_owned_province = {
+			OR = {
+				region = tao_region
+				region = armenia_region
+				area = sinope_area
+				area = polemonion_area
+				area = trebizond_area
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					OR = {
+						region = tao_region
+						region = armenia_region
+					}
+				}
+				add_core = TAO
+				cede_province = TAO
+			}
+			every_owned_province = {
+				limit = {
+					OR = {
+						area = sinope_area
+						area = polemonion_area
+						area = trebizond_area
+					}
+				}
+				add_core = TRE
+				cede_province = TRE
+			}
+			if = {
+				limit = { TAO = { ai = yes } }
+				TAO = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Grigor"
+						dynasty = "Bakurian"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}
+			if = {
+				limit = { TRE = { ai = yes } }
+				TRE = {
+					set_in_empire = no
+					set_government_rank = 4
+					define_ruler = {
+						name = "Theodoros"
+						dynasty = "Gabras"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.16.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			TAO = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+			TRE = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.16.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = TAO
+			casus_belli = cb_core
+		}
+		declare_war_with_cb = {
+			who = TRE
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.17
+	title = "byz_crisis.17.t"
+	desc = "byz_crisis.17.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = PHR }
+		any_owned_province = {
+			OR = {
+				region = bukellarion_region
+				area = kastamone_area
+				area = bithynia_area
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					OR = {
+						region = bukellarion_region
+						area = kastamone_area
+						area = bithynia_area
+					}
+				}
+				add_core = PHR
+				cede_province = PHR
+			}
+			if = {
+				limit = { PHR = { ai = yes } }
+				PHR = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Roussel"
+						dynasty = "de Bailleul"
+						culture = normand
+						religion = catholic
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.17.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			PHR = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.17.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = PHR
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.18
+	title = "byz_crisis.18.t"
+	desc = "byz_crisis.18.d"
+	picture = CIVIL_WAR_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = CPP }
+		any_owned_province = {
+			OR = {
+				region = phrygia_region
+				region = anatolikon_region
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					OR = {
+						region = phrygia_region
+						region = anatolikon_region
+					}
+				}
+				add_core = CPP
+				cede_province = CPP
+			}
+			if = {
+				limit = { CPP = { ai = yes } }
+				CPP = {
+					set_in_empire = no
+					set_government_rank = 3
+					define_ruler = {
+						name = "Nikephoros"
+						dynasty = "Botaneiates"
+						adm = 2
+						dip = 0
+						mil = 3
+						fixed = yes
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.18.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			CPP = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.13.b"
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				has_ruler = "Philaretos"
+			}
+		}
+		inherit = CPP
+		add_stability = -2
+		define_ruler = {
+			name = "Nikephoros"
+			dynasty = "Botaneiates"
+			culture = cappadokian
+			claim = 50
+			adm = 2
+			dip = 0
+			mil = 3
+			fixed = yes
+		}
+		kill_heir = yes
+	}
+	option = {
+		name = "byz_crisis.18.c"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = CPP
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.19
+	title = "byz_crisis.19.t"
+	desc = "byz_crisis.19.d"
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = {
+		any_owned_province = {
+			culture = bulgarian
+			controlled_by = ROOT
+			has_siege = no
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "byz_crisis.19.a"
+		random_owned_province = {
+			limit = {
+				culture = bulgarian
+				controlled_by = ROOT
+				has_siege = no
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				leader = "Georgi Voyteh"
+				size = 4
+				win = yes
+			}
+		}
+		random_owned_province = {
+			limit = {
+				culture = bulgarian
+				controlled_by = ROOT
+				has_siege = no
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				leader = "Nestor Theophylact"
+				size = 5
+				win = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.20
+	title = "byz_crisis.20.t"
+	desc = "byz_crisis.20.d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = RUM }
+		any_owned_province = {
+			OR = {
+				region = thrakesion_region
+				region = opsikion_region
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					OR = {
+						region = thrakesion_region
+						region = opsikion_region
+					}
+				}
+				add_core = RUM
+				cede_province = RUM
+			}
+			if = {
+				limit = { RUM = { ai = yes } }
+				RUM = {
+					set_in_empire = no
+					set_government_rank = 5
+					add_treasury = 200
+					add_prestige = 40
+					add_manpower = 5
+					add_accepted_culture = greek
+					remove_heir = yes
+					define_ruler = {
+						name = "Süleyman"
+						dynasty = "Selçukoglu"
+						fixed = yes
+						adm = 4
+						dip = 4
+						mil = 6
+					}
+					define_ruler_to_general = {
+						fire = 4
+						shock = 4
+						manuever = 3
+						siege = 1
+					}
+					add_ruler_personality = strict_personality
+					add_ruler_personality = conqueror_personality
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.20.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			RUM = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.20.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = RUM
+			casus_belli = cb_core
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.100
+	title = "byz_crisis.100.t"
+	desc = "byz_crisis.100.d"
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = komnenian_restoration_flag
+			remove_country_modifier = byz_defunding_adm
+			remove_country_modifier = byz_defunding_states
+			remove_country_modifier = byz_defunding_naval
+			remove_country_modifier = byz_defunding_sailors
+			remove_country_modifier = byz_defunding_mil
+			remove_country_modifier = byz_defunding_man
+		}
+	}
+
+	option = {
+		name = "byz_crisis.100.a"
+		ai_chance = { factor = 99 }
+		trigger = {
+			religion_group = christian
+			primary_culture = greek
+			is_subject = no
+			government = monarchy
+			NOT = { dynasty = "Komnenos" }
+		}
+		define_ruler = {
+			name = "Alexios"
+			dynasty = "Komnenos"
+			age = 25
+			adm = 6
+			dip = 6
+			mil = 6
+		}
+		kill_heir = yes
+		hidden_effect = {
+			define_ruler_to_general = {
+				fire = 5
+				shock = 5
+				manuever = 2
+				siege = 6
+			}
+			add_ruler_personality = tactical_genius_personality
+			add_ruler_personality = silver_tongue_personality
+			add_ruler_personality = incorruptible_personality
+		}
+	}
+	option = {
+		name = "byz_crisis.100.b"
+		ai_chance = { factor = 1 }
+		define_general = {
+			name = "Alexios Komnenos"
+			fire = 5
+			shock = 5
+			manuever = 2
+			siege = 6
+		}
+	}
+}
