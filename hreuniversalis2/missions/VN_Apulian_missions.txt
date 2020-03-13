@@ -33,18 +33,15 @@ vn_apl_missions_slot_1 = {
 			}
 		}
 		effect = {
-			salerno_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
+			add_country_modifier = {
+				name = apl_reconquer_apulia_mission
+				duration = 9125
 			}
 		}
 	}
 	vn_apl_conquer_salerno = {
 		icon = mission_italian_condottiere
-		required_missions = { vn_apl_reconquer_apulia }
+		required_missions = { vn_apl_reconquer_apulia vn_apl_integrate_subjects }
 		provinces_to_highlight = {
 			area = salerno_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -79,6 +76,7 @@ vn_apl_missions_slot_1 = {
 			}
 		}
 		effect = {
+			add_dip_power = 50
 			molise_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -170,11 +168,30 @@ vn_apl_missions_slot_2 = {
 		position = 1
 		icon = mission_alliances
 		required_missions = { }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2218
+				province_id = 5175
+				province_id = 2049
+			}
+			OR = {
+				NOT = { is_core = ROOT }
+				NOT = { owned_by = ROOT }
+			}
+		}
 		trigger = {
-			NOT = { exists = GGN }
-			NOT = { exists = FGA }
+			owns_core_province = 2218
+			owns_core_province = 5175
+			owns_core_province = 2049
 		}
 		effect = {
+			salerno_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
 			add_country_modifier = {
 				name = "apl_integrate_subjects_mission"
 				duration = 9125
@@ -388,16 +405,13 @@ vn_apl_missions_slot_3 = {
 		icon = mission_subjugate_saurashtra
 		required_missions = { vn_apl_conquer_sicily }
 		provinces_to_highlight = {
-			province_id = 2711		}
+			province_id = 2711
+		}
 		trigger = {
 			2711 = {
 				country_or_non_sovereign_subject_holds = ROOT
-				has_building = canal
-				has_building = armory
-				OR = {
-					has_building = road_network
-					has_building = post_office
-				}
+				has_dock_building_trigger = yes
+				has_shipyard_building_trigger = yes
 			}
 		}
 		effect = {
@@ -431,6 +445,7 @@ vn_apl_missions_slot_3 = {
 		}
 		effect = {
 			2041 = {
+				move_capital_effect = yes
 				add_base_manpower = 2
 				add_province_modifier = {
 					name = "apl_castello_della_zisa_mission"
@@ -488,8 +503,8 @@ vn_apl_missions_slot_4 = {
 		trigger = {
 			calc_true_if = {
 				amount = 3
-				culture_group = latin
 				all_ally = {
+					culture_group = latin
 					has_opinion = {
 						who = ROOT
 						value = 150
@@ -498,10 +513,9 @@ vn_apl_missions_slot_4 = {
 			}
 		}
 		effect = {
-			add_yearly_manpower = 2.5
 			add_country_modifier = {
 				name = "apl_prepare_for_war_mission"
-				duration = 7300
+				duration = 9125
 			}
 		}
 	}
@@ -841,14 +855,33 @@ vn_apl_missions_slot_5 = {
 		effect = {
 			add_army_tradition = 20
 			add_prestige = 10
-			2233 = { 
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT	
-				}		
+			greekislands_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			thrace_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			macedonia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			hellas_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
 			}
 		}
 	}
@@ -856,12 +889,24 @@ vn_apl_missions_slot_5 = {
 		icon = mission_pf_map_table
 		required_missions = { vn_apl_conquer_greece }
 		provinces_to_highlight = {
-			province_id = 2233
+			OR = {
+				region = greekislands_region
+				region = thrace_region
+				region = macedonia_region
+				region = hellas_region
+			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			NOT = { exists = BYZ }
-			2233 = { country_or_non_sovereign_subject_holds = ROOT }
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 50
+				OR = {
+					region = greekislands_region
+					region = thrace_region
+					region = macedonia_region
+					region = hellas_region
+				}
+			}
 		}
 		effect = {
 			add_adm_power = 100
