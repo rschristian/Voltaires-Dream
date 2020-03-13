@@ -125,24 +125,31 @@ vn_slo_missions_slot_2_a = {
 			}
 		}
 		trigger = {
-			army_size_percentage = 1
+			army_size_percentage = 0.75
 			is_subject = no
 			if = {
 				limit = { exists = HUN }
 				HUN = {
-					any_rival_country = {
-						alliance_with = ROOT
-						#OR = {
-							# supports your independence
-							# alliance with you
-						#}
+					OR = {
+						any_rival_country = {
+							alliance_with = ROOT
+							#OR = {
+								# supports your independence
+								# alliance with you
+							#}
+						}
+						any_enemy_country = {
+							alliance_with = ROOT
+							#OR = {
+								# supports your independence
+								# alliance with you
+							#}
+						}
 					}
 				}
 			}
 			else = {
-				any_known_country = {
-					alliance_with = ROOT
-				}
+				num_of_allies = 1
 			}
 			nyitra_area = {
 				type = all
@@ -231,7 +238,7 @@ vn_slo_missions_slot_2_a = {
 				hidden_effect = {
 					MRV = {
 						country_event = {
-							id = vn_missions.69	#Nitra requests union with Moravia
+							id = vn_missions.69
 						}
 					}
 				}
@@ -250,6 +257,10 @@ vn_slo_missions_slot_2_a = {
 	vn_slo_nasi_bratia = {
 		required_missions = { vn_slo_join_empire }
 		icon = mission_alliances
+		provinces_to_highlight = {
+			region = moravia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
 		trigger = {
 			moravia_region = {
 				type = all
@@ -386,7 +397,7 @@ vn_slo_missions_slot_2_b = {
 				inherit = MRV
 			}
 			country_event = {
-				id = vn_missions.70	#Re-Establishment of Great Moravia
+				id = vn_missions.70
 			}
 		}
 	}
@@ -644,8 +655,12 @@ vn_slo_missions_slot_3_c = {
 				religion = catholic
 				religion = catholique
 			}
-			alliance_with = emperor
-			is_part_of_hre = yes
+			OR = {
+				alliance_with = emperor
+				any_rival_country = {
+					is_emperor = yes
+				}
+			}
 			if = {
 				limit = { exists = BOH }
 				total_development = BOH
@@ -786,6 +801,40 @@ vn_slo_missions_slot_4_a = {
 			else = {
 				2911 = { 
 					add_base_production = 2 
+				}
+			}
+		}
+	}
+	vn_slo_restore_veligrad = {
+		required_missions = { vn_slo_our_second_capital }
+		icon = mission_buildings
+		position = 4
+		provinces_to_highlight = {
+			province_id = 5150
+		}
+		trigger = {
+			5150 = {
+				owned_by = ROOT
+				development = 15
+				has_trade_building_trigger = yes
+				OR = {
+					has_manpower_building_trigger = yes
+					has_forcelimit_building_trigger = yes
+				}
+			}
+		}
+		effect = {
+			5150 = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 2
+				move_capital_effect = yes
+				if = {
+					limit = {
+						NOT = { has_fort_trigger = yes }
+						num_free_building_slots = 1
+					}
+					add_building = fort_14th
 				}
 			}
 		}
