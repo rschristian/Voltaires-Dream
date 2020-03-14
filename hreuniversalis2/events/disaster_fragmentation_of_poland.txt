@@ -1234,7 +1234,131 @@ country_event = {
 		name = fragmentation_of_poland.100.a
         ai_chance = { factor = 100 }
 		add_stability_or_adm_power = yes
+		set_global_flag = fragmentation_of_poland_ended
+		if = {
+			limit = {
+				NOT = { government_rank = 5 }
+			}
+			set_government_rank = 5
+		}
 		add_prestige = 25
 		add_legitimacy = 20
+    }
+}
+
+#End of Fragmentation (for non-KRA)
+country_event = {
+	id = fragmentation_of_poland.101
+	title = fragmentation_of_poland.101.t
+	desc = fragmentation_of_poland.101.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	major = yes
+	
+	trigger = {
+		tag = POL
+		custom_trigger_tooltip = {
+			tooltip = disaster_active_for_10_years_tooltip
+			had_global_flag = {
+				flag = had_fragmentation_of_poland
+				days = 3650
+			}
+		}
+		stability = 1
+		calc_true_if = {
+			OR = {
+				MAZ = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = MAZ
+					}
+				}
+			}
+			OR = {
+				SIL = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = SIL
+					}
+				}
+			}
+			OR = {
+				WKP = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = WKP
+					}
+				}
+			}
+			OR = {
+				SDZ = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = SDZ
+					}
+				}
+			}
+			OR = {
+				KRA = {
+					OR = {
+						exists = no
+						is_subject_of = ROOT
+					}
+				}
+				NOT = {
+					poland_superregion = {
+						owned_by = SDZ
+					}
+				}
+			}
+			amount = 4
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	option = {
+		name = fragmentation_of_poland.101.a
+		ai_chance = { factor = 100 }
+		add_stability_or_adm_power = yes
+		set_global_flag = fragmentation_of_poland_ended
+		add_prestige = 25
+		add_legitimacy = 20
+		if = {
+			limit = {
+				NOT = { government_rank = 5 }
+			}
+			set_government_rank = 5
+		}
+		custom_tooltip = fragmentation_of_poland.101.a.tt
+		hidden_effect = {
+			KRA = {
+				end_disaster = fragmentation_of_poland
+				clr_country_flag = poland_fragmentation_active
+			}
+		}
     }
 }
