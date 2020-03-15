@@ -19,16 +19,23 @@ vn_hab_missions_slot_1 = {
 		icon = mission_unite_home_region
         required_missions = { vn_hab_royal_alliances }
         provinces_to_highlight = {
-            area = austriawest_area
+            area = linz_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-			austriawest_area = {
+			linz_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
 		}
 		effect = {
+            salzburg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
             add_country_modifier = {
                 name = hab_conquer_linz_mission
                 duration = 9125
@@ -204,57 +211,10 @@ vn_hab_missions_slot_1 = {
             }
         }
         effect = {
-            add_legitimacy = 20
-            if = {
-                limit = {
-                    exists = NAP
-                    is_subject = no
-                    government = monarchy
-                    religion_group = christian
-                    NAP = {
-                        is_free_or_tributary_trigger = yes
-                        government = monarchy
-                    }
-                }
-                add_casus_belli = {
-                    type = cb_fabricated_claims
-                    months = 300
-                    target = NAP
-                }
-            }
-            else = {
-                naples_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-                apulia_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-                calabrian_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-                sicilia_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-            }
+            add_legitimacy = 10
             add_country_modifier = {
                 name = hab_spanish_union_mission
-                duration = -1
+                duration = 9125
             }
         }
     }
@@ -318,8 +278,8 @@ vn_hab_missions_slot_1 = {
 		}
     }
     vn_hab_conquer_tuscany = {
-        position = 12
-		icon = mission_the_french_menace
+        position = 13
+		icon = mission_unite_home_region
         required_missions = { vn_hab_conquer_venetia }
         provinces_to_highlight = {
            region = tuscany_region
@@ -332,7 +292,39 @@ vn_hab_missions_slot_1 = {
             }
 		}
 		effect = {
-			
+			if = {
+                limit = {
+                    exists = NAP
+                    is_subject = no
+                    government = monarchy
+                    religion_group = christian
+                    NAP = {
+                        is_free_or_tributary_trigger = yes
+                        government = monarchy
+                    }
+                }
+                add_casus_belli = {
+                    type = cb_fabricated_claims
+                    months = 300
+                    target = NAP
+                }
+            }
+            else = {
+                apulia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                campania_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
 		}
     }
     vn_hab_reorganize_alliances = {
@@ -364,8 +356,9 @@ vn_hab_missions_slot_1 = {
         }
     }
     vn_hab_crush_the_revolution = {
+        position = 16
 		icon = mission_the_french_menace
-        required_missions = { vn_hab_reorganize_alliances }
+        required_missions = { vn_hab_reorganize_alliances vn_hab_militarakademie }
 		trigger = {
             is_in_war = {
                 attacker_leader = ROOT
@@ -377,47 +370,6 @@ vn_hab_missions_slot_1 = {
             add_stability_or_adm_power = yes
             add_country_modifier = {
                 name = hab_crush_the_revolution_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_hab_militarakademie = {
-        position = 17
-		icon = mission_rb_college_of_justice
-        required_missions = { }
-		trigger = {
-            has_mil_advisor_3 = yes
-            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-                value = 15
-                OR = {
-                    has_building = training_fields
-                    has_building = conscription_center
-                }
-            }
-		}
-        effect = {
-            add_yearly_manpower = 3
-            add_country_modifier = {
-                name = hab_militarakademie_mission
-                duration = 7300
-            }
-        }
-    }
-    vn_hab_imperial_army = {
-		icon = mission_assemble_an_army
-        required_missions = { vn_hab_militarakademie }
-		trigger = {
-            if = {
-                limit = { has_dlc = "Cradle of Civilization" }
-                army_professionalism = 0.75
-            }
-            num_of_generals = 3
-            army_size = 100
-		}
-        effect = {
-            add_army_tradition = 25
-            add_country_modifier = {
-                name = hab_imperial_army_mission
                 duration = 9125
             }
         }
@@ -457,7 +409,21 @@ vn_hab_missions_slot_2 = {
             }
 		}
 		effect = {
-			styriawest_area = {
+            linz_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			styria_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            murmark_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -474,11 +440,18 @@ vn_hab_missions_slot_2 = {
 		icon = mission_unite_home_region
         required_missions = { vn_hab_royal_alliances }
         provinces_to_highlight = {
-            area = styriawest_area
+            OR = {
+                area = styria_area
+                area = murmark_area
+            }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-			styriawest_area = {
+			styria_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            murmark_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -491,14 +464,14 @@ vn_hab_missions_slot_2 = {
                 }
                 add_permanent_claim = ROOT
             }
-            austriawest_area = {
+            carniola_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
             }
-            styriaeast_area = {
+            sannmark_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -587,6 +560,76 @@ vn_hab_missions_slot_2 = {
             }
 		}
     }
+    vn_hab_join_the_inquisition = {
+        position = 5
+		icon = mission_convert_provinces
+        required_missions = { }
+		trigger = {
+            if = {
+                limit = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+                papal_influence = 100
+                num_of_cardinals = 3
+            }
+            custom_trigger_tooltip = {
+				tooltip = vn_hab_join_the_inquisition.tt.1
+				num_of_owned_provinces_with = {
+					value = 3
+					area = wien_area
+					has_tax_building_trigger = yes
+				}
+			}
+            custom_trigger_tooltip = {
+				tooltip = vn_hab_join_the_inquisition.tt.2
+				num_of_owned_provinces_with = {
+					value = 3
+					area = ostmarch_area
+                    has_tax_building_trigger = yes
+				}
+			}
+            custom_trigger_tooltip = {
+				tooltip = vn_hab_join_the_inquisition.tt.3
+				num_of_owned_provinces_with = {
+					value = 3
+					area = raabs_area
+					has_tax_building_trigger = yes
+				}
+			}
+		}
+		effect = {
+            add_country_modifier = {
+                name = hab_join_the_inquisition_mission
+                duration = 9125
+            }
+		}
+    }
+    vn_hab_survive_reformation = {
+        position = 7
+		icon = mission_hands_praying
+        required_missions = { vn_hab_join_the_inquisition }
+		trigger = {
+            custom_trigger_tooltip = {
+                tooltip = vn_hab_survive_reformation.tt
+                OR = {
+                    has_country_flag = had_religious_turmoil
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
+			OR = {
+                full_idea_group = humanist_ideas
+                full_idea_group = religious_ideas
+            }
+		}
+		effect = {
+            country_event = { id = vn_missions.36 }
+		}
+    }
     vn_hab_conquer_belgium = {
         position = 8
 		icon = mission_spanish_netherlands
@@ -632,7 +675,7 @@ vn_hab_missions_slot_2 = {
     }
     vn_hab_conquer_flanders = {
 		icon = mission_unite_home_region
-        required_missions = { vn_hab_conquer_belgium vn_hab_challenge_france }
+        required_missions = { vn_hab_conquer_belgium }
         provinces_to_highlight = {
             OR = {
                 area = flanders_area
@@ -716,31 +759,13 @@ vn_hab_missions_slot_2 = {
                 }
                 add_permanent_claim = ROOT
             }
-            trent_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            mantua_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
         }
     }
     vn_hab_conquer_venetia = {
 		icon = mission_raid_on_venice
         required_missions = { vn_hab_rivalry_with_venice }
         provinces_to_highlight = {
-            OR = {
-                region = treviso_region
-                area = trent_area
-                area = mantua_area
-            }
+            region = treviso_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
@@ -748,24 +773,9 @@ vn_hab_missions_slot_2 = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
-            trent_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            mantua_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
 		}
         effect = {
             lombardy_region = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            parma_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -782,18 +792,11 @@ vn_hab_missions_slot_2 = {
 		icon = mission_italian_conquest
         required_missions = { vn_hab_conquer_venetia }
         provinces_to_highlight = {
-            OR = {
-                region = lombardy_region
-                area = parma_area
-            }
+            region = lombardy_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
             lombardy_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            parma_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -807,27 +810,17 @@ vn_hab_missions_slot_2 = {
         required_missions = { vn_hab_conquer_milan vn_hab_conquer_tuscany }
         provinces_to_highlight = {
             OR = {
-                region = naples_region
                 region = apulia_region
-                region = calabrian_region
-                region = sicilia_region
+                region = campania_region
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            naples_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
             apulia_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
-            calabrian_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            sicilia_region = {
+            campania_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -837,6 +830,46 @@ vn_hab_missions_slot_2 = {
             add_prestige = 20
             add_country_modifier = {
                 name = hab_conquer_naples_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_hab_militarakademie = {
+		icon = mission_rb_college_of_justice
+        required_missions = { }
+		trigger = {
+            has_mil_advisor_3 = yes
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 15
+                OR = {
+                    has_building = training_fields
+                    has_building = conscription_center
+                }
+            }
+		}
+        effect = {
+            add_yearly_manpower = 3
+            add_country_modifier = {
+                name = hab_militarakademie_mission
+                duration = 7300
+            }
+        }
+    }
+    vn_hab_imperial_army = {
+		icon = mission_assemble_an_army
+        required_missions = { vn_hab_militarakademie }
+		trigger = {
+            if = {
+                limit = { has_dlc = "Cradle of Civilization" }
+                army_professionalism = 0.75
+            }
+            num_of_generals = 3
+            army_size = 100
+		}
+        effect = {
+            add_army_tradition = 25
+            add_country_modifier = {
+                name = hab_imperial_army_mission
                 duration = 9125
             }
         }
@@ -856,6 +889,50 @@ vn_hab_missions_slot_3 = {
 	}
     has_country_shield = yes
 
+    vn_hab_develop_the_ostmarch = {
+		icon = mission_colonial
+        required_missions = { }
+        trigger = {
+            stability = 1
+            monthly_income = 25
+            grown_by_development = 50
+        }
+        effect = {
+
+        }
+    }
+    vn_hab_castle_of_wien = {
+		icon = mission_european_castle
+        required_missions = { vn_hab_develop_the_ostmarch }
+        provinces_to_highlight = {
+            province_id = 2172
+        }
+		trigger = {
+            2172 = {
+                owned_by = ROOT
+                is_capital_of = ROOT
+                development = 30
+                calc_true_if = {
+                    amount = 4
+                    has_tax_building_trigger = yes
+                    has_production_building_trigger = yes
+                    has_trade_building_trigger = yes
+                    has_manpower_building_trigger = yes
+                    has_forcelimit_building_trigger = yes
+                    has_courthouse_building_trigger = yes
+                }
+            }
+		}
+        effect = {
+            add_prestige = 25
+            2172 = {
+                add_province_modifier = {
+                    name = hab_castle_of_wien_mission
+                    duration = -1
+                }
+            }
+        }
+    }
     vn_hab_conquer_carniola = {
         position = 3
 		icon = mission_unite_home_region
@@ -863,12 +940,16 @@ vn_hab_missions_slot_3 = {
         provinces_to_highlight = {
             OR = {
                 area = carniola_area
-
+                area = sannmark_area
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
 			carniola_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            sannmark_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -909,93 +990,109 @@ vn_hab_missions_slot_3 = {
             }
 		}
     }
-    vn_hab_join_the_inquisition = {
-        position = 5
-		icon = mission_convert_provinces
+    vn_hab_imperial_ambition = {
+		icon = mission_imperial_spain
         required_missions = { }
 		trigger = {
+            is_emperor = yes
+            hre_reform_level = 3
+		}
+        effect = {
             if = {
                 limit = {
-                    OR = {
-                        religion = catholic
-                        religion = catholique
+                    exists = BOH
+                    is_subject = no
+                    government = monarchy
+                    religion_group = christian
+                    BOH = {
+                        is_free_or_tributary_trigger = yes
+                        government = monarchy
                     }
                 }
-                papal_influence = 100
-                num_of_cardinals = 3
-            }
-            custom_trigger_tooltip = {
-				tooltip = vn_hab_join_the_inquisition.tt.1
-				num_of_owned_provinces_with = {
-					value = 3
-					area = wien_area
-					has_tax_building_trigger = yes
-				}
-			}
-            custom_trigger_tooltip = {
-				tooltip = vn_hab_join_the_inquisition.tt.2
-				num_of_owned_provinces_with = {
-					value = 3
-					area = ostmarch_area
-                    has_tax_building_trigger = yes
-				}
-			}
-            custom_trigger_tooltip = {
-				tooltip = vn_hab_join_the_inquisition.tt.3
-				num_of_owned_provinces_with = {
-					value = 3
-					area = raabs_area
-					has_tax_building_trigger = yes
-				}
-			}
-		}
-		effect = {
-            add_country_modifier = {
-                name = hab_join_the_inquisition_mission
-                duration = 9125
-            }
-		}
-    }
-    vn_hab_survive_reformation = {
-        position = 6
-		icon = mission_hands_praying
-        required_missions = { vn_hab_join_the_inquisition }
-		trigger = {
-            custom_trigger_tooltip = {
-                tooltip = vn_hab_survive_reformation.tt
-                OR = {
-                    has_country_flag = had_religious_turmoil
-                    current_age = age_of_absolutism
-                    current_age = age_of_revolutions
-                    current_age = age_of_ideology
+                add_casus_belli = {
+                    type = cb_fabricated_claims
+                    months = 300
+                    target = BOH
                 }
             }
-			OR = {
-                full_idea_group = humanist_ideas
-                full_idea_group = religious_ideas
+            else = {
+                easthungary_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                westhungary_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                slovakia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
             }
+            add_country_modifier = {
+                name = hab_imperial_ambition_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_hab_establish_reichstag = {
+		icon = mission_hands_praying
+        required_missions = { vn_hab_imperial_ambition }
+        trigger = {
+            is_emperor = yes
+			
 		}
-		effect = {
-            country_event = { id = vn_missions.35 }
+        effect = {
+            add_country_modifier = {
+                name = hab_establish_reichstag_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_hab_weather_religious_wars = {
+        position = 7
+		icon = mission_alliances
+        required_missions = { vn_hab_establish_reichstag }
+        trigger = {
+            OR = {
+				is_league_leader = yes
+				is_in_league_war = yes
+			}
 		}
+        effect = {
+            
+        }
     }
     vn_hab_join_the_counterreformation = {
         position = 8
-		icon = mission_unite_home_region
-        required_missions = { vn_hab_survive_reformation }
-        provinces_to_highlight = {
-            
-        }
+		icon = mission_hands_praying
+        required_missions = { vn_hab_survive_reformation vn_hab_weather_religious_wars }
 		trigger = {
-           
+            OR = {
+                has_country_modifier = counter_reformation
+                AND = {
+                    NOT = { religion = catholic }
+                    NOT = { religion = catholique }
+                    religious_unity = 1
+                }
+            }
 		}
 		effect = {
 			
 		}
     }
     vn_hab_united_in_faith = {
-		icon = mission_unite_home_region
-        required_missions = { vn_hab_join_the_counterreformation }
+		icon = mission_hands_praying
+        required_missions = { vn_hab_join_the_counterreformation vn_hab_further_reforms }
         provinces_to_highlight = {
             
         }
@@ -1007,21 +1104,30 @@ vn_hab_missions_slot_3 = {
 		}
     }
     vn_hab_hungarian_restriction = {
-        position = 15
+        position = 12
 		icon = mission_unite_home_region
-        required_missions = { vn_hab_conquer_transylvania }
+        required_missions = { vn_hab_conquer_hungary }
         provinces_to_highlight = {
-            superregion = carpathia_superregion
-            OR = {
-                NOT = { country_or_non_sovereign_subject_holds = ROOT }
-                NOT = { development = 7 }
-            }
+            owned_by = ROOT
+            culture = hungarian
+            unrest = 1
+            local_autonomy = 50
         }
 		trigger = {
-            carpathia_superregion = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-                development = 7
+            NOT = {
+                any_owned_province = {
+                    culture = hungarian
+                    unrest = 1
+                    NOT = { local_autonomy = 50 }
+                }
+            }
+            OR = {
+                NOT = { exists = HUN }
+                HUN = {
+                    is_subject_of = ROOT
+                    NOT = { liberty_desire = ROOT }
+                    NOT = { total_development = ROOT }
+                }
             }
 		}
 		effect = {
@@ -1029,9 +1135,9 @@ vn_hab_missions_slot_3 = {
 		}
     }
     vn_hab_multi_ethnic_state = {
-        position = 14
+        position = 13
 		icon = mission_establish_the_prikazy
-        required_missions = { vn_hab_conquer_serbia }
+        required_missions = { }
 		trigger = {
             num_accepted_cultures = 8
 		}
@@ -1055,6 +1161,52 @@ vn_hab_missions_slot_3 = {
             add_mil_power = 100
             add_country_modifier = {
                 name = hab_aeiou_mission
+                duration = -1
+            }
+        }
+    }
+    vn_hab_university_of_wien = {
+		icon = mission_rb_the_education_acts
+        required_missions = { }
+		provinces_to_highlight = {
+            province_id = 2172
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { has_building = university }
+            }
+        }
+		trigger = {
+            university = 5
+            2172 = {
+                owned_by = ROOT
+                has_building = university
+            }
+		}
+        effect = {
+            add_innovativeness_big_effect = yes
+            2172 = {
+                add_province_modifier = {
+                    name = hab_university_of_wien_mission
+                    duration = -1
+                }
+            }
+        }
+    }
+    vn_hab_josephinism = {
+		icon = mission_autocratic_rule
+        required_missions = { vn_hab_university_of_wien }
+		trigger = {
+            custom_trigger_tooltip = {
+                tooltip = vn_hab_josephinism.tt
+                has_country_flag = vn_hab_enlightened_reforms_flag
+            }
+            absolutism = 50
+            has_institution = enlightenment
+		}
+        effect = {
+            add_absolutism = 10
+            add_country_modifier = {
+                name = hab_josephinism_mission
                 duration = -1
             }
         }
@@ -1089,7 +1241,21 @@ vn_hab_missions_slot_4 = {
             total_development = 250
 		}
 		effect = {
-			country_event = { id = vn_missions.35 }
+            country_event = { id = vn_missions.35 }
+            breisgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            sundgau_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
 		}
     }
     vn_hab_conquer_breisgau = {
@@ -1181,6 +1347,7 @@ vn_hab_missions_slot_4 = {
         }
     }
     vn_hab_conquer_alsace = {
+        position = 5
 		icon = mission_unite_home_region
         required_missions = { vn_hab_conquer_breisgau }
         provinces_to_highlight = {
@@ -1209,91 +1376,8 @@ vn_hab_missions_slot_4 = {
             
         }
     }
-    vn_hab_conquer_bern = {
-		icon = mission_unite_home_region
-        required_missions = { vn_hab_conquer_aargau }
-        provinces_to_highlight = {
-            superregion = switzerland_superregion
-            OR = {
-                is_part_of_hre = no
-                owner = {
-                    capital_scope = {
-                        superregion = switzerland_superregion
-                    }
-                    is_free_or_tributary_trigger = yes
-                    num_of_cities = 10
-                    NOT = {
-                        alliance_with = ROOT
-                    }
-                }
-            }
-        }
-		trigger = {
-            #switzerland imperial incident?
-            custom_trigger_tooltip = {
-                tooltip = vn_hab_conquer_bern.tt
-                switzerland_superregion = {
-                    type = all
-                    is_part_of_hre = yes
-                    owner = {
-                        is_part_of_hre = yes
-                    }
-                }
-            }
-            custom_trigger_tooltip = {
-                tooltip = vn_hab_conquer_bern.ss
-                NOT = {
-                    any_country = {
-                        capital_scope = {
-                            superregion = switzerland_superregion
-                        }
-                        is_free_or_tributary_trigger = yes
-                        num_of_cities = 10
-                        NOT = {
-                            has_opinion = {
-                                who = ROOT
-                                value = 150
-                            }
-                        }
-                    }
-                }
-            }
-		}
-        effect = {
-            add_country_modifier = {
-                name = hab_conquer_bern_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_hab_establish_reichstag = {
-		icon = mission_alliances
-        required_missions = { vn_hab_imperial_ambition }
-        trigger = {
-            is_emperor = yes
-			
-		}
-        effect = {
-            add_country_modifier = {
-                name = hab_establish_reichstag_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_hab_weather_religious_wars = {
-		icon = mission_alliances
-        required_missions = { vn_hab_establish_reichstag }
-        trigger = {
-            OR = {
-				is_league_leader = yes
-				is_in_league_war = yes
-			}
-		}
-        effect = {
-            
-        }
-    }
     vn_hab_further_reforms = {
+        position = 8
         icon = mission_alliances
         required_missions = { vn_hab_weather_religious_wars }
         trigger = {
@@ -1320,7 +1404,7 @@ vn_hab_missions_slot_4 = {
         required_missions = { }
 		trigger = {
             capital_scope = {
-                has_fort_trigger = yes
+                has_fort_15th_trigger = yes
             }
             custom_trigger_tooltip = {
 				tooltip = vn_nrm_safeguard_borders.tt
@@ -1334,7 +1418,53 @@ vn_hab_missions_slot_4 = {
 			}
 		}
         effect = {
-            
+            if = {
+                limit = {
+                    exists = BOH
+                    is_subject = no
+                    government = monarchy
+                    religion_group = christian
+                    BOH = {
+                        is_free_or_tributary_trigger = yes
+                        government = monarchy
+                    }
+                }
+                add_casus_belli = {
+                    type = cb_fabricated_claims
+                    months = 300
+                    target = BOH
+                }
+            }
+            else = {
+                transdanubia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                alfold_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                slovakia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                danubia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
         }
     }
     vn_hab_conquer_hungary = {
@@ -1378,7 +1508,7 @@ vn_hab_missions_slot_4 = {
         }
     }
     vn_hab_conquer_transylvania = {
-        position = 14
+        position = 13
 		icon = mission_unite_home_region
         required_missions = { vn_hab_conquer_hungary }
         provinces_to_highlight = {
@@ -1393,27 +1523,6 @@ vn_hab_missions_slot_4 = {
 		}
         effect = {
             
-        }
-    }
-    vn_hab_josephinism = {
-        position = 18
-		icon = mission_autocratic_rule
-        required_missions = { vn_hab_university_of_wien }
-		trigger = {
-            has_country_flag = vn_hab_enlightened_reforms_flag
-            absolutism = 50
-            has_institution = enlightenment
-            all_state_province = {
-                enlightenment = 100
-            }
-            NOT = { average_unrest = 2 }
-		}
-        effect = {
-            add_absolutism = 10
-            add_country_modifier = {
-                name = hab_josephinism_mission
-                duration = -1
-            }
         }
     }
 }
@@ -1525,56 +1634,59 @@ vn_hab_missions_slot_5 = {
 
         }
     }
-    vn_hab_imperial_ambition = {
-		icon = mission_imperial_spain
-        required_missions = { }
+    vn_hab_conquer_bern = {
+		icon = mission_unite_home_region
+        required_missions = { vn_hab_conquer_aargau }
+        provinces_to_highlight = {
+            superregion = switzerland_superregion
+            OR = {
+                is_part_of_hre = no
+                owner = {
+                    capital_scope = {
+                        superregion = switzerland_superregion
+                    }
+                    is_free_or_tributary_trigger = yes
+                    num_of_cities = 10
+                    NOT = {
+                        alliance_with = ROOT
+                    }
+                }
+            }
+        }
 		trigger = {
-            is_emperor = yes
-            hre_reform_level = 3
+            #switzerland imperial incident?
+            custom_trigger_tooltip = {
+                tooltip = vn_hab_conquer_bern.tt
+                switzerland_superregion = {
+                    type = all
+                    is_part_of_hre = yes
+                    owner = {
+                        is_part_of_hre = yes
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = vn_hab_conquer_bern.ss
+                NOT = {
+                    any_country = {
+                        capital_scope = {
+                            superregion = switzerland_superregion
+                        }
+                        is_free_or_tributary_trigger = yes
+                        num_of_cities = 10
+                        NOT = {
+                            has_opinion = {
+                                who = ROOT
+                                value = 150
+                            }
+                        }
+                    }
+                }
+            }
 		}
         effect = {
-            if = {
-                limit = {
-                    exists = BOH
-                    is_subject = no
-                    government = monarchy
-                    religion_group = christian
-                    BOH = {
-                        is_free_or_tributary_trigger = yes
-                        government = monarchy
-                    }
-                }
-                add_casus_belli = {
-                    type = cb_fabricated_claims
-                    months = 300
-                    target = BOH
-                }
-            }
-            else = {
-                easthungary_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-                westhungary_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-                slovakia_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-            }
             add_country_modifier = {
-                name = hab_imperial_ambition_mission
+                name = hab_conquer_bern_mission
                 duration = 9125
             }
         }
@@ -1750,13 +1862,15 @@ vn_hab_missions_slot_5 = {
         }
     }
     vn_hab_conquer_croatia = {
+        position = 11
 		icon = mission_unite_home_region
-        required_missions = { vn_hab_conquer_hungary }
+        required_missions = { vn_hab_fortify_austria }
         provinces_to_highlight = {
             OR = {
                 region = croatia_region
                 area = senj_area
                 area = dalmatia_area
+                area = split_area
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
@@ -1773,6 +1887,10 @@ vn_hab_missions_slot_5 = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
+            split_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
 		}
         effect = {
             bosnia_region = {
@@ -1782,31 +1900,18 @@ vn_hab_missions_slot_5 = {
                 }
                 add_permanent_claim = ROOT
             }
-            ragusa_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
         }
     }
     vn_hab_conquer_bosnia = {
+        position = 12
 		icon = mission_unite_home_region
-        required_missions = { vn_hab_conquer_croatia }
+        required_missions = { vn_hab_conquer_croatia vn_hab_conquer_hungary }
         provinces_to_highlight = {
-            OR = {
-                region = bosnia_region
-                area = ragusa_area
-            }
+            region = bosnia_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
             bosnia_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            ragusa_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
@@ -1829,8 +1934,9 @@ vn_hab_missions_slot_5 = {
         }
     }
     vn_hab_conquer_serbia = {
+        position = 14
 		icon = mission_unite_home_region
-        required_missions = { vn_hab_conquer_bosnia }
+        required_missions = { vn_hab_conquer_bosnia vn_hab_conquer_transylvania }
         provinces_to_highlight = {
             OR = {
                 region = serbia_region
@@ -1853,6 +1959,7 @@ vn_hab_missions_slot_5 = {
         }
     }
     vn_hab_humiliate_the_turks = {
+        position = 16
 		icon = mission_impaled_soldies
         required_missions = { vn_hab_conquer_serbia }
 		trigger = {
@@ -1895,58 +2002,6 @@ vn_hab_missions_slot_5 = {
             add_country_modifier = {
                 name = hab_humiliate_the_turks_mission
                 duration = 9125
-            }
-        }
-    }
-    vn_hab_university_of_wien = {
-		icon = mission_rb_the_education_acts
-        required_missions = { }
-		provinces_to_highlight = {
-            province_id = 2172
-            OR = {
-                NOT = { owned_by = ROOT }
-                NOT = { has_building = university }
-            }
-        }
-		trigger = {
-            university = 5
-            2172 = {
-                owned_by = ROOT
-                has_building = university
-            }
-		}
-        effect = {
-            add_innovativeness_big_effect = yes
-            2172 = {
-                add_province_modifier = {
-                    name = hab_university_of_wien_mission
-                    duration = -1
-                }
-            }
-        }
-    }
-    vn_hab_castle_of_wien = {
-		icon = mission_european_castle
-        required_missions = { vn_hab_university_of_wien }
-        provinces_to_highlight = {
-            province_id = 2172
-        }
-		trigger = {
-            2172 = {
-                owned_by = ROOT
-                is_capital_of = ROOT
-                development = 50
-                NOT = { unrest = 1 }
-                NOT = { devastation = 1 }
-            }
-		}
-        effect = {
-            add_prestige = 25
-            2172 = {
-                add_province_modifier = {
-                    name = hab_castle_of_wien_mission
-                    duration = -1
-                }
             }
         }
     }
