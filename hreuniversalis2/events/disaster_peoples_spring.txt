@@ -23,6 +23,7 @@ country_event = {
 				spawn_rebels = {
 					size = 5
 					win = yes
+					unrest = 5
 					type = revolutionary_rebels
 				}
 			}
@@ -30,6 +31,7 @@ country_event = {
 				spawn_rebels = {
 					size = 5
 					win = yes
+					unrest = 5
 					type = revolutionary_rebels
 				}
 			}
@@ -37,6 +39,7 @@ country_event = {
 				spawn_rebels = {
 					size = 5
 					win = yes
+					unrest = 5
 					type = revolutionary_rebels
 				}
 			}
@@ -44,6 +47,7 @@ country_event = {
 				spawn_rebels = {
 					size = 5
 					win = yes
+					unrest = 5
 					type = revolutionary_rebels
 				}
 			}
@@ -51,6 +55,7 @@ country_event = {
 				spawn_rebels = {
 					size = 5
 					win = yes
+					unrest = 5
 					type = revolutionary_rebels
 				}
 			}
@@ -75,49 +80,491 @@ country_event = {
 	trigger = {
 		NOT = {
 			any_owned_province = {
-				has_province_modifier = workers_strike
-			}
-		}
-		NOT = {
-			any_owned_province = {
 				has_province_modifier = concessions_for_factory_workers
 			}
 		}
 		any_owned_province = {
-			culture_group = ROOT
 			has_manufactory_trigger = yes
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					has_manufactory_trigger = yes
+				}
+				set_province_flag = striking_province_flag
+				save_event_target_as = striking_province_1
+			}
+			random = {
+				chance = 50
+				random_owned_province = {
+					limit = {
+						has_manufactory_trigger = yes
+						NOT = { has_province_flag = striking_province_flag }
+					}
+					set_province_flag = striking_province_flag
+					save_event_target_as = striking_province_2
+				}
+			}
+			random = {
+				chance = 50
+				random_owned_province = {
+					limit = {
+						has_manufactory_trigger = yes
+						NOT = { has_province_flag = striking_province_flag }
+					}
+					set_province_flag = striking_province_flag
+					save_event_target_as = striking_province_3
+				}
+			}
+			random = {
+				chance = 50
+				random_owned_province = {
+					limit = {
+						has_manufactory_trigger = yes
+						NOT = { has_province_flag = striking_province_flag }
+					}
+					set_province_flag = striking_province_flag
+					save_event_target_as = striking_province_4
+				}
+			}
+			random = {
+				chance = 50
+				random_owned_province = {
+					limit = {
+						has_manufactory_trigger = yes
+						NOT = { has_province_flag = striking_province_flag }
+					}
+					set_province_flag = striking_province_flag
+					save_event_target_as = striking_province_5
+				}
+			}
 		}
 	}
 
 	option = {
 		name = peoples_spring.2.a
-		every_owned_province = {
-			limit = {
-				culture_group = ROOT
-				has_manufactory_trigger = yes
+		event_target:striking_province_1 = {
+			clr_province_flag = striking_province_flag
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
 			}
-			add_province_modifier = {
-				name = workers_strike
-				duration = 730
+		}
+		event_target:striking_province_2 = {
+			clr_province_flag = striking_province_flag
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		event_target:striking_province_3 = {
+			clr_province_flag = striking_province_flag
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		event_target:striking_province_4 = {
+			clr_province_flag = striking_province_flag
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		event_target:striking_province_5 = {
+			clr_province_flag = striking_province_flag
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
 			}
 		}
 	}
 	option = {
 		name = peoples_spring.2.b
-		every_owned_province = {
-			limit = {
-				culture_group = ROOT
-				has_manufactory_trigger = yes
-			}
+		event_target:striking_province_1 = {
+			clr_province_flag = striking_province_flag
 			add_province_modifier = {
 				name = concessions_for_factory_workers
-				duration = 730
+				duration = 1825
+			}
+		}
+		event_target:striking_province_2 = {
+			clr_province_flag = striking_province_flag
+			add_province_modifier = {
+				name = concessions_for_factory_workers
+				duration = 1825
+			}
+		}
+		event_target:striking_province_3 = {
+			clr_province_flag = striking_province_flag
+			add_province_modifier = {
+				name = concessions_for_factory_workers
+				duration = 1825
+			}
+		}
+		event_target:striking_province_4 = {
+			clr_province_flag = striking_province_flag
+			add_province_modifier = {
+				name = concessions_for_factory_workers
+				duration = 1825
+			}
+		}
+		event_target:striking_province_5 = {
+			clr_province_flag = striking_province_flag
+			add_province_modifier = {
+				name = concessions_for_factory_workers
+				duration = 1825
 			}
 		}
 	}
 }
 
-#
+#Revolutionary ideas at universities
+country_event = {
+	id = peoples_spring.3
+	title = peoples_spring.3.t
+	desc = peoples_spring.3.d
+	picture = REVOLUTION_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = revolutionary_universities_flag }
+		any_owned_province = {
+			has_building = university
+			is_capital = no
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = revolutionary_universities_flag
+		}
+	}
+
+	option = {
+		name = peoples_spring.3.a
+		random_owned_province = {
+			limit = {
+				has_building = university
+				is_capital = no
+			}
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		random_owned_province = {
+			limit = {
+				has_building = university
+				is_capital = no
+			}
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		random_owned_province = {
+			limit = {
+				has_building = university
+				is_capital = no
+			}
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+	}
+	option = {
+		name = peoples_spring.3.b
+		change_innovativeness = -5
+		add_disaster_modifier = {
+			name = closed_universities
+			duration = -1
+			disaster = peoples_spring
+		}
+	}
+	option = {
+		name = peoples_spring.3.c
+		add_years_of_income = -1
+		add_adm_power = -50
+		add_dip_power = -50
+		add_mil_power = -50
+		add_disaster_modifier = {
+			name = counter_revolution
+			duration = -1
+			disaster = peoples_spring
+		}
+	}
+}
+
+#Swing Riot
+country_event = {
+	id = peoples_spring.4
+	title = peoples_spring.4.t
+	desc = peoples_spring.4.d
+	picture = REVOLUTION_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_province = {
+			has_manufactory_trigger = yes
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					has_manufactory_trigger = yes
+				}
+				save_event_target_as = manufactory_province
+			}
+		}
+	}
+
+	option = {
+		name = peoples_spring.4.a
+		event_target:manufactory_province = {
+			if = {
+				limit = {
+					has_building = furnace
+				}
+				remove_building = furnace
+				add_building_construction = {
+					building = furnace
+					speed = 1
+					cost = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					has_building = weapons
+				}
+				remove_building = weapons
+				add_building_construction = {
+					building = weapons
+					speed = 1
+					cost = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					has_building = wharf
+				}
+				remove_building = weapons
+				add_building_construction = {
+					building = wharf
+					speed = 1
+					cost = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					has_building = textile
+				}
+				remove_building = textile
+				add_building_construction = {
+					building = textile
+					speed = 1
+					cost = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					has_building = plantations
+				}
+				remove_building = plantations
+				add_building_construction = {
+					building = plantations
+					speed = 1
+					cost = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					has_building = tradecompany
+				}
+				remove_building = tradecompany
+				add_building_construction = {
+					building = tradecompany
+					speed = 1
+					cost = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					has_building = farm_estate
+				}
+				remove_building = farm_estate
+				add_building_construction = {
+					building = farm_estate
+					speed = 1
+					cost = 0.5
+				}
+			}
+			else = {
+				remove_building = mills
+				add_building_construction = {
+					building = mills
+					speed = 1
+					cost = 0.5
+				}
+			}
+		}
+	}
+	option = {
+		name = peoples_spring.4.a
+		event_target:manufactory_province = {
+			if = {
+				limit = {
+					has_building = furnace
+				}
+				remove_building = furnace
+			}
+			else_if = {
+				limit = {
+					has_building = weapons
+				}
+				remove_building = weapons
+			}
+			else_if = {
+				limit = {
+					has_building = wharf
+				}
+				remove_building = weapons
+			}
+			else_if = {
+				limit = {
+					has_building = textile
+				}
+				remove_building = textile
+			}
+			else_if = {
+				limit = {
+					has_building = plantations
+				}
+				remove_building = plantations
+			}
+			else_if = {
+				limit = {
+					has_building = tradecompany
+				}
+				remove_building = tradecompany
+			}
+			else_if = {
+				limit = {
+					has_building = farm_estate
+				}
+				remove_building = farm_estate
+			}
+			else = {
+				remove_building = mills
+			}
+			spawn_rebels = {
+				size = 2
+				type = revolutionary_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+	}
+}
+
+#Nationalist rebels
+country_event = {
+	id = peoples_spring.5
+	title = peoples_spring.5.t
+	desc = peoples_spring.5.d
+	picture = REVOLUTION_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_province = {
+			controlled_by = owner
+			owner = {
+				NOT = { accepted_culture = PREV }
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					controlled_by = owner
+					owner = {
+						NOT = { accepted_culture = PREV }
+					}
+				}
+				save_event_target_as = nationalist_province
+			}
+		}
+	}
+
+	option = {
+		name = peoples_spring.5.a
+		event_target:nationalist_province = {
+			area = {
+				add_local_autonomy = 50
+			}
+		}
+	}
+	option = {
+		name = peoples_spring.5.b
+		event_target:nationalist_province = {
+			spawn_rebels = {
+				size = 2
+				type = nationalist_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		random_owned_province = {
+			limit = {
+				culture = event_target:nationalist_province
+			}
+			spawn_rebels = {
+				size = 2
+				type = nationalist_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		random_owned_province = {
+			limit = {
+				culture = event_target:nationalist_province
+			}
+			spawn_rebels = {
+				size = 2
+				type = nationalist_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+	}
+}
 
 #End
 country_event = {
@@ -133,6 +580,7 @@ country_event = {
 
 	option = {
 		name = peoples_spring.100.a
+		clr_country_flag = revolutionary_universities_flag
 		add_stability_or_adm_power = yes
 	}
 }
