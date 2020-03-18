@@ -164,14 +164,21 @@ vn_hab_missions_slot_1 = {
             }
 		}
         effect = {
-            wallonian_region = {
+            antwerp_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
             }
-            brabant_region = {
+            brabant_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            luxemburg_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -551,13 +558,6 @@ vn_hab_missions_slot_2 = {
 		effect = {
             add_dip_power = 50
             add_prestige = 5
-            salzburg_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
 		}
     }
     vn_hab_join_the_inquisition = {
@@ -746,8 +746,24 @@ vn_hab_missions_slot_2 = {
 		icon = mission_control_venice
         required_missions = { }
 		trigger = {
-            treviso_region = {
-                country_or_non_sovereign_subject_holds = ROOT
+            #Italian Wars have started
+            custom_trigger_tooltip = {
+                tooltip = vn_hab_rivalry_with_venice.tt.1
+                calc_true_if = {
+                    amount = 3
+                    any_ally = {
+                        capital_scope = {
+                            superregion = italy_superregion
+                        }
+                        army_size = 10
+                    }
+                    any_subject_country = {
+                        capital_scope = {
+                            superregion = italy_superregion
+                        }
+                        army_size = 10
+                    }
+                }
             }
 		}
         effect = {
@@ -1016,21 +1032,14 @@ vn_hab_missions_slot_3 = {
                 }
             }
             else = {
-                easthungary_region = {
+                bohemia_region = {
                     limit = {
                         NOT = { is_core = ROOT }
                         NOT = { is_permanent_claim = ROOT }
                     }
                     add_permanent_claim = ROOT
                 }
-                westhungary_region = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT
-                }
-                slovakia_region = {
+                moravia_region = {
                     limit = {
                         NOT = { is_core = ROOT }
                         NOT = { is_permanent_claim = ROOT }
@@ -1049,7 +1058,7 @@ vn_hab_missions_slot_3 = {
         required_missions = { vn_hab_imperial_ambition }
         trigger = {
             is_emperor = yes
-			
+			hre_reform_level = 6
 		}
         effect = {
             add_country_modifier = {
@@ -1094,10 +1103,18 @@ vn_hab_missions_slot_3 = {
 		icon = mission_hands_praying
         required_missions = { vn_hab_join_the_counterreformation vn_hab_further_reforms }
         provinces_to_highlight = {
-            
+            owner = {
+                is_part_of_hre = yes
+                NOT = { religion = ROOT }
+            }
         }
 		trigger = {
-            
+            NOT = {
+                any_country = {
+                    is_part_of_hre = yes
+                    NOT = { religion = ROOT }
+                }
+            }
 		}
 		effect = {
 			
@@ -1420,11 +1437,11 @@ vn_hab_missions_slot_4 = {
         effect = {
             if = {
                 limit = {
-                    exists = BOH
+                    exists = HUN
                     is_subject = no
                     government = monarchy
                     religion_group = christian
-                    BOH = {
+                    HUN = {
                         is_free_or_tributary_trigger = yes
                         government = monarchy
                     }
@@ -1432,7 +1449,7 @@ vn_hab_missions_slot_4 = {
                 add_casus_belli = {
                     type = cb_fabricated_claims
                     months = 300
-                    target = BOH
+                    target = HUN
                 }
             }
             else = {
@@ -1519,6 +1536,20 @@ vn_hab_missions_slot_4 = {
             transylvania_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
+            }
+		}
+        effect = {
+            
+        }
+    }
+    vn_hab_eastern_question = {
+        position = 15
+		icon = mission_ottoman_diplomacy
+        required_missions = {  }
+		trigger = {
+            is_neighbor_of = TUR
+            any_ally = {
+                is_rival = TUR
             }
 		}
         effect = {
@@ -1656,7 +1687,7 @@ vn_hab_missions_slot_5 = {
 		trigger = {
             #switzerland imperial incident?
             custom_trigger_tooltip = {
-                tooltip = vn_hab_conquer_bern.tt
+                tooltip = vn_hab_conquer_bern.tt.1
                 switzerland_superregion = {
                     type = all
                     is_part_of_hre = yes
@@ -1666,7 +1697,7 @@ vn_hab_missions_slot_5 = {
                 }
             }
             custom_trigger_tooltip = {
-                tooltip = vn_hab_conquer_bern.ss
+                tooltip = vn_hab_conquer_bern.tt.2
                 NOT = {
                     any_country = {
                         capital_scope = {
@@ -1961,7 +1992,7 @@ vn_hab_missions_slot_5 = {
     vn_hab_humiliate_the_turks = {
         position = 16
 		icon = mission_impaled_soldies
-        required_missions = { vn_hab_conquer_serbia }
+        required_missions = { vn_hab_conquer_serbia vn_hab_eastern_question }
 		trigger = {
             if = {
                 limit = { exists = TUR }
