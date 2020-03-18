@@ -13,6 +13,7 @@ province_event = {
 		NOT = { development = 50 }
 		owner = { is_at_war = no }
 		owned_by = ROOT
+		controlled_by = ROOT
 		is_core = ROOT
 		NOT = { has_province_flag = vn_province_rose }
 	}
@@ -343,5 +344,139 @@ province_event = {
 				}
 			}
 		}
+	}
+}
+
+### Historical Rise / Fall of Cities ###
+
+#Rise of X
+province_event = {
+	id = dev_events.3
+	title = dev_events.3.t
+	desc = {
+		#Paris
+		trigger = { province_id = 548 }
+		desc = dev_events.3.d1
+	}
+	picture = GREAT_BUILDING_eventPicture
+
+	major = yes
+
+	trigger = {
+		owned_by = ROOT
+		controlled_by = ROOT
+		is_core = ROOT
+		NOT = { has_province_flag = vn_rise_major }
+		NOT = { devastation = 1 }
+		OR = {
+			#Paris
+			AND = {
+				province_id = 548
+				is_year = 1160
+				NOT = { is_year = 1260 }
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 600
+	}
+
+	option = {
+		name = dev_events.3.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				OR = {
+					province_id = 548
+				}
+			}
+			add_base_tax = 2
+			add_base_production = 2
+			add_base_manpower = 2
+		}
+		owner = { 
+			add_prestige = 25
+			add_years_of_income = 0.5
+		}
+		if = {
+			limit = { has_dlc = "Mandate of Heaven" }
+			add_prosperity = 25
+		}
+		if = {	
+			limit = { 
+				has_dlc = "Dharma" 
+				province_has_center_of_trade_of_level = 1
+				NOT = { province_has_center_of_trade_of_level = 3 }
+			}
+			add_center_of_trade_level = 1
+		}
+		set_province_flag = vn_rise_major
+		set_province_flag = vn_province_rose
+	}
+}
+
+#Fall of X
+province_event = {
+	id = dev_events.4
+	title = dev_events.4.t
+	desc = {
+		#Constantinople
+		trigger = { province_id = 2233 }
+		desc = dev_events.4.d1
+	}
+	picture = SIEGE_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	trigger = {
+		owned_by = ROOT
+		is_core = ROOT
+		NOT = { has_province_flag = vn_fall_major }
+		OR = {
+			#Constantinople
+			AND = {
+				province_id = 2233
+				FROM = { 
+					OR = {
+						culture_group = french
+						culture_group = latin
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		owner = { save_event_target_as = fall_owner_country }
+	}
+
+	option = {
+		name = dev_events.4.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				OR = {
+					province_id = 2233
+				}
+			}
+			add_base_tax = -2
+			add_base_production = -2
+			add_base_manpower = -2
+		}
+		add_devastation = 25
+		owner = { 
+			add_prestige = -25
+		}
+		FROM = {
+			add_years_of_income = 1
+		}
+		if = {
+			limit = { has_dlc = "Mandate of Heaven" }
+			add_prosperity = -25
+		}
+		set_province_flag = vn_fall_major
+		set_province_flag = vn_province_fell
 	}
 }
