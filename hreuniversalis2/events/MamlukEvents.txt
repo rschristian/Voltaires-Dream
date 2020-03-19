@@ -78,7 +78,61 @@ country_event = {
 			random_province = { #If Circassians are available we prefer those, this check is also less strict.
 				limit = {
 					NOT = { owned_by = ROOT }
-					culture = circassian
+					if = {
+						limit = { ROOT = { primary_culture = hejazi_culture } }
+						culture = old_egyptian
+					}
+					if = {
+						limit = { ROOT = { primary_culture = bedouin_arabic } }
+						culture = aramaic
+					}
+					if = {
+						limit = { ROOT = { primary_culture = gulf_arabic } }
+						culture = persian
+					}
+					if = {
+						limit = { ROOT = { primary_culture = moroccan } }
+						culture = tuareg
+					}
+					if = {
+						limit = { ROOT = { primary_culture = algerian } }
+						culture = greek
+					}
+					if = {
+						limit = { ROOT = { primary_culture = tunisian } }
+						culture = armenian
+					}
+					if = {
+						limit = { ROOT = { primary_culture = al_iraqiya_arabic } }
+						culture = georgian
+					}
+					if = {
+						limit = { ROOT = { primary_culture = andalucian } }
+						culture = croatian
+					}
+					if = {
+						limit = {
+							ROOT = {
+								primary_culture = al_misr_arabic
+								dynasty = "Bahriyya"
+							}
+						}
+						culture = turkish
+					}
+					if = {
+						limit = {
+							ROOT = {
+								OR = {
+									primary_culture = al_suryah_arabic
+									AND = {
+										primary_culture = al_misr_arabic
+										NOT = { dynasty = "Bahriyya" }
+									}
+								}
+							}
+						}
+						culture = circassian
+					}
 					owner = {
 						NOT = { war_with = ROOT }
 						NOT = { is_rival = ROOT }
@@ -433,7 +487,7 @@ country_event = {
 		ai_chance = {
 			factor = 75
 		}
-		add_estate_nobles_loyalty_effect = yes
+		add_estate_mamluks_loyalty_effect = yes
 		add_country_modifier = {
 			name = "crushed_non_mamluk_rebels"
 			duration = 3650
@@ -558,6 +612,12 @@ country_event = {
 		has_dlc = "Cradle of Civilization"
 		has_reform = mamluk_government
 		NOT = { legitimacy = 90 }
+		NOT = {
+			estate_loyalty = {
+				estate = estate_mamluks
+				loyalty = 80
+			}
+		}
 		any_owned_province = {
 			is_state = yes
 			is_capital = no
@@ -588,11 +648,104 @@ country_event = {
 	option = {
 		name = mamluk_events.3.a #What an excellent idea!
 		add_legitimacy = -5
-		event_target:mamluk_province = {
-			spawn_rebels = {
-				type = pretender_rebels
-				culture = circassian
-				size = 1
+		if = {
+			limit = { primary_culture = hejazi_culture }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = old_egyptian
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = bedouin_arabic }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = aramaic
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = gulf_arabic }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = persian
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = moroccan }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = tuareg
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = algerian }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = greek
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = tunisian }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = armenian
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = al_misr_arabic }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = turkish
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = al_iraqiya_arabic }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = georgian
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = andalucian }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = croatian
+					size = 1
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = al_suryah_arabic }
+			event_target:mamluk_province = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = circassian
+					size = 1
+				}
 			}
 		}
 	}
@@ -610,6 +763,12 @@ country_event = {
 		has_reform = mamluk_government
 		NOT = { has_country_modifier = factionalism }
 		NOT = { has_country_modifier = ruler_supporting_faction }
+		NOT = {
+			estate_loyalty = {
+				estate = estate_mamluks
+				loyalty = 80
+			}
+		}
 	}
 	
 	is_triggered_only = yes
@@ -623,6 +782,15 @@ country_event = {
 		name = mamluk_events.4.a #We must attempt to play them off against each other.
 		ai_chance = {
 			factor = 75
+		}
+		if = {
+			limit = { has_estate = estate_mamluks }
+				add_estate_influence_modifier = {
+				estate = estate_mamluks
+				desc = EST_VAL_MAMLUKS_FACTIONS
+				influence = -10
+				duration = 5475
+			}
 		}
 		add_country_modifier = {
 			name = "factionalism"
@@ -652,6 +820,12 @@ country_event = {
 		has_dlc = "Cradle of Civilization"
 		has_reform = mamluk_government
 		NOT = { legitimacy = 60 }
+		NOT = {
+			estate_loyalty = {
+				estate = estate_mamluks
+				loyalty = 80
+			}
+		}
 		capital_scope = {
 			controlled_by = ROOT
 		}
@@ -671,11 +845,104 @@ country_event = {
 		}
 		add_legitimacy = 5
 		add_stability = -1
-		capital_scope = {
-			spawn_rebels = {
-				type = pretender_rebels
-				culture = circassian
-				size = 2
+		if = {
+			limit = { primary_culture = hejazi_culture }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = old_egyptian
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = bedouin_arabic }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = aramaic
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = gulf_arabic }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = persian
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = moroccan }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = tuareg
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = algerian }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = greek
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = tunisian }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = armenian
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = al_misr_arabic }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = turkish
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = al_iraqiya_arabic }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = georgian
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = andalucian }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = croatian
+					size = 2
+				}
+			}
+		}
+		if = {
+			limit = { primary_culture = al_suryah_arabic }
+			capital_scope = {
+				spawn_rebels = {
+					type = pretender_rebels
+					culture = circassian
+					size = 2
+				}
 			}
 		}
 	}
@@ -684,6 +951,7 @@ country_event = {
 		ai_chance =  {
 			factor = 0
 		}
+		add_estate_mamluks_loyalty_effect = yes
 		add_stability = -1
 		kill_ruler = yes
 	}
@@ -787,6 +1055,7 @@ country_event = {
 			factor = 0
 		}
 		add_legitimacy = -5
+		reduce_estate_mamluks_loyalty_effect = yes
 		set_ruler_flag = no_pork_for_cairo
 	}
 }
@@ -870,6 +1139,7 @@ country_event = {
 			has_reform = mamluk_government
 		}
 		custom_tooltip = mamluk_events.7.e.tt
+		add_estate_mamluks_loyalty_effect = yes
 		add_legitimacy = 5
 		add_country_modifier = {
 			name = "mamluk_amir_al_hajj"
@@ -1181,6 +1451,10 @@ country_event = {
 	option = {
 		name = mamluk_events.10.a #Let us appoint one of the sons.
 		add_legitimacy = -5
+		add_estate_loyalty = {
+			estate = estate_mamluks
+			loyalty = -5
+		}
 		event_target:defence_province = {
 			area = {
 				limit = { owned_by = ROOT }
@@ -1194,6 +1468,10 @@ country_event = {
 	option = {
 		name = mamluk_events.10.b #We can only trust our own, the commander must be a Mamluk.
 		add_legitimacy = 5
+		add_estate_loyalty = {
+			estate = estate_mamluks
+			loyalty = 5
+		}
 		event_target:defence_province = {
 			area = {
 				limit = { owned_by = ROOT }
@@ -1222,6 +1500,12 @@ country_event = {
 		NOT = {
 			has_country_modifier = trusting_old_guard
 		}
+		NOT = {
+			estate_loyalty = {
+				estate = estate_mamluks
+				loyalty = 80
+			}
+		}
 	}
 	
 	is_triggered_only = yes
@@ -1240,6 +1524,7 @@ country_event = {
 			}
 		}
 		add_legitimacy = -10
+		add_estate_mamluks_loyalty_effect = yes
 		add_ruler_modifier = {
 			name = "loyal_mamluks_in_high_positions"
 			duration = 3650
@@ -1283,6 +1568,7 @@ country_event = {
 		name = mamluk_events.12.a #This is good for the people, but not something for a [Root.Monarch.GetTitle] to spend money on.
 		add_legitimacy = 5
 		add_army_tradition = 10
+		reduce_estate_mamluks_loyalty_effect = yes
 	}
 	option = {
 		name = mamluk_events.12.b #Let us expand and build new hippodromes to patronize the flowers of chivalry.
