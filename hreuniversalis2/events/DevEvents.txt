@@ -24,25 +24,27 @@ province_event = {
 		}
 	}
 
+	is_mtth_scaled_to_size = 1
+
 	mean_time_to_happen = {
-		months = 600
+		months = 1200
 		modifier = {
-			factor = 0.9
+			factor = 1.7
 			development = 40
 			NOT = { development = 50 }
 		}
 		modifier = {
-			factor = 0.85
+			factor = 1.5
 			development = 30
 			NOT = { development = 40 }
 		}
 		modifier = {
-			factor = 0.8
+			factor = 1.3
 			development = 20
 			NOT = { development = 30 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 1.1
 			development = 10
 			NOT = { development = 20 }
 		}
@@ -57,11 +59,16 @@ province_event = {
 			NOT = { province_has_center_of_trade_of_level = 2 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			province_has_center_of_trade_of_level = 2
+			NOT = { province_has_center_of_trade_of_level = 3 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.7
+			province_has_center_of_trade_of_level = 3
+		}
+		modifier = {
+			factor = 0.9
 			has_terrain = farmlands
 		}
 		modifier = {
@@ -79,6 +86,7 @@ province_event = {
 				has_terrain = coastal_desert
 				has_terrain = hills
 				has_terrain = woods
+				is_island = yes
 			}
 			
 		}
@@ -92,6 +100,10 @@ province_event = {
 				has_terrain = savannah
 			}
 		}
+		modifier = {
+			factor = 2.0
+			government = tribal
+		}
 	}
 
 	option = {
@@ -102,44 +114,80 @@ province_event = {
 				owner = { has_ruler_flag = adm_highest }
 			}
 			custom_tooltip = dev_events.1.a.tt1
-			add_base_tax = 3
-			add_base_production = 1
-			add_base_manpower = 1
+			add_base_tax = 2
+			random_list = {
+				50 = {
+					add_base_production = 1
+				}
+				50 = {
+					add_base_manpower = 1
+				}
+			}
 		}
 		else_if = {
 			limit = {
 				owner = { has_ruler_flag = dip_highest }
 			}
 			custom_tooltip = dev_events.1.a.tt2
-			add_base_tax = 1
-			add_base_production = 3
-			add_base_manpower = 1
+			add_base_production = 2
+			random_list = {
+				50 = {
+					add_base_tax = 1
+				}
+				50 = {
+					add_base_manpower = 1
+				}
+			}
 		}
 		else_if = {
 			limit = {
 				owner = { has_ruler_flag = mil_highest }
 			}
 			custom_tooltip = dev_events.1.a.tt3
-			add_base_tax = 1
-			add_base_production = 1
-			add_base_manpower = 3
+			add_base_manpower = 2
+			random_list = {
+				50 = {
+					add_base_tax = 1
+				}
+				50 = {
+					add_base_production = 1
+				}
+			}
 		}
 		else = {
 			random_list = {
 				33 = {
-					add_base_tax = 3
-					add_base_production = 1
-					add_base_manpower = 1
+					add_base_tax = 2
+					random_list = {
+						50 = {
+							add_base_production = 1
+						}
+						50 = {
+							add_base_manpower = 1
+						}
+					}
 				}
 				33 = {
-					add_base_tax = 1
-					add_base_production = 3
-					add_base_manpower = 1
+					add_base_production = 2
+					random_list = {
+						50 = {
+							add_base_tax = 1
+						}
+						50 = {
+							add_base_manpower = 1
+						}
+					}
 				}
 				33 = {
-					add_base_tax = 1
-					add_base_production = 1
-					add_base_manpower = 3
+					add_base_manpower = 2
+					random_list = {
+						50 = {
+							add_base_tax = 1
+						}
+						50 = {
+							add_base_production = 1
+						}
+					}
 				}
 			}
 		}
@@ -151,21 +199,37 @@ province_event = {
 			name = "dev_concentrated"
 			duration = 9125
 		}
+		custom_tooltip = vn_province_rose.tt
 		set_province_flag = vn_province_rose
 	}
 	option = {
 		name = dev_events.1.b
-		ai_chance = { factor = 50 }
+		ai_chance = { 
+			factor = 50 
+			modifier = {
+				factor = 0
+				NOT = { num_of_cities = 3 }
+			}
+		}
 		add_scaled_local_adm_power = -10.0
 		add_scaled_local_dip_power = -10.0
 		add_scaled_local_mil_power = -10.0
-		add_base_tax = 1
-		add_base_production = 1
-		add_base_manpower = 1
+		random_list = {
+			33 = {
+				add_base_tax = 1
+			}
+			33 = {
+				add_base_production = 1
+			}
+			33 = {
+				add_base_manpower = 1
+			}
+		}
 		if = {
 			limit = { has_dlc = "Mandate of Heaven" }
 			add_prosperity = 10
 		}
+		custom_tooltip = vn_province_rose.tt
 		set_province_flag = vn_province_rose
 		random_neighbor_province = {
 			limit = { owned_by = ROOT }
@@ -180,6 +244,11 @@ province_event = {
 					add_base_manpower = 1
 				}
 			}
+			random = {
+				chance = 50
+				custom_tooltip = vn_province_rose.tt
+				set_province_flag = vn_province_rose
+			}
 		}
 		random_neighbor_province = {
 			limit = { owned_by = ROOT }
@@ -193,6 +262,11 @@ province_event = {
 				33 = {
 					add_base_manpower = 1
 				}
+			}
+			random = {
+				chance = 50
+				custom_tooltip = vn_province_rose.tt
+				set_province_flag = vn_province_rose
 			}
 		}
 	}
@@ -225,7 +299,7 @@ province_event = {
 	}
 
 	mean_time_to_happen = {
-		months = 600
+		months = 1200
 		modifier = {
 			factor = 0.7
 			development = 50
@@ -253,23 +327,24 @@ province_event = {
 		modifier = {
 			factor = 0.9
 			devastation = 1
+			NOT = { devastation = 25 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.85
 			devastation = 25
 			NOT = { devastation = 50 }
 		}
 		modifier = {
-			factor = 0.5
+			factor = 0.8
 			devastation = 50
 			NOT = { devastation = 75 }
 		}
 		modifier = {
-			factor = 0.25
+			factor = 0.75
 			devastation = 75
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.9
 			NOT = { controlled_by = ROOT }
 		}
 		modifier = {
@@ -292,6 +367,7 @@ province_event = {
 			name = "dev_crisis"
 			duration = 9125
 		}
+		custom_tooltip = vn_province_fell.tt
 		set_province_flag = vn_province_fell
 	}
 	option = {
@@ -299,6 +375,7 @@ province_event = {
 		ai_chance = { factor = 50 }
 		owner = { add_years_of_income = -0.5 }
 		add_devastation = -25
+		custom_tooltip = vn_province_fell.tt
 		set_province_flag = vn_province_fell
 		if = {
 			limit = { has_dlc = "Mandate of Heaven" }
