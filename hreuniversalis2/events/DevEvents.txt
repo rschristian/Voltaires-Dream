@@ -11,16 +11,41 @@ province_event = {
 	trigger = {
 		NOT = { devastation = 1 }
 		NOT = { development = 50 }
+		NOT = {
+			OR = {
+				has_terrain = desert
+				has_terrain = glacier
+				has_terrain = jungle
+			}
+		}
 		owner = { is_at_war = no }
+		NOT = { 
+			owner = { 
+				OR = {
+					government = tribal 
+					government = native
+				}
+			} 
+		}
 		owned_by = ROOT
 		controlled_by = ROOT
 		is_core = ROOT
 		NOT = { has_province_flag = vn_province_rose }
+		owner = {
+			any_owned_province = {
+				NOT = {
+					OR = {
+						has_province_modifier = dev_concentrated
+						has_province_modifier = dev_dispersed
+					}
+				}
+			}
+		}
 	}
 
 	immediate = {
 		hidden_effect = {
-			highest_monarch_skill_effect = yes
+			owner = { highest_monarch_skill_effect = yes }
 		}
 	}
 
@@ -29,22 +54,22 @@ province_event = {
 	mean_time_to_happen = {
 		months = 1200
 		modifier = {
-			factor = 1.7
+			factor = 3.0
 			development = 40
 			NOT = { development = 50 }
 		}
 		modifier = {
-			factor = 1.5
+			factor = 2.5
 			development = 30
 			NOT = { development = 40 }
 		}
 		modifier = {
-			factor = 1.3
+			factor = 2.0
 			development = 20
 			NOT = { development = 30 }
 		}
 		modifier = {
-			factor = 1.1
+			factor = 1.5
 			development = 10
 			NOT = { development = 20 }
 		}
@@ -72,16 +97,7 @@ province_event = {
 			has_terrain = farmlands
 		}
 		modifier = {
-			factor = 2.0
-			OR = {
-				has_terrain = mountain
-				has_terrain = desert
-				has_terrain = glacier
-				has_terrain = jungle
-			}
-		}
-		modifier = {
-			factor = 1.25
+			factor = 2.5
 			OR = {
 				has_terrain = coastal_desert
 				has_terrain = hills
@@ -91,24 +107,26 @@ province_event = {
 			
 		}
 		modifier = {
-			factor = 1.5
+			factor = 5.0
 			OR = {
 				has_terrain = marsh
 				has_terrain = highlands
 				has_terrain = drylands
-				has_terrain = forest
 				has_terrain = savannah
 			}
 		}
 		modifier = {
-			factor = 2.0
-			government = tribal
+			factor = 10.0
+			OR = {
+				has_terrain = mountain
+				has_terrain = forest
+			}
 		}
 	}
 
 	option = {
 		name = dev_events.1.a
-		ai_chance = { factor = 50 }
+		ai_chance = { factor = 25 }
 		if = {
 			limit = {
 				owner = { has_ruler_flag = adm_highest }
@@ -197,7 +215,7 @@ province_event = {
 		}
 		add_province_modifier = {
 			name = "dev_concentrated"
-			duration = 9125
+			duration = 7300
 		}
 		custom_tooltip = vn_province_rose.tt
 		set_province_flag = vn_province_rose
@@ -205,10 +223,10 @@ province_event = {
 	option = {
 		name = dev_events.1.b
 		ai_chance = { 
-			factor = 50 
+			factor = 75
 			modifier = {
 				factor = 0
-				NOT = { num_of_cities = 3 }
+				NOT = { owner = { num_of_cities = 3 } }
 			}
 		}
 		add_scaled_local_adm_power = -10.0
@@ -227,7 +245,7 @@ province_event = {
 		}
 		add_province_modifier = {
 			name = "dev_dispersed"
-			duration = 9125
+			duration = 7300
 		}
 		if = {
 			limit = { has_dlc = "Mandate of Heaven" }
@@ -250,7 +268,7 @@ province_event = {
 			}
 			add_province_modifier = {
 				name = "dev_dispersed"
-				duration = 9125
+				duration = 7300
 			}
 			random = {
 				chance = 50
@@ -273,7 +291,7 @@ province_event = {
 			}
 			add_province_modifier = {
 				name = "dev_dispersed"
-				duration = 9125
+				duration = 7300
 			}
 			random = {
 				chance = 50
@@ -301,6 +319,16 @@ province_event = {
 		}
 		owned_by = ROOT
 		is_core = ROOT
+		owner = {
+			any_owned_province = {
+				NOT = {
+					OR = {
+						has_province_modifier = dev_crisis
+						has_province_modifier = dev_lifesupport
+					}
+				}
+			}
+		}
 		NOT = { has_province_flag = vn_province_fell }
 	}
 
@@ -377,16 +405,30 @@ province_event = {
 		}
 		add_province_modifier = {
 			name = "dev_crisis"
-			duration = 9125
+			duration = 7300
 		}
 		custom_tooltip = vn_province_fell.tt
 		set_province_flag = vn_province_fell
 	}
 	option = {
 		name = dev_events.2.b
-		ai_chance = { factor = 50 }
+		ai_chance = { 
+			factor = 50
+			modifier = {
+				factor = 0
+				NOT = { owner = { years_of_income = 0.5 } }
+			}
+			modifier = {
+				factor = 0
+				num_of_loans = 1
+			}
+		}
 		owner = { add_years_of_income = -0.5 }
-		add_devastation = -25
+		add_devastation = -10
+		add_province_modifier = {
+			name = "dev_lifesupport"
+			duration = 7300
+		}
 		custom_tooltip = vn_province_fell.tt
 		set_province_flag = vn_province_fell
 		if = {
