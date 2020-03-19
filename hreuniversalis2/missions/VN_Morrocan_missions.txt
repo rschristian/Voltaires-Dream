@@ -16,8 +16,40 @@ vn_mor_missions_slot_1 = {
         icon = mission_imperial_cities
         position = 1
         required_missions = {  }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 4762
+                province_id = 4656
+                province_id = 4659
+                province_id = 4673
+            }
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { is_core = ROOT }
+                NOT = { num_of_times_improved = 5 }
+            }
+        }
         trigger = {
-            
+            4762 = {
+                owned_by = ROOT
+                is_core = ROOT
+                num_of_times_improved = 5
+            }
+            4656 = {
+                owned_by = ROOT
+                is_core = ROOT
+                num_of_times_improved = 5
+            }
+            4659 = {
+                owned_by = ROOT
+                is_core = ROOT
+                num_of_times_improved = 5
+            }
+            4673 = {
+                owned_by = ROOT
+                is_core = ROOT
+                num_of_times_improved = 5
+            }
         }
         effect = {
             if = {
@@ -30,7 +62,9 @@ vn_mor_missions_slot_1 = {
 			}
 			else = {
 				capital_scope = {
-
+                    add_base_tax = 1
+                    add_base_production = 1
+                    add_base_manpower = 1
 				}
 			}
         }
@@ -39,11 +73,17 @@ vn_mor_missions_slot_1 = {
         icon = mission_order_in_the_domain
         position = 2
         required_missions = { vn_mor_administrative_capital }
+        provinces_to_highlight = {
+            
+        }
         trigger = {
             
         }
         effect = {
-            
+            add_country_modifier = {
+                name = mor_peace_in_morocco_mission
+                duration = 9125
+            }
         }
     }
     vn_mor_andalusian_artisians = {
@@ -51,16 +91,32 @@ vn_mor_missions_slot_1 = {
         position = 3
         required_missions = { vn_mor_conquer_gibraltar }
         trigger = {
-            
+            OR = {
+                primary_culture = andalucian
+                accepted_culture = andalucian
+            }
+            num_of_owned_provinces_with = {
+                value = 25
+                culture = andalucian
+            }
+            employed_advisor = {
+                culture = andalucian
+            }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = mor_andalusian_artisians_mission
+                duration = 9125
+            }
         }
     }
     vn_mor_conquer_portugal = {
         icon = mission_control_the_desh
         position = 5
         required_missions = { vn_mor_conquer_andalusia }
+        provinces_to_highlight = {
+            
+        }
         trigger = {
             
         }
@@ -69,11 +125,20 @@ vn_mor_missions_slot_1 = {
         }
     }
     vn_mor_conquer_leon = {
-        icon = mission_spoils_of_war
+        icon = mission_castillian_aggression
         position = 7
         required_missions = { vn_mor_unite_andalusia }
+        provinces_to_highlight = {
+            OR = {
+                region = castile_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            castile_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
             
@@ -96,40 +161,142 @@ vn_mor_missions_slot_2 = {
         position = 1
         required_missions = {  }
         trigger = {
-            
+            any_owned_province = {
+                region = andalusia_region
+                has_port = yes
+            }
         }
         effect = {
-            
+            sevilla_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            malaga_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_mor_conquer_gibraltar = {
         icon = mission_rb_take_gibraltar
         position = 2
         required_missions = { vn_mor_cross_the_straight vn_mor_assert_authority }
+        provinces_to_highlight = {
+            OR = {
+                area = sevilla_area
+                area = malaga_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            sevilla_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            malaga_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            granada_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            almeria_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            huelva_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            cordoba_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = mor_conquer_gibraltar_mission
+                duration = 9125
+            }
         }
     }
     vn_mor_conquer_andalusia = {
         icon = mission_al-wadi_al-kabir
         position = 4
         required_missions = { vn_mor_conquer_gibraltar }
+        provinces_to_highlight = {
+            OR = {
+                area = granada_area
+                area = almeria_area
+                area = huelva_area
+                area = cordoba_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            granada_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            almeria_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            huelva_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            cordoba_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            create_general = {
+                tradition = 80
+                culture = andalucian
+            }
+            extremadura_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_mor_conquer_badajoz = {
         icon = mission_protect_granada
         position = 5
         required_missions = { vn_mor_conquer_andalusia }
+        provinces_to_highlight = {
+            region = extremadura_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            extremadura_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
             
@@ -139,6 +306,9 @@ vn_mor_missions_slot_2 = {
         icon = mission_reclaim_andalusia
         position = 6
         required_missions = { vn_mor_conquer_badajoz }
+        provinces_to_highlight = {
+            
+        }
         trigger = {
             
         }
@@ -150,6 +320,14 @@ vn_mor_missions_slot_2 = {
         icon = mission_tear_down_spanish_strongholds
         position = 7
         required_missions = { vn_mor_unite_andalusia }
+        provinces_to_highlight = {
+            OR = {
+                region = aragon_region
+                region = catalunya_region
+
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
             
         }
@@ -161,8 +339,16 @@ vn_mor_missions_slot_2 = {
         icon = mission_mosque
         position = 8
         required_missions = { vn_mor_conquer_aragon }
+        provinces_to_highlight = {
+            superregion = iberia_superregion
+            NOT = { religion = ROOT }
+        }
         trigger = {
-            
+            religion_group = muslim
+            iberia_superregion = {
+                type = all
+                religion = ROOT
+            }
         }
         effect = {
             
@@ -185,40 +371,133 @@ vn_mor_missions_slot_3 = {
         position = 1
         required_missions = {  }
         trigger = {
-            
+            stability = 2
+            legitimacy_equivalent = 100
+            army_size_percentage = 0.75
         }
         effect = {
-            
+            high_atlas_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            safi_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            jadida_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            taroudant_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_mor_conquer_marrakesh = {
         icon = mission_invade_the_deccan_ori
         position = 2
         required_missions = { vn_mor_assert_authority }
+        provinces_to_highlight = {
+            OR = {
+                region = high_atlas_region
+                area = safi_area
+                area = jadida_area
+                area = taroudant_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            high_atlas_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            safi_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            jadida_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            taroudant_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            middle_atlas_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            rabat_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_mor_conquer_fez = {
         icon = mission_fortify_mandu
         position = 3
         required_missions = { vn_mor_conquer_marrakesh }
+        provinces_to_highlight = {
+            OR = {
+                region = middle_atlas_region
+                area = rabat_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            middle_atlas_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            rabat_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            rif_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_mor_conquer_tetouan = {
         icon = mission_secure_the_malabar_coast
         position = 4
         required_missions = { vn_mor_conquer_fez }
+        provinces_to_highlight = {
+            region = rif_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            rif_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
             
@@ -228,8 +507,22 @@ vn_mor_missions_slot_3 = {
         icon = mission_raid_on_valencia
         position = 5
         required_missions = { vn_mor_conquer_andalusia }
+        provinces_to_highlight = {
+            OR = {
+                region = valencian_region
+                area = murcia_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            valencian_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            murcia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
             
@@ -238,9 +531,23 @@ vn_mor_missions_slot_3 = {
     vn_mor_conquer_mediterrean_islands = {
         icon = mission_seize_the_isles
         position = 6
-        required_missions = { vn_mor_conquer_tunis }
+        required_missions = { vn_mor_conquer_algiers }
+        provinces_to_highlight = {
+            OR = {
+                region = insular_region
+                region = sicilia_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            insular_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            sicilia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
             
@@ -251,10 +558,22 @@ vn_mor_missions_slot_3 = {
         position = 8
         required_missions = { vn_mor_conquer_aragon }
         trigger = {
-            
+            any_country = {
+                culture_group = french
+                total_losses_in_won_wars = {
+                    winner = ROOT
+                    looser = THIS
+                    casualties = 75000
+                }
+            }
         }
         effect = {
-            
+            add_prestige = 15
+            add_army_tradition = 10
+            add_country_modifier = {
+                name = mor_revenge_for_tours_mission
+                duration = 9125
+            }
         }
     }
 }
@@ -274,10 +593,16 @@ vn_mor_missions_slot_4 = {
         position = 1
         required_missions = {  }
         trigger = {
-            
+            num_of_admirals = 1
+            navy_size = 25
+            navy_size_percentage = 0.75
         }
         effect = {
-            
+            add_navy_tradition = 5
+            add_country_modifier = {
+                name = mor_set_sail_mission
+                duration = 9125
+            }
         }
     }
     vn_mor_barbary_piracy = {
@@ -285,29 +610,113 @@ vn_mor_missions_slot_4 = {
         position = 4
         required_missions = { vn_mor_set_sail }
         trigger = {
-            
+            num_ships_privateering = 25
+            any_trade_node = {
+                privateer_power = {
+                    share = 40
+                }
+            }
         }
         effect = {
-            
+            tlemcen_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            kabylia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = mor_barbary_piracy_mission
+                duration = 9125
+            }
         }
     }
     vn_mor_conquer_algiers = {
         icon = mission_conquer_algiers
         position = 5
-        required_missions = { vn_mor_barbary_piracy }
+        required_missions = { vn_mor_barbary_piracy vn_mor_conquer_tetouan }
+        provinces_to_highlight = {
+            OR = {
+                region = tlemcen_region
+                region = kabylia_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT } 
+        }
         trigger = {
-            
+            tlemcen_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            kabylia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            coastal_tunisia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            inner_tunisia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            insular_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            sicilia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_mor_conquer_tunis = {
         icon = mission_conquer_tunis
         position = 6
-        required_missions = { vn_mor_conquer_algiers vn_mor_conquer_tetouan }
+        required_missions = { vn_mor_conquer_algiers }
+        provinces_to_highlight = {
+            OR = {
+                region = coastal_tunisia_region
+                region = inner_tunisia_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT } 
+            is_city = yes
+        }
         trigger = {
-            
+            coastal_tunisia_region = {
+                type = all
+                OR = {
+                    is_city = no
+                    country_or_non_sovereign_subject_holds = ROOT
+                }
+            }
+            inner_tunisia_region = {
+                type = all
+                OR = {
+                    is_city = no
+                    country_or_non_sovereign_subject_holds = ROOT
+                }
+            }
         }
         effect = {
             
@@ -317,22 +726,62 @@ vn_mor_missions_slot_4 = {
         icon = mission_sea_battles
         position = 7
         required_missions = { vn_mor_conquer_tunis }
+        provinces_to_highlight = {
+            region = coastal_libya_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT } 
+            is_city = yes
+        }
         trigger = {
-            
+            coastal_libya_region = {
+                type = all
+                OR = {
+                    is_city = no
+                    country_or_non_sovereign_subject_holds = ROOT
+                }
+            }
         }
         effect = {
-            
+            lower_egypt_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            vostani_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_mor_conquer_egypt = {
         icon = mission_rb_seize_alexandria
         position = 8
         required_missions = { vn_mor_conquer_tripolitania vn_mor_commander_of_the_muslims }
+        provinces_to_highlight = {
+            OR = {
+                region = lower_egypt_region
+                region = vostani_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT } 
+        }
         trigger = {
-            
+            lower_egypt_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            vostani_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            country_event = {
+                id = vn_missions.5
+            }
         }
 	}
 }
@@ -348,11 +797,32 @@ vn_mor_missions_slot_5 = {
     has_country_shield = yes
 
     vn_mor_trade_with_berbers = {
-        icon = mission_saharan_route
+        icon = mission_bedouins
         position = 1
         required_missions = {  }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 4749
+                province_id = 4656
+                province_id = 5105
+                province_id = 1946
+            }
+            NOT = { is_strongest_trade_power = ROOT }
+        }
         trigger = {
-            
+            num_of_merchants = 3
+            4749 = {
+                is_strongest_trade_power = ROOT
+            }
+            4656 = {
+                is_strongest_trade_power = ROOT
+            }
+            5105 = {
+                is_strongest_trade_power = ROOT
+            }
+            1946 = {
+                is_strongest_trade_power = ROOT
+            }
         }
         effect = {
             
@@ -362,22 +832,61 @@ vn_mor_missions_slot_5 = {
         icon = mission_trade_in_gold_coast
         position = 2
         required_missions = { vn_mor_trade_with_berbers }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 4626
+                province_id = 1135
+                province_id = 1208
+                province_id = 1955
+            }
+            NOT = { is_strongest_trade_power = ROOT }
+        }
         trigger = {
-            
+            num_of_merchants = 6
+            4626 = {
+                is_strongest_trade_power = ROOT
+            }
+            1135 = {
+                is_strongest_trade_power = ROOT
+            }
+            1208 = {
+                is_strongest_trade_power = ROOT
+            }
+            1955 = {
+                is_strongest_trade_power = ROOT
+            }
         }
         effect = {
             
         }
     }
     vn_mor_berber_camelry = {
-        icon = mission_traverse_the_sahara
+        icon = mission_saharan_route
         position = 3
         required_missions = {  }
+        provinces_to_highlight = {
+            owned_by = ROOT
+            trade_goods = camels
+            OR = {
+                NOT = { base_manpower = 10 }
+                NOT = { has_building = armory }
+            }
+        }
         trigger = {
-            
+            num_of_cavalry = 15
+            num_of_owned_provinces_with = {
+                value = 3
+                trade_goods = camels
+                base_manpower = 10
+                has_building = armory
+            }
         }
         effect = {
-            
+            add_army_professionalism = 0.02
+            add_country_modifier = {
+                name = mor_berber_camelry_mission
+                duration = 9125
+            }
         }
     }
     vn_mor_the_black_guard = {
@@ -385,21 +894,15 @@ vn_mor_missions_slot_5 = {
         position = 4
         required_missions = { vn_mor_berber_camelry }
         trigger = {
-            
+            NOT = { num_of_mercenaries = 1 }
+            slaves = 5
+            OR = {
+                regimental_camp = 10
+                conscription_center = 5
+            }
         }
         effect = {
-            
-        }
-    }
-    vn_mor_conquer_canaries = {
-        icon = vn_mission_claim_the_canaries
-        position = 5
-        required_missions = { vn_mor_barbary_piracy }
-        trigger = {
-            
-        }
-        effect = {
-            
+            #get black guard mercenary company in 1.30
         }
     }
     vn_mor_support_the_brotherhoods = {
@@ -407,10 +910,23 @@ vn_mor_missions_slot_5 = {
         position = 6
         required_missions = {  }
         trigger = {
-            
+            if = {
+                limit = { uses_piety = yes }
+                OR = {
+                    piety = 80
+                    NOT = { piety = -80 }
+                }
+            }
+            num_of_owned_provinces_with = {
+                value = 5
+                has_education_building_trigger = yes
+            }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = mor_support_the_brotherhoods_mission
+                duration = 9125
+            }
         }
     }
     vn_mor_commander_of_the_muslims = {
@@ -418,10 +934,34 @@ vn_mor_missions_slot_5 = {
         position = 7
         required_missions = { vn_mor_support_the_brotherhoods }
         trigger = {
-            
+            any_ally = {
+                religion = ROOT
+                if = {
+                    limit = { has_dlc = "Cradle of Civilization" }
+                    has_religious_school_of = ROOT
+                }
+                has_opinion = {
+                    who = ROOT
+                    value = 150
+                }
+            }
+            is_defender_of_faith = yes
         }
         effect = {
-            
+            custom_tooltip = vn_mor_commander_of_the_muslims.tt
+            hidden_effect = {
+                every_country = {
+                    limit = { religion = ROOT }
+                    add_opinion = {
+                        who = ROOT
+                        modifier = rulers_united_in_prayer
+                    }
+                }
+            }
+            add_country_modifier = {
+                name = mor_commander_of_the_muslims_mission
+                duration = 9125
+            }
         }
 	}
 }
