@@ -306,7 +306,7 @@ country_event = {
 			mil = 6
 		}
 		hidden_effect = {
-			kill_heir = yes
+			remove_heir = yes
 			swap_free_idea_group = yes
 			define_ruler_to_general = {
 				fire = 6
@@ -330,68 +330,6 @@ country_event = {
 				size = 5
 				unrest = 15
 				win = yes
-			}
-		}
-	}
-}
-
-#Mamluks
-country_event = {
-	id = hremodevents.9
-	title = "HREMT9"
-	desc = "HREMD9"
-	picture = ASSASSINATION_eventPicture
-
-	major = yes
-	fire_only_once = yes
-	trigger = {
-		normal_or_historical_nations = yes
-		is_institution_enabled = guilds
-		religion_group = muslim
-		government = monarchy
-		NOT = { has_reform = mamluk_government }
-		NOT = { started_in = 1250.5.2 }
-		tag = MAM
-	}
-
-	mean_time_to_happen =  {
-		months = 120
-		modifier = {
-			factor = 0.5
-			has_regency = yes
-		}
-		modifier = {
-			factor = 0.5
-			war_exhaustion = 10
-		}
-	}
-	
-	option = {
-		name = "HREMA9"
-		ai_chance = { factor = 100 }
-		change_government = monarchy
-		add_government_reform = mamluk_government
-		define_ruler = {
-			dynasty = "Bahriyya"
-			culture = turkish
-		}
-		hidden_effect = {
-			kill_heir = yes
-			swap_free_idea_group = yes
-		}
-	}
-	option = {
-		name = "HREMB9"
-		ai_chance = { factor = 0 }
-		add_country_modifier = {
-			name = "mamluks_outraged"
-			duration = 3650
-		}
-		random_owned_province = {
-			limit = { controlled_by = ROOT }
-			spawn_rebels = {
-				type = revolutionary_rebels
-				size = 2
 			}
 		}
 	}
@@ -1758,6 +1696,137 @@ country_event = {
 					leader = "Manfred von Hohenstaufen"
 					win = yes
 				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.51
+	title = "HREMT51"
+	desc = "HREMD51"
+	picture = CITY_VIEW_eventPicture
+
+	fire_only_once = yes
+	trigger = {
+		NOT = { exists = BGH }
+		NOT = { tag = IRQ }
+		religion_group = muslim
+		normal_or_historical_nations = yes
+		NOT = { has_reform = feudal_theocracy }
+		current_age = age_of_holy_wars
+		NOT = { started_in = 1127.1.1 }
+		owns = 6301
+		any_owned_province = {
+			NOT = { region = lower_mesopotamia_region }
+		}
+		num_of_owned_provinces_with = {
+			value = 20
+			region = lower_mesopotamia_region
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 480
+		modifier = {
+			factor = 2
+			has_estate = estate_church
+			estate_influence = {
+				estate = estate_church
+				influence = 40
+			}
+			estate_loyalty = {
+				estate = estate_church
+				loyalty = 80
+			}
+		}
+		modifier = {
+			factor = 0.5
+			has_estate = estate_church
+			estate_influence = {
+				estate = estate_church
+				influence = 40
+			}
+			NOT = {
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 40
+				}
+			}
+		}
+		modifier = {
+			factor = 0.5
+			tag = SJK
+		}
+		modifier = {
+			factor = 0.5
+			war_exhaustion = 10
+		}
+		modifier = {
+			factor = 0.75
+			OR = {
+				NOT = { adm = 2 }
+				NOT = { dip = 2 }
+				NOT = { mil = 2 }
+			}
+		}
+	}
+
+	option = {
+		name = "HREMA51"
+		ai_chance = {
+			factor = 80
+			modifier = {
+				factor = 0.25
+				NOT = { religion = sunni }
+			}
+		}
+		lower_mesopotamia_region = {
+			limit = { owned_by = ROOT }
+			add_core = BGH
+			cede_province = BGH
+			remove_core = ROOT
+		}
+		hidden_effect = {
+			BGH = {
+				change_government = monarchy
+				add_government_reform = feudal_theocracy
+				set_government_rank = 6
+				change_religion = sunni
+				set_religious_school = {
+					group = muslim
+					school = hanafi_school
+				}
+				remove_heir = yes
+				define_ruler = {
+					name = "al-Mustarshid"
+					dynasty = "Banû ‘Abbâs"
+					age = 35
+					adm = 4
+					dip = 2
+					mil = 2
+					fixed = yes
+				}
+			}
+		}
+		BGH = {
+			add_opinion = {
+				who = root
+				modifier = supported_independence
+			}
+		}
+	}
+	option = {
+		name = "HREMB51"
+		ai_chance = { factor = 20 }
+		add_piety = -0.2
+		6301 = {
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 3
+				unrest = 15
+				win = yes
+				leader = "al-Mustarshid Banû ‘Abbâs"
 			}
 		}
 	}
