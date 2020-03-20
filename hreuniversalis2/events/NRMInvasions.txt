@@ -16,52 +16,31 @@ country_event = {
 	trigger = {
 		tag = ENG
 		current_age = age_of_holy_wars
-		NOT = { started_in = 1169.1.1 }
+		NOT = { started_in = 1169.5.1 }
 		NOT = { 
 			OR = {
 				has_global_flag = norman_invasion_started
 				has_country_flag = had_nrm_invasion_event
 			}
 		}
-		OR = {
-			LEI = {
-				OR = {
-					primary_culture = dalcassian
-					primary_culture = eoganachta
-					primary_culture = laigin
-					primary_culture = irish
-					primary_culture = erainn
-					primary_culture = ulaidh
-					primary_culture = connachta
-					primary_culture = gallowglass
-				}
-				is_subject = no
-				ai = yes
-				any_owned_province = {
-					region = ireland_region
-					has_port = yes
-				}
-				#add - Is NOT High King
+		any_known_country = {
+			OR = {
+				primary_culture = dalcassian
+				primary_culture = eoganachta
+				primary_culture = laigin
+				primary_culture = irish
+				primary_culture = erainn
+				primary_culture = ulaidh
+				primary_culture = connachta
+				primary_culture = gallowglass
 			}
-			any_known_country = {
-				OR = {
-					primary_culture = dalcassian
-					primary_culture = eoganachta
-					primary_culture = laigin
-					primary_culture = irish
-					primary_culture = erainn
-					primary_culture = ulaidh
-					primary_culture = connachta
-					primary_culture = gallowglass
-				}
-				is_subject = no
-				ai = yes
-				any_owned_province = {
-					region = ireland_region
-					has_port = yes
-				}
-				#add - Is NOT High King
+			is_subject = no
+			ai = yes
+			any_owned_province = {
+				region = ireland_region
+				has_port = yes
 			}
+			NOT = { has_country_modifier = irish_high_king }
 		}
 	}
 
@@ -90,7 +69,7 @@ country_event = {
 						region = ireland_region
 						has_port = yes
 					}
-					#add - Is NOT High King
+					NOT = { has_country_modifier = irish_high_king }
 				}
 			}
 			LEI = {
@@ -116,7 +95,7 @@ country_event = {
 						region = ireland_region
 						has_port = yes
 					}
-					#add - Is NOT High King
+					NOT = { has_country_modifier = irish_high_king }
 				}
 				save_event_target_as = irish_invasion_tag
 			}
@@ -152,9 +131,11 @@ country_event = {
 					cavalry = 0.3
 				}
 			}
-			set_country_flag = irish_invasion_flag
+			hidden_effect = {
+				set_country_flag = irish_invasion_flag
+				country_event = { id = nrm_invasions.8 }
+			}
 		}
-		#add - High King declares war on this tag
 	}
 	option = {	#Decline support
 		name = nrm_invasions.1.b
@@ -170,7 +151,11 @@ country_event = {
 			}
 		}
 		add_prestige = -10
-		#add - High King declares war on this tag
+		hidden_effect = {
+			event_target:irish_invasion_tag = {
+				country_event = { id = nrm_invasions.8 }
+			}
+		}
 	}
 }
 
@@ -341,7 +326,7 @@ country_event = {
 			}
 		}
 		is_subject = no
-		#add - Is NOT High King
+		NOT = { has_country_modifier = irish_high_king }
 	}
 
 	mean_time_to_happen = {
@@ -725,5 +710,43 @@ country_event = {
 			name = "kilkennystatutesmod"
 			duration = -1
 		}
+	}
+}
+
+#Blank Event For Trigger
+country_event = {
+	id = nrm_invasions.8
+	title = nrm_invasions.8.t
+	desc = nrm_invasions.8.d
+	picture = DIPLOMACY_eventPicture
+
+	hidden = yes
+	is_triggered_only = yes
+	trigger = { any_country = { has_country_modifier = irish_high_king } }
+	immediate = {
+		random_country = {
+			limit = { has_country_modifier = irish_high_king }
+			country_event = { id = nrm_invasions.9 }
+		}
+	}
+
+	option = { name = nrm_invasions.8.a }
+}
+
+#High King Declares War
+country_event = {
+	id = nrm_invasions.9
+	title = nrm_invasions.9.t
+	desc = nrm_invasions.9.d
+	picture = BORDER_TENSION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = nrm_invasions.9.a
+		declare_war_with_cb = {
+        	who = FROM
+        	casus_belli = cb_insult
+        }
 	}
 }

@@ -335,6 +335,64 @@ country_event = {
 	}
 }
 
+#High King Succession
+country_event = {
+	id = hremodevents.9
+	title = "HREMT9"
+	desc = "HREMD9"
+	picture = DEATH_OF_HEIR_eventPicture
+
+	is_triggered_only = yes
+	trigger = {
+		NOT = { any_country = { has_country_flag = high_king_war_f } }
+		any_country = {
+			NOT = { tag = ROOT }
+			is_subject = no
+			has_regency = no
+			is_female = no
+			has_reform = tribal_kingdom
+			any_owned_province = { superregion = irish_superregion }
+			OR = {
+				primary_culture = dalcassian
+				primary_culture = eoganachta
+				primary_culture = laigin
+				primary_culture = erainn
+				primary_culture = ulaidh
+				primary_culture = connachta
+				primary_culture = gallowglass
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+	
+	option = {
+		name = "HREMA9"
+		custom_tooltip = hrema9.tt
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { tag = ROOT }
+					is_subject = no
+					has_regency = no
+					is_female = no
+					has_reform = tribal_kingdom
+					any_owned_province = { superregion = irish_superregion }
+					OR = {
+						primary_culture = dalcassian
+						primary_culture = eoganachta
+						primary_culture = laigin
+						primary_culture = erainn
+						primary_culture = ulaidh
+						primary_culture = connachta
+						primary_culture = gallowglass
+					}
+				}
+				country_event = { id = hremodevents.52 days = 5 }
+			}
+		}
+	}
+}
+
 country_event = {
 	id = hremodevents.10
 	title = "HREMT10"
@@ -1830,6 +1888,197 @@ country_event = {
 			}
 		}
 	}
+}
+
+country_event = {
+	id = hremodevents.52
+	title = "HREMT52"
+	desc = "HREMD52"
+	picture = ASSASSINATION_eventPicture
+
+	is_triggered_only = yes
+	mean_time_to_happen = { days = 1 }
+	
+	option = {
+		name = "HREMA52"
+		ai_chance = {
+			factor = 10
+            modifier = {
+            	factor = 10
+            	OR = {
+            		is_enemy = FROM
+            		is_rival = FROM
+            		historical_rival_with = FROM
+            		dynasty = "Ó Néill"
+            	}
+            }
+            modifier = {
+                factor = 2
+                military_strength = {
+                    who = FROM
+                    value = 1.5
+                }
+            }
+            modifier = {
+                factor = 0
+                OR = {
+                	is_at_war = yes
+                	is_bankrupt = yes
+                	alliance_with = FROM
+                	historical_friend_with = FROM
+                }
+            }
+		}
+		add_casus_belli = {
+            target = FROM
+            type = cb_take_high_kingship
+            months = 120
+        }
+	}
+	option = {
+		name = "HREMB52"
+		ai_chance = {
+            factor = 90
+            modifier = {
+                factor = 1.5
+                FROM = { num_of_allies = 4 }
+            }
+            modifier = {
+                factor = 1.5
+                NOT = {
+                	military_strength = {
+                    	who = FROM
+                   		value = 0.8
+                	}
+                }
+            }
+        }
+        reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_pleased
+		}
+	}
+}
+
+country_event = {
+    id = hremodevents.53
+	title = "HREMT53"
+	desc = "HREMD53"
+    picture = MILITARY_CAMP_eventPicture
+
+    trigger = {
+        is_in_war = {
+            attacker_leader = ROOT
+        	casus_belli = cb_take_high_kingship
+        }
+        NOT = { any_country = { has_country_flag = high_king_war_f } }
+        NOT = { has_country_flag = high_king_war_f }
+    }
+    mean_time_to_happen = { months = 0 }
+    immediate = { hidden_effect = { set_country_flag = high_king_war_f } }
+
+    option = {
+        name = "HREMA53"
+        add_prestige = 5
+    }
+}
+
+country_event = {
+    id = hremodevents.54
+	title = "HREMT54"
+	desc = "HREMD54"
+    picture = GOOD_WITH_MONARCH_eventPicture
+
+    major = yes
+    is_triggered_only = yes
+    trigger = {
+    	has_country_flag = high_king_war_f
+    	NOT = {
+            is_in_war = {
+            	attacker_leader = ROOT
+                casus_belli = cb_take_high_kingship
+        	}
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    immediate = {
+    	hidden_effect = {
+    		random_country = {
+        		limit = { has_country_modifier = irish_high_king }
+        		remove_country_modifier = irish_high_king
+        	}
+    	}
+    }
+
+    option = {
+        name = "HREMA54"
+        add_prestige = 25
+        add_country_modifier = {
+            name = irish_high_king
+            duration = -1
+        }
+        clr_country_flag = high_king_war_f
+    }
+}
+
+country_event = {
+    id = hremodevents.55
+	title = "HREMT55"
+	desc = "HREMD55"
+    picture = BAD_WITH_MONARCH_eventPicture
+
+    trigger = {
+        has_country_modifier = irish_high_king
+        OR = {
+        	exists = IRE
+        	is_subject = yes
+        	NOT = { has_reform = tribal_kingdom }
+        	NOT = { any_owned_province = { superregion = irish_superregion } }
+        	NOT = {
+        		OR = {
+        			primary_culture = dalcassian
+					primary_culture = eoganachta
+					primary_culture = laigin
+					primary_culture = erainn
+					primary_culture = ulaidh
+					primary_culture = connachta
+					primary_culture = gallowglass
+        		}
+        	}
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    immediate = { hidden_effect = { remove_country_modifier = irish_high_king } }
+
+    option = {
+        name = "HREMA55"
+        add_prestige = -5
+    }
+}
+
+country_event = {
+    id = hremodevents.56
+	title = "HREMT56"
+	desc = "HREMD56"
+    picture = WOUNDED_SOLDIERS_eventPicture
+
+    is_triggered_only = yes
+    trigger = {
+    	has_country_flag = high_king_war_f
+    	NOT = {
+            is_in_war = {
+            	attacker_leader = ROOT
+                casus_belli = cb_take_high_kingship
+        	}
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "HREMA56"
+        add_prestige = -25
+        clr_country_flag = high_king_war_f
+    }
 }
 
 province_event = {
