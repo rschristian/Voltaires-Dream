@@ -263,7 +263,7 @@ country_event = {
 				is_capital = no
 			}
 			spawn_rebels = {
-				size = 2
+				size = 3
 				type = revolutionary_rebels
 				win = yes
 				unrest = 5
@@ -275,7 +275,7 @@ country_event = {
 				is_capital = no
 			}
 			spawn_rebels = {
-				size = 2
+				size = 3
 				type = revolutionary_rebels
 				win = yes
 				unrest = 5
@@ -287,7 +287,7 @@ country_event = {
 				is_capital = no
 			}
 			spawn_rebels = {
-				size = 2
+				size = 3
 				type = revolutionary_rebels
 				win = yes
 				unrest = 5
@@ -346,6 +346,7 @@ country_event = {
 	option = {
 		name = peoples_spring.4.a
 		event_target:manufactory_province = {
+			add_base_production = -3
 			if = {
 				limit = {
 					has_building = furnace
@@ -434,8 +435,9 @@ country_event = {
 		}
 	}
 	option = {
-		name = peoples_spring.4.a
+		name = peoples_spring.4.b
 		event_target:manufactory_province = {
+			add_base_production = -3
 			if = {
 				limit = {
 					has_building = furnace
@@ -482,7 +484,7 @@ country_event = {
 				remove_building = mills
 			}
 			spawn_rebels = {
-				size = 2
+				size = 5
 				type = revolutionary_rebels
 				win = yes
 				unrest = 5
@@ -502,10 +504,9 @@ country_event = {
 
 	trigger = {
 		any_owned_province = {
-			controlled_by = owner
-			owner = {
-				NOT = { accepted_culture = PREV }
-			}
+			controlled_by = ROOT
+			has_owner_accepted_culture = no
+			NOT = { has_province_modifier = increased_autonomy }
 		}
 	}
 
@@ -513,56 +514,187 @@ country_event = {
 		hidden_effect = {
 			random_owned_province = {
 				limit = {
-					controlled_by = owner
-					owner = {
-						NOT = { accepted_culture = PREV }
-					}
+					controlled_by = ROOT
+					has_owner_accepted_culture = no
+					NOT = { has_province_modifier = increased_autonomy }
 				}
-				save_event_target_as = nationalist_province
+				set_province_flag = independence_movement_flag
+				save_event_target_as = nationalist_province_1
+			}
+			random = {
+				chance = 50
+				random_owned_province = {
+					limit = {
+						controlled_by = ROOT
+						culture = event_target:nationalist_province_1
+						NOT = { has_province_flag = independence_movement_flag }
+						NOT = { has_province_modifier = increased_autonomy }
+					}
+					set_province_flag = independence_movement_flag
+					save_event_target_as = nationalist_province_2
+				}
+			}
+			random = {
+				chance = 50
+				random_owned_province = {
+					limit = {
+						controlled_by = ROOT
+						culture = event_target:nationalist_province_1
+						NOT = { has_province_flag = independence_movement_flag }
+						NOT = { has_province_modifier = increased_autonomy }
+					}
+					set_province_flag = independence_movement_flag
+					save_event_target_as = nationalist_province_3
+				}
+			}
+			random = {
+				chance = 50
+				random_owned_province = {
+					limit = {
+						controlled_by = ROOT
+						culture = event_target:nationalist_province_1
+						NOT = { has_province_flag = independence_movement_flag }
+						NOT = { has_province_modifier = increased_autonomy }
+					}
+					set_province_flag = independence_movement_flag
+					save_event_target_as = nationalist_province_4
+				}
+			}
+			random = {
+				chance = 50
+				random_owned_province = {
+					limit = {
+						controlled_by = ROOT
+						culture = event_target:nationalist_province_1
+						NOT = { has_province_flag = independence_movement_flag }
+						NOT = { has_province_modifier = increased_autonomy }
+					}
+					set_province_flag = independence_movement_flag
+					save_event_target_as = nationalist_province_5
+				}
 			}
 		}
 	}
 
 	option = {
 		name = peoples_spring.5.a
-		event_target:nationalist_province = {
-			area = {
-				add_local_autonomy = 50
+		add_absolutism = -5
+		event_target:nationalist_province_1 = {
+			add_local_autonomy = 75
+			add_province_modifier = {
+				name = increased_autonomy
+				duration = 1825
+			}
+		}
+		event_target:nationalist_province_2 = {
+			add_local_autonomy = 75
+			add_province_modifier = {
+				name = increased_autonomy
+				duration = 1825
+			}
+		}
+		event_target:nationalist_province_3 = {
+			add_local_autonomy = 75
+			add_province_modifier = {
+				name = increased_autonomy
+				duration = 1825
+			}
+		}
+		event_target:nationalist_province_4 = {
+			add_local_autonomy = 75
+			add_province_modifier = {
+				name = increased_autonomy
+				duration = 1825
+			}
+		}
+		event_target:nationalist_province_5 = {
+			add_local_autonomy = 75
+			add_province_modifier = {
+				name = increased_autonomy
+				duration = 1825
 			}
 		}
 	}
 	option = {
 		name = peoples_spring.5.b
-		event_target:nationalist_province = {
+		event_target:nationalist_province_1 = {
 			spawn_rebels = {
-				size = 2
+				size = 3
 				type = nationalist_rebels
 				win = yes
 				unrest = 5
 			}
 		}
+		event_target:nationalist_province_2 = {
+			spawn_rebels = {
+				size = 3
+				type = nationalist_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		event_target:nationalist_province_3 = {
+			spawn_rebels = {
+				size = 3
+				type = nationalist_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		event_target:nationalist_province_4 = {
+			spawn_rebels = {
+				size = 3
+				type = nationalist_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+		event_target:nationalist_province_5 = {
+			spawn_rebels = {
+				size = 3
+				type = nationalist_rebels
+				win = yes
+				unrest = 5
+			}
+		}
+	}
+}
+
+#Lift the Press Censorship?
+country_event = {
+	id = peoples_spring.6
+	title = peoples_spring.6.t
+	desc = peoples_spring.6.d
+	picture = REVOLUTION_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = lift_the_press_censorship_flag }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = lift_the_press_censorship_flag
+		}
+	}
+
+	option = {
+		name = peoples_spring.6.a
 		random_owned_province = {
-			limit = {
-				culture = event_target:nationalist_province
-			}
 			spawn_rebels = {
-				size = 2
-				type = nationalist_rebels
+				size = 3
+				type = revolutionary_rebels
 				win = yes
 				unrest = 5
 			}
 		}
-		random_owned_province = {
-			limit = {
-				culture = event_target:nationalist_province
-			}
-			spawn_rebels = {
-				size = 2
-				type = nationalist_rebels
-				win = yes
-				unrest = 5
-			}
-		}
+	}
+	option = {
+		name = peoples_spring.6.b
+		add_absolutism = -10
+		add_legitimacy = -10
+		add_meritocracy = -10
 	}
 }
 
@@ -581,6 +713,7 @@ country_event = {
 	option = {
 		name = peoples_spring.100.a
 		clr_country_flag = revolutionary_universities_flag
+		clr_country_flag = lift_the_press_censorship_flag
 		add_stability_or_adm_power = yes
 	}
 }

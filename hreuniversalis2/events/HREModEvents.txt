@@ -2081,6 +2081,124 @@ country_event = {
     }
 }
 
+country_event = {
+    id = hremodevents.57
+	title = "HREMT57"
+	desc = "HREMD57"
+    picture = WOUNDED_SOLDIERS_eventPicture
+
+	fire_only_once = yes
+
+    trigger = {
+		NOT = { started_in = 1092.1.1 }
+		NOT = { is_year = 1090 }
+		has_regency = no
+		is_subject = no
+    	OR = {
+			AND = {
+				tag = SAV
+				dynasty = "di Savoia"
+				NOT = { war_with = PIE }
+				PIE = {
+					is_subject = no
+					dynasty = "Arduining"
+					OR = {
+						has_regency = yes
+						has_heir = no
+						NOT = { heir_claim = 35 }
+					}
+				}
+			}
+			AND = {
+				tag = PIE
+				dynasty = "Arduining"
+				NOT = { war_with = SAV }
+				SAV = {
+					is_subject = no
+					dynasty = "di Savoia"
+					OR = {
+						has_regency = yes
+						has_heir = no
+						NOT = { heir_claim = 35 }
+					}
+				}
+			}
+		}
+    }
+    mean_time_to_happen = { months = 150 }
+
+    option = {
+		name = "HREMA57"
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 0.5
+				tag = SAV
+				alliance_with = PIE
+			}
+			modifier = {
+				factor = 0.5
+				tag = PIE
+				alliance_with = SAV
+			}
+			modifier = {
+				factor = 2
+				tag = SAV
+				is_rival = PIE
+			}
+			modifier = {
+				factor = 2
+				tag = PIE
+				is_rival = SAV
+			}
+		}
+		if = {
+			limit = { tag = SAV }
+			add_casus_belli = {
+				type = cb_fabricated_claims
+				target = PIE
+				months = 300
+			}
+			reverse_add_opinion = {
+				who = PIE
+				modifier = hrema57_opinion
+			}
+		}
+		if = {
+			limit = { tag = PIE }
+			add_casus_belli = {
+				type = cb_fabricated_claims
+				target = SAV
+				months = 300
+			}
+			reverse_add_opinion = {
+				who = SAV
+				modifier = hrema57_opinion
+			}
+		}
+	}
+	option = {
+		name = "HREMB57"
+		ai_chance = { factor = 25 }
+       	add_stability = 1
+		add_prestige = 20
+		if = {
+			limit = { tag = SAV }
+			reverse_add_opinion = {
+				who = PIE
+				modifier = hremb57_opinion
+			}
+		}
+		if = {
+			limit = { tag = SAV }
+			reverse_add_opinion = {
+				who = PIE
+				modifier = hremb57_opinion
+			}
+		}
+    }
+}
+
 province_event = {
 	id = hremodevents.61
 	title = "HREMT61"
