@@ -1,6 +1,39 @@
 # INSTRUCTIONS:
 # -------------
 
+#Take High Kingship
+cb_take_high_kingship = {
+	valid_for_subject = no
+
+	is_triggered_only = yes
+	months = 120
+
+	prerequisites = {
+		NOT = { any_country = { has_country_flag = high_king_war_f } }
+		FROM = { has_country_modifier = irish_high_king }
+		has_regency = no
+		is_female = no
+	}
+
+	war_goal = superiority_high_kingship
+}
+
+# Unification of Ireland
+cb_irish_unification = {
+	valid_for_subject = no
+
+	prerequisites = {
+		has_country_modifier = irish_high_king
+		FROM = {
+			NOT = { is_subject_of = ROOT }
+			any_owned_province = { superregion = irish_superregion }
+		}
+		is_neighbor_of = FROM
+	}
+
+	war_goal = superiority_irish_unification
+}
+
 #Restore paria
 cb_restore_paria = {
 	valid_for_subject = no
@@ -939,8 +972,10 @@ cb_chinese_unification = {
 		FROM = {
 			NOT = { is_subject_of = ROOT }
 			any_owned_province = {
-				superregion = russia_superregion
-				superregion = ruthenia_superregion
+				OR = {
+					superregion = russia_superregion
+					superregion = ruthenia_superregion
+				}
 			}
 		}
 		is_neighbor_of = FROM
