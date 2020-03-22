@@ -288,18 +288,26 @@ country_decisions = {
 			NOT = { government = theocracy }
 			NOT = { has_country_modifier = donated_ho }
 			normal_or_historical_nations = yes
-			TEU = {
-				exists = yes
-				is_free_or_tributary_trigger = yes
-				has_reform = crusader_order_reform
-				religion = catholic
+			any_country = {
+				NOT = { num_of_cities = 30 }
 				NOT = { war_with = ROOT }
+				NOT = { is_enemy = ROOT }
+				NOT = { is_rival = ROOT }
+				has_reform = crusader_order_reform
+				is_free_or_tributary_trigger = yes
+				religion = catholic
+				OR = {
+					tag = TEU
+					tag = LIV
+					tag = KNI
+					tag = TEM
+				}
 			}
 		}
 		allow = { treasury = 100 }
-		effect = {
+		effect = { 
+			country_event = { id = hremodevents.23 }
 			add_treasury = -100
-			TEU = { country_event = { id = hremodevents.47 } }
 			add_country_modifier = {
 				name = "donated_ho"
 				duration = 3650
@@ -312,13 +320,14 @@ country_decisions = {
 				OR = {
 					NOT = { treasury = 200 }
 					is_at_war = yes
-					is_enemy = TEU
-					is_rival = TEU
-					TEU = { num_of_cities = 33 }
-					AND = {
-						is_defender_of_faith = no
-						NOT = { ruler_has_personality = zealot_personality }
-					}
+				}
+			}
+			modifier = {
+				factor = 0
+				is_defender_of_faith = no
+				OR = {
+					NOT = { ruler_has_personality = zealot_personality }
+					NOT = { ruler_has_personality = naive_personality }
 				}
 			}
 		}
