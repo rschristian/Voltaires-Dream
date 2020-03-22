@@ -1250,6 +1250,49 @@ country_event = {
     }
 }
 
+country_event = {
+	id = hremodevents.25
+	title = "HREMT25"
+	desc = {
+		trigger = { is_female = no }
+		desc = HREMD25
+	}
+	desc = {
+		trigger = { is_female = yes }
+		desc = HREMDD25
+	}
+	picture = ROYAL_COUPLE_FUTURE_eventPicture
+
+	trigger = {
+		has_dlc = "Rights of Man"
+		has_government_attribute = queen
+		is_lesser_in_union = no
+		religion = zoroastrian
+		num_of_consorts = 0
+		government = monarchy
+		has_regency = no
+		has_consort = no
+		NOT = { has_ruler_flag = had_xwedodah_question }
+	}
+
+	mean_time_to_happen =  { months = 12 }
+
+	option = {
+		name = "HREMA25"
+		ai_chance = { factor = 75 }
+		custom_tooltip = hrema25.tt
+		set_ruler_flag = had_xwedodah_question
+		hidden_effect = { define_consort = { dynasty = ROOT } }
+		set_consort_flag = xvaetvadatha_flag
+	}
+	option = {
+		name = "HREMB25"
+		ai_chance = { factor = 25 }
+		set_ruler_flag = had_xwedodah_question
+		add_legitimacy = -5
+	}
+}
+
 province_event = {
 	id = hremodevents.26
 	title = "HREMT26"
@@ -4011,5 +4054,46 @@ country_event = {
 		add_prestige = 25
 		custom_tooltip = hrema84.tt
 		set_global_flag = enable_reconquista_holy_orders_flag
+	}
+}
+
+country_event = {
+	id = hremodevents.85
+	title = "HREMT85"
+	desc = "HREMD85"
+	picture = NEW_HEIR_eventPicture
+
+	trigger = {
+		religion = zoroastrian
+		has_consort_flag = xvaetvadatha_flag
+		NOT = { has_heir_flag = mazda_blessing }
+		heir_has_ruler_dynasty = yes
+		NOT = { heir_adm = 6 }
+		NOT = { heir_dip = 6 }
+		NOT = { heir_mil = 6 }
+		NOT = { heir_age = 1 }
+		has_regency = no
+		has_heir = yes
+	}
+	mean_time_to_happen = { months = 0 }
+	immediate = { hidden_effect = { set_heir_flag = mazda_blessing } }
+
+	option = {
+		name = "HREMA85"
+		random_list = {
+			25 = { change_heir_adm = 1 }
+			25 = { change_heir_dip = 1 }
+			25 = { change_heir_mil = 1 }
+			25 = {
+				if = {
+					limit = {
+						has_dlc = "Rights of Man"
+						NOT = { heir_has_personality = infertile_personality }
+					}
+					add_heir_personality = infertile_personality
+				}
+				else = { add_heir_claim = -20 }
+			}
+		}
 	}
 }
