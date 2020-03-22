@@ -107,6 +107,9 @@ NDefines.NFrontend.FRONTEND_POS_Y = 1900.0
 NDefines.NFrontend.FRONTEND_POS_Z = 1150.0
 NDefines.NFrontend.FRONTEND_LOOK_X = 3850.0
 NDefines.NFrontend.FRONTEND_LOOK_Z = 1150.0
+NDefines.NFrontend.SETTINGS_LOOK_X = 2958.0
+NDefines.NFrontend.TUTORIAL_LOOK_X = 2894.0
+NDefines.NFrontend.CREDITS_LOOK_X = 3077.0
 
 NDefines.NReligion.MAYA_COLLAPSE_PROVINCES = 2
 NDefines.NReligion.YEARLY_DOOM_INCREASE = 0.5
