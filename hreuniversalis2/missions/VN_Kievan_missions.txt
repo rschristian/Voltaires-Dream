@@ -16,45 +16,51 @@ vn_kie_missions_slot_1 = {
         position = 1
         required_missions = { }
 		trigger = {
-			exists = BYZ
-			OR = {
-				AND = {
-					is_rival = BYZ
-					BYZ = {
-						OR = {
-							has_opinion_modifier = {
-								who = ROOT
-								modifier = insulted
-							}
-							has_opinion_modifier = {
-								who = ROOT
-								modifier = scornfully_insulted
+			if = {
+				limit = {
+					exists = BYZ
+				}
+				OR = {
+					AND = {
+						is_rival = BYZ
+						BYZ = {
+							OR = {
+								has_opinion_modifier = {
+									who = ROOT
+									modifier = insulted
+								}
+								has_opinion_modifier = {
+									who = ROOT
+									modifier = scornfully_insulted
+								}
 							}
 						}
 					}
-				}
-				AND = {
-					alliance_with = BYZ
-					reverse_has_opinion = {
-						who = BYZ
-						value = 150
+					AND = {
+						alliance_with = BYZ
+						reverse_has_opinion = {
+							who = BYZ
+							value = 150
+						}
 					}
 				}
 			}
+			else = {
+				num_of_allies = 5
+			}
 		}
 		effect = {
+			add_dip_power = 50
 			if = {
 				limit = { is_rival = BYZ }
-				add_prestige = 10
 				add_country_modifier = {
-					name = kie_byzantine_diplomacy_mission_1
+					name = kie_byzantine_diplomacy_mission_a
 					duration = 9125
 				}
 			}
 			else = {
-				add_manpower = 5
 				add_country_modifier = {
-					name = kie_byzantine_diplomacy_mission_2
+					name = kie_byzantine_diplomacy_mission_b
 					duration = 9125
 				}
 			}
@@ -119,19 +125,19 @@ vn_kie_missions_slot_1 = {
 			}
             3836 = {
 				add_province_modifier = {
-					name = kie_ruriks_residences
+					name = kie_ruriks_residences_mission
 					duration = 10950
 				}
 			}
 			4281 = {
 				add_province_modifier = {
-					name = kie_ruriks_residences
+					name = kie_ruriks_residences_mission
 					duration = 10950
 				}
 			}
 			6144 = {
 				add_province_modifier = {
-					name = kie_ruriks_residences
+					name = kie_ruriks_residences_mission
 					duration = 10950
 				}
 			}
@@ -154,7 +160,13 @@ vn_kie_missions_slot_1 = {
 			}
         }
         effect = {
-            
+            4237 = {
+				add_base_manpower = 3
+			}
+			add_country_modifier = {
+				name = kie_golden_gates_of_kiev_mission
+				duration = 9125
+			}
         }
 	}
     vn_kie_conquer_chernigov = {
@@ -602,6 +614,7 @@ vn_kie_missions_slot_2 = {
 			infantry_fraction = 0.4
         }
         effect = {
+			add_army_professionalism = 0.02
             add_country_modifier = {
 				name = kie_tempering_the_druzhina_mission
 				duration = 9125
@@ -1026,6 +1039,34 @@ vn_kie_missions_slot_2 = {
         }
         effect = {
 			add_mercantilism = 2
+			veps_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			neva_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			ingria_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			vyborg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
             add_country_modifier = {
 				name = kie_conquer_novgorod_mission
 				duration = 9125
@@ -1091,6 +1132,36 @@ vn_kie_missions_slot_2 = {
 			}
         }
 	}
+	vn_kie_conquer_poland = {
+        icon = mission_unite_home_region
+        position = 16
+		required_missions = { vn_kie_conquer_galicia }
+		provinces_to_highlight = {
+			OR = {
+				region = mazovia_region
+				region = wielkopolska_region
+				region = malopolska_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            mazovia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			wielkopolska_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			malopolska_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+			
+        }
+	}
 }
 
 vn_kie_missions_slot_3 = {
@@ -1112,7 +1183,10 @@ vn_kie_missions_slot_3 = {
 			has_3_advisors_trigger = yes
 		}
 		effect = {
-			
+			add_country_modifier = {
+				name = kie_assemble_the_veche_mission
+				duration = 9125
+			}
 		}
 	}
 	vn_kie_formalize_poliudie = {
@@ -1249,6 +1323,13 @@ vn_kie_missions_slot_3 = {
                 }
                 add_permanent_claim = ROOT
 			}
+			oka_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
 			add_country_modifier = {
 				name = kie_restrict_the_peasantry_mission
 				duration = 9125
@@ -1303,7 +1384,20 @@ vn_kie_missions_slot_3 = {
 			}
 		}
 		effect = {
-			
+			halicia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			belz_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
 		}
 	}
 	vn_kie_conquer_galicia = {
@@ -1328,7 +1422,27 @@ vn_kie_missions_slot_3 = {
 			}
 		}
 		effect = {
-			
+			mazovia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			wielkopolska_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			malopolska_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
 		}
 	}
 }
@@ -1564,10 +1678,8 @@ vn_kie_missions_slot_4 = {
 					limit = {
 						is_empty = yes
 					}
-					else = {
-						add_core = ROOT
-						cede_province = ROOT
-					}
+					add_core = ROOT
+					cede_province = ROOT
 				}
 			}
 			3802 = {
@@ -1575,10 +1687,8 @@ vn_kie_missions_slot_4 = {
 					limit = {
 						is_empty = yes
 					}
-					else = {
-						add_core = ROOT
-						cede_province = ROOT
-					}
+					add_core = ROOT
+					cede_province = ROOT
 				}
 			}
 			3801 = {
@@ -1586,10 +1696,8 @@ vn_kie_missions_slot_4 = {
 					limit = {
 						is_empty = yes
 					}
-					else = {
-						add_core = ROOT
-						cede_province = ROOT
-					}
+					add_core = ROOT
+					cede_province = ROOT
 				}
 			}
 			3800 = {
@@ -1597,10 +1705,8 @@ vn_kie_missions_slot_4 = {
 					limit = {
 						is_empty = yes
 					}
-					else = {
-						add_core = ROOT
-						cede_province = ROOT
-					}
+					add_core = ROOT
+					cede_province = ROOT
 				}
 			}
 			3733 = {
@@ -1608,10 +1714,8 @@ vn_kie_missions_slot_4 = {
 					limit = {
 						is_empty = yes
 					}
-					else = {
-						add_core = ROOT
-						cede_province = ROOT
-					}
+					add_core = ROOT
+					cede_province = ROOT
 				}
 			}
 			6220 = {
@@ -1619,10 +1723,8 @@ vn_kie_missions_slot_4 = {
 					limit = {
 						is_empty = yes
 					}
-					else = {
-						add_core = ROOT
-						cede_province = ROOT
-					}
+					add_core = ROOT
+					cede_province = ROOT
 				}
 			}
         }
@@ -1683,7 +1785,27 @@ vn_kie_missions_slot_4 = {
 			}
         }
         effect = {
-            
+            ryazan_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			oskol_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			tambov_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_kie_conquer_ryazan = {
