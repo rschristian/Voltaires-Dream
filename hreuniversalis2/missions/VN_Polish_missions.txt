@@ -275,7 +275,21 @@ vn_pol_missions_slot_1 = {
             }
         }
         effect = {
-            
+            1138 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+            }
+            2419 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+            }
+            402 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+            }
         }
     }
     vn_pol_polish_renaissance = {
@@ -290,6 +304,10 @@ vn_pol_missions_slot_1 = {
         }
         effect = {
             country_event = { id = flavor_pol.5100 }
+            add_country_modifier = {
+                name = pol_polish_renaissance_mission
+                duration = 9125
+            }
         }
 	}
 }
@@ -472,14 +490,39 @@ vn_pol_missions_slot_2 = {
                         religion = catholique
                     }
                 }
-                papal_influence = 100
                 num_of_cardinals = 3
+                if = {
+                    limit = { religion = catholic }
+                    reverse_has_opinion = {
+                        who = PAP
+                        value = 150
+                    }
+                }
+                if = {
+                    limit = { religion = catholique }
+                    reverse_has_opinion = {
+                        who = AVI
+                        value = 150
+                    }
+                }
             }
             else = {
                 religious_unity = 1
             }
+            if = {
+                limit = { has_estate = estate_church }
+                estate_loyalty = {
+                    estate = estate_church
+                    loyalty = 60
+                }
+                estate_influence = {
+                    estate = estate_church
+                    influence = 40
+                }
+            }
         }
         effect = {
+            add_papal_influence = 10
             add_country_modifier = {
                 name = pol_royal_cathedrals_mission
                 duration = 9125
@@ -498,12 +541,29 @@ vn_pol_missions_slot_2 = {
                 current_age = age_of_ideology
             }
             OR = {
-                inquisitor = 3
-                theologian = 3
+                AND = {
+                    religion = reformed
+                    fervor = 75
+                }
+                AND = {
+                    religion = catholic
+                    papal_influence = 150
+                }
+                AND = {
+                    OR = {
+                        religion = protestant
+                        religion = anabaptist
+                        religion = anglican
+                    }
+                    church_power = 150
+                }
             }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = pol_polish_bible_mission
+                duration = 9125
+            }
         }
     }
     vn_pol_statute_of_kalisz = {
@@ -511,10 +571,16 @@ vn_pol_missions_slot_2 = {
         position = 8
         required_missions = { vn_pol_polish_bible }
         trigger = {
-            
+            NOT = { corruption = 0.01 }
+            NOT = { num_of_rebel_armies = 1 }
+            NOT = { num_of_rebel_controlled_provinces = 1 }
+            has_adm_advisor_3 = yes
         }
         effect = {
-            
+            add_country_modifier = {
+                name = pol_statute_of_kalisz_mission
+                duration = 9125
+            }
         }
     }
 }
@@ -755,6 +821,7 @@ vn_pol_missions_slot_3 = {
             }
         }
         effect = {
+            add_prestige = 15
             lithuania_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -817,32 +884,31 @@ vn_pol_missions_slot_3 = {
             }
         }
         effect = {
-            if = {
-                limit = {
-                    NOT = {
-                        primary_culture = lithuanian
-                        accepted_culture = lithuanian
-                    }
-                }
-                add_accepted_culture = lithuanian
-            }
-            else = {
-                add_dip_power = 50
+            add_pretsige = 10
+            add_army_tradition = 10
+            add_country_modifier = {
+                name = pol_conquer_lithuania_mission
+                duration = 9125
             }
         }
     }
     vn_pol_the_commonwealth = {
-        icon = mission_unite_home_region
+        icon = mission_empire
         position = 8
         required_missions = { vn_pol_conquer_lithuania vn_pol_conquer_kiev }
         trigger = {
             tag = PLC
-
+            stability = 2
+            NOT = { overextension_percentage = 1 }
         }
         effect = {
+            add_adm_power = 100
+            add_dip_power = 100
+            add_mil_power = 100
+            add_prestige = 25
             add_country_modifier = {
                 name = pol_the_commonwealth_mission
-                duration = 9125
+                duration = 18250
             }
         }
 	}
@@ -865,7 +931,7 @@ vn_pol_missions_slot_4 = {
     has_country_shield = yes
 
     vn_pol_avoid_fragmentation = {
-        icon = mission_unite_home_region
+        icon = mission_restore_faith_in_the_throne
         position = 1
         required_missions = {  }
         trigger = {
@@ -883,6 +949,7 @@ vn_pol_missions_slot_4 = {
             }
         }
         effect = {
+            add_legitimacy = 10
             mazovia_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1153,7 +1220,12 @@ vn_pol_missions_slot_5 = {
             }
         }
         effect = {
-            
+            add_mercantilism = 2
+            add_years_of_income = 0.2
+            add_country_modifier = {
+                name = pol_establish_salt_mines_mission
+                duration = 9125
+            }
         }
     }
     vn_pol_polish_hussars = {
@@ -1169,6 +1241,9 @@ vn_pol_missions_slot_5 = {
             num_of_cavalry = 25
         }
         effect = {
+            create_general = {
+                tradition = 80
+            }
             slovakia_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1240,7 +1315,7 @@ vn_pol_missions_slot_5 = {
         }
     }
     vn_pol_conquer_hungary = {
-        icon = mission_empire
+        icon = mission_noble_council
         position = 5
         required_missions = { vn_pol_conquer_nitra }
         provinces_to_highlight = {
@@ -1266,7 +1341,10 @@ vn_pol_missions_slot_5 = {
             }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = pol_conquer_hungary_mission
+                duration = 9125
+            }
         }
 	}
     vn_pol_conquer_moldavia = {
@@ -1284,7 +1362,9 @@ vn_pol_missions_slot_5 = {
             }
         }
         effect = {
-            
+            add_adm_power = 50
+            add_mil_power = 50
+            add_prestige = 10
         }
 	}
 }
