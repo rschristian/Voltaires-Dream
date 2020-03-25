@@ -989,15 +989,23 @@ country_event = {
 	trigger = {
 		NOT = { exists = CPP }
 		any_owned_province = {
-			region = anatolikon_region
+			OR = {
+				region = anatolikon_region
+				area = parorea_area
+			}
 		}
 	}
 	mean_time_to_happen = { days = 1 }
 
 	immediate = {
 		hidden_effect = {
-			anatolikon_region = {
-				limit = { owned_by = ROOT }
+			every_owned_province = {
+				limit = {
+					OR = {
+						region = anatolikon_region
+						area = parorea_area
+					}
+				}
 				add_core = CPP
 				cede_province = CPP
 			}
@@ -1131,11 +1139,10 @@ country_event = {
 		NOT = { exists = RUM }
 		any_owned_province = {
 			OR = {
-				region = thrakesion_region
 				region = opsikion_region
-				region = phrygia_region
-				area = pamphylia_area
-				area = lycia_area
+				area = lydia_area
+				area = ionia_area
+				area = kotiaeion_area
 			}
 		}
 	}
@@ -1146,11 +1153,10 @@ country_event = {
 			every_owned_province = {
 				limit = {
 					OR = {
-						region = thrakesion_region
 						region = opsikion_region
-						region = phrygia_region
-						area = pamphylia_area
-						area = lycia_area
+						area = lydia_area
+						area = ionia_area
+						area = kotiaeion_area
 					}
 				}
 				add_core = RUM
@@ -1300,7 +1306,7 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { exists = AYD }
+		NOT = { exists = SRU }
 		any_owned_province = {
 			area = chios_area
 		}
@@ -1311,12 +1317,12 @@ country_event = {
 		hidden_effect = {
 			chios_area = {
 				limit = { owned_by = ROOT }
-				add_core = AYD
-				cede_province = AYD
+				add_core = SRU
+				cede_province = SRU
 			}
 			if = {
-				limit = { AYD = { ai = yes } }
-				AYD = {
+				limit = { SRU = { ai = yes } }
+				SRU = {
 					set_in_empire = no
 					set_government_rank = 3
 					add_accepted_culture = greek
@@ -1341,7 +1347,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		custom_tooltip = byz_crisis.tt
 		hidden_effect = {
-			AYD = {
+			SRU = {
 				every_owned_province = {
 					limit = { is_core = BYZ }
 					remove_core = BYZ
@@ -1353,7 +1359,7 @@ country_event = {
 		name = "byz_crisis.22.b"
 		ai_chance = { factor = 0 }
 		declare_war_with_cb = {
-			who = AYD
+			who = SRU
 			casus_belli = cb_disloyal_vassal
 		}
 	}
@@ -1497,6 +1503,88 @@ country_event = {
 		ai_chance = { factor = 0 }
 		declare_war_with_cb = {
 			who = CRT
+			casus_belli = cb_disloyal_vassal
+		}
+	}
+}
+
+country_event = {
+	id = byz_crisis.25
+	title = "byz_crisis.25.t"
+	desc = "byz_crisis.25.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = AYD }
+		any_owned_province = {
+			OR = {
+				area = doris_area
+				area = caria_area
+				area = pisidia_area
+				area = pamphylia_area
+				area = lycia_area
+			}
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					OR = {
+						area = doris_area
+						area = caria_area
+						area = pisidia_area
+						area = pamphylia_area
+						area = lycia_area
+					}
+				}
+				add_core = AYD
+				cede_province = AYD
+			}
+			if = {
+				limit = { AYD = { ai = yes } }
+				AYD = {
+					set_in_empire = no
+					set_government_rank = 3
+					add_accepted_culture = greek
+					add_stability = 3
+					define_ruler = {
+						name = "Tengribirmish"
+						dynasty = "Selçukoglu"
+					}
+					random_owned_province = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	option = {
+		name = "byz_crisis.25.a"
+		ai_chance = { factor = 100 }
+		custom_tooltip = byz_crisis.tt
+		hidden_effect = {
+			AYD = {
+				every_owned_province = {
+					limit = { is_core = BYZ }
+					remove_core = BYZ
+				}
+			}
+		}
+	}
+	option = {
+		name = "byz_crisis.25.b"
+		ai_chance = { factor = 0 }
+		declare_war_with_cb = {
+			who = AYD
 			casus_belli = cb_disloyal_vassal
 		}
 	}

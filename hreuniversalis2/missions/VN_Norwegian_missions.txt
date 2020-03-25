@@ -315,9 +315,7 @@ vn_nor_missions_slot_2_a = {
         required_missions = { vn_nor_settle_succession }
         trigger = {
 			has_adm_advisor_3 = yes
-            employed_advisor = {
-				type = artist
-			}
+            artist = 2
 			prestige = 50
         }
         effect = {
@@ -1054,37 +1052,50 @@ vn_nor_missions_slot_5_a = {
         position = 1
         required_missions = {  }
         trigger = {
-			#add - rework so can be destroyed if protestant
-            if = {
-				limit = { has_estate = estate_church }
-				estate_loyalty = {
-					estate = estate_church
-					loyalty = 60
-				}
-			}
-			uses_papacy = yes
-			papal_influence = 100
-			num_of_owned_provinces_with = {
-				value = 10
-				has_estate = estate_church
-			}
-			custom_trigger_tooltip = {
-				tooltip = vn_nor_archdiocese_of_nidaros.tt
-				any_known_country = {
-					religion = catholic
-					has_opinion = {
-						who = ROOT
-						value = 125
+			OR = {
+				AND = {
+					if = {
+						limit = { has_estate = estate_church }
+						estate_loyalty = {
+							estate = estate_church
+							loyalty = 60
+						}
+					}
+					uses_papacy = yes
+					papal_influence = 100
+					num_of_owned_provinces_with = {
+						value = 10
+						has_estate = estate_church
+					}
+					custom_trigger_tooltip = {
+						tooltip = vn_nor_archdiocese_of_nidaros.tt
+						any_known_country = {
+							religion = catholic
+							has_opinion = {
+								who = ROOT
+								value = 125
+							}
+						}
 					}
 				}
+				uses_church_aspects = yes
 			}
+			
         }
         effect = {
-			add_ruler_modifier = {
-				name = "nor_archdiocese_of_nidaros_mission"
-				duration = -1
+			if = {
+				limit = { uses_papacy = yes }
+				add_ruler_modifier = {
+					name = "nor_archdiocese_of_nidaros_mission"
+					duration = -1
+				}
+				add_papal_influence = 20
 			}
-			add_papal_influence = 20
+			else = {
+				custom_tooltip = vn_nor_archdiocese_of_nidaros.tt2
+				add_church_power = 100
+				add_fervor = 50
+			}
         }
 	}
 }

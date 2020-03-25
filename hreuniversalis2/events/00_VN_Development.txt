@@ -97,6 +97,10 @@ province_event = {
 			has_terrain = farmlands
 		}
 		modifier = {
+			factor = 0.9
+			is_capital = yes
+		}
+		modifier = {
 			factor = 2.5
 			OR = {
 				has_terrain = coastal_desert
@@ -419,7 +423,7 @@ province_event = {
 		}
 		modifier = {
 			factor = 0.9
-			is_at_war = yes
+			owner = { is_at_war = yes }
 		}
 	}
 
@@ -501,7 +505,7 @@ province_event = {
 			}
 			modifier = {
 				factor = 0
-				num_of_loans = 1
+				owner = { num_of_loans = 1 }
 			}
 		}
 		custom_tooltip = dev_events.2.b.tt4
@@ -610,6 +614,26 @@ province_event = {
 		trigger = { province_id = 548 }
 		desc = dev_events.3.d1
 	}
+	desc = {
+		#Salamanca
+		trigger = { province_id = 2718 }
+		desc = dev_events.3.d2
+	}
+	desc = {
+		#Amsterdam
+		trigger = { province_id = 328 }
+		desc = dev_events.3.d3
+	}
+	desc = {
+		#Madrid
+		trigger = { province_id = 1236 }
+		desc = dev_events.3.d4
+	}
+	desc = {
+		#Marrakesh
+		trigger = { province_id = 4762 }
+		desc = dev_events.3.d5
+	}
 	picture = GREAT_BUILDING_eventPicture
 
 	major = yes
@@ -624,14 +648,37 @@ province_event = {
 			#Paris
 			AND = {
 				province_id = 548
-				is_year = 1160
-				NOT = { is_year = 1260 }
+				has_institution = universities
+			}
+			#Salamanca
+			AND = {
+				province_id = 2718
+				has_institution = universities
+			}
+			#Amsterdam
+			AND = {
+				province_id = 328
+				has_institution = global_trade
+			}
+			#Madrid
+			AND = {
+				province_id = 1236
+				has_institution = printing_press
+			}
+			#Marrakesh
+			AND = {
+				province_id = 4762
+				has_institution = feudalism
 			}
 		}
 	}
 
 	mean_time_to_happen = {
 		months = 600
+	}
+
+	immediate = {
+		owner = { save_event_target_as = rise_owner_country }
 	}
 
 	option = {
@@ -641,6 +688,10 @@ province_event = {
 			limit = {
 				OR = {
 					province_id = 548
+					province_id = 2718
+					province_id = 328
+					province_id = 1236
+					province_id = 4762
 				}
 			}
 			add_base_tax = 2
@@ -668,7 +719,7 @@ province_event = {
 	}
 }
 
-#Fall of X
+#Fall of X (Siege)
 province_event = {
 	id = dev_events.4
 	title = dev_events.4.t
@@ -719,7 +770,7 @@ province_event = {
 		}
 		add_devastation = 25
 		owner = { 
-			add_prestige = -25
+			add_prestige = -20
 		}
 		FROM = {
 			add_years_of_income = 1
@@ -732,3 +783,5 @@ province_event = {
 		set_province_flag = vn_province_fell
 	}
 }
+
+#add - TO DO: add natural decline event for specific cities triggered by mtth
