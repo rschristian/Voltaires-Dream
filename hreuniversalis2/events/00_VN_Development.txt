@@ -27,9 +27,8 @@ province_event = {
 				}
 			} 
 		}
-		owned_by = ROOT
-		controlled_by = ROOT
-		is_core = ROOT
+		controlled_by = owner
+		is_core = owner
 		NOT = { has_province_flag = vn_province_rose }
 		owner = {
 			any_owned_province = {
@@ -298,8 +297,6 @@ province_event = {
 			limit = { has_dlc = "Mandate of Heaven" }
 			NOT = { prosperity = 100 }
 		}
-		owned_by = ROOT
-		is_core = ROOT
 		owner = {
 			any_owned_province = {
 				NOT = {
@@ -639,9 +636,8 @@ province_event = {
 	major = yes
 
 	trigger = {
-		owned_by = ROOT
-		controlled_by = ROOT
-		is_core = ROOT
+		controlled_by = owner
+		is_core = owner
 		NOT = { has_province_flag = vn_rise_major }
 		NOT = { devastation = 1 }
 		OR = {
@@ -735,8 +731,6 @@ province_event = {
 	major = yes
 
 	trigger = {
-		owned_by = ROOT
-		is_core = ROOT
 		NOT = { prosperity = 100 }
 		NOT = { has_province_flag = vn_fall_major }
 		OR = {
@@ -778,6 +772,60 @@ province_event = {
 		if = {
 			limit = { has_dlc = "Mandate of Heaven" }
 			add_prosperity = -25
+		}
+		set_province_flag = vn_fall_major
+		set_province_flag = vn_province_fell
+	}
+}
+
+#Destruction of X (Siege)
+province_event = {
+	id = dev_events.5
+	title = dev_events.5.t
+	desc = {
+		#x
+		trigger = { }
+		desc = dev_events.5.d1
+	}
+	picture = SIEGE_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	trigger = {
+		owned_by = ROOT
+		NOT = { has_province_flag = vn_fall_major }
+		OR = {
+			#x
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			owner = { save_event_target_as = destruction_owner_country }
+		}
+	}
+
+	option = {
+		name = dev_events.5.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				OR = {
+					#x
+				}
+			}
+			add_base_tax = -2
+			add_base_production = -2
+			add_base_manpower = -2
+		}
+		add_devastation = 100
+		owner = { 
+			add_prestige = -50
+		}
+		if = {
+			limit = { has_dlc = "Mandate of Heaven" }
+			add_prosperity = -100
 		}
 		set_province_flag = vn_fall_major
 		set_province_flag = vn_province_fell
