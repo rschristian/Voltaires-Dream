@@ -674,11 +674,13 @@ province_event = {
 	}
 
 	mean_time_to_happen = {
-		months = 600
+		months = 300
 	}
 
 	immediate = {
-		owner = { save_event_target_as = rise_owner_country }
+		hidden_effect = {
+			owner = { save_event_target_as = rise_owner_country }
+		}
 	}
 
 	option = {
@@ -719,7 +721,7 @@ province_event = {
 	}
 }
 
-#Fall of X (Siege)
+#Fall of X
 province_event = {
 	id = dev_events.4
 	title = dev_events.4.t
@@ -728,31 +730,32 @@ province_event = {
 		trigger = { province_id = 2233 }
 		desc = dev_events.4.d1
 	}
-	picture = SIEGE_eventPicture
+	picture = PLAGUE_eventPicture
 
-	is_triggered_only = yes
 	major = yes
 
 	trigger = {
 		owned_by = ROOT
 		is_core = ROOT
+		NOT = { prosperity = 100 }
 		NOT = { has_province_flag = vn_fall_major }
 		OR = {
 			#Constantinople
 			AND = {
 				province_id = 2233
-				FROM = { 
-					OR = {
-						culture_group = french
-						culture_group = latin
-					}
-				}
+				has_global_flag = constantinople_delivered
 			}
 		}
 	}
 
+	mean_time_to_happen = {
+		months = 300
+	}
+
 	immediate = {
-		owner = { save_event_target_as = fall_owner_country }
+		hidden_effect = {
+			owner = { save_event_target_as = fall_owner_country }
+		}
 	}
 
 	option = {
@@ -772,9 +775,6 @@ province_event = {
 		owner = { 
 			add_prestige = -20
 		}
-		FROM = {
-			add_years_of_income = 1
-		}
 		if = {
 			limit = { has_dlc = "Mandate of Heaven" }
 			add_prosperity = -25
@@ -783,5 +783,3 @@ province_event = {
 		set_province_flag = vn_province_fell
 	}
 }
-
-#add - TO DO: add natural decline event for specific cities triggered by mtth

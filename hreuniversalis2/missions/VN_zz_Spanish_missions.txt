@@ -67,7 +67,8 @@ vn_spa_missions_slot_1_b = {
         position = 13
 		required_missions = { vn_spa_a_new_dynasty }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = lowlands_superregion
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -84,7 +85,19 @@ vn_spa_missions_slot_1_b = {
         position = 14
 		required_missions = { vn_spa_ambitions_in_lowlands }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				area = artois_area
+				area = flanders_area
+				area = antwerp_area
+				area = brabant_area
+				area = hainaut_area
+				area = guelders_area
+				area = utrecht_area
+				area = holland_area
+				area = overijssel_area
+				area = westfrisia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -140,7 +153,12 @@ vn_spa_missions_slot_1_b = {
 			vn_spa_eclipse_france 
 		}
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = picard_region
+				region = normandy_region
+			}
+			has_port = yes
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -164,7 +182,13 @@ vn_spa_missions_slot_1_b = {
 			vn_spa_construct_armada 
 		}
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = midlands_region
+				region = southwest_england_region
+				region = southeast_england_region
+				region = northumbria_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
 			midlands_region = {
@@ -193,7 +217,17 @@ vn_spa_missions_slot_1_b = {
         position = 17
 		required_missions = { vn_spa_invasion_of_england }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = midlands_region
+				region = southwest_england_region
+				region = southeast_england_region
+				region = northumbria_region
+			}
+			OR = {
+				unrest = 1
+				local_autonomy = 30
+				controlled_by = REB
+			}
 		}
         trigger = {
 			midlands_region = {
@@ -260,9 +294,14 @@ vn_spa_missions_slot_2_a = {
         position = 11
 		required_missions = { vn_spa_kingdom_of_spain }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = iberia_superregion
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
 		}
         trigger = {
+			legitimacy = 95
             iberia_superregion = {
 				type = all
 				owned_by = ROOT
@@ -276,17 +315,27 @@ vn_spa_missions_slot_2_a = {
     vn_spa_nueva_planta_decrees = {
         #icon = 
         position = 12
-        required_missions = { vn_spa_iberian_union }
+		required_missions = { vn_spa_iberian_union }
+		provinces_to_highlight = {
+			superregion = iberia_superregion
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			OR = {
+				local_autonomy = 30
+				unrest = 1
+				controlled_by = REB
+			}
+		}
         trigger = {
 			iberia_superregion = {
 				type = all
 				owned_by = ROOT
 				is_core = ROOT
-				NOT = { 
-					local_autonomy = 30
-					unrest = 1
-					controlled_by = REB 
-				}
+				NOT = { local_autonomy = 30 }
+				NOT = { unrest = 1 }
+				NOT = { controlled_by = REB }
 			}
 			absolutism = 75
 			has_reform_level = 6
@@ -554,10 +603,23 @@ vn_spa_missions_slot_3_a = {
         position = 10
 		required_missions = {  }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = castile_region
+				region = leonese_region
+				region = asturian_region
+				region = extremadura_region
+				region = andalusia_region
+				region = aragon_region
+				region = valencian_region
+				region = catalunya_region
+				region = basque_region
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
 		}
         trigger = {
-			legitimacy = 100
             castile_region = {
 				type = all
 				owned_by = ROOT
@@ -627,7 +689,7 @@ vn_spa_missions_slot_3_a = {
 				limit = { exists = HAB }
 				add_legitimacy = 10
 				add_heir_claim = 10
-				add_country_modifier = {	#add
+				add_country_modifier = {
 					name = "spa_a_new_dynasty_mission"
 					duration = 9125
 				}
@@ -687,7 +749,8 @@ vn_spa_missions_slot_3_a = {
         position = 14
 		required_missions = { vn_spa_french_rivalry }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = french_superregion
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -744,7 +807,7 @@ vn_spa_missions_slot_3_b = {
         position = 15
 		required_missions = { vn_spa_subjugate_naples }
 		provinces_to_highlight = {
-			#add highlight
+			province_id = 2235
 		}
         trigger = {
             2235 = {
@@ -753,7 +816,7 @@ vn_spa_missions_slot_3_b = {
         }
         effect = {
 			country_event = {
-				id = vn_missions.78	#ADD - Sack of Rome
+				id = vn_missions.78
 			}
         }
     }
@@ -762,7 +825,11 @@ vn_spa_missions_slot_3_b = {
         position = 16
 		required_missions = { vn_spa_sack_of_rome }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = umbria_region
+				region = romagna_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             umbria_region = {
@@ -847,7 +914,7 @@ vn_spa_missions_slot_3_d = {
         position = 18
 		required_missions = { vn_spa_economic_stability }
 		provinces_to_highlight = {
-			#add highlight
+			province_id = 1236
 		}
         trigger = {
             1236 = {
@@ -862,7 +929,8 @@ vn_spa_missions_slot_3_d = {
 				add_base_tax = 1
 				add_base_production = 1
 				add_base_manpower = 1
-				#add more
+				move_capital_effect = yes
+				#addmore?
 			}
         }
     }
@@ -883,7 +951,8 @@ vn_spa_missions_slot_4_a = {
         position = 11
 		required_missions = { vn_spa_italian_ambition }
 		provinces_to_highlight = {
-			#add highlight
+			region = lombardy_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             lombardy_region = {
@@ -912,7 +981,8 @@ vn_spa_missions_slot_4_b = {
         position = 12
 		required_missions = { vn_spa_mediterranean_islands }
 		provinces_to_highlight = {
-			#add highlight
+			region = sicilia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             sicilia_region = {
@@ -929,7 +999,11 @@ vn_spa_missions_slot_4_b = {
         position = 14
 		required_missions = { vn_spa_acquire_sicily }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = apulia_region
+				region = campania_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             apulia_region = {
@@ -1085,7 +1159,8 @@ vn_spa_missions_slot_5_a = {
         position = 11
 		required_missions = { vn_spa_italian_ambition }
 		provinces_to_highlight = {
-			#add highlight
+			region = insular_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             insular_region = {
@@ -1172,7 +1247,7 @@ vn_spa_missions_slot_5_b = {
         position = 18
 		required_missions = { vn_spa_economic_stability }
 		provinces_to_highlight = {
-			#add highlight
+			area = sevilla_area
 		}
         trigger = {
             1867 = {
