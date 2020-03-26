@@ -1,0 +1,767 @@
+#Cordovan Missions
+#by ShyGuy13
+
+vn_crd_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = CRD
+        AND = {
+            tag = ADU
+            was_tag = CRD
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_crd_balance_of_power = {
+        position = 1
+        icon = mission_reliable_allies
+        required_missions = { }
+        trigger = {
+            calc_true_if = {
+                amount = 3
+                all_ally = {
+                    religion = ROOT
+                    total_development = 50
+                    has_opinion = {
+                        who = ROOT
+                        value = 150
+                    }
+                }
+            }
+        }
+        effect = {
+            add_dip_power = 50
+            cordoba_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_crd_conquer_cordoba = {
+        position = 3
+        icon = mission_conquer_kannauj
+        required_missions = { vn_crd_balance_of_power }
+        provinces_to_highlight = {
+            area = cordoba_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            cordoba_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_war_exhaustion = -2
+            cordoba_area = {
+                add_nationalism = -5
+                add_province_modifier = {
+                    name = crd_conquer_cordoba_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_crd_sevillan_diplomacy = {
+        icon = mission_friends_or_enemies
+        required_missions = { vn_crd_conquer_cordoba }
+        trigger = {
+            OR = {
+                AND = {
+                    alliance_with = SEV
+                    reverse_has_opinion = {
+                        who = SEV
+                        value = 150
+                    }
+                }
+                AND = {
+                    is_rival = SEV
+                    SEV = {
+						OR = {
+							has_opinion_modifier = {
+								who = ROOT
+								modifier = insulted
+							}
+							has_opinion_modifier = {
+								who = ROOT
+								modifier = scornfully_insulted
+							}
+						}
+					}
+                }
+                NOT = { exists = SEV }
+            }
+        }
+        effect = {
+            granada_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            almeria_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            huelva_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            sevilla_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = crd_sevillan_diplomacy_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_crd_conquer_sevilla = {
+        icon = mission_turning_the_tables
+        required_missions = { vn_crd_sevillan_diplomacy }
+        provinces_to_highlight = {
+            OR = {
+                area = huelva_area
+                area = sevilla_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            huelva_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            sevilla_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_stability_or_adm_power = yes
+            add_republican_tradition = 10
+            alentejo_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            algarve_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_crd_conquer_alentejo = {
+        icon = mission_conquer_nagaur
+        required_missions = { vn_crd_conquer_sevilla }
+        provinces_to_highlight = {
+            OR = {
+                area = alentejo_area
+                area = algarve_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            alentejo_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            algarve_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 10
+            add_mil_power = 100
+        }
+    }
+}
+
+vn_crd_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = CRD
+        AND = {
+            tag = ADU
+            was_tag = CRD
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_crd_spoils_of_war = {
+        position = 1
+        icon = mission_zambezi_gold
+        required_missions = { }
+        trigger = {
+            if = {
+                limit = { has_dlc = "Art of War" }
+                num_of_war_reparations = 3
+            }
+            else = {
+                share_of_starting_income = 5
+            }
+        }
+        effect = {
+            add_adm_power = 50
+            add_dip_power = 50
+            add_mil_power = 50
+        }
+    }
+    vn_crd_empower_the_guilds = {
+        icon = mission_valencian_silk
+        required_missions = { vn_crd_spoils_of_war }
+        trigger = {
+            trade_income_percentage = 0.3
+            if = {
+                limit = { has_dlc = "Dharma" }
+                any_owned_province = {
+                    province_has_center_of_trade_of_level = 3
+                }
+            }
+            if = {
+                limit = { has_estate = estate_burghers }
+                estate_loyalty = {
+                    estate = estate_burghers
+                    loyalty = 50
+                }
+                estate_territory = {
+                    estate = estate_burghers
+                    territory = 30
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = crd_empower_the_guilds_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_crd_agricultural_revolution = {
+        icon = mission_general_land_assessment
+        required_missions = { vn_crd_empower_the_guilds }
+        trigger = {
+            NOT = { average_autonomy = 50 }
+            num_of_owned_provinces_with = {
+                value = 10
+                base_production = 10
+                NOT = { local_autonomy = 30 }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = crd_agricultural_revolution_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_crd_trade_of_iberia = {
+        icon = mission_consume_the_baghels
+        required_missions = { vn_crd_agricultural_revolution }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 4626
+                province_id = 1135
+                province_id = 1208
+                province_id = 1955
+            }
+            NOT = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+        }
+        trigger = {
+            4626 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            1135 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            1208 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            1955 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+        }
+        effect = {
+            add_mercantilism = 10
+        }
+    }
+    vn_crd_conquer_granada = {
+        position = 5
+        icon = mission_conquer_maharashtra
+        required_missions = { vn_crd_sevillan_diplomacy }
+        provinces_to_highlight = {
+            OR = {
+                area = granada_area
+                area = almeria_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            granada_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            almeria_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            malaga_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_crd_conquer_malaga = {
+        icon = mission_reconquer_ceuta
+        required_missions = { vn_crd_conquer_granada vn_crd_conquer_sevilla }
+        provinces_to_highlight = {
+            area = malaga_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            malaga_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            761 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+                add_local_autonomy = -25
+                add_province_modifier = {
+                    name = crd_conquer_malaga_mission
+                    duration = -1
+                }
+            }
+        }
+    }
+}
+
+vn_crd_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = CRD
+        AND = {
+            tag = ADU
+            was_tag = CRD
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_crd_restore_cordoba = {
+        position = 2
+        icon = mission_fortify_mandu
+        required_missions = { vn_crd_spoils_of_war }
+        provinces_to_highlight = {
+            province_id = 2670
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { development = 26 }
+                num_free_building_slots = 1
+            }
+        }
+        trigger = {
+            adm_tech = 14
+            2670 = {
+                owned_by = ROOT
+                development = 26
+                NOT = { num_free_building_slots = 1 }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    NOT = {
+                        2670 = {
+                            province_has_center_of_trade_of_level = 3
+                        }
+                    }
+                }
+                2670 = {
+                    add_center_of_trade_level = 1
+                }
+            }
+            2670 = {
+                add_province_modifier = {
+                    name = crd_restore_cordoba_mission
+                    duration = -1
+                }
+            }
+        }
+    }
+    vn_crd_university_of_cordoba = {
+        position = 4
+        icon = mission_develop_cordoba
+        required_missions = { vn_crd_restore_cordoba vn_crd_agricultural_revolution }
+        provinces_to_highlight = {
+            province_id = 2670
+        }
+        trigger = {
+            2670 = {
+                owned_by = ROOT
+                has_building = university
+                NOT = { num_free_building_slots = 1 }
+            }
+        }
+        effect = {
+            change_innovativeness = 3
+            2670 = {
+                add_province_modifier = {
+                    name = crd_university_of_cordoba_mission
+                    duration = -1
+                }
+            }
+        }
+    }
+    vn_crd_restore_andalusia = {
+        icon = mission_restore_rule_over_mysore
+        required_missions = { vn_crd_construct_castles }
+        provinces_to_highlight = {
+            OR = {
+                region = extremadura_region
+                area = alentejo_area
+                area = algarve_area
+                area = murcia_area
+                area = denia_area
+            }
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { is_core = ROOT }
+            }
+        }
+        trigger = {
+            tag = ADU
+            extremadura_region = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+            alentejo_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+            algarve_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+            murcia_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+            denia_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+            }
+        }
+        effect = {
+            add_adm_power = 100
+            add_dip_power = 100
+            add_mil_power = 100
+            add_country_modifier = {
+                name = crd_restore_andalusia_mission
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_crd_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = CRD
+        AND = {
+            tag = ADU
+            was_tag = CRD
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_crd_promote_mozarabs = {
+        position = 1
+        icon = mission_portuguese_ceylon
+        required_missions = { }
+        trigger = {
+            if = {
+                limit = { has_estate = estate_dhimmi }
+                estate_influence = {
+                    estate = estate_dhimmi
+                    influence = 50
+                }
+                custom_trigger_tooltip = {
+                    tooltip = vn_crd_promote_mozarabs.tt
+                    NOT = {
+                        any_owned_province = {
+                            religion_group = christian
+                            OR = {
+                                devastation = 1
+                                unrest = 1
+                                NOT = {
+                                    controlled_by = ROOT
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else = {
+                stability = 2
+                religious_unity = 1
+            }
+            employed_advisor = {
+                religion = catholic
+            }
+        }
+        effect = {
+            add_dip_power = 50
+            add_country_modifier = {
+                name = crd_promote_mozarabs_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_crd_cultural_patron = {
+        position = 3
+        icon = mission_patronize_art_and_religion
+        required_missions = { vn_crd_promote_mozarabs vn_crd_restore_cordoba }
+        trigger = {
+            num_accepted_cultures = 4
+            num_of_owned_provinces_with = {
+                value = 10
+                OR = {
+                    has_building = temple
+                    has_building = cathedral
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = crd_cultural_patron_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_crd_construct_castles = {
+        icon = mission_el_badi_palace
+        required_missions = { vn_crd_promote_republicanism }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 3
+                area = cordoba_area
+                has_fort_trigger = yes
+            }
+            num_of_owned_provinces_with = {
+                value = 5
+                has_fort_trigger = yes
+            }
+        }
+        effect = {
+            add_prestige = 10
+            define_advisor = {
+                type = fortification_expert
+                skill = 2
+                discount = yes
+            }
+            hidden_effect = {
+                every_owned_province = {
+                    limit = {
+                        has_fort_trigger = yes
+                    }
+                }
+                add_base_manpower = 1
+            }
+            custom_tooltip = vn_crd_construct_castles.tt
+        }
+    }
+    vn_crd_fight_the_christians = {
+        icon = mission_castillian_aggression
+        required_missions = { vn_crd_construct_castles }
+        trigger = {
+            any_country = {
+                religion_group = christian
+                war_with = ROOT
+                NOT = {
+                    war_score_against = {
+                        who = ROOT
+                        value = -75
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = crd_fight_the_christians_mission
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_crd_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+
+    potential = {
+        tag = CRD
+        AND = {
+            tag = ADU
+            was_tag = CRD
+        }
+		NOT = { map_setup = map_setup_random }
+	}
+    has_country_shield = yes
+
+    vn_crd_summon_a_council = {
+        position = 1
+        icon = mission_gharbianss
+        required_missions = { }
+        trigger = {
+            has_3_advisors_trigger = yes
+        }
+        effect = {
+            cordoba_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            jaen_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = crd_summon_a_council_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_crd_promote_republicanism = {
+        position = 3
+        icon = mission_reclaim_morocco
+        required_missions = { vn_crd_summon_a_council }
+        trigger = {
+            if = {
+                limit = { has_dlc = "Dharma" }
+                has_reform_level = 3
+            }
+            stability = 2
+            legitimacy_equivalent = 95
+        }
+        effect = {
+            add_reform_progress_medium_effect = yes
+            murcia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            denia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }  
+            add_country_modifier = {
+                name = crd_promote_republicanism_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_crd_conquer_murica = {
+        position = 5
+        icon = mission_reclaim_lost_territory
+        required_missions = { vn_crd_promote_republicanism }
+        provinces_to_highlight = {
+            OR = {
+                area = murcia_area
+                area = denia_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            murcia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            denia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_years_of_income = 0.25
+            add_country_modifier = {
+                name = crd_conquer_murica_mission
+                duration = 9125
+            }
+        }
+    }
+}
