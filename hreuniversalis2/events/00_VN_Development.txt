@@ -27,9 +27,8 @@ province_event = {
 				}
 			} 
 		}
-		owned_by = ROOT
-		controlled_by = ROOT
-		is_core = ROOT
+		controlled_by = owner
+		is_core = owner
 		NOT = { has_province_flag = vn_province_rose }
 		owner = {
 			any_owned_province = {
@@ -298,8 +297,6 @@ province_event = {
 			limit = { has_dlc = "Mandate of Heaven" }
 			NOT = { prosperity = 100 }
 		}
-		owned_by = ROOT
-		is_core = ROOT
 		owner = {
 			any_owned_province = {
 				NOT = {
@@ -639,9 +636,8 @@ province_event = {
 	major = yes
 
 	trigger = {
-		owned_by = ROOT
-		controlled_by = ROOT
-		is_core = ROOT
+		controlled_by = owner
+		is_core = owner
 		NOT = { has_province_flag = vn_rise_major }
 		NOT = { devastation = 1 }
 		OR = {
@@ -674,7 +670,13 @@ province_event = {
 	}
 
 	mean_time_to_happen = {
-		months = 600
+		months = 300
+	}
+
+	immediate = {
+		hidden_effect = {
+			owner = { save_event_target_as = rise_owner_country }
+		}
 	}
 
 	immediate = {
@@ -727,32 +729,40 @@ province_event = {
 		#Constantinople
 		trigger = { province_id = 2233 }
 		desc = dev_events.4.d1
+		#Amalfi
+		trigger = { province_id = 2880 }
+		desc = dev_events.4.d2
 	}
-	picture = SIEGE_eventPicture
+	picture = PLAGUE_eventPicture
 
-	is_triggered_only = yes
 	major = yes
 
 	trigger = {
-		owned_by = ROOT
-		is_core = ROOT
+		NOT = { prosperity = 100 }
 		NOT = { has_province_flag = vn_fall_major }
 		OR = {
 			#Constantinople
 			AND = {
 				province_id = 2233
-				FROM = { 
-					OR = {
-						culture_group = french
-						culture_group = latin
-					}
-				}
+				has_global_flag = constantinople_delivered
+			}
+			#Amalfi
+			AND = {
+				province_id = 2880
+				is_year = 1150
+				NOT = { is_year = 1350 }
 			}
 		}
 	}
 
+	mean_time_to_happen = {
+		months = 300
+	}
+
 	immediate = {
-		owner = { save_event_target_as = fall_owner_country }
+		hidden_effect = {
+			owner = { save_event_target_as = fall_owner_country }
+		}
 	}
 
 	option = {
@@ -762,6 +772,7 @@ province_event = {
 			limit = {
 				OR = {
 					province_id = 2233
+					province_id = 1350
 				}
 			}
 			add_base_tax = -2
@@ -772,9 +783,6 @@ province_event = {
 		owner = { 
 			add_prestige = -20
 		}
-		FROM = {
-			add_years_of_income = 1
-		}
 		if = {
 			limit = { has_dlc = "Mandate of Heaven" }
 			add_prosperity = -25
@@ -784,4 +792,56 @@ province_event = {
 	}
 }
 
-#add - TO DO: add natural decline event for specific cities triggered by mtth
+#Destruction of X (Siege)
+province_event = {
+	id = dev_events.5
+	title = dev_events.5.t
+	desc = {
+		#x
+		trigger = { }
+		desc = dev_events.5.d1
+	}
+	picture = SIEGE_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	trigger = {
+		owned_by = ROOT
+		NOT = { has_province_flag = vn_fall_major }
+		OR = {
+			#x
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			owner = { save_event_target_as = destruction_owner_country }
+		}
+	}
+
+	option = {
+		name = dev_events.5.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				OR = {
+					#x
+				}
+			}
+			add_base_tax = -2
+			add_base_production = -2
+			add_base_manpower = -2
+		}
+		add_devastation = 100
+		owner = { 
+			add_prestige = -50
+		}
+		if = {
+			limit = { has_dlc = "Mandate of Heaven" }
+			add_prosperity = -100
+		}
+		set_province_flag = vn_fall_major
+		set_province_flag = vn_province_fell
+	}
+}

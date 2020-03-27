@@ -16,7 +16,7 @@ vn_spa_missions_slot_1_a = {
     has_country_shield = yes
 
     vn_spa_stance_on_reformation = {
-        #icon = 
+        icon = mission_religious
         position = 10
         required_missions = {  }
         trigger = {
@@ -36,7 +36,7 @@ vn_spa_missions_slot_1_a = {
         }
     }
     vn_spa_peace_of_westphalia = {
-        #icon = 
+        icon = mission_alliances
         position = 12
         required_missions = { vn_spa_stance_on_reformation }
         trigger = {
@@ -63,11 +63,12 @@ vn_spa_missions_slot_1_b = {
 	has_country_shield = yes
 	
     vn_spa_ambitions_in_lowlands = {
-        #icon = 
+        icon = mission_build_up_to_force_limit
         position = 13
 		required_missions = { vn_spa_a_new_dynasty }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = lowlands_superregion
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -80,11 +81,23 @@ vn_spa_missions_slot_1_b = {
         }
     }
     vn_spa_seventeen_provinces = {
-        #icon = 
+        icon = mission_spanish_netherlands
         position = 14
 		required_missions = { vn_spa_ambitions_in_lowlands }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				area = artois_area
+				area = flanders_area
+				area = antwerp_area
+				area = brabant_area
+				area = hainaut_area
+				area = guelders_area
+				area = utrecht_area
+				area = holland_area
+				area = overijssel_area
+				area = westfrisia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -133,14 +146,19 @@ vn_spa_missions_slot_1_b = {
         }
     }
     vn_spa_access_to_channel = {
-        #icon = 
+        icon = mission_caribbean_cn
         position = 15
         required_missions = { 
 			vn_spa_seventeen_provinces 
 			vn_spa_eclipse_france 
 		}
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = picard_region
+				region = normandy_region
+			}
+			has_port = yes
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -157,14 +175,20 @@ vn_spa_missions_slot_1_b = {
         }
     }
     vn_spa_invasion_of_england = {
-        #icon = 
+        icon = mission_invade_england
         position = 16
         required_missions = { 
 			vn_spa_access_to_channel 
 			vn_spa_construct_armada 
 		}
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = midlands_region
+				region = southwest_england_region
+				region = southeast_england_region
+				region = northumbria_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
 			midlands_region = {
@@ -189,11 +213,21 @@ vn_spa_missions_slot_1_b = {
         }
     }
     vn_spa_submission_of_england = {
-        #icon = 
+        icon = mission_rb_invade_england
         position = 17
 		required_missions = { vn_spa_invasion_of_england }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = midlands_region
+				region = southwest_england_region
+				region = southeast_england_region
+				region = northumbria_region
+			}
+			OR = {
+				unrest = 1
+				local_autonomy = 30
+				controlled_by = REB
+			}
 		}
         trigger = {
 			midlands_region = {
@@ -256,13 +290,18 @@ vn_spa_missions_slot_2_a = {
     has_country_shield = yes
 
     vn_spa_iberian_union = {
-        #icon = 
+        icon = mission_imperial_spain
         position = 11
 		required_missions = { vn_spa_kingdom_of_spain }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = iberia_superregion
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
 		}
         trigger = {
+			legitimacy = 95
             iberia_superregion = {
 				type = all
 				owned_by = ROOT
@@ -274,19 +313,29 @@ vn_spa_missions_slot_2_a = {
         }
     }
     vn_spa_nueva_planta_decrees = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 12
-        required_missions = { vn_spa_iberian_union }
+		required_missions = { vn_spa_iberian_union }
+		provinces_to_highlight = {
+			superregion = iberia_superregion
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
+			OR = {
+				local_autonomy = 30
+				unrest = 1
+				controlled_by = REB
+			}
+		}
         trigger = {
 			iberia_superregion = {
 				type = all
 				owned_by = ROOT
 				is_core = ROOT
-				NOT = { 
-					local_autonomy = 30
-					unrest = 1
-					controlled_by = REB 
-				}
+				NOT = { local_autonomy = 30 }
+				NOT = { unrest = 1 }
+				NOT = { controlled_by = REB }
 			}
 			absolutism = 75
 			has_reform_level = 6
@@ -430,7 +479,7 @@ vn_spa_missions_slot_2_b = {
 	has_country_shield = yes
 	
     vn_spa_spanish_emperorship = {
-        #icon = 
+        icon = mission_rb_control_electors
         position = 13
         required_missions = { vn_spa_a_new_dynasty }
         trigger = {
@@ -442,7 +491,7 @@ vn_spa_missions_slot_2_b = {
         }
     }
     vn_spa_habsburg_inheritance = {
-        #icon = 
+        icon = mission_the_austrian_succession
         position = 14
         required_missions = { 
 			vn_spa_ambitions_in_lowlands 
@@ -474,7 +523,7 @@ vn_spa_missions_slot_2_c = {
 	has_country_shield = yes
 	
     vn_spa_construct_armada = {
-        icon = mission_launch_a_flagship
+        icon = mission_spanish_armada
         position = 15
         required_missions = {  }
         trigger = {
@@ -501,7 +550,7 @@ vn_spa_missions_slot_2_c = {
         }
     }
     vn_spa_curb_naval_threats = {
-        #icon = 
+        icon = mission_disrupt_portuguese_trade
         position = 16
         required_missions = { vn_spa_construct_armada }
         trigger = {
@@ -517,7 +566,7 @@ vn_spa_missions_slot_2_c = {
         }
 	}
 	vn_spa_spanish_tercios = {
-        #icon = 
+        icon = mission_italian_condottiere
         position = 18
         required_missions = {  }
         trigger = {
@@ -550,14 +599,27 @@ vn_spa_missions_slot_3_a = {
     has_country_shield = yes
 
     vn_spa_kingdom_of_spain = {
-        #icon = 
+        icon = mission_castillian_aggression
         position = 10
 		required_missions = {  }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = castile_region
+				region = leonese_region
+				region = asturian_region
+				region = extremadura_region
+				region = andalusia_region
+				region = aragon_region
+				region = valencian_region
+				region = catalunya_region
+				region = basque_region
+			}
+			NOT = {
+				owned_by = ROOT
+				is_core = ROOT
+			}
 		}
         trigger = {
-			legitimacy = 100
             castile_region = {
 				type = all
 				owned_by = ROOT
@@ -609,7 +671,7 @@ vn_spa_missions_slot_3_a = {
         }
     }
     vn_spa_a_new_dynasty = {
-        #icon = 
+        icon = mission_alliances
         position = 12
         required_missions = { vn_spa_kingdom_of_spain }
         trigger = {
@@ -627,7 +689,7 @@ vn_spa_missions_slot_3_a = {
 				limit = { exists = HAB }
 				add_legitimacy = 10
 				add_heir_claim = 10
-				add_country_modifier = {	#add
+				add_country_modifier = {
 					name = "spa_a_new_dynasty_mission"
 					duration = 9125
 				}
@@ -638,7 +700,7 @@ vn_spa_missions_slot_3_a = {
         }
     }
     vn_spa_french_rivalry = {
-        #icon = 
+        icon = mission_the_french_menace
         position = 13
         required_missions = { vn_spa_a_new_dynasty }
         trigger = {
@@ -683,11 +745,12 @@ vn_spa_missions_slot_3_a = {
         }
     }
     vn_spa_eclipse_france = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 14
 		required_missions = { vn_spa_french_rivalry }
 		provinces_to_highlight = {
-			#add highlight
+			superregion = french_superregion
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
@@ -740,11 +803,11 @@ vn_spa_missions_slot_3_b = {
 	has_country_shield = yes
 	
     vn_spa_sack_of_rome = {
-        #icon = 
+        icon = mission_steppe_warriors
         position = 15
 		required_missions = { vn_spa_subjugate_naples }
 		provinces_to_highlight = {
-			#add highlight
+			province_id = 2235
 		}
         trigger = {
             2235 = {
@@ -753,16 +816,20 @@ vn_spa_missions_slot_3_b = {
         }
         effect = {
 			country_event = {
-				id = vn_missions.78	#ADD - Sack of Rome
+				id = vn_missions.78
 			}
         }
     }
     vn_spa_papal_marches = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 16
 		required_missions = { vn_spa_sack_of_rome }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = umbria_region
+				region = romagna_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             umbria_region = {
@@ -791,7 +858,7 @@ vn_spa_missions_slot_3_c = {
 	has_country_shield = yes
 	
     vn_spa_mediterranean_dominion = {
-        #icon = 
+        icon = mission_raid_on_genoa
         position = 17
         required_missions = { 
 			vn_spa_curb_naval_threats 
@@ -843,11 +910,11 @@ vn_spa_missions_slot_3_d = {
 	has_country_shield = yes
 	
     vn_spa_el_escorial = {
-        #icon = 
+        icon = mission_imperial_cities
         position = 18
 		required_missions = { vn_spa_economic_stability }
 		provinces_to_highlight = {
-			#add highlight
+			province_id = 1236
 		}
         trigger = {
             1236 = {
@@ -862,7 +929,8 @@ vn_spa_missions_slot_3_d = {
 				add_base_tax = 1
 				add_base_production = 1
 				add_base_manpower = 1
-				#add more
+				move_capital_effect = yes
+				#addmore?
 			}
         }
     }
@@ -879,11 +947,12 @@ vn_spa_missions_slot_4_a = {
     has_country_shield = yes
 
     vn_spa_influence_in_lombardy = {
-        #icon = 
+        icon = mission_italian_conquest
         position = 11
 		required_missions = { vn_spa_italian_ambition }
 		provinces_to_highlight = {
-			#add highlight
+			region = lombardy_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             lombardy_region = {
@@ -908,11 +977,12 @@ vn_spa_missions_slot_4_b = {
 	has_country_shield = yes
 	
     vn_spa_acquire_sicily = {
-        #icon = 
+        icon = mission_seize_the_isles
         position = 12
 		required_missions = { vn_spa_mediterranean_islands }
 		provinces_to_highlight = {
-			#add highlight
+			region = sicilia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             sicilia_region = {
@@ -925,11 +995,15 @@ vn_spa_missions_slot_4_b = {
         }
     }
     vn_spa_subjugate_naples = {
-        #icon = 
+        icon = mission_unite_home_region	#placeholder
         position = 14
 		required_missions = { vn_spa_acquire_sicily }
 		provinces_to_highlight = {
-			#add highlight
+			OR = {
+				region = apulia_region
+				region = campania_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             apulia_region = {
@@ -946,7 +1020,7 @@ vn_spa_missions_slot_4_b = {
         }
     }
     vn_spa_italian_monopoly = {
-        #icon = 
+        icon = mission_raid_on_venice
         position = 16
         required_missions = { 
 			vn_spa_subjugate_naples 
@@ -989,7 +1063,7 @@ vn_spa_missions_slot_4_c = {
 	has_country_shield = yes
 
     vn_spa_economic_stability = {
-        #icon = 
+        icon = mission_african_gold
         position = 17
         required_missions = { }
         trigger = {
@@ -1005,7 +1079,7 @@ vn_spa_missions_slot_4_c = {
         }
     }
     vn_spa_siglo_de_oro = {
-        #icon = 
+        icon = mission_golden_century
         position = 19
         required_missions = {
 			vn_spa_spanish_tercios 
@@ -1049,7 +1123,7 @@ vn_spa_missions_slot_5_a = {
     has_country_shield = yes
 
     vn_spa_italian_ambition = {
-        #icon = 
+        icon = mission_rule_italy
         position = 10
         required_missions = {  }
         trigger = {
@@ -1081,11 +1155,12 @@ vn_spa_missions_slot_5_a = {
         }
     }
     vn_spa_mediterranean_islands = {
-        #icon = 
+        icon = mission_invade_island
         position = 11
 		required_missions = { vn_spa_italian_ambition }
 		provinces_to_highlight = {
-			#add highlight
+			region = insular_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
             insular_region = {
@@ -1098,7 +1173,7 @@ vn_spa_missions_slot_5_a = {
         }
     }
     vn_spa_humiliate_genoa = {
-        #icon = 
+        icon = mission_dominate_genoa
         position = 13
 		required_missions = { vn_spa_mediterranean_islands }
         trigger = {
@@ -1127,7 +1202,7 @@ vn_spa_missions_slot_5_a = {
         }
     }
     vn_spa_competition_with_venice = {
-        #icon = 
+        icon = mission_control_venice
         position = 15
         required_missions = { vn_spa_humiliate_genoa }
         trigger = {
@@ -1168,11 +1243,11 @@ vn_spa_missions_slot_5_b = {
     has_country_shield = yes
 
     vn_spa_port_of_sevilla = {
-        #icon = 
+        icon = mission_great_trading_houses
         position = 18
 		required_missions = { vn_spa_economic_stability }
 		provinces_to_highlight = {
-			#add highlight
+			area = sevilla_area
 		}
         trigger = {
             1867 = {

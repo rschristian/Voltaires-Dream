@@ -872,25 +872,14 @@ country_event = {
         				tag = ENG
         				has_global_flag = vn_crusade_holy_land_flag
         			}
-        		}
-        	}
-        	modifier = {
-        		factor = 2
-        		OR = {
-        			government = theocracy
-        			ruler_has_personality = zealot_personality
-        			culture_group = french
-        			is_emperor = yes
-        		}
-        	}
-        	modifier = {
-        		factor = 2
-        		is_part_of_hre = yes
-        		culture_group = germanic
-        		OR = {
-        			has_global_flag = vn_crusade_wendland_flag
-        			has_global_flag = vn_crusade_germany_flag
-        			has_global_flag = vn_crusade_baltic_flag
+        			AND = {
+        				primary_culture = outremer
+        				OR = {
+        					has_global_flag = vn_crusade_holy_land_flag
+        					has_global_flag = vn_crusade_egypt_flag
+        					has_global_flag = vn_crusade_anatolia_flag
+        				}
+        			}
         		}
         	}
         	modifier = {
@@ -906,6 +895,31 @@ country_event = {
         		}
         	}
         	modifier = {
+        		factor = 4
+        		has_reform = crusader_order_reform
+        	}
+        	modifier = {
+        		factor = 2
+        		OR = {	
+        			ruler_has_personality = zealot_personality
+        			AND = {
+        				culture_group = french
+        				NOT = { primary_culture = outremer }
+        			}
+        			is_emperor = yes
+        		}
+        	}
+        	modifier = {
+        		factor = 2
+        		is_part_of_hre = yes
+        		culture_group = germanic
+        		OR = {
+        			has_global_flag = vn_crusade_wendland_flag
+        			has_global_flag = vn_crusade_germany_flag
+        			has_global_flag = vn_crusade_baltic_flag
+        		}
+        	}
+        	modifier = {
         		factor = 0.5
         		capital_distance = { who = FROM distance = 250 }
         	}
@@ -918,6 +932,18 @@ country_event = {
         		NOT = { num_of_cities = 3 }
         	}
         	modifier = {
+        		factor = 0.25
+        		has_port = no
+        		OR = {
+        			has_global_flag = vn_crusade_africa_flag
+        			has_global_flag = vn_crusade_egypt_flag
+        			has_global_flag = vn_crusade_holy_land_flag
+        			has_global_flag = vn_crusade_greece_flag
+        			has_global_flag = vn_crusade_baltic_flag
+        			has_global_flag = vn_crusade_finland_flag
+        		}
+        	}
+        	modifier = {
         		factor = 0
         		OR = {
         			is_bankrupt = yes
@@ -926,8 +952,7 @@ country_event = {
         			AND = {
         				capital_distance = { who = FROM distance = 500 }
         				NOT = { tag = ENG }
-        				NOT = { tag = FRA }
-        				NOT = { primary_culture = outremer }
+        				NOT = { culture_group = french }
         			}
         			NOT = { has_opinion = { who = FROM value = 0 } }
         		}
@@ -1262,5 +1287,384 @@ country_event = {
         		casus_belli = cb_grand_heretic
         	}
     	}
+    }
+}
+
+#Kingdom of Jerusalem
+country_event = {
+	id = vn_crusade_events.9
+	title = vn_crusade_events.9.t
+	desc = vn_crusade_events.9.d
+	picture = BYZ_JERUSALEM_eventPicture
+
+	major = yes
+	trigger = {
+		FROM = {
+			province_id = 4974 # Jerusalem
+			owned_by = ROOT
+			controller = {
+				is_in_war = { casus_belli = cb_grand_crusade }
+				religion_group = christian
+			}
+		}
+		is_in_war = {
+            defender_leader = ROOT
+        	casus_belli = cb_grand_crusade
+        }
+        religion_group = muslim
+		NOT = { started_in = 1099.7.15 }
+		NOT = { exists = KOJ }
+		NOT = { has_global_flag = jerusalem_delivered }
+	}
+
+	is_triggered_only = yes
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_crusade_events.9.a"
+        set_global_flag = jerusalem_delivered
+        custom_tooltip = vn_crusade_jerusalem.tt
+        hidden_effect = {
+        	4974 = {
+        		change_culture = outremer
+        		change_religion = catholic
+        	}
+        	palestine_region = {
+        		limit = {
+        			OR = {
+        				owner = { ai = yes }
+        				is_capital = no
+        				province_id = 4974
+        			}
+        		}
+        		add_core = KOJ
+        		cede_province = KOJ
+        	}
+        	KOJ = {
+        		set_government_rank = 5
+        		change_government = monarchy
+				add_government_reform = feudalism_reform
+        		set_capital = 4974
+        		add_treasury = 200
+				add_prestige = 40
+				add_manpower = 5
+				add_accepted_culture = al_suryah_arabic
+				add_stability = 3
+				remove_heir = yes
+				define_ruler = {
+					dynasty = "van Vlaanderen"
+					adm = 5
+					dip = 5
+					mil = 6
+					fixed = yes
+				}
+				define_ruler_to_general = {
+					fire = 5
+					shock = 5
+					manuever = 2
+					siege = 6
+				}
+				add_ruler_personality = zealot_personality
+				add_ruler_personality = tactical_genius_personality
+				add_ruler_personality = inspiring_leader_personality
+        	}
+        	if = {
+        		limit = { NOT = { exists = TPI } }
+        		outremer_region = {
+        			limit = {
+        				OR = {
+        					owner = { ai = yes }
+        					is_capital = no
+        				}
+        			}
+        			add_core = TPI
+        			cede_province = TPI
+        		}
+        		TPI = {
+        			set_capital = 3027
+        			add_accepted_culture = al_suryah_arabic
+					add_stability = 3
+					define_ruler = { dynasty = "Raimonding" }
+        		}
+        	}
+        	if = {
+        		limit = { NOT = { exists = ATC } }
+        		antioch_area = {
+        			limit = {
+        				OR = {
+        					owner = { ai = yes }
+        					is_capital = no
+        				}
+        			}
+        			add_core = ATC
+        			cede_province = ATC
+        		}
+        		idlib_area = {
+        			limit = {
+        				OR = {
+        					owner = { ai = yes }
+        					is_capital = no
+        				}
+        			}
+        			add_core = ATC
+        			cede_province = ATC
+        		}
+        		ATC = {
+        			set_capital = 3053
+        			add_accepted_culture = al_suryah_arabic
+					add_stability = 3
+					define_ruler = { dynasty = "de Hauteville" }
+        		}
+        	}
+        }
+        random_country = {
+        	limit = {
+        		is_in_war = {
+            		attacker_leader = THIS
+        			casus_belli = cb_grand_crusade
+        		}
+        	}
+        	white_peace = ROOT
+        }
+    }
+}
+
+#Frankokratia
+country_event = {
+	id = vn_crusade_events.10
+	title = vn_crusade_events.10.t
+	desc = vn_crusade_events.10.d
+	picture = BYZANTINE_EAGLE_eventPicture
+
+	major = yes
+	trigger = {
+		FROM = {
+			province_id = 2233 # Constantinople
+			owned_by = BYZ
+			controller = {
+				is_in_war = { casus_belli = cb_grand_heretic }
+				religion = catholic
+			}
+		}
+		is_in_war = {
+            defender_leader = BYZ
+        	casus_belli = cb_grand_heretic
+        }
+        tag = BYZ
+        ai = yes
+		NOT = { started_in = 1204.5.16 }
+		NOT = { exists = LEM }
+		NOT = { exists = NKA }
+		NOT = { has_global_flag = constantinople_delivered }
+	}
+
+	is_triggered_only = yes
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_crusade_events.10.a"
+        set_global_flag = constantinople_delivered
+        custom_tooltip = vn_crusade_constantinople.tt
+        hidden_effect = {
+        	thrace_region = {
+        		limit = { owned_by = BYZ }
+        		add_core = LEM
+        	}
+        	ROOT = { release = LEM }
+        	LEM = {
+        		set_government_rank = 6
+        		change_government = monarchy
+				add_government_reform = feudalism_reform
+        		set_capital = 2233
+        		add_treasury = 200
+				add_prestige = 40
+				add_manpower = 5
+				add_accepted_culture = greek
+				add_stability = 3
+				remove_heir = yes
+				define_ruler = { dynasty = "van Vlaanderen" }
+        	}
+        	if = {
+        		limit = { NOT = { exists = TSS } }
+        		macedonia_region = {
+        			limit = { owned_by = BYZ }
+        			add_core = TSS
+        		}
+        		ROOT = { release = TSS }
+        		TSS = {
+        			change_government = monarchy
+					add_government_reform = feudalism_reform
+        			set_capital = 2398
+        			add_accepted_culture = greek
+					add_stability = 3
+					define_ruler = { dynasty = "Aleraming" }
+        		}
+        	}
+        	if = {
+        		limit = { NOT = { exists = PPO } }
+        		bulgariasouth_region = {
+        			limit = { owned_by = BYZ }
+        			add_core = PPO
+        		}
+        		ROOT = { release = PPO }
+        		PPO = {
+        			change_government = monarchy
+					add_government_reform = feudalism_reform
+        			set_capital = 2131
+        			add_accepted_culture = greek
+					add_stability = 3
+					define_ruler = { dynasty = "de Trit" }
+        		}
+        	}
+        	if = {
+        		limit = { NOT = { exists = ACH } }
+        		hellas_region = {
+        			limit = {
+        				owned_by = BYZ
+        				NOT = { area = athens_area }
+        			}
+        			add_core = ACH
+        		}
+        		ROOT = { release = ACH }
+        		ACH = {
+        			change_government = monarchy
+					add_government_reform = feudalism_reform
+        			set_capital = 5382
+        			add_accepted_culture = peloponnesian
+					add_stability = 3
+					define_ruler = { dynasty = "de Villehardouin" }
+        		}
+        	}
+        	if = {
+        		limit = { NOT = { exists = ATH } }
+        		athens_area = {
+        			limit = { owned_by = BYZ }
+        			add_core = ATH
+        		}
+        		ROOT = { release = ATH }
+        		ATH = {
+        			change_government = monarchy
+					add_government_reform = feudalism_reform
+        			set_capital = 2828
+        			add_accepted_culture = peloponnesian
+					add_stability = 3
+					define_ruler = { dynasty = "de la Roche" }
+        		}
+        	}
+        	if = {
+        		limit = { NOT = { exists = NAX } }
+        		greekislands_region = {
+        			limit = { owned_by = BYZ }
+        			add_core = NAX
+        		}
+        		ROOT = { release = NAX }
+        		NAX = {
+        			change_government = monarchy
+					add_government_reform = feudalism_reform
+        			set_capital = 2686
+        			add_accepted_culture = peloponnesian
+					add_stability = 3
+					define_ruler = { dynasty = "Sanudo" }
+        		}
+        	}
+        	if = {
+        		limit = { NOT = { exists = CYP } }
+        		cyprus_area = {
+        			limit = { owned_by = BYZ }
+        			add_core = CYP
+        		}
+        		ROOT = { release = CYP }
+        		CYP = {
+        			change_government = monarchy
+					add_government_reform = feudalism_reform
+        			add_accepted_culture = cypriot
+					add_stability = 3
+					define_ruler = { dynasty = "de Lusignan" }
+        		}
+        	}
+        	if = {
+        		limit = { NOT = { exists = EPI } }
+        		albania_region = {
+        			limit = { owned_by = BYZ }
+        			add_core = EPI
+        		}
+        		furthergreece_region = {
+        			limit = { owned_by = BYZ }
+        			add_core = EPI
+        		}
+        		ROOT = { release = EPI }
+        		EPI = {
+        			change_government = monarchy
+					add_government_reform = feudalism_reform
+        			define_ruler = { dynasty = "Angelos" }
+        		}
+        	}
+        }
+        random_country = {
+        	limit = {
+        		is_in_war = {
+            		attacker_leader = THIS
+        			casus_belli = cb_grand_heretic
+        		}
+        	}
+        	white_peace = ROOT
+        }
+        change_tag = NKA
+        if = {
+        	limit = { owns = 1052 }
+        	set_capital = 1052
+        }
+        define_ruler = {
+        	dynasty = "Laskaris"
+        	adm = 3
+        	dip = 3
+        	mil = 3
+        }
+    }
+}
+
+#Transports Event
+country_event = {
+	id = vn_crusade_events.11
+	title = vn_crusade_events.11.t
+	desc = vn_crusade_events.11.d
+	picture = HARBOUR_eventPicture
+
+	trigger = {
+		any_owned_province = { has_port = yes }
+		religion = catholic
+		capital_scope = { continent = europe }
+		is_in_war = {
+			casus_belli = cb_grand_crusade
+			attackers = ROOT
+		}
+		NOT = { has_country_modifier = vn_crusade_transports }
+		any_country = {
+			defensive_war_with = ROOT
+			NOT = { capital_scope = { continent = europe } }
+			NOT = { religion_group = christian }
+		}
+	}
+    mean_time_to_happen = { months = 1 }
+
+    option = {
+        name = "vn_crusade_events.11.a"
+        add_country_modifier = {
+			name = "vn_crusade_transports"
+			duration = 1825
+		}
+        random_owned_province = {
+			limit = { has_port = yes }
+			transport = ROOT
+			transport = ROOT
+			transport = ROOT
+			transport = ROOT
+			transport = ROOT
+			transport = ROOT
+			transport = ROOT
+			transport = ROOT
+			transport = ROOT
+			transport = ROOT
+		}
     }
 }
