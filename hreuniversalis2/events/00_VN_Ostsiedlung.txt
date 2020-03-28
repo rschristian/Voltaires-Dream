@@ -3,18 +3,23 @@ namespace = ostsiedlung
 #Free City of Riga
 country_event = {
 	id = ostsiedlung.1
-	title = ostsiedlung.1.t
+    title = ostsiedlung.1.t
 	desc = ostsiedlung.1.d
 	picture = HARBOUR_eventPicture
 
 	fire_only_once = yes
 
 	trigger = {
+		OR = {
+			tag = TEU
+			tag = LIV
+		}
+		NOT = { started_in = 1201.1.1 }
 		is_year = 1150
 		NOT = { is_year = 1350 }
-		NOT = { started_in = 1201.1.1 }
 		owns = 5793
-		num_of_cities = 2
+		num_of_cities = 5
+		NOT = { exists = RGS }
 	}
 
 	option = {
@@ -23,281 +28,38 @@ country_event = {
 			remove_core = ROOT
 			add_core = RGS
 			cede_province = RGS
+			if = {
+				limit = { hre_size = 1 }
+				set_in_empire = yes
+			}
 		}
 		hidden_effect = {
 			5793 = {
 				change_religion = catholic
 				change_culture = prussian
-				if = {
-					limit = { hre_size = 1 }
-					set_in_empire = yes
-				}
-				capital_scope = {
-					build_to_forcelimit = {
-						infantry = 0.7
-						cavalry = 0.3
-						heavy_ship = 0.1
-						light_ship = 0.5
-						transport = 0.4
-					}
+				add_permanent_province_modifier = {
+					name = hanseatic_city
+					duration = -1
 				}
 			}
 			RGS = {
 				change_government = republic
-				add_government_reform = oligarchy_reform
-			}
-		}
-	}
-}
-
-#Pietati proximum
-country_event = {
-	id = ostsiedlung.2
-	title = ostsiedlung.2.t
-	desc = ostsiedlung.2.d
-	picture = BATTLE_VISTULA_LAGOON_eventPicture
-
-	fire_only_once = yes
-	major = yes
-
-	trigger = {
-		is_year = 1150
-		NOT = { is_year = 1350 }
-		NOT = { started_in = 1209.1.1 }
-		is_at_war = no
-		OR = {
-			religion = catholic
-			religion = catholique
-		}
-		num_of_cities = 2
-		any_owned_province = {
-			OR = {
-				region = westpreussen_region
-				region = ostpreussen_region
-			}
-			any_neighbor_province = {
-				owner = {
-					religion_group = pagan
-				}
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 300
-		modifier = {
-			factor = 0.75
-			any_country = {
-				religion_group = pagan
-				truce_with = ROOT
-			}
-		}
-	}
-
-	immediate = {
-		hidden_effect = {
-			random_owned_province = {
-				limit = {
-					OR = {
-						region = westpreussen_region
-						region = ostpreussen_region
-					}
-					any_neighbor_province = {
-						owner = {
-							religion_group = pagan
-						}
-					}
-				}
-				save_event_target_as = spawn_of_teutonic_order
-			}
-		}
-	}
-
-	option = {
-		name = ostsiedlung.2.a
-		#tooltip
-		event_target:spawn_of_teutonic_order = {
-			remove_core = owner
-			add_core = TEU
-			cede_province = TEU
-			add_building = fort_14th
-			change_religion = ROOT
-			change_culture = prussian
-		}
-		add_truce_with = TEU
-		#opinion
-		hidden_effect = {
-			TEU = {
-				change_government = theocracy
-				add_government_reform = crusader_order_reform
-				adopt_reform_progress = ROOT
-				change_religion = ROOT
-				change_primary_culture = prussian
-				define_ruler = {
-					name = "Hermann"
-					dynasty = "von Salza"
-					culture = thuringian
-					adm = 3
-					dip = 4
-					mil = 4
-					fixed = yes
-				}
-				add_ruler_personality = silver_tongue_personality
-				add_ruler_personality = zealot_personality
-				add_truce_with = ROOT
-				add_manpower = 5
-				add_country_modifier = {
-					name = invasion_nation_m
-					duration = 7300
-				}
-				capital_scope = {
-					build_to_forcelimit = {
-						infantry = 0.7
-						cavalry = 0.3
-						heavy_ship = 0.1
-						light_ship = 0.5
-						transport = 0.4
-					}
-				}
-				random_neighbor_country = {
+				if = {
 					limit = {
-						religion_group = pagan
-					}
-					TEU = {
-						declare_war = PREV
-					}
-				}
-			}
-			ostpreussen_region = {
-				limit = {
-					owner = {
-						religion_group = pagan
-					}
-					religion_group = pagan
-				}
-				add_claim = TEU
-			}
-			westpreussen_region = {
-				limit = {
-					owner = {
-						religion_group = pagan
-					}
-					religion_group = pagan
-				}
-				add_claim = TEU
-			}
-			every_province = {
-				TEU = {
-					discover_province = PREV
-				}
-			}
-		}
-	}
-}
-
-#Terra Mariana
-#make it so that LO will spawn in Riga if Riga has more than 1 province
-country_event = {
-	id = ostsiedlung.3
-	title = ostsiedlung.3.t
-	desc = ostsiedlung.3.d
-	picture = BATTLE_VISTULA_LAGOON_eventPicture
-
-	fire_only_once = yes
-	major = yes
-
-	trigger = {
-		is_year = 1150
-		NOT = { is_year = 1350 }
-		NOT = { started_in = 1206.1.1 }
-		is_at_war = no
-		religion_group = pagan
-		num_of_cities = 2
-		any_owned_province = {
-			OR = {
-				region = latvian_region
-				region = estonia_region
-				region = livonia_region
-				region = curoniasemigallia_region
-			}
-			any_neighbor_province = {
-				owner = {
-					OR = {
-						religion = catholic
-						religion = catholique
-					}
-				}
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 300
-		modifier = {
-			factor = 0.75
-			any_country = {
-				religion = catholic
-				truce_with = ROOT
-			}
-		}
-	}
-
-	immediate = {
-		hidden_effect = {
-			random_owned_province = {
-				limit = {
-					OR = {
-						region = latvian_region
-						region = estonia_region
-						region = livonia_region
-						region = curoniasemigallia_region
-					}
-					any_neighbor_province = {
-						owner = {
-							OR = {
-								religion = catholic
-								religion = catholique
+						has_global_flag = free_city_allowed
+						NOT = {
+							calc_true_if = {
+								amount = 50
+								all_country = {
+									has_reform = free_city
+								}
 							}
 						}
 					}
+					add_government_reform = free_city
 				}
-				save_event_target_as = spawn_of_livonian_order
-			}
-		}
-	}
-
-	option = {
-		name = ostsiedlung.3.a
-		#tooltip
-		event_target:spawn_of_livonian_order = {
-			remove_core = owner
-			add_core = LIV
-			cede_province = LIV
-			add_building = fort_14th
-			change_religion = catholic
-			change_culture = prussian
-		}
-		LIV = { declare_war = ROOT }
-		hidden_effect = {
-			LIV = {
-				change_government = theocracy
-				add_government_reform = crusader_order_reform
-				adopt_reform_progress = ROOT
-				change_religion = catholic
-				change_primary_culture = prussian
-				define_ruler = {
-					name = "Wenno"
-					dynasty = "von Rohrbach"
-					culture = hessian
-					dip = 3
-					adm = 3
-					mil = 3
-					fixed = yes
-				}
-				add_manpower = 5
-				add_country_modifier = {
-					name = invasion_nation_m
-					duration = 7300
+				else = {
+					add_government_reform = oligarchy_reform
 				}
 				capital_scope = {
 					build_to_forcelimit = {
@@ -307,47 +69,6 @@ country_event = {
 						light_ship = 0.5
 						transport = 0.4
 					}
-				}
-			}
-			latvian_region = {
-				limit = {
-					owner = {
-						religion_group = pagan
-					}
-					religion_group = pagan
-				}
-				add_claim = LIV
-			}
-			estonia_region = {
-				limit = {
-					owner = {
-						religion_group = pagan
-					}
-					religion_group = pagan
-				}
-				add_claim = LIV
-			}
-			livonia_region = {
-				limit = {
-					owner = {
-						religion_group = pagan
-					}
-					religion_group = pagan
-				}
-				add_claim = LIV
-			}
-			curoniasemigallia_region = {
-				limit = {
-					owner = {
-						religion_group = pagan
-					}
-					religion_group = pagan
-				}
-				add_claim = LIV
-			}
-			every_province = {
-				LIV = {
-					discover_province = PREV
 				}
 			}
 		}
