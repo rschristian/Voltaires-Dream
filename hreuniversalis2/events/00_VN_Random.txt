@@ -7183,3 +7183,298 @@ country_event = {
 		HSC = { white_peace = SCY }
 	}
 }
+
+country_event = {
+	id = fbievents.128
+	title = "FBIT128"
+	desc = "FBID128"
+	picture = NEW_HEIR_eventPicture
+
+	trigger = {
+		NOT = { has_country_flag = in_sca_heir_selection }
+		has_reform = germanic_monarchy
+		has_regency = no
+		ruler_age = 25
+		is_lesser_in_union = no
+		has_heir = no
+	}
+
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 ruler_age = 35 }
+		modifier = { factor = 0.5 ruler_age = 45 }
+		modifier = { factor = 0.5 ruler_age = 55 }
+		modifier = { factor = 0.5 ruler_age = 65 }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = in_sca_heir_selection
+			random_owned_province = {
+				save_event_target_as = origin_of_heirs_family
+			}
+			random_owned_province = {
+				limit = { culture_group = ROOT }
+				save_event_target_as = origin_of_heirs_family
+			}
+			random_owned_province = {
+				limit = {
+					culture_group = ROOT
+					NOT = { culture = ROOT }
+				}
+				save_event_target_as = origin_of_heirs_family
+			}
+			random_owned_province = {
+				limit = {
+					culture_group = ROOT
+					NOT = { culture = ROOT }
+					has_estate = estate_nobles
+				}
+				save_event_target_as = origin_of_heirs_family
+			}
+		}
+	}
+
+	option = {
+		name = "FBIA128"
+		ai_chance = {
+			factor = 80
+			modifier = {
+				factor = 0
+				OR = {
+					has_ruler_flag = christian_elected
+					is_female = yes
+				}
+			}
+			modifier = {
+				factor = 0.1
+				has_estate = estate_nobles
+				NOT = {
+					estate_loyalty = {
+						estate = estate_nobles
+						loyalty = 20
+					}
+				}
+			}
+		}
+		define_heir = {
+			dynasty = ROOT
+			claim = 100
+			age = 0
+		}
+		event_target:origin_of_heirs_family = {
+			add_province_modifier = {
+				name = "disfavored_nobles"
+				duration = 3650
+			}
+		}
+		if = {
+			limit = {
+				estate_influence = { estate = estate_nobles influence = 80 }
+			}
+			add_estate_loyalty = { estate = estate_nobles loyalty = -20 }
+		}
+		else_if = {
+			limit = {
+				estate_influence = { estate = estate_nobles influence = 60 }
+			}
+			add_estate_loyalty = { estate = estate_nobles loyalty = -15 }
+		}
+		else_if = {
+			limit = {
+				estate_influence = { estate = estate_nobles influence = 40 }
+			}
+			add_estate_loyalty = { estate = estate_nobles loyalty = -10 }
+		}
+		else = {
+			add_estate_loyalty = { estate = estate_nobles loyalty = -5 }	
+		}
+		hidden_effect = { clr_country_flag = in_sca_heir_selection }
+	}
+	option = {
+		name = "FBIB128"
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				OR = {
+					has_ruler_flag = christian_elected
+					is_female = yes
+				}
+			}
+		}
+		define_heir = {
+			culture = event_target:origin_of_heirs_family
+			religion = event_target:origin_of_heirs_family
+			female = no
+			claim = 50
+			age = 5
+		}
+		event_target:origin_of_heirs_family = {
+			add_province_modifier = {
+				name = "favored_nobles"
+				duration = 3650
+			}
+		}
+		if = {
+			limit = {
+				estate_influence = { estate = estate_nobles influence = 80 }
+			}
+			add_estate_loyalty = { estate = estate_nobles loyalty = 20 }
+		}
+		else_if = {
+			limit = {
+				estate_influence = { estate = estate_nobles influence = 60 }
+			}
+			add_estate_loyalty = { estate = estate_nobles loyalty = 15 }
+		}
+		else_if = {
+			limit = {
+				estate_influence = { estate = estate_nobles influence = 40 }
+			}
+			add_estate_loyalty = { estate = estate_nobles loyalty = 10 }
+		}
+		else = {
+			add_estate_loyalty = { estate = estate_nobles loyalty = 5 }	
+		}
+		hidden_effect = { clr_country_flag = in_sca_heir_selection }
+	}
+	option = {
+		name = "FBIC128"
+		ai_chance = {
+			factor = 5
+			modifier = {
+				factor = 0
+				OR = {
+					has_ruler_flag = christian_elected
+					is_female = yes
+				}
+			}
+		}
+		trigger = {
+			any_neighbor_country = {
+				has_reform = germanic_monarchy
+				is_free_or_tributary_trigger = yes
+				NOT = { dynasty = ROOT }
+				has_regency = no
+				culture_group = ROOT
+			}
+		}
+		random_neighbor_country = {
+			limit = {
+				has_reform = germanic_monarchy
+				is_free_or_tributary_trigger = yes
+				NOT = { dynasty = ROOT }
+				has_regency = no
+				culture_group = ROOT
+			}
+			ROOT = {
+				define_heir = {
+					dynasty = PREV
+					culture = PREV
+					religion = PREV
+					female = no
+					claim = 25
+					age = 10
+				}
+			}
+			tooltip = {
+				add_opinion = {
+					who = ROOT
+					modifier = dynasty_elected
+				}
+			}
+			hidden_effect = { country_event = { id = fbievents.129 } }
+		}
+		hidden_effect = { clr_country_flag = in_sca_heir_selection }
+	}
+
+	option = {
+		name = "FBIDD128"
+		ai_chance = { factor = 5 }
+		trigger = {
+			is_female = yes
+			any_known_country = {
+				religion = ROOT
+				has_regency = no
+				government = monarchy
+				NOT = { dynasty = ROOT }
+				is_free_or_tributary_trigger = yes
+				NOT = { has_reform = germanic_monarchy }
+			}
+		}
+		random_known_country = {
+			limit = {
+				religion = ROOT
+				has_regency = no
+				government = monarchy
+				NOT = { dynasty = ROOT }
+				is_free_or_tributary_trigger = yes
+				NOT = { has_reform = germanic_monarchy }
+			}
+			ROOT = {
+				define_heir = {
+					dynasty = PREV
+					culture = PREV
+					adm = 3
+					dip = 3
+					mil = 3
+					female = no
+					claim = 10
+					age = 15
+				}
+			}
+			tooltip = {
+				add_opinion = {
+					who = ROOT
+					modifier = dynasty_elected
+				}
+			}
+			hidden_effect = { country_event = { id = fbievents.129 } }
+		}
+		hidden_effect = { clr_country_flag = in_sca_heir_selection }
+	}
+
+	option = {
+		name = "FBIDD128"
+		ai_chance = { factor = 5 }
+		trigger = { has_ruler_flag = christian_elected }
+		define_heir = {
+			name = "Christian"
+			dynasty = "von Oldenburg"
+			culture = low_elbish
+			age = 25
+			adm = 4
+			dip = 1
+			mil = 2
+		}
+		if = {
+			limit = { exists = RSB }
+			RSB = {
+				add_opinion = {
+					who = ROOT
+					modifier = dynasty_elected
+				}
+			}
+		}
+		hidden_effect = { clr_country_flag = in_sca_heir_selection }
+	}
+}
+
+country_event = {
+	id = fbievents.129
+	title = "FBIT129"
+	desc = "FBID129"
+	picture = NEW_HEIR_eventPicture
+
+	is_triggered_only = yes
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = "FBIA129"
+		add_opinion = {
+			who = FROM
+			modifier = dynasty_elected
+		}
+	}
+}
