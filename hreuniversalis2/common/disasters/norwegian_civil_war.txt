@@ -1,0 +1,91 @@
+#Norwegian Civil War Era disaster
+#By Isildur
+
+norwegian_civil_war = {
+	potential = {
+		tag = NOR
+		NOT = { has_global_flag = nor_civil_war_happened }
+		government = monarchy
+		has_reform = feudalism_reform
+		is_free_or_tributary_trigger = yes
+		is_lesser_in_union = no
+		current_age = age_of_holy_wars
+		normal_or_historical_nations = yes
+	}
+
+	can_start = {
+		has_any_disaster = no
+		has_heir = yes
+	}
+	
+	can_stop = {
+		has_any_disaster = yes
+		NOT = { government = monarchy }
+	}
+	
+	progress = {
+		modifier = {
+			factor = 1
+			has_heir = yes
+		}
+		modifier = {
+			factor = 1
+			NOT = { stability = 1 }
+		}
+		modifier = {
+			factor = 1
+			NOT = { legitimacy_equivalent = 100 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { legitimacy_equivalent = 50 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { legitimacy_equivalent = 25 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { ADM = 3 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { DIP = 3 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { MIL = 3 }
+		}
+		modifier = {
+			factor = 2
+			has_spawned_rebels = pretender_rebels
+		}
+	}
+	
+	modifier = {
+		legitimacy = -2
+		heir_chance = -0.5
+	}	
+	
+	can_end = {
+		custom_trigger_tooltip = {
+			tooltip = had_disaster_for_five_years
+			had_global_flag = { flag = nor_civil_war_happened days = 1825 }
+		}
+		#add
+	}
+
+	on_start = norwegian_civil_war.1
+	on_end = norwegian_civil_war.100
+	
+	on_monthly = {
+		events = {
+		}
+		random_events = {
+			1000 = 0
+			100 = norwegian_civil_war.2
+			100 = norwegian_civil_war.3
+			#4/5 triggered
+		}
+	}
+}

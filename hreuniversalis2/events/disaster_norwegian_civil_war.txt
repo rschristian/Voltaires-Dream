@@ -2,3 +2,197 @@
 #By Isildur
 
 namespace = norwegian_civil_war
+
+#Start event
+country_event = {
+	id = norwegian_civil_war.1
+	title = norwegian_civil_war.1.t
+	desc = norwegian_civil_war.1.d
+	picture = KING_SICK_IN_BED_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { has_heir = no }
+				define_heir = {
+					dynasty = ROOT
+					age = 18
+					claim = 25
+				}
+			}
+			random_owned_province = {
+				limit = {
+					is_in_capital_area = yes
+				}
+				spawn_rebels = {
+					use_heir_as_leader = yes
+					type = pretender_rebels
+					size = 3
+					win = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = norwegian_civil_war.1.a
+		ai_chance = { factor = 100 }
+		set_global_flag = nor_civil_war_happened
+		add_stability = -2
+		define_heir = {
+			name = "Harald"
+			dynasty = "Mac Giolla Chríost"
+			culture = erainn
+			age = 18
+			adm = 3
+			dip = 4
+			mil = 2
+			fixed = yes
+		}
+		kill_ruler = yes
+		convert_ruler_to_general = yes
+	}
+}
+
+#Attempts at introducing succession law
+country_event = {
+	id = norwegian_civil_war.2
+	title = norwegian_civil_war.2.t
+	desc = norwegian_civil_war.2.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { has_country_modifier = nor_succession_law }
+	}
+
+	option = {	#We must try
+		name = norwegian_civil_war.2.a
+		ai_chance = { factor = 100 }
+		add_adm_power = -50
+		add_dip_power = -50
+		add_country_modifier = {
+			name = "nor_succession_law"
+			duration = 365
+		}
+	}
+}
+
+#Excommunication of ruler
+country_event = {
+	id = norwegian_civil_war.3
+	title = norwegian_civil_war.3.t
+	desc = norwegian_civil_war.3.d
+	picture = POPE_PREACHING_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		uses_papacy = yes
+		NOT = { has_ruler_modifier = nor_excommunicated }
+	}
+
+	option = {
+		name = norwegian_civil_war.3.a
+		ai_chance = { factor = 100 }
+		add_legitimacy = -25
+		add_ruler_modifier = {
+			name = "nor_excommunicated"
+			duration = -1
+		}
+	}
+}
+
+#Lost Decisive Battle
+#(triggers outside of disaster, in onaction)
+province_event = {
+	id = norwegian_civil_war.4
+	title = norwegian_civil_war.4.t
+	desc = norwegian_civil_war.4.d
+	picture = WOUNDED_SOLDIERS_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		owner = {
+			tag = NOR
+			has_disaster = norwegian_civil_war
+			has_spawned_rebels = pretender_rebels
+		}
+		FROM = {
+			OR = {
+				tag = REB
+				tag = NOR
+			}
+		}
+		#unit_has_leader = yes
+	}
+
+	immediate = {
+		hidden_effect = {
+			FROM = {
+				save_event_target_as = nor_victorious_country
+				country_event = {
+					id = norwegian_civil_war.5
+				}
+			}
+			# if = {
+			# 	limit = {
+			# 		FROM = { tag = REB }
+			# 	}
+			# 	kill_ruler = yes
+			# }
+			# else_if = {
+			# 	limit = {
+			# 		FROM = { tag = NOR }
+			# 	}
+			# 	kill_leader = {
+			# 		type = general
+			# 	}
+			# }
+			owner = {
+				every_owned_province = {
+					change_controller = event_target:nor_victorious_country
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = norwegian_civil_war.4.a
+		ai_chance = { factor = 100 }
+	}
+}
+
+#We have been victorious in battle
+country_event = {
+	id = norwegian_civil_war.5
+	title = norwegian_civil_war.5.t
+	desc = norwegian_civil_war.5.d
+	picture = BATTLE_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = norwegian_civil_war.5.a
+		ai_chance = { factor = 100 }
+		custom_tooltip = norwegian_civil_war.5.a.tt
+	}
+}
+
+#events:
+#2: Attempts at introducing succession law
+#3: Excommunication of Ruler
+#4/5: Battle lost/battle won: Rebels/NOR take entire country
+#6: Rise of the Birkebeiner faction (Sverre Sigurdsson)
+#7: Appoint new successor from dynasty if ruler has no heir
+#8: Rise of the Bagler faction (Inge Magnusson - figurehead)
+#9: Reconciliation between Birkebeiner and Bagler
+#10: Revolt of Skule Bårdsson (if this ends, disaster ends)
+#11: Denmark lends support to x faction
+#12: Sweden lends support to x faction
+#End event 100: Elective monarchy imposed
