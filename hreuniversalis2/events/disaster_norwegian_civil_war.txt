@@ -15,20 +15,24 @@ country_event = {
 
 	immediate = {
 		hidden_effect = {
-			if = {
-				limit = { has_heir = no }
-				define_heir = {
-					dynasty = ROOT
-					age = 18
-					claim = 25
-				}
-			}
+			set_global_flag = nor_civil_war_happened
+			remove_heir = yes
+			# set_saved_name = {
+			# 	key = nor_original_heir
+			# 	type = simple
+			# 	name = "Magnus Hardrådeætta"
+			# }
+			# define_exiled_ruler = {
+			# 	exiled_as = nor_original_heir
+			# 	dynasty = ROOT
+			# 	age = 18
+			# }
 			random_owned_province = {
 				limit = {
 					is_in_capital_area = yes
 				}
 				spawn_rebels = {
-					use_heir_as_leader = yes
+					leader = "Magnus Hardrådeætta"
 					type = pretender_rebels
 					size = 3
 					win = yes
@@ -40,9 +44,8 @@ country_event = {
 	option = {
 		name = norwegian_civil_war.1.a
 		ai_chance = { factor = 100 }
-		set_global_flag = nor_civil_war_happened
 		add_stability = -2
-		define_heir = {
+		define_ruler = {
 			name = "Harald"
 			dynasty = "Mac Giolla Chríost"
 			culture = erainn
@@ -52,7 +55,6 @@ country_event = {
 			mil = 2
 			fixed = yes
 		}
-		kill_ruler = yes
 		set_ruler_flag = nor_harald_gille
 		custom_tooltip = norwegian_civil_war.1.a.tt
 	}
@@ -123,43 +125,61 @@ province_event = {
 			tag = NOR
 			has_disaster = norwegian_civil_war
 			has_spawned_rebels = pretender_rebels
-			NOT = { has_country_flag = nor_decisive_defeat }
-		}
-		FROM = {
-			OR = {
-				tag = REB
-				tag = NOR
+			NOT = { 
+				OR = {
+					has_country_flag = nor_decisive_defeat
+					has_country_flag = nor_decisive_victory 
+				}
 			}
 		}
-		#unit_has_leader = yes
+		FROM = {
+			tag = REB
+		}
 	}
 
 	immediate = {
 		hidden_effect = {
-			FROM = {
-				save_event_target_as = nor_victorious_country
-				country_event = {
-					id = norwegian_civil_war.5
+			owner = { 
+				disband_rebels = pretender
+				set_country_flag = nor_decisive_defeat
+			}
+			if = {
+				limit = {
+					owner = { has_ruler_flag = nor_harald_gille }
+				}
+				owner = {
+					define_ruler = {
+						name = "Magnus"
+						dynasty = "Hardrådeætta"
+					}
 				}
 			}
-			# if = {
-			# 	limit = {
-			# 		FROM = { tag = REB }
-			# 	}
-			# 	kill_ruler = yes
-			# }
-			# else_if = {
-			# 	limit = {
-			# 		FROM = { tag = NOR }
-			# 	}
-			# 	kill_leader = {
-			# 		type = general
-			# 	}
-			# }
-			owner = {
-				set_country_flag = nor_decisive_defeat
-				every_owned_province = {
-					change_controller = event_target:nor_victorious_country
+			else_if = {
+				limit = {
+					owner = {
+						has_country_flag = birkebeiners_rebelled
+						NOT = { has_country_flag = baglers_rebelled }
+					}
+				}
+				owner = {
+					define_ruler = {
+						name = "Sverre"
+						dynasty = "Sverreætta"
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						has_country_flag = birkebeiners_rebelled
+						has_country_flag = baglers_rebelled
+					}
+				}
+				owner = {
+					define_ruler = {
+						name = "Inge"
+						dynasty = "Kyrping"
+					}
 				}
 			}
 		}
@@ -168,11 +188,35 @@ province_event = {
 	option = {
 		name = norwegian_civil_war.4.a
 		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				owner = { has_ruler_flag = nor_harald_gille }
+			}
+			custom_tooltip = norwegian_civil_war.4.a.tt1
+		}
+		else_if = {
+			limit = {
+				owner = {
+					has_country_flag = birkebeiners_rebelled
+					NOT = { has_country_flag = baglers_rebelled }
+				}
+			}
+			custom_tooltip = norwegian_civil_war.4.a.tt2
+		}
+		else_if = {
+			limit = {
+				owner = {
+					has_country_flag = birkebeiners_rebelled
+					has_country_flag = baglers_rebelled
+				}
+			}
+			custom_tooltip = norwegian_civil_war.4.a.tt3
+		}
 	}
 }
 
-#We have been victorious in battle
-country_event = {
+#Victorious in Battle
+province_event = {
 	id = norwegian_civil_war.5
 	title = norwegian_civil_war.5.t
 	desc = norwegian_civil_war.5.d
@@ -180,15 +224,39 @@ country_event = {
 
 	is_triggered_only = yes
 
+	trigger = {
+		owner = {
+			tag = NOR 
+			has_disaster = norwegian_civil_war
+			has_spawned_rebels = pretender_rebels
+			NOT = { 
+				OR = {
+					has_country_flag = nor_decisive_defeat
+					has_country_flag = nor_decisive_victory 
+				}
+			}
+		}
+		FROM = {
+			tag = REB
+		}
+	}
+	
+	immediate = {
+		hidden_effect = {
+			owner = { 
+				disband_rebels = pretender
+				set_country_flag = nor_decisive_defeat 
+				if = {
+					limit = { has_ruler_flag = nor_harald_gille }
+					clr_ruler_flag = nor_harald_gille
+				}
+			}
+		}
+	}
+
 	option = {
 		name = norwegian_civil_war.5.a
 		ai_chance = { factor = 100 }
-		custom_tooltip = norwegian_civil_war.5.a.tt
-		set_country_flag = nor_decisive_victory
-		if = {
-			limit = { has_ruler_flag = nor_harald_gille }
-			clr_ruler_flag = nor_harald_gille
-		}
 	}
 }
 
@@ -224,6 +292,17 @@ country_event = {
 		set_country_flag = birkebeiners_rebelled
 		clr_country_flag = nor_decisive_defeat
 		clr_country_flag = nor_decisive_victory
+		# define_exiled_ruler = {
+		# 	exiled_as = nor_birkebeiner_ruler
+		# 	name = "Sverre"
+		# 	dynasty = "Sverreætta"
+		# 	age = 18
+		# }
+		# set_saved_name = {
+		# 	key = nor_birkebeiner_ruler
+		# 	type = simple
+		# 	name = "Sverre Sverreætta"
+		# }
 		if = {
 			limit = {
 				has_country_flag = swe_gave_support
@@ -232,6 +311,7 @@ country_event = {
 				limit = { is_in_capital_area = yes }
 				spawn_rebels = {
 					leader = "Sverre Sverreætta"
+					type = pretender_rebels
 					size = 5
 					win = yes
 				}
@@ -242,47 +322,13 @@ country_event = {
 				limit = { is_in_capital_area = yes }
 				spawn_rebels = {
 					leader = "Sverre Sverreætta"
+					type = pretender_rebels
 					size = 3
 					win = yes
 				}
 			}
 		}
 		custom_tooltip = norwegian_civil_war.1.a.tt
-	}
-}
-
-#Appoint new successor if no heir
-country_event = {
-	id = norwegian_civil_war.7
-	title = norwegian_civil_war.7.t
-	desc = norwegian_civil_war.7.d
-	picture = NEW_HEIR_eventPicture
-
-	is_triggered_only = yes
-
-	trigger = {
-		has_heir = no
-	}
-
-	option = {
-		name = norwegian_civil_war.7.a
-		ai_chance = { factor = 90 }
-		define_heir = {
-			age = 0
-			dynasty = ROOT
-			claim = 25
-		}
-	}
-	option = {
-		name = norwegian_civil_war.7.b
-		ai_chance = { 
-			factor = 10 
-			modifier = {
-				factor = 0
-				NOT = { legitimacy = 20 }
-			}
-		}
-		add_legitimacy = -20
 	}
 }
 
@@ -318,6 +364,17 @@ country_event = {
 		set_country_flag = baglers_rebelled
 		clr_country_flag = nor_decisive_defeat
 		clr_country_flag = nor_decisive_victory
+		# define_exiled_ruler = {
+		# 	exiled_as = nor_bagler_ruler
+		# 	name = "Inge"
+		# 	dynasty = "Kyrping"
+		# 	age = 15
+		# }
+		# set_saved_name = {
+		# 	key = nor_bagler_ruler
+		# 	type = simple
+		# 	name = "Inge Kyrping"
+		# }
 		if = {
 			limit = {
 				has_country_flag = dan_gave_support
@@ -326,6 +383,7 @@ country_event = {
 				limit = { is_in_capital_area = yes }
 				spawn_rebels = {
 					leader = "Inge Kyrping"
+					type = pretender_rebels
 					size = 5
 					win = yes
 				}
@@ -336,6 +394,7 @@ country_event = {
 				limit = { is_in_capital_area = yes }
 				spawn_rebels = {
 					leader = "Inge Kyrping"
+					type = pretender_rebels
 					size = 3
 					win = yes
 				}
