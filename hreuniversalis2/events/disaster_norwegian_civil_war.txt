@@ -53,7 +53,8 @@ country_event = {
 			fixed = yes
 		}
 		kill_ruler = yes
-		convert_ruler_to_general = yes
+		set_ruler_flag = nor_harald_gille
+		custom_tooltip = norwegian_civil_war.1.a.tt
 	}
 }
 
@@ -122,6 +123,7 @@ province_event = {
 			tag = NOR
 			has_disaster = norwegian_civil_war
 			has_spawned_rebels = pretender_rebels
+			NOT = { has_country_flag = nor_decisive_defeat }
 		}
 		FROM = {
 			OR = {
@@ -155,6 +157,7 @@ province_event = {
 			# 	}
 			# }
 			owner = {
+				set_country_flag = nor_decisive_defeat
 				every_owned_province = {
 					change_controller = event_target:nor_victorious_country
 				}
@@ -181,18 +184,345 @@ country_event = {
 		name = norwegian_civil_war.5.a
 		ai_chance = { factor = 100 }
 		custom_tooltip = norwegian_civil_war.5.a.tt
+		set_country_flag = nor_decisive_victory
+		if = {
+			limit = { has_ruler_flag = nor_harald_gille }
+			clr_ruler_flag = nor_harald_gille
+		}
 	}
 }
 
-#events:
-#2: Attempts at introducing succession law
-#3: Excommunication of Ruler
-#4/5: Battle lost/battle won: Rebels/NOR take entire country
-#6: Rise of the Birkebeiner faction (Sverre Sigurdsson)
-#7: Appoint new successor from dynasty if ruler has no heir
-#8: Rise of the Bagler faction (Inge Magnusson - figurehead)
-#9: Reconciliation between Birkebeiner and Bagler
-#10: Revolt of Skule Bårdsson (if this ends, disaster ends)
-#11: Denmark lends support to x faction
-#12: Sweden lends support to x faction
-#End event 100: Elective monarchy imposed
+#Rise of the Birkebeiners
+country_event = {
+	id = norwegian_civil_war.6
+	title = norwegian_civil_war.6.t
+	desc = norwegian_civil_war.6.d
+	picture = ANGRY_MOB_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_ruler_flag = nor_harald_gille }
+		OR = {
+			has_country_flag = nor_decisive_defeat
+			has_country_flag = nor_decisive_victory
+		}
+		NOT = { has_country_flag = birkebeiners_rebelled }
+		NOT = { has_ruler = "Sverre Sverreætta" }
+		SWE = {
+			OR = {
+				has_country_flag = swe_gave_support
+				has_country_flag = swe_declined_support
+			}
+		}
+	}
+
+	option = {
+		name = norwegian_civil_war.6.a
+		ai_chance = { factor = 100 }
+		set_country_flag = birkebeiners_rebelled
+		clr_country_flag = nor_decisive_defeat
+		clr_country_flag = nor_decisive_victory
+		if = {
+			limit = {
+				has_country_flag = swe_gave_support
+			}
+			random_owned_province = {
+				limit = { is_in_capital_area = yes }
+				spawn_rebels = {
+					leader = "Sverre Sverreætta"
+					size = 5
+					win = yes
+				}
+			}
+		}
+		else = {
+			random_owned_province = {
+				limit = { is_in_capital_area = yes }
+				spawn_rebels = {
+					leader = "Sverre Sverreætta"
+					size = 3
+					win = yes
+				}
+			}
+		}
+		custom_tooltip = norwegian_civil_war.1.a.tt
+	}
+}
+
+#Appoint new successor if no heir
+country_event = {
+	id = norwegian_civil_war.7
+	title = norwegian_civil_war.7.t
+	desc = norwegian_civil_war.7.d
+	picture = NEW_HEIR_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_heir = no
+	}
+
+	option = {
+		name = norwegian_civil_war.7.a
+		ai_chance = { factor = 90 }
+		define_heir = {
+			age = 0
+			dynasty = ROOT
+			claim = 25
+		}
+	}
+	option = {
+		name = norwegian_civil_war.7.b
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 0
+				NOT = { legitimacy = 20 }
+			}
+		}
+		add_legitimacy = -20
+	}
+}
+
+#Rise of the Baglers
+country_event = {
+	id = norwegian_civil_war.8
+	title = norwegian_civil_war.8.t
+	desc = norwegian_civil_war.8.d
+	picture = ANGRY_MOB_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			has_country_flag = nor_decisive_defeat
+			has_country_flag = nor_decisive_victory
+		}
+		has_country_flag = birkebeiners_rebelled
+		NOT = { has_country_flag = baglers_rebelled }
+		NOT = { has_ruler = "Inge Kyrping" }
+		DAN = {
+			OR = {
+				has_country_flag = dan_gave_support
+				has_country_flag = dan_declined_support
+			}
+		}
+	}
+
+	option = {
+		name = norwegian_civil_war.8.a
+		ai_chance = { factor = 100 }
+		set_country_flag = baglers_rebelled
+		clr_country_flag = nor_decisive_defeat
+		clr_country_flag = nor_decisive_victory
+		if = {
+			limit = {
+				has_country_flag = dan_gave_support
+			}
+			random_owned_province = {
+				limit = { is_in_capital_area = yes }
+				spawn_rebels = {
+					leader = "Inge Kyrping"
+					size = 5
+					win = yes
+				}
+			}
+		}
+		else = {
+			random_owned_province = {
+				limit = { is_in_capital_area = yes }
+				spawn_rebels = {
+					leader = "Inge Kyrping"
+					size = 3
+					win = yes
+				}
+			}
+		}
+		custom_tooltip = norwegian_civil_war.1.a.tt
+	}
+}
+
+#Reconciliation between Baglers and Birkebeiners
+country_event = {
+	id = norwegian_civil_war.9
+	title = norwegian_civil_war.9.t
+	desc = {
+		trigger = { dynasty = "Sverreætta" }
+		desc = norwegian_civil_war.9.da
+	}
+	desc = {
+		trigger = { dynasty = "Kyrping" }
+		desc = norwegian_civil_war.9.db
+	}
+	desc = {
+		trigger = {
+			NOT = { dynasty = "Sverreætta" }
+			NOT = { dynasty = "Kyrping" }
+		}
+		desc = norwegian_civil_war.9.dc
+	}
+	picture = DIPLOMACY_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			has_country_flag = nor_decisive_defeat
+			has_country_flag = nor_decisive_victory
+		}
+		has_country_flag = birkebeiners_rebelled
+		has_country_flag = baglers_rebelled
+		NOT = {
+			has_spawned_rebels = pretender_rebels
+		}
+	}
+
+	option = {
+		name = norwegian_civil_war.9.a
+		ai_chance = { factor = 100 }
+		set_country_flag = nor_faction_reconciliation
+		add_stability_or_adm_power = yes
+		random_owned_province = {
+			limit = { is_in_capital_area = yes }
+			spawn_rebels = {
+				type = pretender_rebels
+				size = 3
+				leader = "Skule Godwining"
+			}
+		}
+	}
+}
+
+#Denmark gives support to Baglers (triggered outside)
+country_event = {
+	id = norwegian_civil_war.10
+	title = norwegian_civil_war.10.t
+	desc = norwegian_civil_war.10.d
+	picture = DIPLOMACY_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = DAN
+		NOT = {
+			OR = {
+				has_country_flag = dan_gave_support
+				has_country_flag = dan_declined_support
+			}
+		}
+		NOR = {
+			has_country_flag = birkebeiners_rebelled
+			NOT = { has_country_flag = baglers_rebelled }
+			has_disaster = norwegian_civil_war
+			OR = {
+				has_country_flag = nor_decisive_defeat
+				has_country_flag = nor_decisive_victory
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	option = {
+		name = norwegian_civil_war.10.a
+		ai_chance = { 
+			factor = 50 
+			modifier = {
+				factor = 0
+				NOT = {
+					years_of_income = 0.25
+				}
+			}
+		}
+		set_country_flag = dan_gave_support
+		add_years_of_income = -0.25
+		custom_tooltip = norwegian_civil_war.10.a.tt
+	}
+	option = {
+		name = norwegian_civil_war.10.b
+		ai_chance = { factor = 50 }
+		set_country_flag = dan_declined_support
+		custom_tooltip = norwegian_civil_war.10.b.tt
+		add_prestige = -10
+	}
+}
+
+#Sweden gives support to Birkebeiners (triggered outside)
+country_event = {
+	id = norwegian_civil_war.11
+	title = norwegian_civil_war.11.t
+	desc = norwegian_civil_war.11.d
+	picture = DIPLOMACY_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = SWE
+		NOT = {
+			OR = {
+				has_country_flag = swe_gave_support
+				has_country_flag = swe_declined_support
+			}
+		}
+		NOR = {
+			NOT = { has_ruler_flag = nor_harald_gille }
+			NOT = { has_country_flag = birkebeiners_rebelled }
+			has_disaster = norwegian_civil_war
+			OR = {
+				has_country_flag = nor_decisive_defeat
+				has_country_flag = nor_decisive_victory
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	option = {
+		name = norwegian_civil_war.11.a
+		ai_chance = { 
+			factor = 50 
+			modifier = {
+				factor = 0
+				NOT = {
+					years_of_income = 0.25
+				}
+			}
+		}
+		set_country_flag = swe_gave_support
+		add_years_of_income = -0.25
+		custom_tooltip = norwegian_civil_war.11.a.tt
+	}
+	option = {
+		name = norwegian_civil_war.11.b
+		ai_chance = { factor = 50 }
+		set_country_flag = swe_declined_support
+		custom_tooltip = norwegian_civil_war.11.b.tt
+		add_prestige = -10
+	}
+}
+
+#End Event
+country_event = {
+	id = norwegian_civil_war.100
+	title = norwegian_civil_war.100.t
+	desc = norwegian_civil_war.100.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	option = {
+		name = norwegian_civil_war.100.a
+		ai_chance = { factor = 100 }
+		add_stability_or_adm_power = yes
+		add_legitimacy = 25
+	}
+}

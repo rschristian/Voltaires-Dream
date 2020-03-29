@@ -4,9 +4,8 @@
 norwegian_civil_war = {
 	potential = {
 		tag = NOR
-		NOT = { has_global_flag = nor_civil_war_happened }
 		government = monarchy
-		has_reform = feudalism_reform
+		has_reform = germanic_monarchy
 		is_free_or_tributary_trigger = yes
 		is_lesser_in_union = no
 		current_age = age_of_holy_wars
@@ -16,11 +15,15 @@ norwegian_civil_war = {
 	can_start = {
 		has_any_disaster = no
 		has_heir = yes
+		NOT = { has_global_flag = nor_civil_war_happened }
 	}
 	
 	can_stop = {
-		has_any_disaster = yes
-		NOT = { government = monarchy }
+		OR = {
+			has_any_disaster = yes
+			NOT = { government = monarchy }
+			NOT = { has_reform = germanic_monarchy }
+		}	
 	}
 	
 	progress = {
@@ -64,7 +67,7 @@ norwegian_civil_war = {
 	
 	modifier = {
 		legitimacy = -2
-		heir_chance = -0.5
+		stability_cost_modifier = 0.5
 	}	
 	
 	can_end = {
@@ -72,7 +75,17 @@ norwegian_civil_war = {
 			tooltip = had_disaster_for_five_years
 			had_global_flag = { flag = nor_civil_war_happened days = 1825 }
 		}
-		#add
+		custom_trigger_tooltip = {
+			tooltip = nor_factions_reconciled
+			has_country_flag = nor_faction_reconciliation
+		}
+		stability = 1
+		NOT = { has_spawned_rebels = pretender_rebels }
+		NOT = {
+			any_owned_province = {
+				controlled_by = REB
+			}
+		}
 	}
 
 	on_start = norwegian_civil_war.1
@@ -85,7 +98,12 @@ norwegian_civil_war = {
 			1000 = 0
 			100 = norwegian_civil_war.2
 			100 = norwegian_civil_war.3
-			#4/5 triggered
+			#4/5 triggered by onaction
+			200 = norwegian_civil_war.6
+			50 = norwegian_civil_war.7
+			200 = norwegian_civil_war.8
+			150 = norwegian_civil_war.9
+			#10/11 triggered by mtth
 		}
 	}
 }
