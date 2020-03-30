@@ -17,16 +17,6 @@ country_event = {
 		hidden_effect = {
 			set_global_flag = nor_civil_war_happened
 			remove_heir = yes
-			# set_saved_name = {
-			# 	key = nor_original_heir
-			# 	type = simple
-			# 	name = "Magnus Hardrådeætta"
-			# }
-			# define_exiled_ruler = {
-			# 	exiled_as = nor_original_heir
-			# 	dynasty = ROOT
-			# 	age = 18
-			# }
 			random_owned_province = {
 				limit = {
 					is_in_capital_area = yes
@@ -44,7 +34,7 @@ country_event = {
 	option = {
 		name = norwegian_civil_war.1.a
 		ai_chance = { factor = 100 }
-		add_stability = -2
+		add_stability = -3
 		define_ruler = {
 			name = "Harald"
 			dynasty = "Mac Giolla Chríost"
@@ -112,7 +102,7 @@ country_event = {
 
 #Lost Decisive Battle
 #(triggers outside of disaster, in onaction)
-province_event = {
+country_event = {
 	id = norwegian_civil_war.4
 	title = norwegian_civil_war.4.t
 	desc = norwegian_civil_war.4.d
@@ -121,15 +111,13 @@ province_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		owner = {
-			tag = NOR
-			has_disaster = norwegian_civil_war
-			has_spawned_rebels = pretender_rebels
-			NOT = { 
-				OR = {
-					has_country_flag = nor_decisive_defeat
-					has_country_flag = nor_decisive_victory 
-				}
+		tag = NOR
+		has_disaster = norwegian_civil_war
+		has_spawned_rebels = pretender_rebels
+		NOT = { 
+			OR = {
+				has_country_flag = nor_decisive_defeat
+				has_country_flag = nor_decisive_victory 
 			}
 		}
 		FROM = {
@@ -138,48 +126,36 @@ province_event = {
 	}
 
 	immediate = {
-		hidden_effect = {
-			owner = { 
-				disband_rebels = pretender
-				set_country_flag = nor_decisive_defeat
-			}
+		hidden_effect = { 
+			set_country_flag = nor_decisive_defeat
+			remove_heir = yes
 			if = {
 				limit = {
-					owner = { has_ruler_flag = nor_harald_gille }
+					has_ruler_flag = nor_harald_gille
 				}
-				owner = {
-					define_ruler = {
-						name = "Magnus"
-						dynasty = "Hardrådeætta"
-					}
+				define_ruler = {
+					name = "Magnus"
+					dynasty = "Hardrådeætta"
 				}
 			}
 			else_if = {
 				limit = {
-					owner = {
-						has_country_flag = birkebeiners_rebelled
-						NOT = { has_country_flag = baglers_rebelled }
-					}
+					has_country_flag = birkebeiners_rebelled
+					NOT = { has_country_flag = baglers_rebelled }
 				}
-				owner = {
-					define_ruler = {
-						name = "Sverre"
-						dynasty = "Sverreætta"
-					}
+				define_ruler = {
+					name = "Sverre"
+					dynasty = "Sverreætta"
 				}
 			}
 			else_if = {
 				limit = {
-					owner = {
-						has_country_flag = birkebeiners_rebelled
-						has_country_flag = baglers_rebelled
-					}
+					has_country_flag = birkebeiners_rebelled
+					has_country_flag = baglers_rebelled
 				}
-				owner = {
-					define_ruler = {
-						name = "Inge"
-						dynasty = "Kyrping"
-					}
+				define_ruler = {
+					name = "Inge"
+					dynasty = "Kyrping"
 				}
 			}
 		}
@@ -188,27 +164,24 @@ province_event = {
 	option = {
 		name = norwegian_civil_war.4.a
 		ai_chance = { factor = 100 }
+		disband_rebels = pretender_rebels
 		if = {
 			limit = {
-				owner = { has_ruler_flag = nor_harald_gille }
+				has_ruler = "Magnus Hardrådeætta"
 			}
 			custom_tooltip = norwegian_civil_war.4.a.tt1
 		}
 		else_if = {
 			limit = {
-				owner = {
-					has_country_flag = birkebeiners_rebelled
-					NOT = { has_country_flag = baglers_rebelled }
-				}
+				has_country_flag = birkebeiners_rebelled
+				NOT = { has_country_flag = baglers_rebelled }
 			}
 			custom_tooltip = norwegian_civil_war.4.a.tt2
 		}
 		else_if = {
 			limit = {
-				owner = {
-					has_country_flag = birkebeiners_rebelled
-					has_country_flag = baglers_rebelled
-				}
+				has_country_flag = birkebeiners_rebelled
+				has_country_flag = baglers_rebelled
 			}
 			custom_tooltip = norwegian_civil_war.4.a.tt3
 		}
@@ -216,7 +189,7 @@ province_event = {
 }
 
 #Victorious in Battle
-province_event = {
+country_event = {
 	id = norwegian_civil_war.5
 	title = norwegian_civil_war.5.t
 	desc = norwegian_civil_war.5.d
@@ -225,15 +198,13 @@ province_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		owner = {
-			tag = NOR 
-			has_disaster = norwegian_civil_war
-			has_spawned_rebels = pretender_rebels
-			NOT = { 
-				OR = {
-					has_country_flag = nor_decisive_defeat
-					has_country_flag = nor_decisive_victory 
-				}
+		tag = NOR 
+		has_disaster = norwegian_civil_war
+		has_spawned_rebels = pretender_rebels
+		NOT = { 
+			OR = {
+				has_country_flag = nor_decisive_defeat
+				has_country_flag = nor_decisive_victory 
 			}
 		}
 		FROM = {
@@ -243,13 +214,10 @@ province_event = {
 	
 	immediate = {
 		hidden_effect = {
-			owner = { 
-				disband_rebels = pretender
-				set_country_flag = nor_decisive_defeat 
-				if = {
-					limit = { has_ruler_flag = nor_harald_gille }
-					clr_ruler_flag = nor_harald_gille
-				}
+			set_country_flag = nor_decisive_victory
+			if = {
+				limit = { has_ruler_flag = nor_harald_gille }
+				clr_ruler_flag = nor_harald_gille
 			}
 		}
 	}
@@ -257,6 +225,7 @@ province_event = {
 	option = {
 		name = norwegian_civil_war.5.a
 		ai_chance = { factor = 100 }
+		disband_rebels = pretender_rebels
 	}
 }
 
@@ -292,17 +261,6 @@ country_event = {
 		set_country_flag = birkebeiners_rebelled
 		clr_country_flag = nor_decisive_defeat
 		clr_country_flag = nor_decisive_victory
-		# define_exiled_ruler = {
-		# 	exiled_as = nor_birkebeiner_ruler
-		# 	name = "Sverre"
-		# 	dynasty = "Sverreætta"
-		# 	age = 18
-		# }
-		# set_saved_name = {
-		# 	key = nor_birkebeiner_ruler
-		# 	type = simple
-		# 	name = "Sverre Sverreætta"
-		# }
 		if = {
 			limit = {
 				has_country_flag = swe_gave_support
@@ -364,17 +322,6 @@ country_event = {
 		set_country_flag = baglers_rebelled
 		clr_country_flag = nor_decisive_defeat
 		clr_country_flag = nor_decisive_victory
-		# define_exiled_ruler = {
-		# 	exiled_as = nor_bagler_ruler
-		# 	name = "Inge"
-		# 	dynasty = "Kyrping"
-		# 	age = 15
-		# }
-		# set_saved_name = {
-		# 	key = nor_bagler_ruler
-		# 	type = simple
-		# 	name = "Inge Kyrping"
-		# }
 		if = {
 			limit = {
 				has_country_flag = dan_gave_support
@@ -585,3 +532,8 @@ country_event = {
 		add_legitimacy = 25
 	}
 }
+
+#add- to do: New events for peasants/nobles revolting as well to make disaster harder
+#Or these could be merged into main faction events
+#add Scottish revolting as well if you own stuff there? 
+#All subjects should gain lib desire on the start event
