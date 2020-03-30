@@ -50,6 +50,7 @@ country_event = {
 			fixed = yes
 		}
 		set_ruler_flag = nor_harald_gille
+		set_country_flag = nor_fighting_rebels
 		custom_tooltip = norwegian_civil_war.1.a.tt
 	}
 }
@@ -105,7 +106,7 @@ country_event = {
 	}
 }
 
-#Lost Decisive Battle
+#Lost Battle
 #(triggers outside of disaster, in onaction)
 country_event = {
 	id = norwegian_civil_war.4
@@ -117,7 +118,7 @@ country_event = {
 
 	immediate = {
 		hidden_effect = { 
-			set_country_flag = nor_decisive_defeat
+			clr_country_flag = nor_fighting_rebels
 			remove_heir = yes
 			if = {
 				limit = {
@@ -192,7 +193,7 @@ country_event = {
 	
 	immediate = {
 		hidden_effect = {
-			set_country_flag = nor_decisive_victory
+			clr_country_flag = nor_fighting_rebels
 			if = {
 				limit = { has_ruler_flag = nor_harald_gille }
 				clr_ruler_flag = nor_harald_gille
@@ -219,10 +220,7 @@ country_event = {
 
 	trigger = {
 		NOT = { has_ruler_flag = nor_harald_gille }
-		OR = {
-			has_country_flag = nor_decisive_defeat
-			has_country_flag = nor_decisive_victory
-		}
+		NOT = { has_country_flag = nor_fighting_rebels }
 		NOT = { has_country_flag = birkebeiners_rebelled }
 		NOT = { has_ruler = "Sverre Sverreætta" }
 		SWE = {
@@ -237,8 +235,7 @@ country_event = {
 		name = norwegian_civil_war.6.a
 		ai_chance = { factor = 100 }
 		set_country_flag = birkebeiners_rebelled
-		clr_country_flag = nor_decisive_defeat
-		clr_country_flag = nor_decisive_victory
+		set_country_flag = nor_fighting_rebels
 		if = {
 			limit = {
 				has_country_flag = swe_gave_support
@@ -313,10 +310,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		OR = {
-			has_country_flag = nor_decisive_defeat
-			has_country_flag = nor_decisive_victory
-		}
+		NOT = { has_country_flag = nor_fighting_rebels }
 		has_country_flag = birkebeiners_rebelled
 		NOT = { has_country_flag = baglers_rebelled }
 		NOT = { has_ruler = "Inge Kyrping" }
@@ -332,8 +326,7 @@ country_event = {
 		name = norwegian_civil_war.8.a
 		ai_chance = { factor = 100 }
 		set_country_flag = baglers_rebelled
-		clr_country_flag = nor_decisive_defeat
-		clr_country_flag = nor_decisive_victory
+		set_country_flag = nor_fighting_rebels
 		if = {
 			limit = {
 				has_country_flag = dan_gave_support
@@ -389,10 +382,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		OR = {
-			has_country_flag = nor_decisive_defeat
-			has_country_flag = nor_decisive_victory
-		}
+		NOT = { has_country_flag = nor_fighting_rebels }
 		has_country_flag = birkebeiners_rebelled
 		has_country_flag = baglers_rebelled
 		NOT = {
@@ -437,10 +427,7 @@ country_event = {
 			has_country_flag = birkebeiners_rebelled
 			NOT = { has_country_flag = baglers_rebelled }
 			has_disaster = norwegian_civil_war
-			OR = {
-				has_country_flag = nor_decisive_defeat
-				has_country_flag = nor_decisive_victory
-			}
+			NOT = { has_country_flag = nor_fighting_rebels }
 		}
 	}
 
@@ -493,10 +480,7 @@ country_event = {
 			NOT = { has_ruler_flag = nor_harald_gille }
 			NOT = { has_country_flag = birkebeiners_rebelled }
 			has_disaster = norwegian_civil_war
-			OR = {
-				has_country_flag = nor_decisive_defeat
-				has_country_flag = nor_decisive_victory
-			}
+			NOT = { has_country_flag = nor_fighting_rebels }
 		}
 	}
 
@@ -635,12 +619,7 @@ province_event = {
 			tag = NOR 
 			has_disaster = norwegian_civil_war
 			has_spawned_rebels = pretender_rebels
-			NOT = { 
-				OR = {
-					has_country_flag = nor_decisive_defeat
-					has_country_flag = nor_decisive_victory 
-				}
-			}
+			has_country_flag = nor_fighting_rebels
 		}
 		FROM = {
 			tag = REB
@@ -681,12 +660,7 @@ province_event = {
 			tag = NOR 
 			has_disaster = norwegian_civil_war
 			has_spawned_rebels = pretender_rebels
-			NOT = { 
-				OR = {
-					has_country_flag = nor_decisive_defeat
-					has_country_flag = nor_decisive_victory 
-				}
-			}
+			has_country_flag = nor_fighting_rebels
 		}
 		FROM = {
 			tag = REB
@@ -710,6 +684,28 @@ province_event = {
 				id = norwegian_civil_war.5
 			}
 		}
+	}
+}
+
+#failsafe
+country_event = {
+	id = norwegian_civil_war.16
+	title = norwegian_civil_war.16.t
+	desc = norwegian_civil_war.16.d
+	picture = CIVIL_WAR_eventPicture
+
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_spawned_rebels = pretender_rebels }
+		has_country_flag = nor_fighting_rebels
+	}
+
+	option = {
+		name = norwegian_civil_war.16.a
+		ai_chance = { factor = 100 }
+		clr_country_flag = nor_fighting_rebels
 	}
 }
 
