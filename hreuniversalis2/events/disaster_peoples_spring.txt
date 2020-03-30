@@ -698,6 +698,263 @@ country_event = {
 	}
 }
 
+#Revolutionary Thinkers
+country_event = {
+	id = peoples_spring.10
+	title = peoples_spring.10.t
+	desc = {
+		trigger = { NOT = { has_global_flag = marx_happened } }
+		desc = peoples_spring.10.d.a
+	}
+	desc = {
+		trigger = {
+			has_global_flag = marx_happened
+			NOT = { has_global_flag = engels_happened }
+		}
+		desc = peoples_spring.10.d.b
+	}
+	desc = {
+		trigger = {
+			has_global_flag = marx_happened
+			has_global_flag = engels_happened
+		}
+		desc = peoples_spring.10.d.c
+	}
+	picture = ADVISOR_eventPicture
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = revolutionary_advisor }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = revolutionary_advisor
+		}
+	}
+	
+	option = {
+		name = peoples_spring.10.a
+		ai_chance = { factor = 90 }
+		add_legitimacy = -15
+		if = {
+			limit = {
+				NOT = { has_global_flag = marx_happened }
+			}
+			set_global_flag = marx_happened
+			define_advisor = {
+				type = philosopher
+				name = "Karl Marx"
+				religion = protestant
+				culture = moselle_franconian
+				discount = yes
+				skill = 3
+			}
+		}
+		if = {
+			limit = {
+				has_global_flag = marx_happened
+				NOT = { has_global_flag = engels_happened }
+			}
+			set_global_flag = engels_happened
+			define_advisor = {
+				type = trader
+				name = "Friedrich Engels"
+				religion = protestant
+				culture = moselle_franconian
+				discount = yes
+				skill = 2
+			}
+		}
+		if = {
+			limit = {
+				has_global_flag = marx_happened
+				has_global_flag = engels_happened
+			}
+			define_advisor = {
+				type = philosopher
+				discount = yes
+				skill = 2
+			}
+		}
+	}
+
+	option = {
+		name = peoples_spring.10.b
+		ai_chance = { factor = 10 }
+		add_stability = -1
+	}
+}
+
+#Greek Revolution (Unique for TUR)
+country_event = {
+	id = peoples_spring.11
+	title = peoples_spring.11.t
+	desc = peoples_spring.11.d
+	picture = BYZ_ATHENS_eventPicture
+	
+	is_triggered_only = yes
+
+	trigger = {
+		tag = TUR
+		NOT = { exists = GRE }
+		NOT = { exists = BYZ }
+		NOT = { has_global_flag = greek_revolution }
+		NOT = { culture_group = byzantine }
+		NOT = { started_in = 1821.3.15 }
+		any_owned_province = {
+			region = hellas_region
+			is_core = GRE
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = greek_revolution
+		}
+	}
+	
+	option = {
+		name = peoples_spring.11.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				religion_group = christian
+			}
+			modifier = {
+				factor = 2
+				war_exhaustion = 5
+			}
+		}
+		release = GRE
+		add_truce_with = GRE
+		hidden_effect = {
+			GRE = {
+				set_government_rank = 5
+        		change_government = republic
+				add_government_reform = revolutionary_republic_reform
+				define_ruler = {}
+        		set_capital = 2828
+        		add_treasury = 400
+				add_prestige = 80
+				add_manpower = 10
+				add_stability = 3
+				define_general = {
+					name = "Theodoros Kolokotronis"
+					fire = 6
+					shock = 6
+					manuever = 6
+					siege = 6
+				}
+				random_owned_province = {
+					limit = { region = hellas_region }
+					build_to_forcelimit = {
+						infantry = 0.6
+						cavalry = 0.3
+						artillery = 0.1
+					}
+				}
+			}
+		}
+		every_known_country = {
+			limit = {
+				OR = {
+					is_great_power = yes
+					AND = {
+						NOT = { has_dlc = "Rights of Man" }
+						total_development = 750
+					}
+				}
+				religion_group = christian
+				NOT = { tag = GRE }
+				NOT = { tag = TUR }
+			}
+			country_event = { id = peoples_spring.12 days = 10 random = 20 }
+		}
+	}
+
+	option = {
+		name = peoples_spring.11.b
+		ai_chance = { factor = 50 }
+		every_owned_province = {
+			limit = {
+				region = hellas_region
+				is_core = GRE
+			}
+			create_revolt = 1
+		}
+		every_known_country = {
+			limit = {
+				OR = {
+					is_great_power = yes
+					AND = {
+						NOT = { has_dlc = "Rights of Man" }
+						total_development = 750
+					}
+				}
+				religion_group = christian
+				NOT = { tag = GRE }
+				NOT = { tag = TUR }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = sided_against_us
+			}
+		}
+	}
+}
+
+#Greece Calls For Aid
+country_event = {
+	id = peoples_spring.12
+	title = peoples_spring.12.t
+	desc = peoples_spring.12.d
+	picture = BYZ_ATHENS_eventPicture
+
+	is_triggered_only = yes
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = peoples_spring.12.a
+		ai_chance = {
+			factor = 90
+			modifier = {
+				factor = 0
+				GRE = { num_of_allies = 4 }
+			}
+		}
+		hidden_effect = {
+			reverse_add_opinion = {
+				who = GRE
+				modifier = helped_support_rebels
+			}
+			add_opinion = {
+				who = GRE
+				modifier = helped_support_rebels
+			}
+			add_historical_friend = GRE
+			GRE = { add_historical_friend = ROOT }
+			add_trust = { who = GRE value = 100 mutual = yes }
+		}
+		create_alliance = GRE
+		create_guarantee = GRE
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = supported_rebels
+			}
+		}
+	}
+
+	option = {
+		name = peoples_spring.12.b
+		ai_chance = { factor = 10 }
+		add_prestige = -10
+	}
+}
+
 #End
 country_event = {
 	id = peoples_spring.100

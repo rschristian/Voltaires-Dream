@@ -10,15 +10,23 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
+		normal_or_historical_nations = yes
 		OR = {
 			tag = TEU
 			tag = LIV
 		}
 		NOT = { started_in = 1201.1.1 }
-		is_year = 1150
-		NOT = { is_year = 1350 }
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
 		owns = 5793
 		num_of_cities = 5
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
 		NOT = { exists = RGS }
 	}
 
@@ -37,6 +45,9 @@ country_event = {
 			5793 = {
 				change_religion = catholic
 				change_culture = prussian
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
 				add_permanent_province_modifier = {
 					name = hanseatic_city
 					duration = -1
@@ -71,6 +82,159 @@ country_event = {
 					}
 				}
 			}
+		}
+	}
+}
+
+# accept german settlers?
+country_event = {
+	id = ostsiedlung.2
+	title = ostsiedlung.2.t
+	desc = ostsiedlung.2.d
+	picture = COLONIZATION_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		normal_or_historical_nations = yes
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		OR = {
+			primary_culture = germanic
+			AND = {
+				OR = {
+					primary_culture = polabian
+					primary_culture = kashubian
+				}
+				any_neighbor_country = {
+					culture_group = germanic
+				}
+			}
+		}
+		any_owned_province = {
+			OR = {
+				culture = polabian
+				culture = kashubian
+				culture = sorbian
+			}
+		}
+	}
+
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					OR = {
+						culture = polabian
+						culture = kashubian
+						culture = sorbian
+					}
+				}
+				save_event_target_as = new_ostsiedlung_province
+			}
+			random_list = {
+				20 = { set_country_flag = increase_dev_by_1a }
+				20 = { set_country_flag = increase_dev_by_1b }
+				15 = { set_country_flag = increase_dev_by_2a }
+				15 = { set_country_flag = increase_dev_by_2b }
+				10 = { set_country_flag = increase_dev_by_3a }
+				10 = { set_country_flag = increase_dev_by_3b }
+				10 = { set_country_flag = increase_dev_by_3c }
+			}
+		}
+	}
+
+	option = {
+		name = ostsiedlung.2.a
+		ai_chance = { factor = 75 }
+		add_years_of_income = -0.2
+		custom_tooltip = ostsiedlung.2.tt
+		event_target:new_ostsiedlung_province = {
+			trigger_switch = {
+				on_trigger = has_country_flag
+				increase_dev_by_1a = { add_base_tax = 1 }
+				increase_dev_by_1b = { add_base_production = 1 }
+				increase_dev_by_2a = { add_base_tax = 1 add_base_production = 1 }
+				increase_dev_by_2b = { add_base_production = 1 add_base_manpower = 1 }
+				increase_dev_by_3a = { add_base_tax = 2 add_base_manpower = 1 }
+				increase_dev_by_3b = { add_base_production = 2 add_base_manpower = 1 }
+				increase_dev_by_3b = { add_base_tax = 1 add_base_production = 1 add_base_manpower = 1 }
+			}
+			add_province_modifier = {
+				name = ostsiedlung_province
+				duration = 7300
+			}
+			hidden_effect = {
+				province_event = {
+					id = ostsiedlung.3
+				}
+			}
+		}
+	}
+	option = {
+		name = ostsiedlung.2.b
+		ai_chance = { factor = 25 }
+		add_prestige = -1
+	}
+
+	after = {
+		clr_country_flag = increase_dev_by_1a
+		clr_country_flag = increase_dev_by_1b
+		clr_country_flag = increase_dev_by_2a
+		clr_country_flag = increase_dev_by_2b
+		clr_country_flag = increase_dev_by_3a
+		clr_country_flag = increase_dev_by_3b
+		clr_country_flag = increase_dev_by_3c
+	}
+}
+
+# event to convert province
+province_event = {
+	id = ostsiedlung.3
+	title = ostsiedlung.3.t
+	desc = ostsiedlung.3.d
+	picture = COLONIZATION_eventPicture
+
+	is_triggered_only = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = ostsiedlung.3.a
+		if = {
+			limit = {
+				OR = {
+					region = mecklenburg_region
+					region = hinterpommern_region
+					NOT = { area = neumark_area }
+				}
+			}
+			change_culture = pommeranian
+		}
+		else_if = {
+			limit = {
+				OR = {
+					region = brandenburg_region
+					area = neumark_area
+				}
+			}
+			change_culture = central_margravian
+		}
+		else_if = {
+			limit = {
+				OR = {
+					region = holstein_region
+				}
+			}
+			change_culture = low_elbish
+		}
+		else = {
+			change_culture = saxon
 		}
 	}
 }

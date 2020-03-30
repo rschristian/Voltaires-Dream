@@ -1,0 +1,112 @@
+#Norwegian Civil War Era disaster
+#By Isildur
+
+norwegian_civil_war = {
+	potential = {
+		tag = NOR
+		government = monarchy
+		has_reform = germanic_monarchy
+		is_free_or_tributary_trigger = yes
+		is_lesser_in_union = no
+		current_age = age_of_holy_wars
+		normal_or_historical_nations = yes
+	}
+
+	can_start = {
+		has_any_disaster = no
+		has_heir = yes
+		NOT = { has_global_flag = nor_civil_war_happened }
+	}
+	
+	can_stop = {
+		OR = {
+			has_any_disaster = yes
+			NOT = { government = monarchy }
+			NOT = { has_reform = germanic_monarchy }
+		}	
+	}
+	
+	progress = {
+		modifier = {
+			factor = 1
+			has_heir = yes
+		}
+		modifier = {
+			factor = 1
+			NOT = { stability = 1 }
+		}
+		modifier = {
+			factor = 1
+			NOT = { legitimacy_equivalent = 100 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { legitimacy_equivalent = 50 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { legitimacy_equivalent = 25 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { ADM = 3 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { DIP = 3 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { MIL = 3 }
+		}
+		modifier = {
+			factor = 2
+			has_spawned_rebels = pretender_rebels
+		}
+	}
+	
+	modifier = {
+		legitimacy = -2
+		stability_cost_modifier = 0.5
+	}	
+	
+	can_end = {
+		custom_trigger_tooltip = {
+			tooltip = had_disaster_for_five_years
+			had_global_flag = { flag = nor_civil_war_happened days = 1825 }
+		}
+		custom_trigger_tooltip = {
+			tooltip = nor_factions_reconciled
+			has_country_flag = nor_faction_reconciliation
+		}
+		stability = 1
+		NOT = { has_spawned_rebels = pretender_rebels }
+		NOT = {
+			any_owned_province = {
+				controlled_by = REB
+			}
+		}
+	}
+
+	on_start = norwegian_civil_war.1
+	on_end = norwegian_civil_war.100
+	
+	on_monthly = {
+		events = {
+		}
+		random_events = {
+			1000 = 0
+			100 = norwegian_civil_war.2
+			100 = norwegian_civil_war.3
+			#4/5 triggered
+			200 = norwegian_civil_war.6
+			100 = norwegian_civil_war.7
+			200 = norwegian_civil_war.8
+			150 = norwegian_civil_war.9
+			#10/11 triggered by mtth
+			100 = norwegian_civil_war.12
+			100 = norwegian_civil_war.13
+			#14/15 triggered by onaction
+		}
+	}
+}
