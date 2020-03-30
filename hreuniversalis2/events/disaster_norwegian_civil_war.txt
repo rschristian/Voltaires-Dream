@@ -35,6 +35,10 @@ country_event = {
 		name = norwegian_civil_war.1.a
 		ai_chance = { factor = 100 }
 		add_stability = -3
+		add_legitimacy = -50
+		every_subject_country = {
+			add_liberty_desire = 25
+		}
 		define_ruler = {
 			name = "Harald"
 			dynasty = "Mac Giolla Chríost"
@@ -60,7 +64,7 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { has_country_modifier = nor_succession_law }
+		NOT = { has_ruler_modifier = nor_succession_law }
 	}
 
 	option = {	#We must try
@@ -68,9 +72,10 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_adm_power = -50
 		add_dip_power = -50
-		add_country_modifier = {
+		add_mil_power = -50
+		add_ruler_modifier = {
 			name = "nor_succession_law"
-			duration = 365
+			duration = -1
 		}
 	}
 }
@@ -110,21 +115,6 @@ country_event = {
 
 	is_triggered_only = yes
 
-	trigger = {
-		tag = NOR
-		has_disaster = norwegian_civil_war
-		has_spawned_rebels = pretender_rebels
-		NOT = { 
-			OR = {
-				has_country_flag = nor_decisive_defeat
-				has_country_flag = nor_decisive_victory 
-			}
-		}
-		FROM = {
-			tag = REB
-		}
-	}
-
 	immediate = {
 		hidden_effect = { 
 			set_country_flag = nor_decisive_defeat
@@ -137,6 +127,7 @@ country_event = {
 					name = "Magnus"
 					dynasty = "Hardrådeætta"
 				}
+				add_legitimacy = -50
 			}
 			else_if = {
 				limit = {
@@ -147,6 +138,7 @@ country_event = {
 					name = "Sverre"
 					dynasty = "Sverreætta"
 				}
+				add_legitimacy = -50
 			}
 			else_if = {
 				limit = {
@@ -157,6 +149,7 @@ country_event = {
 					name = "Inge"
 					dynasty = "Kyrping"
 				}
+				add_legitimacy = -50
 			}
 		}
 	}
@@ -196,21 +189,6 @@ country_event = {
 	picture = BATTLE_eventPicture
 
 	is_triggered_only = yes
-
-	trigger = {
-		tag = NOR 
-		has_disaster = norwegian_civil_war
-		has_spawned_rebels = pretender_rebels
-		NOT = { 
-			OR = {
-				has_country_flag = nor_decisive_defeat
-				has_country_flag = nor_decisive_victory 
-			}
-		}
-		FROM = {
-			tag = REB
-		}
-	}
 	
 	immediate = {
 		hidden_effect = {
@@ -271,6 +249,7 @@ country_event = {
 					leader = "Sverre Sverreætta"
 					type = pretender_rebels
 					size = 5
+					friend = SWE
 					win = yes
 				}
 			}
@@ -287,6 +266,39 @@ country_event = {
 			}
 		}
 		custom_tooltip = norwegian_civil_war.1.a.tt
+	}
+}
+
+#Lendmenn Revolt
+country_event = {
+	id = norwegian_civil_war.7
+	title = norwegian_civil_war.7.t
+	desc = norwegian_civil_war.7.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_province = {
+			NOT = { controlled_by = REB }
+		}
+		NOT = { has_country_flag = nor_faction_reconciliation }
+	}
+	
+
+	option = {
+		name = norwegian_civil_war.7.a
+		ai_chance = { factor = 100 }
+		random_owned_province = {
+			limit = { 
+				NOT = { controlled_by = REB }
+			}
+			spawn_rebels = {
+				type = noble_rebels
+				size = 2
+				win = yes
+			}
+		}
 	}
 }
 
@@ -332,6 +344,7 @@ country_event = {
 					leader = "Inge Kyrping"
 					type = pretender_rebels
 					size = 5
+					friend = DAN
 					win = yes
 				}
 			}
@@ -515,6 +528,191 @@ country_event = {
 	}
 }
 
+#Peasant Revolt
+country_event = {
+	id = norwegian_civil_war.12
+	title = norwegian_civil_war.12.t
+	desc = norwegian_civil_war.12.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_province = {
+			NOT = { controlled_by = REB }
+		}
+		NOT = { has_country_flag = nor_faction_reconciliation }
+	}
+
+	option = {
+		name = norwegian_civil_war.12.a
+		ai_chance = { factor = 100 }
+		random_owned_province = {
+			limit = {
+				NOT = { controlled_by = REB }
+			}
+			spawn_rebels = {
+				type = anti_tax_rebels
+				size = 2
+				win = yes
+			}
+		}
+	}
+}
+
+#Scots Revolt
+country_event = {
+	id = norwegian_civil_war.13
+	title = norwegian_civil_war.13.t
+	desc = norwegian_civil_war.13.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_province = {
+			OR = {
+				region = highlands_region
+				region = scotland_region
+			}
+			OR = {
+				culture = highland_scottish
+				culture = scottish
+			}
+			NOT = { controlled_by = REB }
+		}
+		NOT = { has_country_flag = nor_faction_reconciliation }
+	}
+
+	option = {
+		name = norwegian_civil_war.13.a
+		ai_chance = { factor = 100 }
+		random_owned_province = {
+			limit = { 
+				region = highlands_region 
+				OR = {
+					culture = highland_scottish
+					culture = scottish
+				}
+				NOT = { controlled_by = REB }
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 2
+				win = yes
+			}
+		}
+		random_owned_province = {
+			limit = { 
+				region = scotland_region 
+				OR = {
+					culture = highland_scottish
+					culture = scottish
+				}
+				NOT = { controlled_by = REB }
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 2
+				win = yes
+			}
+		}
+	}
+}
+
+#hidden
+province_event = {
+	id = norwegian_civil_war.14
+	title = norwegian_civil_war.14.t
+	desc = norwegian_civil_war.14.d
+	picture = BATTLE_eventPicture
+
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		owner = {
+			tag = NOR 
+			has_disaster = norwegian_civil_war
+			has_spawned_rebels = pretender_rebels
+			NOT = { 
+				OR = {
+					has_country_flag = nor_decisive_defeat
+					has_country_flag = nor_decisive_victory 
+				}
+			}
+		}
+		FROM = {
+			tag = REB
+		}
+		num_of_units_in_province = {
+			who = NOR
+			amount = 1
+		}
+		unit_has_leader = yes
+		OR = {
+			has_rebel_faction = pretender_rebels
+			sieged_by = pretender_rebels
+		}
+	}
+
+	option = {
+		ai_chance = { factor = 100 }
+		name = norwegian_civil_war.14.a
+		owner = {
+			country_event = {
+				id = norwegian_civil_war.4
+			}
+		}
+	}
+}
+
+province_event = {
+	id = norwegian_civil_war.15
+	title = norwegian_civil_war.5.t
+	desc = norwegian_civil_war.15.d
+	picture = BATTLE_eventPicture
+
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		owner = {
+			tag = NOR 
+			has_disaster = norwegian_civil_war
+			has_spawned_rebels = pretender_rebels
+			NOT = { 
+				OR = {
+					has_country_flag = nor_decisive_defeat
+					has_country_flag = nor_decisive_victory 
+				}
+			}
+		}
+		FROM = {
+			tag = REB
+		}
+		unit_has_leader = yes
+		num_of_units_in_province = {
+			who = NOR
+			amount = 1
+		}
+		OR = {
+			has_rebel_faction = pretender_rebels
+			sieged_by = pretender_rebels
+		}
+	}
+
+	option = {
+		ai_chance = { factor = 100 }
+		name = norwegian_civil_war.15.a
+		owner = {
+			country_event = {
+				id = norwegian_civil_war.5
+			}
+		}
+	}
+}
+
 #End Event
 country_event = {
 	id = norwegian_civil_war.100
@@ -529,11 +727,6 @@ country_event = {
 		name = norwegian_civil_war.100.a
 		ai_chance = { factor = 100 }
 		add_stability_or_adm_power = yes
-		add_legitimacy = 25
+		add_legitimacy = 50
 	}
 }
-
-#add- to do: New events for peasants/nobles revolting as well to make disaster harder
-#Or these could be merged into main faction events
-#add Scottish revolting as well if you own stuff there? 
-#All subjects should gain lib desire on the start event
