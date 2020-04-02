@@ -4355,3 +4355,263 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = hremodevents.91
+	title = "HREMT91"
+	desc = "HREMD91"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		primary_culture = schlesian
+		capital_scope = {
+			region = silesia_region
+		}
+		has_global_flag = silesia_partitioned
+		has_global_flag = had_fragmentation_of_poland
+		is_free_or_tributary_trigger = yes
+		any_owned_province = {
+			region = silesia_region
+			NOT = { is_capital_of = ROOT }
+			any_core_country = {
+				primary_culture = schlesian
+				exists = no
+			}
+		}
+		OR = {
+			current_age = age_of_empire
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					region = silesia_region
+					NOT = { is_capital_of = ROOT }
+					any_core_country = {
+						primary_culture = schlesian
+						exists = no
+					}
+				}
+				random_core_country = {
+					limit = {
+						primary_culture = schlesian
+						exists = no
+					}
+					save_event_target_as = silesia_partition_country
+				}
+			}
+		}
+	}
+	
+
+	option = {
+		name = "HREMA91"
+		ai_chance = { factor = 80 }
+		every_owned_province = {
+			limit = {
+				region = silesia_region
+				NOT = { is_capital_of = ROOT }
+				is_core = event_target:silesia_partition_country
+			}
+			cede_province = event_target:silesia_partition_country
+			add_core = event_target:silesia_partition_country
+			remove_core = ROOT
+		}
+		event_target:silesia_partition_country = {
+			define_ruler = {
+				dynasty = ROOT
+				max_age = 15
+			}
+		}
+	}
+	option = {
+		name = "HREMB91"
+		ai_chance = { 
+			factor = 20 
+			modifier = {
+				factor = 0
+				NOT = { legitimacy = 25 }
+			}
+		}
+		add_legitimacy = -25
+		random_owned_province = {
+			limit = {
+				region = silesia_region
+				is_core = event_target:silesia_partition_country
+			}
+			spawn_rebels = {
+				size = 2
+				type = nationalist_rebels
+				friend = event_target:silesia_partition_country
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.92
+	title = "HREMT92"
+	desc = "HREMD92"
+	picture = KING_SICK_IN_BED_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	major = yes
+
+	trigger = {
+		tag = SIL
+		primary_culture = schlesian
+		is_free_or_tributary_trigger = yes
+		has_global_flag = had_fragmentation_of_poland
+		NOT = { has_global_flag = silesia_partitioned }
+		any_owned_province = {
+			region = silesia_region
+			NOT = {
+				OR = {
+					area = silesiaeast_area
+					area = opole_area
+				}
+			}
+		}
+		any_owned_province = {
+			OR = {
+				area = silesiaeast_area
+				area = opole_area
+			}
+		}
+		OR = {
+			current_age = age_of_empire
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+	}
+
+	option = {
+		name = "HREMA92"
+		ai_chance = { factor = 90 }
+		custom_tooltip = "HREMTT92"
+		hidden_effect = {
+			fragment_silesia_effect = yes
+		}
+		opole_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		silesiaeast_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		opava_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		OPO = {
+			2815 = {
+				move_capital_effect = yes
+			}
+			define_ruler = {
+				name = "Mieszko I"
+				dynasty = ROOT
+				max_age = 15
+			}
+		}
+		change_tag = WRC
+	}
+	option = {
+		name = "HREMC92"
+		ai_chance = { factor = 0 }
+		custom_tooltip = "HREMTT92"
+		hidden_effect = {
+			fragment_silesia_effect = yes
+		}
+		opole_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		silesiaeast_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		opava_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		OPO = {
+			2815 = {
+				move_capital_effect = yes
+			}
+			define_ruler = {
+				name = "Mieszko I"
+				dynasty = ROOT
+				max_age = 15
+			}
+		}
+		hidden_effect = {
+			every_owned_province = {
+				OPO = {
+					discover_province = PREV
+				}
+			}
+		}
+		change_tag = WRC
+		switch_tag = OPO
+	}
+	option = {
+		name = "HREMB92"
+		ai_chance = { 
+			factor = 10
+			modifier = {
+				factor = 0
+				NOT = { legitimacy = 25 }
+			}
+			modifier = {
+				factor = 0
+				NOT = { stability = 1 }
+			}
+		}
+		custom_tooltip = "HREMTT92"
+		hidden_effect = {
+			fragment_silesia_effect = yes
+		}
+		add_legitimacy = -25
+		add_stability = -1
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = silesiaeast_area
+					area = opole_area
+				}
+			}
+			spawn_rebels = {
+				size = 5
+				type = nationalist_rebels
+				friend = OPO
+				leader = "Mieszko"
+				win = yes
+			}
+		}
+	}
+	after = {
+		set_global_flag = silesia_partitioned
+	}
+}
