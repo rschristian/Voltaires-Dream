@@ -1,3 +1,564 @@
 #Cuman missions
 #contributed by Quantumm
 #coded by ShyGuy13
+
+vn_cmn_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = CMN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cmn_eternal_blue_sky = {
+        icon = mission_unite_home_region
+        position = 1
+        required_missions = {  }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_tengri_empire = {
+        icon = mission_unite_home_region
+        position = 2
+        required_missions = { vn_cmn_eternal_blue_sky }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_bessarabia = {
+        icon = mission_unite_home_region
+        position = 3
+        required_missions = { vn_cmn_conquer_zaporizhia }
+        trigger = {
+            
+        }
+        effect = {
+            if = {
+                limit = {
+                    exists = BUL
+                    is_subject = no
+                    BUL = {
+                        is_free_or_tributary_trigger = yes
+                    }
+                }
+                add_casus_belli = {
+                    type = cb_vassalize_mission
+                    months = 300
+                    target = BUL
+                }
+            }
+            else = {
+                silistra_area = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                tarnovo_area = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                vidin_area = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                kran_area = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
+            wallachia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_cmn_conquer_wallachia = {
+        icon = mission_unite_home_region
+        position = 4
+        required_missions = { vn_cmn_conquer_bessarabia }
+        provinces_to_highlight = {
+            region = wallachia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }   
+        }
+        trigger = {
+            wallachia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            thrace_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            zagore_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_cmn_conquer_thrace = {
+        icon = mission_unite_home_region
+        position = 5
+        required_missions = { vn_cmn_conquer_wallachia }
+        provinces_to_highlight = {
+            OR = {
+                region = thrace_region
+                area = zagore_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            thrace_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            zagore_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_moldavia = {
+        icon = mission_unite_home_region
+        position = 6
+        required_missions = { vn_cmn_conquer_kiev }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_cmn_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = CMN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cmn_conquer_bulgaria = {
+        icon = mission_unite_home_region
+        position = 4
+        required_missions = { vn_cmn_conquer_bessarabia }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_podolia = {
+        icon = mission_unite_home_region
+        position = 6
+        required_missions = { vn_cmn_conquer_kiev }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_volyn = {
+        icon = mission_unite_home_region
+        position = 7
+        required_missions = { vn_cmn_conquer_podolia }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_destroy_the_rus = {
+        icon = mission_unite_home_region
+        position = 8
+        required_missions = { vn_cmn_conquer_ryazan vn_cmn_conquer_volyn }
+        trigger = {
+            if = {
+                limit = { has_dlc = "Mandate of Heaven" }
+                OR = {
+                    is_emperor_of_china = yes
+                    custom_trigger_tooltip = {
+                        tooltip = vn_cmn_destroy_the_rus.tt.1
+                        NOT = {
+                            any_country = {
+                                is_emperor_of_china = yes
+                            }
+                        }
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = vn_cmn_destroy_the_rus.tt.2
+                NOT = {
+                    any_country = {
+                        culture_group = east_slavic
+                        total_development = 250
+                        is_subject = no
+                    }
+                }
+            }
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_cmn_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = CMN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cmn_gather_the_horses = {
+        icon = mission_unite_home_region
+        position = 1
+        required_missions = {  }
+        trigger = {
+            is_at_war = no
+            land_forcelimit = 0.75
+            land_maintenance = 1
+            num_of_cavalry = 10
+            num_of_generals = 2
+        }
+        effect = {
+            zaporizhia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            yedisan_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_cmn_conquer_zaporizhia = {
+        icon = mission_unite_home_region
+        position = 2
+        required_missions = { vn_cmn_gather_the_horses }
+        provinces_to_highlight = {
+            OR = {
+                area = zaporizhia_area
+                area = yedisan_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            zaporizhia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            yedisan_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_raid_kiev = {
+        icon = mission_unite_home_region
+        position = 3
+        required_missions = { vn_cmn_conquer_zaporizhia }
+        provinces_to_highlight = {
+			OR = {
+				province_id = 4237
+				province_id = 3974
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = { owner = { war_with = ROOT } }
+		}
+		trigger = {
+			OR = {
+				AND = {
+					4237 = { country_or_non_sovereign_subject_holds = ROOT }
+					3974 = { country_or_non_sovereign_subject_holds = ROOT }
+				}
+				4237 = {
+                    controlled_by = ROOT
+					owner = {
+						war_with = ROOT
+						OR = {
+							is_emperor_of_china = no
+							NOT = { imperial_mandate = 50 }
+						}
+					}
+				}
+			}
+		}
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_kiev = {
+        icon = mission_unite_home_region
+        position = 5
+        required_missions = { vn_cmn_raid_kiev }
+        provinces_to_highlight = {
+			
+		}
+		trigger = {
+			
+		}
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_severia = {
+        icon = mission_unite_home_region
+        position = 6
+        required_missions = { vn_cmn_conquer_kiev }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_ryazan = {
+        icon = mission_unite_home_region
+        position = 7
+        required_missions = { vn_cmn_conquer_severia }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_cmn_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = CMN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cmn_conquer_theodoro = {
+        icon = mission_unite_home_region
+        position = 1
+        required_missions = {  }
+        provinces_to_highlight = {
+            area = cherson_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            cherson_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_tmutkaran = {
+        icon = mission_unite_home_region
+        position = 4
+        required_missions = { vn_cmn_conquer_theodoro vn_cmn_raid_kiev }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 3133
+                province_id = 3088
+                province_id = 3206
+                province_id = 3692
+                province_id = 3784
+                province_id = 3702
+                province_id = 6640
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            3133 = { country_or_non_sovereign_subject_holds = ROOT }
+            3088 = { country_or_non_sovereign_subject_holds = ROOT }
+            3206 = { country_or_non_sovereign_subject_holds = ROOT }
+            3692 = { country_or_non_sovereign_subject_holds = ROOT }
+            3784 = { country_or_non_sovereign_subject_holds = ROOT }
+            3702 = { country_or_non_sovereign_subject_holds = ROOT }
+            6640 = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        effect = {
+
+        }
+    }
+    vn_cmn_conquer_circassia = {
+        icon = mission_unite_home_region
+        position = 5
+        required_missions = { vn_cmn_conquer_tmutkaran }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_abkhazia = {
+        icon = mission_unite_home_region
+        position = 6
+        required_missions = { vn_cmn_conquer_circassia }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_georgia = {
+        icon = mission_unite_home_region
+        position = 7
+        required_missions = { vn_cmn_conquer_abkhazia }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_subjugate_seljuks = {
+        icon = mission_unite_home_region
+        position = 8
+        required_missions = { vn_cmn_conquer_georgia vn_cmn_conquer_dagestan }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}
+}
+
+vn_cmn_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = CMN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_cmn_great_khan = {
+        icon = mission_unite_home_region
+        position = 1
+        required_missions = {  }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}
+    vn_cmn_subjugate_kipchaks = {
+        icon = mission_unite_home_region
+        position = 3
+        required_missions = { vn_cmn_great_khan }
+        trigger = {
+            QYP = {
+                OR = {
+                    is_subject_of = ROOT
+                    exists = no
+                } 
+            }
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_turkic_empire = {
+        icon = mission_unite_home_region
+        position = 4
+        required_missions = { vn_cmn_subjugate_kipchaks }
+        trigger = {
+            government_rank = 6
+            total_development = 1000
+            prestige = 50
+        }
+        effect = {
+            add_adm_power = 100
+            add_dip_power = 100
+            add_mil_power = 100
+            add_legitimacy = 25
+            add_horde_unity = 25
+            add_country_modifier = {
+                name = cmn_turkic_empire_mission
+                duration = 36500
+            }            
+        }
+    }
+    vn_cmn_conquer_alania = {
+        icon = mission_unite_home_region
+        position = 6
+        required_missions = { vn_cmn_conquer_circassia }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_cmn_conquer_dagestan = {
+        icon = mission_unite_home_region
+        position = 7
+        required_missions = { vn_cmn_conquer_alania }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+	}
+}

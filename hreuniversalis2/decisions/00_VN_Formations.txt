@@ -3952,7 +3952,6 @@ country_decisions = {
 				NOT = { exists = MAZ }
 			}
 			NOT = { has_country_flag = unformable }
-			NOT = { exists = MAZ }
 			NOT = { tag = POL }
 			NOT = { tag = PTH }
 			primary_culture = mazovian
@@ -3982,6 +3981,7 @@ country_decisions = {
 			is_free_or_tributary_trigger = yes
 			is_nomad = no
 			is_at_war = no
+			NOT = { exists = MAZ }
 			owns_core_province = 1138 #Warsaw
 			owns_core_province = 2770 #Rawa
 			owns_core_province = 1218 #Plock
@@ -4008,6 +4008,75 @@ country_decisions = {
 			mazovia_region = {
 				limit = { NOT = { owned_by = ROOT } }
 				add_permanent_claim = MAZ
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	piedmontese_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primitives = no
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				ai = no
+				NOT = { exists = PIE }
+			}
+			NOT = { has_country_flag = unformable }
+			NOT = { exists = SPI }
+			NOT = { tag = SPI }
+			NOT = { tag = SAV }
+			NOT = { tag = LBV }
+			NOT = { tag = XKK }
+			primary_culture = piedmontese
+		}
+		provinces_to_highlight = {
+			province_id = 1009
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 14
+			is_free_or_tributary_trigger = yes
+			is_nomad = no
+			is_at_war = no
+			NOT = { exists = PIE }
+			owns_core_province = 1009 #Turin
+			num_of_owned_provinces_with = {
+				value = 10
+				region = piedmont_region
+				is_core = ROOT
+			}
+		}
+		effect = {
+			change_tag = PIE
+			set_capital = 1009
+			if = {
+				limit = {
+					NOT = { government_rank = 2 }
+				}
+				set_government_rank = 2
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			piedmont_region = {
+				limit = { NOT = { owned_by = ROOT } }
+				add_permanent_claim = PIE
 			}
 			if = {
 				limit = { has_custom_ideas = no }

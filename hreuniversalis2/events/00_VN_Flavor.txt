@@ -3819,10 +3819,11 @@ country_event = {
 	major = yes
 
 	trigger = {
+		normal_or_historical_nations = yes
 		NOT = { started_in = 1079.1.1 }
+		is_year = 1070
 		tag = SWE
 		religion = norse_pagan_reformed
-		NOT = { has_ruler_flag = emund_of_munso_flag }
 		NOT = { exists = GTH }
 		is_subject = no
 		any_owned_province = {
@@ -4159,5 +4160,458 @@ country_event = {
 				months = 120
 			}
 		}	
+	}
+}
+
+country_event = {
+    id = hremodevents.88
+    title = "HREMT88"
+	desc = "HREMD88"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	trigger = {
+		normal_or_historical_nations = yes
+		has_country_modifier = invasion_nation_m
+		OR = {
+			tag = GLH
+			tag = ILK
+			tag = JMN
+		}
+		has_reform = steppe_horde
+		is_at_war = no
+		NOT = { overextension_percentage = 0.5 }
+		any_neighbor_country = {
+			NOT = { is_subject_of = ROOT }
+		}
+	}
+
+	mean_time_to_happen = { months = 6 }
+
+	option = {
+		name = "HREMA88"
+		ai_chance = { factor = 99 }
+		add_prestige = 10
+		random_neighbor_country = {
+			limit = {
+				NOT = { is_subject_of = ROOT }
+			}
+			ROOT = {
+				declare_war_with_cb = {
+					casus_belli = cb_horde_vs_civ
+					who = PREV
+				}
+			}
+		}
+	}
+	option = {
+		name = "HREMB88"
+		ai_chance = { factor = 1 }
+		add_prestige = -10
+	}
+}
+
+country_event = {
+	id = hremodevents.89
+    title = "HREMT89"
+	desc = "HREMD89"
+	picture = HARBOUR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		normal_or_historical_nations = yes
+		OR = {
+			tag = TEU
+			tag = LIV
+		}
+		NOT = { started_in = 1201.1.1 }
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		owns = 5793
+		num_of_cities = 5
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		NOT = { exists = RGS }
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {
+		name = "HREMA89"
+		5793 = {
+			remove_core = ROOT
+			add_core = RGS
+			cede_province = RGS
+			if = {
+				limit = { hre_size = 1 }
+				set_in_empire = yes
+			}
+		}
+		hidden_effect = {
+			5793 = {
+				change_religion = catholic
+				change_culture = prussian
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				add_permanent_province_modifier = {
+					name = hanseatic_city
+					duration = -1
+				}
+			}
+			RGS = {
+				change_government = republic
+				if = {
+					limit = {
+						has_global_flag = free_city_allowed
+						NOT = {
+							calc_true_if = {
+								amount = 50
+								all_country = {
+									has_reform = free_city
+								}
+							}
+						}
+					}
+					add_government_reform = free_city
+				}
+				else = {
+					add_government_reform = oligarchy_reform
+				}
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.7
+						cavalry = 0.3
+						heavy_ship = 0.1
+						light_ship = 0.5
+						transport = 0.4
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.90
+    title = "HREMT90"
+	desc = "HREMD90"
+	picture = ADVISOR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { started_in = 1750.1.1 }
+		has_institution = enlightenment
+		natural_scientist = 1
+		any_owned_province = {
+			trade_goods = wine
+			enlightenment = 100
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.5
+			trading_bonus = {
+				trade_goods = wine
+				value = yes
+			}
+		}
+		modifier = {
+			factor = 0.9
+			natural_scientist = 2
+		}
+		modifier = {
+			factor = 0.9
+			natural_scientist = 3
+		}
+		modifier = {
+			factor = 0.9
+			natural_scientist = 4
+		}
+		modifier = {
+			factor = 0.9
+			natural_scientist = 5
+		}
+	}
+
+	option = {
+		name = "HREMA90"
+		every_owned_province = {
+			limit = { trade_goods = wine }
+			add_province_modifier = {
+				name = tannin_production
+				duration = -1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.91
+	title = "HREMT91"
+	desc = "HREMD91"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		primary_culture = schlesian
+		capital_scope = {
+			region = silesia_region
+		}
+		has_global_flag = silesia_partitioned
+		has_global_flag = had_fragmentation_of_poland
+		is_free_or_tributary_trigger = yes
+		any_owned_province = {
+			region = silesia_region
+			NOT = { is_capital_of = ROOT }
+			any_core_country = {
+				primary_culture = schlesian
+				exists = no
+			}
+		}
+		OR = {
+			current_age = age_of_empire
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					region = silesia_region
+					NOT = { is_capital_of = ROOT }
+					any_core_country = {
+						primary_culture = schlesian
+						exists = no
+					}
+				}
+				random_core_country = {
+					limit = {
+						primary_culture = schlesian
+						exists = no
+					}
+					save_event_target_as = silesia_partition_country
+				}
+			}
+		}
+	}
+	
+
+	option = {
+		name = "HREMA91"
+		ai_chance = { factor = 80 }
+		every_owned_province = {
+			limit = {
+				region = silesia_region
+				NOT = { is_capital_of = ROOT }
+				is_core = event_target:silesia_partition_country
+			}
+			cede_province = event_target:silesia_partition_country
+			add_core = event_target:silesia_partition_country
+			remove_core = ROOT
+		}
+		event_target:silesia_partition_country = {
+			define_ruler = {
+				dynasty = ROOT
+				max_age = 15
+			}
+		}
+	}
+	option = {
+		name = "HREMB91"
+		ai_chance = { 
+			factor = 20 
+			modifier = {
+				factor = 0
+				NOT = { legitimacy = 25 }
+			}
+		}
+		add_legitimacy = -25
+		random_owned_province = {
+			limit = {
+				region = silesia_region
+				is_core = event_target:silesia_partition_country
+			}
+			spawn_rebels = {
+				size = 2
+				type = nationalist_rebels
+				friend = event_target:silesia_partition_country
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.92
+	title = "HREMT92"
+	desc = "HREMD92"
+	picture = KING_SICK_IN_BED_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	major = yes
+
+	trigger = {
+		tag = SIL
+		primary_culture = schlesian
+		is_free_or_tributary_trigger = yes
+		has_global_flag = had_fragmentation_of_poland
+		NOT = { has_global_flag = silesia_partitioned }
+		any_owned_province = {
+			region = silesia_region
+			NOT = {
+				OR = {
+					area = silesiaeast_area
+					area = opole_area
+				}
+			}
+		}
+		any_owned_province = {
+			OR = {
+				area = silesiaeast_area
+				area = opole_area
+			}
+		}
+		OR = {
+			current_age = age_of_empire
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+	}
+
+	option = {
+		name = "HREMA92"
+		ai_chance = { factor = 90 }
+		custom_tooltip = "HREMTT92"
+		hidden_effect = {
+			fragment_silesia_effect = yes
+		}
+		opole_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		silesiaeast_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		opava_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		OPO = {
+			2815 = {
+				move_capital_effect = yes
+			}
+			define_ruler = {
+				name = "Mieszko I"
+				dynasty = ROOT
+				max_age = 15
+			}
+		}
+		change_tag = WRC
+	}
+	option = {
+		name = "HREMC92"
+		ai_chance = { factor = 0 }
+		custom_tooltip = "HREMTT92"
+		hidden_effect = {
+			fragment_silesia_effect = yes
+		}
+		opole_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		silesiaeast_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		opava_area = {
+			limit = { owned_by = ROOT }
+			cede_province = OPO
+			add_core = OPO
+			remove_core = ROOT
+		}
+		OPO = {
+			2815 = {
+				move_capital_effect = yes
+			}
+			define_ruler = {
+				name = "Mieszko I"
+				dynasty = ROOT
+				max_age = 15
+			}
+		}
+		hidden_effect = {
+			every_owned_province = {
+				OPO = {
+					discover_province = PREV
+				}
+			}
+		}
+		change_tag = WRC
+		switch_tag = OPO
+	}
+	option = {
+		name = "HREMB92"
+		ai_chance = { 
+			factor = 10
+			modifier = {
+				factor = 0
+				NOT = { legitimacy = 25 }
+			}
+			modifier = {
+				factor = 0
+				NOT = { stability = 1 }
+			}
+		}
+		custom_tooltip = "HREMTT92"
+		hidden_effect = {
+			fragment_silesia_effect = yes
+		}
+		add_legitimacy = -25
+		add_stability = -1
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = silesiaeast_area
+					area = opole_area
+				}
+			}
+			spawn_rebels = {
+				size = 5
+				type = nationalist_rebels
+				friend = OPO
+				leader = "Mieszko"
+				win = yes
+			}
+		}
+	}
+	after = {
+		set_global_flag = silesia_partitioned
 	}
 }
