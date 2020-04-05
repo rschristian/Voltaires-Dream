@@ -186,7 +186,7 @@ country_event = {
 		any_owned_province = {
 			culture_group = germanic
 		}
-		NOT = { has_country_flag = had_ostsiedlung_question }
+		NOT = { has_country_flag = had_germanization_question }
 	}
 
 	mean_time_to_happen = {
@@ -208,7 +208,7 @@ country_event = {
 
 	immediate = {
 		hidden_effect = {
-			set_country_flag = had_ostsiedlung_question
+			set_country_flag = had_germanization_question
 			if = {
 				limit = { primary_culture = polabian }
 				set_country_flag = polabian_primary_culture
@@ -291,6 +291,81 @@ country_event = {
 	after = {
 		clr_country_flag = polabian_primary_culture
 		clr_country_flag = kashubian_primary_culture
+	}
+}
+
+# change religion
+country_event = {
+	id = ostsiedlung.4
+	title = ostsiedlung.4.t
+	desc = ostsiedlung.4.d
+	picture = BIG_BOOK_eventPicture
+
+	trigger = {
+		normal_or_historical_nations = yes
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		OR = {
+			primary_culture = polabian
+			primary_culture = kashubian			
+		}
+		religion_group = pagan
+		primitives = no
+		is_tribal = no
+		is_at_war = no
+		any_neighbor_country = {
+			culture_group = germanic
+			religion_group = christian
+		}
+		NOT = { has_country_flag = had_christianization_question }
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.5
+			dominant_religion = catholic
+		}
+		modifier = {
+			factor = 0.75
+			OR = {
+				dominant_culture = pommeranian
+				dominant_culture = central_margravian
+				dominant_culture = low_elbish
+				dominant_culture = saxon
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = had_christianization_question
+		}
+	}
+
+	option = {
+		name = ostsiedlung.4.a
+		ai_chance = { factor = 90 }
+		change_religion = catholic
+		add_country_modifier = {
+			name = slavic_christianization
+			duration = 3650
+		}
+	}
+	option = {
+		name = ostsiedlung.4.b
+		ai_chance = { factor = 10 }
+		add_prestige = 10
+		every_neighbor_country = {
+			limit = { religion = catholic }
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_mildly_displeased
+			}
+		}
 	}
 }
 
