@@ -3667,6 +3667,10 @@ country_event = {
 					discover_province = PREV
 				}
 			}
+			if = {
+				limit = { SJK = { has_country_modifier = extensive_holdings } }
+				SJK = { remove_country_modifier = extensive_holdings }
+			}
 		}
 	}
 
@@ -4633,5 +4637,68 @@ country_event = {
 	}
 	after = {
 		set_global_flag = silesia_partitioned
+	}
+}
+
+country_event = {
+	id = hremodevents.93
+    title = "HREMT93"
+	desc = "HREMD93"
+	picture = HRE_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		current_age = age_of_dynasticism
+		NOT = { started_in = 1382.7.27 }
+		NOT = { has_reform = celestial_empire }
+		NOT = { hre_reform_level = 5 }
+		is_emperor = yes
+		NOT = {
+			capital_scope = {
+				OR = {
+					region = dauphine_region
+					region = provence_region
+					region = auvergne_region
+				}
+			}
+		}
+		any_province = {
+			OR = {
+				region = dauphine_region
+				region = provence_region
+				region = auvergne_region
+			}
+			hre = yes
+			NOT = { area = savoy_area }
+			owner = { has_reform = celestial_empire }
+			culture_group = french
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.5
+			NOT = { hre_reform_level = 1 }
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { imperial_influence = 50 }
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { imperial_influence = 10 }
+		}
+	}
+
+	option = {
+		name = "HREMA93"
+		dauphine_region = {
+			limit = { NOT = { area = savoy_area } }
+			set_in_empire = no
+		}
+		provence_region = { set_in_empire = no }
+		auvergne_region = { set_in_empire = no }
 	}
 }
