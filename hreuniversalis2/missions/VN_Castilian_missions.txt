@@ -1124,17 +1124,53 @@ vn_cas_missions_slot_3_b = {
 					}
 				}
 			}
-			#addmore
-            #should add perm claims to moroccan stuff (vn2)
+			4626 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4627 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
         }
     }
     vn_cas_moroccan_outposts = {
         icon = mission_moroccan_ports
         required_missions = { vn_cas_triumph_over_islam }
-        position = 8
+		position = 8
+		provinces_to_highlight = {
+			OR = {
+				region = rif_region
+				region = gharb_region
+				area = taroudant_area
+				area = guelmim_area
+			}
+			has_port = yes
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			4626 = { country_or_non_sovereign_subject_holds = ROOT }
+			4627 = { country_or_non_sovereign_subject_holds = ROOT }
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 20
+				has_port = yes
+				OR = {
+					region = rif_region
+					region = gharb_region
+					area = taroudant_area
+					area = guelmim_area
+				}
+			}
         }
         effect = {
 			#add - WIP
@@ -1142,10 +1178,20 @@ vn_cas_missions_slot_3_b = {
     }
     vn_cas_riches_of_maghreb = {
         icon = mission_control_the_barbary_coast
-        required_missions = { vn_cas_moroccan_outposts }
+		required_missions = { vn_cas_moroccan_outposts }
+		provinces_to_highlight = {
+			superregion = maghreb_superregion
+			has_port = yes
+			NOT = { development = 15 }
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			num_of_owned_provinces_with = {
+				value = 10
+				development = 15
+				has_port = yes
+				superregion = maghreb_superregion
+			}
         }
         effect = {
 			#add - WIP
