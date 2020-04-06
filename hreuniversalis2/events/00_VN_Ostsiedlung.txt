@@ -7,8 +7,6 @@ country_event = {
 	desc = ostsiedlung.1.d
 	picture = COLONIZATION_eventPicture
 
-	is_triggered_only = yes
-
 	trigger = {
 		normal_or_historical_nations = yes
 		OR = {
@@ -39,7 +37,7 @@ country_event = {
 		}
 	}
 
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { months = 240 }
 
 	immediate = {
 		hidden_effect = {
@@ -226,6 +224,7 @@ country_event = {
 		name = ostsiedlung.3.a
 		ai_chance = { factor = 90 }
 		#rename tags in 1.30
+		set_country_flag = formerly_wendish
 		if = {
 			limit = {
 				capital_scope = {
@@ -368,5 +367,124 @@ country_event = {
 				modifier = opinion_mildly_displeased
 			}
 		}
+	}
+}
+
+# join hre
+country_event = {
+	id = ostsiedlung.5
+	title = ostsiedlung.5.t
+	desc = ostsiedlung.5.d
+	picture = HRE_eventPicture
+
+	trigger = {
+		normal_or_historical_nations = yes
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		culture_group = germanic
+		religion = christian
+		primitives = no
+		is_tribal = no
+		is_at_war = no
+		is_subject = no
+		hre_size = 1
+		is_part_of_hre = no
+		is_emperor_of_china = no
+		has_country_flag = formerly_wendish
+		any_neighbor_country = {
+			culture_group = germanic
+			religion_group = christian
+			is_part_of_hre = yes
+		}
+		NOT = { has_country_flag = had_hre_question }
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.5
+			emperor = {
+				alliance_with = ROOT
+			}
+		}
+		modifier = {
+			factor = 2
+			emperor = {
+				is_rival = ROOT
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = had_hre_question
+			random_country = {
+				limit = { is_emperor = yes }
+				save_event_target_as = current_emperor
+			}
+		}
+	}
+
+	option = {
+		name = ostsiedlung.5.a
+		ai_chance = { factor = 90 }
+		set_in_empire = yes
+		every_neighbor_country = {
+			limit = {
+				OR = {
+					is_part_of_hre = yes
+					is_emperor = yes
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_pleased
+			}
+		}
+	}
+	option = {
+		name = ostsiedlung.5.b
+		ai_chance = { factor = 10 }
+		add_prestige = 10
+		every_neighbor_country = {
+			limit = {
+				OR = {
+					is_part_of_hre = yes
+					is_emperor = yes
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_displeased
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ostsiedlung.0
+	title = ostsiedlung.0.t
+	desc = ostsiedlung.0.d
+	picture = COLONIZATION_eventPicture
+
+	hidden = yes
+
+	trigger = {
+		NOT = { has_country_flag = formerly_wendish }
+		has_country_flag = is_a_wendish_tag
+		culture_group = germanic
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = ostsiedlung.0.a
+		clr_country_flag = is_a_wendish_tag
+		set_country_flag = formerly_wendish
 	}
 }
