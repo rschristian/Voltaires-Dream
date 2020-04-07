@@ -4740,13 +4740,6 @@ country_event = {
 		name = "HREMA94"
 		add_prestige = -20
 		elector = no
-		#hidden_effect =  {
-			emperor = {
-				country_event = {
-					id = hremodevents.95
-				}
-			}
-		#}
 	}
 }
 
@@ -4756,12 +4749,29 @@ country_event = {
 	desc = "HREMD95"
 	picture = HRE_eventPicture
 
-	is_triggered_only = yes
+	trigger = {
+		NOT = { has_global_flag = remove_electorate_allowed }
+		NOT = { num_of_electors = 7 }
+		NOT = { has_global_flag = ongoing_electoral_redistribution }
+		is_emperor = yes
+		any_country = {
+			is_part_of_hre = yes
+			num_of_cities = 5
+			is_emperor = no
+			is_elector = no
+			is_subject = no
+			is_excommunicated = no
+			has_any_disaster = no
+			is_bankrupt = no
+			NOT = { government = republic }			
+		}
+	}
 
 	mean_time_to_happen = { days = 1 }
 
 	immediate = {
 		hidden_effect = {
+			set_global_flag = ongoing_electoral_redistribution
 			random_country = {
 				limit = {
 					is_part_of_hre = yes
@@ -4961,7 +4971,6 @@ country_event = {
 		}
 	}
 
-
 	option = {
 		name = "HREMA95"
 		event_target:new_elector_1 = {
@@ -4977,6 +4986,7 @@ country_event = {
 				modifier = revoke_elector_opinion 
 			}
 		}
+		clr_global_flag = ongoing_electoral_redistribution
 	}
 	option = {
 		name = "HREMB95"
@@ -4993,5 +5003,6 @@ country_event = {
 				modifier = revoke_elector_opinion 
 			}
 		}
+		clr_global_flag = ongoing_electoral_redistribution
 	}
 }
