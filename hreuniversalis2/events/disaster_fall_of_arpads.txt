@@ -524,23 +524,45 @@ country_event = {
 					clr_country_flag = usr_didnt_exist
 				}
 			}
-			every_owned_province = {
+			while = {
 				limit = {
-					is_capital = no
-					OR = {
-						region = moldavia_region
-						NOT = {
-							OR = {
-								superregion = carpathia_superregion
-								area = doboj_area
-								area = belgrade_area
-								region = croatia_region
-								region = dalmatian_region
-							}
+					any_owned_province = {
+						OR = {
+							region = moldavia_region
+							NOT = { superregion = carpathia_superregion }
+						}
+						any_core_country = {
+							NOT = { tag = ROOT }
 						}
 					}
 				}
-				cede_province = previous_owner
+				random_owned_province = {
+					limit = {
+						OR = {
+							region = moldavia_region
+							NOT = { superregion = carpathia_superregion }
+						}
+						any_core_country = {
+							NOT = { tag = ROOT }
+						}
+					}
+					random_core_country = {
+						limit = {
+							NOT = { tag = ROOT }
+						}
+						if = {
+							limit = { exists = no }
+							set_country_flag = didnt_exist
+						}
+						ROOT = { release = PREV }
+						if = {
+							limit = { has_country_flag = didnt_exist }
+							change_government = monarchy
+							add_government_reform = feudalism_reform
+							clr_country_flag = didnt_exist
+						}
+					}
+				}
 			}
 		}
 	}
