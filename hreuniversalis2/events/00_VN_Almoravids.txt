@@ -24,15 +24,13 @@ country_event = {
 		tag = DAA
         dynasty = "al-Murâbit"
         has_regency = no
-		is_at_war = no
+        is_at_war = no
+        NOT = { exists = TFL }
 	}
 
 	option = {
 		name = almoravids_events.1.a
 		change_tag = MOR
-		add_treasury = 200
-		add_prestige = 40
-		add_manpower = 20
 		if = {
 			limit = { MRK = { ai = yes was_player = no } }
 			inherit = MRK
@@ -44,10 +42,18 @@ country_event = {
 		if = {
 			limit = { SOS = { ai = yes was_player = no } }
 			inherit = SOS
-		}
+        }
+        declare_war_with_cb = {
+            casus_belli = cb_heretic
+            who = FEZ
+        }
+        declare_war_with_cb = {
+            casus_belli = cb_heretic
+            who = SLE
+        }
 		add_country_modifier = {
 			name = armed_jihad_m
-			duration = 5475
+			duration = 7300
 		}
 		hidden_effect = {
 			set_government_rank = 5
@@ -55,8 +61,27 @@ country_event = {
 			add_government_reform = iqta
 			set_capital = 4762
             add_accepted_culture = moroccan
+            add_treasury = 200
+            add_prestige = 40
+            add_manpower = 30
             swap_free_idea_group = yes
             swap_non_generic_missions = yes
+            capital_scope = {
+                build_to_forcelimit = {
+                    infantry = 0.8
+                    cavalry = 0.2
+                }
+            }
+            FEZ = {
+                every_owned_province = {
+                    add_claim = ROOT
+                }
+            }
+            SLE = {
+                every_owned_province = {
+                    add_claim = ROOT
+                }
+            }
 		}
 	}
 }

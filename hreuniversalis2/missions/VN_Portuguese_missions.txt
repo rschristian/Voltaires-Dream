@@ -128,21 +128,110 @@ vn_por_missions_slot_1_a = {
 	}
 	vn_por_land_in_madeira = {
         icon = mission_invade_island
-        required_missions = { }
+		required_missions = { }
+		provinces_to_highlight = {
+			province_id = 5115
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			5115 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            #add - WIP
+            5115 = {
+				add_base_production = 2
+			}
+			add_country_modifier = {
+				name = "por_land_in_madeira_mission"
+				duration = 7300
+			}
+			5113 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			5112 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			5111 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			5110 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			5109 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			5108 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			5107 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
         }
     }
 	vn_por_toward_canaries = {
         icon = mission_claim_the_canaries
         required_missions = { vn_por_land_in_madeira }
+        provinces_to_highlight = {
+            OR = {
+				province_id = 5113
+				province_id = 5112
+				province_id = 5111
+				province_id = 5110
+				province_id = 5109
+				province_id = 5108
+				province_id = 5107
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			5113 = { country_or_non_sovereign_subject_holds = ROOT }
+			5112 = { country_or_non_sovereign_subject_holds = ROOT }
+			5111 = { country_or_non_sovereign_subject_holds = ROOT }
+			5110 = { country_or_non_sovereign_subject_holds = ROOT }
+			5109 = { country_or_non_sovereign_subject_holds = ROOT }
+			5108 = { country_or_non_sovereign_subject_holds = ROOT }
+			5107 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
             #add - WIP
@@ -156,8 +245,12 @@ vn_por_missions_slot_1_a = {
 			vn_por_moroccan_ports 
 		}
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			4749 = {
+				is_strongest_trade_power = ROOT
+			}
+			4656 = {
+				is_strongest_trade_power = ROOT
+			}
         }
         effect = {
             #add - WIP
@@ -441,11 +534,18 @@ vn_por_missions_slot_2_b = {
 		}
 		position = 9
         provinces_to_highlight = {
-            #add - WIP
-        }
+			superregion = maghreb_superregion
+			has_port = yes
+			NOT = { development = 15 }
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			num_of_owned_provinces_with = {
+				value = 10
+				development = 15
+				has_port = yes
+				superregion = maghreb_superregion
+			}
         }
         effect = {
             #add - WIP
@@ -656,25 +756,82 @@ vn_por_missions_slot_3_b = {
         icon = mission_retake_ceuta
         required_missions = { vn_por_seize_algarve }
         provinces_to_highlight = {
-            #add - WIP
+			province_id = 4626
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			4626 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            #add - WIP
+			4626 = {
+				if = {
+					limit = {
+						NOT = { has_building = fort_14th }
+						num_free_building_slots = 1
+					}
+					add_building = fort_14th
+				}
+			}
+			rif_region = {
+				limit = {
+					has_port = yes
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			gharb_region = {
+				limit = {
+					has_port = yes
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			taroudant_area = {
+				limit = {
+					has_port = yes
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			guelmim_area = {
+				limit = {
+					has_port = yes
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
 	}
 	vn_por_moroccan_ports = {
         icon = mission_moroccan_ports
         required_missions = { vn_por_claim_ceuta }
         provinces_to_highlight = {
-            #add - WIP
+            OR = {
+				region = rif_region
+				region = gharb_region
+				area = taroudant_area
+				area = guelmim_area
+			}
+			has_port = yes
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			4626 = { country_or_non_sovereign_subject_holds = ROOT }
+			4625 = { country_or_non_sovereign_subject_holds = ROOT }
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 20
+				has_port = yes
+				OR = {
+					region = rif_region
+					region = gharb_region
+					area = taroudant_area
+					area = guelmim_area
+				}
+			}
         }
         effect = {
             #add - WIP
@@ -683,10 +840,14 @@ vn_por_missions_slot_3_b = {
 	vn_por_establish_feitorias = {
         icon = mission_portuguese_oman
         required_missions = { vn_por_moroccan_ports }
-        position = 8
+		position = 8
         trigger = {
-			#add - WIP
-			always = no	#remove later
+			num_of_owned_provinces_with = {
+				value = 10
+				continent = africa
+				has_trade_building_trigger = yes
+				province_has_center_of_trade_of_level = 1
+			}
         }
         effect = {
             #add - WIP

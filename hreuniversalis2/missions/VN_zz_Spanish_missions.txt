@@ -77,7 +77,76 @@ vn_spa_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+            artois_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			flanders_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			antwerp_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			brabant_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			hainaut_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			guelders_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			utrecht_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			holland_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			overijssel_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			westfrisia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_spa_seventeen_provinces = {
@@ -171,7 +240,19 @@ vn_spa_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+			add_sailors = 0.25
+            random_owned_province = {
+				limit = { 
+					continent = europe 
+					has_port = yes
+				}
+				add_unit_construction = {
+					type = heavy_ship
+					amount = 5
+					speed = 0.25
+					cost = 0
+				}
+			}
         }
     }
     vn_spa_invasion_of_england = {
@@ -404,7 +485,10 @@ vn_spa_missions_slot_2_a = {
 			}
         }
         effect = {
-			#add more
+			add_country_modifier = {
+				name = "spa_nueva_planta_decrees_mission"
+				duration = 18250
+			}
 			custom_tooltip = vn_spa_nueva_planta_decrees.tt
 			hidden_effect = {
 				iberia_superregion = {
@@ -493,7 +577,13 @@ vn_spa_missions_slot_2_b = {
             if = {
 				limit = { hre_size = 1 }
 				add_imperial_influence = 5
-				#addmore
+				add_prestige = 25
+				every_elector = {
+					add_opinion = {
+						modifier = spa_spanish_emperorship_opinion
+						who = ROOT
+					}
+				}
 			}
 			else = {
 				custom_tooltip = vn_ase_elect_new_king.tt4
@@ -508,16 +598,38 @@ vn_spa_missions_slot_2_b = {
 			vn_spa_spanish_emperorship 
 		}
         trigger = {
-            NOT = {
-				any_known_country = {
-					dynasty = "von Habsburg"
-					NOT = { is_subject = ROOT }
+			if = {
+				limit = {
+					any_known_country = {
+						exists = yes
+						dynasty = "von Habsburg"
+					}
+				}
+				NOT = {
+					any_known_country = {
+						exists = yes
+						dynasty = "von Habsburg"
+						NOT = { is_subject_of = ROOT }
+					}
 				}
 			}
-			#add more?
         }
         effect = {
-            #add
+            if = {
+				limit = {
+					any_known_country = {
+						exists = yes
+						dynasty = "von Habsburg"
+					}
+				}
+				add_country_modifier = {
+					name = "spa_habsburg_inheritance_mission"
+					duration = 7300
+				}
+			}
+			else = {
+				custom_tooltip = vn_ase_elect_new_king.tt4
+			}
         }
 	}
 }
@@ -555,7 +667,7 @@ vn_spa_missions_slot_2_c = {
 			}
             add_country_modifier = {
 				name = "spa_spanish_armada_mission"
-				duration = 9125				
+				duration = 18250			
 			}
         }
     }
@@ -569,10 +681,15 @@ vn_spa_missions_slot_2_c = {
 					navy_size = ROOT
 				}
 			}
-			#add - Is naval hegemon?
+			navy_size_percentage = 0.75
         }
         effect = {
-            #add
+			add_navy_tradition = 15
+			define_advisor = {
+				type = naval_reformer
+				skill = 3
+				discount = 0.75
+			}
         }
 	}
 	vn_spa_spanish_tercios = {
@@ -797,7 +914,21 @@ vn_spa_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+			#addmore
+            picard_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			normandy_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
 	}
 }
@@ -827,6 +958,13 @@ vn_spa_missions_slot_3_b = {
         effect = {
 			country_event = {
 				id = vn_missions.78
+			}
+			romagna_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
 			}
         }
     }
@@ -940,7 +1078,10 @@ vn_spa_missions_slot_3_d = {
 				add_base_production = 1
 				add_base_manpower = 1
 				move_capital_effect = yes
-				#addmore?
+				add_province_modifier = {
+					name = "spa_el_escorial_mission"
+					duration = -1
+				}
 			}
         }
     }
@@ -1001,7 +1142,20 @@ vn_spa_missions_slot_4_b = {
 			}
         }
         effect = {
-            #add
+            apulia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			campania_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_spa_subjugate_naples = {
@@ -1026,7 +1180,14 @@ vn_spa_missions_slot_4_b = {
 			}
         }
         effect = {
-            #add
+			#addmore?
+            umbria_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_spa_italian_monopoly = {
@@ -1085,7 +1246,11 @@ vn_spa_missions_slot_4_c = {
 			master_of_mint = 3
         }
         effect = {
-            #add
+			add_years_of_income = 0.5
+			add_country_modifier = {
+				name = "spa_economic_stability_mission"
+				duration = 9125
+			}
         }
     }
     vn_spa_siglo_de_oro = {
@@ -1115,7 +1280,7 @@ vn_spa_missions_slot_4_c = {
         }
         effect = {
             add_country_modifier = {
-				name = "spa_siglo_de_oro_mission"	#All power cost -1%
+				name = "spa_siglo_de_oro_mission"
 				duration = -1
 			}
         }
@@ -1161,7 +1326,20 @@ vn_spa_missions_slot_5_a = {
 			}
         }
         effect = {
-            #add
+            insular_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			lombardy_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_spa_mediterranean_islands = {

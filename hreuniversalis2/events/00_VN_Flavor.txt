@@ -3548,7 +3548,7 @@ country_event = {
 				add_ruler_personality = conqueror_personality
 				add_country_modifier = {
 					name = invasion_nation_m
-					duration = 7300
+					duration = 10950
 				}
 				if = {
 					limit = {
@@ -3666,6 +3666,10 @@ country_event = {
 				ILK = {
 					discover_province = PREV
 				}
+			}
+			if = {
+				limit = { SJK = { has_country_modifier = extensive_holdings } }
+				SJK = { remove_country_modifier = extensive_holdings }
 			}
 		}
 	}
@@ -4179,9 +4183,21 @@ country_event = {
 		}
 		has_reform = steppe_horde
 		is_at_war = no
+		has_any_disaster = no
+		has_regency = no
+		manpower_percentage = 0.5
+		NOT = { war_exhaustion = 2 }
 		NOT = { overextension_percentage = 0.5 }
 		any_neighbor_country = {
-			NOT = { is_subject_of = ROOT }
+			NOT = { is_subject_of = GLH }
+			NOT = { is_subject_of = ILK }
+			NOT = { is_subject_of = JMN }
+			NOT = { tag = GLH }
+			NOT = { tag = ILK }
+			NOT = { tag = JMN }
+			NOT = { alliance_with = ROOT }
+			NOT = { truce_with = ROOT }
+			NOT = { guaranteed_by = ROOT }
 		}
 	}
 
@@ -4193,7 +4209,15 @@ country_event = {
 		add_prestige = 10
 		random_neighbor_country = {
 			limit = {
-				NOT = { is_subject_of = ROOT }
+				NOT = { is_subject_of = GLH }
+				NOT = { is_subject_of = ILK }
+				NOT = { is_subject_of = JMN }
+				NOT = { tag = GLH }
+				NOT = { tag = ILK }
+				NOT = { tag = JMN }
+				NOT = { alliance_with = ROOT }
+				NOT = { truce_with = ROOT }
+				NOT = { guaranteed_by = ROOT }
 			}
 			ROOT = {
 				declare_war_with_cb = {
@@ -4349,7 +4373,7 @@ country_event = {
 		every_owned_province = {
 			limit = { trade_goods = wine }
 			add_province_modifier = {
-				name = tannin_production
+				name = tannin_modifier
 				duration = -1
 			}
 		}
@@ -4613,5 +4637,401 @@ country_event = {
 	}
 	after = {
 		set_global_flag = silesia_partitioned
+	}
+}
+
+country_event = {
+	id = hremodevents.93
+    title = "HREMT93"
+	desc = "HREMD93"
+	picture = HRE_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		current_age = age_of_dynasticism
+		NOT = { started_in = 1382.7.27 }
+		NOT = { has_reform = celestial_empire }
+		NOT = { hre_reform_level = 5 }
+		is_emperor = yes
+		NOT = {
+			capital_scope = {
+				OR = {
+					region = dauphine_region
+					region = provence_region
+					region = auvergne_region
+				}
+			}
+		}
+		any_province = {
+			OR = {
+				region = dauphine_region
+				region = provence_region
+				region = auvergne_region
+			}
+			is_part_of_hre = yes
+			NOT = { area = savoy_area }
+			owner = { has_reform = celestial_empire }
+			culture_group = french
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.5
+			NOT = { hre_reform_level = 1 }
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { imperial_influence = 50 }
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { imperial_influence = 10 }
+		}
+	}
+
+	option = {
+		name = "HREMA93"
+		dauphine_region = {
+			limit = { NOT = { area = savoy_area } }
+			set_in_empire = no
+		}
+		provence_region = { set_in_empire = no }
+		auvergne_region = { set_in_empire = no }
+	}
+}
+
+country_event = {
+	id = hremodevents.94
+    title = "HREMT94"
+	desc = "HREMD94"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	trigger = {
+		NOT = { has_global_flag = remove_electorate_allowed }
+		is_elector = yes
+		is_emperor = no
+		has_regency = no
+		NOT = { legitimacy_equivalent = 50 }
+		any_country = {
+			is_part_of_hre = yes
+			num_of_cities = 5
+			is_emperor = no
+			is_elector = no
+			is_subject = no
+			is_excommunicated = no
+			has_any_disaster = no
+			is_bankrupt = no
+			NOT = { government = republic }
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.75
+			NOT = { stability = 1 }
+		}
+	}
+
+	option = {
+		name = "HREMA94"
+		add_prestige = -20
+		elector = no
+	}
+}
+
+country_event = {
+	id = hremodevents.95
+    title = "HREMT95"
+	desc = "HREMD95"
+	picture = HRE_eventPicture
+
+	trigger = {
+		NOT = { has_global_flag = remove_electorate_allowed }
+		NOT = { num_of_electors = 7 }
+		NOT = { has_global_flag = ongoing_electoral_redistribution }
+		is_emperor = yes
+		any_country = {
+			is_part_of_hre = yes
+			num_of_cities = 5
+			is_emperor = no
+			is_elector = no
+			is_subject = no
+			is_excommunicated = no
+			has_any_disaster = no
+			is_bankrupt = no
+			NOT = { government = republic }			
+		}
+	}
+
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = ongoing_electoral_redistribution
+			random_country = {
+				limit = {
+					is_part_of_hre = yes
+					num_of_cities = 5
+					is_emperor = no
+					is_elector = no
+					is_subject = no
+					is_excommunicated = no
+					has_any_disaster = no
+					is_bankrupt = no
+					NOT = { government = republic }
+				}
+				if = {
+					limit = {
+						calc_true_if = {
+							amount = 9
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 8
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 7
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 6
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 5
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 4
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 3
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 2
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 1
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_1
+				}
+				else = {
+					save_event_target_as = new_elector_1
+				}
+			}
+			random_country = {
+				limit = {
+					is_part_of_hre = yes
+					num_of_cities = 5
+					is_emperor = no
+					is_elector = no
+					is_subject = no
+					is_excommunicated = no
+					has_any_disaster = no
+					is_bankrupt = no
+					government = ROOT
+					NOT = { government = republic }
+					NOT = { tag = event_target:new_elector_1 }
+				}
+				if = {
+					limit = {
+						calc_true_if = {
+							amount = 9
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 8
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 7
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 6
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 5
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 4
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 3
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 2
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else_if = {
+					limit = {
+						calc_true_if = {
+							amount = 1
+							good_choice_for_electorship_trigger = yes
+						}
+					}
+					save_event_target_as = new_elector_2
+				}
+				else = {
+					save_event_target_as = new_elector_2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "HREMA95"
+		event_target:new_elector_1 = {
+			elector = yes
+			add_opinion = {
+				who = ROOT
+				modifier = grant_electorate 
+			}
+		}
+		event_target:new_elector_2 = {
+			add_opinion = {
+				who = ROOT
+				modifier = revoke_elector_opinion 
+			}
+		}
+		clr_global_flag = ongoing_electoral_redistribution
+	}
+	option = {
+		name = "HREMB95"
+		event_target:new_elector_2 = {
+			elector = yes
+			add_opinion = {
+				who = ROOT
+				modifier = grant_electorate 
+			}
+			hidden_effect = {
+				country_event = {
+					id = hremodevents.96
+				}
+			}
+		}
+		event_target:new_elector_1 = {
+			add_opinion = {
+				who = ROOT
+				modifier = revoke_elector_opinion 
+			}
+			hidden_effect = {
+				country_event = {
+					id = hremodevents.96
+				}
+			}
+		}
+		clr_global_flag = ongoing_electoral_redistribution
+	}
+}
+
+country_event = {
+	id = hremodevents.96
+    title = "HREMT96"
+	desc = "HREMD96"
+	picture = HRE_eventPicture
+
+	is_triggered_only = yes
+
+	mean_time_to_happen = {	days = 1 }
+
+	option = {
+		name = "HREMA96"
+		add_prestige = 20
+		tooltip = {
+			elector = yes
+		}
 	}
 }

@@ -7,8 +7,6 @@ country_event = {
 	desc = ostsiedlung.1.d
 	picture = COLONIZATION_eventPicture
 
-	is_triggered_only = yes
-
 	trigger = {
 		normal_or_historical_nations = yes
 		OR = {
@@ -22,6 +20,7 @@ country_event = {
 				OR = {
 					primary_culture = polabian
 					primary_culture = kashubian
+					primary_culture = sorbian
 				}
 				any_neighbor_country = {
 					culture_group = germanic
@@ -38,7 +37,7 @@ country_event = {
 		}
 	}
 
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { months = 240 }
 
 	immediate = {
 		hidden_effect = {
@@ -52,15 +51,15 @@ country_event = {
 					}
 				}
 				save_event_target_as = new_ostsiedlung_province
-			}
-			random_list = {
-				20 = { set_country_flag = increase_dev_by_1a }
-				20 = { set_country_flag = increase_dev_by_1b }
-				15 = { set_country_flag = increase_dev_by_2a }
-				15 = { set_country_flag = increase_dev_by_2b }
-				10 = { set_country_flag = increase_dev_by_3a }
-				10 = { set_country_flag = increase_dev_by_3b }
-				10 = { set_country_flag = increase_dev_by_3c }
+				random_list = {
+					20 = { set_province_flag = increase_dev_by_1a }
+					20 = { set_province_flag = increase_dev_by_1b }
+					15 = { set_province_flag = increase_dev_by_2a }
+					15 = { set_province_flag = increase_dev_by_2b }
+					10 = { set_province_flag = increase_dev_by_3a }
+					10 = { set_province_flag = increase_dev_by_3b }
+					10 = { set_province_flag = increase_dev_by_3c }
+				}
 			}
 		}
 	}
@@ -71,22 +70,23 @@ country_event = {
 		add_years_of_income = -0.25
 		event_target:new_ostsiedlung_province = {
 			trigger_switch = {
-				on_trigger = has_country_flag
+				on_trigger = has_province_flag
 				increase_dev_by_1a = { add_base_tax = 1 }
 				increase_dev_by_1b = { add_base_production = 1 }
 				increase_dev_by_2a = { add_base_tax = 1 add_base_production = 1 }
 				increase_dev_by_2b = { add_base_production = 1 add_base_manpower = 1 }
 				increase_dev_by_3a = { add_base_tax = 2 add_base_manpower = 1 }
 				increase_dev_by_3b = { add_base_production = 2 add_base_manpower = 1 }
-				increase_dev_by_3b = { add_base_tax = 1 add_base_production = 1 add_base_manpower = 1 }
+				increase_dev_by_3c = { add_base_tax = 1 add_base_production = 1 add_base_manpower = 1 }
 			}
+			set_province_flag = ostsiedlung_ongoing_flag
 			add_province_modifier = {
 				name = ostsiedlung_province
-				duration = 7300
+				duration = 9125
 			}
 			province_event = {
 				id = ostsiedlung.2
-				days = 1825
+				days = 3650
 				random = 5475
 				tooltip = ostsiedlung.1.tt
 			}
@@ -95,17 +95,19 @@ country_event = {
 	option = {
 		name = ostsiedlung.1.b
 		ai_chance = { factor = 25 }
-		add_years_of_income = 0.1
+		add_prestige = -5
 	}
 
 	after = {
-		clr_country_flag = increase_dev_by_1a
-		clr_country_flag = increase_dev_by_1b
-		clr_country_flag = increase_dev_by_2a
-		clr_country_flag = increase_dev_by_2b
-		clr_country_flag = increase_dev_by_3a
-		clr_country_flag = increase_dev_by_3b
-		clr_country_flag = increase_dev_by_3c
+		event_target:new_ostsiedlung_province = {
+			clr_province_flag = increase_dev_by_1a
+			clr_province_flag = increase_dev_by_1b
+			clr_province_flag = increase_dev_by_2a
+			clr_province_flag = increase_dev_by_2b
+			clr_province_flag = increase_dev_by_3a
+			clr_province_flag = increase_dev_by_3b
+			clr_province_flag = increase_dev_by_3c
+		}
 	}
 }
 
@@ -172,7 +174,8 @@ country_event = {
 		}
 		OR = {
 			primary_culture = polabian
-			primary_culture = kashubian			
+			primary_culture = kashubian
+			primary_culture = sorbian	
 		}
 		primitives = no
 		is_tribal = no
@@ -183,7 +186,7 @@ country_event = {
 		any_owned_province = {
 			culture_group = germanic
 		}
-		NOT = { has_country_flag = had_ostsiedlung_question }
+		NOT = { has_country_flag = had_germanization_question }
 	}
 
 	mean_time_to_happen = {
@@ -205,7 +208,7 @@ country_event = {
 
 	immediate = {
 		hidden_effect = {
-			set_country_flag = had_ostsiedlung_question
+			set_country_flag = had_germanization_question
 			if = {
 				limit = { primary_culture = polabian }
 				set_country_flag = polabian_primary_culture
@@ -221,6 +224,7 @@ country_event = {
 		name = ostsiedlung.3.a
 		ai_chance = { factor = 90 }
 		#rename tags in 1.30
+		set_country_flag = formerly_wendish
 		if = {
 			limit = {
 				capital_scope = {
@@ -288,5 +292,199 @@ country_event = {
 	after = {
 		clr_country_flag = polabian_primary_culture
 		clr_country_flag = kashubian_primary_culture
+	}
+}
+
+# change religion
+country_event = {
+	id = ostsiedlung.4
+	title = ostsiedlung.4.t
+	desc = ostsiedlung.4.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+
+	trigger = {
+		normal_or_historical_nations = yes
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		OR = {
+			primary_culture = polabian
+			primary_culture = kashubian			
+		}
+		religion_group = pagan
+		primitives = no
+		is_tribal = no
+		is_at_war = no
+		any_neighbor_country = {
+			culture_group = germanic
+			religion_group = christian
+		}
+		NOT = { has_country_flag = had_christianization_question }
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.5
+			dominant_religion = catholic
+		}
+		modifier = {
+			factor = 0.75
+			OR = {
+				dominant_culture = pommeranian
+				dominant_culture = central_margravian
+				dominant_culture = low_elbish
+				dominant_culture = saxon
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = had_christianization_question
+		}
+	}
+
+	option = {
+		name = ostsiedlung.4.a
+		ai_chance = { factor = 90 }
+		change_religion = catholic
+		add_country_modifier = {
+			name = slavic_christianization
+			duration = 3650
+		}
+	}
+	option = {
+		name = ostsiedlung.4.b
+		ai_chance = { factor = 10 }
+		add_prestige = 10
+		every_neighbor_country = {
+			limit = { religion = catholic }
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_mildly_displeased
+			}
+		}
+	}
+}
+
+# join hre
+country_event = {
+	id = ostsiedlung.5
+	title = ostsiedlung.5.t
+	desc = ostsiedlung.5.d
+	picture = HRE_eventPicture
+
+	trigger = {
+		normal_or_historical_nations = yes
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		culture_group = germanic
+		religion = christian
+		primitives = no
+		is_tribal = no
+		is_at_war = no
+		is_subject = no
+		hre_size = 1
+		is_part_of_hre = no
+		is_emperor_of_china = no
+		has_country_flag = formerly_wendish
+		any_neighbor_country = {
+			culture_group = germanic
+			religion_group = christian
+			is_part_of_hre = yes
+		}
+		NOT = { has_country_flag = had_hre_question }
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.5
+			emperor = {
+				alliance_with = ROOT
+			}
+		}
+		modifier = {
+			factor = 2
+			emperor = {
+				is_rival = ROOT
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = had_hre_question
+			random_country = {
+				limit = { is_emperor = yes }
+				save_event_target_as = current_emperor
+			}
+		}
+	}
+
+	option = {
+		name = ostsiedlung.5.a
+		ai_chance = { factor = 90 }
+		set_in_empire = yes
+		every_neighbor_country = {
+			limit = {
+				OR = {
+					is_part_of_hre = yes
+					is_emperor = yes
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_pleased
+			}
+		}
+	}
+	option = {
+		name = ostsiedlung.5.b
+		ai_chance = { factor = 10 }
+		add_prestige = 10
+		every_neighbor_country = {
+			limit = {
+				OR = {
+					is_part_of_hre = yes
+					is_emperor = yes
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_displeased
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ostsiedlung.0
+	title = ostsiedlung.0.t
+	desc = ostsiedlung.0.d
+	picture = COLONIZATION_eventPicture
+
+	hidden = yes
+
+	trigger = {
+		NOT = { has_country_flag = formerly_wendish }
+		has_country_flag = is_a_wendish_tag
+		culture_group = germanic
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = ostsiedlung.0.a
+		clr_country_flag = is_a_wendish_tag
+		set_country_flag = formerly_wendish
 	}
 }
