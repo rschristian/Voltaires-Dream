@@ -524,6 +524,15 @@ country_event = {
 					clr_country_flag = usr_didnt_exist
 				}
 			}
+			every_core_province = {
+				limit = {
+					OR = {
+						region = moldavia_region
+						NOT = { superregion = carpathia_superregion }
+					}
+				}
+				remove_core = ROOT
+			}
 			while = {
 				limit = {
 					any_owned_province = {
@@ -549,17 +558,30 @@ country_event = {
 					random_core_country = {
 						limit = {
 							NOT = { tag = ROOT }
-						}
-						if = {
-							limit = { exists = no }
-							set_country_flag = didnt_exist
+							exists = no
 						}
 						ROOT = { release = PREV }
-						if = {
-							limit = { has_country_flag = didnt_exist }
-							change_government = monarchy
-							add_government_reform = feudalism_reform
-							clr_country_flag = didnt_exist
+						change_government = monarchy
+						add_government_reform = feudalism_reform
+						every_owned_province = {
+							remove_core = ROOT
+						}
+					}
+					random_core_country = {
+						limit = {
+							NOT = { tag = ROOT }
+							exists = yes
+						}
+						every_core_province = {
+							limit = {
+								owned_by = ROOT
+								OR = {
+									region = moldavia_region
+									NOT = { superregion = carpathia_superregion }
+								}
+							}
+							cede_province = PREV
+							remove_core = ROOT
 						}
 					}
 				}
