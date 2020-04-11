@@ -4107,4 +4107,74 @@ country_decisions = {
 			factor = 1
 		}
 	}
+
+	breton_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primitives = no
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				ai = no
+				NOT = { exists = BRI }
+			}
+			NOT = { has_country_flag = unformable }
+			NOT = { exists = BRI }
+			primary_culture = breton
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2173
+				province_id = 1166
+				province_id = 1164
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_free_or_tributary_trigger = yes
+			is_nomad = no
+			is_at_war = no
+			NOT = { exists = BRI }
+			owns_core_province = 2173	#Nantes
+			owns_core_province = 1166	#Rennes
+			owns_core_province = 1164	#Vannes
+			num_of_owned_provinces_with = {
+				value = 10
+				region = brittany_region
+				is_core = ROOT
+			}
+		}
+		effect = {
+			change_tag = BRI
+			set_capital = 2173
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			brittany_region = {
+				limit = { NOT = { owned_by = ROOT } }
+				add_permanent_claim = BRI
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
 }

@@ -2205,10 +2205,6 @@ country_event = {
 		}
 		modifier = {
 			factor = 0.5
-			tag = SJK
-		}
-		modifier = {
-			factor = 0.5
 			war_exhaustion = 10
 		}
 		modifier = {
@@ -4438,16 +4434,7 @@ country_event = {
 	option = {
 		name = "HREMA91"
 		ai_chance = { factor = 80 }
-		every_owned_province = {
-			limit = {
-				region = silesia_region
-				NOT = { is_capital_of = ROOT }
-				is_core = event_target:silesia_partition_country
-			}
-			cede_province = event_target:silesia_partition_country
-			add_core = event_target:silesia_partition_country
-			remove_core = ROOT
-		}
+		release = event_target:silesia_partition_country
 		event_target:silesia_partition_country = {
 			define_ruler = {
 				dynasty = ROOT
@@ -4525,6 +4512,7 @@ country_event = {
 		hidden_effect = {
 			fragment_silesia_effect = yes
 		}
+		release = OPO
 		opole_area = {
 			limit = { owned_by = ROOT }
 			cede_province = OPO
@@ -4562,6 +4550,7 @@ country_event = {
 		hidden_effect = {
 			fragment_silesia_effect = yes
 		}
+		release = OPO
 		opole_area = {
 			limit = { owned_by = ROOT }
 			cede_province = OPO
@@ -4973,6 +4962,17 @@ country_event = {
 
 	option = {
 		name = "HREMA95"
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_rival = event_target:new_elector_1
+			}
+			modifier = {
+				factor = 2
+				alliance_with = event_target:new_elector_1
+			}
+		}
 		event_target:new_elector_1 = {
 			elector = yes
 			add_opinion = {
@@ -4990,6 +4990,17 @@ country_event = {
 	}
 	option = {
 		name = "HREMB95"
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_rival = event_target:new_elector_2
+			}
+			modifier = {
+				factor = 2
+				alliance_with = event_target:new_elector_2
+			}
+		}
 		event_target:new_elector_2 = {
 			elector = yes
 			add_opinion = {
@@ -5032,6 +5043,146 @@ country_event = {
 		add_prestige = 20
 		tooltip = {
 			elector = yes
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.97
+    title = "HREMT97"
+	desc = "HREMD97"
+	picture = ADVISOR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		owns = 6301
+		religion = sunni
+		is_year = 1085
+		NOT = { is_year = 1095 }
+		NOT = { has_country_flag = ghazali_arrived }
+	}
+
+	mean_time_to_happen = {
+		months = 24
+	}
+
+	immediate = {
+		set_country_flag = ghazali_arrived
+	}
+
+	option = {
+		name = "HREMA97"
+		ai_chance = { factor = 90 }
+		define_advisor = {
+			name = "Al-Ghazali"
+			type = theologian
+			skill = 3
+			cost_multiplier = 0.8
+			culture = persian
+			religion = sunni
+		}
+	}
+	option = {
+		name = "HREMB97"
+		ai_chance = { factor = 10 }
+		add_adm_power = 50
+		add_piety = 20
+		add_prestige = 10
+		set_country_flag = made_ghazali_professor
+	}
+}
+
+country_event = {
+	id = hremodevents.98
+    title = "HREMT98"
+	desc = "HREMD98"
+	picture = {
+		trigger = { NOT = { has_dlc = "Star and Crescent" } }
+		picture = ADVISOR_eventPicture
+	}
+	picture = {
+		trigger = { has_dlc = "Star and Crescent" }
+		picture = PIETY_eventPicture
+	}
+
+	fire_only_once = yes
+
+	trigger = {
+		owns = 6301
+		religion = sunni
+		OR = {
+			advisor_exists = "Al-Ghazali"
+			has_country_flag = made_ghazali_professor
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 24
+	}
+
+	option = {
+		name = "HREMA98"
+		ai_chance = { 
+			factor = 90 
+			modifier = {
+				factor = 0
+				NOT = { treasury = 50 }
+			}
+		}
+		add_prestige = -5
+		add_treasury = -50
+		add_piety = 25
+		add_country_modifier = {
+			name = "ghazali_falasifa"
+			duration = 1825
+		}
+	}
+	option = {
+		name = "HREMB98"
+		ai_chance = { factor = 10 }
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = hremodevents.99
+    title = "HREMT99"
+	desc = "HREMD99"
+	picture = DEATH_OF_HEIR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		owns = 6301
+		religion = sunni
+		NOT = {	advisor_exists = "Al-Ghazali" }
+		has_country_flag = ghazali_arrived
+		is_year = 1110
+	}
+
+	mean_time_to_happen = {
+		months = 40
+	}
+
+	option = {
+		name = "HREMA99"
+		ai_chance = { factor = 50 }
+		add_piety = 20
+		add_prestige = 10
+		add_country_modifier = {
+			name = "ghazali_fiqh"
+			duration = -1
+		}
+	}
+	option = {
+		name = "HREMB99"
+		ai_chance = { factor = 50 }
+		add_piety = -20
+		add_prestige = 10
+		add_country_modifier = {
+			name = "ghazali_tasawwuf"
+			duration = -1
 		}
 	}
 }
