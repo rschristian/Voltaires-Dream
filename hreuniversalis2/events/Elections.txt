@@ -22,6 +22,12 @@ country_event = {
 		NOT = { has_states_general_mechanic = yes }
 		NOT = { has_government_attribute = lottery_election }
 		NOT = { has_reform = pirate_republic_reform }
+		NOT = {
+			AND = {
+				has_reform = banate_reform
+				is_subject = yes
+			}
+		}
 	}
 
 	option = {
@@ -246,6 +252,12 @@ country_event = {
 		NOT = { has_states_general_mechanic = yes }
 		NOT = { has_government_attribute = lottery_election }
 		NOT = { has_reform = pirate_republic_reform }
+		NOT = {
+			AND = {
+				has_reform = banate_reform
+				is_subject = yes
+			}
+		}
 	}
 	
 	option = {
@@ -388,7 +400,14 @@ country_event = {
 country_event = {
 	id = elections.707
 	title = "elections.EVTNAME707"
-	desc = "elections.EVTDESC707"
+	desc = {
+		trigger = { NOT = { FROM = { has_reform = banate_reform } } }
+		desc = elections.EVTDESC707
+	}
+	desc = {
+		trigger = { FROM = { has_reform = banate_reform } }
+		desc = elections.EVTDESC707.b
+	}
 	picture = ELECTION_REPUBLICAN_eventPicture
 	
 	is_triggered_only = yes
@@ -430,6 +449,111 @@ country_event = {
 				fixed = yes
 			}	
 			set_ruler_flag = appointed_by_overlord
+		}
+	}
+}
+
+# Election!
+country_event = {
+	id = elections.708
+	title = "elections.EVTNAME707"
+	desc = "elections.EVTDESC708"
+	picture = ELECTION_REPUBLICAN_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "elections.EVTOPTB707"	# Bureaucrat Candidate
+		ai_chance = { factor = 20 }
+		FROM = {
+			define_ruler = {
+				adm = 4
+				mil = 1
+				dip = 1
+				fixed = yes
+			}
+		}
+	}
+	option = {
+		name = "elections.EVTOPTC707"	# Diplomat Candidate
+		ai_chance = { factor = 20 }
+		FROM = {
+			define_ruler = {
+				adm = 1
+				dip = 4
+				mil = 1
+				fixed = yes
+			}
+		}
+	}
+	option = {
+		name = "elections.EVTOPTD707"	# Military Candidate
+		ai_chance = { factor = 20 }
+		FROM = {
+			define_ruler = {
+				adm = 1
+				dip = 1
+				mil = 4
+				fixed = yes
+			}	
+		}
+	}
+	option = {
+		name = "elections.EVTOPTA703" #Ruler Stays
+		trigger = {
+			FROM = {
+				has_regency = no
+				NOT = { has_ruler_flag = leader_has_been_pushed_out }
+				has_reform = banate_reform
+			}
+		}
+		ai_chance = { 
+			factor = 60
+			modifier = {
+				factor = 0
+				FROM = { NOT = { republican_tradition = 25 } }
+			}	
+			modifier = {
+				factor = 0.5
+				FROM = { NOT = { republican_tradition = 50 } }
+			}				
+			modifier = {
+				factor = 0.5
+				FROM = { NOT = { republican_tradition = 75 } }
+			}	
+			modifier = {
+				factor = 2.0
+				FROM = { republican_tradition = 90 }
+			}		
+		}
+		FROM = {
+			change_adm = 1
+			change_dip = 1
+			change_mil = 1
+			add_scaled_republican_tradition = -10
+		}
+		if = {
+			limit = {
+				FROM = {
+					government = republic
+					NOT = { republican_tradition = 20 }	
+				}			
+				has_dlc = "Res Publica"
+			}
+			FROM = { add_government_reform = presidential_despot_reform	 }
+		}
+		if = {
+			limit = {
+				FROM = {
+					government = republic
+					NOT = { republican_tradition = 20 }
+				}
+				NOT = { has_dlc = "Res Publica" }
+			}
+			FROM = {
+				change_government = monarchy
+				set_legacy_government = despotic_monarchy
+			}
 		}
 	}
 }
