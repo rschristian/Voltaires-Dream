@@ -48,7 +48,7 @@ VN_mazovian_missions_slot_1 = {
 	vn_maz_dominate_baltic_trade = {
 		position = 4
 		icon = mission_danzig_or_war
-		required_missions = { vn_maz_build_a_navy vn_maz_conquer_lithuania }
+		required_missions = { vn_maz_build_a_navy vn_maz_conquer_west_prussia }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 5793
@@ -172,13 +172,6 @@ VN_mazovian_missions_slot_2 = {
 			is_subject = no
 		}
 		effect = {
-			westpreussen_region = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
 			ostpreussen_region = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -188,13 +181,43 @@ VN_mazovian_missions_slot_2 = {
 			}
 			add_country_modifier = {
 				name = "maz_mobilize_the_army_mission"
-				duration = 7300
+				duration = 9125
+			}
+		}
+	}
+	vn_maz_conquer_east_prussia = {
+		position = 2
+		icon = mission_crusade_for_varna
+		required_missions = { vn_maz_mobilize_the_army }
+		provinces_to_highlight = {
+			region = ostpreussen_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			ostpreussen_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			ostpreussen_region = {
+				add_province_modifier = {
+					name = maz_conquer_west_prussia_mission
+					duration = 9125
+				}
+			}
+			westpreussen_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
 			}
 		}
 	}
 	vn_maz_conquer_west_prussia = {
 		icon = mission_tribal_war
-		required_missions = { vn_maz_mobilize_the_army }
+		required_missions = { vn_maz_conquer_east_prussia }
 		provinces_to_highlight = {
 			region = westpreussen_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -229,8 +252,9 @@ VN_mazovian_missions_slot_2 = {
 		}
 	}
 	vn_maz_conquer_lithuania = {
+		position = 4
 		icon = mission_consolidate_the_state
-		required_missions = { vn_maz_conquer_west_prussia vn_maz_conquer_east_prussia }
+		required_missions = { vn_maz_conquer_west_prussia }
 		provinces_to_highlight = {
 			OR = {
 				region = lithuania_region
@@ -263,7 +287,7 @@ VN_mazovian_missions_slot_2 = {
 		}
 	}
 	vn_maz_conquer_samogitia = {
-		position = 4
+		position = 5
 		icon = mission_soldiers_in_line
 		required_missions = { vn_maz_conquer_lithuania }
 		provinces_to_highlight = {
@@ -388,29 +412,6 @@ VN_mazovian_missions_slot_3 = {
 		NOT = { map_setup = map_setup_random }
 	}
 	
-	vn_maz_conquer_east_prussia = {
-		position = 2
-		icon = mission_crusade_for_varna
-		required_missions = { vn_maz_mobilize_the_army }
-		provinces_to_highlight = {
-			region = ostpreussen_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			ostpreussen_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			ostpreussen_region = {
-				add_province_modifier = {
-					name = maz_conquer_west_prussia_mission
-					duration = 9125
-				}
-			}
-		}
-	}
 	vn_maz_conquer_pripyat = {
 		position = 4
 		icon = mission_recruit_streltsy
@@ -616,7 +617,7 @@ VN_mazovian_missions_slot_4 = {
 			}
 			add_country_modifier = {
 				name = "maz_conquer_brest_mission"
-				duration = 7300
+				duration = 9125
 			}
 		}
 	}

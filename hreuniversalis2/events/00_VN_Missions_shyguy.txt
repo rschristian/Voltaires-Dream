@@ -1967,23 +1967,95 @@ country_event = {
 	}
 }
 
-###CILICIA###
-#Armenian Westernization
+###INGRIA###
+#Ingrian Port
 country_event = {
 	id = vn_missions.37
 	title = vn_missions.37.t
 	desc = vn_missions.37.d
-	picture = WESTERNISATION_eventPicture
+	picture = TRADEGOODS_eventPicture
 
 	is_triggered_only = yes
 
+	immediate = {
+		hidden_effect = {
+			random_province = {
+				limit = {
+					culture_group = scandinavian
+					has_port = yes
+				}
+				save_event_target_as = scandinavian_province
+			}
+			random_owned_province = {
+				limit = {
+					culture = ROOT
+				}
+				save_event_target_as = ingrian_province_1
+			}
+			random_owned_province = {
+				limit = {
+					culture = ROOT
+					NOT = { province_id = event_target:ingrian_province_1 }
+				}
+				save_event_target_as = ingrian_province_2
+			}
+		}
+	}
+
 	option = {
 		name = vn_missions.37.a
-		change_technology_group = western
-		change_unit_type = western
+		random_owned_province = {
+			limit = { has_port = yes }
+			change_culture = event_target:scandinavian_province
+		}
+		every_country = {
+			limit = { culture_group = scandinavian }
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = opinion_pleased
+			}
+		}
+		add_country_modifier = {
+			name = igr_trading_hub_mission
+			duration = 10950
+		}
 	}
 	option = {
 		name = vn_missions.37.b
-		
+		event_target:ingrian_province_1 = {
+			change_culture = novgorodian
+		}
+		event_target:ingrian_province_2 = {
+			change_culture = novgorodian
+		}
+		NOV = {
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = opinion_pleased
+			}
+		}
+		add_country_modifier = {
+			name = igr_trading_hub_mission
+			duration = 10950
+		}
+	}
+	option = {
+		name = vn_missions.37.c
+		every_country = {
+			limit = {
+				OR = {
+					culture_group = scandinavian
+					tag = NOV
+				}
+			}
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = opinion_displeased
+			}
+		}
+		add_country_modifier = {
+			name = igr_trading_hub_mission
+			duration = 10950
+		}
 	}
 }
