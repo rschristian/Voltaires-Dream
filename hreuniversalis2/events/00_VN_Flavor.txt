@@ -4436,9 +4436,9 @@ country_event = {
 		ai_chance = { factor = 80 }
 		release = event_target:silesia_partition_country
 		event_target:silesia_partition_country = {
+			add_truce_with = ROOT
 			define_ruler = {
 				dynasty = ROOT
-				max_age = 15
 			}
 		}
 	}
@@ -4450,8 +4450,13 @@ country_event = {
 				factor = 0
 				NOT = { legitimacy = 25 }
 			}
+			modifier = {
+				factor = 0
+				NOT = { stability = 0 }
+			}
 		}
 		add_legitimacy = -25
+		add_stability = -1
 		random_owned_province = {
 			limit = {
 				region = silesia_region
@@ -4535,10 +4540,10 @@ country_event = {
 			2815 = {
 				move_capital_effect = yes
 			}
+			add_truce_with = ROOT
 			define_ruler = {
 				name = "Mieszko I"
 				dynasty = ROOT
-				max_age = 15
 			}
 		}
 		change_tag = WRC
@@ -4573,10 +4578,10 @@ country_event = {
 			2815 = {
 				move_capital_effect = yes
 			}
+			add_truce_with = ROOT
 			define_ruler = {
 				name = "Mieszko I"
 				dynasty = ROOT
-				max_age = 15
 			}
 		}
 		hidden_effect = {
@@ -5184,6 +5189,119 @@ country_event = {
 		add_country_modifier = {
 			name = "ghazali_tasawwuf"
 			duration = -1
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.100
+	title = "HREMT100"
+	desc = "HREMD100"
+	picture = BAD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		culture_group = east_slavic
+		has_reform = principality
+		OR = {
+			NOT = {
+				any_known_country = {
+					has_country_flag = recent_rota
+				}
+			}
+			any_known_country = {
+				had_country_flag = {
+					flag = recent_rota
+					days = 30
+				}
+			}
+		}
+		is_free_or_tributary_trigger = yes
+		any_owned_province = {
+			NOT = { is_capital_of = ROOT }
+			any_core_country = {
+				culture_group = east_slavic
+				exists = no
+			}
+		}
+		OR = {
+			current_age = age_of_empire
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					NOT = { is_capital_of = ROOT }
+					any_core_country = {
+						culture_group = east_slavic
+						exists = no
+					}
+				}
+				random_core_country = {
+					limit = {
+						culture_group = east_slavic
+						exists = no
+					}
+					save_event_target_as = rus_partition_country
+				}
+			}
+			release = event_target:rus_partition_country
+			event_target:rus_partition_country = {
+				add_government_reform = principality
+				add_truce_with = ROOT
+				define_ruler = {
+					dynasty = ROOT
+				}
+			}
+		}
+
+	}
+
+	option = {
+		name = "HREMA100"
+		ai_chance = { factor = 75 }
+		custom_tooltip = "HREMTT100"
+		hidden_effect = {
+			event_target:rus_partition_country = {
+				every_owned_province = {
+					limit = { is_core = ROOT }
+					remove_core = ROOT
+				}
+			}
+		}
+	}
+	option = {
+		name = "HREMB100"
+		ai_chance = { 
+			factor = 25
+			modifier = {
+				factor = 0
+				NOT = { legitimacy = 25 }
+			}
+			modifier = {
+				factor = 0
+				NOT = { stability = 0 }
+			}
+			modifier = {
+				factor = 0.5
+				event_target:rus_partition_country = {
+					num_of_cities = ROOT
+				}
+			}
+		}
+		add_legitimacy = -25
+		add_stability = -1
+		event_target:rus_partition_country = {
+			declare_war_with_cb = {
+				who = ROOT
+				casus_belli = cb_independence_war
+			}
 		}
 	}
 }
