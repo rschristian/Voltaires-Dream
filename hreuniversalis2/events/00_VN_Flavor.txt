@@ -3918,17 +3918,11 @@ country_event = {
 		months = 60
 	}
 
-	immediate = {
-		overlord = {
-			save_event_target_as = pca_overlord
-		}
-	}
-
 	option = {
 		name = "HREMA83"
 		ai_chance = { factor = 90 }
 		grant_independence = yes
-		event_target:pca_overlord = {
+		overlord = {
 			add_opinion = {
 				who = ROOT
 				modifier = hrema83_opinion
@@ -3944,7 +3938,7 @@ country_event = {
 		hidden_effect = {
 			porto_area = {
 				limit = { 
-					owner = { tag = event_target:pca_overlord }
+					owned_by = overlord
 					NOT = { owned_by = ROOT } 
 				}
 				owner = { remove_core = PREV }
@@ -3953,7 +3947,7 @@ country_event = {
 			}
 			braganca_area = {
 				limit = { 
-					owner = { tag = event_target:pca_overlord }
+					owned_by = overlord
 					NOT = { owned_by = ROOT } 
 				}
 				owner = { remove_core = PREV }
@@ -3995,7 +3989,7 @@ country_event = {
 		name = "HREMB83"
 		ai_chance = { factor = 10 }
 		add_prestige = -10
-		event_target:pca_overlord = {
+		overlord = {
 			add_opinion = {
 				who = ROOT
 				modifier = hremb83_opinion
@@ -5206,15 +5200,22 @@ country_event = {
 		has_reform = principality
 		OR = {
 			NOT = {
-				any_known_country = {
+				overlord = {
 					has_country_flag = recent_rota
 				}
 			}
-			any_known_country = {
+			overlord = {
 				had_country_flag = {
 					flag = recent_rota
 					days = 30
 				}
+			}
+		}
+		OR = {
+			NOT = { has_country_flag = broke_from_kievan_rus }
+			had_country_flag = {
+				flag = broke_from_kievan_rus
+				days = 1
 			}
 		}
 		is_free_or_tributary_trigger = yes
@@ -5302,6 +5303,131 @@ country_event = {
 				who = ROOT
 				casus_belli = cb_independence_war
 			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.101
+	title = "HREMT101"
+	desc = "HREMD101"
+	picture = STREET_SPEECH_eventPicture
+
+	trigger = {
+		is_emperor_of_china = no
+		culture_group = east_slavic
+		has_reform = principality
+		is_subject_of_type = tributary_state
+		NOT = { imperial_mandate = 50 }
+	}
+
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 0.90
+			imperial_mandate = 45
+			NOT = { imperial_mandate = 50 }
+		}
+		modifier = {
+			factor = 0.80
+			imperial_mandate = 40
+			NOT = { imperial_mandate = 45 }
+		}
+		modifier = {
+			factor = 0.70
+			imperial_mandate = 35
+			NOT = { imperial_mandate = 40 }
+		}
+		modifier = {
+			factor = 0.60
+			imperial_mandate = 30
+			NOT = { imperial_mandate = 35 }
+		}
+		modifier = {
+			factor = 0.50
+			imperial_mandate = 25
+			NOT = { imperial_mandate = 30 }
+		}
+		modifier = {
+			factor = 0.40
+			imperial_mandate = 20
+			NOT = { imperial_mandate = 25 }
+		}
+		modifier = {
+			factor = 0.30
+			imperial_mandate = 15
+			NOT = { imperial_mandate = 20 }
+		}
+		modifier = {
+			factor = 0.20
+			imperial_mandate = 10
+			NOT = { imperial_mandate = 15 }
+		}
+		modifier = {
+			factor = 0.10
+			imperial_mandate = 5
+			NOT = { imperial_mandate = 10 }
+		}
+		modifier = {
+			factor = 0.05
+			NOT = { imperial_mandate = 5 }
+		}
+	}
+	option = {
+		name = "HREMA101"
+		ai_chance = { factor = 95 }
+		add_prestige = 15
+		add_stability = -1
+		set_country_flag = broke_from_kievan_rus
+		define_ruler = {
+			dynasty = ROOT
+		}
+		hidden_effect = {
+			overlord = {
+				country_event = {
+					id = hremodevents.102
+				}
+			}
+		}
+		tooltip = { grant_independence = yes }
+	}
+	option = {
+		name = "HREMB101"
+		ai_chance = { factor = 5 }
+		add_legitimacy = 20
+		random_owned_province = {
+			limit = {
+				is_capital = no
+				controlled_by = owner
+			}
+			spawn_rebels = {
+				type = noble_rebels
+				size = 4
+				win = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.102
+	title = "HREMT102"
+	desc = "HREMD102"
+	picture = COURT_eventPicture
+	
+	is_triggered_only = yes
+
+	option = {
+		name = "HREMA102"
+		#reduce_mandate_small_effect = yes
+		FROM = { grant_independence = yes }
+		add_opinion = {
+			who = FROM
+			modifier = tributary_state_broke_free
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = tributary_state_broke_free
 		}
 	}
 }
