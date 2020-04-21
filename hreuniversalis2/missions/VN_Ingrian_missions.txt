@@ -53,7 +53,8 @@ vn_igr_missions_slot_1 = {
 				AND = {
 					uses_papacy = no
 					uses_patriarch_authority = no
-					#
+					NOT = { current_age = age_of_empire }
+					NOT = { current_age = age_of_holy_wars }
 				}
 			}	
         }
@@ -74,7 +75,13 @@ vn_igr_missions_slot_1 = {
         }
         effect = {
 			add_adm_power = 50
-			
+			capital_scope = {
+				add_base_tax = 1
+			}
+			add_country_modifier = {
+				name = igr_found_monasteries_mission
+				duration = 9125
+			}
         }
 	}
 	vn_igr_spread_our_faith = {
@@ -82,10 +89,18 @@ vn_igr_missions_slot_1 = {
         position = 4
         required_missions = { vn_igr_found_monasteries }
         trigger = {
-			
+			check_variable = { which = num_converted_religion value = 10 }
         }
         effect = {
-            
+			add_splendor = 100
+			add_prestige = 10
+			every_neighbor_country = {
+				limit = { religion = ROOT }
+				add_opinion = {
+					who = ROOT
+					modifier = opinion_pleased
+				}
+			}
         }
 	}
 }
@@ -108,16 +123,137 @@ vn_igr_missions_slot_2 = {
         position = 2
         required_missions = { vn_igr_gateway_to_russia }
         trigger = {
-			
+			calc_true_if = {
+				amount = 2
+				calc_true_if = {
+					amount = 2
+					all_country = {
+						culture_group = east_slavic
+						has_opinion = {
+							who = ROOT
+							value = 150
+						}
+					}
+				}
+				calc_true_if = {
+					amount = 2
+					all_country = {
+						culture_group = scandinavian
+						has_opinion = {
+							who = ROOT
+							value = 150
+						}
+					}
+				}
+				calc_true_if = {
+					amount = 2
+					all_country = {
+						culture_group = germanic
+						has_opinion = {
+							who = ROOT
+							value = 150
+						}
+					}
+				}
+			}
         }
         effect = {
-            
+			custom_tooltip = vn_igr_foreign_advisors.tt
+			hidden_effect = {
+				random_list = {
+					33 = {
+						define_advisor = {
+							type = philosopher
+							culture = ruthenian
+							religion = orthodox
+							discount = yes
+							skill = 2
+						}
+					}
+					33 = {
+						define_advisor = {
+							type = artist
+							culture = ruthenian
+							religion = orthodox
+							discount = yes
+							skill = 2
+						}
+					}
+					33 = {
+						define_advisor = {
+							type = master_of_mint
+							culture = ruthenian
+							religion = orthodox
+							discount = yes
+							skill = 2
+						}
+					}
+				}
+				random_list = {
+					33 = {
+						define_advisor = {
+							type = trader
+							culture = gutnish
+							religion = catholic
+							discount = yes
+							skill = 2
+						}
+					}
+					33 = {
+						define_advisor = {
+							type = diplomat
+							culture = gutnish
+							religion = catholic
+							discount = yes
+							skill = 2
+						}
+					}
+					33 = {
+						define_advisor = {
+							type = naval_reformer
+							culture = gutnish
+							religion = catholic
+							discount = yes
+							skill = 2
+						}
+					}
+				}
+				random_list = {
+					33 = {
+						define_advisor = {
+							type = army_reformer
+							culture = central_margravian
+							religion = catholic
+							discount = yes
+							skill = 2
+						}
+					}
+					33 = {
+						define_advisor = {
+							type = recruitmaster
+							culture = central_margravian
+							religion = catholic
+							discount = yes
+							skill = 2
+						}
+					}
+					33 = {
+						define_advisor = {
+							type = fortification_expert
+							culture = central_margravian
+							religion = catholic
+							discount = yes
+							skill = 2
+						}
+					}
+				}
+			}
         }
 	}
 	vn_igr_ingrian_diplomats = {
         icon = mission_caucasian_village
         position = 4
-        required_missions = {  }
+        required_missions = { vn_igr_conquer_ingria }
         trigger = {
 			any_country = {
 				culture_group = scandinavian
@@ -136,87 +272,16 @@ vn_igr_missions_slot_2 = {
 			num_of_royal_marriages = 3
         }
         effect = {
-			random_list = {
-				33 = {
-					define_advisor = {
-						type = philosopher
-						culture = ruthenian
-						religion = orthodox
-						discount = yes
-						skill = 2
-					}
-					define_advisor = {
-						type = artist
-						culture = ruthenian
-						religion = orthodox
-						discount = yes
-						skill = 2
-					}
-					define_advisor = {
-						type = master_of_mint
-						culture = ruthenian
-						religion = orthodox
-						discount = yes
-						skill = 2
-					}
-				}
-			}
-			random_list = {
-				33 = {
-					define_advisor = {
-						type = trader
-						culture = gutnish
-						religion = catholic
-						discount = yes
-						skill = 2
-					}
-					define_advisor = {
-						type = diplomat
-						culture = gutnish
-						religion = catholic
-						discount = yes
-						skill = 2
-					}
-					define_advisor = {
-						type = naval_reformer
-						culture = gutnish
-						religion = catholic
-						discount = yes
-						skill = 2
-					}
-				}
-			}
-			random_list = {
-				33 = {
-					define_advisor = {
-						type = army_reformer
-						culture = central_margravian
-						religion = catholic
-						discount = yes
-						skill = 2
-					}
-					define_advisor = {
-						type = recruitmaster
-						culture = central_margravian
-						religion = catholic
-						discount = yes
-						skill = 2
-					}
-					define_advisor = {
-						type = fortification_expert
-						culture = central_margravian
-						religion = catholic
-						discount = yes
-						skill = 2
-					}
-				}
+			add_country_modifier = {
+				name = igr_ingrian_diplomats_mission
+				duration = 9125
 			}
         }
 	}
 	vn_igr_forest_forts = {
         icon = mission_caucasian_village
         position = 5
-        required_missions = {  }
+        required_missions = { vn_igr_conquer_karelia }
 		provinces_to_highlight = {
 			owned_by = ROOT
 			has_fort_trigger = no
@@ -236,7 +301,26 @@ vn_igr_missions_slot_2 = {
 			}
         }
         effect = {
-            
+			add_country_modifier = {
+				name = igr_forest_forts_mission_a
+				duration = 9125
+			}
+			custom_tooltip = vn_igr_forest_forts.tt
+			hidden_effect = {
+				every_owned_province = {
+					limit = {
+						has_fort_trigger = yes
+						OR = {
+							has_terrain = forest
+							has_terrain = woods
+						}
+					}
+					add_province_modifier = {
+						name = igr_forest_forts_mission_b
+						duration = -1
+					}
+				}
+			}
         }
 	}
 }
@@ -271,6 +355,31 @@ vn_igr_missions_slot_3 = {
 				add_base_production = 1
 				add_base_manpower = 1
 			}
+			ingria_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			6139 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			3398 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
 			add_country_modifier = {
 				name = igr_ingrian_army_mission
 				duration = 9125
@@ -282,7 +391,11 @@ vn_igr_missions_slot_3 = {
         position = 3
         required_missions = { vn_igr_ingrian_army }
 		provinces_to_highlight = {
-			area = ingria_area
+			OR = {
+				area = ingria_area
+				province_id = 6139
+				province_id = 3398
+			}
 			OR = {
 				NOT = { owned_by = ROOT }
 				NOT = { is_core = ROOT }
@@ -293,6 +406,14 @@ vn_igr_missions_slot_3 = {
 			treasury = 180
 			ingria_area = {
 				type = all
+				owned_by = ROOT
+				is_core = ROOt
+			}
+			6139 = {
+				owned_by = ROOT
+				is_core = ROOt
+			}
+			3398 = {
 				owned_by = ROOT
 				is_core = ROOt
 			}
@@ -310,7 +431,7 @@ vn_igr_missions_slot_3 = {
 	vn_igr_conquer_karelia = {
         icon = mission_caucasian_village
         position = 4
-        required_missions = { vn_igr_conquer_ingria }
+        required_missions = { vn_igr_conquer_ingria vn_igr_leverage_trade }
 		provinces_to_highlight = {
 			OR = {
 				area = kymenlaakso_area
@@ -334,7 +455,11 @@ vn_igr_missions_slot_3 = {
 			}
         }
         effect = {
-            
+			add_prestige = 10
+            add_country_modifier = {
+				name = igr_conquer_karelia_mission
+				duration = 9125
+			}
         }
 	}
 	vn_igr_conquer_finland = {
@@ -364,7 +489,10 @@ vn_igr_missions_slot_3 = {
 			}
         }
         effect = {
-            
+            add_country_modifier = {
+				name = igr_conquer_finland_mission
+				duration = 9125
+			}
         }
 	}
 }
@@ -395,19 +523,39 @@ vn_igr_missions_slot_4 = {
         }
         effect = {
             country_event = {
-				id = vn_missions.37
+				id = vn_missions.38
 			}
         }
 	}
 	vn_igr_leverage_trade = {
         icon = mission_caucasian_village
-        position = 2
+        position = 3
         required_missions = { vn_igr_trading_hub }
         trigger = {
 			
         }
         effect = {
-            
+			kymenlaakso_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			vyborg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			neva_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
 	}
 	vn_igr_found_saint_petersburg = {
@@ -434,15 +582,76 @@ vn_igr_missions_slot_4 = {
 			}
         }
         effect = {
-            
+			3427 = {
+				move_capital_effect = yes
+				change_culture = ROOT
+				if = {
+					limit = {	
+						NOT = {
+							province_has_center_of_trade_of_level = 3
+						}
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_production = 3
+				}
+			}
+			ladoga_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			parfino_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			ivangorod_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			pskov_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
 	}
 	vn_igr_conquer_novgorod = {
         icon = mission_caucasian_village
         position = 5
         required_missions = { vn_igr_found_saint_petersburg }
-        trigger = {
-			
+		provinces_to_highlight = {
+			OR = {
+				area = ladoga_area
+				area = parfino_area
+				area = ivangorod_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			ladoga_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			parfino_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			ivangorod_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
             
@@ -451,11 +660,18 @@ vn_igr_missions_slot_4 = {
 	vn_igr_ingria_triumphant = {
 		icon = mission_caucasian_village
         position = 6
-        required_missions = { vn_igr_conquer_novgorod }
+        required_missions = { vn_igr_conquer_finland vn_igr_conquer_novgorod vn_igr_conquer_pskov }
         provinces_to_highlight = {
 			OR = {
 				province_id = 3427 #Saint Petersburg
 				province_id = 6144 #Novgorod
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+				NOT = { culture = ROOT }
+				NOT = { religion = ROOT }
+				NOT = { development = 25 }
 			}
 		}
 		trigger = {
@@ -475,7 +691,14 @@ vn_igr_missions_slot_4 = {
 			}
         }
         effect = {
-            
+			add_adm_power = 100
+			add_dip_power = 100
+			add_mil_power = 100
+            add_prestige = 25
+			add_country_modifier = {
+				name = igr_ingria_triumphant_mission
+				duration = -1
+			}
         }
 	}
 }
@@ -496,7 +719,7 @@ vn_igr_missions_slot_5 = {
 	vn_igr_conquer_pskov = {
         icon = mission_caucasian_village
         position = 5
-        required_missions = { }
+        required_missions = { vn_igr_found_saint_petersburg }
 		provinces_to_highlight = {
 			area = pskov_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -508,7 +731,12 @@ vn_igr_missions_slot_5 = {
 			}
         }
         effect = {
-            
+            pskov_area = {
+				add_province_modifier = {
+					name = igr_conquer_pskov_mission
+					duration = 9125
+				}
+			}
         }
 	}
 }
