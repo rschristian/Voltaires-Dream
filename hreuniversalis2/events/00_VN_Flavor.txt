@@ -5275,6 +5275,15 @@ country_event = {
 					dynasty = ROOT
 				}
 			}
+			if = {
+				limit = { is_subject_of_type = tributary_state }
+				overlord = {
+					create_subject = {
+						subject_type = tributary_state
+						subject = event_target:rus_partition_country
+					}
+				}
+			}
 		}
 
 	}
@@ -5315,11 +5324,29 @@ country_event = {
 				}
 			}
 		}
+		set_country_flag = contested_rus_breakaway
+		hidden_effect = {
+			event_target:rus_partition_country = {
+				grant_independence = yes
+			}
+		}
 		add_legitimacy = -25
 		add_stability = -1
-		declare_war_with_cb = {
-			who = event_target:rus_partition_country
-			casus_belli = cb_core
+		tooltip = {
+			declare_war_with_cb = {
+				who = event_target:rus_partition_country
+				casus_belli = cb_disloyal_vassal
+			}
+		}
+	}
+	after = {
+		if = {
+			limit = { has_country_flag = contested_rus_breakaway }
+			declare_war_with_cb = {
+				who = event_target:rus_partition_country
+				casus_belli = cb_disloyal_vassal
+			}
+			clr_country_flag = contested_rus_breakaway
 		}
 	}
 }
