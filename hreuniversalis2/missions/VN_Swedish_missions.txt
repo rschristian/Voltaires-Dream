@@ -604,17 +604,48 @@ vn_swe_missions_slot_2_d = {
         position = 10
         required_missions = { vn_swe_convert_sweden }
         trigger = {
-			#rework so diocese can be destroyed if protestant
-			uses_papacy = yes
-			papal_influence = 200
-			num_of_cardinals = 3
-			reverse_has_opinion = {
-				who = PAP
-				value = 125
+			OR = {
+				AND = {
+					uses_papacy = yes
+					papal_influence = 150
+					num_of_cardinals = 3
+					reverse_has_opinion = {
+						who = PAP
+						value = 125
+					}
+				}
+				AND = {
+					uses_papacy = no
+					OR = {
+						church_power = 150
+						fervor = 75
+					}
+				}
 			}
         }
         effect = {
-            #add
+            if = {
+				limit = { uses_papacy = yes }
+				add_papal_influence = 15
+				add_country_modifier = {
+					name = "swe_archdiocese_of_sweden_mission"
+					duration = 9125
+				}
+			}
+			else = {
+				if = {
+					limit = { uses_church_aspects = yes }
+					add_church_power = 25
+				}
+				else_if = {
+					limit = { uses_fervor = yes }
+					add_fervor = 10
+				}
+				add_country_modifier = {
+					name = "swe_no_archdiocese_of_sweden_mission"
+					duration = 9125
+				}
+			}
         }
 	}
 }
@@ -722,7 +753,11 @@ vn_swe_missions_slot_3_a = {
 			}
 		}
         effect = {
-			#addmore
+			add_prestige = 20
+			add_country_modifier = {
+				name = "nor_scandinavia_united_mission"
+				duration = -1
+			}
             holstein_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1206,7 +1241,7 @@ vn_swe_missions_slot_4_a = {
 			NOT = { num_of_loans = 1 }
         }
         effect = {
-			#addmore?
+			add_army_tradition = 10
             finland_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1285,7 +1320,7 @@ vn_swe_missions_slot_4_b = {
 			6130 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            #add
+            add_adm_power = 100
         }
     }
     vn_swe_conquer_estonia = {
@@ -1468,7 +1503,6 @@ vn_swe_missions_slot_5_a = {
 			}
         }
         effect = {
-			#addmore?
             estonia_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1753,8 +1787,10 @@ vn_swe_missions_slot_5_c = {
 			}
         }
         effect = {
-			#add
-			#country mili modifier
+			add_country_modifier = {
+				name = "swe_support_from_cossacks_mission"
+				duration = 7300
+			}
         }
     }
     vn_swe_deluge = {
