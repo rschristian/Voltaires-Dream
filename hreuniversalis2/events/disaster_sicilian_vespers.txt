@@ -135,86 +135,86 @@ country_event = {
     }
 }
 
-#Destruction of the Fleet
-country_event = {
-	id = sicilian_vespers.4
-	title = sicilian_vespers.4.t
-	desc = sicilian_vespers.4.d
-	picture = HARBOUR_eventPicture
+# #Destruction of the Fleet
+# country_event = {
+# 	id = sicilian_vespers.4
+# 	title = sicilian_vespers.4.t
+# 	desc = sicilian_vespers.4.d
+# 	picture = HARBOUR_eventPicture
 
-	is_triggered_only = yes
+# 	is_triggered_only = yes
 
-	mean_time_to_happen = {
-		days = 1
-	}
+# 	mean_time_to_happen = {
+# 		days = 1
+# 	}
 
-	trigger = {
-		sicilia_region = {
-			owned_by = ROOT
-			OR = {
-				heavy_ships_in_province = 1
-				light_ships_in_province = 1
-				galleys_in_province = 1
-				transports_in_province = 1
-			}
-		}
-	}
+# 	trigger = {
+# 		sicilia_region = {
+# 			owned_by = ROOT
+# 			OR = {
+# 				heavy_ships_in_province = 1
+# 				light_ships_in_province = 1
+# 				galleys_in_province = 1
+# 				transports_in_province = 1
+# 			}
+# 		}
+# 	}
 
-	immediate = {
-		random_owned_province = {
-			limit = { 
-				region = sicilia_region
-				owned_by = ROOT
-				OR = {
-					heavy_ships_in_province = 1
-					light_ships_in_province = 1
-					galleys_in_province = 1
-					transports_in_province = 1
-				}
-			}
-			save_event_target_as = vespers_navy_province
-		}
-	}
+# 	immediate = {
+# 		random_owned_province = {
+# 			limit = { 
+# 				region = sicilia_region
+# 				owned_by = ROOT
+# 				OR = {
+# 					heavy_ships_in_province = 1
+# 					light_ships_in_province = 1
+# 					galleys_in_province = 1
+# 					transports_in_province = 1
+# 				}
+# 			}
+# 			save_event_target_as = vespers_navy_province
+# 		}
+# 	}
 
-	option = {	#A grave loss
-		name = sicilian_vespers.4.a	
-		ai_chance = { factor = 100 }
-		event_target:vespers_navy_province = {
-			if = {
-				limit = { heavy_ships_in_province = 1 }
-				kill_units = {
-					who = ROOT
-					type = heavy_ship
-					amount = 1
-				}
-			}
-			if = {
-				limit = { light_ships_in_province = 1 }
-				kill_units = {
-					who = ROOT
-					type = light_ship
-					amount = 3
-				}
-			}
-			if = {
-				limit = { galleys_in_province = 1 }
-				kill_units = {
-					who = ROOT
-					type = galley
-					amount = 3
-				}
-			}
-			if = {
-				limit = { transports_in_province = 1 }
-				kill_units = {
-					who = ROOT
-					type = transport
-					amount = 5
-				}
-			}
-		}
-    }
-}
+# 	option = {	#A grave loss
+# 		name = sicilian_vespers.4.a	
+# 		ai_chance = { factor = 100 }
+# 		event_target:vespers_navy_province = {
+# 			if = {
+# 				limit = { heavy_ships_in_province = 1 }
+# 				kill_units = {
+# 					who = ROOT
+# 					type = heavy_ship
+# 					amount = 1
+# 				}
+# 			}
+# 			if = {
+# 				limit = { light_ships_in_province = 1 }
+# 				kill_units = {
+# 					who = ROOT
+# 					type = light_ship
+# 					amount = 3
+# 				}
+# 			}
+# 			if = {
+# 				limit = { galleys_in_province = 1 }
+# 				kill_units = {
+# 					who = ROOT
+# 					type = galley
+# 					amount = 3
+# 				}
+# 			}
+# 			if = {
+# 				limit = { transports_in_province = 1 }
+# 				kill_units = {
+# 					who = ROOT
+# 					type = transport
+# 					amount = 5
+# 				}
+# 			}
+# 		}
+#     }
+# }
 
 #Opportunity to Negotiate
 country_event = {
@@ -519,10 +519,11 @@ country_event = {
 	desc = {
 		trigger = {
 			stability = 0
-			NOT = { has_rebel_faction = nationalist_rebels }
 			NOT = {
 				any_owned_province = {
-					controlled_by = REB
+					region = sicilia_region
+					has_rebel_faction = nationalist_rebels
+					is_island = no
 				}
 			}
 		}
@@ -535,6 +536,10 @@ country_event = {
 
 	mean_time_to_happen = {
 		days = 1
+	}
+
+	immediate = {
+		clr_country_flag = french_massacred
 	}
 
 	option = {	#Loss of control
@@ -597,10 +602,11 @@ country_event = {
 		ai_chance = { factor = 100 }
 		trigger = {
 			stability = 0
-			NOT = { has_rebel_faction = nationalist_rebels }
 			NOT = {
 				any_owned_province = {
-					controlled_by = REB
+					region = sicilia_region
+					has_rebel_faction = nationalist_rebels
+					is_island = no
 				}
 			}
 		}
