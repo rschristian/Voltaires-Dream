@@ -1403,10 +1403,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		NOT = { tag = ENG }
 		normal_or_historical_nations = yes
 		current_age = age_of_dynasticism
 		NOT = { has_global_flag = eng_had_start_of_hundred_years_war }
-		tag = FRA
+		has_reform = celestial_empire
 		is_subject = no
 		any_owned_province = {
 			OR = {
@@ -1517,7 +1518,13 @@ country_event = {
 				NOT = { exists = ENG }
 			}
 		}
-		senior_union_with = FRA
+		OR = {
+			has_reform = celestial_empire
+			any_country = {
+				junior_union_with = ROOT
+				has_reform = celestial_empire
+			}
+		}
 	}
 
 	mean_time_to_happen = { days = 1 }
@@ -1539,9 +1546,15 @@ country_event = {
 			}
 			if = {
 				limit = {
-					senior_union_with = FRA
+					any_country = {
+						junior_union_with = ROOT
+						has_reform = celestial_empire
+					}
 				}
-				FRA = {
+				every_country = {
+					limit = { has_reform = celestial_empire }
+					change_government = monarchy
+					add_government_reform = feudalism_reform
 					every_subject_country = {
 						limit = { is_vassal = yes }
 						overlord = { free_vassal = PREV }
@@ -1568,10 +1581,7 @@ country_event = {
 				NOT = { exists = ENG }
 			}
 		}
-		OR = {
-			NOT = { exists = FRA }
-			NOT = { senior_union_with = FRA }
-		}
+		NOT = { any_country = { has_reform = celestial_empire } }
 	}
 
 	mean_time_to_happen = { days = 10 }
