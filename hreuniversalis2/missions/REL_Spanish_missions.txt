@@ -198,3 +198,118 @@ VN_iberian_conquest_missions = {
 		}
 	}
 }
+
+VN_repopulate_frontiers_mission = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		religion_group = christian
+		capital_scope = {
+			superregion = iberia_superregion
+		}
+		OR = {
+			culture_group = iberian
+			culture_group = basquegroup
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	vn_repopulate_frontiers = {
+		icon = mission_colonial
+        required_missions = { }
+		position = 12
+		provinces_to_highlight = {
+			OR = {
+				area = salamanca_area
+				area = segovia_area
+			}
+			NOT = { owned_by = ROOT }
+		}
+        trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					area = salamanca_area
+					area = segovia_area
+				}
+			}
+        }
+        effect = {
+			2718 = {
+				if = {
+					limit = { is_city = no }
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+            }
+            2719 = {
+				if = {
+					limit = { is_city = no }
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+            }
+            2739 = {
+				if = {
+					limit = { is_city = no }
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+			}
+			salamanca_area = {
+				limit = { is_city = no }
+				if = {
+					limit = {
+						LON = { is_subject_of = ROOT }
+					}
+					cede_province = LON
+					add_core = LON
+				}
+				else = {
+					cede_province = ROOT
+					add_core = ROOT
+				}
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+			segovia_area = {
+				limit = { is_city = no }
+				if = {
+					limit = {
+						CAS = { is_subject_of = ROOT }
+					}
+					cede_province = CAS
+					add_core = CAS
+				}
+				else = {
+					cede_province = ROOT
+					add_core = ROOT
+				}
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+            salamanca_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = "cas_repopulate_frontiers_mission"
+                    duration = 7300
+                }
+            }
+            segovia_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = "cas_repopulate_frontiers_mission"
+                    duration = 7300
+                }
+            }
+        }
+    }
+}
+	
