@@ -250,7 +250,46 @@ country_event = {
 	}
 }
 
-#59 free
+#Restore Temple at Uppsala? (59)
+country_event = {
+	id = vn_missions.59
+	title = vn_missions.59.t
+	desc = vn_missions.59.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_missions.59.a
+		ai_chance = { 
+			factor = 95 
+			modifier = {
+				factor = 0
+				NOT = { years_of_income = 1 }
+			}
+		}
+		add_prestige = 15
+		add_years_of_income = -1
+		6112 = {
+			add_base_tax = 2
+			add_province_modifier = {
+				name = "swe_uppsala_temple"
+				duration = -1
+			}
+		}
+	}
+	option = {
+		name = vn_missions.59.b
+		ai_chance = { factor = 5 }
+		6112 = {
+			add_base_tax = -2
+			add_province_modifier = {
+				name = "swe_uppsala_temple2"
+				duration = 9125
+			}
+		}
+	}
+}
 
 #National Kirk (60)
 country_event = {
@@ -851,8 +890,14 @@ country_event = {
 	id = vn_missions.71
 	title = vn_missions.71.t
 	desc = vn_missions.71.d
-	picture = SHIP_SAILING_eventPicture
-
+	picture = {
+		trigger = { NOT = { has_dlc = "Art of War" } }
+		picture = SHIP_SAILING_eventPicture
+	}
+	picture = {
+		trigger = { has_dlc = "Art of War" }
+		picture = DUTCH_SHIPS_PLUNDERING_eventPicture
+	}
     is_triggered_only = yes
 
 	immediate = {
@@ -888,9 +933,7 @@ country_event = {
 		2268 = {
 			if = {
 				limit = {
-					owner = {
-						has_country_modifier = "hol_raided_medway"
-					}
+					owner = { has_country_modifier = hol_raided_medway }
 				}
 				add_devastation = 10
 			}
@@ -898,9 +941,7 @@ country_event = {
 		1997 = {
 			if = {
 				limit = {
-					owner = {
-						has_country_modifier = "hol_raided_medway"
-					}
+					owner = { has_country_modifier = hol_raided_medway }
 				}
 				add_devastation = 10
 			}
@@ -908,9 +949,7 @@ country_event = {
 		495 = {
 			if = {
 				limit = {
-					owner = {
-						has_country_modifier = "hol_raided_medway"
-					}
+					owner = { has_country_modifier = hol_raided_medway }
 				}
 				add_devastation = 10
 			}
@@ -918,9 +957,7 @@ country_event = {
 		498 = {
 			if = {
 				limit = {
-					owner = {
-						has_country_modifier = "hol_raided_medway"
-					}
+					owner = { has_country_modifier = hol_raided_medway }
 				}
 				add_devastation = 10
 			}
@@ -928,9 +965,7 @@ country_event = {
 		2005 = {
 			if = {
 				limit = {
-					owner = {
-						has_country_modifier = "hol_raided_medway"
-					}
+					owner = { has_country_modifier = hol_raided_medway }
 				}
 				add_devastation = 20
 			}
@@ -1392,22 +1427,7 @@ country_event = {
 
 	option = {	#Delegate rule to subjects
 		name = vn_missions.79.a
-		ai_chance = { 
-			factor = 50
-			modifier = {
-				factor = 1.5
-				NOT = { exists = NOR }
-				NOT = { exists = SWE }
-			}
-			modifier = {
-				factor = 1.25
-				ruler_has_personality = benevolent_personality
-			}
-			modifier = {
-				factor = 0.75
-				ruler_has_personality = malevolent_personality
-			}
-		}
+		ai_chance = { factor = 0 }
 		#NOR union
         vestlandet_region = {
 			limit = { owned_by = ROOT }
@@ -1475,17 +1495,7 @@ country_event = {
 	}
 	option = {	#Direct rule
 		name = vn_missions.79.b
-		ai_chance = { 
-			factor = 50
-			modifier = {
-				factor = 0.75
-				ruler_has_personality = benevolent_personality
-			}
-			modifier = {
-				factor = 1.25
-				ruler_has_personality = malevolent_personality
-			} 
-		}
+		ai_chance = { factor = 100 }
 		custom_tooltip = vn_missions.79.b.tt
 		hidden_effect = {
 			scandinavia_superregion = {

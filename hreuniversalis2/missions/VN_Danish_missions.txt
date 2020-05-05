@@ -118,7 +118,10 @@ vn_dan_missions_slot_1_a = {
         }
         effect = {
 			add_years_of_income = 0.5
-			#addmore
+			add_country_modifier = {
+				name = "dan_plunder_pomerelia_mission"
+				duration = 9125
+			}
         }
     }
     vn_dan_northern_crusade = {
@@ -270,7 +273,21 @@ vn_dan_missions_slot_2_a = {
 			}
         }
         effect = {
-            #add
+			add_adm_power = 25
+            holstein_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			kiel_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
     }
     vn_dan_reinforce_danevirke = {
@@ -309,20 +326,6 @@ vn_dan_missions_slot_2_a = {
 					name = "dan_reinforce_danevirke_mission"
 					duration = -1
 				}
-			}
-			holstein_area = {
-				limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-			}
-			kiel_area = {
-				limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
 			}
         }
     }
@@ -363,33 +366,6 @@ vn_dan_missions_slot_2_b = {
     }
 	has_country_shield = yes
 	
-    vn_dan_vistula_raid = {
-        icon = mission_advance_to_the_dnieper
-        position = 5
-		required_missions = { vn_dan_plunder_pomerelia }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 402
-				province_id = 5925
-				province_id = 4819
-				province_id = 4823
-				province_id = 4822
-				province_id = 4821
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-			402 = { country_or_non_sovereign_subject_holds = ROOT }
-			5925 = { country_or_non_sovereign_subject_holds = ROOT }
-			4819 = { country_or_non_sovereign_subject_holds = ROOT }
-			4823 = { country_or_non_sovereign_subject_holds = ROOT }
-			4822 = { country_or_non_sovereign_subject_holds = ROOT }
-			4821 = { country_or_non_sovereign_subject_holds = ROOT }
-        }
-        effect = {
-			#add
-        }
-	}
 	vn_dan_carve_out_estonia = {
         icon = mission_unite_home_region	#placeholder
         position = 6
@@ -406,7 +382,7 @@ vn_dan_missions_slot_2_b = {
         }
         effect = {
 			country_event = {
-				id = vn_missions.51 #The Dannebrog
+				id = vn_missions.51
 			}
 			latvian_region = {
 				limit = {
@@ -474,11 +450,24 @@ vn_dan_missions_slot_3_a = {
 				is_core = ROOT
 				development = 20
 				num_of_times_improved = 5
-				has_trade_building_trigger = yes
+				calc_true_if = {
+					amount = 2
+					has_tax_building_trigger = yes
+					has_courthouse_building_trigger = yes
+					has_production_building_trigger = yes
+				}
 			}
         }
         effect = {
-            #add
+            411 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = "dan_found_copenhagen_mission"
+					duration = 9125
+				}
+			}
         }
     }
     vn_dan_control_oresund = {
@@ -517,7 +506,42 @@ vn_dan_missions_slot_3_a = {
 			owns_core_province = 1810
         }
         effect = {
-            #add
+            411 = {
+				if = {
+					limit = { 
+						has_dlc = "Dharma"
+						NOT = { province_has_center_of_trade_of_level = 3 } 
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_production = 2
+				}
+				add_trade_modifier = {
+					who = ROOT
+					duration = 7300
+					power = 15
+					key = dan_control_oresund_mission
+				}
+			}
+			1810 = {
+				if = {
+					limit = { 
+						has_dlc = "Dharma"
+						NOT = { province_has_center_of_trade_of_level = 3 } 
+					}
+					add_center_of_trade_level = 1
+				}
+				else = {
+					add_base_production = 2
+				}
+				add_trade_modifier = {
+					who = ROOT
+					duration = 7300
+					power = 15
+					key = dan_control_oresund_mission
+				}
+			}
         }
     }
     vn_dan_compete_with_hansa = {
@@ -539,7 +563,13 @@ vn_dan_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+			add_mercantilism = 3
+			add_dip_power = 100
+			add_prestige = 10
+			add_country_modifier = {
+				name = "dan_compete_with_hansa_mission"
+				duration = 7300
+			}
         }
     }
     vn_dan_seize_gotland = {
@@ -634,8 +664,8 @@ vn_dan_missions_slot_4_a = {
 			}
         }
     }
-    vn_dan_subjugate_swedes = {	#Conquer Svealand
-	icon = mission_unite_home_region	#placeholder
+    vn_dan_subjugate_swedes = {
+		icon = mission_unite_home_region	#placeholder
         position = 2
         required_missions = { 
 			vn_dan_conquer_smaland 
@@ -727,17 +757,8 @@ vn_dan_missions_slot_4_a = {
 			}
         }
         effect = {
-			if = {
-				limit = { 
-					tag = DAN 
-					ai = no
-				}
-				country_event = {
-					id = vn_missions.79	#Kalmar Union
-				}
-			}
-			else = {
-				#add
+			country_event = {
+				id = vn_missions.79
 			}
         }
     }
@@ -758,7 +779,11 @@ vn_dan_missions_slot_4_a = {
         }
         effect = {
 			add_absolutism = 10
-			#addmore
+			add_stability_or_adm_power = yes
+			add_country_modifier = {
+				name = "dan_era_of_absolutism_mission"
+				duration = 9125
+			}
         }
 	}
 }
