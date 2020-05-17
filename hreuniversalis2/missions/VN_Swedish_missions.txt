@@ -37,7 +37,7 @@ vn_swe_missions_slot_1_a = {
 				culture = swedish
 				religion = catholic
 				skill = 3
-				discount = yes
+				cost_multiplier = 0.25
 				type = statesman
 			}
         }
@@ -67,10 +67,22 @@ vn_swe_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+            6109 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				if = {
+					limit = { has_dlc = "Mandate of Heaven" }
+					add_prosperity = 25
+				}
+				add_province_modifier = {
+					name = "swe_develop_stockholm_mission"
+					duration = 9125
+				}
+			}
         }
     }
-    vn_swe_abolish_serfdom = {	#Question of Serfdom
+    vn_swe_abolish_serfdom = {
         icon = mission_landsknecht_soldier
         position = 3
         required_missions = { vn_swe_develop_stockholm }
@@ -195,7 +207,24 @@ vn_swe_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+			random_owned_province = {
+				limit = {
+					OR = {
+						region = svealand_region
+						region = scandinavia_region
+						region = gotaland_region
+						region = uppland_region
+					}
+					development = 10
+				}
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+            add_country_modifier = {
+				name = "fra_encourage_urbanization_mission"
+				duration = 9125
+			}
         }
     }
     vn_swe_found_gothenburg = {
@@ -222,7 +251,16 @@ vn_swe_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+            6109 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				if = {
+					limit = { has_dlc = "Mandate of Heaven" }
+					add_prosperity = 25
+				}
+				#addmore
+			}
         }
     }
     vn_swe_swedish_exports = {
@@ -264,7 +302,11 @@ vn_swe_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+			add_mercantilism = 3
+			add_country_modifier = {
+				name = "swe_swedish_exports_mission"
+				duration = 9125
+			}
         }
 	}
 }
@@ -285,14 +327,23 @@ vn_swe_missions_slot_1_c = {
 		required_missions = {  }
 		provinces_to_highlight = {
 			OR = {
-				region = svealand_region
-				region = scandinavia_region
-				region = gotaland_region
-				region = uppland_region
+				AND = {
+					OR = {
+						region = svealand_region
+						region = scandinavia_region
+						region = gotaland_region
+						region = uppland_region
+					}
+					owned_by = ROOT
+					NOT = { religion = ROOT }
+				}
 			}
-			NOT = { religion = ROOT }
 		}
         trigger = {
+			6112 = {
+				owned_by = ROOT
+				religion = ROOT
+			}
 			OR = {
 				religion_group = christian
 				religion = norse_pagan_reformed
@@ -310,7 +361,9 @@ vn_swe_missions_slot_1_c = {
 			}
         }
         effect = {
-            #add
+            country_event = {
+				id = vn_missions.59
+			}
         }
     }
     vn_swe_position_on_reformation = {
@@ -406,7 +459,6 @@ vn_swe_missions_slot_2_a = {
 			}
         }
         effect = {
-			#addmore?
             vestlandet_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -536,7 +588,7 @@ vn_swe_missions_slot_2_d = {
             #add
         }
     }
-    vn_swe_military_reforms = {	#Indelningsverket
+    vn_swe_military_reforms = {
         icon = mission_build_up_to_force_limit
         position = 7
         required_missions = { vn_swe_economic_reforms }
@@ -555,7 +607,15 @@ vn_swe_missions_slot_2_d = {
 			has_commanding_three_star = yes
         }
         effect = {
-            #add
+			add_yearly_manpower = 0.25
+			add_country_modifier = {
+				name = "swe_military_reforms_mission"
+				duration = 18250
+			}
+			add_country_modifier = {
+				name = "swe_military_reforms_mission2"
+				duration = 9125
+			}
         }
     }
     vn_swe_stormakstiden = {
@@ -596,7 +656,11 @@ vn_swe_missions_slot_2_d = {
 			}
         }
         effect = {
-            #add
+			add_innovativeness_big_effect = yes
+            add_country_modifier = {
+				name = "swe_swedish_enlightenment_mission"
+				duration = 9125
+			}
         }
     }
     vn_swe_archdiocese_of_sweden = {
@@ -675,7 +739,6 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
-            #addmore?
             danishislands_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -700,7 +763,6 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
-            #addmore?
             jutland_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -815,7 +877,6 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
-            #addmore?
             mecklenburg_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1348,7 +1409,6 @@ vn_swe_missions_slot_4_b = {
 			}
         }
         effect = {
-            #addmore?
             latvian_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1387,7 +1447,6 @@ vn_swe_missions_slot_4_b = {
 			}
         }
         effect = {
-			#addmore?
             ostpreussen_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1543,7 +1602,14 @@ vn_swe_missions_slot_5_a = {
 			}
         }
         effect = {
-            #addmore?
+            3427 = {
+				add_trade_modifier = {
+					who = ROOT
+					duration = 9125
+					power = 10
+					key = swe_across_neva_mission
+				}
+			}
             veps_area = {
 				limit = {
 					NOT = { is_core = ROOT }

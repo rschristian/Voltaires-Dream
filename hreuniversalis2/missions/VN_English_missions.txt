@@ -682,11 +682,16 @@ vn_eng_missions_slot_2_c = {
 		required_missions = { }
 		position = 8
         trigger = {
-			#add trigger - WIP
-			always = no	#remove later
+			is_in_war = {
+				casus_belli = cb_grand_crusade
+			}
         }
         effect = {
-            #add - WIP
+            add_prestige = 10
+            add_country_modifier = {
+				name = "fra_sanction_crusades_mission"
+				duration = 1825
+			}
         }
     }
     vn_eng_root_out_heresy = {
@@ -696,8 +701,14 @@ vn_eng_missions_slot_2_c = {
         trigger = {
             religious_unity = 1
             OR = {
-                full_idea_group = religious_ideas
-                full_idea_group = humanist_ideas
+				AND = {
+					full_idea_group = religious_ideas
+					NOT = { full_idea_group = humanist_ideas }
+				}
+                AND = {
+					full_idea_group = humanist_ideas
+					NOT = { full_idea_group = religious_ideas }
+				}
             }
         }
         effect = {
@@ -712,11 +723,21 @@ vn_eng_missions_slot_2_c = {
             else_if = {
                 limit = { uses_fervor = yes }
                 add_fervor = 25
-            }
-            add_country_modifier = {
-                name = "eng_root_out_heresy_mission"
-                duration = 9125
-            }
+			}
+			if = {
+				limit = { full_idea_group = religious_ideas }
+				add_country_modifier = {
+					name = "eng_root_out_heresy_mission"
+					duration = 9125
+				}
+			}
+			else_if = {
+				limit = { full_idea_group = humanist_ideas }
+				add_country_modifier = {
+					name = "eng_root_out_heresy_mission2"
+					duration = 9125
+				}
+			}
         }
     }
 }
@@ -1869,7 +1890,7 @@ vn_eng_missions_slot_4_e = {
 					who = ROOT
 					duration = 9125
 					power = 10
-					key = eng_muscovy_company_mission	#add - LOCALIZE
+					key = eng_muscovy_company_mission
 				}
 			}
         }
@@ -2390,7 +2411,22 @@ vn_eng_missions_slot_5_d = {
 			}
         }
         effect = {
-            #add - WIP
+            outremer_region = {
+                limit = {
+					has_port = yes
+                    NOT = { is_core = ROOT }
+                    NOT = { is_claim = ROOT }
+                }
+                add_claim = ROOT
+			}
+			palestine_region = {
+                limit = {
+					has_port = yes
+                    NOT = { is_core = ROOT }
+                    NOT = { is_claim = ROOT }
+                }
+                add_claim = ROOT
+            }
         }
 	}
 }

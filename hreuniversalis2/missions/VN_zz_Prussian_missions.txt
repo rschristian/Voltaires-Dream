@@ -16,7 +16,19 @@ vn_pru_missions_slot_1_a = {
         position = 2
         required_missions = { vn_pru_king_in_prussia }
         trigger = {
-            #add trigger
+            OR = {
+				AND = {
+					is_emperor = yes
+					imperial_influence = 50
+				}
+				AND = {
+					exists = HAB
+					army_size = HAB
+					num_of_cities = HAB
+					total_development = HAB
+				}
+				NOT = { exists = HAB }
+			}
         }
         effect = {
             #add
@@ -84,7 +96,7 @@ vn_pru_missions_slot_1_c = {
     }
 	has_country_shield = yes
 	
-    vn_pru_holy_alliance = {	#Conquer Silesia
+    vn_pru_holy_alliance = {
 		icon = mission_unite_home_region	#placeholder
         position = 5
 		required_missions = {  }
@@ -352,7 +364,7 @@ vn_pru_missions_slot_2_a = {
 			has_commanding_three_star = yes
 			NOT = { num_of_mercenaries = 1 }
 			militarised_society = 50
-			army_professionalism = 25
+			army_professionalism = 0.25
         }
         effect = {
             #add
@@ -368,7 +380,7 @@ vn_pru_missions_slot_2_a = {
 			num_of_generals = 5
 			NOT = { num_of_mercenaries = 1 }
 			militarised_society = 75
-			army_professionalism = 50
+			army_professionalism = 0.50
 			absolutism = 75
         }
         effect = {
@@ -404,7 +416,11 @@ vn_pru_missions_slot_2_b = {
         position = 6
         required_missions = { vn_pru_encourage_settlement }
         trigger = {
-            #add trigger
+            num_of_owned_provinces_with = {
+				value = 15
+				region = wielkopolska_region
+				culture_group = ROOT
+			}
         }
         effect = {
             #add
@@ -557,7 +573,17 @@ vn_pru_missions_slot_3_c = {
         position = 5
         required_missions = { vn_pru_north_german_confederation }
         trigger = {
-            #add trigger
+            calc_true_if = {
+				all_ally = {
+					capital_scope = {
+						OR = {
+							superregion = germanynorth_superregion
+							superregion = germanysouth_superregion
+						}
+					}
+				}
+				amount = 5
+			}
         }
         effect = {
             #add
@@ -857,7 +883,23 @@ vn_pru_missions_slot_4_a = {
         position = 8
         required_missions = { vn_pru_alsace_lorraine }
         trigger = {
-            #add trigger
+            OR = {
+				AND = {
+					exists = FRA
+					OR = {
+						war_score_against = {
+							who = FRA
+							value = 75
+						}
+						AND = {
+							num_of_cities = FRA
+							army_size = FRA
+							total_development = FRA
+						}
+					}
+				}
+				NOT = { exists = FRA }
+			}
         }
         effect = {
             #add
@@ -941,9 +983,16 @@ vn_pru_missions_slot_5_a = {
     vn_pru_schleswig_question = {
         icon = mission_unite_home_region	#placeholder
         position = 5
-        required_missions = { vn_pru_conquer_east_frisia }
+		required_missions = { vn_pru_conquer_east_frisia }
+		provinces_to_highlight = {
+			region = holstein_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
-            #add trigger
+            holstein_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
             #add
@@ -967,7 +1016,10 @@ vn_pru_missions_slot_5_b = {
         required_missions = {  }
         trigger = {
 			has_3_lv3_advisors_trigger = yes
-			#addmore
+			is_in_deficit = no
+			NOT = { num_of_loans = 1 }
+			NOT = { corruption = 1 }
+			NOT = { inflation = 1 }
         }
         effect = {
             #add
@@ -978,10 +1030,13 @@ vn_pru_missions_slot_5_b = {
         position = 7
         required_missions = { vn_pru_generaldirektorium }
         trigger = {
-			#add trigger
 			num_of_owned_provinces_with = {
 				value = 20
 				has_education_building_trigger = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 10
+				has_building = university
 			}
         }
         effect = {
@@ -1005,7 +1060,8 @@ vn_pru_missions_slot_5_c = {
         position = 8
         required_missions = {  }
         trigger = {
-            #add trigger
+			has_reform_level = 6
+			#add trigger
         }
         effect = {
             #add
@@ -1016,7 +1072,8 @@ vn_pru_missions_slot_5_c = {
         position = 9
         required_missions = { vn_pru_constitutional_reforms }
         trigger = {
-            #add trigger
+			has_reform_level = 7
+			#add trigger
         }
         effect = {
             #add
