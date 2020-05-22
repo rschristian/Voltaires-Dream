@@ -64,15 +64,20 @@ vn_fra_missions_slot_1_a = {
 			}
         }
 	}
-	vn_fra_sanction_crusades = {	#WIP
+	vn_fra_sanction_crusades = {
 		icon = mission_crusade
         required_missions = { vn_fra_alliance_with_church }
         trigger = {
-			#add trigger - WIP
-			always = no	#remove later
+			is_in_war = {
+				casus_belli = cb_grand_crusade
+			}
         }
         effect = {
-            #add - WIP
+			add_prestige = 10
+            add_country_modifier = {
+				name = "fra_sanction_crusades_mission"
+				duration = 1825
+			}
         }
 	}
     vn_fra_deal_with_templars = {
@@ -1869,7 +1874,7 @@ vn_fra_missions_slot_3_a = {
 				}
 				estate_loyalty = {
 					estate = estate_burghers
-					loyalty = 50
+					loyalty = 60
 				}
 			}
 			if = {
@@ -1878,7 +1883,7 @@ vn_fra_missions_slot_3_a = {
 				}
 				estate_loyalty = {
 					estate = estate_church
-					loyalty = 50
+					loyalty = 60
 				}
 			}
 			if = {
@@ -1887,9 +1892,10 @@ vn_fra_missions_slot_3_a = {
 				}
 				estate_loyalty = {
 					estate = estate_nobles
-					loyalty = 50
+					loyalty = 60
 				}
 			}
+			months_of_ruling = 120
         }
         effect = {
 			change_government_reform_progress = 25
@@ -2944,11 +2950,7 @@ vn_fra_missions_slot_4_e = {
 				owned_by = ROOT
 				is_core = ROOT
 			}
-			OR = {
-				controlled_by = REB
-				unrest = 1
-				local_autonomy = 30
-			}
+			consolidated_region_trigger = no
 		}
         trigger = {
 			absolutism = 100
@@ -2961,11 +2963,7 @@ vn_fra_missions_slot_4_e = {
 			NOT = {
 				any_owned_province = {
 					superregion = french_superregion
-					OR = {
-						unrest = 1
-						local_autonomy = 30
-						controlled_by = REB
-					}
+					consolidated_region_trigger = no
 				}
 			}
         }
@@ -3393,7 +3391,7 @@ vn_fra_missions_slot_5_a = {
 				name = "Suger"
 				type = fortification_expert
 				skill = 3
-				cost_multiplier = 0.75
+				cost_multiplier = 0.25
 			}
         }
     }

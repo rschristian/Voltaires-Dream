@@ -65,6 +65,7 @@ country_event = {
 	option = {
 		name = peoples_spring.1.a
 		add_stability = -5
+		add_absolutism = -25
 	}
 }
 
@@ -748,6 +749,205 @@ country_event = {
 	}
 }
 
+#Food Revolution
+country_event = {
+	id = peoples_spring.8
+	title = peoples_spring.8.t
+	desc = peoples_spring.8.d
+	picture = REVOLUTION_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = food_riots_flag }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = food_riots_flag
+		}
+	}
+
+	option = {
+		name = peoples_spring.7.a
+		add_absolutism = 5
+		add_yearly_manpower = -1
+	}
+	option = {
+		name = peoples_spring.7.b
+		add_years_of_income = -1
+		add_absolutism = -10
+		add_stability_or_adm_power = yes
+	}
+}
+
+#Belgian Revolution (Unique for NED)
+country_event = {
+	id = peoples_spring.8
+	title = peoples_spring.8.t
+	desc = peoples_spring.8.d
+	picture = REVOLUTION_eventPicture
+	
+	is_triggered_only = yes
+
+	trigger = {
+		tag = NED
+		NOT = { exists = BGU }
+		NOT = { has_global_flag = belgian_revolution }
+		NOT = { primary_culture = wallonian }
+		NOT = { started_in = 1831.7.21 }
+		any_owned_province = {
+			superregion = lowlands_superregion
+			culture = wallonian
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = belgian_revolution
+			lowlands_superregion = {
+				limit = {
+					superregion = lowlands_superregion
+					culture = wallonian
+				}
+				add_core = BGU
+			}
+		}
+	}
+	
+	option = {
+		name = peoples_spring.8.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				religion = catholic
+			}
+			modifier = {
+				factor = 2
+				war_exhaustion = 5
+			}
+		}
+		release = BGU
+		add_truce_with = BGU
+		hidden_effect = {
+			BGU = {
+				set_government_rank = 5
+        		change_government = republic
+				add_government_reform = revolutionary_republic_reform
+				define_ruler = {}
+        		set_capital = 930
+        		add_treasury = 400
+				add_prestige = 80
+				add_manpower = 10
+				add_stability = 3
+				random_owned_province = {
+					limit = { region = hellas_region }
+					build_to_forcelimit = {
+						infantry = 0.6
+						cavalry = 0.3
+						artillery = 0.1
+					}
+				}
+			}
+		}
+		every_known_country = {
+			limit = {
+				OR = {
+					is_great_power = yes
+					AND = {
+						NOT = { has_dlc = "Rights of Man" }
+						total_development = 750
+					}
+				}
+				religion_group = christian
+				NOT = { tag = NED }
+				NOT = { tag = BGU }
+			}
+			country_event = { id = peoples_spring.9 days = 10 random = 20 }
+		}
+	}
+
+	option = {
+		name = peoples_spring.8.b
+		ai_chance = { factor = 50 }
+		every_owned_province = {
+			limit = {
+				superregion = lowlands_superregion
+				is_core = GRE
+			}
+			create_revolt = 1
+		}
+		every_known_country = {
+			limit = {
+				OR = {
+					is_great_power = yes
+					AND = {
+						NOT = { has_dlc = "Rights of Man" }
+						total_development = 750
+					}
+				}
+				religion_group = christian
+				NOT = { tag = NED }
+				NOT = { tag = BGU }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = sided_against_us
+			}
+		}
+	}
+}
+
+#Belgium Calls For Aid
+country_event = {
+	id = peoples_spring.9
+	title = peoples_spring.9.t
+	desc = peoples_spring.9.d
+	picture = REVOLUTION_eventPicture
+
+	is_triggered_only = yes
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = peoples_spring.9.a
+		ai_chance = {
+			factor = 90
+			modifier = {
+				factor = 0
+				BGU = { num_of_allies = 4 }
+			}
+		}
+		hidden_effect = {
+			reverse_add_opinion = {
+				who = BGU
+				modifier = helped_support_rebels
+			}
+			add_opinion = {
+				who = BGU
+				modifier = helped_support_rebels
+			}
+			add_historical_friend = BGU
+			BGU = { add_historical_friend = ROOT }
+			add_trust = { who = BGU value = 100 mutual = yes }
+		}
+		create_alliance = BGU
+		create_guarantee = BGU
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = supported_rebels
+			}
+		}
+	}
+
+	option = {
+		name = peoples_spring.9.b
+		ai_chance = { factor = 10 }
+		add_prestige = -10
+	}
+}
+
 #Revolutionary Thinkers
 country_event = {
 	id = peoples_spring.10
@@ -1020,7 +1220,8 @@ country_event = {
 	option = {
 		name = peoples_spring.100.a
 		clr_country_flag = revolutionary_universities_flag
-		clr_country_flag = lift_the_press_censorship_flag^
+		clr_country_flag = lift_the_press_censorship_flag
+		clr_country_flag = food_riots_flag
 		clr_country_flag = revolutionary_advisor
 		add_stability_or_adm_power = yes
 	}

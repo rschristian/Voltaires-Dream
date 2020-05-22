@@ -33,7 +33,7 @@ vn_nor_missions_slot_1_a = {
                     current_age = age_of_ideology
                 }
             }
-			NOT = { has_rebel_faction = pretender_rebels }
+			NOT = { has_spawned_rebels = pretender_rebels }
         }
         effect = {
             add_ruler_modifier = {
@@ -487,29 +487,35 @@ vn_nor_missions_slot_2_e = {
 			}
         }
     }
-    vn_nor_support_crusades = {	#WIP
+    vn_nor_support_crusades = {
         icon = mission_crusade
         position = 6
         required_missions = { vn_nor_raise_leidangr }
         trigger = {
-			#add trigger - WIP
-			always = no	#remove later
+			is_in_war = {
+				casus_belli = cb_grand_crusade
+			}
         }
         effect = {
-            #add - WIP
+			add_prestige = 10
+            add_country_modifier = {
+				name = "fra_sanction_crusades_mission"
+				duration = 1825
+			}
         }
     }
-    vn_nor_a_worthy_epithet = {	#WIP
+    vn_nor_a_worthy_epithet = {
         icon = mission_king_of_franks
         position = 7
         required_missions = { vn_nor_support_crusades }
         trigger = {
 			#add trigger - WIP
-			always = no	#remove later
         }
         effect = {
-			#add - WIP
-			# ruler modifier "The Crusader"
+			add_ruler_modifier = {
+				name = "nor_a_worthy_epithet_mission"
+				duration = -1
+			}
         }
 	}
 }
@@ -692,20 +698,14 @@ vn_nor_missions_slot_3_a = {
 				owned_by = ROOT
 				is_core = ROOT
 			}
-			controlled_by = REB
-			local_autonomy = 30
-			unrest = 1
+			consolidated_region_trigger = no
 		}
         trigger = {
             scandinavia_superregion = {
 				type = all
                 owned_by = ROOT
                 is_core = ROOT
-				NOT = { 
-					local_autonomy = 30
-					unrest = 1
-					controlled_by = REB 
-				}
+				consolidated_region_trigger = yes
 			}
         }
         effect = {
