@@ -32,24 +32,10 @@ vn_spa_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+			add_religious_influence_effect_large = yes
+			#addmore
         }
     }
-    vn_spa_peace_of_westphalia = {
-        icon = mission_alliances
-        position = 12
-        required_missions = { vn_spa_stance_on_reformation }
-        trigger = {
-			OR = {
-				hre_religion_treaty = yes
-				hre_religion_locked = catholic
-				hre_religion_locked = protestant
-			}
-        }
-        effect = {
-            #add
-        }
-	}
 }
 
 vn_spa_missions_slot_1_b = {
@@ -211,7 +197,10 @@ vn_spa_missions_slot_1_b = {
 			}
         }
         effect = {
-			#add
+			add_country_modifier = {
+				name = "spa_seventeen_provinces_mission"
+				duration = 9125
+			}
         }
     }
     vn_spa_access_to_channel = {
@@ -290,62 +279,10 @@ vn_spa_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+			add_prestige = 20
+			#addmore
         }
     }
-    vn_spa_submission_of_england = {
-        icon = mission_rb_invade_england
-        position = 17
-		required_missions = { vn_spa_invasion_of_england }
-		provinces_to_highlight = {
-			OR = {
-				region = midlands_region
-				region = southwest_england_region
-				region = southeast_england_region
-				region = northumbria_region
-			}
-			consolidated_region_trigger = no
-		}
-        trigger = {
-			midlands_region = {
-				type = all
-				owned_by = ROOT
-				is_core = ROOT
-				religion = ROOT
-				consolidated_region_trigger = yes
-			}
-			southwest_england_region = {
-				type = all
-				owned_by = ROOT
-				is_core = ROOT
-				religion = ROOT
-				consolidated_region_trigger = yes
-			}
-			southeast_england_region = {
-				type = all
-				owned_by = ROOT
-				is_core = ROOT
-				religion = ROOT
-				consolidated_region_trigger = yes
-			}
-			northumbria_region = {
-				type = all
-				owned_by = ROOT
-				is_core = ROOT
-				religion = ROOT
-				consolidated_region_trigger = yes
-			}
-			NOT = {
-				OR = {
-					exists = ENG
-					exists = ASE
-				}
-			}
-        }
-        effect = {
-            #add
-        }
-	}
 }
 
 vn_spa_missions_slot_2_a = {
@@ -378,7 +315,21 @@ vn_spa_missions_slot_2_a = {
 			}
         }
         effect = {
-            #add
+            if = {
+				limit = { ADM = 6 }
+				add_adm_power = 100
+			}
+			else = { change_adm = 1 }
+			if = {
+				limit = { DIP = 6 }
+				add_dip_power = 100
+			}
+			else = { change_dip = 1 }
+			if = {
+				limit = { MIL = 6 }
+				add_mil_power = 100
+			}
+			else = { change_mil = 1 }
         }
     }
     vn_spa_nueva_planta_decrees = {
@@ -863,7 +814,41 @@ vn_spa_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+			if = {
+				limit = { exists = FRA }
+				add_casus_belli = {
+					target = FRA
+					type = cb_insult
+					months = 120
+				}
+			}
+			else = {
+				random_known_country = {
+					limit = {
+						capital_scope = { superregion = french_superregion }
+						total_development = 100
+						OR = {
+							is_enemy = ROOT
+							is_rival = ROOT
+							NOT = {
+								has_opinion = {
+									who = ROOT
+									value = -150
+								}
+							}
+						}
+					}
+					reverse_add_casus_belli = {
+						type = cb_insult
+						target = THIS
+						months = 120
+					}
+				}
+			}
+            add_country_modifier = {
+				name = "spa_french_rivalry_mission"
+				duration = 7300
+			}
         }
     }
     vn_spa_eclipse_france = {
@@ -1020,37 +1005,44 @@ vn_spa_missions_slot_3_c = {
 			vn_spa_curb_naval_threats 
 			vn_spa_italian_monopoly 
 		}
-		provinces_to_highlight = {
-			#add highlight
-		}
         trigger = {
-            westernmed_sea_area = {
-				type = all
-				NOT = {
-					any_neighbor_province = {
-						has_port = yes
-						NOT = {
-							owned_by = ROOT
-							is_core = ROOT
+			custom_trigger_tooltip = {
+				tooltip = vn_spa_mediterranean_dominion.tt
+				westernmed_sea_area = {
+					type = all
+					NOT = {
+						any_neighbor_province = {
+							has_port = yes
+							NOT = {
+								owned_by = ROOT
+								is_core = ROOT
+							}
 						}
 					}
 				}
-			}
-			tyrrhenian_sea_area = {
-				type = all
-				NOT = {
-					any_neighbor_province = {
-						has_port = yes
-						NOT = {
-							owned_by = ROOT
-							is_core = ROOT
+				tyrrhenian_sea_area = {
+					type = all
+					NOT = {
+						any_neighbor_province = {
+							has_port = yes
+							NOT = {
+								owned_by = ROOT
+								is_core = ROOT
+							}
 						}
 					}
 				}
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "spa_mediterranean_dominion_mission"
+				duration = -1
+			}
+			add_country_modifier = {
+				name = "spa_mediterranean_dominion_mission2"
+				duration = 9125
+			}
         }
 	}
 }
@@ -1412,7 +1404,14 @@ vn_spa_missions_slot_5_a = {
 			}
         }
         effect = {
-            #add
+			add_adm_power = 50
+			sicilia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_spa_humiliate_genoa = {
@@ -1440,12 +1439,20 @@ vn_spa_missions_slot_5_a = {
 			2560 = {
 				trade_share = {
 					country = ROOT
-					share = 20
+					share = 25
 				}
 			}
         }
         effect = {
-            #add
+			add_mercantilism = 3
+			2560 = {
+				add_trade_modifier = {
+					who = ROOT
+					duration = 9125
+					power = 10
+					key = spa_humiliate_genoa_mission
+				}
+			}
         }
     }
     vn_spa_competition_with_venice = {
@@ -1469,12 +1476,20 @@ vn_spa_missions_slot_5_a = {
 			112 = {
 				trade_share = {
 					country = ROOT
-					share = 20
+					share = 25
 				}
 			}
         }
         effect = {
-            #add
+			add_mercantilism = 3
+			112 = {
+				add_trade_modifier = {
+					who = ROOT
+					duration = 9125
+					power = 10
+					key = spa_competition_with_venice_mission
+				}
+			}
         }
 	}
 }
