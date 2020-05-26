@@ -33,7 +33,10 @@ vn_spa_missions_slot_1_a = {
         }
         effect = {
 			add_religious_influence_effect_large = yes
-			#addmore
+			add_country_modifier = {
+				name = "spa_stance_on_reformation_mission"
+				duration = 9125
+			}
         }
     }
 }
@@ -280,7 +283,10 @@ vn_spa_missions_slot_1_b = {
         }
         effect = {
 			add_prestige = 20
-			#addmore
+			add_country_modifier = {
+				name = "spa_invasion_of_england_mission"
+				duration = 9125
+			}
         }
     }
 }
@@ -519,7 +525,7 @@ vn_spa_missions_slot_2_b = {
 				}
 			}
 			else = {
-				custom_tooltip = vn_ase_elect_new_king.tt4
+				custom_tooltip = vn_ase_elect_new_king.tt4	#Bypass
 			}
         }
     }
@@ -561,7 +567,7 @@ vn_spa_missions_slot_2_b = {
 				}
 			}
 			else = {
-				custom_tooltip = vn_ase_elect_new_king.tt4
+				custom_tooltip = vn_ase_elect_new_king.tt4	#Bypass
 			}
         }
 	}
@@ -768,7 +774,7 @@ vn_spa_missions_slot_3_a = {
 				}
 			}
 			else = {
-				custom_tooltip = vn_ase_elect_new_king.tt4
+				custom_tooltip = vn_ase_elect_new_king.tt4	#Bypass
 			}
         }
     }
@@ -796,7 +802,13 @@ vn_spa_missions_slot_3_a = {
 					}
 				}
 			}
-			else = {
+			else_if = {
+				limit = {
+					any_known_country = {
+						capital_scope = { superregion = french_superregion }
+						total_development = 100
+					}
+				}
 				any_known_country = {
 					capital_scope = { superregion = french_superregion }
 					total_development = 100
@@ -821,8 +833,28 @@ vn_spa_missions_slot_3_a = {
 					type = cb_insult
 					months = 120
 				}
+				add_country_modifier = {
+					name = "spa_french_rivalry_mission"
+					duration = 7300
+				}
 			}
-			else = {
+			else_if = {
+				limit = {
+					any_known_country = {
+						capital_scope = { superregion = french_superregion }
+						total_development = 100
+						OR = {
+							is_enemy = ROOT
+							is_rival = ROOT
+							NOT = {
+								has_opinion = {
+									who = ROOT
+									value = -150
+								}
+							}
+						}
+					}
+				}
 				random_known_country = {
 					limit = {
 						capital_scope = { superregion = french_superregion }
@@ -843,11 +875,14 @@ vn_spa_missions_slot_3_a = {
 						target = THIS
 						months = 120
 					}
+					add_country_modifier = {
+						name = "spa_french_rivalry_mission"
+						duration = 7300
+					}
 				}
 			}
-            add_country_modifier = {
-				name = "spa_french_rivalry_mission"
-				duration = 7300
+            else = {
+				custom_tooltip = vn_ase_elect_new_king.tt4	#Bypass
 			}
         }
     }
@@ -866,23 +901,8 @@ vn_spa_missions_slot_3_a = {
 			}
 			if = {
 				limit = { exists = FRA }
-				total_development = FRA
 				FRA = {
-					NOT = { is_rival = ROOT }
-					NOT = {
-						army_strength = {
-							who = ROOT
-							value = 1.0
-						}
-					}
-				}
-			}
-			else = {
-				any_known_country = {
-					capital_scope = { superregion = french_superregion }
-					ROOT = {
-						NOT = { total_development = PREV }
-					}
+					NOT = { total_development = ROOT }
 					NOT = { is_rival = ROOT }
 					NOT = {
 						army_strength = {
@@ -894,7 +914,6 @@ vn_spa_missions_slot_3_a = {
 			}
         }
         effect = {
-			#addmore
             picard_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1112,7 +1131,13 @@ vn_spa_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+            lombardy_region = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "spa_influence_in_lombardy_mission"
+					duration = 9125
+				}
+			}
         }
 	}
 }
