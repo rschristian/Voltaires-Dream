@@ -1,0 +1,722 @@
+#Crusader unique missions
+#Contributed by s0gger and cheeseontoast51
+
+vn_atc_missions_slot_1_a = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+		primary_culture = outremer
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		capital_scope = {
+			superregion = levant_superregion
+		}
+		NOT = { tag = KOJ }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_atc_create_latin_patriarchate = {
+        icon = mission_hands_praying
+        position = 1
+        required_missions = {  }
+        trigger = {
+            if = {
+                limit = { exists = PAP }
+                reverse_has_opinion = {
+                    who = PAP
+                    value = 100
+                }
+            }
+            else = {
+                papal_influence = 50
+            }
+            capital_scope = {
+                development = 8
+                has_tax_building_trigger = yes
+            }
+        }
+        effect = {
+            capital_scope = {
+                area = {
+                    limit = { owned_by = ROOT }
+                    add_province_modifier = {
+                        name = "atc_create_latin_patriarchate_mission"
+                        duration = 9125
+                    }
+                }
+            }
+        }
+    }
+    vn_atc_convert_capital = {
+        icon = mission_european_church
+        position = 3
+        required_missions = { vn_atc_create_latin_patriarchate }
+        provinces_to_highlight = {
+            is_capital_of = ROOT
+            NOT = { religion = ROOT }
+        }
+        trigger = {
+            capital_scope = {
+                development = 12
+                religion = ROOT
+                NOT = { unrest = 0 }
+                has_fort_trigger = yes
+            }
+        }
+        effect = {
+            capital_scope = {
+                area = {
+                    limit = { owned_by = ROOT }
+                }
+                add_province_modifier = {
+                    name = "atc_convert_capital_mission"
+                    duration = 7300
+                }
+            }
+        }
+    }
+    vn_atc_convert_countryside = {
+        icon = mission_religious
+        position = 5
+        required_missions = { vn_atc_convert_capital }
+        trigger = {
+            capital_scope = {
+                area_for_scope_province = {
+                    type = all
+                    religion = ROOT
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "atc_convert_countryside_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_atc_missions_slot_2_a = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+		primary_culture = outremer
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		capital_scope = {
+			superregion = levant_superregion
+		}
+		NOT = { tag = KOJ }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_atc_european_fleets = {
+        icon = mission_galleys_in_port
+        position = 2
+        required_missions = { vn_atc_european_noble_class }
+        trigger = {
+            navy_size_percentage = 1
+            naval_reformer = 2
+            navy_tradition = 25
+        }
+        effect = {
+            add_country_modifier = {
+                name = "atc_european_fleets_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_atc_seize_cyprus = {
+        icon = mission_invade_island
+        position = 4
+        required_missions = { vn_atc_european_fleets }
+        provinces_to_highlight = {
+            region = cyprus_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            cyprus_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            is_subject = no
+        }
+        effect = {
+            add_adm_power = 100
+        }
+	}
+}
+
+vn_atc_missions_slot_3_a = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+		primary_culture = outremer
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		capital_scope = {
+			superregion = levant_superregion
+		}
+		NOT = { tag = KOJ }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_atc_european_noble_class = {
+        icon = mission_noble_council 
+        position = 1
+        required_missions = { }
+        trigger = {
+            any_known_country = {
+                capital_scope = { continent = europe }
+                OR = {
+                    marriage_with = ROOT
+                    alliance_with = ROOT
+                }
+                has_opinion = {
+                    who = ROOT
+                    value = 125
+                }
+                total_development = 100
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "atc_european_noble_class_mission"
+                duration = 7300
+            }
+        }
+    }
+    vn_atc_invite_holy_orders = {
+        icon = mission_establish_jesuit_missions
+        position = 3
+        required_missions = { 
+            vn_atc_european_noble_class 
+            vn_atc_develop_holy_sites 
+        }
+        trigger = {
+            estate_territory = {
+                estate = estate_holy_orders
+                territory = 25
+            }
+            num_of_owned_provinces_with = {
+                value = 15
+                has_estate = estate_holy_orders
+            }
+        }
+        effect = {
+            add_estate_loyalty = {
+                estate = estate_holy_orders
+                loyalty = 10
+            }
+            add_country_modifier = {
+                name = "atc_invite_holy_orders_mission"
+                duration = 7300
+            }
+        }
+    }
+    vn_atc_encourage_pilgrimages = {
+        icon = mission_expel_the_moriscos
+        position = 4
+        required_missions = { vn_atc_invite_holy_orders }
+        trigger = {
+            capital_scope = {
+                development = 25
+                NOT = { num_free_building_slots = 1 }
+            }
+            manpower_percentage = 0.75
+        }
+        effect = {
+            add_country_modifier = {
+                name = "atc_encourage_pilgrimages_mission"
+                duration = 7300
+            }
+        }
+    }
+    vn_atc_a_western_orient = {
+        icon = mission_empire
+        position = 5
+        required_missions = { vn_atc_encourage_pilgrimages }
+        trigger = {
+            capital_scope = {
+                region_for_scope_province = {
+                    type = all
+                    owned_by = ROOT
+                    is_core = ROOT
+                    culture = ROOT
+                    religion = ROOT
+                }
+            }
+        }
+        effect = {
+            add_adm_power = 50
+            add_dip_power = 50
+            add_mil_power = 50
+            capital_scope = {
+                region_for_scope_province = {
+                    limit = { owned_by = ROOT }
+                    add_province_modifier = {
+                        name = "atc_a_western_orient_mission"
+                        duration = -1
+                    }
+                }
+            }
+        }
+	}
+}
+
+vn_atc_missions_slot_4_a = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+		primary_culture = outremer
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		capital_scope = {
+			superregion = levant_superregion
+		}
+		NOT = { tag = KOJ }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_atc_safeguard_succession = {
+        icon = mission_coronation
+        position = 1
+        required_missions = { }
+        trigger = {
+            if = {
+                limit = { government = monarchy }
+                stability = 1
+                legitimacy = 100
+                has_heir = yes
+                num_of_royal_marriages = 3
+            }
+        }
+        effect = {
+            if = {
+                limit = { government = monarchy }
+                add_stability_or_adm_power = yes
+                add_country_modifier = {
+                    name = "atc_safeguard_succession_mission"
+                    duration = -1
+                }
+            }
+            else = {
+                custom_tooltip = vn_ase_elect_new_king.tt4  #Bypass
+            }
+        }
+    }
+    vn_atc_develop_holy_sites = {
+        icon = mission_portico
+        position = 2
+        required_missions = { vn_atc_safeguard_succession }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 5
+                OR = {
+                    region = outremer_region
+                    region = palestine_region
+                }
+                development = 15
+                has_fort_trigger = yes
+                has_tax_building_trigger = yes
+                NOT = { num_free_building_slots = 1 }
+            }
+        }
+        effect = {
+            add_years_of_income = 1
+            add_country_modifier = {
+                name = "atc_develop_holy_sites_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_atc_crusader_castles = {
+        icon = mission_european_castle
+        position = 3
+        required_missions = {  }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 6
+                has_fort_trigger = yes
+                NOT = { devastation = 1 }
+                controlled_by = ROOT
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "atc_crusader_castles_mission"
+                duration = 18250
+            }
+        }
+    }
+    vn_atc_knights_of_rome = {
+        icon = mission_teutonic_knights
+        position = 4
+        required_missions = { vn_atc_crusader_castles }
+        trigger = {
+            cavalry_fraction = 0.25
+            prestige = 40
+            army_tradition = 40
+        }
+        effect = {
+            add_army_professionalism = 0.05
+            add_country_modifier = {
+                name = "atc_knights_of_rome_mission"
+                duration = 7300
+            }
+        }
+	}
+}
+
+vn_atc_missions_slot_5_a = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+		primary_culture = outremer
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		capital_scope = {
+			superregion = levant_superregion
+		}
+		NOT = { tag = KOJ }
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_atc_conquer_aleppo = {
+        icon = mission_city_of_the_world's_desire
+        position = 1
+        required_missions = {  }
+        provinces_to_highlight = {
+            OR = {
+                area = idlib_area
+                area = homs_area
+                province_id = 3111
+            }
+            NOT = {
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+        }
+        trigger = {
+            idlib_area = {
+                type = all
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+            homs_area = {
+                type = all
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+            3111 = {
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+            is_subject = no
+        }
+        effect = {
+            add_papal_influence = 15
+            add_prestige = 5
+            custom_tooltip = vn_atc_conquer_aleppo.tt
+            if = {
+                limit = {
+                    idlib_area = { owned_by = ROOT }
+                }
+                idlib_area = {
+                    limit = { owned_by = ROOT }
+                    add_province_modifier = {
+                        name = "atc_conquer_aleppo_mission"
+                        duration = 9125
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    homs_area = { owned_by = ROOT }
+                }
+                homs_area = {
+                    limit = { owned_by = ROOT }
+                    add_province_modifier = {
+                        name = "atc_conquer_aleppo_mission"
+                        duration = 9125
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    3111 = { owned_by = ROOT }
+                }
+                3111 = {
+                    change_province_name = "Beroea"
+                    add_trade_modifier = {
+                        who = ROOT
+                        duration = 5475
+                        power = 10
+                        key = atc_conquer_aleppo_mission2
+                    }
+                }
+                cyprus_region = {
+                    limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+            }
+        }
+    }
+    vn_atc_liberate_damascus = {
+        icon = mission_arabian_fort
+        position = 2
+        required_missions = {  }
+        provinces_to_highlight = {
+            OR = {
+                area = celesyria_area
+                area = daraa_area
+            }
+            NOT = {
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+        }
+        trigger = {
+            celesyria_area = {
+                type = all
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+            daraa_area = {
+                type = all
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+        }
+        effect = {
+            add_papal_influence = 15
+            add_prestige = 5
+            custom_tooltip = vn_atc_liberate_damascus.tt
+            if = {
+                limit = {
+                    celesyria_area = { owned_by = ROOT }
+                }
+                celesyria_area = {
+                    limit = { owned_by = ROOT }
+                    add_province_modifier = {
+                        name = "atc_conquer_aleppo_mission"
+                        duration = 9125
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    daraa_area = { owned_by = ROOT }
+                }
+                daraa_area = {
+                    limit = { owned_by = ROOT }
+                    add_province_modifier = {
+                        name = "atc_conquer_aleppo_mission"
+                        duration = 9125
+                    }
+                }
+            }
+            if = {
+                limit = { 
+                    3065 = { owned_by = ROOT }
+                }
+                3065 = {
+                    add_trade_modifier = {
+                        who = ROOT
+                        duration = 5475
+                        power = 10
+                        key = atc_conquer_aleppo_mission2
+                    }
+                }
+            }
+        }
+    }
+    vn_atc_reconquer_jerusalem = {
+        icon = mission_conquer_50_development
+        position = 3
+        required_missions = {  }
+        provinces_to_highlight = {
+            province_id = 4974
+            NOT = {
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+        }
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = vn_atc_reconquer_jerusalem.tt
+                OR = {
+                    current_age = age_of_crisis
+                    current_age = age_of_dynasticism
+                    current_age = age_of_discovery
+                    current_age = age_of_reformation
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
+            4974 = {
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+            is_subject = no
+        }
+        effect = {
+            add_prestige = 5
+            add_papal_influence = 20
+            custom_tooltip = vn_atc_reconquer_jerusalem.tt2
+            if = {
+                limit = { owns = 4974 }
+                4974 = {
+                    add_province_modifier = {
+                        name = "atc_reconquer_jerusalem_mission"
+                        duration = -1
+                    }
+                }
+                palestine_region = {
+                    limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+            }
+        }
+    }
+    vn_atc_holy_land_reclaimed = {
+        icon = mission_crusade
+        position = 5
+        required_missions = { 
+            vn_atc_reconquer_jerusalem 
+            vn_atc_knights_of_rome 
+        }
+        provinces_to_highlight = {
+            region = palestine_region
+            NOT = {
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+            }
+        }
+        trigger = {
+            palestine_region = {
+                type = all
+                owner = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+                OR = {
+                    religion = catholic
+                    religion = catholique
+                }
+            }
+            is_subject = no
+        }
+        effect = {
+            add_prestige = 10
+            add_papal_influence = 25
+            custom_tooltip = vn_atc_holy_land_reclaimed.tt
+            if = {
+                limit = {
+                    palestine_region = {
+                        type = all
+                        owned_by = ROOT
+                        OR = {
+                            religion = catholic
+                            religion = catholique
+                        }
+                    }
+                }
+                add_country_modifier = {
+                    name = "atc_holy_land_reclaimed_mission"
+                    duration = 9125
+                }
+                transjordan_region = {
+                    limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+                outremer_region = {
+                    limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+                syria_region = {
+                    limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+            }
+        }
+	}
+}
