@@ -1,0 +1,1626 @@
+#Seljuk missions
+#By historyperson
+#Temporary placeholder icons for certain missions
+
+vn_sjk_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = SJK
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_sjk_islam_in_baghdad = {
+        icon = mission_mosque
+        position = 1
+        required_missions = {  }
+		provinces_to_highlight = {
+            region = lower_egypt_region
+            NOT = { 
+				OR = {
+				has_owner_religion = no
+				country_or_non_sovereign_subject_holds = ROOT
+				}
+			}          
+        }
+        trigger = {
+            lower_mesopotamia_region = {
+                type = all
+				religion_group = muslim
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = sjk_islam_in_baghdad_mission
+                duration = 9125 
+            }               
+        }
+    }
+    vn_sjk_religious_toleration = {
+        icon = mission_pf_cross
+        position = 2
+        required_missions = { vn_sjk_islam_in_baghdad }
+        trigger = {
+			has_global_modifier_value = {
+				which = tolerance_heretic
+				value = 1
+			}
+			has_global_modifier_value = {
+				which = tolerance_heathen 
+				value = 1
+			}
+        }
+        effect = {
+            add_country_modifier = {
+                name = sjk_religious_toleration_mission
+                duration = 9125 
+            }             
+        }
+    }
+	vn_sjk_sponsor_scholarship = {
+        icon = mission_scholar_officials
+        position = 3
+        required_missions = { vn_sjk_religious_toleration vn_sjk_facilitate_urban_growth }
+		trigger = {
+			OR = {
+				has_3_advisors_trigger = yes
+				full_idea_group = cultural_ideas
+				full_idea_group = innovative_ideas
+			}
+		}
+		effect = {
+			add_adm_power = 50
+            add_country_modifier = {
+                name = sjk_sponsor_scholarship_mission
+                duration = 9125 
+            }			
+		}
+	}
+    vn_sjk_found_alnizamiyya = {
+        icon = mission_scholar_officials
+        position = 4
+        required_missions = { vn_sjk_sponsor_scholarship }
+		provinces_to_highlight = {
+			province_id = 6301
+		}
+        trigger = {
+			6301 = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
+        }
+        effect = {
+			if = { 
+				limit = { 
+					6031 = {
+						NOT = { 
+							has_building = university 
+						}
+					}
+				}
+				add_building = university
+			}
+			add_country_modifier = {
+					name = sjk_country_center_of_learning_mission #!
+					duration = 9125 
+			} 
+			6301 = {
+				add_province_modifier = {
+					name = sjk_province_center_of_learning_mission #!
+					duration = -1
+				}           
+			}
+		}
+    }
+    vn_sjk_house_of_wisdom = {
+        icon = mission_early_modern_university
+        position = 5
+        required_missions = { vn_sjk_worthy_architecture vn_sjk_found_alnizamiyya }
+		provinces_to_highlight = {
+			province_id = 6301
+		}
+        trigger = {
+            6301 = {
+				has_building = university
+			}  
+			has_3_lv3_advisors_trigger = yes    
+            any_neighbor_country = {
+				tech_difference = 2
+			} 			
+        }
+        effect = {
+			add_adm_power = 50
+			add_dip_power = 50
+            add_country_modifier = {
+                name = sjk_house_of_wisdom_mission
+                duration = 9125 
+            }             
+        }
+    }
+    vn_sjk_extend_the_golden_age = {
+        icon = mission_early_modern_university
+        position = 6
+        required_missions = { vn_sjk_house_of_wisdom }
+		provinces_to_highlight = {
+			province_id = 6301
+		}
+        trigger = {
+            6301 = {
+				has_building = university
+			} 
+            in_golden_age = yes
+			has_3_lv3_advisors_trigger = yes                   
+		}
+        effect = {
+			add_adm_power = 100
+			add_dip_power = 100
+            add_country_modifier = {
+                name = sjk_islamic_golden_age_mission
+                duration = 9125 
+            }              
+        }
+    }
+    vn_sjk_transjordan = {
+        icon = mission_unite_home_region
+        position = 7
+        required_missions = { vn_sjk_the_umayyad_heartland }
+        provinces_to_highlight = {
+            region = transjordan_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            transjordan_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            nabatea_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+    vn_sjk_invade_shia_egypt = {
+        icon = mission_unite_home_region
+        position = 9
+        required_missions = { vn_sjk_transjordan vn_sjk_capture_jerusalem }
+        provinces_to_highlight = {
+            region = nabatea_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            nabatea_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            red_sea_coast_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+            lower_egypt_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+    vn_sjk_fatimid_lands_conquered = {
+        icon = mission_egyptian_mamluk_soldier
+        position = 10
+        required_missions = { vn_sjk_invade_shia_egypt }
+        provinces_to_highlight = {
+            region = lower_egypt_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            lower_egypt_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            inner_egypt_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+            middle_egypt_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+    vn_sjk_up_the_nile = {
+        icon = mission_non-western_soldiers
+        position = 12
+        required_missions = { vn_sjk_fatimid_lands_conquered }
+        provinces_to_highlight = {
+			OR = {
+				region = inner_egypt_region
+				region = middle_egypt_region
+				NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			}          
+        }
+        trigger = {
+            inner_egypt_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            middle_egypt_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = { 
+            coastal_libya_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+    vn_sjk_rule_over_cyrenaicia = {
+        icon = mission_unite_home_region
+        position = 14
+        required_missions = { vn_sjk_up_the_nile }
+        provinces_to_highlight = {
+            region = coastal_libya_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            coastal_libya_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            coastal_tunisia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+}
+
+vn_sjk_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = SJK
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_sjk_facilitate_urban_growth = {
+        icon = mission_market_place_with_asian_traders
+        position = 2
+        required_missions = { vn_sjk_islam_in_baghdad vn_sjk_subjugation_of_the_caliph }
+		provinces_to_highlight = {
+			province_id = 6301
+		}
+      	trigger = {
+            num_of_owned_provinces_with = {
+				value = 10
+				development = 10
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				development = 20
+			}
+			6301 = {
+				AND = {
+					development = 40 
+	                country_or_non_sovereign_subject_holds = ROOT				
+				}
+			}
+        }
+        effect = {
+			capital_scope = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}  
+            add_country_modifier = {
+				name = sjk_facilitate_urban_growth_mission
+				duration = 9125
+			}          
+        }
+    }
+    vn_sjk_fortify_the_round_city = {
+        icon = mission_arabian_fort
+        position = 3
+        required_missions = { vn_sjk_facilitate_urban_growth }
+		provinces_to_highlight = {
+			province_id = 6301
+		}
+        trigger = {
+			6301 = {
+				owned_by = ROOT
+				has_fort_trigger = yes
+				development = 45
+			}            
+        }
+        effect = {
+			6301 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = sjk_the_round_city_mission
+					duration = -1
+				}
+			}            
+        }
+    }
+    vn_sjk_worthy_architecture = {
+        icon = mission_mosque
+        position = 4
+        required_missions = { vn_sjk_fortify_the_round_city }
+        trigger = {
+			num_of_owned_provinces_with = {
+				value = 20
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+        }
+        effect = {
+            add_country_modifier = {
+				name = sjk_islamic_architecture_mission
+				duration = 9125
+			}             
+        }
+    }
+    vn_sjk_splendor_of_baghdad = {
+        icon = mission_arabian_fort
+        position = 6
+        required_missions = { vn_sjk_worthy_architecture }
+		provinces_to_highlight = {
+			province_id = 6301
+		}
+        trigger = {
+			6301 = {
+				development = 50
+			}            
+        }
+        effect = {
+			6301 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = sjk_splendor_of_baghdad_mission
+					duration = -1
+				}
+			}            
+        }
+    }
+    vn_sjk_mediterrenean_coast  = {
+        icon = mission_invade_island
+        position = 7
+        required_missions = { vn_sjk_the_umayyad_heartland }
+        provinces_to_highlight = {
+            region = outremer_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            outremer_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = { 
+            palestine_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+    vn_sjk_capture_jerusalem = {
+        icon = mission_arabian_fort
+        position = 8
+        required_missions = { vn_sjk_mediterrenean_coast  }
+        provinces_to_highlight = {
+            region = palestine_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            palestine_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = { 
+			add_legitimacy = 15 #amount given in French "Palace of Versailles" mission
+			4974 = {
+				add_province_modifier = {
+					name = "sjk_capture_jerusalem_mission"
+					duration = -1
+				}
+			}
+            nabatea_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+    vn_sjk_repeal_the_crusaders = {
+        icon = mission_crusade_for_varna
+        position = 9
+        required_missions = { vn_sjk_feared_armies vn_sjk_capture_jerusalem }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_sjk_the_red_sea_coast = {
+        icon = mission_unite_home_region
+        position = 10
+        required_missions = { vn_sjk_invade_shia_egypt }
+        provinces_to_highlight = {
+            area = red_sea_coast_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            red_sea_coast_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_mil_power = 50
+        }
+    }
+    vn_sjk_agricultual_revolution = {
+        icon = mission_rice_field
+        position = 11
+        required_missions = { vn_sjk_fatimid_lands_conquered }
+        trigger = {
+            production_income_percentage = 0.33
+			production_efficiency = 0.20
+			OR = {
+				production_leader = {
+					trade_goods = barley
+				}
+				trading_bonus = {
+					trade_goods = barley
+					value = yes
+				}
+			}
+			OR = {
+				production_leader = {
+					trade_goods = rice
+				}
+				trading_bonus = {
+					trade_goods = rice
+					value = yes
+				}
+			}
+			OR = {
+				production_leader = {
+					trade_goods = rye
+				}
+				trading_bonus = {
+					trade_goods = rye
+					value = yes
+				}
+			}
+        }
+        effect = {
+            add_adm_power = 50
+            add_country_modifier = {
+                name = "sjk_agricultual_revolution_mission"
+                duration = 9125 
+            }            
+        }
+    }
+    vn_sjk_barley_producer = {
+        icon = mission_rice_field
+        position = 13
+        required_missions = { vn_sjk_agricultual_revolution }
+        trigger = { 
+			trading_part = {
+				trade_goods = barley
+				value = 0.33
+			} 
+			production_leader = {
+				trade_goods = barley
+			}        
+		}
+        effect = {
+            add_adm_power = 50
+            add_country_modifier = {
+                name = "sjk_barley_producer_mission"
+                duration = 9125 
+            }            
+        }
+    }
+    vn_sjk_sahib_almiqyas = {
+        icon = mission_rice_field
+        position = 14
+        required_missions = { vn_sjk_barley_producer }
+        trigger = {
+			trading_bonus = {
+				trade_goods = barley
+				value = yes
+			} 
+			trading_bonus = {
+				trade_goods = rice
+				value = yes
+			}
+			trading_bonus = {
+				trade_goods = rye
+				value = yes
+			}  
+			trading_part = {
+				trade_goods = barley
+				value = 0.33
+			}
+			trading_part = {
+				trade_goods = rice
+				value = 0.33
+			}
+			trading_part = {
+				trade_goods = rye
+				value = 0.33
+			}	          
+        }
+        effect = {
+            add_adm_power = 100
+            add_country_modifier = {
+                name = "sjk_sahib_almiqyas_mission"
+                duration = -1 
+            }            
+        }
+    }
+}
+
+vn_sjk_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = SJK
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_sjk_subjugation_of_the_caliph = {
+        icon = mission_build_up_to_force_limit
+        position = 1
+		required_missions = {  }
+        provinces_to_highlight = {
+            province_id = 6301
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            6301 = {
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            lower_mesopotamia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }             
+        }
+    }
+    vn_sjk_reign_in_mesopotamia = {
+        icon = mission_build_up_to_force_limit
+        position = 2
+		required_missions = { vn_sjk_subjugation_of_the_caliph }
+        provinces_to_highlight = {
+            region = lower_mesopotamia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            lower_mesopotamia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            al_jazira_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }   
+            assyria_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+            bahrain_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }           
+        }
+    }
+    vn_sjk_arabian_sea_coast = {
+        icon = mission_unite_home_region
+        position = 3
+        required_missions = { vn_sjk_reign_in_mesopotamia }
+        provinces_to_highlight = {
+            area = bahrain_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            bahrain_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_mil_power = 50
+        }
+    }
+    vn_sjk_devoutness_in_faith = {
+        icon = mission_hands_praying
+        position = 4
+        required_missions = { }
+        trigger = {
+			piety = 0.5
+        }
+        effect = {
+			add_piety = 0.1
+            add_country_modifier = {
+				name = "sjk_devoutness_in_faith_mission"
+				duration = 9125
+			}            
+        }
+    }
+    vn_sjk_expansion_of_islam = {
+        icon = mission_mosque
+        position = 5
+        required_missions = { vn_sjk_worthy_architecture vn_sjk_devoutness_in_faith }
+        trigger = {
+			religious_unity = 0.95
+			num_of_cities = 50
+        }
+        effect = {
+            add_country_modifier = {
+				name = "sjk_expansion_of_islam_mission"
+				duration = 9125
+			}            
+        }
+    }
+    vn_sjk_the_islamic_heartland = {
+        icon = mission_mosque
+        position = 6
+        required_missions = { vn_sjk_expansion_of_islam }
+        provinces_to_highlight = {
+            OR = {
+                area = nafud_area
+                area = syrian_desert_area
+            }            
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            nafud_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            syrian_desert_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_adm_power = 50
+			add_dip_power = 50
+			add_mil_power = 50
+			add_prestige = 10
+            add_country_modifier = {
+                name = "sjk_the_islamic_heartland_mission"
+                duration = 9125
+            }  
+		}
+    }
+    vn_sjk_shore_up_cavalry = {
+        icon = mission_steppe_warriors
+        position = 7
+        required_missions = { vn_sjk_a_professional_army }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_sjk_feared_armies = {
+        icon = mission_persian_soldiers
+        position = 8
+        required_missions = { vn_sjk_shore_up_cavalry vn_sjk_alp_arslan }
+        trigger = {
+			OR = {
+				army_professionalism = 1
+				army_tradition = 50
+			}
+			has_global_modifier_value = {
+				discipline = 0.1
+			}
+        }
+        effect = {
+            add_country_modifier = {
+				name = "sjk_feared_armies_mission"
+				duration = 9125
+			}            
+        }
+    }
+    vn_sjk_avoid_the_mongol_wrath = {
+        icon = mission_steppe_warriors
+        position = 9
+        required_missions = { vn_sjk_a_professional_army }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_sjk_anatolian_breach = {
+        icon = mission_eastern_european_city
+        position = 10
+        required_missions = { vn_sjk_victory_at_manzikert }
+        provinces_to_highlight = {
+			OR = {
+				region = cappadokia_region
+				region = kibyrraioton_region
+			}
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            cappadokia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }   
+            kibyrraioton_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }          
+        }
+        effect = {
+            thrakesion_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+            anatolikon_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            phrygia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            charsianon_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_sjk_inroads_into_anatolia = {
+        icon = mission_pf_soldier
+        position = 11
+        required_missions = { vn_sjk_anatolian_possessions }
+        provinces_to_highlight = {
+			OR = {
+				region = thrakesion_region
+				region = anatolikon_region
+				region = phrygia_region
+			region = charsianon_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            thrakesion_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }  
+            anatolikon_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            phrygia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            } 
+            charsianon_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }          
+        }
+        effect = {
+            bukellarion_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+        }
+    }
+    vn_sjk_capture_nicaea = {
+        icon = mission_conquer_50_development
+        position = 12
+        required_missions = { vn_sjk_inroads_into_anatolia }
+        provinces_to_highlight = {
+            region = bukellarion_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            bukellarion_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }             
+        }
+        effect = {
+			add_mil_power = 50
+            thrace_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+            add_country_modifier = {
+				name = "sjk_capture_nicaea_mission"
+				duration = 9125
+			}                    
+        }
+    }
+    vn_sjk_fall_of_constantinople = {
+        icon = mission_conquer_50_development
+        position = 13
+        required_missions = { vn_sjk_capture_nicaea }
+        provinces_to_highlight = {
+            province_id = 2233
+        }
+        trigger = {	    
+			2233 = {
+				country_or_non_sovereign_subject_holds = ROOT     
+			}        
+        }
+        effect = {
+			add_mil_power = 100
+			add_legitimacy = 15	    
+            add_country_modifier = {
+				name = "sjk_fall_of_constantinople_mission"
+				duration = -1
+			}              
+        }
+    }
+    vn_sjk_romans_obliterated = { 
+        icon = mission_pf_map_table
+        position = 14
+        required_missions = { vn_sjk_fall_of_constantinople }
+        trigger = {
+			2233 = { 
+				owner = { 
+					NOT = { 
+						army_strength = {
+							who = ROOT
+							value = 0.25
+						}
+					} 
+				}
+			}
+			2233 = { 
+				owner = { 
+					NOT = { 
+						naval_strength = {
+							who = ROOT
+							value = 0.25
+						}
+					} 
+				}
+			}       
+        }
+        effect = {
+
+        }
+    }
+}
+
+vn_sjk_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = SJK
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_sjk_the_iqta = {
+        icon = mission_rice_field
+        position = 2
+        required_missions = { vn_sjk_atabegs }
+        trigger = {
+            tax_income_percentage = 0.33
+			monthly_income = 100
+        }
+        effect = {
+            add_country_modifier = {
+				name = "sjk_iqta_mission"
+				duration = 9125
+			}            
+        }
+    }
+    vn_sjk_up_the_euphrates = {
+        icon = mission_unite_home_region
+        position = 3
+        required_missions = { vn_sjk_reign_in_mesopotamia }
+        provinces_to_highlight = {
+            region = al_jazira_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            al_jazira_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            sophene_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+    vn_sjk_trade_in_baghdad = {
+        icon = mission_market_place_with_asian_traders
+        position = 4
+        required_missions = { vn_sjk_fortify_the_round_city }
+        provinces_to_highlight = {
+            province_id = 6301         
+        }
+        trigger = {
+			6301 = {
+				has_trade_building_trigger = yes
+			}
+			if = {
+                limit = { has_dlc = "Dharma" }
+            	6301 = { province_has_center_of_trade_of_level = 2 }
+			}
+			else = {
+				6301 = {
+					development = 40	
+				}
+			}            
+        }
+        effect = {
+			add_dip_power = 50
+			add_mercantilism = 5            
+			6301 = {
+				add_base_production = 2
+				add_province_modifier = {
+					name = sjk_trade_in_baghdad_mission
+                    duration = 9125 
+                }
+            }
+        }
+    }
+    vn_sjk_revive_trade = {
+        icon = mission_arabian_fort
+        position = 5
+        required_missions = { vn_sjk_trade_in_baghdad }
+        provinces_to_highlight = {
+            province_id = 6301
+        }
+        trigger = {
+			if = {
+                limit = { has_dlc = "Dharma" }
+            	6301 = { province_has_center_of_trade_of_level = 3 }
+				num_of_owned_provinces_with = {
+					value = 10
+					OR = {
+						province_has_center_of_trade_of_level = 2
+						province_has_center_of_trade_of_level = 3
+					}
+				}
+			}
+			else = {
+				6301 = {
+					development = 45	
+				}
+				num_of_owned_provinces_with = {
+					value = 10
+					development = 20
+				}
+			}            
+        }
+        effect = {
+			add_dip_power = 50
+            add_country_modifier = {
+				name = "sjk_revive_trade_mission"
+				duration = 9125
+			}           
+        }
+    }
+    vn_sjk_riches_of_the_silk_road = {
+        icon = mission_market_place_with_asian_traders
+        position = 6
+        required_missions = { vn_sjk_revive_trade }
+        provinces_to_highlight = {
+			OR = {
+				province_id = 6301
+				province_id = 2233 
+				province_id = 3065 
+				province_id = 3111  
+			}
+        }
+        trigger = {
+			num_of_trading_bonuses = 3
+			if = {
+                limit = { has_dlc = "Dharma" }
+            	6301 = { province_has_center_of_trade_of_level = 3 } #Baghdad
+            	2233 = { province_has_center_of_trade_of_level = 3 } #Constantinple
+            	3065 = { province_has_center_of_trade_of_level = 3 } #Damascus
+            	3111 = { province_has_center_of_trade_of_level = 3 } #Aleppo
+			}
+			else = {
+				6301 = {
+					development = 50	
+				}
+				num_of_owned_provinces_with = {
+					value = 4
+					development = 25
+				}
+			}
+        }
+        effect = {
+			add_years_of_income = 0.5
+            add_country_modifier = {
+				name = "sjk_riches_of_the_silk_road_mission"
+				duration = -1
+			}           
+        }
+    }
+    vn_sjk_alp_arslan = {
+        icon = mission_steppe_warriors
+        position = 7
+        required_missions = {  }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_sjk_tactics_of_fear = {
+        icon = mission_steppe_warriors
+        position = 8
+        required_missions = { vn_sjk_alp_arslan }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_sjk_victory_at_manzikert = {
+        icon = mission_conquer_50_development
+        position = 9
+        required_missions = { vn_sjk_feared_armies vn_sjk_sieze_cilicia }
+        provinces_to_highlight = {
+       
+        }        
+		trigger = {
+             
+        }
+        effect = {
+            corduene_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            chaldia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+            cappadokia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            kibyrraioton_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+				name = "sjk_victory_at_manzikert_mission"
+				duration = 9125
+			}  
+        }
+    }
+    vn_sjk_fall_of_the_pontics = {
+        icon = mission_conquer_50_development
+        position = 11
+        required_missions = { vn_sjk_victory_at_manzikert }
+        provinces_to_highlight = {
+            region = chaldia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            chaldia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }             
+        }
+        effect = {
+            paphlagonia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }                    
+        }
+    }
+    vn_sjk_turkicization_of_anatolia = {  
+        icon = mission_steppe_warriors
+        position = 13
+        required_missions = { vn_sjk_fall_of_the_pontics vn_sjk_capture_nicaea }
+        provinces_to_highlight = {
+            superregion = anatolia_superregion
+            NOT = { 
+				OR = {
+					country_or_non_sovereign_subject_holds = ROOT 
+					culture_group = oghuz
+				}
+			}          
+        }   
+        trigger = {
+            anatolia_superregion = {
+                type = all
+				AND = {
+					country_or_non_sovereign_subject_holds = ROOT
+					culture_group = oghuz
+				}
+            }            
+        }
+        effect = {
+            
+        }
+    }
+    vn_sjk_jewel_of_our_realm = {
+        icon = mission_eastern_european_city
+        position = 14
+        required_missions = { vn_sjk_fall_of_constantinople }
+        provinces_to_highlight = {
+            province_id = 2233
+        }
+        trigger = {
+			owns_or_non_sovereign_subject_of = 2233
+			if = {
+                limit = { has_dlc = "Dharma" }
+            	2233 = { province_has_center_of_trade_of_level = 3 }
+				2233 = { development = 40 }
+			}
+			else = {
+				2233 = {
+					development = 50	
+				}
+			}	               
+        }
+        effect = {
+			add_prestige = 10
+			add_legitimacy = 15 #amount given in French "Palace of Versailles" mission
+			2233 = {
+				add_province_modifier = {
+					name = "sjk_jewel_of_our_realm_mission"
+					duration = -1
+				}
+			}           
+        }
+    }
+}
+
+vn_sjk_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = SJK
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_sjk_atabegs = {
+        icon = mission_steppe_warriors
+        position = 1
+        required_missions = {  }
+        trigger = {
+            
+        }
+        effect = {
+            
+        }
+    }
+    vn_sjk_control_of_the_beyliks = {
+        icon = mission_steppe_warriors
+        position = 2
+        required_missions = { vn_sjk_atabegs }
+        trigger = {
+            if = {
+                limit = { has_estate = estate_nobles }
+                NOT = {
+                    estate_influence = {
+                        estate = estate_nobles
+                        influence = 50
+                    }
+                }
+            }            
+        }
+        effect = {
+            
+        }
+    }
+    vn_sjk_up_the_tigris = {
+        icon = mission_unite_home_region
+        position = 3
+        required_missions = { vn_sjk_reign_in_mesopotamia }
+        provinces_to_highlight = {
+            region = assyria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            assyria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }             
+        }
+        effect = {
+            sophene_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }             
+        }
+    }
+    vn_sjk_control_of_the_great_rivers = {
+        icon = mission_unite_home_region
+        position = 4
+        required_missions = { vn_sjk_up_the_euphrates vn_sjk_up_the_tigris }
+        provinces_to_highlight = {
+            region = sophene_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            sophene_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }             
+        }
+        effect = {
+            syria_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }            
+        }
+    }
+    vn_sjk_the_umayyad_heartland = {
+        icon = mission_arabian_fort
+        position = 6
+        required_missions = { vn_sjk_control_of_the_great_rivers }
+        provinces_to_highlight = {
+            region = syria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            syria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }             
+        }
+        effect = {
+            transjordan_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+            outremer_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            cilicia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_sjk_sieze_cilicia = {
+        icon = mission_conquer_50_development
+        position = 8
+        required_missions = { vn_sjk_the_umayyad_heartland }
+        provinces_to_highlight = {
+            region = cilicia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            cilicia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }             
+        }
+        effect = {
+            add_adm_power = 50
+			add_dip_power = 50
+            add_mil_power = 50	
+        }
+    }
+    vn_sjk_into_the_highlands = {
+        icon = mission_unite_home_region
+        position = 10
+        required_missions = { vn_sjk_victory_at_manzikert }
+        provinces_to_highlight = {
+			OR = {
+				region = tao_region
+				region = armenia_region
+	            region = corduene_region
+			}
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            corduene_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+			}
+            tao_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }  
+            armenia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            } 
+        }
+        effect = {
+            georgia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            hiberia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            azerbaijan_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }              
+        }
+    }
+    vn_sjk_the_southern_caucusus = {
+        icon = mission_unite_home_region
+        position = 11
+        required_missions = { vn_sjk_into_the_highlands }
+        provinces_to_highlight = {
+			OR = {
+				region = georgia_region
+				region = hiberia_region
+				region = azerbaijan_region
+			}
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            georgia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }  
+            hiberia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            azerbaijan_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }        
+        }
+        effect = {
+            circassia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            dagestan_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+        }
+    }
+    vn_sjk_cross_the_caucusus = {
+        icon = mission_persian_soldiers
+        position = 12
+        required_missions = { vn_sjk_the_southern_caucusus }
+        provinces_to_highlight = {
+			OR = {
+				region = dagestan_region
+				region = circassia_region
+			}
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            dagestan_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }  
+            circassia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }       
+            lower_volga_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+        effect = {
+			add_country_modifier = {
+               	name = "sjk_cross_the_caucusus_mission"
+              	duration = 9125 
+            }
+        }
+    }
+    vn_sjk_astrakhan = {
+        icon = mission_central_asian_city
+        position = 13
+        required_missions = { vn_sjk_cross_the_caucusus }
+        provinces_to_highlight = {
+			area = astrakhan_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            astrakhan_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }         
+        }
+        effect = {
+            kazakhstan_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            khwarezmia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_sjk_into_central_asia = {
+        icon = mission_central_asian_city
+        position = 14
+        required_missions = { vn_sjk_astrakhan }
+        provinces_to_highlight = {
+			OR = {
+				region = kazakhstan_region
+				region = khwarezmia_region
+			}
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }        
+		trigger = {
+            kazakhstan_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }  
+            khwarezmia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }         
+        }
+        effect = {
+            add_adm_power = 50
+            add_dip_power = 50
+            add_mil_power = 50
+			add_country_modifier = {
+               	name = "sjk_control_of_the_caspian_mission"
+              	duration = 9125 
+            }
+        }
+    }
+}
