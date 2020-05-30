@@ -31,7 +31,15 @@ vn_pru_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+			add_prestige = 15
+			if = {
+				limit = { is_emperor = yes }
+				add_imperial_influence = 10
+			}
+			add_country_modifier = {
+				name = "pru_rivalry_with_austria_mission"
+				duration = 9125
+			}
         }
 	}
 }
@@ -52,9 +60,7 @@ vn_pru_missions_slot_1_b = {
         required_missions = { vn_pru_royal_prussian_army }
         trigger = {
             if = {
-				limit = {
-					has_estate = estate_nobles
-				}
+				limit = { has_estate = estate_nobles }
 				estate_loyalty = {
 					estate = estate_nobles
 					loyalty = 70
@@ -64,10 +70,18 @@ vn_pru_missions_slot_1_b = {
 					influence = 50
 				}
 			}
-			#addmore?
         }
         effect = {
-            #add
+			if = {
+				limit = { has_estate = estate_nobles }
+				add_country_modifier = {
+					name = "pru_junker_influence_mission"
+					duration = 9125
+				}
+			}
+			else = {
+				custom_tooltip = vn_ase_elect_new_king.tt4	#Bypass
+			}
         }
     }
     vn_pru_prussian_discipline = {
@@ -81,7 +95,11 @@ vn_pru_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+			add_mil_power = 50
+            add_country_modifier = {
+				name = "pru_prussian_discipline_mission"
+				duration = 7300
+			}
         }
 	}
 }
@@ -111,7 +129,6 @@ vn_pru_missions_slot_1_c = {
 			}
         }
         effect = {
-			#addmore?
             westpreussen_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -253,7 +270,6 @@ vn_pru_missions_slot_1_c = {
 			2756 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-			#addmore?
             wielkopolska_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -278,7 +294,6 @@ vn_pru_missions_slot_1_c = {
 			}
         }
         effect = {
-			#addmore?
             mazovia_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -288,7 +303,7 @@ vn_pru_missions_slot_1_c = {
 			}
         }
     }
-    vn_pru_partition_poland = {	#mazovia
+    vn_pru_partition_poland = {
 		icon = mission_unite_home_region	#placeholder
         position = 9
 		required_missions = { vn_pru_conquer_posen }
@@ -300,6 +315,12 @@ vn_pru_missions_slot_1_c = {
             mazovia_region = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
+			}
+			NOT = {
+				OR = {
+					exists = POL
+					exists = PLC
+				}
 			}
         }
         effect = {
@@ -348,7 +369,10 @@ vn_pru_missions_slot_2_a = {
 			militarised_society = 25
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "pru_king_in_prussia_mission"
+				duration = 9125
+			}
         }
     }
     vn_pru_royal_prussian_army = {
@@ -364,10 +388,14 @@ vn_pru_missions_slot_2_a = {
 			has_commanding_three_star = yes
 			NOT = { num_of_mercenaries = 1 }
 			militarised_society = 50
-			army_professionalism = 0.25
+			army_professionalism = 0.4
         }
         effect = {
-            #add
+			add_army_professionalism = 0.05
+			add_country_modifier = {
+				name = "pru_royal_prussian_army_mission"
+				duration = 9125
+			}
         }
     }
     vn_pru_army_with_a_state = {
@@ -375,17 +403,18 @@ vn_pru_missions_slot_2_a = {
         position = 4
         required_missions = { vn_pru_royal_prussian_army }
         trigger = {
-			#addmore
 			army_size = 100
 			num_of_generals = 5
 			NOT = { num_of_mercenaries = 1 }
 			militarised_society = 75
-			army_professionalism = 0.50
+			army_professionalism = 0.8
 			absolutism = 75
         }
         effect = {
-			#add
-			#event Royal Regiment
+			add_army_tradition = 10
+			country_event = {
+				id = vn_missions.80
+			}
         }
     }
 }
@@ -405,12 +434,62 @@ vn_pru_missions_slot_2_b = {
         position = 5
         required_missions = {  }
         trigger = {
-			#Protestant settlers in the Neumark
-			#Salzburg Protestants in East Prussia
-            #add trigger
+			hinterpommern_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				religion = ROOT
+			}
+			num_of_owned_provinces_with = {
+				value = 8
+				region = hinterpommern_region
+				development = 10
+				NOT = { num_free_building_slots = 1 }
+			}
+			ostpreussen_region = {
+				type = all
+				owned_by = ROOT
+				is_core = ROOT
+				religion = ROOT
+			}
+			num_of_owned_provinces_with = {
+				value = 10
+				region = ostpreussen_region
+				development = 10
+				NOT = { num_free_building_slots = 1 }
+			}
         }
         effect = {
-            #add
+			random_owned_province = {
+				limit = {
+					region = hinterpommern_region
+					development = 10
+					NOT = { num_free_building_slots = 1 }
+				}
+				add_base_tax = 2
+			}
+			random_owned_province = {
+				limit = {
+					region = ostpreussen_region
+					development = 10
+					NOT = { num_free_building_slots = 1 }
+				}
+				add_base_tax = 2
+			}
+			hinterpommern_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "pru_encourage_settlement_mission"
+					duration = 7300
+				}
+			}
+			ostpreussen_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "pru_encourage_settlement_mission"
+					duration = 7300
+				}
+			}
         }
     }
     vn_pru_continue_ostsiedlung = {
@@ -425,7 +504,11 @@ vn_pru_missions_slot_2_b = {
 			}
         }
         effect = {
-            #add
+			add_dip_power = 50
+			add_country_modifier = {
+				name = "pru_continue_ostsiedlung_mission"
+				duration = 7300
+			}
         }
 	}
 }
@@ -469,7 +552,18 @@ vn_pru_missions_slot_2_c = {
 			}
         }
         effect = {
-            #add
+            every_neighbor_country = {
+				limit = {
+					OR = {
+						capital_scope = germanynorth_superregion
+						capital_scope = germanysouth_superregion
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = pru_counter_kleinstaaterei_mission
+				}
+			}
         }
 	}
 }
@@ -495,11 +589,17 @@ vn_pru_missions_slot_3_a = {
             2652 = {
 				is_capital_of = ROOT
 				has_building = fort_17th
-				development = 20
+				development = 25
 			}
         }
         effect = {
-            #add
+            2652 = {
+				add_base_manpower = 2
+				add_province_modifier = {
+					name = "pru_festung_berlin_mission"
+					duration = -1
+				}
+			}
         }
     }
     vn_pru_build_customs_wall = {
@@ -518,7 +618,13 @@ vn_pru_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+            2652 = {
+				add_base_production = 2
+				add_province_modifier = {
+					name = "pru_build_customs_wall_mission"
+					duration = -1
+				}
+			}
         }
 	}
 }
@@ -545,13 +651,13 @@ vn_pru_missions_slot_3_b = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            saxony_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 30
+				region = saxony_region
 			}
-			lusatia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 15
+				region = lusatia_region
 			}
         }
         effect = {
@@ -586,9 +692,33 @@ vn_pru_missions_slot_3_c = {
 				}
 				amount = 5
 			}
+			1951 = {
+				is_strongest_trade_power = ROOT
+			}
+			1943 = {
+				is_strongest_trade_power = ROOT
+			}
         }
         effect = {
-            #add
+			add_years_of_income = 0.5
+            every_ally = {
+				limit = {
+					capital_scope = {
+						OR = {
+							superregion = germanynorth_superregion
+							superregion = germanysouth_superregion
+						}
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = pru_establish_zollverein_mission2
+				}
+			}
+			add_country_modifier = {
+				name = "pru_establish_zollverein_mission"
+				duration = 18250
+			}
         }
 	}
 }
@@ -603,17 +733,6 @@ vn_pru_missions_slot_3_d = {
     }
 	has_country_shield = yes
 
-    #vn_pru_protect_refugees = {
-    #    icon = mission_unite_home_region	#placeholder
-    #    position = 6
-    #    required_missions = { vn_pru_encourage_settlement }
-    #    trigger = {
-    #        # add trigger
-    #    }
-    #    effect = {
-    #        # add
-    #    }
-    #}
     vn_pru_southern_dominion = {
         icon = mission_unite_home_region	#placeholder
         position = 7
@@ -636,11 +755,30 @@ vn_pru_missions_slot_3_d = {
 			vn_pru_southern_dominion 
 			vn_pru_humiliate_french 
 		}
+		provinces_to_highlight = {
+			OR = {
+				superregion = germanynorth_superregion
+				superregion = germanysouth_superregion
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
-            #add trigger
+            germanynorth_superregion = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			germanysouth_superregion = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
         }
         effect = {
-            #add
+			add_legitimacy = 20
+			add_prestige = 20
+			add_country_modifier = {
+				name = "pru_unified_germany_mission"
+				duration = -1
+			}
         }
 	}
 }
@@ -664,13 +802,12 @@ vn_pru_missions_slot_4_a = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            westphalia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 30
+				region = westphalia_region
 			}
         }
         effect = {
-			#addmore
 			rhenish_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -689,9 +826,9 @@ vn_pru_missions_slot_4_a = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            rhenish_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 40
+				region = rhenish_region
 			}
         }
         effect = {
@@ -706,6 +843,10 @@ vn_pru_missions_slot_4_a = {
 			vn_pru_rhineland_province 
 			vn_pru_conquer_east_frisia 
 		}
+		provinces_to_highlight = {
+			superregion = germanynorth_superregion
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 				value = 200
@@ -719,12 +860,59 @@ vn_pru_missions_slot_4_a = {
     vn_pru_influence_south = {
         icon = mission_unite_home_region	#placeholder
         position = 6
-        required_missions = { vn_pru_north_german_confederation }
+		required_missions = { vn_pru_north_german_confederation }
+		provinces_to_highlight = {
+			superregion = germanysouth_superregion
+			is_capital = yes
+		}
         trigger = {
-            #add trigger
+			if = {
+				limit = {
+					calc_true_if = {
+						amount = 10
+						all_known_country = {
+							capital_scope = { superregion = germanysouth_superregion }
+						}
+					}
+				}
+				calc_true_if = {
+					amount = 10
+					all_known_country = {
+						capital_scope = { superregion = germanysouth_superregion }
+						has_opinion = {
+							who = ROOT
+							value = 125
+						}
+					}
+				}
+			}
+			else = {
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 75
+					superregion = germanysouth_superregion
+				}
+			}
         }
         effect = {
-			#addmore
+			if = {
+				limit = {
+					calc_true_if = {
+						amount = 10
+						all_known_country = {
+							capital_scope = { superregion = germanysouth_superregion }
+							has_opinion = {
+								who = ROOT
+								value = 125
+							}
+						}
+					}
+				}
+				add_dip_power = 100
+				add_country_modifier = {
+					name = "pru_influence_south_mission"
+					duration = 9125
+				}
+			}
 			alsace_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -883,7 +1071,20 @@ vn_pru_missions_slot_4_a = {
 			299 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            #add
+            alsace_region = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "pru_alsace_lorraine_mission"
+					duration = 9125
+				}
+			}
+			lorraine_region = {
+				limit = { country_or_non_sovereign_subject_holds = ROOT }
+				add_province_modifier = {
+					name = "pru_alsace_lorraine_mission"
+					duration = 9125
+				}
+			}
         }
     }
     vn_pru_humiliate_french = {
@@ -910,7 +1111,10 @@ vn_pru_missions_slot_4_a = {
 			}
         }
         effect = {
-            #add
+            add_country_modifier = {
+				name = "pru_humiliate_french_mission"
+				duration = 3650
+			}
         }
 	}
 }
@@ -934,13 +1138,12 @@ vn_pru_missions_slot_5_a = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            brunswick_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 30
+				region = brunswick_region
 			}
         }
         effect = {
-			#addmore
             tecklenburg_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -969,13 +1172,12 @@ vn_pru_missions_slot_5_a = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            tecklenburg_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			eastfrisia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 10
+				OR = {
+					area = tecklenburg_area
+					area = eastfrisia_area
+				}
 			}
         }
         effect = {
@@ -997,7 +1199,7 @@ vn_pru_missions_slot_5_a = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            holstein_region = {
+			holstein_region = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -1030,7 +1232,11 @@ vn_pru_missions_slot_5_b = {
 			NOT = { inflation = 1 }
         }
         effect = {
-            #add
+			add_adm_power = 50
+			add_country_modifier = {
+				name = "pru_generaldirektorium_mission"
+				duration = 9125
+			}
         }
     }
     vn_pru_compulsory_education = {
@@ -1048,43 +1254,11 @@ vn_pru_missions_slot_5_b = {
 			}
         }
         effect = {
-            #add
-        }
-	}
-}
-
-vn_pru_missions_slot_5_c = {
-    slot = 10
-    generic = no
-    ai = yes
-    potential = {
-        tag = PRU
-        NOT = { map_setup = map_setup_random }
-    }
-	has_country_shield = yes
-	
-    vn_pru_constitutional_reforms = {
-        icon = mission_unite_home_region	#placeholder
-        position = 8
-        required_missions = {  }
-        trigger = {
-			has_reform_level = 6
-			#add trigger
-        }
-        effect = {
-            #add
-        }
-    }
-    vn_pru_landtag_of_prussia = {
-        icon = mission_unite_home_region	#placeholder
-        position = 9
-        required_missions = { vn_pru_constitutional_reforms }
-        trigger = {
-			has_reform_level = 7
-			#add trigger
-        }
-        effect = {
-            #add
+			add_innovativeness_big_effect = yes
+			add_country_modifier = {
+				name = "pru_compulsory_education_mission"
+				duration = 5475
+			}
         }
 	}
 }

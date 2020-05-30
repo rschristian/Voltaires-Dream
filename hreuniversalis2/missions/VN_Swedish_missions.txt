@@ -98,7 +98,8 @@ vn_swe_missions_slot_1_a = {
             }
         }
         effect = {
-            #add
+			change_government_reform_progress = 25
+            add_stability_or_adm_power = yes
         }
     }
     vn_swe_riksdag_of_estates = {
@@ -130,7 +131,10 @@ vn_swe_missions_slot_1_a = {
 			}
         }
         effect = {
-            #add
+			change_government_reform_progress = 50
+			add_estate_burghers_loyalty_effect = yes
+			add_estate_church_loyalty_effect = yes
+			add_estate_nobles_loyalty_effect = yes
         }
 	}
 }
@@ -177,7 +181,21 @@ vn_swe_missions_slot_1_b = {
 			}
         }
         effect = {
-            #add
+			add_years_of_income = 0.5
+            6123 = {
+				add_base_production = 2
+				add_province_modifier = {
+					name = "swe_copper_mines_of_falun_mission"
+					duration = 9125
+				}
+			}
+			6122 = {
+				add_base_production = 2
+				add_province_modifier = {
+					name = "swe_copper_mines_of_falun_mission"
+					duration = 9125
+				}
+			}
         }
 	}
     vn_swe_urban_expansion = {
@@ -251,7 +269,7 @@ vn_swe_missions_slot_1_b = {
 			}
         }
         effect = {
-            6109 = {
+            6070 = {
 				add_base_tax = 1
 				add_base_production = 1
 				add_base_manpower = 1
@@ -259,7 +277,10 @@ vn_swe_missions_slot_1_b = {
 					limit = { has_dlc = "Mandate of Heaven" }
 					add_prosperity = 25
 				}
-				#addmore
+				add_province_modifier = {
+					name = "swe_found_gothenburg_mission"
+					duration = 9125
+				}
 			}
         }
     }
@@ -396,13 +417,15 @@ vn_swe_missions_slot_1_c = {
         }
         effect = {
             if = {
-				limit = {
-					religion = norse_pagan_reformed
-				}
-				custom_tooltip = vn_ase_elect_new_king.tt4
+				limit = { religion = norse_pagan_reformed }
+				custom_tooltip = vn_ase_elect_new_king.tt4	#Bypass
 			}
 			else = {
-				#add
+				add_religious_influence_effect_large = yes
+				add_country_modifier = {
+					name = "dan_deal_with_reformation_mission"
+					duration = 9125
+				}
 			}
         }
     }
@@ -411,20 +434,37 @@ vn_swe_missions_slot_1_c = {
         position = 11
         required_missions = { vn_swe_position_on_reformation }
         trigger = {
-			OR = {
-				is_league_leader = yes
-				is_in_league_war = yes
+			if = {
+				limit = { has_dlc = "Art of War" }
+				OR = {
+					is_league_leader = yes
+					is_in_league_war = yes
+				}
+			}
+			else = {
+				calc_true_if = {
+					amount = 3
+					all_ally = {
+						religion = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 125
+						}
+					}
+				}
 			}
         }
         effect = {
             if = {
 				limit = { is_league_leader = yes }
+				add_mil_power = 50
 				add_country_modifier = {
 					name = "swe_gott_mit_uns_mission"
 					duration = 7300
 				}
 			}
 			else = {
+				add_mil_power = 25
 				add_country_modifier = {
 					name = "swe_gott_mit_uns_mission2"
 					duration = 7300
@@ -483,7 +523,7 @@ vn_swe_missions_slot_2_a = {
 			}
         }
         effect = {
-            #add
+            add_adm_power = 100
         }
 	}
 }
@@ -526,7 +566,19 @@ vn_swe_missions_slot_2_b = {
 			}
         }
         effect = {
-            #add
+			add_absolutism = 10
+			add_legitimacy = 10
+			add_years_of_income = 0.5
+			add_estate_influence_modifier = {
+				estate = estate_nobles
+				desc = swe_reductions_mission
+				influence = -10
+				duration = 7300
+			}
+			add_country_modifier = {
+				name = "swe_reductions_mission"
+				duration = 9125
+			}
         }
 	}
 }
@@ -556,7 +608,27 @@ vn_swe_missions_slot_2_c = {
 			}
         }
         effect = {
-            #add
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+					1084 = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+				}
+				1084 = {
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				1084 = { add_base_production = 2 }
+			}
+            stade_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
 	}
 }
@@ -585,7 +657,11 @@ vn_swe_missions_slot_2_d = {
 			is_in_deficit = no
         }
         effect = {
-            #add
+			add_years_of_income = 1
+			add_country_modifier = {
+				name = "swe_economic_reforms_mission"
+				duration = 9125
+			}
         }
     }
     vn_swe_military_reforms = {
@@ -638,7 +714,20 @@ vn_swe_missions_slot_2_d = {
 			navy_size = 50
         }
         effect = {
-            #add
+			add_prestige = 25
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				add_army_professionalism = 0.05
+			}
+			else = {
+				add_army_tradition = 10
+			}
+			add_navy_tradition = 10
+			add_absolutism = 5
+			add_country_modifier = {
+				name = "swe_stormakstiden_mission"
+				duration = 3650
+			}
         }
     }
     vn_swe_swedish_enlightenment = {
@@ -755,6 +844,10 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
+			add_country_modifier = {
+				name = "swe_across_the_belt_mission"
+				duration = 7300
+			}
             jutland_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -779,7 +872,13 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+            holstein_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_swe_scandinavia_united = {
@@ -811,13 +910,6 @@ vn_swe_missions_slot_3_a = {
 			add_country_modifier = {
 				name = "nor_scandinavia_united_mission"
 				duration = -1
-			}
-            holstein_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
 			}
             pomerania_area = {
 				limit = {
@@ -893,7 +985,34 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+            13 = {
+				add_base_tax = 2
+				add_province_modifier = {
+					name = "swe_cities_of_mecklenburg_mission"
+					duration = 9125
+				}
+			}
+			2996 = {
+				add_base_tax = 2
+				add_province_modifier = {
+					name = "swe_cities_of_mecklenburg_mission"
+					duration = 9125
+				}
+			}
+			1983 = {
+				add_base_tax = 2
+				add_province_modifier = {
+					name = "swe_cities_of_mecklenburg_mission"
+					duration = 9125
+				}
+			}
+			2643 = {
+				add_base_tax = 2
+				add_province_modifier = {
+					name = "swe_cities_of_mecklenburg_mission"
+					duration = 9125
+				}
+			}
         }
     }
     vn_swe_dominum_maris_baltici = {
@@ -927,13 +1046,6 @@ vn_swe_missions_slot_3_a = {
 			add_country_modifier = {
 				name = "swe_dominum_maris_baltici_mission2"
 				duration = 9125
-			}
-			stade_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
 			}
         }
     }
@@ -1268,7 +1380,16 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
-            #add
+			add_mercantilism = 5
+			add_years_of_income = 1
+			every_owned_province = {
+				limit = { has_province_modifier = hanseatic_city }
+				remove_province_modifier = hanseatic_city
+			}
+			add_country_modifier = {
+				name = "swe_destroy_hansa_mission"
+				duration = 9125
+			}
         }
 	}
 }
@@ -1320,12 +1441,9 @@ vn_swe_missions_slot_4_a = {
 			}
         }
         effect = {
-			finland_region = {
-				limit = { country_or_non_sovereign_subject_holds = ROOT }
-				add_country_modifier = {
-					name = "swe_conquer_finland_mission"
-					duration = 9125
-				}
+			add_country_modifier = {
+				name = "swe_conquer_finland_mission"
+				duration = 9125
 			}
 			vyborg_area = {
 				limit = {
@@ -1380,7 +1498,10 @@ vn_swe_missions_slot_4_b = {
 			6130 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            add_adm_power = 100
+            add_country_modifier = {
+				name = "dan_seize_gotland_mission"
+				duration = 9125
+			}
         }
     }
     vn_swe_conquer_estonia = {
@@ -1408,6 +1529,20 @@ vn_swe_missions_slot_4_b = {
 			}
         }
         effect = {
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+					5889 = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+				}
+				5889 = {
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				5889 = { add_base_production = 2 }
+			}
             latvian_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1446,19 +1581,33 @@ vn_swe_missions_slot_4_b = {
 			}
         }
         effect = {
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+					5793 = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+				}
+				5793 = {
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				5793 = { add_base_production = 2 }
+			}
             ostpreussen_region = {
 				limit = {
 					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_claim = ROOT }
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 			westpreussen_region = {
 				limit = {
 					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_claim = ROOT }
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
         }
     }
@@ -1489,7 +1638,28 @@ vn_swe_missions_slot_4_b = {
 			}
         }
         effect = {
-            #add
+			add_mil_power = 100
+			westpreussen_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			mazovia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			wielkopolska_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
         }
 	}
 }
@@ -1714,7 +1884,14 @@ vn_swe_missions_slot_5_a = {
 			}
         }
         effect = {
-            #add
+			add_yearly_manpower = 0.25
+            6144 = {
+				add_base_manpower = 2
+				add_province_modifier = {
+					name = "swe_subjugate_novgorod_mission"
+					duration = 5475
+				}
+			}
         }
     }
     vn_swe_strike_into_russia = {
@@ -1738,7 +1915,11 @@ vn_swe_missions_slot_5_a = {
 			}
         }
         effect = {
-            #add
+			add_prestige = 25
+			add_country_modifier = {
+				name = "swe_strike_into_russia_mission"
+				duration = 7300
+			}
         }
 	}
 }
@@ -1842,7 +2023,44 @@ vn_swe_missions_slot_5_c = {
 			}
         }
         effect = {
-            #add
+            poland_superregion = {
+				limit = { controlled_by = ROOT }
+				random_list = {
+					20 = {
+						add_devastation = 50
+					}
+					35 = {
+						add_devastation = 25
+					}
+					45 = {
+						add_devastation = 10
+					}
+				}
+				if = {
+					limit = { base_tax = 2 }
+					chance = {
+						10 = {
+							add_base_tax = -1
+						}
+					}
+				}
+				if = {
+					limit = { base_production = 2 }
+					chance = {
+						10 = {
+							add_base_production = -1
+						}
+					}
+				}
+				if = {
+					limit = { base_manpower = 2 }
+					chance = {
+						10 = {
+							add_base_manpower = -1
+						}
+					}
+				}
+			}
         }
     }
     vn_swe_support_from_cossacks = {
@@ -1859,6 +2077,14 @@ vn_swe_missions_slot_5_c = {
 			}
         }
         effect = {
+			capital_scope = {
+				add_unit_construction = {
+					type = cossack_cavalry
+					cost = 0
+					speed = 0.5
+					amount = 10
+				}
+			}
 			add_country_modifier = {
 				name = "swe_support_from_cossacks_mission"
 				duration = 7300
@@ -1886,7 +2112,11 @@ vn_swe_missions_slot_5_c = {
 			}
         }
         effect = {
-            #add
+			add_prestige = 20
+			add_country_modifier = {
+				name = "swe_deluge_mission"
+				duration = 7300
+			}
         }
 	}
 }
