@@ -38,6 +38,10 @@ vn_vgb_missions_slot_1 = {
 				}
 				add_permanent_claim = ROOT
 			}
+			add_country_modifier = {
+				name = vgb_bulgaric_legacy_mission
+				duration = 9125
+			}
         }
     }
 	vn_vgb_mongol_thorn = {
@@ -45,25 +49,45 @@ vn_vgb_missions_slot_1 = {
         position = 2
         required_missions = { vn_vgb_bulgaric_legacy }
         trigger = {
+			NOT = { current_age = age_of_empire }
+			NOT = { current_age = age_of_holy_wars }
             OR = {
-				war_with = JMN
-				war_with = GLH
-				war_with = ILK
-				NOT = {
-					exists = JMN
-					exists = GLH
-					exists = ILK
+				AND = {
+					war_with = GLH
+					war_score_against = {
+						who = GLH
+						value = 25
+					}
+				}
+				AND = {
+					NOT = {
+						current_age = age_of_crisis
+						exists = GLH
+					}
 				}
 			}
         }
         effect = {
-            
+            create_general = {
+				tradition = 75
+			}
+			add_country_modifier = {
+				name = vgb_mongol_thorn_mission
+				duration = 9125
+			}
         }
     }
     vn_vgb_bulgaria_unconquered = {
         icon = mission_unite_home_region
         position = 3
-        required_missions = { vn_vgb_mongol_thorn }
+		required_missions = { vn_vgb_mongol_thorn }
+		provinces_to_highlight = {
+			OR = {
+				superregion = central_asia_superregion
+				superregion = ural_superregion
+			}
+			owned_by = GLH
+		}
         trigger = {
             NOT = { current_age = age_of_empire }
 			NOT = { current_age = age_of_holy_wars }
@@ -74,11 +98,7 @@ vn_vgb_missions_slot_1 = {
 						superregion = central_asia_superregion
 						superregion = ural_superregion
 					}
-					OR = {
-						owned_by = JMN
-						owned_by = GLH
-						owned_by = ILK
-					}
+					owned_by = GLH
 				}
 			}
         }
@@ -168,10 +188,21 @@ vn_vgb_missions_slot_2 = {
         position = 4
         required_missions = { vn_vgb_north_volga_trade }
         trigger = {
-            
+            num_of_owned_provinces_with = {
+				value = 10
+				development = 5
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				development = 10
+			}
         }
         effect = {
-            
+            samara_area = {
+				limit = { is_city = no }
+				cede_province = ROOT
+				add_core = ROOT
+			}
         }
     }
     vn_vgb_trade_fortresses = {
@@ -179,20 +210,46 @@ vn_vgb_missions_slot_2 = {
         position = 5
 		required_missions = { vn_vgb_develop_samara }
 		provinces_to_highlight = {
-			any_neighbor_province = {
-				OR = {
-					province_id = 7220
-					province_id = 7221
-					province_id = 7222
-					province_id = 7223
-					province_id = 7224
-					province_id = 7225
-					province_id = 7226
-					province_id = 7227
-					province_id = 7228
-					province_id = 7229
-					province_id = 7230
-				}
+			OR = {
+				province_id = 3785
+				province_id = 3786
+				province_id = 3787
+				province_id = 3788
+				province_id = 3789
+				province_id = 3790
+				province_id = 6461
+				province_id = 6462
+				province_id = 6466
+				province_id = 6468
+				province_id = 6469
+				province_id = 6470
+				province_id = 6471
+				province_id = 6472
+				province_id = 6477
+				province_id = 6480
+				province_id = 6482
+				province_id = 6483
+				province_id = 6489
+				province_id = 6520
+				province_id = 6521
+				province_id = 6522
+				province_id = 6523
+				province_id = 6524
+				province_id = 6525
+				province_id = 6526
+				province_id = 6527
+				province_id = 6528
+				province_id = 6529
+				province_id = 6530
+				province_id = 6531
+				province_id = 6532
+				province_id = 6533
+				province_id = 6534
+				province_id = 6535
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				has_fort_trigger = no
 			}
 		}
         trigger = {
@@ -200,19 +257,44 @@ vn_vgb_missions_slot_2 = {
 				amount = 5
 				all_owned_province = {
 					has_fort_trigger = yes
-					any_neighbor_province = {
+					custom_trigger_tooltip = {
+						tooltip = vn_vgb_trade_fortresses.tt
 						OR = {
-							province_id = 7220
-							province_id = 7221
-							province_id = 7222
-							province_id = 7223
-							province_id = 7224
-							province_id = 7225
-							province_id = 7226
-							province_id = 7227
-							province_id = 7228
-							province_id = 7229
-							province_id = 7230
+							province_id = 3785
+							province_id = 3786
+							province_id = 3787
+							province_id = 3788
+							province_id = 3789
+							province_id = 3790
+							province_id = 6461
+							province_id = 6462
+							province_id = 6466
+							province_id = 6468
+							province_id = 6469
+							province_id = 6470
+							province_id = 6471
+							province_id = 6472
+							province_id = 6477
+							province_id = 6480
+							province_id = 6482
+							province_id = 6483
+							province_id = 6489
+							province_id = 6520
+							province_id = 6521
+							province_id = 6522
+							province_id = 6523
+							province_id = 6524
+							province_id = 6525
+							province_id = 6526
+							province_id = 6527
+							province_id = 6528
+							province_id = 6529
+							province_id = 6530
+							province_id = 6531
+							province_id = 6532
+							province_id = 6533
+							province_id = 6534
+							province_id = 6535
 						}
 					}
 				}
@@ -329,7 +411,16 @@ vn_vgb_missions_slot_3 = {
 			}
         }
         effect = {
-            
+			custom_tooltip = vn_vgb_north_volga_trade.tt
+			hidden_effect = {
+				every_owned_province = {
+					limit = { development = 5 }
+					add_province_modifier = {
+						name = vgb_north_volga_trade_mission
+						duration = 9125
+					}
+				}
+			}
         }
     }
     vn_vgb_two_rivers = {
@@ -417,9 +508,25 @@ vn_vgb_missions_slot_3 = {
         position = 6
         required_missions = { vn_vgb_russian_trade_agreements }
         trigger = {
-            
+			religious_unity = 0.75
+			num_of_owned_provinces_with = {
+				value = 5
+				area = chuvashia_area
+				religion = ROOT
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				area = mari_area
+				religion = ROOT
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				area = udmurtia_area
+				religion = ROOT
+			}
         }
         effect = {
+			add_religious_influence_effect_small = yes
             add_country_modifier = {
 				name = vgb_no_more_wine_mission
 				duration = 9125
@@ -546,18 +653,32 @@ vn_vgb_missions_slot_4 = {
 				area = ufa_area
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			is_city = yes
 		}
         trigger = {
 			kama_area = {
 				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+				OR = {
+					country_or_non_sovereign_subject_holds = ROOT
+					is_city = no
+				}
 			}
             ufa_area = {
 				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+				OR = {
+					country_or_non_sovereign_subject_holds = ROOT
+					is_city = no
+				}
 			}
         }
         effect = {
+			mordovia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
             saratov_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -695,23 +816,59 @@ vn_vgb_missions_slot_5 = {
     vn_vgb_conquer_mordovia = {
         icon = mission_unite_home_region
         position = 4
-        required_missions = { vn_vgb_conquer_bashkiria }
+		required_missions = { vn_vgb_conquer_bashkiria }
+		provinces_to_highlight = {
+			region = mordovia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			is_city = yes
+		}
         trigger = {
-            
+			mordovia_region = {
+				type = all
+				OR = {
+					country_or_non_sovereign_subject_holds = ROOT
+					is_city = no
+				}
+			}
         }
         effect = {
-            
+            mordovia_region = {
+				add_province_modifier = {
+					name = vgb_conquer_udmurt_mission
+					duration = 9125
+				}
+			}
         }
     }
     vn_vgb_finno_ugric_friendship = {
         icon = mission_unite_home_region
         position = 5
         required_missions = { vn_vgb_conquer_mordovia }
+		provinces_to_highlight = {
+			culture_group = finno_ugric
+			is_city = yes
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+				consolidated_region_trigger = no
+			}
+		}
         trigger = {
-            
+            all_province = {
+				culture_group = finno_ugric
+				OR = {
+					is_city = no
+					AND = {
+						owned_by = ROOT
+						is_core = ROOT
+						consolidated_region_trigger = yes
+					}
+				}
+			}
         }
         effect = {
-            
+			add_stability_or_adm_power = yes
+			increase_legitimacy_medium_effect = yes
         }
 	}
 }
