@@ -220,23 +220,31 @@ VN_repopulate_frontiers_mission = {
 		icon = mission_colonial
         required_missions = { }
 		position = 12
+		completed_by = 1085.1.1
 		provinces_to_highlight = {
 			OR = {
 				area = salamanca_area
 				area = segovia_area
+				province_id = 4371
 			}
-			NOT = { owned_by = ROOT }
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-			num_of_owned_provinces_with = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 				value = 5
 				OR = {
 					area = salamanca_area
 					area = segovia_area
+					province_id = 4371
 				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = vn_repopulate_frontiers.tt
+				NOT = { has_global_flag = iberian_frontier_repopulated }
 			}
         }
         effect = {
+			hidden_effect = { set_global_flag = iberian_frontier_repopulated }
 			2718 = {
 				if = {
 					limit = { is_city = no }
@@ -265,7 +273,12 @@ VN_repopulate_frontiers_mission = {
 				limit = { is_city = no }
 				if = {
 					limit = {
-						LON = { is_subject_of = ROOT }
+						LON = { 
+							is_subject_of = ROOT
+							any_owned_province = {
+								area = salamanca_area
+							}
+						}
 					}
 					cede_province = LON
 					add_core = LON
@@ -291,7 +304,12 @@ VN_repopulate_frontiers_mission = {
 				limit = { is_city = no }
 				if = {
 					limit = {
-						CAS = { is_subject_of = ROOT }
+						CAS = { 
+							is_subject_of = ROOT 
+							any_owned_province = {
+								area = segovia_area
+							}
+						}
 					}
 					cede_province = CAS
 					add_core = CAS
@@ -314,14 +332,14 @@ VN_repopulate_frontiers_mission = {
 				add_base_manpower = 1
 			}
             salamanca_area = {
-                limit = { owned_by = ROOT }
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = "cas_repopulate_frontiers_mission"
                     duration = 7300
                 }
             }
             segovia_area = {
-                limit = { owned_by = ROOT }
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = "cas_repopulate_frontiers_mission"
                     duration = 7300
