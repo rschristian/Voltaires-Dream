@@ -34,7 +34,7 @@ vn_sjk_missions_slot_1 = {
         }
         effect = {
             add_country_modifier = {
-                name = sjk_islam_in_baghdad_mission
+                name = "sjk_islam_in_baghdad_mission"
                 duration = 9125 
             }               
         }
@@ -55,7 +55,7 @@ vn_sjk_missions_slot_1 = {
         }
         effect = {
             add_country_modifier = {
-                name = sjk_religious_toleration_mission
+                name = "sjk_religious_toleration_mission"
                 duration = 9125 
             }             
         }
@@ -74,7 +74,7 @@ vn_sjk_missions_slot_1 = {
 		effect = {
 			add_adm_power = 50
             add_country_modifier = {
-                name = sjk_sponsor_scholarship_mission
+                name = "sjk_sponsor_scholarship_mission"
                 duration = 9125 
             }			
 		}
@@ -134,8 +134,8 @@ vn_sjk_missions_slot_1 = {
 			} 			
         }
         effect = {
-			add_adm_power = 50
-			add_dip_power = 50
+			add_prestige = 10
+			add_legitimacy = 10
             add_country_modifier = {
                 name = sjk_house_of_wisdom_mission
                 duration = 9125 
@@ -157,8 +157,8 @@ vn_sjk_missions_slot_1 = {
 			has_3_lv3_advisors_trigger = yes                   
 		}
         effect = {
-			add_adm_power = 100
-			add_dip_power = 100
+			add_adm_power = 50
+			add_dip_power = 50
             add_country_modifier = {
                 name = sjk_islamic_golden_age_mission
                 duration = 9125 
@@ -483,10 +483,23 @@ vn_sjk_missions_slot_2 = {
         position = 9
         required_missions = { vn_sjk_feared_armies vn_sjk_capture_jerusalem }
         trigger = {
-            
+            any_country = {
+				religion_group = christian
+				ROOT = {
+					war_score_against = {
+						who = PREV
+						value = 50
+					}
+				}
+			}
         }
         effect = {
-            
+            add_legitimacy = 10
+            add_mil_power = 50
+            add_country_modifier = {
+                name = "sjk_repeal_the_crusaders_mission"
+                duration = 9125 
+            }  
         }
     }
     vn_sjk_the_red_sea_coast = {
@@ -504,7 +517,7 @@ vn_sjk_missions_slot_2 = {
             }
         }
         effect = {
-            add_mil_power = 50
+            add_prestige = 10
         }
     }
     vn_sjk_agricultual_revolution = {
@@ -543,7 +556,7 @@ vn_sjk_missions_slot_2 = {
 			}
         }
         effect = {
-            add_adm_power = 50
+            add_years_of_income = 0.5
             add_country_modifier = {
                 name = "sjk_agricultual_revolution_mission"
                 duration = 9125 
@@ -564,7 +577,7 @@ vn_sjk_missions_slot_2 = {
 			}        
 		}
         effect = {
-            add_adm_power = 50
+            add_years_of_income = 1
             add_country_modifier = {
                 name = "sjk_barley_producer_mission"
                 duration = 9125 
@@ -602,7 +615,7 @@ vn_sjk_missions_slot_2 = {
 			}	          
         }
         effect = {
-            add_adm_power = 100
+            add_dip_power = 50
             add_country_modifier = {
                 name = "sjk_sahib_almiqyas_mission"
                 duration = -1 
@@ -697,7 +710,7 @@ vn_sjk_missions_slot_3 = {
             }
         }
         effect = {
-            add_mil_power = 50
+            add_prestige = 10
         }
     }
     vn_sjk_devoutness_in_faith = {
@@ -767,10 +780,11 @@ vn_sjk_missions_slot_3 = {
         position = 7
         required_missions = { vn_sjk_a_professional_army }
         trigger = {
-            
+            cavalry_fraction = 0.5
+			num_of_cavalry = 25
         }
         effect = {
-            
+            add_army_tradition = 10
         }
     }
     vn_sjk_feared_armies = {
@@ -787,6 +801,7 @@ vn_sjk_missions_slot_3 = {
 			}
         }
         effect = {
+			add_mil_power = 50
             add_country_modifier = {
 				name = "sjk_feared_armies_mission"
 				duration = 9125
@@ -797,11 +812,40 @@ vn_sjk_missions_slot_3 = {
         icon = mission_steppe_warriors
         position = 9
         required_missions = { vn_sjk_a_professional_army }
+		provinces_to_highlight = {
+			OR = {
+				superregion = central_asia_superregion
+				superregion = mesopotamia_superregion 
+			}
+			OR = {	
+				owned_by = GLH
+				owned_by = ILK
+			}
+		}
         trigger = {
-            
+            NOT = { current_age = age_of_empire }
+			NOT = { current_age = age_of_holy_wars }
+			NOT = { current_age = age_of_crisis }
+			NOT = {
+				any_province = {
+					OR = {
+						superregion = central_asia_superregion
+						superregion = mesopotamia_superregion
+					}
+					OR = {
+					owned_by = GLH
+					owned_by = ILK
+					}
+				}
+			}
         }
         effect = {
-            
+			add_prestige = 10
+			add_mil_power = 50
+            add_country_modifier = {
+				name = "sjk_avoided_mongols_mission"
+				duration = 18250
+			}
         }
     }
     vn_sjk_anatolian_breach = {
@@ -952,8 +996,11 @@ vn_sjk_missions_slot_3 = {
         position = 14
         required_missions = { vn_sjk_fall_of_constantinople }
         trigger = {
-			2233 = { 
-				owner = { 
+			if = {
+				limit = {
+					exists = BYZ 
+				}
+				BYZ = { 
 					NOT = { 
 						army_strength = {
 							who = ROOT
@@ -962,19 +1009,20 @@ vn_sjk_missions_slot_3 = {
 					} 
 				}
 			}
-			2233 = { 
-				owner = { 
+			else = { 
+				every_rival_country = { 
 					NOT = { 
-						naval_strength = {
+						army_strength = {
 							who = ROOT
-							value = 0.25
+							value = 1
 						}
 					} 
 				}
 			}       
         }
         effect = {
-
+			add_legitimacy = 25
+			add_prestige = 25
         }
     }
 }
@@ -1050,7 +1098,7 @@ vn_sjk_missions_slot_4 = {
 			}            
         }
         effect = {
-			add_dip_power = 50
+			add_years_of_income = 0.5
 			add_mercantilism = 5            
 			6301 = {
 				add_base_production = 2
@@ -1125,7 +1173,7 @@ vn_sjk_missions_slot_4 = {
 				}
 				num_of_owned_provinces_with = {
 					value = 4
-					development = 25
+					development = 30
 				}
 			}
         }
@@ -1142,21 +1190,17 @@ vn_sjk_missions_slot_4 = {
         position = 7
         required_missions = {  }
         trigger = {
-            
+			is_monarch_leader = yes
+			OR = {
+				has_commanding_three_star = yes
+				mil = 5
+			}
         }
         effect = {
-            
-        }
-    }
-    vn_sjk_tactics_of_fear = {
-        icon = mission_steppe_warriors
-        position = 8
-        required_missions = { vn_sjk_alp_arslan }
-        trigger = {
-            
-        }
-        effect = {
-            
+            add_country_modifier = {
+				name = "sjk_alp_arslan_mission"
+				duration = 9125
+			}             
         }
     }
     vn_sjk_victory_at_manzikert = {
@@ -1164,12 +1208,19 @@ vn_sjk_missions_slot_4 = {
         position = 9
         required_missions = { vn_sjk_feared_armies vn_sjk_sieze_cilicia }
         provinces_to_highlight = {
-       
+			province_id = 3459
         }        
 		trigger = {
-             
+			OR = {
+				war_score_against = {
+					who = BYZ
+					value = 25
+				} 
+				controls = 3459
+			}
         }
         effect = {
+			add_mil_power = 50
             corduene_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1242,16 +1293,26 @@ vn_sjk_missions_slot_4 = {
 			}          
         }   
         trigger = {
-            anatolia_superregion = {
-                type = all
-				AND = {
-					country_or_non_sovereign_subject_holds = ROOT
-					culture_group = oghuz
+			num_of_owned_provinces_with = {
+				limit = { 
+					superregion = anatolia_superregion
 				}
-            }            
+				value = 50
+				country_or_non_sovereign_subject_holds = ROOT
+				culture_group = oghuz
+			}            
         }
         effect = {
-            
+			anatolia_superregion = {
+				add_province_modifier = { 
+					name = "sjk_turkicization_of_anatolia_mission_p"
+					duration = 9125				
+				}
+			}  
+            add_country_modifier = {
+				name = "sjk_turkicization_of_anatolia_mission_c"
+				duration = 18250
+			} 			
         }
     }
     vn_sjk_jewel_of_our_realm = {
@@ -1302,10 +1363,20 @@ vn_sjk_missions_slot_5 = {
         position = 1
         required_missions = {  }
         trigger = {
-            
+            if = {
+                limit = { has_estate = estate_nobles }
+                estate_loyalty = {
+                        estate = estate_nobles
+                        loyalty  = 60
+                }
+            }   
+			num_of_generals = 3			
         }
         effect = {
-            
+            add_country_modifier = {
+				name = "sjk_atabegs_mission" #!10 States, grant governing capacity post-Emperor
+				duration = 9125
+			}            
         }
     }
     vn_sjk_control_of_the_beyliks = {
@@ -1321,10 +1392,32 @@ vn_sjk_missions_slot_5 = {
                         influence = 50
                     }
                 }
-            }            
+            }
+            if = {
+                limit = { has_estate = estate_nobles }
+                estate_loyalty = {
+                        estate = estate_nobles
+                        loyalty  = 60
+                }
+            }			
+			else = {
+				NOT = {
+					average_autonomy_above_min = 10
+				}
+			}
         }
         effect = {
-            
+			if = {
+				limit = { has_estate = estate_nobles }
+				add_estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 10
+				}
+			}  
+            add_country_modifier = {
+				name = "sjk_control_of_the_beyliks_mission"
+				duration = 9125
+			} 			
         }
     }
     vn_sjk_up_the_tigris = {
@@ -1390,6 +1483,7 @@ vn_sjk_missions_slot_5 = {
             }             
         }
         effect = {
+            add_prestige = 10
             transjordan_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1428,9 +1522,9 @@ vn_sjk_missions_slot_5 = {
             }             
         }
         effect = {
-            add_adm_power = 50
-			add_dip_power = 50
-            add_mil_power = 50	
+            add_adm_power = 25
+			add_dip_power = 25
+            add_mil_power = 25	
         }
     }
     vn_sjk_into_the_highlands = {
@@ -1546,6 +1640,8 @@ vn_sjk_missions_slot_5 = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }       
+        }
+        effect = {
             lower_volga_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1553,8 +1649,6 @@ vn_sjk_missions_slot_5 = {
                 }
                 add_permanent_claim = ROOT
             }
-        }
-        effect = {
 			add_country_modifier = {
                	name = "sjk_cross_the_caucusus_mission"
               	duration = 9125 
