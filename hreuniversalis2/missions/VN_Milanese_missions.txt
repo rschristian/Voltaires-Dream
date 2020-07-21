@@ -109,33 +109,57 @@ vn_mlo_missions_slot_1_b = {
         icon = mission_rule_italy
         required_missions = { vn_mlo_support_from_city_states }
         trigger = {
-            #NOT = { is_year = 1250 }
-            #is_emperor = no
-            #emperor = {
-            #    capital_scope = {
-            #        NOT = { superregion = italy_superregion }
-			#	}
-			#}
-			#num_of_cities = 10
-            #calc_true_if = {
-            #    all_ally = {
-            #        custom_trigger_tooltip = {
-			#			tooltip = vn_mlo_support_from_city_states.tt
-			#			capital_scope = {
-			#				superregion = italy_superregion
-			#			}
-			#		}
-            #    }
-            #    amount = 4
-            #}
-            #add - Is member of the Lombard League when it forms
+            if = {
+                limit = { has_dlc = "Emperor" }
+                custom_trigger_tooltip = {
+                    tooltip = vn_mlo_lombard_league.tt
+                    OR = {
+                        had_country_flag = { flag = lombard_league_leader days = 1 }
+                        had_country_flag = { flag = lombard_league_member days = 1 }
+                    }  
+                }
+            }
+            else = {
+                is_emperor = no
+                emperor = {
+                    NOT = {
+                        capital_scope = {
+                            superregion = italy_superregion
+                        }
+                    }
+                }
+                num_of_cities = 10
+                calc_true_if = {
+                    all_ally = {
+                        custom_trigger_tooltip = {
+                			tooltip = vn_mlo_support_from_city_states.tt
+                			capital_scope = {
+                				superregion = italy_superregion
+                			}
+                		}
+                    }
+                    amount = 4
+                }
+            }
         }
         effect = {
-            #custom_tooltip = vn_mlo_lombard_league.tt
-            #country_event = {
-            #    id = vn_missions.66
-            #}
-            #add new effect
+            if = {
+                limit = {
+                    had_country_flag = { flag = lombard_league_leader days = 1 }
+                }
+                add_power_projection = {
+                    type = mission_rewards_power_projection
+                    amount = 20
+                }
+                add_prestige = 15
+            }
+            else = {
+                add_power_projection = {
+                    type = mission_rewards_power_projection
+                    amount = 10
+                }
+                add_prestige = 5
+            }
         }
     }
     vn_mlo_cast_out_emperor = {
