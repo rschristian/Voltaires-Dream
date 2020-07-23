@@ -122,7 +122,6 @@ country_event = {
 	}
 	
 	is_triggered_only = yes
-	major = yes
 
 	immediate = {
 		hidden_effect = {
@@ -929,59 +928,86 @@ country_event = {
 	
 	is_triggered_only = yes
 	major = yes
-	
-	trigger = {
-		ROOT = { has_country_flag = med_attacker }
-		FROM = { has_country_flag = med_demander_country }
-	}
 
 	immediate = {
 		hidden_effect = {
 			ROOT = { clr_country_flag = med_attacker }
+		}
+		random_country = {
+			limit = { has_country_flag = med_demander_country }
+			save_event_target_as = med_demander
 		}
 	}
 	
 	option = {	#Terrible! (Mediatization enforced)
 		name = incident_mediatization.7.a
 		ai_chance = { factor = 100 }
-		ROOT = {
-			add_imperial_influence = -20
-			add_prestige = -10
-		}
-		FROM = {
-			add_prestige = 10
-		}
+		add_imperial_influence = -20
+		add_prestige = -10
 		custom_tooltip = incident_mediatization.7.a.tt
 		hidden_effect = {
-			random_country = {
+			if = {
 				limit = {
-					is_part_of_hre = yes
-					NOT = { has_reform = papacy_reform }
-					government = theocracy
-					NOT = { has_country_flag = had_mediatization_event }
-					any_neighbor_country = {
-						government = monarchy
+					any_country = {
+						OR = {
+							AND = {
+								is_part_of_hre = yes
+								NOT = { has_reform = papacy_reform }
+								government = theocracy
+								NOT = { has_country_flag = had_mediatization_event }
+								any_neighbor_country = {
+									government = monarchy
+								}
+							}
+							AND = {
+								is_part_of_hre = yes
+								has_reform = free_city
+								NOT = { has_country_flag = had_mediatization_event }
+								any_neighbor_country = {
+									government = monarchy
+								}
+							}
+						}
 					}
 				}
-				country_event = {
-					id = incident_mediatization.4
-					days = 15
-					random = 5
+				random_country = {
+					limit = {
+						is_part_of_hre = yes
+						NOT = { has_reform = papacy_reform }
+						government = theocracy
+						NOT = { has_country_flag = had_mediatization_event }
+						any_neighbor_country = {
+							government = monarchy
+						}
+					}
+					country_event = {
+						id = incident_mediatization.4
+						days = 10
+						random = 5
+					}
+				}
+				random_country = {
+					limit = {
+						is_part_of_hre = yes
+						has_reform = free_city
+						NOT = { has_country_flag = had_mediatization_event }
+						any_neighbor_country = {
+							government = monarchy
+						}
+					}
+					country_event = {
+						id = incident_mediatization.5
+						days = 10
+						random = 5
+					}
 				}
 			}
-			random_country = {
-				limit = {
-					is_part_of_hre = yes
-					has_reform = free_city
-					NOT = { has_country_flag = had_mediatization_event }
-					any_neighbor_country = {
-						government = monarchy
+			else = {
+				hidden_effect = {
+					country_event = {
+						id = incident_mediatization.9
+						days = 1
 					}
-				}
-				country_event = {
-					id = incident_mediatization.5
-					days = 15
-					random = 5
 				}
 			}
 		}
@@ -997,28 +1023,22 @@ country_event = {
 	
 	is_triggered_only = yes
 	major = yes
-	
-	trigger = {
-		ROOT = { has_country_flag = med_attacker }
-		FROM = { has_country_flag = med_demander_country }
-	}
 
 	immediate = {
 		hidden_effect = {
-			ROOT = { clr_country_flag = med_attacker }
+			clr_country_flag = med_attacker
+			random_country = {
+				limit = { has_country_flag = med_demander_country }
+				save_event_target_as = med_demander
+			}
 		}
 	}
 	
 	option = {	#Great! (Mediatization stopped)
 		name = incident_mediatization.8.a
 		ai_chance = { factor = 100 }
-		ROOT = {
-			add_imperial_influence = 20
-			add_prestige = 10
-		}
-		FROM = {
-			add_prestige = -10
-		}
+		add_imperial_influence = 20
+		add_prestige = 10
 		custom_tooltip = incident_mediatization.8.a.tt
 	}
 }
