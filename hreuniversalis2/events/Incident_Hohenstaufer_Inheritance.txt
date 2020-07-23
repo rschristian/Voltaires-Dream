@@ -71,16 +71,6 @@ country_event = {
 	fire_only_once = yes
 	major = yes
 
-	immediate = {
-		hidden_effect = {
-			set_saved_name = {
-				key = imperial_knight
-				type = advisor
-				scope = ROOT
-			}
-		}	
-	}
-
 	option = {
 		name = incident_hohenstaufer_inheritance.2.a
 		ai_chance = {
@@ -91,6 +81,10 @@ country_event = {
 				add_stability_or_adm_power = yes
 				add_legitimacy = 20
 			}
+		}
+		reverse_add_opinion = {
+			who = WWS
+			modifier = opinion_legitimazed_ruler
 		}
 		hidden_effect = {
 			WWS = {
@@ -126,6 +120,10 @@ country_event = {
 				months = 300
 			}
 		}
+		reverse_add_opinion = {
+			who = WWS
+			modifier = opinion_claimed_our_duchy
+		}
 		hidden_effect = {
 			WWS = {
 				set_country_flag = imperial_ruler
@@ -140,6 +138,7 @@ country_event = {
 		ai_chance = {
 			factor = 50
 		}
+		add_imperial_influence = 10
 		if = {
 			limit = {
 				GMU = {
@@ -165,6 +164,10 @@ country_event = {
 					dynasty = "von Hohenstaufen"
 				}
 			}
+		}
+		reverse_add_opinion = {
+			who = WWS
+			modifier = opinion_hohenstaufer_relations
 		}
 		hidden_effect = {
 			WWS = {
@@ -199,8 +202,22 @@ country_event = {
 		}
 		desc = incident_hohenstaufer_inheritance.3.d3
 	}
-	picture = GOOD_WITH_MONARCH_eventPicture
-	
+	picture = {
+		trigger = {
+			OR = {
+				has_country_flag = dynastic_ruler
+				has_country_flag = hohenstaufer_ruler
+			}
+		}
+		picture = GOOD_WITH_MONARCH_eventPicture
+	}
+	picture = {
+		trigger = {
+			has_country_flag = imperial_ruler
+		}
+		picture = BAD_WITH_MONARCH_eventPicture
+	}
+
 	is_triggered_only = yes
 
 	option = {
@@ -208,6 +225,12 @@ country_event = {
 		trigger = { has_country_flag = dynastic_ruler }
 		add_stability_or_adm_power = yes
 		add_legitimacy = 20
+		tooltip = {
+			add_opinion = {
+				who = FROM
+				modifier = opinion_legitimazed_ruler
+			}
+		}
 		clr_country_flag = dynastic_ruler
 	}
 	option = {
@@ -222,6 +245,12 @@ country_event = {
 			dynasty = emperor
 			culture = emperor
 			religion = emperor
+		}
+		tooltip = {
+			add_opinion = {
+				who = FROM
+				modifier = opinion_claimed_our_duchy
+			}
 		}
 		clr_country_flag = imperial_ruler
 	}
@@ -259,6 +288,12 @@ country_event = {
 			define_ruler = {
 				claim = 95
 				dynasty = "von Hohenstaufen"
+			}
+		}
+		tooltip = {
+			add_opinion = {
+				who = FROM
+				modifier = opinion_hohenstaufer_relations
 			}
 		}
 		clr_country_flag = hohenstaufer_ruler
