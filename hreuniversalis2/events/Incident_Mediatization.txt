@@ -258,7 +258,7 @@ country_event = {
 			set_country_flag = med_attacker 
 			declare_war_with_cb = {
 				who = event_target:med_demander
-				type = cb_insult
+				casus_belli = cb_insult
 			}
 		}
 		custom_tooltip = incident_mediatization.3.b.tt2
@@ -931,18 +931,28 @@ country_event = {
 	major = yes
 	
 	trigger = {
-		has_country_flag = med_attacker
+		ROOT = { has_country_flag = med_attacker }
 		FROM = { has_country_flag = med_demander_country }
+	}
+
+	immediate = {
+		hidden_effect = {
+			ROOT = { clr_country_flag = med_attacker }
+		}
 	}
 	
 	option = {	#Terrible! (Mediatization enforced)
 		name = incident_mediatization.7.a
 		ai_chance = { factor = 100 }
-		add_imperial_influence = -20
-		add_prestige = -10
+		ROOT = {
+			add_imperial_influence = -20
+			add_prestige = -10
+		}
+		FROM = {
+			add_prestige = 10
+		}
 		custom_tooltip = incident_mediatization.7.a.tt
 		hidden_effect = {
-			clr_country_flag = med_attacker
 			random_country = {
 				limit = {
 					is_part_of_hre = yes
@@ -989,17 +999,27 @@ country_event = {
 	major = yes
 	
 	trigger = {
-		has_country_flag = med_attacker
+		ROOT = { has_country_flag = med_attacker }
 		FROM = { has_country_flag = med_demander_country }
+	}
+
+	immediate = {
+		hidden_effect = {
+			ROOT = { clr_country_flag = med_attacker }
+		}
 	}
 	
 	option = {	#Great! (Mediatization stopped)
 		name = incident_mediatization.8.a
 		ai_chance = { factor = 100 }
-		add_imperial_influence = 20
-		add_prestige = 10
+		ROOT = {
+			add_imperial_influence = 20
+			add_prestige = 10
+		}
+		FROM = {
+			add_prestige = -10
+		}
 		custom_tooltip = incident_mediatization.8.a.tt
-		clr_country_flag = med_attacker
 	}
 }
 
