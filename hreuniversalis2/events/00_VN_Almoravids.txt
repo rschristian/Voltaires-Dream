@@ -23,6 +23,7 @@ country_event = {
         NOT = { is_year = 1080 }
 		tag = DAA
         dynasty = "al-Murâbit"
+        religion = sunni
         has_regency = no
         is_at_war = no
         NOT = { exists = TFL }
@@ -43,18 +44,6 @@ country_event = {
 			limit = { SOS = { ai = yes was_player = no } }
 			inherit = SOS
         }
-        declare_war_with_cb = {
-            casus_belli = cb_heretic
-            who = FEZ
-        }
-        declare_war_with_cb = {
-            casus_belli = cb_heretic
-            who = SLE
-        }
-		add_country_modifier = {
-			name = armed_jihad_m
-			duration = 9125
-		}
 		hidden_effect = {
 			set_government_rank = 5
 			change_government = monarchy
@@ -612,5 +601,84 @@ country_event = {
         every_owned_province = {
             add_claim = FROM
         }
+    }
+}
+
+#Make MOR attack its neighbors
+country_event = {
+    id = almoravids_events.10
+    title = "almoravids_events.10.t"
+    desc = "almoravids_events.10.d"
+    picture = SIEGE_eventPicture
+
+    trigger = {
+        normal_or_historical_nations = yes
+        current_age = age_of_empire
+        tag = MOR
+        dynasty = "al-Murâbit"
+        religion = sunni
+        has_regency = no
+        is_at_war = no
+        any_neighbor_country = {
+            religion_group = muslim
+            NOT = { religion = sunni }
+            capital_scope = {
+                continent = africa
+            }
+            NOT = { is_subject_of = ROOT }
+            NOT = { alliance_with = ROOT }
+            NOT = { truce_with = ROOT }
+            NOT = { guaranteed_by = ROOT }
+        }
+    }
+
+    mean_time_to_happen = {
+        months = 60
+    }
+
+    immediate = {
+        hidden_effect = {
+            random_neighbor_country = {
+                limit = {
+                    religion_group = muslim
+                    NOT = { religion = sunni }
+                    capital_scope = {
+                        continent = africa
+                    }
+                    NOT = { is_subject_of = ROOT }
+                    NOT = { alliance_with = ROOT }
+                    NOT = { truce_with = ROOT }
+                    NOT = { guaranteed_by = ROOT }
+                }
+                save_event_target_as = target_of_almoravids
+            }
+        }
+    }
+
+    option = {
+        name = "almoravids_events.10.a"
+        ai_chance = { factor = 75 }
+        add_prestige = 10
+        add_yearly_manpower = 1
+        random_neighbor_country = {
+            limit = {
+                religion_group = muslim
+                NOT = { religion = sunni }
+                capital_scope = {
+                    continent = africa
+                }
+            }
+            ROOT = {
+                declare_war_with_cb = {
+                    casus_belli = cb_heretic
+                    who = PREV
+                }
+            }
+        }
+    }
+    option = {
+        name = "almoravids_events.10.b"
+        ai_chance = { factor = 25 }
+        add_prestige = -5
     }
 }
