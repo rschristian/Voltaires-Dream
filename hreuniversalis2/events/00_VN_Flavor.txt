@@ -6057,3 +6057,268 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = hremodevents.121
+	title = "HREMT121"
+	desc = "HREMD121"
+	picture = HRE_eventPicture
+
+	major = yes
+	fire_only_once = yes
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = {
+			factor = 0.1
+			hre_reform_level = 1
+		}
+	}
+	
+	trigger = {
+		normal_or_historical_nations = yes
+		is_emperor = yes
+		NOT = { has_global_flag = italian_monarchy_allowed }
+		NOT = { started_in = 1122.9.23 }
+		OR = {
+			current_age = age_of_holy_wars
+			hre_reform_level = 1
+		}
+		any_province = {
+			any_core_country = { 
+				exists = no 
+				culture_group = latin
+				NOT = { has_country_flag = commune_released }
+			}
+			superregion = italy_superregion
+			is_capital = no
+			is_part_of_hre = yes
+			controlled_by = owner
+			owner = {
+				capital_scope = { superregion = italy_superregion }
+				is_emperor = no
+				is_part_of_hre = yes
+				is_subject = no
+				ai = yes
+			}
+		}
+	}
+	
+	immediate = {
+		hidden_effect = {
+			set_global_flag = italian_monarchy_allowed
+		}
+	}
+	
+	option = {
+		name = "HREMA121"
+		custom_tooltip = HREMA121TT
+		hidden_effect = {
+			if = {
+				limit = {
+					any_province = {
+						is_in_capital_area = no
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
+							is_subject = no
+							ai = yes
+						}
+					}
+				}
+				random_province = {
+					limit = {
+						is_in_capital_area = no
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
+							is_subject = no
+							ai = yes
+						}
+					}
+					save_event_target_as = italian_commune_province
+					owner = {
+						country_event = {
+							id = hremodevents.122
+							days = 10
+							random = 5
+						}
+					}
+				}
+			}
+			else = {
+				random_province = {
+					limit = {
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
+							is_subject = no
+							ai = yes
+						}
+					}
+					save_event_target_as = italian_commune_province
+					owner = {
+						country_event = {
+							id = hremodevents.122
+							days = 10
+							random = 5
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.122
+	title = "HREMT122"
+	desc = "HREMD122"
+	picture = CITY_VIEW_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "HREMA122"
+		hidden_effect = {
+			event_target:italian_commune_province = {
+				random_core_country = {
+					limit = {
+						exists = no
+						culture_group = latin
+						NOT = { has_country_flag = commune_released }
+					}
+					set_country_flag = commune_released
+					ROOT = { release = PREV }
+					every_owned_province = {
+						limit = { is_core = ROOT }
+						remove_core = ROOT
+					}
+					change_government = republic
+					add_government_reform = italian_monarchy
+					every_core_province = {
+						limit = {
+							NOT = { owned_by = PREV }
+							owner = { ai = yes }
+							is_capital = no
+						}
+						remove_core = owner
+						cede_province = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					any_province = {
+						is_in_capital_area = no
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
+							is_subject = no
+							ai = yes
+						}
+					}
+				}
+				random_province = {
+					limit = {
+						is_in_capital_area = no
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
+							is_subject = no
+							ai = yes
+						}
+					}
+					save_event_target_as = italian_commune_province
+					owner = {
+						country_event = {
+							id = hremodevents.122
+							days = 10
+							random = 5
+						}
+					}
+				}
+			}
+			else = {
+				random_province = {
+					limit = {
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
+							is_subject = no
+							ai = yes
+						}
+					}
+					save_event_target_as = italian_commune_province
+					owner = {
+						country_event = {
+							id = hremodevents.122
+							days = 10
+							random = 5
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -149,7 +149,50 @@ province_event = {
 
 	immediate = {
 		hidden_effect = {
-			owner = { highest_monarch_skill_effect = yes }
+			owner = { 
+				save_event_target_as = dispersed_owner
+				highest_monarch_skill_effect = yes 
+			}
+			random_neighbor_province = {
+				limit = {
+					owned_by = event_target:dispersed_owner
+					NOT = {
+						OR = {
+							has_province_flag = dev_dispersed_prov1
+							has_province_flag = dev_dispersed_prov2
+						}
+					}
+					NOT = { 
+						OR = {
+							has_province_modifier = dev_dispersed 
+							has_province_modifier = dev_concentrated
+							has_province_flag = vn_province_rose
+							has_province_flag = vn_province_rose_dispersed
+						}
+					}
+				}
+				set_province_flag = dev_dispersed_prov1
+			}
+			random_neighbor_province = {
+				limit = {
+					owned_by = event_target:dispersed_owner
+					NOT = {
+						OR = {
+							has_province_flag = dev_dispersed_prov1
+							has_province_flag = dev_dispersed_prov2
+						}
+					}
+					NOT = { 
+						OR = {
+							has_province_modifier = dev_dispersed 
+							has_province_modifier = dev_concentrated
+							has_province_flag = vn_province_rose
+							has_province_flag = vn_province_rose_dispersed
+						}
+					}
+				}
+				set_province_flag = dev_dispersed_prov2
+			}
 		}
 	}
 
@@ -261,17 +304,11 @@ province_event = {
 		custom_tooltip = vn_province_rose.tt
 		random_neighbor_province = {
 			limit = { 
-				owned_by = ROOT
-				NOT = { 
-					OR = {
-						has_province_modifier = dev_dispersed 
-						has_province_modifier = dev_concentrated
-						has_province_flag = vn_province_rose
-						has_province_flag = vn_province_rose_dispersed
-					}
-				}
+				owned_by = event_target:dispersed_owner
+				has_province_flag = dev_dispersed_prov1
 			}
 			set_province_flag = vn_province_rose_dispersed
+			clr_province_flag = dev_dispersed_prov1
 			random_list = {
 				33 = {
 					add_base_tax = 1
@@ -296,17 +333,11 @@ province_event = {
 		}
 		random_neighbor_province = {
 			limit = { 
-				owned_by = ROOT
-				NOT = { 
-					OR = {
-						has_province_modifier = dev_dispersed 
-						has_province_modifier = dev_concentrated
-						has_province_flag = vn_province_rose
-						has_province_flag = vn_province_rose_dispersed
-					}
-				}
+				owned_by = event_target:dispersed_owner
+				has_province_flag = dev_dispersed_prov2
 			}
 			set_province_flag = vn_province_rose_dispersed
+			clr_province_flag = dev_dispersed_prov2
 			random_list = {
 				33 = {
 					add_base_tax = 1
