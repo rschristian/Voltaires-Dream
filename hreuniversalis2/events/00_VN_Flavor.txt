@@ -5736,6 +5736,87 @@ country_event = {
 }
 
 country_event = {
+    id = hremodevents.105
+    title = "HREMT105"
+    desc = "HREMD105"
+	picture = HRE_eventPicture
+
+	fire_only_once = yes
+	major = yes
+
+	trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1354.1.1 }
+		has_global_flag = free_city_allowed
+		is_year = 1200
+		NOT = { is_year = 1400 }
+		capital_scope = {
+			region = alsace_region
+		}
+		has_reform = free_city
+		is_at_war = no
+		prestige = 1
+		calc_true_if = {
+			amount = 3
+			all_country = {
+				NOT = { tag = ROOT }
+				capital_scope = {
+					region = alsace_region
+				}
+				ai = yes
+				has_reform = free_city
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 300
+	}
+
+	option = {
+		name = "HREMA105"
+		add_prestige = 25
+		every_country = {
+			limit = {
+				NOT = { tag = ROOT }
+				capital_scope = {
+					region = alsace_region
+				}
+				ai = yes
+				has_reform = free_city
+			}
+			if = {
+				limit = { has_dlc = "Mare Nostrum" }
+				join_trade_league = ROOT
+			}
+			else = {
+				create_alliance = ROOT
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						OR = {
+							is_rival = ROOT
+							ROOT = { is_rival = THIS }
+						}
+					}
+					remove_rival = ROOT
+					ROOT = { remove_rival = THIS }
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = decapolis_opinion
+			}
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = decapolis_opinion
+			}
+		}
+	}
+}
+
+country_event = {
 	id = hremodevents.111
 	title = "HREMT111"
 	desc = "HREMD111"
