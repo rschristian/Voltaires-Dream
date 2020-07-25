@@ -93,7 +93,17 @@ country_event = {
 			}
 		}
 		custom_tooltip = incident_wendish_crusade.2.tt2
-		set_global_flag = wendish_conversation_active
+		hidden_effect = {
+			every_country = {
+				limit = {
+					OR = {
+						primary_culture = polabian
+						primary_culture = kashubian
+					}
+					religion_group = pagan
+				}
+			}
+		}
 	}
 	option = {
 		name = incident_wendish_crusade.2.c
@@ -108,33 +118,16 @@ country_event = {
 country_event = {
 	id = incident_wendish_crusade.3
 	title = incident_wendish_crusade.3.t
-	desc = {
-		trigger = {
-			has_country_flag = wendish_crusade_active
-		}
-		desc = incident_wendish_crusade.3.d
-	}
-	desc = {
-		trigger = {
-			has_country_flag = wendish_conversation_active
-		}
-		desc = incident_wendish_crusade.3.d2
-	}
+	desc = incident_wendish_crusade.3.d
 	picture = HRE_eventPicture
 
 	major = yes
 
 	trigger = {
 		is_emperor = yes
-		OR = {
-			had_global_flag = {
-				flag = wendish_crusade_active
-				days = 18250
-			}
-			had_global_flag = {
-				flag = wendish_conversation_active
-				days = 18250
-			}
+		had_global_flag = {
+			flag = wendish_crusade_active
+			days = 18250
 		}
 	}
 
@@ -146,5 +139,72 @@ country_event = {
 		name = incident_wendish_crusade.3.a
 		clr_global_flag = wendish_crusade_active
 		clr_global_flag = wendish_conversation_active
+	}
+}
+
+# let wends adopt christianity
+country_event = {
+	id = incident_wendish_crusade.4
+	title = incident_wendish_crusade.4.t
+	desc = incident_wendish_crusade.4.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = incident_wendish_crusade.4.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				has_opinion = {
+					who = emperor
+					value = 100
+				}
+			}
+		}
+		change_religion = catholic
+		add_years_of_income = 1
+		add_country_modifier = {
+			name = slavic_christianization
+			duration = 5475
+		}
+		reverse_add_opinion = {
+			who = emperor
+			modifier = opinion_adopted_christianity
+		}
+		every_neighbor_country = {
+			limit = {
+				religion = catholic
+				is_part_of_hre = yes
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_adopted_christianity
+			}
+		}
+	}
+	option = {
+		name = incident_wendish_crusade.4.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				any_enemy_country = {
+					religion = catholic
+					is_part_of_hre = yes
+				}
+			}
+		}
+		add_prestige = 10
+		every_neighbor_country = {
+			limit = {
+				religion = ROOT
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_kept_slavic_faith
+			}
+		}
 	}
 }
