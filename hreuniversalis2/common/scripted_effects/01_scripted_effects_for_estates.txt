@@ -125,6 +125,28 @@ each_estate_effect = {
 			$jains_effect$
 		]
 	}
+	if = {
+		limit = {
+			has_estate = estate_holy_orders
+		}
+		[[effect]
+			$effect$
+		]
+		[[holy_orders_effect]
+			$holy_orders_effect$
+		]
+	}
+	if = {
+		limit = {
+			has_estate = estate_mamluks
+		}
+		[[effect]
+			$effect$
+		]
+		[[mamluks_effect]
+			$mamluks_effect$
+		]
+	}
 }
 
 #Clergy
@@ -613,6 +635,18 @@ on_province_owner_change_estate_privileges_effect = {
 	if = {
 		limit = {
 			owner = {
+				has_estate_privilege = estate_mamluks_guaranteed_autonomy
+			}
+			NOT = { culture_group = prev }
+		}
+		add_province_modifier = {
+			name = estate_mamluks_guaranteed_autonomy_mod
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			owner = {
 				has_estate_privilege = estate_dhimmi_lighter_dhimmi_taxes
 			}
 			NOT = { religion_group = muslim }
@@ -886,7 +920,19 @@ on_province_owner_change_estate_privileges_effect = {
 	if = {
 		limit = {
 			owner = {
-				has_estate_privilege = estate_church_monopoly_of_slaves
+				has_estate_privilege = estate_holy_orders_monopoly_of_beer
+			}
+			trade_goods = beer
+		}
+		add_province_modifier = {
+			name = estate_holy_orders_monopoly_of_beer_mod
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			owner = {
+				has_estate_privilege = estate_mamluks_monopoly_of_slaves
 			}
 			trade_goods = slaves
 		}
@@ -1284,6 +1330,21 @@ on_trade_good_changed_estate_privileges_effect = {
 	}
 	if = {
 		limit = {
+			has_province_modifier = estate_holy_orders_monopoly_of_beer_mod
+			NOT = { trade_goods = beer }
+		}
+		remove_province_modifier = estate_holy_orders_monopoly_of_beer_mod
+	}
+	else_if = {
+		limit = {
+			from = { has_estate_privilege = estate_holy_orders_monopoly_of_beer }
+			NOT = { has_province_modifier = estate_holy_orders_monopoly_of_beer_mod }
+			trade_goods = beer
+		}
+		remove_province_modifier = estate_holy_orders_monopoly_of_beer_mod
+	}
+	if = {
+		limit = {
 			has_province_modifier = estate_church_monopoly_of_slaves_mod
 			NOT = { trade_goods = slaves }
 		}
@@ -1291,7 +1352,7 @@ on_trade_good_changed_estate_privileges_effect = {
 	}
 	else_if = {
 		limit = {
-			from = { has_estate_privilege = estate_church_monopoly_of_slaves }
+			from = { has_estate_privilege = estate_mamluks_monopoly_of_slaves }
 			NOT = { has_province_modifier = estate_church_monopoly_of_slaves_mod }
 			trade_goods = slaves
 		}
@@ -1963,6 +2024,44 @@ spawn_rebels_from_unhappy_estate = {
 				as_if_faction = yes
 			}
 		}
+		1 = {
+			trigger = {
+				owner = {
+					has_estate = estate_holy_orders
+					NOT = {
+						estate_loyalty = {
+							estate = estate_holy_orders
+							loyalty = 30
+						}
+					}
+				}
+			}
+			spawn_rebels = {
+				type = particularist_rebels
+				size = $size$
+				estate = estate_holy_orders
+				as_if_faction = yes
+			}
+		}
+		1 = {
+			trigger = {
+				owner = {
+					has_estate = estate_mamluks
+					NOT = {
+						estate_loyalty = {
+							estate = estate_mamluks
+							loyalty = 30
+						}
+					}
+				}
+			}
+			spawn_rebels = {
+				type = particularist_rebels
+				size = $size$
+				estate = estate_mamluks
+				as_if_faction = yes
+			}
+		}
 	}
 }
 
@@ -2076,6 +2175,26 @@ pick_random_estate_if_present = {
 			set_country_flag = estate_rajput_$flag$
 			[[estate_action]
 			$estate_action$ = estate_rajput
+			]
+		}
+		1 = { 
+			trigger = {
+				has_estate = estate_mamluks
+				NOT = { has_country_flag = estate_mamluks_$flag$ }
+			}
+			set_country_flag = estate_mamluks_$flag$
+			[[estate_action]
+			$estate_action$ = estate_mamluks
+			]
+		}
+		1 = { 
+			trigger = {
+				has_estate = estate_holy_orders
+				NOT = { has_country_flag = estate_holy_orders_$flag$ }
+			}
+			set_country_flag = estate_holy_orders_$flag$
+			[[estate_action]
+			$estate_action$ = estate_holy_orders
 			]
 		}
 	}

@@ -792,6 +792,173 @@ estate_church_restore_the_holy_see = {
     }
 }
 
+#Improve Relations with Pope
+estate_church_relations_with_pope_2 = {
+	can_select = {
+		religion = catholique
+		NOT = { tag = AVI }
+		exists = AVI
+		NOT = { war_with = AVI }
+		is_excommunicated = no
+		is_papal_controller = no
+		AVI = {
+			has_opinion = { who = ROOT value = -50 }
+			NOT = { has_opinion = { who = ROOT value = 50 } }
+		}
+		NOT = { has_country_modifier = solidified_papal_relations_modifier }
+	}
+	selection_weight = {
+		factor = 2.5
+	}
+	fail_if = {
+		OR = {
+			tag = AVI
+			NOT = { exists = AVI }
+			war_with = AVI
+			is_excommunicated = yes
+		}
+	}
+	invalid_trigger = {
+		OR = {
+			NOT = { has_estate = estate_church }
+			NOT = { religion = catholique }
+		}
+	}
+	provinces_to_highlight = {
+		is_capital_of = AVI
+	}
+	task_requirements = {
+		AVI = { has_opinion = { who = ROOT value = 100 } }
+	}
+	task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = 10
+		}
+		add_country_modifier = {
+			name = solidified_papal_relations_modifier
+			duration = 5475
+		}
+	}
+    failing_effect = {
+        add_estate_loyalty_modifier = {
+            estate = estate_church
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+        }
+    }
+}
+
+#Restore the Pope
+estate_church_restore_the_holy_see_2 = {
+	can_select = {
+		religion = catholique
+		normal_or_historical_nations = yes
+		NOT = { has_country_modifier = restored_holy_see_mission }
+		monthly_income = 30
+		NOT = { owns_or_non_sovereign_subject_of = 202 }
+		NOT = { 202 = { owned_by = AVI } }
+		202 = {
+			range = ROOT
+		}
+		is_excommunicated = no
+		capital_scope = {
+			continent = europe
+		}
+		NOT = { war_with = AVI }
+		AVI = { is_subject = no }
+	}
+	selection_weight = {
+		factor = 3
+		modifier = {
+			factor = 2
+			is_defender_of_faith = yes
+		}
+	}
+	fail_if = {
+		OR = {
+			AVI = { is_subject = yes }
+			war_with = AVI
+			is_excommunicated = yes
+		}
+	}
+	immediate_effect = {
+		if = {
+			limit = {
+				NOT = { is_claim = 202 }
+			}
+			add_claim = 202
+		}
+	}
+	invalid_trigger = {
+		OR = {
+			NOT = { has_estate = estate_church }
+			NOT = { religion = catholique }
+		}
+	}
+	on_invalid = {
+		if = {
+			limit = {
+				is_claim = 202
+				NOT = { is_permanent_claim = 202 }
+			}
+			remove_claim = 202
+		}
+	}
+	provinces_to_highlight = {
+		province_id = 202
+	}
+	task_requirements = {
+		OR = {
+			owns = 202
+			AND = {
+				alliance_with = AVI
+				AVI = { owns = 202 }
+			}
+		}
+	}
+	task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = 10
+		}
+		if = {
+			limit = {
+				owns = 202
+			}
+			202 = { cede_province = AVI }
+		}
+		add_country_modifier = {
+			name = restored_holy_see_mission
+			duration = 5475
+		}
+		reverse_add_opinion = { who = AVI modifier = opinion_restored_holy_see }
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = { is_permanent_claim = 202 }
+				}
+				remove_claim = 202
+			}
+		}
+	}
+    failing_effect = {
+        add_estate_loyalty_modifier = {
+            estate = estate_church
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+        }
+		if = {
+			limit = {
+				is_claim = 202
+				NOT = { is_permanent_claim = 202 }
+			}
+			remove_claim = 202
+		}
+    }
+}
 
 #Crush Revolts (heretics)
 estate_church_crush_religious_revolts = {

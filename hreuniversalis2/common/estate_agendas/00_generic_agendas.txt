@@ -1,5 +1,219 @@
 
 #Triggers: any province has the basic conditions, country has adm tech 4
+estate_holy_orders_build_hospital_in_y = {
+	can_select = {
+		adm_tech = 8
+		any_owned_province = {
+			is_state_core = root
+			NOT = { has_building = arsenal }
+			OR = {
+				AND = {
+					NOT = { has_building = customs_house }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 21 }
+					has_building = customs_house
+				}
+			}
+		}
+	}
+	selection_weight = {
+		factor = 1
+		modifier = {
+			factor = 0.65
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					base_tax = 4
+					NOT = { has_building = arsenal }
+					OR = {
+						AND = {
+							NOT = { has_building = customs_house }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 21 }
+							has_building = customs_house
+						}
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			any_owned_province = {
+				is_state_core = root
+				base_tax = 7
+				NOT = { has_building = arsenal }
+				OR = {
+					AND = {
+						NOT = { has_building = customs_house }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 21 }
+						has_building = customs_house
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = {
+				crown_land_share = 15
+			}
+		}
+	}
+	pre_effect = {
+		set_variable = {
+			which = estate_holy_orders_build_customs_house_in_y_var
+			value = 0
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = arsenal }
+				OR = {
+					AND = {
+						NOT = { has_building = customs_house }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 21 }
+						has_building = customs_house
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				base_tax = 4
+				NOT = { has_building = arsenal }
+				OR = {
+					AND = {
+						NOT = { has_building = customs_house }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 21 }
+						has_building = customs_house
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				base_tax = 7
+				NOT = { has_building = arsenal }
+				OR = {
+					AND = {
+						NOT = { has_building = customs_house }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 21 }
+						has_building = customs_house
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					NOT = { has_building = customs_house }
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_holy_orders_build_customs_house_in_y_var
+						value = 1
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_holy_orders_build_customs_house_in_y_var
+						value = 2
+					}
+				}
+			}
+		}
+	}
+	provinces_to_highlight = {
+		province_id = event_target:agenda_province
+	}
+	fail_if = {
+		event_target:agenda_province = {
+			NOT = { owned_by = root }
+		}
+	}
+    task_requirements = {
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_holy_orders_build_customs_house_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = arsenal
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = customs_house
+					has_building = arsenal
+				}
+			}
+		}
+    }
+    task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_holy_orders
+			loyalty = 10
+		}
+		if = {
+			limit = {
+				NOT = { crown_land_share = 15 }
+				estate_territory = {
+					estate = estate_holy_orders
+					territory = 10
+				}
+			}
+			take_estate_land_share_small = { estate = estate_holy_orders }
+		}
+		else = {
+			event_target:agenda_province = {
+				add_base_tax = 1
+			}
+		}
+    }
+    failing_effect = {
+		event_target:agenda_province = {
+			if = {
+				limit = { owned_by = root }
+				add_named_unrest = {
+					name = local_holy_orders_displeased
+					value = 5
+				}
+			}
+		}
+		add_estate_loyalty_modifier = {
+			estate = estate_holy_orders
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+		}
+    }
+}
+
 estate_church_build_temple_in_y = {
 	can_select = {
 		adm_tech = 36
@@ -214,6 +428,433 @@ estate_church_build_temple_in_y = {
     }
 }
 
+estate_mamluks_build_temple_in_y = {
+	can_select = {
+		adm_tech = 36
+		any_owned_province = {
+			is_state_core = root
+			NOT = { has_building = cathedral }
+			OR = {
+				AND = {
+					NOT = { has_building = temple }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 54 }
+					has_building = temple
+				}
+			}
+		}
+	}
+	selection_weight = {
+		factor = 1
+		modifier = {
+			factor = 0.65
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					base_tax = 4
+					NOT = { has_building = cathedral }
+					OR = {
+						AND = {
+							NOT = { has_building = temple }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 54 }
+							has_building = temple
+						}
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			any_owned_province = {
+				is_state_core = root
+				base_tax = 7
+				NOT = { has_building = cathedral }
+				OR = {
+					AND = {
+						NOT = { has_building = temple }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 54 }
+						has_building = temple
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = {
+				crown_land_share = 15
+			}
+		}
+	}
+	pre_effect = {
+		set_variable = {
+			which = estate_mamluks_build_temple_in_y_var
+			value = 0
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = cathedral }
+				OR = {
+					AND = {
+						NOT = { has_building = temple }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 54 }
+						has_building = temple
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				base_tax = 4
+				NOT = { has_building = cathedral }
+				OR = {
+					AND = {
+						NOT = { has_building = temple }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 54 }
+						has_building = temple
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				base_tax = 7
+				NOT = { has_building = cathedral }
+				OR = {
+					AND = {
+						NOT = { has_building = temple }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 54 }
+						has_building = temple
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					NOT = { has_building = temple }
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_mamluks_build_temple_in_y_var
+						value = 1
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_mamluks_build_temple_in_y_var
+						value = 2
+					}
+				}
+			}
+		}
+	}
+	provinces_to_highlight = {
+		province_id = event_target:agenda_province
+	}
+	fail_if = {
+		event_target:agenda_province = {
+			NOT = { owned_by = root }
+		}
+	}
+    task_requirements = {
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_mamluks_build_temple_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = cathedral
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+		}
+    }
+    task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_mamluks
+			loyalty = 10
+		}
+		if = {
+			limit = {
+				NOT = { crown_land_share = 15 }
+				estate_territory = {
+					estate = estate_mamluks
+					territory = 10
+				}
+			}
+			take_estate_land_share_small = { estate = estate_mamluks }
+		}
+		else = {
+			event_target:agenda_province = {
+				add_base_tax = 1
+			}
+		}
+    }
+    failing_effect = {
+		event_target:agenda_province = {
+			if = {
+				limit = { owned_by = root }
+				add_named_unrest = {
+					name = local_mamluks_displeased
+					value = 5
+				}
+			}
+		}
+		add_estate_loyalty_modifier = {
+			estate = estate_mamluks
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+		}
+    }
+}
+
+estate_holy_orders_build_temple_in_y = {
+	can_select = {
+		adm_tech = 36
+		any_owned_province = {
+			is_state_core = root
+			NOT = { has_building = cathedral }
+			OR = {
+				AND = {
+					NOT = { has_building = temple }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 54 }
+					has_building = temple
+				}
+			}
+		}
+	}
+	selection_weight = {
+		factor = 1
+		modifier = {
+			factor = 0.65
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					base_tax = 4
+					NOT = { has_building = cathedral }
+					OR = {
+						AND = {
+							NOT = { has_building = temple }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 54 }
+							has_building = temple
+						}
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			any_owned_province = {
+				is_state_core = root
+				base_tax = 7
+				NOT = { has_building = cathedral }
+				OR = {
+					AND = {
+						NOT = { has_building = temple }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 54 }
+						has_building = temple
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = {
+				crown_land_share = 15
+			}
+		}
+	}
+	pre_effect = {
+		set_variable = {
+			which = estate_holy_orders_build_temple_in_y_var
+			value = 0
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = cathedral }
+				OR = {
+					AND = {
+						NOT = { has_building = temple }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 54 }
+						has_building = temple
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				base_tax = 4
+				NOT = { has_building = cathedral }
+				OR = {
+					AND = {
+						NOT = { has_building = temple }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 54 }
+						has_building = temple
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				base_tax = 7
+				NOT = { has_building = cathedral }
+				OR = {
+					AND = {
+						NOT = { has_building = temple }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 54 }
+						has_building = temple
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					NOT = { has_building = temple }
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_holy_orders_build_temple_in_y_var
+						value = 1
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_holy_orders_build_temple_in_y_var
+						value = 2
+					}
+				}
+			}
+		}
+	}
+	provinces_to_highlight = {
+		province_id = event_target:agenda_province
+	}
+	fail_if = {
+		event_target:agenda_province = {
+			NOT = { owned_by = root }
+		}
+	}
+    task_requirements = {
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_holy_orders_build_temple_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = cathedral
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+		}
+    }
+    task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_holy_orders
+			loyalty = 10
+		}
+		if = {
+			limit = {
+				NOT = { crown_land_share = 15 }
+				estate_territory = {
+					estate = estate_holy_orders
+					territory = 10
+				}
+			}
+			take_estate_land_share_small = { estate = estate_holy_orders }
+		}
+		else = {
+			event_target:agenda_province = {
+				add_base_tax = 1
+			}
+		}
+    }
+    failing_effect = {
+		event_target:agenda_province = {
+			if = {
+				limit = { owned_by = root }
+				add_named_unrest = {
+					name = local_holy_orders_displeased
+					value = 5
+				}
+			}
+		}
+		add_estate_loyalty_modifier = {
+			estate = estate_holy_orders
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+		}
+    }
+}
 
 estate_brahmins_build_temple_in_y = {
 	can_select = {
@@ -4279,12 +4920,17 @@ estate_burghers_build_port_building_in_y = {
 
 estate_burghers_build_production_building_in_y = {
 	can_select = {
-		adm_tech = 38
+		adm_tech = 1
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = counting_house }
 			OR = {
 				AND = {
+					NOT = { has_building = artisan }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 38 }
 					NOT = { has_building = workshop }
 					num_free_building_slots = 1
 				}
@@ -4310,6 +4956,11 @@ estate_burghers_build_production_building_in_y = {
 					NOT = { has_building = counting_house }
 					OR = {
 						AND = {
+							NOT = { has_building = artisan }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 38 }
 							NOT = { has_building = workshop }
 							num_free_building_slots = 1
 						}
@@ -4343,6 +4994,11 @@ estate_burghers_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -4375,6 +5031,11 @@ estate_burghers_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -4397,6 +5058,11 @@ estate_burghers_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -4429,6 +5095,11 @@ estate_burghers_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -4491,6 +5162,7 @@ estate_burghers_build_production_building_in_y = {
 				OR = {
 					has_building = workshop
 					has_building = counting_house
+					has_building = artisan
 				}
 			}
 		}
@@ -5183,12 +5855,17 @@ estate_vaisyas_build_port_building_in_y = {
 
 estate_vaisyas_build_production_building_in_y = {
 	can_select = {
-		adm_tech = 38
+		adm_tech = 1
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = counting_house }
 			OR = {
 				AND = {
+					NOT = { has_building = artisan }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 38 }
 					NOT = { has_building = workshop }
 					num_free_building_slots = 1
 				}
@@ -5214,6 +5891,11 @@ estate_vaisyas_build_production_building_in_y = {
 					NOT = { has_building = counting_house }
 					OR = {
 						AND = {
+							NOT = { has_building = artisan }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 38 }
 							NOT = { has_building = workshop }
 							num_free_building_slots = 1
 						}
@@ -5247,6 +5929,11 @@ estate_vaisyas_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -5279,6 +5966,11 @@ estate_vaisyas_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -5301,6 +5993,11 @@ estate_vaisyas_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -5333,6 +6030,11 @@ estate_vaisyas_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -5395,6 +6097,7 @@ estate_vaisyas_build_production_building_in_y = {
 				OR = {
 					has_building = workshop
 					has_building = counting_house
+					has_building = artisan
 				}
 			}
 		}
@@ -6086,12 +6789,17 @@ estate_jains_build_port_building_in_y = {
 
 estate_jains_build_production_building_in_y = {
 	can_select = {
-		adm_tech = 6
+		adm_tech = 1
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = counting_house }
 			OR = {
 				AND = {
+					NOT = { has_building = artisan }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 38 }
 					NOT = { has_building = workshop }
 					num_free_building_slots = 1
 				}
@@ -6117,6 +6825,11 @@ estate_jains_build_production_building_in_y = {
 					NOT = { has_building = counting_house }
 					OR = {
 						AND = {
+							NOT = { has_building = artisan }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 38 }
 							NOT = { has_building = workshop }
 							num_free_building_slots = 1
 						}
@@ -6150,6 +6863,11 @@ estate_jains_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -6182,6 +6900,11 @@ estate_jains_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -6204,6 +6927,11 @@ estate_jains_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -6236,6 +6964,11 @@ estate_jains_build_production_building_in_y = {
 				NOT = { has_building = counting_house }
 				OR = {
 					AND = {
+						NOT = { has_building = artisan }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 38 }
 						NOT = { has_building = workshop }
 						num_free_building_slots = 1
 					}
@@ -6298,6 +7031,7 @@ estate_jains_build_production_building_in_y = {
 				OR = {
 					has_building = workshop
 					has_building = counting_house
+					has_building = artisan
 				}
 			}
 		}
@@ -8055,10 +8789,23 @@ estate_brahmins_build_manufactory_in_y = {
 estate_church_build_university_in_y = {
 	can_select = {
 		government = theocracy
-		adm_tech = 52
+		adm_tech = 23
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -8073,16 +8820,44 @@ estate_church_build_university_in_y = {
 				any_owned_province = {
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -8092,10 +8867,27 @@ estate_church_build_university_in_y = {
 		}
 	}
 	pre_effect = {
+		set_variable = {
+			which = estate_church_build_university_in_y_var
+			value = 0
+		}
 		random_owned_province = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
@@ -8104,6 +8896,19 @@ estate_church_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
@@ -8112,6 +8917,19 @@ estate_church_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -8120,9 +8938,43 @@ estate_church_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				is_capital = yes
 			}
 			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_church_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_church_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	provinces_to_highlight = {
@@ -8134,8 +8986,24 @@ estate_church_build_university_in_y = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			has_building = university
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_church_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
 		}
     }
     task_completed_effect = {
@@ -8169,10 +9037,23 @@ estate_church_build_university_in_y = {
 estate_brahmins_build_university_in_y = {
 	can_select = {
 		government = theocracy
-		adm_tech = 52
+		adm_tech = 23
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -8187,16 +9068,44 @@ estate_brahmins_build_university_in_y = {
 				any_owned_province = {
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -8206,10 +9115,27 @@ estate_brahmins_build_university_in_y = {
 		}
 	}
 	pre_effect = {
+		set_variable = {
+			which = estate_brahmins_build_university_in_y_var
+			value = 0
+		}
 		random_owned_province = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
@@ -8218,6 +9144,19 @@ estate_brahmins_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
@@ -8226,6 +9165,19 @@ estate_brahmins_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -8234,9 +9186,43 @@ estate_brahmins_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				is_capital = yes
 			}
 			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_brahmins_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_brahmins_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	provinces_to_highlight = {
@@ -8248,8 +9234,24 @@ estate_brahmins_build_university_in_y = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			has_building = university
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_brahmins_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
 		}
     }
     task_completed_effect = {
@@ -8280,14 +9282,26 @@ estate_brahmins_build_university_in_y = {
     }
 }
 
-
 estate_nobles_build_university_in_y = {
 	can_select = {
 		government = monarchy
-		adm_tech = 52
+		adm_tech = 23
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -8302,16 +9316,44 @@ estate_nobles_build_university_in_y = {
 				any_owned_province = {
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -8321,10 +9363,27 @@ estate_nobles_build_university_in_y = {
 		}
 	}
 	pre_effect = {
+		set_variable = {
+			which = estate_nobles_build_university_in_y_var
+			value = 0
+		}
 		random_owned_province = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
@@ -8333,6 +9392,19 @@ estate_nobles_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
@@ -8341,6 +9413,19 @@ estate_nobles_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -8349,9 +9434,43 @@ estate_nobles_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				is_capital = yes
 			}
 			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_nobles_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_nobles_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	provinces_to_highlight = {
@@ -8363,8 +9482,24 @@ estate_nobles_build_university_in_y = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			has_building = university
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_nobles_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
 		}
     }
     task_completed_effect = {
@@ -8398,10 +9533,23 @@ estate_nobles_build_university_in_y = {
 estate_maratha_build_university_in_y = {
 	can_select = {
 		government = monarchy
-		adm_tech = 52
+		adm_tech = 23
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -8416,16 +9564,44 @@ estate_maratha_build_university_in_y = {
 				any_owned_province = {
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -8435,10 +9611,27 @@ estate_maratha_build_university_in_y = {
 		}
 	}
 	pre_effect = {
+		set_variable = {
+			which = estate_maratha_build_university_in_y_var
+			value = 0
+		}
 		random_owned_province = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
@@ -8447,6 +9640,19 @@ estate_maratha_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
@@ -8455,6 +9661,19 @@ estate_maratha_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -8463,9 +9682,43 @@ estate_maratha_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				is_capital = yes
 			}
 			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_maratha_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_maratha_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	provinces_to_highlight = {
@@ -8477,8 +9730,24 @@ estate_maratha_build_university_in_y = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			has_building = university
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_maratha_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
 		}
     }
     task_completed_effect = {
@@ -8512,10 +9781,23 @@ estate_maratha_build_university_in_y = {
 estate_rajput_build_university_in_y = {
 	can_select = {
 		government = monarchy
-		adm_tech = 52
+		adm_tech = 23
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -8530,16 +9812,44 @@ estate_rajput_build_university_in_y = {
 				any_owned_province = {
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -8549,10 +9859,27 @@ estate_rajput_build_university_in_y = {
 		}
 	}
 	pre_effect = {
+		set_variable = {
+			which = estate_rajput_build_university_in_y_var
+			value = 0
+		}
 		random_owned_province = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
@@ -8561,6 +9888,19 @@ estate_rajput_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
@@ -8569,6 +9909,19 @@ estate_rajput_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -8577,9 +9930,43 @@ estate_rajput_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				is_capital = yes
 			}
 			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_rajput_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_rajput_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	provinces_to_highlight = {
@@ -8591,8 +9978,24 @@ estate_rajput_build_university_in_y = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			has_building = university
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_rajput_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
 		}
     }
     task_completed_effect = {
@@ -8626,10 +10029,23 @@ estate_rajput_build_university_in_y = {
 estate_burghers_build_university_in_y = {
 	can_select = {
 		government = republic
-		adm_tech = 52
+		adm_tech = 23
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -8644,16 +10060,44 @@ estate_burghers_build_university_in_y = {
 				any_owned_province = {
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -8663,10 +10107,27 @@ estate_burghers_build_university_in_y = {
 		}
 	}
 	pre_effect = {
+		set_variable = {
+			which = estate_burghers_build_university_in_y_var
+			value = 0
+		}
 		random_owned_province = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
@@ -8675,6 +10136,19 @@ estate_burghers_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
@@ -8683,6 +10157,19 @@ estate_burghers_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -8691,9 +10178,43 @@ estate_burghers_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				is_capital = yes
 			}
 			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_burghers_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_burghers_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	provinces_to_highlight = {
@@ -8705,8 +10226,24 @@ estate_burghers_build_university_in_y = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			has_building = university
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_burghers_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
 		}
     }
     task_completed_effect = {
@@ -8740,10 +10277,23 @@ estate_burghers_build_university_in_y = {
 estate_vaisyas_build_university_in_y = {
 	can_select = {
 		government = republic
-		adm_tech = 52
+		adm_tech = 23
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -8758,16 +10308,44 @@ estate_vaisyas_build_university_in_y = {
 				any_owned_province = {
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -8777,10 +10355,27 @@ estate_vaisyas_build_university_in_y = {
 		}
 	}
 	pre_effect = {
+		set_variable = {
+			which = estate_vaisyas_build_university_in_y_var
+			value = 0
+		}
 		random_owned_province = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
@@ -8789,6 +10384,19 @@ estate_vaisyas_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
@@ -8797,6 +10405,19 @@ estate_vaisyas_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -8805,9 +10426,43 @@ estate_vaisyas_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				is_capital = yes
 			}
 			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_vaisyas_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_vaisyas_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	provinces_to_highlight = {
@@ -8819,8 +10474,24 @@ estate_vaisyas_build_university_in_y = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			has_building = university
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_vaisyas_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
 		}
     }
     task_completed_effect = {
@@ -8854,10 +10525,23 @@ estate_vaisyas_build_university_in_y = {
 estate_jains_build_university_in_y = {
 	can_select = {
 		government = republic
-		adm_tech = 52
+		adm_tech = 23
 		any_owned_province = {
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -8872,16 +10556,44 @@ estate_jains_build_university_in_y = {
 				any_owned_province = {
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -8891,10 +10603,27 @@ estate_jains_build_university_in_y = {
 		}
 	}
 	pre_effect = {
+		set_variable = {
+			which = estate_jains_build_university_in_y_var
+			value = 0
+		}
 		random_owned_province = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
@@ -8903,6 +10632,19 @@ estate_jains_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
@@ -8911,6 +10653,19 @@ estate_jains_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -8919,9 +10674,43 @@ estate_jains_build_university_in_y = {
 			limit = {
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				is_capital = yes
 			}
 			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_jains_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_jains_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	provinces_to_highlight = {
@@ -8933,8 +10722,24 @@ estate_jains_build_university_in_y = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			has_building = university
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_jains_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
 		}
     }
     task_completed_effect = {
@@ -8965,8 +10770,501 @@ estate_jains_build_university_in_y = {
     }
 }
 
+estate_mamluks_build_university_in_y = {
+	can_select = {
+		government = monarchy
+		adm_tech = 23
+		any_owned_province = {
+			is_state_core = root
+			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
+			OR = {
+				development = 10
+				is_capital = yes
+			}
+		}
+	}
+	selection_weight = {
+		factor = 1
+		modifier = {
+			factor = 0.75
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 15
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
+			}
+		}
+		modifier = {
+			factor = 2
+			is_institution_enabled = enlightenment
+			NOT = { has_institution = enlightenment }
+		}
+	}
+	pre_effect = {
+		set_variable = {
+			which = estate_mamluks_build_university_in_y_var
+			value = 0
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
+				development = 10
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
+				development = 15
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
+				development = 20
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
+				is_capital = yes
+			}
+			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_mamluks_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_mamluks_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
+		}
+	}
+	provinces_to_highlight = {
+		province_id = event_target:agenda_province
+	}
+	fail_if = {
+		event_target:agenda_province = {
+			NOT = { owned_by = root }
+		}
+	}
+    task_requirements = {
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_mamluks_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
+		}
+    }
+    task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_mamluks
+			loyalty = 10
+		}
+		add_adm_power = 35
+		add_dip_power = 35
+		add_mil_power = 35
+    }
+    failing_effect = {
+		event_target:agenda_province = {
+			if = {
+				limit = { owned_by = root }
+				add_named_unrest = {
+					name = local_mamluks_displeased
+					value = 5
+				}
+			}
+		}
+        add_estate_loyalty_modifier = {
+            estate = estate_mamluks
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+        }
+    }
+}
 
-
+estate_holy_orders_build_university_in_y = {
+	can_select = {
+		government = monarchy
+		adm_tech = 23
+		any_owned_province = {
+			is_state_core = root
+			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 60 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
+			OR = {
+				development = 10
+				is_capital = yes
+			}
+		}
+	}
+	selection_weight = {
+		factor = 1
+		modifier = {
+			factor = 0.75
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 15
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 60 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
+			}
+		}
+		modifier = {
+			factor = 2
+			is_institution_enabled = enlightenment
+			NOT = { has_institution = enlightenment }
+		}
+	}
+	pre_effect = {
+		set_variable = {
+			which = estate_holy_orders_build_university_in_y_var
+			value = 0
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
+				development = 10
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
+				development = 15
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
+				development = 20
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 60 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
+				is_capital = yes
+			}
+			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = college
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_holy_orders_build_university_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_holy_orders_build_university_in_y_var
+						value = 1
+					}
+				}
+			}
+		}
+	}
+	provinces_to_highlight = {
+		province_id = event_target:agenda_province
+	}
+	fail_if = {
+		event_target:agenda_province = {
+			NOT = { owned_by = root }
+		}
+	}
+    task_requirements = {
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_holy_orders_build_university_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = university
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = college
+					has_building = university
+				}
+			}
+		}
+    }
+    task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_holy_orders
+			loyalty = 10
+		}
+		add_adm_power = 35
+		add_dip_power = 35
+		add_mil_power = 35
+    }
+    failing_effect = {
+		event_target:agenda_province = {
+			if = {
+				limit = { owned_by = root }
+				add_named_unrest = {
+					name = local_holy_orders_displeased
+					value = 5
+				}
+			}
+		}
+        add_estate_loyalty_modifier = {
+            estate = estate_holy_orders
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+        }
+    }
+}
 
 #### Develop the province
 
@@ -10545,3 +12843,648 @@ estate_cossacks_develop_x = {
     }
 }
 
+estate_mamluks_develop_x = {
+	selection_weight = {
+		factor = 1
+	}
+	can_select = {
+		any_owned_province = {
+			is_state_core = root
+		}
+	}
+	pre_effect = {
+		set_variable = {
+			which = develop_x_category
+			value = 0
+		}
+		random_list = {
+			2 = { #Mil is weighted higher
+				set_variable = {
+					which = develop_x_category
+					value = 3
+				}
+			}
+			1 = { #dip
+				set_variable = {
+					which = develop_x_category
+					value = 2
+				}
+			}
+			1 = { #adm
+				set_variable = {
+					which = develop_x_category
+					value = 1
+				}
+			}
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { culture_group = root }
+			}
+			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					root = {
+						check_variable = {
+							which = develop_x_category
+							value = 3
+						}
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = province_mil_var
+							value = 1
+						}
+					}
+					set_variable = {
+						which = province_mil_var
+						value = 0
+					}
+				}
+				export_to_variable = {
+					which = province_mil_var
+					value = trigger_value:base_manpower
+				}
+				change_variable = {
+					which = province_mil_var
+					value = 2
+				}
+			}
+			else_if = {
+				limit = {
+					root = {
+						check_variable = {
+							which = develop_x_category
+							value = 2
+						}
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = province_dip_var
+							value = 1
+						}
+					}
+					set_variable = {
+						which = province_dip_var
+						value = 0
+					}
+				}
+				export_to_variable = {
+					which = province_dip_var
+					value = trigger_value:base_production
+				}
+				change_variable = {
+					which = province_dip_var
+					value = 2
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						check_variable = {
+							which = province_adm_var
+							value = 1
+						}
+					}
+					set_variable = {
+						which = province_adm_var
+						value = 0
+					}
+				}
+				export_to_variable = {
+					which = province_adm_var
+					value = trigger_value:base_tax
+				}
+				change_variable = {
+					which = province_adm_var
+					value = 2
+				}
+			}
+		}
+	}
+	provinces_to_highlight = {
+		province_id = event_target:agenda_province
+	}
+	fail_if = {
+		event_target:agenda_province = {
+			NOT = { owned_by = root }
+		}
+	}
+    task_requirements = {
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					root = {
+						check_variable = {
+							which = develop_x_category
+							value = 3
+						}
+					}
+				}
+				base_manpower = "province_mil_var"
+			}
+			else_if = {
+				limit = {
+					root = {
+						check_variable = {
+							which = develop_x_category
+							value = 2
+						}
+					}
+				}
+				base_production = "province_dip_var"
+			}
+			else = {
+				base_tax = "province_adm_var"
+			}
+		}
+    }
+    task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_mamluks
+			loyalty = 10
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = develop_x_category
+					value = 3
+				}
+			}
+			 add_yearly_manpower = 0.3
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = develop_x_category
+					value = 2
+				}
+			}
+			add_years_of_income = 0.3
+		}
+		else = {
+			add_prestige = 10
+		}
+    }
+    failing_effect = {
+		event_target:agenda_province = {
+			if = {
+				limit = { owned_by = root }
+				add_named_unrest = {
+					name = local_mamluks_displeased
+					value = 5
+				}
+			}
+		}
+        add_estate_loyalty_modifier = {
+            estate = estate_mamluks
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+        }
+    }
+}
+
+estate_holy_orders_develop_x = {
+	selection_weight = {
+		factor = 1
+	}
+	can_select = {
+		any_owned_province = {
+			is_state_core = root
+			religion = root
+		}
+	}
+	pre_effect = {
+		set_variable = {
+			which = develop_x_category
+			value = 0
+		}
+		random_list = {
+			2 = { #Mil is weighted higher
+				set_variable = {
+					which = develop_x_category
+					value = 3
+				}
+			}
+			1 = { #dip
+				set_variable = {
+					which = develop_x_category
+					value = 2
+				}
+			}
+			1 = { #adm
+				set_variable = {
+					which = develop_x_category
+					value = 1
+				}
+			}
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				religion = root
+			}
+			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					root = {
+						check_variable = {
+							which = develop_x_category
+							value = 3
+						}
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = province_mil_var
+							value = 1
+						}
+					}
+					set_variable = {
+						which = province_mil_var
+						value = 0
+					}
+				}
+				export_to_variable = {
+					which = province_mil_var
+					value = trigger_value:base_manpower
+				}
+				change_variable = {
+					which = province_mil_var
+					value = 2
+				}
+			}
+			else_if = {
+				limit = {
+					root = {
+						check_variable = {
+							which = develop_x_category
+							value = 2
+						}
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = province_dip_var
+							value = 1
+						}
+					}
+					set_variable = {
+						which = province_dip_var
+						value = 0
+					}
+				}
+				export_to_variable = {
+					which = province_dip_var
+					value = trigger_value:base_production
+				}
+				change_variable = {
+					which = province_dip_var
+					value = 2
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						check_variable = {
+							which = province_adm_var
+							value = 1
+						}
+					}
+					set_variable = {
+						which = province_adm_var
+						value = 0
+					}
+				}
+				export_to_variable = {
+					which = province_adm_var
+					value = trigger_value:base_tax
+				}
+				change_variable = {
+					which = province_adm_var
+					value = 2
+				}
+			}
+		}
+	}
+	provinces_to_highlight = {
+		province_id = event_target:agenda_province
+	}
+	fail_if = {
+		event_target:agenda_province = {
+			NOT = { owned_by = root }
+		}
+	}
+    task_requirements = {
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					root = {
+						check_variable = {
+							which = develop_x_category
+							value = 3
+						}
+					}
+				}
+				base_manpower = "province_mil_var"
+			}
+			else_if = {
+				limit = {
+					root = {
+						check_variable = {
+							which = develop_x_category
+							value = 2
+						}
+					}
+				}
+				base_production = "province_dip_var"
+			}
+			else = {
+				base_tax = "province_adm_var"
+			}
+		}
+    }
+    task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_holy_orders
+			loyalty = 10
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = develop_x_category
+					value = 3
+				}
+			}
+			 add_yearly_manpower = 0.3
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = develop_x_category
+					value = 2
+				}
+			}
+			add_years_of_income = 0.3
+		}
+		else = {
+			add_prestige = 10
+		}
+    }
+    failing_effect = {
+		event_target:agenda_province = {
+			if = {
+				limit = { owned_by = root }
+				add_named_unrest = {
+					name = local_holy_orders_displeased
+					value = 5
+				}
+			}
+		}
+        add_estate_loyalty_modifier = {
+            estate = estate_holy_orders
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+        }
+    }
+}
+
+estate_mamluks_build_government_building_in_y = {
+	can_select = {
+		adm_tech = 5
+		any_owned_province = {
+			is_state_core = root
+			NOT = { has_building = town_hall }
+			OR = {
+				AND = {
+					NOT = { has_building = watchman }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 41 }
+					NOT = { has_building = courthouse }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 58 }
+					OR = {
+						has_building = courthouse
+						num_free_building_slots = 1
+					}
+				}
+			}
+		}
+	}
+	selection_weight = {
+		factor = 1
+		modifier = {
+			factor = 0.65
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = town_hall }
+					OR = {
+						AND = {
+							NOT = { has_building = watchman }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 41 }
+							NOT = { has_building = courthouse }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 58 }
+							OR = {
+								has_building = courthouse
+								num_free_building_slots = 1
+							}
+						}
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			any_owned_province = {
+				is_state_core = root
+				NOT = { has_building = town_hall }
+				OR = {
+					AND = {
+						NOT = { has_building = watchman }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 41 }
+						NOT = { has_building = courthouse }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 58 }
+						OR = {
+							has_building = courthouse
+							num_free_building_slots = 1
+						}
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = {
+				crown_land_share = 15
+			}
+		}
+	}
+	pre_effect = {
+		set_variable = {
+			which = estate_mamluks_build_government_building_in_y_var
+			value = 0
+		}
+		random_owned_province = {
+			limit = {
+				is_state_core = root
+				NOT = { has_building = town_hall }
+				OR = {
+					AND = {
+						NOT = { has_building = watchman }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 41 }
+						NOT = { has_building = courthouse }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 58 }
+						OR = {
+							has_building = courthouse
+							num_free_building_slots = 1
+						}
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		random_owned_province = {
+			limit = {
+				is_capital = yes
+				is_state_core = root
+				NOT = { has_building = town_hall }
+				OR = {
+					AND = {
+						NOT = { has_building = watchman }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 41 }
+						NOT = { has_building = courthouse }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 58 }
+						OR = {
+							has_building = courthouse
+							num_free_building_slots = 1
+						}
+					}
+				}
+			}
+			save_event_target_as = agenda_province
+		}
+		event_target:agenda_province = {
+			if = {
+				limit = {
+					has_building = courthouse
+				}
+				ROOT = {
+					set_variable = {
+						which = estate_mamluks_build_government_building_in_y_var
+						value = 2
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					set_variable = {
+						which = estate_mamluks_build_government_building_in_y_var
+						value = 1
+					}
+				}
+			}
+		}
+	}
+	provinces_to_highlight = {
+		province_id = event_target:agenda_province
+	}
+	fail_if = {
+		event_target:agenda_province = {
+			NOT = { owned_by = root }
+		}
+	}
+    task_requirements = {
+		if = {
+			limit = {
+				check_variable = {
+					which = estate_mamluks_build_government_building_in_y_var
+					value = 2
+				}
+			}
+			event_target:agenda_province = {
+				has_building = town_hall
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
+					has_building = watchman
+				}
+			}
+		}
+    }
+    task_completed_effect = {
+		add_estate_loyalty = {
+			estate = estate_mamluks
+			loyalty = 10
+		}
+		add_stability = 1
+    }
+    failing_effect = {
+		event_target:agenda_province = {
+			if = {
+				limit = { owned_by = root }
+				add_named_unrest = {
+					name = local_mamluks_displeased
+					value = 5
+				}
+			}
+		}
+        add_estate_loyalty_modifier = {
+            estate = estate_mamluks
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
+        }
+    }
+}
