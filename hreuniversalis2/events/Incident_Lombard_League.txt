@@ -19,6 +19,7 @@ country_event = {
 		primary_culture = lombard
 		has_ruler_modifier = guelph_ruler
 		has_global_flag = guelph_ghib_enabled
+		NOT = { has_global_flag = lombard_league_founded }
 		NOT = { has_global_flag = italy_out_of_HRE }
 		is_part_of_hre = yes
 		is_emperor = no
@@ -75,7 +76,8 @@ country_event = {
 				}
 				country_event = {
 					id = incident_lombard_league.2
-					days = 1
+					days = 5
+					random = 1
 				}
 			}
 		}
@@ -106,7 +108,7 @@ country_event = {
 	option = {	#Join
 		name = incident_lombard_league.2.a
 		ai_chance = { 
-			factor = 90
+			factor = 95
 			modifier = {
 				factor = 0
 				NOT = {
@@ -167,7 +169,8 @@ country_event = {
 					}
 					country_event = {
 						id = incident_lombard_league.2
-						days = 1
+						days = 5
+						random = 1
 					}
 				}
 			}
@@ -184,7 +187,7 @@ country_event = {
 	option = {	#Don't join
 		name = incident_lombard_league.2.b
 		ai_chance = { 
-			factor = 10
+			factor = 5
 		}
 		add_prestige = -5
 		hidden_effect = {
@@ -193,6 +196,45 @@ country_event = {
 				change_variable = {
 					which = lombard_league_dec_num
 					value = 1
+				}
+			}
+			if = {
+				limit = {
+					any_country = {
+						NOT = { has_country_flag = decided_league_status }
+						capital_scope = {
+							superregion = italy_superregion
+						}
+						has_ruler_modifier = guelph_ruler
+						is_part_of_hre = yes
+						is_emperor = no
+						is_subject = no
+					}
+				}
+				random_country = {
+					limit = {
+						NOT = { has_country_flag = decided_league_status }
+						capital_scope = {
+							superregion = italy_superregion
+						}
+						has_ruler_modifier = guelph_ruler
+						is_part_of_hre = yes
+						is_emperor = no
+						is_subject = no
+					}
+					country_event = {
+						id = incident_lombard_league.2
+						days = 5
+						random = 1
+					}
+				}
+			}
+			else = {
+				event_target:lombard_league_founder = {
+					country_event = {
+						id = incident_lombard_league.9
+						days = 1
+					}
 				}
 			}
 		}
@@ -225,18 +267,20 @@ country_event = {
 				alliance_with = event_target:lombard_league_founder
 			}
 		}
-		add_prestige = -20
-		custom_tooltip = incident_lombard_league.3.a.tt
-		hidden_effect = {
-			italy_superregion = {
-				limit = {
-					OR = {
-						is_core = ROOT
-						is_claim = ROOT
+		emperor = {
+			add_prestige = -20
+			custom_tooltip = incident_lombard_league.3.a.tt
+			hidden_effect = {
+				italy_superregion = {
+					limit = {
+						OR = {
+							is_core = ROOT
+							is_claim = ROOT
+						}
 					}
+					remove_core = ROOT
+					remove_claim = ROOT
 				}
-				remove_core = ROOT
-				remove_claim = ROOT
 			}
 		}
 	}
@@ -264,10 +308,12 @@ country_event = {
 				}
 			}
 		}
-		add_prestige = 10
-		declare_war_with_cb = {
-			who = event_target:lombard_league_founder
-			casus_belli = cb_imperial_ban
+		emperor = {
+			add_prestige = 10
+			declare_war_with_cb = {
+				who = event_target:lombard_league_founder
+				casus_belli = cb_insult
+			}
 		}
 		custom_tooltip = incident_lombard_league.3.b.tt
 		hidden_effect = {
@@ -349,6 +395,20 @@ country_event = {
 					value = 150
 				}
 			}
+			modifier = {
+				factor = 1.25
+				has_opinion = {
+					who = event_target:lombard_league_founder
+					value = 100
+				}
+			}
+			modifier = {
+				factor = 1.25
+				has_opinion = {
+					who = event_target:lombard_league_founder
+					value = 150
+				}
+			}
 		}
 		join_all_defensive_wars_of = event_target:lombard_league_founder
 	}
@@ -395,7 +455,7 @@ country_event = {
 	option = {	#Join
 		name = incident_lombard_league.5.a
 		ai_chance = { 
-			factor = 95 
+			factor = 75
 			modifier = {
 				factor = 0
 				is_at_war = yes
@@ -404,6 +464,14 @@ country_event = {
 			modifier = {
 				factor = 0.75
 				num_of_loans = 1
+			}
+			modifier = {
+				factor = 0.75
+				NOT = {
+					any_neighbor_country = {
+						has_country_flag = lombard_league_member
+					}
+				}
 			}
 			modifier = {
 				factor = 0.9
@@ -431,13 +499,27 @@ country_event = {
 					value = 150
 				}
 			}
+			modifier = {
+				factor = 0.75
+				has_opinion = {
+					who = event_target:lombard_league_founder
+					value = 100
+				}
+			}
+			modifier = {
+				factor = 0.75
+				has_opinion = {
+					who = event_target:lombard_league_founder
+					value = 150
+				}
+			}
 		}
 		join_all_offensive_wars_of = emperor
 	}
 	option = {	#Don't join
 		name = incident_lombard_league.5.b
 		ai_chance = { 
-			factor = 5 
+			factor = 25
 			modifier = {
 				factor = 0
 				war_with = event_target:lombard_league_founder
@@ -537,7 +619,7 @@ country_event = {
 				dip = -1
 				mil = -1
 			}
-			add_ruler_modifier = {	#this may be broken if defining new ruler causes election and they pick guelph
+			add_ruler_modifier = {
 				name = "ghib_ruler"
 				duration = -1
 			}
@@ -545,7 +627,7 @@ country_event = {
 	}
 }
 
-#Lombard League disbands
+#Lombard League disbands (fallback event)
 country_event = {
 	id = incident_lombard_league.8
 	title = incident_lombard_league.8.t
@@ -594,7 +676,7 @@ country_event = {
 	}
 }
 
-#Show league member number etc.
+#The league grows stronger
 country_event = {
 	id = incident_lombard_league.9
 	title = incident_lombard_league.9.t
