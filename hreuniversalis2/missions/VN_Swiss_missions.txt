@@ -69,10 +69,10 @@ vn_swi_missions_slot_1 = {
         position = 3
         required_missions = { vn_swi_reichsfreier_status }
         trigger = {
-			number_of_owned_provinces_with = {
+			num_of_owned_provinces_with = {
+                value = 10
 				has_fort_trigger = yes
 			}
-			value = 10
         }
         effect = {
             add_mil_power = 50
@@ -105,14 +105,14 @@ vn_swi_missions_slot_1 = {
         required_missions = { vn_swi_important_city_state vn_swi_tradition_of_free_trade }
         trigger = {
 			trade_income_percentage = 0.33
-			number_of_owned_provinces_with = {
+			num_of_owned_provinces_with = {
+                value = 5
 				OR = {
-					province_has_center_of_trade_level = 1
-					province_has_center_of_trade_level = 2
-					province_has_center_of_trade_level = 3					
+					province_has_center_of_trade_of_level = 1
+					province_has_center_of_trade_of_level = 2
+					province_has_center_of_trade_of_level = 3					
 				}
-			}
-			value = 5            
+			}       
         }
         effect = {
             add_years_of_income = 0.5
@@ -506,19 +506,23 @@ vn_swi_missions_slot_3 = {
         }
         effect = {
             1745 = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
+                if = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
                 }
-                add_permanent_claim = ROOT
 			}          
             265 = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
+                if = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
                 }
-                add_permanent_claim = ROOT
-			}
+            }
             dauphine_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -629,7 +633,7 @@ vn_swi_missions_slot_4 = {
 			}
         }
         effect = {
-            add_religious_effect_small = yes
+            add_religious_influence_effect_small = yes
         }
     }
     vn_swi_reformation_center = {
@@ -637,21 +641,22 @@ vn_swi_missions_slot_4 = {
         position = 6
         required_missions = { vn_swi_join_the_reformation }
         trigger = {
-            calc_if_true = {
-				every_owned_province = {
-					limit = { superregion = switzerland_superregion }
-					religion_group = christian
-					NOT = {
-						OR = {
-							religion = catholic
-							religion = catholique
-						}
-					}
-				}
-			}
+            religion_group = christian
+            NOT = {
+                OR = {
+                    religion = catholic
+                    religion = catholique
+                }
+            }
+            all_owned_province = {
+                OR = {
+                    NOT = { superregion = switzerland_superregion }
+                    religion = ROOT
+                }
+            }
         }
         effect = {
-            add_religious_effect_small = yes
+            add_religious_influence_effect_small = yes
             add_stability = 1
         }
     }
