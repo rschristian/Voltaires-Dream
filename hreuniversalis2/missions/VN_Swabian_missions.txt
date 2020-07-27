@@ -12,87 +12,29 @@ vn_wws_missions_slot_1 = {
     has_country_shield = yes
 
     vn_wws_promote_agriculture = {
-        icon = mission_rb_import_potatoes
+        icon = prosperity_for_all
         position = 1
         required_missions = { }
         provinces_to_highlight = {
-            if = {
-                limit = {
-                    NOT = {
-                        num_of_owned_provinces_with = {
-                            value = 3
-                            trade_goods = livestock
-                            development = 8
-                        }
-                    }
-                }
-                owned_by = ROOT
+            owned_by = ROOT
+            NOT = { has_production_building_trigger = yes }
+            OR = {
                 trade_goods = livestock
-                NOT = { development = 8 }
-            }
-            if = {
-                limit = {
-                    NOT = {
-                        num_of_owned_provinces_with = {
-                            value = 3
-                            trade_goods = barley
-                            development = 8
-                        }
-                    }
-                }
-                owned_by = ROOT
                 trade_goods = barley
-                NOT = { development = 8 }
-            }
-            if = {
-                limit = {
-                    NOT = {
-                        num_of_owned_provinces_with = {
-                            value = 3
-                            trade_goods = rye
-                            development = 8
-                        }
-                    }
-                }
-                owned_by = ROOT
                 trade_goods = rye
-                NOT = { development = 8 }
-            }
-            if = {
-                limit = {
-                    NOT = {
-                        num_of_owned_provinces_with = {
-                            value = 3
-                            trade_goods = grain
-                            development = 8
-                        }
-                    }
-                }
-                owned_by = ROOT
                 trade_goods = grain
-                NOT = { development = 8 }
             }
         }
         trigger = {
             num_of_owned_provinces_with = {
-                value = 3
-                trade_goods = livestock
-                development = 8
-            }
-            num_of_owned_provinces_with = {
-                value = 3
-                trade_goods = barley
-                development = 8
-            }
-            num_of_owned_provinces_with = {
-                value = 3
-                trade_goods = rye
-                development = 8
-            }
-            num_of_owned_provinces_with = {
-                value = 3
-                trade_goods = grain
-                development = 8
+                value = 10
+                has_production_building_trigger = yes
+                OR = {
+                    trade_goods = livestock
+                    trade_goods = barley
+                    trade_goods = rye
+                    trade_goods = grain
+                }
             }
         }
         effect = {
@@ -103,7 +45,7 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_cultural_life = {
-        icon = mission_noble_council
+        icon = tuscan_birthright
         position = 2
         required_missions = { vn_wws_promote_agriculture }
         trigger = {
@@ -128,7 +70,7 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_appoint_vogte = {
-        icon = mission_alliances
+        icon = hand-picked_bureaucrats
         position = 3
         required_missions = { vn_wws_cultural_life }
         trigger = {
@@ -148,7 +90,7 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_trust_in_knights = {
-        icon = mission_teutonic_knights
+        icon = mission_crusade
         position = 4
         required_missions = { }
         trigger = {
@@ -162,11 +104,11 @@ vn_wws_missions_slot_1 = {
                 }
                 estate_loyalty = {
                     estate = estate_holy_orders
-                    loyalty = 70
+                    loyalty = 60
                 }
                 estate_influence = {
                     estate = estate_holy_orders
-                    influence = 60
+                    influence = 30
                 }
 			}
             OR = {
@@ -195,22 +137,34 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_conquer_jerusalem = {
-        icon = mission_crusade
+        icon = jerusalem
         position = 5
 		required_missions = { vn_wws_trust_in_knights }
 		provinces_to_highlight = {
-			region = palestine_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			OR = {
+				province_id = 4974
+				AND = {
+					region = palestine_region
+					ROOT = {
+						NOT = {
+							num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+								value = 20
+								region = palestine_region
+							}
+						}
+					}
+				}
+			}
 		}
         trigger = {
-            palestine_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+            4974 = { country_or_non_sovereign_subject_holds = ROOT }
+            num_of_owned_provinces_with = {
+                value = 20
+                region = palestine_region
+            }
         }
         effect = {
-            add_prestige = 10
-            add_religious_influence_effect_small = yes
+            add_religious_influence_effect_big = yes
             add_country_modifier = {
                 name = wws_conquer_jerusalem_mission
                 duration = 9125
@@ -228,10 +182,7 @@ vn_wws_missions_slot_1 = {
             1959 = {
                 owned_by = ROOT
                 is_core = ROOT
-                has_fort_trigger = yes
-                has_tax_building_trigger = yes
-                has_production_building_trigger = yes
-                development = 30
+                #num_of_buildings = 5
             }
         }
         effect = {
@@ -245,8 +196,9 @@ vn_wws_missions_slot_1 = {
             }
             1959 = {
                 move_capital_effect = yes
-                add_base_tax = 2
-                add_base_production = 2
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
                 add_province_modifier = {
                     name = wws_the_old_capital_mission
                     duration = -1
@@ -255,16 +207,62 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_castles_of_alsace = {
-        icon = mission_fort
+        icon = mission_alpine_defenses
         position = 8
         required_missions = { }
         trigger = {
-            has_estate = estate_nobles
-            num_of_owned_provinces_with = {
-				value = 8
-				base_manpower = 12
-                has_estate = estate_nobles
-                has_fort_trigger = yes
+            calc_true_if = {
+				desc = vn_wws_castles_of_alsace.tt
+				all_owned_province = {
+                    if = {
+                        limit = {
+							ROOT = {
+								NOT = { mil_tech = 26 }
+							}
+						}
+						has_building = fort_14th
+                    }
+					else_if = {
+						limit = {
+							ROOT = {
+                                mil_tech = 26
+								NOT = { mil_tech = 48 }
+							}
+						}
+						has_building = fort_15th
+					}
+					else_if = {
+						limit = {
+							ROOT = {
+								AND = {
+									mil_tech = 48
+									NOT = { mil_tech = 54 }
+								}
+							}
+						}
+						has_building = fort_16th
+					}
+					else_if = {
+						limit = {
+							ROOT = {
+								AND = {
+									mil_tech = 54
+									NOT = { mil_tech = 60 }
+								}
+							}
+						}
+						has_building = fort_17th
+					}
+					else_if = {
+						limit = {
+							ROOT = {
+								mil_tech = 60
+							}
+						}
+						has_building = fort_18th
+					}
+				}
+				amount = 10
 			}
         }
         effect = {
@@ -275,7 +273,7 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_suppress_the_bundschuhs = {
-        icon = mission_landsknecht_soldier
+        icon = mission_reissue_the_mining_code
         position = 9
         required_missions = {  }
         trigger = {
@@ -303,7 +301,7 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_theological_studies = {
-        icon = mission_rb_the_education_acts
+        icon = mission_bibliotheca_corviana
         position = 10
         required_missions = { vn_wws_suppress_the_bundschuhs }
         trigger = {
@@ -336,12 +334,12 @@ vn_wws_missions_slot_2 = {
     has_country_shield = yes
 
     vn_wws_swabian_greed = {
-        icon = mission_african_gold
+        icon = mission_reform_the_state
         position = 2
         required_missions = { vn_wws_promote_agriculture }
         trigger = {
             treasury = 2500
-            share_of_starting_income = 2.5
+            share_of_starting_income = 5
             NOT = { num_of_loans = 1 }
         }
         effect = {
@@ -353,7 +351,7 @@ vn_wws_missions_slot_2 = {
         }
     }
     vn_wws_conquer_munich = {
-        icon = mission_unite_home_region
+        icon = mission_duchy_of_bavaria
         position = 3
         required_missions = { vn_wws_conquer_riesgau }
 		provinces_to_highlight = {
@@ -398,7 +396,7 @@ vn_wws_missions_slot_2 = {
         }
     }
     vn_wws_conquer_passau = {
-        icon = mission_unite_home_region
+        icon = mission_assert_our_sovereignty
         position = 4
         required_missions = { vn_wws_conquer_munich }
 		provinces_to_highlight = {
@@ -432,7 +430,7 @@ vn_wws_missions_slot_2 = {
         }
     }
     vn_wws_conquer_wurttemberg = {
-        icon = mission_unite_home_region
+        icon = mission_avoid_fragmentation
         position = 5
 		required_missions = { vn_wws_conquer_drachgau }
 		provinces_to_highlight = {
@@ -512,7 +510,7 @@ vn_wws_missions_slot_2 = {
         }
     }
     vn_wws_conquer_alsace = {
-        icon = mission_unite_home_region
+        icon = mission_take_the_bishoprics
         position = 8
 		required_missions = { vn_wws_conquer_baden }
 		provinces_to_highlight = {
@@ -569,7 +567,7 @@ vn_wws_missions_slot_3 = {
     has_country_shield = yes
 
     vn_wws_prestigious_kinship = {
-        icon = mission_alliances
+        icon = mission_unite_the_wittelsbachs
         position = 1
         required_missions = {  }
         trigger = {
@@ -613,7 +611,7 @@ vn_wws_missions_slot_3 = {
         }
     }
     vn_wws_conquer_riesgau = {
-        icon = mission_unite_home_region
+        icon = mission_integrate_the_three_leagues
         position = 2
         required_missions = { vn_wws_prestigious_kinship }
 		provinces_to_highlight = {
@@ -651,7 +649,7 @@ vn_wws_missions_slot_3 = {
         }
     }
     vn_wws_conquer_drachgau = {
-        icon = mission_unite_home_region
+        icon = mission_return_visby_to_the_league
         position = 4
 		required_missions = { vn_wws_conquer_riesgau }
 		provinces_to_highlight = {
@@ -675,7 +673,7 @@ vn_wws_missions_slot_3 = {
         }
     }
     vn_wws_conquer_hohenzollern = {
-        icon = mission_unite_home_region
+        icon = mission_end_the_habsburgs
         position = 5
 		required_missions = { vn_wws_conquer_drachgau vn_wws_conquer_constance }
 		provinces_to_highlight = {
@@ -701,7 +699,7 @@ vn_wws_missions_slot_3 = {
         }
     }
     vn_wws_conquer_speyer = {
-        icon = mission_unite_home_region
+        icon = mission_connect_further_austria
         position = 7
 		required_missions = { vn_wws_conquer_baden }
 		provinces_to_highlight = {
@@ -739,7 +737,7 @@ vn_wws_missions_slot_3 = {
         }
     }
     vn_wws_conquer_franconia = {
-        icon = mission_unite_home_region
+        icon = mission_conquer_franconia
         position = 8
 		required_missions = { vn_wws_conquer_speyer }
 		provinces_to_highlight = {
@@ -777,7 +775,7 @@ vn_wws_missions_slot_3 = {
         }
     }
     vn_wws_conquer_pfalz = {
-        icon = mission_coronation
+        icon = mission_develop_our_capital
         position = 9
         required_missions = { vn_wws_conquer_franconia }
         provinces_to_highlight = {
@@ -805,7 +803,7 @@ vn_wws_missions_slot_3 = {
         }
     }
     vn_wws_hohenstaufer_empire = {
-        icon = mission_king_of_franks
+        icon = mission_centralized_empire
         position = 11
         required_missions = { vn_wws_conquer_burgundy vn_wws_conquer_sicily }
         trigger = {
@@ -847,7 +845,7 @@ vn_wws_missions_slot_4 = {
     has_country_shield = yes
 
     vn_wws_conquer_augsburg = {
-        icon = mission_unite_home_region
+        icon = mission_ansbach_succession
         position = 2
         required_missions = { vn_wws_prestigious_kinship }
 		provinces_to_highlight = {
@@ -916,7 +914,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_conquer_constance = {
-        icon = mission_rb_cod_wars
+        icon = mission_prosper_in_piedmont
         position = 4
         required_missions = { vn_wws_conquer_ravensburg }
 		provinces_to_highlight = {
@@ -986,7 +984,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_bodensee_economy = {
-        icon = mission_have_manufactories
+        icon = mission_the_shape_of_trades_to_come
         position = 5
         required_missions = { vn_wws_conquer_constance }
         trigger = {
@@ -1043,7 +1041,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_conquer_switzerland = {
-        icon = mission_conquer_50_development
+        icon = mission_the_alpine_wall
         position = 6
 		required_missions = { vn_wws_become_emperor }
 		provinces_to_highlight = {
@@ -1121,7 +1119,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_raid_milan = {
-        icon = mission_steppe_warriors
+        icon = mission_seize_lombardy
         position = 8
 		required_missions = { vn_wws_influence_lombardy }
 		provinces_to_highlight = {
@@ -1145,7 +1143,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_rein_in_italy = {
-        icon = mission_break_sicily
+        icon = mission_kingdom_of_lombardy
         position = 9
 		required_missions = { vn_wws_raid_milan vn_wws_decisions_of_roncaglia }
 		provinces_to_highlight = {
@@ -1235,7 +1233,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_conquer_sicily = {
-        icon = mission_intervene_in_castile
+        icon = mission_spread_the_von_wettins
         position = 10
 		required_missions = { vn_wws_rein_in_italy vn_wws_restore_honor_imperii }
 		provinces_to_highlight = {
@@ -1280,7 +1278,7 @@ vn_wws_missions_slot_5 = {
     has_country_shield = yes
 
     vn_wws_idealistic_duke = {
-        icon = mission_rb_conquer_the_highlands
+        icon = mission_chivalry_is_not_dead
         position = 1
         required_missions = {  }
         trigger = {
@@ -1300,7 +1298,7 @@ vn_wws_missions_slot_5 = {
         }
     }
     vn_wws_swabian_antikings = {
-        icon = mission_rb_control_electors
+        icon = mission_secure_our_rule
         position = 3
         required_missions = { vn_wws_idealistic_duke }
         trigger = {
@@ -1322,6 +1320,7 @@ vn_wws_missions_slot_5 = {
         required_missions = { vn_wws_swabian_antikings }
         trigger = {
 			is_emperor = yes
+			hre_reform_level = 1
 			prestige = 50
         }
         effect = {
@@ -1356,7 +1355,7 @@ vn_wws_missions_slot_5 = {
         required_missions = { vn_wws_become_emperor }
         trigger = {
 			is_emperor = yes
-			OR = {
+            OR = {
                 hre_reform_passed = emperor_statutumprincipum
                 hre_reform_passed = statutumprincipum
             }
@@ -1379,7 +1378,7 @@ vn_wws_missions_slot_5 = {
         }
     }
     vn_wws_decisions_of_roncaglia = {
-        icon = mission_mediterranean_islands
+        icon = mission_adjust_the_general_means
         position = 8
         required_missions = { vn_wws_proclaim_free_cities }
         trigger = {
@@ -1409,7 +1408,7 @@ vn_wws_missions_slot_5 = {
         }
     }
     vn_wws_restore_honor_imperii = {
-        icon = mission_restore_faith_in_the_throne
+        icon = mission_lead_the_empire
         position = 9
         required_missions = { vn_wws_decisions_of_roncaglia }
         trigger = {

@@ -15,7 +15,7 @@ vn_die_missions_slot_1 = {
     
     vn_die_secure_loyality = {
         position = 1
-        icon = mission_seize_the_dragon_throne
+        icon = feast_of_pheasants
 		required_missions = { }
 		trigger = {
             if = {
@@ -58,21 +58,61 @@ vn_die_missions_slot_1 = {
     }
     vn_die_saxon_rebellion = {
         position = 2
-        icon = mission_assemble_an_army
-		required_missions = { vn_die_secure_loyality }
+        icon = confront_the_lombards
+        required_missions = { vn_die_secure_loyality }
+        provinces_to_highlight = {
+            owner = {
+                NOT = { tag = ROOT }
+                is_elector = yes
+                OR = {
+                    AND = {
+                        has_dlc = "Rights of Man"
+                        is_great_power = yes
+                    }
+                    AND = {
+                        NOT = { has_dlc = "Rights of Man" }
+                        total_development = 300
+                    }
+                }
+                NOT = { alliance_with = ROOT }
+                NOT = { is_subject = yes }
+                NOT = {
+                    ROOT = {
+                        has_won_war_against = {
+                            who = PREV
+                            max_years_since = 50
+                        }
+                    }
+                }
+            }
+        }
 		trigger = {
             is_emperor = yes
-            grown_by_development = 50
-            if = {
-                limit = { has_dlc = "Art of War" }
-                num_of_war_reparations = 3
-            }
-            else = {
-                monthly_income = 10
+            custom_trigger_tooltip = {
+                tooltip = vn_die_saxon_rebellion.tt
+                NOT = {
+                    any_elector = {
+                        NOT = { tag = ROOT }
+                        is_subject = no
+                        is_great_power = yes
+						NOT = { alliance_with = root }
+                        NOT = {
+							ROOT = {
+								has_won_war_against = {
+									who = PREV
+									max_years_since = 50
+								}
+							}
+						}
+                    }
+                }
             }
         }
         effect = {
-            add_mil_power = 100
+            add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 25
+			}
             add_country_modifier = {
                 name = die_saxon_rebellion_mission
                 duration = 9125
@@ -81,7 +121,7 @@ vn_die_missions_slot_1 = {
     }
     vn_die_italian_alliances = {
         position = 4
-        icon = mission_rb_control_electors
+        icon = catholic_confraternity
 		required_missions = { vn_die_saxon_rebellion }
 		trigger = {
             is_emperor = yes
@@ -110,7 +150,7 @@ vn_die_missions_slot_1 = {
 		}
     }
 	vn_die_conquer_rome = {
-		icon = mission_soldiers_in_line
+		icon = the_italian_league
 		required_missions = { vn_die_italian_alliances }
 		provinces_to_highlight = {
 			province_id = 2708
@@ -148,7 +188,7 @@ vn_die_missions_slot_2 = {
     
     vn_die_connect_worms_and_speyer = {
         position = 1
-        icon = mission_heart_of_the_hansa
+        icon = mission_roads
         required_missions = { }
         provinces_to_highlight = {
             OR = {
@@ -228,7 +268,7 @@ vn_die_missions_slot_2 = {
     }
     vn_die_construct_speyer_cathedral = {
         position = 2
-		icon = mission_rb_trinity_college_dublin
+		icon = connect_further_austria
 		required_missions = { vn_die_connect_worms_and_speyer }
         provinces_to_highlight = {
             province_id = 151
@@ -250,31 +290,26 @@ vn_die_missions_slot_2 = {
     }
     vn_die_weaken_the_princes = {
         position = 3
-        icon = mission_king_of_franks
-		required_missions = { vn_die_saxon_rebellion }
+        icon = unite_the_wittelsbachs
+        required_missions = { vn_die_saxon_rebellion }
+        provinces_to_highlight = {
+            owner = {
+                NOT = { tag = ROOT }
+                is_elector = yes
+            }
+        }
 		trigger = {
             is_emperor = yes
             OR = {
                 hre_reform_passed = emperor_licetiuris
                 hre_reform_passed = licetiuris
             }
-            grown_by_development = 200
             num_of_electors = 7
             custom_trigger_tooltip = {
                 tooltip = vn_die_weaken_the_princes.tt
-                if = {
-                    limit = { is_elector = yes }
-                    calc_true_if = {
-                        amount = 6
-                        all_elector = {
-                            NOT = { total_development = ROOT }
-                        }
-                    }
-                }
-                else = {
-                    all_elector = {
-                        NOT = { total_development = ROOT }
-                    }
+                all_elector = {
+                    NOT = { tag = ROOT }
+                    NOT = { total_development = ROOT }
                 }
             }
 		}
@@ -288,7 +323,7 @@ vn_die_missions_slot_2 = {
     }
     vn_die_solve_the_investiture_controversy = {
         position = 5
-        icon = mission_rb_weather_the_reformation
+        icon = holy_state
 		required_missions = { vn_die_italian_alliances }
 		trigger = {
             #investiture controversy imperial incident has been overcome
@@ -425,7 +460,7 @@ vn_die_missions_slot_3 = {
     }
     vn_die_conquer_lorraine = {
         position = 4
-        icon = mission_crusade_for_varna
+        icon = integrate_lorraine
         required_missions = { vn_die_conquer_metz }
         provinces_to_highlight = {
             OR = {
@@ -475,7 +510,7 @@ vn_die_missions_slot_4 = {
 
     vn_die_conquer_erbach = {
         position = 2
-        icon = mission_roads
+        icon = mission_landsknecht_soldier
         required_missions = { vn_die_conquer_wormsgau }
         provinces_to_highlight = {
             area = darmstadt_area
@@ -498,7 +533,7 @@ vn_die_missions_slot_4 = {
 		}
     }
     vn_die_conquer_franconia = {
-        icon = mission_coronation
+        icon = conquer_franconia
         required_missions = { vn_die_conquer_erbach }
         provinces_to_highlight = {
             region = nurnburg_region
@@ -526,7 +561,7 @@ vn_die_missions_slot_4 = {
 		}
     }
     vn_die_conquer_bavaria = {
-        icon = mission_coronation
+        icon = imperial_capitals
         required_missions = { vn_die_conquer_franconia vn_die_conquer_swabia }
         provinces_to_highlight = {
             region = bavaria_region
@@ -546,7 +581,7 @@ vn_die_missions_slot_4 = {
 		}
     }
     vn_die_conquer_burgundy = {
-        icon = mission_rb_repatriate_burgundy
+        icon = carolingian_empire
         required_missions = { vn_die_conquer_bavaria vn_die_conquer_lorraine }
         provinces_to_highlight = {
             region = burgundy_region
