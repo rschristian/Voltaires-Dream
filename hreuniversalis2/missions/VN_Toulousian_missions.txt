@@ -36,18 +36,17 @@ vn_tou_missions_slot_1 = {
 		icon = shield_of_christendom
 		required_missions = { vn_tou_weather_catharism }
 		trigger = {
-			custom_trigger_tooltip = {
-				tooltip = vn_tou_secure_religious_peace.tt
-				had_country_flag = {
-					flag = tou_cathar_heresy
-					days = 10950
+			OR = {
+				religion = cathar
+				custom_trigger_tooltip = {
+					tooltip = vn_tou_secure_religious_peace.tt
+					had_country_flag = {
+						flag = tou_cathar_heresy
+						days = 10950
+					}
 				}
 			}
 			religious_unity = 1
-			OR = {
-				inquisitor = 3
-				theologian = 3
-			}
 		}
 		effect = {
 			add_stability_or_adm_power = yes
@@ -71,7 +70,7 @@ vn_tou_missions_slot_1 = {
 				}
 				estate_loyalty = {
 					estate = estate_holy_orders
-					loyalty = 65
+					loyalty = 60
 				}
 			}
 			army_size = 25
@@ -170,7 +169,7 @@ vn_tou_missions_slot_2 = {
 	vn_tou_aquitaine_rivalry = {
 		position = 1
 		icon = mission_humiliate_provence
-		required_missions = {}
+		required_missions = { }
 		trigger = {
 			army_size_percentage = 0.95
 			any_rival_country = {
@@ -425,7 +424,7 @@ vn_tou_missions_slot_3 = {
 		trigger = {
 			is_subject = no
 			stability = 1
-			total_development = 200
+			total_development = 400
 		}
 		effect = {
 			country_event = { id = vn_missions.23 }
@@ -625,17 +624,18 @@ vn_tou_missions_slot_5 = {
 		required_missions = { }
 		trigger = {
 			land_forcelimit = 25
-			if = {
-				limit = { exists = FRA }
-				total_development = FRA
-			}
-			else = {
-				total_development = 200
-			}
+			land_maintenance = 1
+			NOT = { FRA = { tech_difference = 1 } }
 		}
 		effect = {
-			add_prestige = 15
-			add_manpower = 5
+			if = {
+				limit = { is_subject_of = FRA }
+				add_liberty_desire = 50
+			}
+			else = {
+				add_prestige = 15
+			}
+			add_army_tradition = 5
 			add_country_modifier = {
 				name = "tou_challenge_the_king_mission"
 				duration = 9125
@@ -650,9 +650,9 @@ vn_tou_missions_slot_5 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			french_superregion = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			num_of_owned_provinces_with = {
+				value = 250
+				superregion = french_superregion
 			}
 		}
 		effect = {
@@ -668,13 +668,12 @@ vn_tou_missions_slot_5 = {
 		icon = mission_wine_monopolies
 		required_missions = { vn_tou_conquer_carcassonne }
 		trigger = {
-			wine = 10
 			trading_bonus = {
 				trade_goods = wine
 				value = yes
 			}
 			num_of_owned_provinces_with = {
-				value = 3
+				value = 5
 				trade_goods = wine
 				has_production_building_trigger = yes
 			}
@@ -689,7 +688,7 @@ vn_tou_missions_slot_5 = {
 	}
 	vn_tou_ports_of_languedoc = {
 		position = 5
-		icon = mission_naval_expansion
+		icon = toulon_dockyards
 		required_missions = { vn_tou_conquer_languedoc }
 		provinces_to_highlight = {
 			region = toulouse_region

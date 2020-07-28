@@ -334,7 +334,7 @@ vn_wws_missions_slot_2 = {
     has_country_shield = yes
 
     vn_wws_swabian_greed = {
-        icon = mission_reform_the_state
+        icon = reform_the_state
         position = 2
         required_missions = { vn_wws_promote_agriculture }
         trigger = {
@@ -351,7 +351,7 @@ vn_wws_missions_slot_2 = {
         }
     }
     vn_wws_conquer_munich = {
-        icon = mission_duchy_of_bavaria
+        icon = duchy_of_bavaria
         position = 3
         required_missions = { vn_wws_conquer_riesgau }
 		provinces_to_highlight = {
@@ -396,7 +396,7 @@ vn_wws_missions_slot_2 = {
         }
     }
     vn_wws_conquer_passau = {
-        icon = mission_assert_our_sovereignty
+        icon = assert_our_sovereignty
         position = 4
         required_missions = { vn_wws_conquer_munich }
 		provinces_to_highlight = {
@@ -845,7 +845,7 @@ vn_wws_missions_slot_4 = {
     has_country_shield = yes
 
     vn_wws_conquer_augsburg = {
-        icon = mission_ansbach_succession
+        icon = ansbach_succession
         position = 2
         required_missions = { vn_wws_prestigious_kinship }
 		provinces_to_highlight = {
@@ -914,7 +914,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_conquer_constance = {
-        icon = mission_prosper_in_piedmont
+        icon = prosper_in_piedmont
         position = 4
         required_missions = { vn_wws_conquer_ravensburg }
 		provinces_to_highlight = {
@@ -984,7 +984,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_bodensee_economy = {
-        icon = mission_the_shape_of_trades_to_come
+        icon = the_shape_of_trades_to_come
         position = 5
         required_missions = { vn_wws_conquer_constance }
         trigger = {
@@ -1041,7 +1041,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_conquer_switzerland = {
-        icon = mission_the_alpine_wall
+        icon = the_alpine_wall
         position = 6
 		required_missions = { vn_wws_become_emperor }
 		provinces_to_highlight = {
@@ -1143,7 +1143,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_rein_in_italy = {
-        icon = mission_kingdom_of_lombardy
+        icon = kingdom_of_lombardy
         position = 9
 		required_missions = { vn_wws_raid_milan vn_wws_decisions_of_roncaglia }
 		provinces_to_highlight = {
@@ -1233,7 +1233,7 @@ vn_wws_missions_slot_4 = {
         }
     }
     vn_wws_conquer_sicily = {
-        icon = mission_spread_the_von_wettins
+        icon = spread_the_von_wettins
         position = 10
 		required_missions = { vn_wws_rein_in_italy vn_wws_restore_honor_imperii }
 		provinces_to_highlight = {
@@ -1278,16 +1278,16 @@ vn_wws_missions_slot_5 = {
     has_country_shield = yes
 
     vn_wws_idealistic_duke = {
-        icon = mission_chivalry_is_not_dead
+        icon = chivalry_is_not_dead
         position = 1
         required_missions = {  }
         trigger = {
             calc_true_if = {
-				amount = 2
-				adm = 4
-				dip = 4
-				mil = 4
-			}
+                amount = 2
+                monthly_adm = 8
+                monthly_dip = 8
+                monthly_mil = 8
+            }
 			stability = 1
         }
         effect = {
@@ -1298,13 +1298,26 @@ vn_wws_missions_slot_5 = {
         }
     }
     vn_wws_swabian_antikings = {
-        icon = mission_secure_our_rule
+        icon = secure_our_rule
         position = 3
         required_missions = { vn_wws_idealistic_duke }
         trigger = {
-			has_institution = investiture
-			legitimacy_equivalent = 100
-			months_of_ruling = 120
+			legitimacy_equivalent = 95
+            months_of_ruling = 120
+            OR = {
+                NOT = { hre_size = 1 }
+                calc_true_if = {
+                    desc = secure_the_imperial_crown.tooltip
+                    all_elector = {
+                        preferred_emperor = ROOT
+                        OR = {
+                            tag = ROOT
+                            has_opinion = { who = ROOT value = 100 }
+                        }
+                    }
+                    amount = 5
+                }
+            }
         }
         effect = {
             add_dip_power = 50
@@ -1319,13 +1332,27 @@ vn_wws_missions_slot_5 = {
         position = 5
         required_missions = { vn_wws_swabian_antikings }
         trigger = {
-			is_emperor = yes
-			hre_reform_level = 1
-			prestige = 50
+            if = {
+                limit = { hre_size = 1 }
+                is_emperor = yes
+                imperial_influence = 25
+            }
+			else = {
+                NOT = {
+                    any_neighbor_country = {
+                        total_development = ROOT
+                    }
+                }
+            }
         }
         effect = {
-            add_stability_or_adm_power = yes
-            add_legitimacy = 10
+            if = {
+                limit = { hre_size = 1 }
+                add_imperial_influence = 25
+            }
+            else = {
+                add_prestige = 25
+            }
             thurgau_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1354,19 +1381,26 @@ vn_wws_missions_slot_5 = {
         position = 6
         required_missions = { vn_wws_become_emperor }
         trigger = {
-			is_emperor = yes
-            OR = {
-                hre_reform_passed = emperor_statutumprincipum
-                hre_reform_passed = statutumprincipum
-            }
-            custom_trigger_tooltip = {
-                tooltip = wws_proclaim_free_cities.tt
+            if = {
+                limit = { hre_size = 1 }
+                is_emperor = yes
+                if = {
+                    limit = { has_dlc = "Emperor" }
+                    hre_reform_passed = emperor_statutumprincipum
+                }
+                else = {
+                    hre_reform_passed = statutumprincipum
+                }
                 calc_true_if = {
+                    desc = wws_proclaim_free_cities.tt
                     amount = 30
                     all_country = {
                         has_reform = free_city
                     }
                 }
+            }
+			else = {
+                government_rank = 6
             }
         }
         effect = {
@@ -1378,23 +1412,34 @@ vn_wws_missions_slot_5 = {
         }
     }
     vn_wws_decisions_of_roncaglia = {
-        icon = mission_adjust_the_general_means
+        icon = adjust_the_general_means
         position = 8
         required_missions = { vn_wws_proclaim_free_cities }
         trigger = {
-			is_emperor = yes
-            OR = {
-                hre_reform_passed = emperor_roncagliergesetze
-                hre_reform_passed = roncagliergesetze
+            if = {
+                limit = { hre_size = 1 }
+                is_emperor = yes
+                if = {
+                    limit = { has_dlc = "Emperor" }
+                    hre_reform_passed = emperor_roncagliergesetze
+                }
+                else = {
+                    hre_reform_passed = roncagliergesetze
+                }
+                if = {
+                    limit = { uses_papacy = yes }
+                    OR = {
+                        is_papal_controller = yes
+                        invested_papal_influence = 50
+                    }
+                }
             }
-            OR = {
-                is_papal_controller = yes
-                invested_papal_influence = 50
+            else = {
+                government_rank = 6
             }
         }
         effect = {
             define_advisor = {
-                name = "Ugo di Porta Ravegnana"
                 type = statesman
                 skill = 3
                 religion = catholic
@@ -1408,26 +1453,26 @@ vn_wws_missions_slot_5 = {
         }
     }
     vn_wws_restore_honor_imperii = {
-        icon = mission_lead_the_empire
+        icon = lead_the_empire
         position = 9
         required_missions = { vn_wws_decisions_of_roncaglia }
         trigger = {
-            is_emperor = yes
-            OR = {
-                hre_reform_passed = emperor_hofgericht
-                hre_reform_passed = hofgericht
-            }
-            OR = {
-                custom_trigger_tooltip = {
-                    tooltip = vn_wws_restore_honor_imperii.tt
-                    is_in_war = {
-                        attacker_leader = ROOT
-                        war_score = 75
-                        casus_belli = cb_imperial_ban
-                    }
+            if = {
+                limit = { hre_size = 1 }
+                is_emperor = yes
+                if = {
+                    limit = { has_dlc = "Emperor" }
+                    hre_reform_passed = emperor_hofgericht
+                }
+                else = {
+                    hre_reform_passed = hofgericht
                 }
                 NOT = { num_of_foreign_hre_provinces = 1 }
             }
+            else = {
+                government_rank = 6
+            }
+            is_emperor = yes
         }
         effect = {
             add_country_modifier = {
