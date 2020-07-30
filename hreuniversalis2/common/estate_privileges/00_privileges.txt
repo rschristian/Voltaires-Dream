@@ -7220,3 +7220,116 @@ estate_holy_orders_court_representation = {
 		}
 	}
 }
+
+estate_burghers_jewish_scapegoats = {
+	icon = privilege_tolerance_heathen
+	max_absolutism = -5
+	loyalty = 0.05
+	influence = 0.10
+	can_select = {
+		current_age = age_of_dynasticism
+		is_part_of_hre = yes
+		religion_group = christian
+		NOT = { has_estate_privilege = estate_burghers_jewish_scapegoats }
+	}
+	is_valid = {
+		current_age = age_of_dynasticism
+		religion_group = christian
+	}
+	conditional_modifier = {
+		trigger = {
+			has_global_flag = emperor_protected_jews_flag
+		}
+		modifier = {
+			diplomatic_reputation = -1
+			all_power_cost = 0.05
+		}
+	}
+	conditional_modifier = {
+		trigger = {
+			NOT = { has_global_flag = emperor_protected_jews_flag }
+		}
+		modifier = {
+			diplomatic_reputation = -0.5
+			all_power_cost = 0.025
+		}
+	}
+	benefits = {
+		global_unrest = -3
+	}
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 0.5
+			has_idea_group = humanist_ideas
+		}
+		modifier = {
+			factor = 2
+			government = republic
+		}
+		modifier = {
+			factor = 2
+			is_in_deficit = yes
+		}
+		modifier = {
+			factor = 2
+			has_any_disaster = yes
+		}
+		modifier = {
+			factor = 2
+			average_unrest = 2
+		}
+		modifier = {
+			factor = 0.5
+			estate_influence = {
+				estate = estate_burghers
+				influence = 75
+			}
+		}
+	}
+}
+
+estate_burghers_jewish_sanctuary = {
+	icon = privilege_promoto_dhimmi_nobles
+	max_absolutism = -5
+	loyalty = -0.05
+	loyalty = -0.1
+	can_select = {
+		current_age = age_of_dynasticism
+		is_part_of_hre = yes
+		religion_group = christian
+		NOT = { has_estate_privilege = estate_burghers_jewish_scapegoats }
+	}
+	is_valid = {
+		current_age = age_of_dynasticism
+		religion_group = christian
+	}
+	conditional_modifier = {
+		trigger = {
+			has_global_flag = emperor_protected_jews_flag
+		}
+		modifier = {
+			global_institution_spread = 0.2
+			interest = -0.5
+		}
+	}
+	conditional_modifier = {
+		trigger = {
+			NOT = { has_global_flag = emperor_protected_jews_flag }
+		}
+		modifier = {
+			global_institution_spread = 0.1
+			interest = -0.25
+		}
+	}
+	penalties = {
+		stability_cost_modifier = 0.2
+	}
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 0.5
+			has_idea_group = religious_ideas
+		}
+	}
+}
