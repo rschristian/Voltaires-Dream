@@ -207,7 +207,7 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_castles_of_alsace = {
-        icon = mission_alpine_defenses
+        icon = alpine_defenses
         position = 8
         required_missions = { }
         trigger = {
@@ -224,7 +224,7 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_suppress_the_bundschuhs = {
-        icon = mission_reissue_the_mining_code
+        icon = reissue_the_mining_code
         position = 9
         required_missions = {  }
         trigger = {
@@ -252,7 +252,7 @@ vn_wws_missions_slot_1 = {
         }
     }
     vn_wws_theological_studies = {
-        icon = mission_bibliotheca_corviana
+        icon = bibliotheca_corviana
         position = 10
         required_missions = { vn_wws_suppress_the_bundschuhs }
         trigger = {
@@ -313,14 +313,13 @@ vn_wws_missions_slot_2 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            munich_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			ingolstadt_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 12
+                OR = {
+                    area = munich_area
+                    area = ingolstadt_area
+                }
+            }
         }
         effect = {
             landshut_area = {
@@ -359,18 +358,14 @@ vn_wws_missions_slot_2 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            landshut_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			innkreis_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			straubing_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 12
+                OR = {
+                    area = landshut_area
+                    area = innkreis_area
+                    area = straubing_area
+                }
+            }
         }
         effect = {
             add_prestige = 15
@@ -381,7 +376,7 @@ vn_wws_missions_slot_2 = {
         }
     }
     vn_wws_conquer_wurttemberg = {
-        icon = mission_avoid_fragmentation
+        icon = avoid_fragmentation
         position = 5
 		required_missions = { vn_wws_conquer_drachgau }
 		provinces_to_highlight = {
@@ -461,7 +456,7 @@ vn_wws_missions_slot_2 = {
         }
     }
     vn_wws_conquer_alsace = {
-        icon = mission_take_the_bishoprics
+        icon = take_the_bishoprics
         position = 8
 		required_missions = { vn_wws_conquer_baden }
 		provinces_to_highlight = {
@@ -737,14 +732,13 @@ vn_wws_missions_slot_3 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-			mainz_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			pfalzwest_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 8
+                OR = {
+                    area = mainz_area
+                    area = pfalzwest_area
+                }
+            }
         }
         effect = {
             add_country_modifier = {
@@ -886,6 +880,7 @@ vn_wws_missions_slot_4 = {
 			}
         }
         effect = {
+            add_adm_power = 100
             albgau_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1004,30 +999,29 @@ vn_wws_missions_slot_4 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            thurgau_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			stgallen_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			waldstatte_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                OR = {
+                    area = thurgau_area
+                    area = stgallen_area
+                    area = waldstatte_area
+                }
+            }
         }
         effect = {
             thurgau_area = {
-                add_base_manpower = 1
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_nationalism = -3
                 add_local_autonomy = -20
             }
             stgallen_area = {
-                add_base_manpower = 1
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_nationalism = -3
                 add_local_autonomy = -20
             }
             waldstatte_area = {
-                add_base_manpower = 1
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_nationalism = -3
                 add_local_autonomy = -20
             }
         }
@@ -1040,16 +1034,13 @@ vn_wws_missions_slot_4 = {
             is_emperor = yes
             calc_true_if = {
                 amount = 2
+                desc = vn_wws_influence_lombardy.tt
                 all_ally = {
                     capital_scope = {
                         superregion = italy_superregion
                     }
                     is_part_of_hre = yes
                     num_of_cities = 10
-                    has_opinion = {
-                        who = ROOT
-                        value = 150
-                    }
                 }
             }
         }
@@ -1074,23 +1065,86 @@ vn_wws_missions_slot_4 = {
         position = 8
 		required_missions = { vn_wws_influence_lombardy }
 		provinces_to_highlight = {
-			province_id = 1818
+			OR = {
+				AND = {
+					owned_by = MLO
+					is_capital = yes
+				}
+				AND = {
+					province_id = 1818
+					NOT = { owned_by = MLO }
+					owner = {
+						NOT = { exists = MLO }
+					}
+				}
+			}
+			NOT = { controlled_by = ROOT }
 		}
-        trigger = {
-            #lombard league imperial incident
-            is_emperor = yes
-			#1818 = {
-			#	OR = {
-			#		AND = {
-			#			NOT = { owned_by = ROOT }
-			#			controlled_by = ROOT
-			#		}
-			#		country_or_non_sovereign_subject_holds = ROOT
-			#	}
-			#}
-        }
+		trigger = {
+			if = {
+				limit = {
+					exists = MLO
+				}
+				MLO = {
+					capital_scope = {
+						OR = {
+							controlled_by = ROOT
+							AND = {
+								controller = {
+									OR = {
+										is_subject_of = ROOT
+										alliance_with = ROOT
+										overlord = {
+											alliance_with = ROOT
+										}
+									}
+									custom_trigger_tooltip = {
+										tooltip = joint_war_with_root_vs_france
+										OR = {
+											is_in_war = {
+												attackers = ROOT
+												attackers = THIS
+												defenders = MLO
+											}
+											is_in_war = {
+												defenders = ROOT
+												defenders = THIS
+												attackers = MLO
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else = {
+					1818 = {
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+				}
+			}
+		}
         effect = {
-
+            add_prestige = 20
+            if = {
+                limit = {
+                    exists = MLO
+                }
+                MLO = {
+                    capital_scope = {
+                        add_base_tax = -2
+                        add_base_production = -2
+                        add_base_manpower = -2
+                        add_devastation = 50
+                    }
+                }
+            }
+            capital_scope = {
+                add_base_tax = 2
+                add_base_production = 2
+                add_base_manpower = 2
+            }
         }
     }
     vn_wws_rein_in_italy = {
@@ -1113,7 +1167,6 @@ vn_wws_missions_slot_4 = {
 			}
 		}
         trigger = {
-            #shadow kingdom imperial incident
             is_emperor = yes
             legitimacy_equivalent = 100
             custom_trigger_tooltip = {
@@ -1139,13 +1192,9 @@ vn_wws_missions_slot_4 = {
 			if = {
                 limit = {
                     exists = SIC
-                    is_free_or_tributary_trigger = yes
-                    government = monarchy
-                    religion_group = christian
+                    valid_for_personal_unions_trigger = yes
                     SIC = {
-                        is_free_or_tributary_trigger = yes
-						government = monarchy
-						religion_group = christian
+                        valid_for_personal_unions_trigger = yes
                     }
                 }
                 add_casus_belli = {
@@ -1233,12 +1282,9 @@ vn_wws_missions_slot_5 = {
         position = 1
         required_missions = {  }
         trigger = {
-            calc_true_if = {
-                amount = 2
-                monthly_adm = 8
-                monthly_dip = 8
-                monthly_mil = 8
-            }
+            monthly_adm = 8
+            monthly_dip = 8
+            monthly_mil = 8
 			stability = 1
         }
         effect = {
@@ -1423,7 +1469,6 @@ vn_wws_missions_slot_5 = {
             else = {
                 government_rank = 6
             }
-            is_emperor = yes
         }
         effect = {
             add_country_modifier = {
