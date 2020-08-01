@@ -36,20 +36,10 @@ vn_tou_missions_slot_1 = {
 		icon = shield_of_christendom
 		required_missions = { vn_tou_weather_catharism }
 		trigger = {
-			OR = {
-				religion = cathar
-				custom_trigger_tooltip = {
-					tooltip = vn_tou_secure_religious_peace.tt
-					had_country_flag = {
-						flag = tou_cathar_heresy
-						days = 10950
-					}
-				}
-			}
+			religion_years = { cathar = 25 }
 			religious_unity = 1
 		}
 		effect = {
-			add_stability_or_adm_power = yes
 			add_country_modifier = {
 				name = "tou_secure_religious_peace_mission"
 				duration = -1
@@ -78,14 +68,6 @@ vn_tou_missions_slot_1 = {
 			num_of_generals = 2
 		}
 		effect = {
-			define_advisor = {
-				type = army_organiser
-				name = "Pierre Barthélemy"
-				religion = catholic
-				culture = occitain
-				skill = 3
-				cost_multiplier = 0.25
-			}
 			3027 = { 
 				if = {
 					limit = {
@@ -111,7 +93,14 @@ vn_tou_missions_slot_1 = {
 			3027 = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		effect = {
-			add_prestige = 15
+			define_advisor = {
+				type = army_organiser
+				name = "Pierre Barthélemy"
+				religion = catholic
+				culture = occitain
+				skill = 3
+				cost_multiplier = 0.25
+			}
 			add_religious_influence_effect_small = yes
 			lebanon_area = {
 				limit = {
@@ -172,8 +161,13 @@ vn_tou_missions_slot_2 = {
 		required_missions = { }
 		trigger = {
 			army_size_percentage = 0.95
-			any_rival_country = {
-				primary_culture = poitevin
+			OR = {
+				any_rival_country = {
+					primary_culture = poitevin
+				}
+				any_ally = {
+					primary_culture = poitevin
+				}
 			}
 		}
 		effect = {
@@ -456,21 +450,28 @@ vn_tou_missions_slot_4 = {
 		required_missions = { }
 		trigger = {
 			if = {
-				limit = {
-					exists = ARA
-					ARA = { is_free_or_tributary_trigger = yes }
-				}
-				AND = {
-					is_rival = ARA
+				limit = { exists = ARA }
+				OR = {
+					alliance_with = ARA
 					ARA = {
-						OR = {
-							has_opinion_modifier = {
-								who = ROOT
-								modifier = insulted
+						custom_trigger_tooltip = {
+							tooltip = rivalled_or_rival_of
+							OR = {
+								is_rival = ROOT
+								ROOT = { is_rival = REV }
 							}
-							has_opinion_modifier = {
-								who = ROOT
-								modifier = scornfully_insulted
+						}
+						custom_trigger_tooltip = {
+							tooltip = has_been_insulted_by_root
+							OR = {
+								has_opinion_modifier = {
+									who = ROOT
+									modifier = insulted
+								}
+								has_opinion_modifier = {
+									who = ROOT
+									modifier = scornfully_insulted
+								}
 							}
 						}
 					}
