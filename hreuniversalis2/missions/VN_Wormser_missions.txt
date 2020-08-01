@@ -39,14 +39,20 @@ vn_die_missions_slot_1 = {
                     loyalty = 60
                 }
             }
-            custom_trigger_tooltip = {
-				tooltip = vn_eng_influence_in_empire.tt
-				calc_true_if = {
-					all_elector = {
-						preferred_emperor = ROOT
-					}
-					amount = 3
-				}
+            if = {
+                limit = { government = monarchy }
+                custom_trigger_tooltip = {
+                    tooltip = vn_eng_influence_in_empire.tt
+                    calc_true_if = {
+                        all_elector = {
+                            preferred_emperor = ROOT
+                        }
+                        amount = 3
+                    }
+                }
+            }
+            else = {
+                num_of_allies = 4
             }
 		}
 		effect = {
@@ -58,22 +64,12 @@ vn_die_missions_slot_1 = {
     }
     vn_die_saxon_rebellion = {
         position = 2
-        icon = confront_the_lombards
+        icon = join_the_empire
         required_missions = { vn_die_secure_loyality }
         provinces_to_highlight = {
             owner = {
                 NOT = { tag = ROOT }
                 is_elector = yes
-                OR = {
-                    AND = {
-                        has_dlc = "Rights of Man"
-                        is_great_power = yes
-                    }
-                    AND = {
-                        NOT = { has_dlc = "Rights of Man" }
-                        total_development = 300
-                    }
-                }
                 NOT = { alliance_with = ROOT }
                 NOT = { is_subject = yes }
                 NOT = {
@@ -87,23 +83,20 @@ vn_die_missions_slot_1 = {
             }
         }
 		trigger = {
-            is_emperor = yes
-            custom_trigger_tooltip = {
-                tooltip = vn_die_saxon_rebellion.tt
-                NOT = {
-                    any_elector = {
-                        NOT = { tag = ROOT }
-                        is_subject = no
-                        is_great_power = yes
-						NOT = { alliance_with = root }
-                        NOT = {
-							ROOT = {
-								has_won_war_against = {
-									who = PREV
-									max_years_since = 50
-								}
-							}
-						}
+            OR = {
+                NOT = { exists = SAX }
+                AND = {
+                    alliance_with = SAX
+                    reverse_has_opinion = {
+                        who = SAX
+                        value = 150
+                    }
+                }
+                AND = {
+                    num_of_cities = SAX
+                    has_won_war_against = {
+                        who = SAX
+                        max_years_since = 25
                     }
                 }
             }
@@ -145,7 +138,7 @@ vn_die_missions_slot_1 = {
             add_dip_power = 50
             add_country_modifier = {
                 name = die_italian_alliances_mission
-                duration = 7300
+                duration = 9125
             }
 		}
     }
@@ -227,14 +220,6 @@ vn_die_missions_slot_2 = {
 		}
 		effect = {
             2962 = {
-                add_trade_modifier = {
-                    who = ROOT
-                    duration = 9125
-                    power = 10
-                    key = die_connect_worms_and_speyer_mission
-                }
-            }
-            2962 = {
                 add_province_modifier = {
                     name = die_connect_worms_and_speyer_mission
                     duration = 9125
@@ -300,8 +285,11 @@ vn_die_missions_slot_2 = {
         }
 		trigger = {
             is_emperor = yes
-            OR = {
+            if = {
+                limit = { has_dlc = "Emperor" }
                 hre_reform_passed = emperor_licetiuris
+            }
+            else = {
                 hre_reform_passed = licetiuris
             }
             num_of_electors = 7
@@ -314,7 +302,7 @@ vn_die_missions_slot_2 = {
             }
 		}
 		effect = {
-            add_prestige = 10
+            add_imperial_influence = 25
             add_country_modifier = {
                 name = die_weaken_the_princes_mission
                 duration = 9125
@@ -326,7 +314,6 @@ vn_die_missions_slot_2 = {
         icon = holy_state
 		required_missions = { vn_die_italian_alliances }
 		trigger = {
-            #investiture controversy imperial incident has been overcome
             is_emperor = yes
             has_institution = investiture
             all_state_province = {
@@ -335,19 +322,29 @@ vn_die_missions_slot_2 = {
             if = {
                 limit = { religion = catholic }
                 OR = {
-                    is_rival = PAP
-                    reverse_has_opinion = {
-                        who = PAP
-                        value = 150
+                    AND = {
+                        is_rival = PAP
+                        PAP = { has_been_insulted_by_root = yes }
+                    }
+                    AND = {
+                        alliance_with = PAP
+                        reverse_has_opinion = {
+                            who = PAP
+                            value = 150
+                        }
                     }
                 }
             }
-            if = {
+            else_if = {
                 limit = { religion = catholique }
-                OR = {
+                AND = {
                     is_rival = AVI
+                    PAP = { has_been_insulted_by_root = yes }
+                }
+                AND = {
+                    alliance_with = AVI
                     reverse_has_opinion = {
-                        who = AVI
+                        who = PAP
                         value = 150
                     }
                 }
@@ -377,7 +374,7 @@ vn_die_missions_slot_3 = {
 
     vn_die_conquer_wormsgau = {
         position = 1
-        icon = mission_landsknecht_soldier
+        icon = ansbach_succession
         required_missions = { }
         provinces_to_highlight = {
             OR = {
@@ -387,16 +384,17 @@ vn_die_missions_slot_3 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            mainz_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            pfalzwest_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 14
+                OR = {
+                    area = mainz_area
+                    area = pfalzwest_area
+                }
             }
         }
         effect = {
+            add_mercantilism = 2
+            add_adm_power = 25
             darmstadt_area = {
                 limit = {
                     NOT = { owned_by = ROOT }
@@ -422,7 +420,7 @@ vn_die_missions_slot_3 = {
     }
     vn_die_conquer_metz = {
         position = 2
-        icon = mission_landsknecht_soldier
+        icon = glory_to_turin
         required_missions = { vn_die_conquer_wormsgau }
         provinces_to_highlight = {
             OR = {
@@ -432,13 +430,12 @@ vn_die_missions_slot_3 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-            metz_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            saar_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                OR = {
+                    area = metz_area
+                    area = saar_area
+                }
             }
 		}
 		effect = {
@@ -470,13 +467,12 @@ vn_die_missions_slot_3 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-            barrois_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            toul_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                OR = {
+                    area = barrois_area
+                    area = toul_area
+                }
             }
 		}
 		effect = {
@@ -517,9 +513,9 @@ vn_die_missions_slot_4 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-            darmstadt_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 6
+                area = darmstadt_area
             }
 		}
 		effect = {
@@ -540,13 +536,12 @@ vn_die_missions_slot_4 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-            nurnburg_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 14
+                region = nurnburg_region
             }
 		}
 		effect = {
-            add_mercantilism = 2
             bavaria_region = {
                 limit = {
                     NOT = { owned_by = ROOT }
@@ -568,9 +563,9 @@ vn_die_missions_slot_4 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-            bavaria_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 20
+                region = bavaria_region
             }
 		}
 		effect = {
@@ -588,9 +583,9 @@ vn_die_missions_slot_4 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-            burgundy_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 18
+                region = burgundy_region
             }
 		}
 		effect = {
@@ -616,11 +611,11 @@ vn_die_missions_slot_5 = {
     has_country_shield = yes
 
     vn_die_feudal_obligations = {
-        icon = mission_coronation
+        icon = rein_in_the_nobles
         required_missions = { }
 		trigger = {
            army_size_percentage = 0.75
-           legitimacy_equivalent = 100
+           legitimacy_equivalent = 95
            stability = 2
            NOT = { average_autonomy = 50 }
            NOT = { average_unrest = 1 }
@@ -644,7 +639,7 @@ vn_die_missions_slot_5 = {
 		}
     }
     vn_die_conquer_baden = {
-        icon = mission_coronation
+        icon = reclaim_the_ducal_lands
         required_missions = { vn_die_feudal_obligations }
         provinces_to_highlight = {
             OR = {
@@ -654,13 +649,12 @@ vn_die_missions_slot_5 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
 		trigger = {
-            baden_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            pfalzeast_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 18
+                OR = {
+                    region = baden_region
+                    area = pfalzeast_area
+                }
             }
 		}
 		effect = {
@@ -674,16 +668,16 @@ vn_die_missions_slot_5 = {
 		}
     }
     vn_die_conquer_swabia = {
-        icon = mission_dominate_home_trade_node
+        icon = control_swabia
         required_missions = { vn_die_conquer_baden }
         provinces_to_highlight = {
             region = wurttemburg_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT } 
         }
 		trigger = {
-            wurttemburg_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 14
+                region = wurttemburg_region
             }
 		}
 		effect = {
