@@ -14,7 +14,7 @@ vn_bav_missions_slot_1 = {
 
     vn_bav_conquer_burgau = {
         position = 2
-        icon = mission_unite_home_region
+        icon = control_swabia
         required_missions = { vn_bav_please_the_nobility }
         provinces_to_highlight = {
             OR = {
@@ -59,7 +59,7 @@ vn_bav_missions_slot_1 = {
     }
     vn_bav_conquer_argengau = {
         position = 3
-        icon = mission_unite_home_region
+        icon = mission_soldiers_in_line
         required_missions = { vn_bav_conquer_burgau }
         provinces_to_highlight = {
             OR = {
@@ -98,7 +98,7 @@ vn_bav_missions_slot_1 = {
         }
     }
     vn_bav_conquer_lower_swabia = {
-        icon = mission_unite_home_region
+        icon = confront_the_lombards
         required_missions = { vn_bav_conquer_argengau }
         provinces_to_highlight = {
             region = wurttemburg_region
@@ -565,7 +565,7 @@ vn_bav_missions_slot_2 = {
         }
     }
     vn_bav_ecclesiastical_restauration = {
-        icon = mission_religious
+        icon = catholic_volunteers
         required_missions = { vn_bav_jesuitenkolleg_ingolstadt }
         trigger = {
             religious_unity = 1
@@ -591,52 +591,6 @@ vn_bav_missions_slot_2 = {
             add_country_modifier = {
                 name = bav_ecclesiastical_restauration_mission
                 duration = 9125
-            }
-        }
-    }
-    vn_bav_conquer_austria = {
-        position = 10
-        icon = mission_the_austrian_succession
-        required_missions = { vn_bav_reform_the_army }
-        provinces_to_highlight = {
-            OR = {
-                region = austria_region
-                area = styria_area
-                area = carinthia_area
-                area = murmark_area
-            }
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-        }
-        trigger = {
-			austria_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            styria_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            carinthia_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            murmark_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-        }
-        effect = {
-            add_prestige = 25
-            random_list = {
-                33 = {
-                    change_adm = 1
-                }
-                33 = {
-                    change_dip = 1
-                }
-                33 = {
-                    change_mil = 1
-                }
             }
         }
     }
@@ -696,6 +650,95 @@ vn_bav_missions_slot_3 = {
         }
         effect = {
             add_legitimacy = 10
+            if = {
+				limit = {
+                    valid_for_personal_unions_trigger = yes
+					exists = HAB
+					HAB = {
+						valid_for_personal_unions_trigger = yes
+					}
+				}
+				add_casus_belli = {
+					type = cb_fabricated_claims
+					months = 300
+					target = HAB
+				}
+			}
+			else = {
+				austria_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+                styria_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+                carinthia_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+                }
+                murmark_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+        }
+    }
+    vn_bav_conquer_austria = {
+        icon = mission_the_austrian_succession
+        required_missions = { vn_bav_reform_the_army }
+        provinces_to_highlight = {
+            OR = {
+                region = austria_region
+                area = styria_area
+                area = carinthia_area
+                area = murmark_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+			austria_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            styria_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            carinthia_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            murmark_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige = 25
+            random_list = {
+                33 = {
+                    change_adm = 1
+                }
+                33 = {
+                    change_dip = 1
+                }
+                33 = {
+                    change_mil = 1
+                }
+            }
         }
     }
     vn_bav_conquer_wurzburg = {
@@ -759,7 +802,7 @@ vn_bav_missions_slot_3 = {
         }
     }
     vn_bav_bavarian_kingdom = {
-        icon = mission_empire
+        icon = become_king
         required_missions = { vn_bav_build_neuschwanstein }
         trigger = {
             government_rank = 6
