@@ -5629,7 +5629,7 @@ country_event = {
     }
 
     mean_time_to_happen = {
-        months = 600 Chance to not fire due to institutions every 50 years.
+        months = 600 #Chance to not fire due to institutions every 50 years.
         modifier = {
             factor = 0
             NOT = {
@@ -5858,45 +5858,44 @@ province_event = {
 			current_age = age_of_holy_wars
 			current_age = age_of_crisis
 		}
+		any_neighbor_province = {
+			culture_group = germanic
+		}
 		OR = {
 			culture = polabian
 			culture = kashubian
-			culture = pruthenian
 			culture = sorbian
 			culture = schlesian
 			AND = {
 				has_global_flag = danzig_delivered
+				owner = { culture_group = germanic }
 				culture = pruthenian
 			}
 			AND = {
 				has_global_flag = riga_delivered
-				culture = latvian
+				owner = { culture_group = germanic }
+				OR = {
+					culture = latvian
+					culture = curonian
+					culture = estonian
+				}
 			}
 		}
 	}
 
 	mean_time_to_happen = {
-		months = 150
+		months = 180
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			owner = {
 				culture_group = germanic
 			}
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			owner = {
 				culture_group = west_slavic
 				religion_group = christian
-			}
-		}
-		modifier = {
-			factor = 0.75
-			owner = {
-				culture_group = west_slavic
-			}
-			any_neighbor_province = {
-				culture_group = germanic
 			}
 		}
 	}
@@ -5908,19 +5907,22 @@ province_event = {
 		}
 		if = {
 			limit = {
-				culture = pruthenian
+				OR = {
+					culture = pruthenian
+					region = ostpreussen_region
+					region = westpreussen_region
+				}
 			}
 			change_culture = prussian
 		}
 		else_if = {
 			limit = {
 				OR = {
-					region = mecklenburg_region
-					area = stolp_area
-					area = kolberg_area
+					culture = sorbian
+					culture = schlesian
 				}
 			}
-			change_culture = pommeranian
+			change_culture = saxon
 		}
 		else_if = {
 			limit = {
@@ -5934,6 +5936,18 @@ province_event = {
 		else_if = {
 			limit = {
 				OR = {
+					culture = kashubian
+					region = mecklenburg_region
+					area = stolp_area
+					area = kolberg_area
+				}
+			}
+			change_culture = pommeranian
+		}
+		else_if = {
+			limit = {
+				OR = {
+					culture = polabian
 					region = holstein_region
 				}
 			}
@@ -5948,6 +5962,7 @@ province_event = {
 		ai_chance = {
 			factor = 0
 		}
+		add_local_autonomy = 25
 		add_province_modifier = {
 			name = add_country_unrest_5_modifier
 			duration = 3650
