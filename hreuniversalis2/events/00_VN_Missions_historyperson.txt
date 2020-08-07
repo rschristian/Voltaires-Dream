@@ -81,6 +81,7 @@ country_event = {
 		}	
 	}
 }
+
 ###Luxembourg
 #Golden Bull of 1356
 country_event = {
@@ -93,29 +94,51 @@ country_event = {
 
     option = {
         name = "vn_missions.203.a"
-        trigger = { num_of_electors = 7 }
+        trigger = { 
+			NOT = {
+				OR = {
+					num_of_electors = 1
+					num_of_electors = 2
+					num_of_electors = 3
+					num_of_electors = 4
+					num_of_electors = 5
+					num_of_electors = 6
+					num_of_electors = 7
+					num_of_electors = 8
+				}		
+			}
+		}
         if = { 
             limit = {
                 any_elector = { 
-					AND = {
+					OR = {
 						is_rival = ROOT 
-						is_subject = no
-						was_player = no
+						has_opinion = {
+							who = ROOT
+							value = 0
+						}
 					}
+					is_subject = no
+					was_player = no
 				}
             }
             random_elector = {
                 limit = { 
-					is_rival = ROOT 
+					OR = {
+						is_rival = ROOT 
+						has_opinion = {
+							who = ROOT
+							value = 0
+						}
+					}
 					is_subject = no
-					was_player = no 
+					was_player = no
 				}
-                elector = no
-                reverse_add_opinion = {
-                    who = ROOT
-                    modifier = lux_golden_bull_opinion
-                }
-            }        
+				immediate = {
+					country_event = { id = vn_missions.204 }
+					elector = no
+				}
+            }			
         }
 		else_if = {
             random_elector = { 
@@ -129,41 +152,160 @@ country_event = {
                         }
                     }
                 }
-                elector = no
-                reverse_add_opinion = {
-                    who = ROOT
-                    modifier = lux_golden_bull_opinion
-                }
+				immediate = {
+					country_event = { id = vn_missions.204 }
+					elector = no
+				}
             }		
 		}
         else = {
 			random_elector = { 
-				elector = no
-				reverse_add_opinion = {
-                    who = ROOT
-                    modifier = lux_golden_bull_opinion
-                }
+				immediate = {
+					country_event = { id = vn_missions.204 }
+					elector = no
+				}
 			}
         }
+		set_country_flag = vn_missions_gained_electorate
         add_imperial_influence = 50
         elector = yes
     }
     option = {
         name = "vn_missions.203.b"
         trigger = { 
-            NOT = { 
-                num_of_electors = 7 
-            }
+			OR = {
+	            num_of_electors = 1
+				num_of_electors = 2
+	            num_of_electors = 3
+				num_of_electors = 4
+	            num_of_electors = 5
+				num_of_electors = 6
+	            num_of_electors = 7
+				num_of_electors = 8
+			}
         }
+		set_country_flag = vn_missions_gained_electorate
         add_imperial_influence = 50
         elector = yes
     }
 }
 
+#Excluded From the Electorate
+country_event = {
+	id = vn_missions.204
+	title = vn_missions.204.t
+	desc = vn_missions.204.d
+	picture = REFORM_eventPicture
+
+	is_triggered_only = yes
+
+    option = {
+        name = "vn_missions.204.a" #An Unfortunate Decision
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 0
+				NOT = {
+					emperor = {
+						army_strength = {
+							who = ROOT
+							value = 1
+						}
+					}
+				}
+			}
+		}
+		any_elector = {
+			limit = {
+				has_country_flag = vn_missions_gained_electorate
+			}
+			add_prestige = -50
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = lux_golden_bull_opinion
+			}
+		}
+    }
+    option = {
+        name = "vn_missions.204.b" #Fight for the Electorate
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 0
+				emperor = {
+					army_strength = {
+						who = ROOT
+						value = 1
+					}
+				}
+			}
+		}
+		immediate = {
+			set_country_flag = vn_missions_fight_for_electorate
+		}
+		any_elector = {
+			limit = {
+				has_country_flag = vn_missions_gained_electorate
+			}
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = lux_golden_bull_opinion
+			}
+		}
+		declare_war_with_cb = {
+			who = emperor
+			casus_belli = cb_humiliate_rotw
+		}
+    }
+}
+
+#Defeat of the Emperor
+country_event = {
+	id = vn_missions.205
+	title = vn_missions.205.t
+	desc = vn_missions.205.d
+	picture = REFORM_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		has_country_flag = vn_missions_fight_for_electorate
+		any_elector = {
+			limit = {
+				has_country_flag = vn_missions_gained_electorate
+			}
+			war_score_against = {
+				who = ROOT
+				value = -50
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+ 		days = 1
+ 	}	
+
+    option = {
+        name = "vn_missions.205.a" #Regain the Electorate 
+		any_elector = {
+			limit = {
+				has_country_flag = vn_missions_gained_electorate
+			}
+			elector = no
+		}		
+		elector = yes
+		add_prestige = 50
+		add_country_modifier = {
+			name = "lux_regained_electorate_mission"
+			duration = 9125
+		}		
+    }
+}
+
 ###Other Events
 #IDs 300 and over
-#XPavia 0, XSicily 1, XBarcelona 2, XProvence 3, XBrabant 7
-#Bohemia 4, Swabia/von Hohenstaufen 5, Flanders 6
+#XPavia 0, XSicily 1, XBarcelona 2, XProvence 3, XFlanders 6, XBrabant 7
+#Bohemia 4, Swabia/von Hohenstaufen 5
 #Unique Political Situation (Bohemia)
 country_event = {
 	id = vn_missions.304
@@ -348,98 +490,6 @@ country_event = {
 			}
 			add_country_modifier = {
 				name = "wws_reunite_swabia_event"
-				duration = -1
-			}
-		}
-	}
-}
-
-#Fight For Sovereignty (Flanders)
-country_event = {
-	id = vn_missions.306
-	title = vn_missions.306.t
-	desc = vn_missions.306.d
-	picture = BATTLE_eventPicture
-	
-	fire_only_once = yes
-
-	trigger = { 
-		tag = FLA
-		army_size_percentage = 1
-		navy_size_percentage = 1
-		num_of_generals = 1
-		stability = 1
-		has_3_advisors_trigger = yes
-		OR = {
-			has_idea_group = logistics_ideas
-			has_idea_group = offensive_ideas
-			has_idea_group = defensive_ideas
-			has_idea_group = quality_ideas
-			has_idea_group = quantity_ideas
-			has_idea_group = naval_ideas
-			has_idea_group = aristocracy_ideas
-			has_idea_group = plutocracy_ideas
-		}	
-		NOT = {
-			has_country_flag = had_hp_event
-		}
-	}	
-	
-	mean_time_to_happen = {
- 		months = 1
- 	}
-	
-	immediate = {
-		set_country_flag = had_hp_event
-	} 
-	
-	option = {
-		name = vn_missions.300.a
-		ai_chance = { factor = 50 }
-		trigger = {
-			NOT = { 
-				OR = {
-					has_idea_group = aristocracy_ideas
-					has_idea_group = plutocracy_ideas
-				}	
-				war_score = 50
-			}
-		}		
-		add_adm_power = 25
-		add_dip_power = 25
-		add_mil_power = 25
-	}
-	option = {
-		name = vn_missions.300.b
-		ai_chance = { factor = 50 }
-		add_prestige = 10		
-		add_country_modifier = {
-			name = "pva_rise_event"
-			duration = 9125
-		}
-	}
-	option = {
-		name = vn_missions.300.c
-		ai_chance = { factor = 50 }
-		trigger = {
-			OR = {
-				has_idea_group = aristocracy_ideas
-				has_idea_group = plutocracy_ideas
-			}
-			war_score = 50		
-		}
-		add_army_tradition = 10
-		add_adm_power = 100
-		add_dip_power = 100
-		add_mil_power = 100
-		hidden_effect = {
-			add_years_of_income = 1  
-			add_country_modifier = {
-				name = "fla_the_wake_of_great_powers_event"
-				duration = -1
-			}
-			add_country_modifier = {
-				name = "fla_fight_event"
 				duration = -1
 			}
 		}
