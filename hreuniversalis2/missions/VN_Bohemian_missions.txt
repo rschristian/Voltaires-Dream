@@ -92,16 +92,7 @@ vn_boh_missions_slot_1 = {
         trigger = {
             any_rival_country = {
                 culture = austrian
-                OR = {
-                    has_opinion_modifier = {
-                        who = ROOT
-                        modifier = insulted
-                    }
-                    has_opinion_modifier = {
-                        who = ROOT
-                        modifier = scornfully_insulted
-                    }
-                }
+                has_been_insulted_by_root = yes
                 NOT = {
                     army_strength = {
                         who = ROOT
@@ -324,6 +315,7 @@ vn_boh_missions_slot_2 = {
                 add_permanent_claim = ROOT
             }
             moravia_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = boh_conquer_moravia_mission
                     duration = 9125
@@ -380,18 +372,21 @@ vn_boh_missions_slot_2 = {
                 add_permanent_claim = ROOT
             }
             legnica_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = boh_conquer_lower_silesia_mission
                     duration = 7300
                 }
             }
             glogow_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = boh_conquer_lower_silesia_mission
                     duration = 7300
                 }
             }
             silesiawest_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = boh_conquer_lower_silesia_mission
                     duration = 7300
@@ -428,14 +423,8 @@ vn_boh_missions_slot_2 = {
         effect = {
             if = {
                 limit = {
-                    exists = POL
-                    is_subject = no
-                    government = monarchy
-                    religion_group = christian
-                    POL = {
-                        is_free_or_tributary_trigger = yes
-                        government = monarchy
-                    }
+                    valid_for_personal_unions_trigger = yes
+                    POL = { valid_for_personal_unions_trigger = yes }
                 }
                 add_casus_belli = {
                     type = cb_fabricated_claims
@@ -460,18 +449,21 @@ vn_boh_missions_slot_2 = {
                 }
             }
             opava_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = boh_conquer_lower_silesia_mission
                     duration = 7300
                 }
             }
             opole_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = boh_conquer_lower_silesia_mission
                     duration = 7300
                 }
             }
             silesiaeast_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = boh_conquer_lower_silesia_mission
                     duration = 7300
@@ -617,14 +609,8 @@ vn_boh_missions_slot_3 = {
         effect = {
             if = {
                 limit = {
-                    exists = HUN
-                    is_subject = no
-                    government = monarchy
-                    religion_group = christian
-                    HUN = {
-                        is_free_or_tributary_trigger = yes
-                        government = monarchy
-                    }
+                    valid_for_personal_unions_trigger = yes
+                    HUN = { valid_for_personal_unions_trigger = yes }
                 }
                 add_casus_belli = {
                     type = cb_fabricated_claims
@@ -893,7 +879,11 @@ vn_boh_missions_slot_4 = {
         position = 4
 		required_missions = { vn_boh_conquer_niederlausitz }
 		provinces_to_highlight = {
-			province_id = 2841
+            province_id = 2841
+            NOT = { 
+                owned_by = ROOT 
+                is_core = ROOT
+            }
 		}
         trigger = {
             owns_core_province = 2841

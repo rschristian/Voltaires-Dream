@@ -233,11 +233,13 @@ vn_hol_missions_slot_1_b = {
 				region = netherlands_region
 				region = wallonian_region
 			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
+			OR = {
+				NOT = {
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				unrest = 1
+				nationalism = 1
 			}
-			unrest = 1
-			nationalism = 1
 		}
         trigger = {
 			has_reform = dutch_republic
@@ -913,17 +915,18 @@ vn_hol_missions_slot_3_a = {
 					add_permanent_claim = ROOT
 				}
 			}  
-            2729 = {
-				if = {
-					limit = {
-						NOT = { province_has_center_of_trade_of_level = 3 }
-					}
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+					2729 = { NOT = { province_has_center_of_trade_of_level = 3 } }
+				}
+				2729 = {
 					add_center_of_trade_level = 1
 					add_base_production = 1
 				}
-				else = {
-					add_base_production = 2
-				}
+			}
+			else = {
+				2729 = { add_base_production = 2 }
 			}
 		}
     }
@@ -959,6 +962,9 @@ vn_hol_missions_slot_3_a = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 			1866 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			897 = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
         }
@@ -1071,11 +1077,9 @@ vn_hol_missions_slot_3_b = {
         provinces_to_highlight = {
             region = netherlands_region
             NOT = {
-                OR = {
-                    owned_by = ROOT
-                    num_of_times_improved = 1
-                    NOT = { devastation = 1 }
-                }
+                owned_by = ROOT
+                num_of_times_improved = 1
+                NOT = { devastation = 1 }
             }
         }
         trigger = {
@@ -1464,7 +1468,8 @@ vn_hol_missions_slot_4_b = {
         effect = {
             add_country_modifier = {
                 name = "hol_control_world_trade_mission"
-                duration = 9125			}
+				duration = 9125			
+			}
         }
     }
     vn_hol_become_protestant = {
@@ -1567,9 +1572,7 @@ vn_hol_missions_slot_5_a = {
         provinces_to_highlight = {
             region = netherlands_region
 			owned_by = ROOT
-			NOT = {
-				has_fort_trigger = yes
-			}
+			has_fort_trigger = no
         }
         trigger = {
             num_of_owned_provinces_with = {
@@ -1611,7 +1614,7 @@ vn_hol_missions_slot_5_a = {
 			}
         }
     }
-    vn_hol_dutch_electorship = {	#should be changed to be less redundant
+    vn_hol_dutch_electorship = {
         icon = imperial_ascendancy
         required_missions = { }
         trigger = {
@@ -1722,9 +1725,6 @@ vn_hol_missions_slot_5_b = {
 		position = 9
         icon = english_alliance
         required_missions = { vn_hol_dutch_trading_culture }
-        provinces_to_highlight = {
-			province_id = 2268	
-		}
         trigger = {
 			2268 = {
 				owner = {
@@ -1786,9 +1786,6 @@ vn_hol_missions_slot_5_b = {
 		position = 12
         icon = the_glorious_revolution
         required_missions = { vn_hol_rival_english_trade }
-        provinces_to_highlight = {
-            province_id = 2268		
-		}
         trigger = {
 			2268 = {
 				owner = {
