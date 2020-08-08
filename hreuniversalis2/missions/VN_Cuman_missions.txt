@@ -56,57 +56,41 @@ vn_cmn_missions_slot_1 = {
         position = 4
         required_missions = { vn_cmn_conquer_bessarabia }
         provinces_to_highlight = {
-            OR = {
-                area = silistra_area
-                area = tarnovo_area
-                area = vidin_area
-                area = kran_area
-            }
+            culture = bulgarian
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            silistra_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            tarnovo_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            vidin_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            kran_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            OR = {
+                AND = {
+                    num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                        value = 50
+                        culture = bulgarian
+                    }
+                }
             }
         }
         effect = {
-            add_prestige = 10
-            add_dip_power = 50
-            silistra_area = {
-                add_province_modifier = {
-                    name = cmn_conquer_bulgaria_mission
-                    duration = 9125
-                }
+            add_power_projection = {
+                type = mission_rewards_power_projection
+                amount = 25
             }
-            tarnovo_area = {
-                add_province_modifier = {
-                    name = cmn_conquer_bulgaria_mission
-                    duration = 9125
+            custom_tooltip = vn_cmn_conquer_bulgaria.tt
+            hidden_effect = {
+                every_owned_province = {
+                    limit = { culture = bulgarian }
+                    add_province_modifier = {
+                        name = cmn_conquer_bulgaria_mission
+                        duration = 18250
+                    }
                 }
-            }
-            vidin_area = {
-                add_province_modifier = {
-                    name = cmn_conquer_bulgaria_mission
-                    duration = 9125
-                }
-            }
-            kran_area = {
-                add_province_modifier = {
-                    name = cmn_conquer_bulgaria_mission
-                    duration = 9125
+                every_subject_country = {
+                    every_owned_province = {
+                        limit = { culture = bulgarian }
+                        add_province_modifier = {
+                            name = cmn_conquer_bulgaria_mission
+                            duration = 18250
+                        }
+                    }
                 }
             }
         }
@@ -205,6 +189,14 @@ vn_cmn_missions_slot_2 = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Emperor" }
+                custom_tooltip = fra_liberation_wars_enabled_tt
+                set_country_flag = fra_liberation_wars_enabled
+            }
+            else = {
+                add_prestige = 10
+            }
             silistra_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -257,6 +249,9 @@ vn_cmn_missions_slot_2 = {
             }
         }
         effect = {
+            wallachia_region = {
+                add_devastation = -10
+            }
             thrace_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -316,6 +311,7 @@ vn_cmn_missions_slot_2 = {
             }
         }
         effect = {
+            add_army_tradition = 10
             volhynia_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -366,33 +362,32 @@ vn_cmn_missions_slot_2 = {
         required_missions = { vn_cmn_conquer_ryazan vn_cmn_conquer_volyn }
         trigger = {
             if = {
-                limit = { has_dlc = "Mandate of Heaven" }
-                OR = {
-                    is_emperor_of_china = yes
-                    custom_trigger_tooltip = {
-                        tooltip = vn_cmn_destroy_the_rus.tt.1
-                        NOT = {
-                            any_country = {
-                                is_emperor_of_china = yes
-                            }
-                        }
-                    }
-                }
-            }
-            custom_trigger_tooltip = {
-                tooltip = vn_cmn_destroy_the_rus.tt.2
-                NOT = {
-                    any_country = {
-                        culture_group = east_slavic
-                        total_development = 250
-                        is_subject = no
-                    }
-                }
-            }
+				limit = {
+					has_dlc = "Mandate of Heaven"
+				}
+				OR = {
+					is_emperor_of_china = yes
+					custom_trigger_tooltip = {
+						tooltip = no_country_is_EoC
+						NOT = {
+							any_country = {
+								is_emperor_of_china = yes
+							}
+						}
+					}
+				}
+			}
+			owns_core_province = 4237
+			owns_core_province = 6594
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				superregion = ruthenia_superregion
+				value = 200
+			}
         }
         effect = {
-            add_army_tradition = 10
-            add_prestige = 10
+            add_prestige = 25
+            add_horde_unity = 25
+            add_legitimacy = 25
             add_country_modifier = {
                 name = cmn_destroy_the_rus_mission
                 duration = 9125
@@ -462,6 +457,7 @@ vn_cmn_missions_slot_3 = {
             }
         }
         effect = {
+            add_prestige = 10
             bessarabia_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -662,6 +658,8 @@ vn_cmn_missions_slot_3 = {
             }
         }
         effect = {
+            add_mil_power = 50
+            add_prestige = 5
             ryazan_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -822,8 +820,7 @@ vn_cmn_missions_slot_4 = {
             6640 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            add_mil_power = 50
-            add_prestige = 5
+            add_prestige = 15
             adygea_area = {
                 limit = {
                     NOT = { is_core = ROOT }
