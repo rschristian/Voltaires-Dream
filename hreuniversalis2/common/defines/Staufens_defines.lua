@@ -125,6 +125,7 @@ NDefines.NNationDesigner.MEMBER_OF_HRE_COST = 5
 NDefines.NNationDesigner.MEMBER_OF_HRE_PROVINCE_COST = 0.05
 NDefines.NNationDesigner.MAX_DISTANCE_TO_OWNER_AREA = 800
 NDefines.NNationDesigner.MAX_GOVERNMENT_RANK = 6
+NDefines.NNationDesigner.MANDATE_SUBCONTINENT_NAME = "french_superregion"
 
 NDefines.NGovernment.GOVERNMENT_REFORM_BASE_COST = 200.0
 NDefines.NGovernment.GOVERNMENT_REFORM_COST_INCREASE = 100.0
