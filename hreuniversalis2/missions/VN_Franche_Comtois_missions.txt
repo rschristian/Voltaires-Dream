@@ -257,7 +257,7 @@ vn_fcm_missions_slot_2 = {
         }
     }
     vn_fcm_comtois_knights = {
-        icon = mission_crusade_for_varna
+        icon = chivalry_is_not_dead
         position = 5
         required_missions = {  }
         trigger = {
@@ -266,6 +266,7 @@ vn_fcm_missions_slot_2 = {
 			army_tradition = 50
         }
         effect = {
+            add_army_professionalism = 0.02
             add_country_modifier = {
 				name = fcm_comptois_knights_mission
 				duration = 9125
@@ -285,11 +286,11 @@ vn_fcm_missions_slot_3 = {
     has_country_shield = yes
 
     vn_fcm_conquer_transjurania = {
-        icon = mission_unite_home_region
+        icon = claim_tirol
         position = 3
         required_missions = { vn_fcm_centralize_the_county }
         provinces_to_highlight = {
-            region = swisswest_region
+            region = consolidate_switzerland
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
@@ -299,6 +300,16 @@ vn_fcm_missions_slot_3 = {
             }
         }
         effect = {
+            if = {
+                limit = {
+                    NOT = { primary_culture = arpitan }
+                    NOT = { accepted_culture = arpitan }
+                }
+                add_accepted_culture = arpitan
+            }
+            else = {
+                add_dip_power = 50
+            }
             dauphine_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -309,7 +320,7 @@ vn_fcm_missions_slot_3 = {
         }
     }
     vn_fcm_conquer_cisjurania = {
-        icon = mission_unite_home_region
+        icon = claim_tirol
         position = 4
         required_missions = { vn_fcm_conquer_transjurania }
         provinces_to_highlight = {
@@ -323,6 +334,7 @@ vn_fcm_missions_slot_3 = {
             }
         }
         effect = {
+            add_army_tradition = 10
             provence_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -347,7 +359,7 @@ vn_fcm_missions_slot_3 = {
 			}
         }
         effect = {
-            add_mercantilism = 2
+            add_dip_power = 100
             add_treasury = 200
         }
     }
@@ -386,7 +398,7 @@ vn_fcm_missions_slot_4 = {
     has_country_shield = yes
 
     vn_fcm_conquer_franche_comte = {
-        icon = mission_unite_home_region
+        icon = secure_our_rule
         position = 1
         required_missions = {  }
         provinces_to_highlight = {
@@ -415,12 +427,13 @@ vn_fcm_missions_slot_4 = {
         }
     }
     vn_fcm_centralize_the_county = {
-        icon = mission_unite_home_region
+        icon = rein_in_the_nobles
         position = 2
         required_missions = { vn_fcm_conquer_franche_comte }
         trigger = {
             stability = 1
             NOT = { average_autonomy = 50 }
+            crown_land_share = 30
             if = {
                 limit = {
                     has_estate = estate_nobles
@@ -434,6 +447,19 @@ vn_fcm_missions_slot_4 = {
             }
         }
         effect = {
+            add_legitimacy = 10
+            if = {
+                limit = {
+                    NOT = { crown_land_share = 60 }
+                }
+                custom_tooltip = add_5_crown_land_share
+                hidden_effect = {
+                    change_estate_land_share = {
+                        estate = all
+                        share = -5
+                    }
+                }
+            }
             swisswest_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -479,6 +505,10 @@ vn_fcm_missions_slot_4 = {
             }
         }
         effect = {
+            add_power_projection = {
+                type = mission_rewards_power_projection
+                amount = 20
+            }
             nevers_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -496,7 +526,7 @@ vn_fcm_missions_slot_4 = {
         }
     }
     vn_fcm_conquer_nevers = {
-        icon = mission_conquer_50_development
+        icon = the_holy_league
         position = 4
         required_missions = { vn_fcm_conquer_burgundy }
         provinces_to_highlight = {
@@ -527,7 +557,7 @@ vn_fcm_missions_slot_4 = {
         }
     }
     vn_fcm_eclipse_france = {
-        icon = mission_unite_home_region
+        icon = the_crown_of_lothair
         position = 5
         required_missions = { vn_fcm_conquer_nevers }
         trigger = {
@@ -560,7 +590,7 @@ vn_fcm_missions_slot_5 = {
     has_country_shield = yes
 
     vn_fcm_jura_salt_mines = {
-        icon = mission_hanseatic_city
+        icon = reform_bergordnung
         position = 1
         required_missions = {  }
         provinces_to_highlight = {

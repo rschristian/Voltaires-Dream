@@ -546,7 +546,24 @@ vn_vgb_missions_slot_3 = {
         icon = mission_advance_to_the_dnieper
         position = 7
         required_missions = { vn_vgb_eurasian_monopoly vn_vgb_no_more_wine vn_vgb_conquer_sasqin }
-        trigger = {
+		provinces_to_highlight = {
+			if = {
+				limit = {
+					ROOT = {
+						NOT = {
+							development_in_provinces = {
+								value = 250
+								region = kazan_region
+							}
+						}
+					}
+				}
+				region = kazan_region
+			}
+		}
+		trigger = {
+			government_rank = 6
+			is_tribal = no
             development_in_provinces = {
 				value = 250
 				region = kazan_region
@@ -616,7 +633,7 @@ vn_vgb_missions_slot_4 = {
         }
     }
     vn_vgb_conquer_udmurt = {
-        icon = mission_rb_settle_in_the_north
+        icon = mission_rb_settle_the_north
         position = 2
         required_missions = { vn_vgb_conquer_mari }
 		provinces_to_highlight = {
@@ -830,16 +847,21 @@ vn_vgb_missions_slot_5 = {
 			}
         }
         effect = {
-            mordovia_region = {
-				add_province_modifier = {
-					name = vgb_conquer_udmurt_mission
-					duration = 9125
+			add_prestige = 10
+            if = {
+				limit = {
+					NOT = { primary_culture = mordvin }
+					NOT = { accepted_culture = mordvin }
 				}
+				add_accepted_culture = mordvin
+			}
+			else = {
+				add_dip_power = 50
 			}
         }
     }
     vn_vgb_finno_ugric_friendship = {
-        icon = mission_scholar_officials
+        icon = mission_rb_colonise_canada
         position = 5
         required_missions = { vn_vgb_conquer_mordovia }
 		provinces_to_highlight = {
@@ -852,7 +874,13 @@ vn_vgb_missions_slot_5 = {
         }
         effect = {
 			add_stability_or_adm_power = yes
-			add_dip_power = 100
+			define_advisor = {
+				type = trader
+				religion = finnish_pagan
+				culture = karelian
+				cost_multiplier = 0.25
+				skill = 3
+			}
         }
 	}
 }

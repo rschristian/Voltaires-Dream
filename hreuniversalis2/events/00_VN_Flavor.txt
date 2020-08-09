@@ -6022,7 +6022,7 @@ province_event = {
 	}
 
 	mean_time_to_happen = {
-		months = 210
+		months = 240
 		modifier = {
 			factor = 0.8
 			owner = {
@@ -6038,6 +6038,25 @@ province_event = {
 		}
 	}
 
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { owner = { is_primitive = yes } }
+				random_list = {
+					33 = {
+						owner = { set_country_flag = get_adm }
+					}
+					33 = {
+						owner = { set_country_flag = get_dip }
+					}
+					33 = {
+						owner = { set_country_flag = get_mil }
+					}
+				}
+			}
+		}
+	}
+
 	option = {
 		name = "HREMA107"
 		ai_chance = {
@@ -6045,15 +6064,12 @@ province_event = {
 		}
 		if = {
 			limit = { owner = { is_primitive = yes } }
-			random_list = {
-				33 = {
-					owner = { add_adm_power = 50 }
-				}
-				33 = {
-					owner = { add_dip_power = 50 }
-				}
-				33 = {
-					owner = { add_mil_power = 50 }
+			owner = {
+				trigger_switch = {
+					on_trigger = has_country_flag
+					get_adm = { add_adm_power = 33 clr_country_flag = get_adm }
+					get_dip = { add_dip_power = 33 clr_country_flag = get_dip }
+					get_mil = { add_mil_power = 33 clr_country_flag = get_mil }
 				}
 			}
 		}
@@ -6107,6 +6123,10 @@ province_event = {
 		}
 		else = {
 			change_culture = saxon
+		}
+		add_province_modifier = {
+			name = ostsiedlung
+			duration = 9125
 		}
 	}
 	option = {
