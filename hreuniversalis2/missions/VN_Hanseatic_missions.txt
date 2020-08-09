@@ -874,7 +874,7 @@ vn_hsa_missions_slot_4 = {
     }
     vn_hsa_unite_the_hansa = {
         position = 5
-        icon = mission_claim_the_canaries
+        icon = unite_the_league
         required_missions = { vn_hsa_baltic_hegemon vn_hsa_commercial_revolution }
         provinces_to_highlight = {
             OR = {
@@ -952,13 +952,17 @@ vn_hsa_missions_slot_4 = {
             }
         }
         effect = {
-            #form the Hanseatic League
-            #every_country = {
-            #    limit = { is_in_trade_league = ROOT }
-            #    ROOT = {
-            #        vassalize = PREV
-            #    }
-            #}
+            if = {
+                limit = { has_dlc = "Emperor" has_dlc = "Mare Nostrum" }
+                override_country_name = HANSEATIC_LEAGUE
+                set_country_flag = is_hanseatic_league_flag
+                every_country = {
+                    limit = { is_in_trade_league_with = root }
+                    ROOT = { vassalize = PREV }
+                    hidden_effect = { country_event = { id = emp_mission_events.14 } }
+                }
+            }
+            add_mercantilism = 10
         }
     }
 }
