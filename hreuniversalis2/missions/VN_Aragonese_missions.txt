@@ -544,20 +544,18 @@ vn_ara_missions_slot_2_e = {
 			}
 		}
 		effect = {
-			beiras_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			alentejo_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
+			if = {
+                limit = {
+                    valid_for_personal_unions_trigger = yes
+                    exists = POR
+                    POR = { valid_for_personal_unions_trigger = yes }
+                }
+                add_casus_belli = {
+                    target = POR
+                    type = cb_fabricated_claims
+                    months = 300
+                }
+            }
 		}
     }
 	vn_ara_aragonese_portugal = {
@@ -1363,10 +1361,10 @@ vn_ara_missions_slot_5_a = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			provence_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                region = provence_region
+            }
 		}
 		effect = {
 			provence_region = {

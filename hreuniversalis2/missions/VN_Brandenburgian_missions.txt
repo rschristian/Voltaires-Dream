@@ -77,7 +77,7 @@ vn_bra_missions_slot_1_b = {
 	has_country_shield = yes
 	
     vn_bra_annex_lebus = {
-        icon = mission_unite_home_region	#placeholder
+        icon = mission_village
         position = 3
 		required_missions = { vn_bra_beyond_havel }
 		provinces_to_highlight = {
@@ -102,40 +102,26 @@ vn_bra_missions_slot_1_b = {
 			4917 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            lusatianorth_area = {
+            lusatia_region = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
-			lusatiasouth_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
         }
     }
     vn_bra_conquer_lausitz = {
         icon = mission_unite_home_region	#placeholder
         required_missions = { vn_bra_annex_lebus }
         provinces_to_highlight = {
-			OR = {
-				area = lusatianorth_area
-				area = lusatiasouth_area
-			}
+			region = lusatia_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            lusatianorth_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			lusatiasouth_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 10
+				region = lusatia_region
 			}
         }
         effect = {
@@ -415,15 +401,13 @@ vn_bra_missions_slot_2_b = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            OR = {
-				kolberg_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 5
+				OR = {
+					area = kolberg_area
+					area = pomerania_area
 				}
-				pomerania_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
+				has_port = yes
 			}
         }
         effect = {
@@ -632,10 +616,10 @@ vn_bra_missions_slot_3_b = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            neumark_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 6
+                area = neumark_area
+            }
         }
         effect = {
 			add_mil_power = 50
@@ -660,7 +644,7 @@ vn_bra_missions_slot_3_b = {
         }
     }
     vn_bra_eastern_frontier = {
-		icon = mission_unite_home_region	#placeholder
+		icon = mission_european_castle
 		required_missions = { vn_bra_conquer_neumark }
 		provinces_to_highlight = {
 			OR = {
@@ -708,10 +692,10 @@ vn_bra_missions_slot_3_b = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            silesia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 40
+                region = silesia_region
+            }
         }
         effect = {
 			silesia_region = {
@@ -1427,25 +1411,16 @@ vn_bra_missions_slot_5_c = {
         required_missions = {  }
         trigger = {
             OR = {
-				OR = {
-					AND = {
-						OR = {
-							religion = anglican
-							religion = protestant
-							religion = anabaptist
-						}
-						church_power = 100
-					}
-					AND = {
-						religion = reformed
-						fervor = 50
-					}
+				AND = {
+					uses_church_aspects = yes
+					church_power = 100
+				}
+				AND = {
+					uses_fervor = yes
+					fervor = 50
 				}
                 AND = {
-					OR = {
-						religion = catholic
-						religion = catholique
-					}
+					uses_papacy = yes
 					papal_influence = 100
 				}
 			}
@@ -1473,10 +1448,8 @@ vn_bra_missions_slot_5_c = {
 				OR = {
 					AND = {
 						OR = {
-							religion = anglican
-							religion = protestant
-							religion = anabaptist
-							religion = reformed
+							uses_church_aspects = yes
+							uses_fervor = yes
 						}
 						NOT = {
 							estate_territory = {
@@ -1486,10 +1459,7 @@ vn_bra_missions_slot_5_c = {
 						}
 					}
 					AND = {
-						OR = {
-							religion = catholic
-							religion = catholique
-						}
+						uses_papacy = yes
 						estate_territory = {
 							estate = estate_church
 							territory = 20
@@ -1504,10 +1474,8 @@ vn_bra_missions_slot_5_c = {
 					has_estate = estate_church
 					AND = {
 						OR = {
-							religion = anglican
-							religion = protestant
-							religion = anabaptist
-							religion = reformed
+							uses_church_aspects = yes
+							uses_fervor = yes
 						}
 						NOT = {
 							estate_territory = {
@@ -1529,10 +1497,7 @@ vn_bra_missions_slot_5_c = {
 				limit = {
 					has_estate = estate_church
 					AND = {
-						OR = {
-							religion = catholic
-							religion = catholique
-						}
+						uses_papacy = yes
 						estate_territory = {
 							estate = estate_church
 							territory = 20
