@@ -5986,12 +5986,11 @@ province_event = {
     id = hremodevents.107
     title = "HREMT107"
     desc = "HREMD107"
-	picture = COLONIZATION_eventPicture
+	picture = CITY_DEVELOPMENT_eventPicture
 	goto = root
 
 	trigger = {
 		normal_or_historical_nations = yes
-		NOT = { has_construction = culture }
 		OR = {
 			current_age = age_of_holy_wars
 			current_age = age_of_crisis
@@ -5999,47 +5998,38 @@ province_event = {
 		any_neighbor_province = {
 			culture_group = germanic
 		}
+		NOT = { has_construction = culture }
+		NOT = { has_province_flag = ostsiedlung_flag }
 		OR = {
 			culture = polabian
 			culture = kashubian
 			culture = sorbian
 			culture = schlesian
-			AND = {
-				has_global_flag = danzig_delivered
-				owner = { culture_group = germanic }
-				culture = pruthenian
-			}
-			AND = {
-				has_global_flag = riga_delivered
-				owner = { culture_group = germanic }
-				OR = {
-					culture = latvian
-					culture = curonian
-					culture = estonian
-				}
-			}
 		}
 	}
 
 	mean_time_to_happen = {
-		months = 240
+		months = 300
 		modifier = {
 			factor = 0.8
 			owner = {
 				culture_group = germanic
+				religion_group = christian
 			}
 		}
 		modifier = {
-			factor = 0.8
+			factor = 5
 			owner = {
 				culture_group = west_slavic
-				religion_group = christian
+				NOT = { primary_culture = polabian }
+				NOT = { primary_culture = kashubian }
 			}
 		}
 	}
 
 	immediate = {
 		hidden_effect = {
+			set_province_flag = ostsiedlung_flag
 			if = {
 				limit = { owner = { is_primitive = yes } }
 				random_list = {
@@ -6072,16 +6062,6 @@ province_event = {
 					get_mil = { add_mil_power = 33 clr_country_flag = get_mil }
 				}
 			}
-		}
-		if = {
-			limit = {
-				OR = {
-					culture = pruthenian
-					region = ostpreussen_region
-					region = westpreussen_region
-				}
-			}
-			change_culture = prussian
 		}
 		else_if = {
 			limit = {
@@ -6139,6 +6119,295 @@ province_event = {
 			name = add_country_unrest_5_modifier
 			duration = 3650
 		}
+	}
+}
+
+province_event = {
+    id = hremodevents.108
+    title = "HREMT108"
+    desc = "HREMD108"
+	picture = CITY_DEVELOPMENT_eventPicture
+	goto = root
+
+	trigger = {
+		normal_or_historical_nations = yes
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+		}
+		OR = {
+			AND = {
+				has_global_flag = danzig_delivered
+				owner = { culture_group = germanic }
+				culture = pruthenian
+			}
+			AND = {
+				has_global_flag = riga_delivered
+				owner = { culture_group = germanic }
+				OR = {
+					culture = latvian
+					culture = curonian
+					culture = estonian
+				}
+			}
+		}
+		NOT = { has_construction = culture }
+		NOT = { has_province_flag = ostsiedlung_flag }
+		owner = {
+			culture_group = germanic
+			religion_group = christian
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 300
+		modifier = {
+			factor = 0.8
+			owner = {
+				OR = {
+					tag = TEU
+					tag = LIV
+				}
+			}
+		}
+		modifier = {
+			factor = 0.9
+			development = 10
+		}
+		modifier = {
+			factor = 0.9
+			development = 15
+		}
+		modifier = {
+			factor = 0.9
+			development = 20
+		}
+		modifier = {
+			factor = 0.9
+			development = 25
+		}
+		modifier = {
+			factor = 0.9
+			development = 30
+		}
+		modifier = {
+			factor = 0.9
+			religion_group = christian
+		}
+		modifier = {
+			factor = 5
+			OR = {
+				culture = latvian
+				culture = curonian
+				culture = estonian
+			}
+		}
+	}
+
+	option = {
+		name = "HREMB108"
+		add_base_tax = 1
+		add_base_production = 1
+		add_base_manpower = 1
+		change_culture = prussian
+		set_province_flag = ostsiedlung_flag
+	}
+}
+
+country_event = {
+    id = hremodevents.109
+    title = "HREMT109"
+    desc = "HREMD109"
+	picture = CITY_DEVELOPMENT_eventPicture
+
+	trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1162 }
+		is_year = 1160
+		NOT = { is_year = 1300 }
+		OR = {
+			primary_culture = hungarian
+			primary_culture = transylvanian
+		}
+		owns_core_province = 5593
+		owns_core_province = 448
+		owns_core_province = 2074
+		owns_core_province = 5582
+		owns_core_province = 5583
+		owns_core_province = 509
+		owns_core_province = 5634
+	}
+
+	mean_time_to_happen = {
+		months = 240
+	}
+
+	option = {
+		name = "HREMA110"
+		ai_chance = {
+			factor = 75
+		}
+		add_legitimacy = -10
+		add_scaled_republican_tradition = -10
+		5593 = {
+			change_culture = csango
+			add_core = SZK
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		448 = {
+			change_culture = csango
+			add_core = SZK
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		2074 = {
+			change_culture = csango
+			add_core = SZK
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		5582 = {
+			change_culture = csango
+			add_core = SZK
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		5583 = {
+			change_culture = csango
+			add_core = SZK
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		509 = {
+			change_culture = csango
+			add_core = SZK
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		5634 = {
+			change_culture = csango
+			add_core = SZK
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+	}
+	option = {
+		name = "HREMB109"
+		ai_chance = {
+			factor = 25
+		}
+		add_prestige = 10
+	}
+}
+
+country_event = {
+    id = hremodevents.110
+    title = "HREMT110"
+    desc = "HREMD110"
+	picture = CITY_DEVELOPMENT_eventPicture
+
+	trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1162 }
+		is_year = 1160
+		NOT = { is_year = 1300 }
+		OR = {
+			primary_culture = hungarian
+			primary_culture = transylvanian
+		}
+		owns_core_province = 5585
+		owns_core_province = 5598
+		owns_core_province = 447
+		owns_core_province = 451
+	}
+
+	mean_time_to_happen = {
+		months = 240
+	}
+
+	option = {
+		name = "HREMA110"
+		ai_chance = {
+			factor = 75
+		}
+		add_legitimacy = -10
+		add_scaled_republican_tradition = -10
+		5585 = {
+			change_culture = szaszok
+			add_core = KLY
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		5598 = {
+			change_culture = szaszok
+			add_core = KLY
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		447 = {
+			change_culture = szaszok
+			add_core = KLY
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+		451 = {
+			change_culture = szaszok
+			add_core = KLY
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = transylvanian_germans
+				duration = 7300
+			}
+		}
+	}
+	option = {
+		name = "HREMB110"
+		ai_chance = {
+			factor = 25
+		}
+		add_prestige = 10
 	}
 }
 
