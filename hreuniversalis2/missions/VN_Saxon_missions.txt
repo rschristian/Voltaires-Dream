@@ -883,7 +883,7 @@ vn_sax_missions_slot_4 = {
 	}
 	vn_sax_assimilate_the_sorbs = {
 		position = 3
-		icon = mission_sponsor_the_arts
+		icon = sponsor_the_arts
 		required_missions = { vn_sax_conquer_meissen }
 		provinces_to_highlight = {
 			area = meissen_area
@@ -945,7 +945,7 @@ vn_sax_missions_slot_4 = {
 	}
 	vn_sax_religious_doctrines = {
 		position = 6
-		icon = mission_join_the_reformation
+		icon = join_the_reformation
 		required_missions = { vn_sax_schmalkaldic_league }
 		trigger = {
 			OR = {
@@ -982,7 +982,7 @@ vn_sax_missions_slot_4 = {
 	}
 	vn_sax_truthfully_emperor = {
 		position = 7
-		icon = mission_shift_the_balance
+		icon = shift_the_balance
 		required_missions = { vn_sax_religious_doctrines }
 		trigger = {
 			if = {
@@ -1041,9 +1041,18 @@ vn_sax_missions_slot_5 = {
 		icon = reform_the_nomocanon
 		required_missions = { }
 		trigger = {
+			has_institution = laytheology
 			OR = {
-				AND = {
-
+				religion = reformed
+				religion = protestant
+				religion = anabaptist
+				if = {
+					limit = { has_dlc = "Emperor" }
+					council_position = concilatory
+					council_position = harsh
+				}
+				else = {
+					has_country_modifier = counter_reformation
 				}
 			}
 		}
@@ -1059,6 +1068,13 @@ vn_sax_missions_slot_5 = {
 		icon = victor_for_the_true_faith
 		required_missions = { vn_sax_promote_popular_theology }
 		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = emp_bav_be_good_at_religion_reformation_started_tooltip
+				had_global_flag = {
+					flag = reformation_started
+					days = 7300
+				}
+			}
 			OR = {
 				AND = {
 					OR = {
@@ -1080,7 +1096,6 @@ vn_sax_missions_slot_5 = {
 					papal_influence = 100
 				}
 			}
-			religious_unity = 0.75
 		}
 		effect = {
 			add_religious_influence_effect_small = yes
@@ -1118,9 +1133,13 @@ vn_sax_missions_slot_5 = {
 			}
 		}
 		effect = {
-			add_country_modifier = {
-				name = aan_conquer_avaria_mission
-				duration = x
+			add_religious_influence_effect_large = yes
+			every_ally = {
+				limit = { religion = ROOT }
+				add_opinion = {
+					who = root
+					modifier = sax_schmalkaldic_league_opinion
+				}
 			}
 		}
 	}
