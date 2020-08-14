@@ -441,82 +441,10 @@ vn_lux_missions_slot_4 = {
             }            
         }
     }
-    vn_lux_french_alliance = {
-        icon = king_of_france
-        position = 3
-        required_missions = { vn_lux_masters_of_diplomacy }
-        trigger = {
-			548 = { #Owner of Paris, might change with 1.30
-				owner = {
-					alliance_with = ROOT
-				}
-			}	            
-        }
-        effect = {
-            add_dip_power = 25
-			548 = { #Owner of Paris, might change with 1.30
-				owner = {
-					add_opinion = {
-						who = ROOT
-						modifier = lux_french_alliance_opinion
-					}
-					reverse_add_opinion = {
-						who = ROOT
-						modifier = lux_french_alliance_opinion #Common Habsburg Enemy
-					}
-					add_trust = {
-						who = ROOT
-						value = 10
-						mutual = yes
-					}
-				}
-			} 
-            314 = {
-                if = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT #May change to claims
-                }
-            }
-            1201 = {
-                if = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT #May change to claims
-                }
-            }
-            1199 = {
-                if = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT #May change to claims
-                }
-            }
-            4116 = {
-                if = {
-                    limit = {
-                        NOT = { is_core = ROOT }
-                        NOT = { is_permanent_claim = ROOT }
-                    }
-                    add_permanent_claim = ROOT #May change to claims
-                }
-            }
-            add_country_modifier = {
-                name = lux_french_alliance_mission
-                duration = 9125
-            }            
-        }
-    }
     vn_lux_fight_the_habsburgs = {
         icon = humiliate_austria
-        position = 4
-        required_missions = { vn_lux_french_alliance }
+        position = 3
+        required_missions = { vn_lux_masters_of_diplomacy }
         trigger = {
 			2172 = { #owner of Vienna
 				owner = {
@@ -614,7 +542,7 @@ vn_lux_missions_slot_4 = {
     }
 }
 
-vn_lux_missions_slot_5 = {
+vn_lux_missions_slot_5_a = {
     slot = 10
     generic = no
     ai = yes
@@ -709,6 +637,115 @@ vn_lux_missions_slot_5 = {
             }            
         }
     }
+    vn_lux_french_alliance = {
+        icon = king_of_france
+        position = 3
+        required_missions = { vn_lux_masters_of_diplomacy }
+		provinces_to_highlight = {
+			province_id = 548
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+		}
+        trigger = {
+			OR = {
+				548 = {
+					owner = {
+						OR = {
+							alliance_with = ROOT
+							has_opinion = {
+								who = ROOT
+								value = 100
+							}
+						}
+					}
+				}
+				num_of_owned_provinces_with = {
+					value = 10
+					superregion = french_superregion
+				}				
+			}
+        }
+        effect = {
+            add_dip_power = 25
+			if = {
+				limit = {
+					alliance_with = FRA
+				}
+				548 = { 
+					owner = {
+						add_opinion = {
+							who = ROOT
+							modifier = lux_french_alliance_opinion
+						}
+						reverse_add_opinion = {
+							who = ROOT
+							modifier = lux_french_alliance_opinion #Common Habsburg Enemy
+						}
+						add_trust = {
+							who = ROOT
+							value = 10
+							mutual = yes
+						}
+					}
+				}
+			} 
+			else = {
+				314 = {
+					if = {
+						limit = {
+							NOT = { is_core = ROOT }
+							NOT = { is_permanent_claim = ROOT }
+						}
+						add_permanent_claim = ROOT #May change to claims
+					}
+				}
+				1201 = {
+					if = {
+						limit = {
+							NOT = { is_core = ROOT }
+							NOT = { is_permanent_claim = ROOT }
+						}
+						add_permanent_claim = ROOT #May change to claims
+					}
+				}	
+				1199 = {
+					if = {
+						limit = {
+							NOT = { is_core = ROOT }
+							NOT = { is_permanent_claim = ROOT }
+						}
+						add_permanent_claim = ROOT #May change to claims
+					}
+				}
+				4116 = {
+					if = {
+						limit = {
+							NOT = { is_core = ROOT }
+							NOT = { is_permanent_claim = ROOT }
+						}
+						add_permanent_claim = ROOT #May change to claims
+					}
+				}
+				set_country_flag = mission_lux_own_paris
+				add_country_modifier = {
+					name = lux_french_alliance_mission
+					duration = 9125
+				}   
+			}
+        }
+    }
+}
+
+vn_lux_missions_slot_5_b = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = LUX
+		has_country_tag = mission_lux_own_paris
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+	
     vn_lux_french_holdings = {
         icon = mission_european_church
         position = 4
@@ -753,6 +790,18 @@ vn_lux_missions_slot_5 = {
             }             
         }
     }
+}
+
+vn_lux_missions_slot_5_c = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = LUX
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+	
     vn_lux_fight_silesian_piasts = {
         icon = mission_crusade_for_varna
         position = 6
