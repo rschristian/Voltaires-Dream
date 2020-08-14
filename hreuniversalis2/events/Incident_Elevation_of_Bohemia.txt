@@ -6,14 +6,20 @@ country_event = {
 	desc = "incident_elevation_of_bohemia.1.d"
 	picture = GOOD_WITH_MONARCH_eventPicture
 
-	is_triggered_only = yes
 	fire_only_once = yes
 
 	trigger = {
+		has_dlc = "Emperor"
+		tag = BOH
+		OR = {
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
 		normal_or_historical_nations = yes
 		government = monarchy
 		is_subject = no
-		total_development = 250 #Requirement for Kingdom
+		total_development = 300 #More than their 1054 level so they can't cheese it first month
+		NOT = { government_rank = 5 }
 		has_regency = no
 		is_female = no
 		NOT = { active_imperial_incident = any }
@@ -24,10 +30,12 @@ country_event = {
 				alliance_with = BOH
 				has_opinion = {
 					who = BOH
-					value = 50
+					value = 150
 				}
 			}
 		}
+		prestige = 0
+		stability = 0
 	}
 
 	mean_time_to_happen = {
@@ -40,7 +48,6 @@ country_event = {
 			limit = {
 				is_part_of_hre = yes
 				is_emperor = no
-				has_dlc = "Emperor"
 			}
 			set_imperial_incident = incident_elevation_of_bohemia
 		}
@@ -77,9 +84,12 @@ country_event = {
 				elector = no
             }
 			elector = yes
-			set_government_rank = 5
 			add_prestige = 20
-			add_legitimacy = 20		
+			add_legitimacy = 20
+			custom_tooltip = boh_raised_to_kingdom_tt
+			hidden_effect = {
+				set_government_rank = 5
+			}		
         }
 		else_if = {
 			limit = {
@@ -117,10 +127,13 @@ country_event = {
 				}
 				elector = no
             }	
-			elector = yes			
-			set_government_rank = 5
+			elector = yes
 			add_prestige = 20
 			add_legitimacy = 20
+			custom_tooltip = boh_raised_to_kingdom_tt
+			hidden_effect = {
+				set_government_rank = 5
+			}
 		}
         else_if = {
 			limit = {
@@ -133,20 +146,26 @@ country_event = {
 				elector = no
 			}
 			elector = yes
-			set_government_rank = 5
 			add_prestige = 20
 			add_legitimacy = 20
+			custom_tooltip = boh_raised_to_kingdom_tt
+			hidden_effect = {
+				set_government_rank = 5
+			}
         }		
 		else = {
 			elector = yes
-			set_government_rank = 5
 			add_prestige = 20
 			add_legitimacy = 20	
+			custom_tooltip = boh_raised_to_kingdom_tt
+			hidden_effect = {
+				set_government_rank = 5
+			}
 		}	
 	}
 }
 
-#
+#Incident Event
 country_event = {
 	id = incident_elevation_of_bohemia.2
 	title = incident_elevation_of_bohemia.2.t
@@ -154,29 +173,50 @@ country_event = {
 	picture = HRE_eventPicture
 	
 	is_triggered_only = yes
-	major = yes
 	
 	option = { #Elevate Bohemia to an hre kingdom and electorate
 		name = incident_elevation_of_bohemia.2.a
 		ai_chance = {
-			factor = 75
+			factor = 1
+			modifier = {
+				factor = 100
+				OR = {
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_friendly
+					}
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_loyal
+					}
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_allied
+					}
+				}
+			}
 		}
-		add_imperial_influence = -10
-		reverse_add_opinion = {
-			who = BOH
-			modifier = opinion_incident_elevation_of_bohemia
+		emperor = {
+			add_imperial_influence = -10
+			reverse_add_opinion = {
+				who = BOH
+				modifier = opinion_incident_elevation_of_bohemia
+			}
 		}
 		tooltip = {
 			BOH = {
-				set_government_rank = 5
 				elector = yes
 				add_prestige = 25
 				add_legitimacy = 25
-				reverse_add_opinion = {
+				add_opinion = {
 					who = emperor
 					modifier = opinion_incident_elevation_of_bohemia
 				}
 			}
+		}
+		custom_tooltip = boh_raised_to_kingdom_tt
+		hidden_effect = {
+			BOH = { set_government_rank = 5 }
 		}
 		hidden_effect = {
 			BOH = {
@@ -188,18 +228,27 @@ country_event = {
 	option = { #Electorate but not Kingdom
 		name = incident_elevation_of_bohemia.2.b
 		ai_chance = {
-			factor = 25
+			factor = 1
+			modifier = {
+				factor = 100
+				ai_attitude = {
+					who = BOH
+					attitude = attitude_neutral
+				}
+			}
 		}
-		reverse_add_opinion = {
-			who = BOH
-			modifier = opinion_incident_elevation_of_bohemia_compromise
+		emperor = {
+			reverse_add_opinion = {
+				who = BOH
+				modifier = opinion_incident_elevation_of_bohemia_compromise
+			}
 		}
 		tooltip = {
 			BOH = {
 				elector = yes
 				add_prestige = 10
 				add_legitimacy = 10
-				reverse_add_opinion = {
+				add_opinion = {
 					who = emperor
 					modifier = opinion_incident_elevation_of_bohemia_compromise
 				}
@@ -215,11 +264,42 @@ country_event = {
 	option = { #Reject A Change
 		name = incident_elevation_of_bohemia.2.c
 		ai_chance = {
-			factor = 0
+			factor = 1
+			modifier = {
+				factor = 100
+				OR = {
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_rivalry
+					}
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_hostile
+					}
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_threatened
+					}
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_outraged
+					}
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_disloyal
+					}
+					ai_attitude = {
+						who = BOH
+						attitude = attitude_rebellious
+					}
+				}
+			}
 		}
-		reverse_add_opinion = {
-			who = BOH
-			modifier = opinion_incident_elevation_of_bohemia_rejection
+		emperor = {
+			reverse_add_opinion = {
+				who = BOH
+				modifier = opinion_incident_elevation_of_bohemia_rejection
+			}
 		}
 		hidden_effect = {
 			BOH = {
@@ -269,13 +349,13 @@ country_event = {
 	}
 	
 	is_triggered_only = yes
-	major = yes
 	
 	option = {
 		trigger = {
 			has_country_flag = incident_elevation_of_bohemia_elevated
 		}
 		name = incident_elevation_of_bohemia.3.a
+		ai_chance = { factor = 100 }
 		if = {
             limit = {
 				OR = {
@@ -308,14 +388,17 @@ country_event = {
 				}
 				elector = no
             }
-			set_government_rank = 5
 			elector = yes
 			add_prestige = 25
 			add_legitimacy = 25
+			custom_tooltip = boh_raised_to_kingdom_tt
+			hidden_effect = {
+				set_government_rank = 5
+			}
 			reverse_add_opinion = {
 				who = emperor
 				modifier = opinion_incident_elevation_of_bohemia
-			}	
+			}
         }
 		else_if = {
 			limit = {
@@ -353,10 +436,13 @@ country_event = {
 				}
 				elector = no
             }	
-			set_government_rank = 5
 			elector = yes
 			add_prestige = 25
 			add_legitimacy = 25
+			custom_tooltip = boh_raised_to_kingdom_tt
+			hidden_effect = {
+				set_government_rank = 5
+			}
 			reverse_add_opinion = {
 				who = emperor
 				modifier = opinion_incident_elevation_of_bohemia
@@ -372,20 +458,26 @@ country_event = {
 			random_elector = { 
 				elector = no
 			}
-			set_government_rank = 5
 			elector = yes
 			add_prestige = 25
 			add_legitimacy = 25
+			custom_tooltip = boh_raised_to_kingdom_tt
+			hidden_effect = {
+				set_government_rank = 5
+			}
 			reverse_add_opinion = {
 				who = emperor
 				modifier = opinion_incident_elevation_of_bohemia
 			}
         }		
 		else = {
-			set_government_rank = 5
 			elector = yes
 			add_prestige = 25
 			add_legitimacy = 25
+			custom_tooltip = boh_raised_to_kingdom_tt
+			hidden_effect = {
+				set_government_rank = 5
+			}
 			reverse_add_opinion = {
 				who = emperor
 				modifier = opinion_incident_elevation_of_bohemia
@@ -397,6 +489,9 @@ country_event = {
 			has_country_flag = incident_elevation_of_bohemia_compromise
 		}
 		name = incident_elevation_of_bohemia.3.b
+		ai_chance = {
+			factor = 100
+		}
 		if = {
             limit = {
 				OR = {
@@ -510,19 +605,20 @@ country_event = {
 		}	
 	}
 	option = {
+		name = incident_elevation_of_bohemia.3.c
 		trigger = {
 			has_country_flag = incident_elevation_of_bohemia_rejection
 		}
 		ai_chance = { 
 			factor = 1
 		}
-		name = incident_elevation_of_bohemia.3.c
 		reverse_add_opinion = {
 			who = emperor
 			modifier = opinion_incident_elevation_of_bohemia_rejection_a
 		}
 	}
 	option = {
+		name = incident_elevation_of_bohemia.3.e
 		trigger = {
 			has_country_flag = incident_elevation_of_bohemia_rejection
 		}
@@ -538,7 +634,6 @@ country_event = {
 				}
 			}
 		}
-		name = incident_elevation_of_bohemia.3.e
 		reverse_add_opinion = {
 			who = emperor
 			modifier = opinion_incident_elevation_of_bohemia_rejection_b
