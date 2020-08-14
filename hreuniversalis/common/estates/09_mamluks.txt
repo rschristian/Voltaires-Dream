@@ -1,0 +1,200 @@
+estate_mamluks = {
+	icon = 13
+
+	# Used for when declaring independence
+	independence_government = monarchy
+	starting_reform = mamluk_government
+	independence_tech_group = muslim
+
+	province_independence_weight = {
+		factor = 1
+		modifier = {
+			factor = 0.1
+			NOT = { religion_group = muslim }
+		}
+		modifier = {
+			factor = 1.5
+			NOT = { culture_group = ROOT }
+		}
+	}
+
+	# If true, country will get estate
+	trigger = {
+		OR = {
+			has_reform = iqta
+			has_reform = feudal_theocracy
+			has_reform = mamluk_government
+			has_reform = pirate_republic_reform
+		}
+		is_nomad = no
+		primitives = no
+		NOT = { technology_group = western }
+		NOT = { has_country_modifier = the_abolish_slavery_act }
+		culture_group = turko_semitic
+		religion_group = muslim
+	}
+
+	# These scale with loyalty & power
+	country_modifier_happy = {
+		mercenary_discipline = 0.05
+		merc_maintenance_modifier = -0.25
+	}
+	country_modifier_neutral = {
+		merc_maintenance_modifier = -0.25
+	}	
+	country_modifier_angry = {
+		mercenary_manpower = -1.0
+	}
+	land_ownership_modifier = {
+		mamluks_loyalty_modifier = 0.2
+	}
+
+
+	# Influence modifiers
+	base_influence = 0
+	influence_modifier = {
+		desc = EST_VAL_CULTURAL_MINORITY
+		trigger = {
+			any_owned_province = {
+				NOT = { culture_group = turko_semitic }
+			}
+		}
+		influence = 10		
+	}
+	influence_modifier = {
+		desc = EST_VAL_RULED_BY_CULTURAL_MINORITY
+		trigger = {
+			NOT = { dominant_culture = ROOT }
+			any_owned_province = {
+				NOT = { culture_group = turko_semitic }
+			}
+		}
+		influence = 20
+	}
+	influence_modifier = {
+		desc = EST_VAL_MAMLUK_GOVT
+		trigger = {
+			has_reform = mamluk_government
+		}
+		influence = 20
+	}
+	influence_modifier = {
+		desc = EST_VAL_EGYPTIAN
+		trigger = {
+			NOT = { has_reform = mamluk_government }
+			primary_culture = al_misr_arabic
+		}
+		influence = 20
+	}
+	influence_modifier = {
+		desc = EST_VAL_SLAVE_LEADER
+		trigger = {
+			production_leader = { trade_goods = slaves }
+		}
+		influence = 20
+	}
+	influence_modifier = {
+		desc = EST_VAL_MAMLUK_LEADERSHIP
+		trigger = {
+			has_reform = mamluk_leadership_reform
+		}
+		influence = 10
+	}
+	influence_modifier = {
+		desc = EST_VAL_OTHER_ESTATE_IN_POWER
+		trigger = {
+			OR = {
+				has_disaster = estate_nobility_disaster
+				has_disaster = estate_church_disaster
+				has_disaster = estate_burghers_disaster
+				has_disaster = estate_brahmins_disaster
+				has_disaster = estate_vaisyas_disaster
+				has_disaster = estate_jains_disaster
+				has_disaster = estate_dhimmi_disaster
+			}
+		}
+		influence = -40
+	}
+
+	influence_from_dev_modifier = 0.5
+	
+	#Loyalty Modifiers
+	loyalty_modifier = {
+		desc = EST_VAL_OTHER_ESTATE_IN_POWER_LOY
+		trigger = {
+			OR = {
+				has_disaster = estate_nobility_disaster
+				has_disaster = estate_church_disaster
+				has_disaster = estate_burghers_disaster
+				has_disaster = estate_brahmins_disaster
+				has_disaster = estate_vaisyas_disaster
+				has_disaster = estate_jains_disaster
+				has_disaster = estate_dhimmi_disaster
+			}
+		}
+		loyalty = -20
+	}
+	loyalty_modifier = {
+		desc = EST_VAL_FULL_HUMANIST
+		trigger = {
+			full_idea_group = humanist_ideas
+		}
+		loyalty = 10
+	}
+	loyalty_modifier = {
+		desc = EST_VAL_MAMLUK_GOVT
+		trigger = {
+			has_reform = mamluk_government
+		}
+		loyalty = 40
+	}
+
+	#Names
+	custom_name = {
+		desc = estate_slaves
+		trigger = {
+			OR = {
+				primary_culture = moroccan
+				primary_culture = tunisian
+				primary_culture = algerian
+			}
+		}
+	}
+	custom_name = {
+		desc = estate_ghilman
+		trigger = {
+			primary_culture = al_iraqiya_arabic
+		}
+	}
+	custom_name = {
+		desc = estate_muladi
+		trigger = {
+			primary_culture = andalucian
+		}
+	}
+	
+	privileges = {
+		estate_mamluks_import_mamluks
+		estate_mamluks_advisors
+		estate_mamluks_guaranteed_autonomy
+		estate_mamluks_mamluk_host
+		estate_mamluks_recruit_mamluk_generals
+		estate_mamluks_monopoly_of_slaves
+	}
+
+	agendas = {
+		estate_mamluks_develop_x
+		estate_mamluks_build_government_building_in_y
+		estate_mamluks_build_temple_in_y
+		estate_mamluks_build_university_in_y
+		estate_mamluks_jihad
+		estate_mamluks_take_slave_province
+		estate_mamluks_increase_autonomy_in_province_x
+		estate_mamluks_three_privileges
+		estate_mamluks_relations_with_X
+		estate_mamluks_hire_advisor
+		estate_mamluks_fire_advisor
+	}
+
+	color = { 190 170 90 }
+}

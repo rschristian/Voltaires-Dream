@@ -1,0 +1,108 @@
+country_decisions = {
+	
+	arab_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_arabia_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { exists = ARB }
+			NOT = { has_country_flag = unformable }
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+			capital_scope = { continent = asia }
+			culture_group = turko_semitic
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 5022			#Alexandria
+				province_id = 5054			#Cairo
+				province_id = 3111			#Aleppo
+				province_id = 4974			#Jerusalem
+				province_id = 3065			#Damascus
+				province_id = 5012			#Medina
+				province_id = 3435			#Qatif
+				province_id = 6301			#Baghdad
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			adm_tech = 10
+			owns_core_province = 5022			#Alexandria
+			owns_core_province = 5054			#Cairo
+			owns_core_province = 3111			#Aleppo
+			owns_core_province = 4974			#Jerusalem
+			owns_core_province = 3065			#Damascus
+			owns_core_province = 5012			#Medina
+			owns_core_province = 3435			#Qatif
+			owns_core_province = 6301			#Baghdad
+		}
+		effect = {
+			remove_non_electors_emperors_from_empire_effect = yes
+			mesopotamia_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = ARB
+			}
+			africa_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = ARB
+			}
+			levant_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = ARB
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			add_prestige = 25
+			set_country_flag = formed_arabia_flag
+			set_country_flag = unformable
+			change_tag = ARB
+			if = {
+				limit = {
+					religion_group = muslim
+					NOT = { has_reform = feudal_theocracy }
+				}
+				set_government_rank = 6
+				change_government = monarchy
+				add_government_reform = feudal_theocracy
+				hidden_effect = {
+					every_country = {
+						limit = {
+							NOT = { tag = ARB }
+							religion = ROOT
+							government_rank = 6
+							has_reform = feudal_theocracy
+						}
+						change_government = monarchy
+						add_government_reform = iqta
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

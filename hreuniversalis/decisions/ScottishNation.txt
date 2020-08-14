@@ -1,0 +1,109 @@
+country_decisions = {
+	scottish_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_scotland_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { has_country_flag = unformable }
+			NOT = { tag = GBR }
+			NOT = { tag = SCO }
+			OR = {
+				primary_culture = scottish
+				primary_culture = highland_scottish
+			}
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2621 # edinburgh
+				province_id = 4704 # aberdeen
+				province_id = 4699 # inverness
+				province_id = 282 # ayrshire
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+			is_nomad = no			
+			NOT = { exists = SCO }
+			stability = 1
+			adm_tech = 14
+			owns_core_province = 2621 # edinburgh
+			owns_core_province = 4704 # aberdeen
+			owns_core_province = 4699 # inverness
+			owns_core_province = 282 # ayrshire
+		}
+		effect = {
+			2621 = { move_capital_effect = yes }
+			change_tag = SCO
+			swap_non_generic_missions = yes
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			scotland_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = SCO
+			}
+			highlands_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = SCO
+			}
+			if = {
+				limit = {
+					NOT = { primary_culture = scottish }
+				}
+				change_primary_culture = scottish
+			}
+			capital_scope = { change_culture = scottish }
+			random_owned_province = {
+				limit = { culture = highland_scottish } 
+				change_culture = scottish
+			}
+			random_owned_province = {
+				limit = { culture = highland_scottish } 
+				change_culture = scottish
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			add_prestige = 25
+			set_country_flag = formed_scotland_flag
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 }
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				tag = ENG
+			}
+		}
+		ai_importance = 400
+	}
+}

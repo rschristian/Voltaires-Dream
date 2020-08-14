@@ -1,0 +1,123 @@
+country_decisions = {
+
+	armenia_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_armenia_flag }
+			NOT = { has_country_flag = unformable }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { tag = ARM }
+			OR = {
+				ai = no
+				AND = {
+					NOT = { exists = ARM }
+					num_of_cities = 5
+				}
+			}
+			primary_culture = armenian
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 6255	# Cilicia
+				province_id = 3540	# Yerevan
+				province_id = 3583	# Melikates
+				province_id = 3511	# Lomsia
+				province_id = 3528	# Manzikert
+				AND = {
+                    province_id = 3463
+                    ROOT = { NOT = { owns_core_province = 3515 } }
+                }
+				AND = {
+                    province_id = 3515
+                    ROOT = { NOT = { owns_core_province = 3463 } }
+                }
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = ARM }
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+			religion = coptic
+			is_nomad = no
+			owns_core_province = 6255	# Cilicia
+			owns_core_province = 3540	# Yerevan
+			owns_core_province = 3583	# Melikates
+			owns_core_province = 3511	# Lomsia
+			owns_core_province = 3528	# Manzikert
+			OR = {
+				owns_core_province = 3515 #Mush
+				owns_core_province = 3463 #Van
+			}
+		}
+		effect = {
+			change_tag = ARM
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { NOT = { government_rank = 5 } }
+				set_government_rank = 5
+			}
+			armenia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ARM
+			}
+			corduene_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ARM
+			}
+			sophene_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ARM
+			}
+			cilicia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ARM
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			add_prestige = 25
+			if = {
+				limit = {
+					has_custom_ideas = no
+					NOT = { has_idea_group = ARM_ideas }
+				}
+				country_event = { id = ideagroups.1 }
+			}
+			set_country_flag = formed_armenia_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 400
+	}
+	
+}
