@@ -94,6 +94,10 @@ country_event = {
 
     option = {
         name = "vn_missions.203.a"
+		ai_chance = { factor = 90 }
+		trigger = {
+			is_elector = no
+		}
         if = { 
             limit = {
 				OR = {
@@ -127,6 +131,7 @@ country_event = {
 				country_event = { id = vn_missions.204 }
 				elector = no
             }
+			custom_tooltip = vn_missions.203.a.tt
 			set_country_flag = vn_missions_gained_electorate
 			add_imperial_influence = 50
 			elector = yes			
@@ -162,6 +167,7 @@ country_event = {
 				country_event = { id = vn_missions.204 }
 				elector = no
             }		
+			custom_tooltip = vn_missions.203.a.tt
 			set_country_flag = vn_missions_gained_electorate
 			add_imperial_influence = 50
 			elector = yes
@@ -177,26 +183,36 @@ country_event = {
 				country_event = { id = vn_missions.204 }
 				elector = no
 			}
+			custom_tooltip = vn_missions.203.a.tt
 			set_country_flag = vn_missions_gained_electorate
 			add_imperial_influence = 50
 			elector = yes
         }
-		else_if = {
-			limit = {
-				OR = {
-					num_of_electors = 1
-					num_of_electors = 2
-					num_of_electors = 3
-					num_of_electors = 4
-					num_of_electors = 5
-					num_of_electors = 6
-				}
-			}
+		else = {
+			custom_tooltip = vn_missions.203.ab.tt
 			set_country_flag = vn_missions_gained_electorate
 			add_imperial_influence = 50
 			elector = yes			
 		}
     }
+	option = [
+        name = "vn_missions.203.b"
+		ai_chance = { factor = 10 }	
+		trigger = {
+			is_elector = no
+		}
+		prestige = -25
+		legitimacy = -10
+	}
+	option = [
+        name = "vn_missions.203.c"	
+		trigger = {
+			is_elector = yes
+		}
+		prestige = 25
+		legitimacy = 10
+		add_imperial_influence = 50
+	}
 }
 
 #Excluded From the Electorate
@@ -212,19 +228,8 @@ country_event = {
         name = "vn_missions.204.a" #An Unfortunate Decision
 		ai_chance = {
 			factor = 25
-			modifier = {
-				factor = 0
-				NOT = {
-					emperor = {
-						army_strength = {
-							who = ROOT
-							value = 1
-						}
-					}
-				}
-			}
 		}
-		any_elector = {
+		random_elector = {
 			limit = {
 				has_country_flag = vn_missions_gained_electorate
 			}
@@ -249,10 +254,7 @@ country_event = {
 				}
 			}
 		}
-		immediate = {
-			set_country_flag = vn_missions_fight_for_electorate
-		}
-		any_elector = {
+		random_elector = {
 			limit = {
 				has_country_flag = vn_missions_gained_electorate
 			}
@@ -261,9 +263,12 @@ country_event = {
 				modifier = lux_golden_bull_opinion
 			}
 		}
-		declare_war_with_cb = {
-			who = emperor
-			casus_belli = cb_humiliate_rotw
+		custom_tooltip = vn_missions.204.2.tt
+		set_country_flag = vn_missions_fight_for_electorate
+		add_casus_belli = {
+			target = emperor
+			type = cb_humiliate_rotw
+			months = 24
 		}
     }
 }
@@ -279,10 +284,8 @@ country_event = {
 
 	trigger = {
 		has_country_flag = vn_missions_fight_for_electorate
-		any_elector = {
-			limit = {
-				has_country_flag = vn_missions_gained_electorate
-			}
+		random_elector = {
+			has_country_flag = vn_missions_gained_electorate
 			war_score_against = {
 				who = ROOT
 				value = -50
@@ -296,7 +299,7 @@ country_event = {
 
     option = {
         name = "vn_missions.205.a" #Regain the Electorate 
-		any_elector = {
+		random_elector = {
 			limit = {
 				has_country_flag = vn_missions_gained_electorate
 			}

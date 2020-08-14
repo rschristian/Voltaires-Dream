@@ -1,0 +1,552 @@
+namespace = incident_elevation_of_bohemia
+#Bohemia becomes a Kingdom and Electorate
+country_event = {
+	id = incident_elevation_of_bohemia.1
+	title = "incident_elevation_of_bohemia.1.t"
+	desc = "incident_elevation_of_bohemia.1.d"
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		normal_or_historical_nations = yes
+		government = monarchy
+		is_subject = no
+		total_development = 250 #Requirement for Kingdom
+		has_regency = no
+		is_female = no
+		NOT = { active_imperial_incident = any }
+		is_elector = no
+		emperor = {
+			OR = {
+				tag = BOH
+				alliance_with = BOH
+				has_opinion = {
+					who = BOH
+					value = 50
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	option = {
+		name = incident_elevation_of_bohemia.1.a
+		if = {
+			limit = {
+				is_part_of_hre = yes
+				is_emperor = no
+				has_dlc = "Emperor"
+			}
+			set_imperial_incident = incident_elevation_of_bohemia
+		}
+		else_if = {
+            limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+                any_elector = { 
+					OR = {
+						is_rival = emperor 
+						has_opinion = {
+							who = emperor
+							value = 0
+						}
+					}
+					is_subject = no
+					was_player = no
+				}
+            }
+            random_elector = {
+                limit = { 
+					OR = {
+						is_rival = emperor 
+						has_opinion = {
+							who = emperor
+							value = 0
+						}
+					}
+					is_subject = no
+					was_player = no
+				}
+				elector = no
+            }
+			elector = yes
+			set_government_rank = 5
+			add_prestige = 20
+			add_legitimacy = 20		
+        }
+		else_if = {
+			limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+				any_elector = { 
+					is_subject = no
+					was_player = no 				
+                    NOT = {
+						OR = {
+							good_choice_for_electorship_trigger = no
+							has_opinion = {
+								who = emperor
+								value = 50
+							}
+                        }
+                    }
+                }
+			}
+            random_elector = {
+                limit = { 
+					is_subject = no
+					was_player = no 				
+                    NOT = {
+						OR = {
+							good_choice_for_electorship_trigger = no
+							has_opinion = {
+								who = emperor
+								value = 50
+							}
+                        }
+                    }
+				}
+				elector = no
+            }	
+			elector = yes			
+			set_government_rank = 5
+			add_prestige = 20
+			add_legitimacy = 20
+		}
+        else_if = {
+			limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+			}
+			random_elector = { 
+				elector = no
+			}
+			elector = yes
+			set_government_rank = 5
+			add_prestige = 20
+			add_legitimacy = 20
+        }		
+		else = {
+			elector = yes
+			set_government_rank = 5
+			add_prestige = 20
+			add_legitimacy = 20	
+		}	
+	}
+}
+
+#
+country_event = {
+	id = incident_elevation_of_bohemia.2
+	title = incident_elevation_of_bohemia.2.t
+	desc = incident_elevation_of_bohemia.2.d
+	picture = HRE_eventPicture
+	
+	is_triggered_only = yes
+	major = yes
+	
+	option = { #Elevate Bohemia to an hre kingdom and electorate
+		name = incident_elevation_of_bohemia.2.a
+		ai_chance = {
+			factor = 75
+		}
+		add_imperial_influence = -10
+		reverse_add_opinion = {
+			who = BOH
+			modifier = opinion_incident_elevation_of_bohemia
+		}
+		tooltip = {
+			BOH = {
+				set_government_rank = 5
+				elector = yes
+				add_prestige = 25
+				add_legitimacy = 25
+				reverse_add_opinion = {
+					who = emperor
+					modifier = opinion_incident_elevation_of_bohemia
+				}
+			}
+		}
+		hidden_effect = {
+			BOH = {
+				set_country_flag = incident_elevation_of_bohemia_elevated
+				country_event = { id = incident_elevation_of_bohemia.3 }
+			}
+		}
+	}
+	option = { #Electorate but not Kingdom
+		name = incident_elevation_of_bohemia.2.b
+		ai_chance = {
+			factor = 25
+		}
+		reverse_add_opinion = {
+			who = BOH
+			modifier = opinion_incident_elevation_of_bohemia_compromise
+		}
+		tooltip = {
+			BOH = {
+				elector = yes
+				add_prestige = 10
+				add_legitimacy = 10
+				reverse_add_opinion = {
+					who = emperor
+					modifier = opinion_incident_elevation_of_bohemia_compromise
+				}
+			}
+		}
+		hidden_effect = {
+			BOH = {
+				set_country_flag = incident_elevation_of_bohemia_compromise
+				country_event = { id = incident_elevation_of_bohemia.3 }
+			}
+		}
+	}
+	option = { #Reject A Change
+		name = incident_elevation_of_bohemia.2.c
+		ai_chance = {
+			factor = 0
+		}
+		reverse_add_opinion = {
+			who = BOH
+			modifier = opinion_incident_elevation_of_bohemia_rejection
+		}
+		hidden_effect = {
+			BOH = {
+				set_country_flag = incident_elevation_of_bohemia_rejection
+				country_event = { id = incident_elevation_of_bohemia.3 }
+			}
+		}
+	}
+}
+
+# Follow-up for Bohemia
+country_event = {
+	id = incident_elevation_of_bohemia.3
+	title = incident_elevation_of_bohemia.3.t
+	desc = {
+		trigger = {
+			has_country_flag = incident_elevation_of_bohemia_elevated
+		}
+		desc = incident_elevation_of_bohemia.3.d
+	}
+	desc = {
+		trigger = {
+			has_country_flag = incident_elevation_of_bohemia_compromise
+		}
+		desc = incident_elevation_of_bohemia.3.f
+	}
+	desc = {
+		trigger = {
+			has_country_flag = incident_elevation_of_bohemia_rejection
+		}
+		desc = incident_elevation_of_bohemia.3.g
+	}
+	picture = {
+		trigger = {
+			OR = {
+				has_country_flag = incident_elevation_of_bohemia_elevated
+				has_country_flag = incident_elevation_of_bohemia_compromise
+			}
+		}
+		picture = GOOD_WITH_MONARCH_eventPicture
+	}
+	picture = {
+		trigger = {
+			has_country_flag = incident_elevation_of_bohemia_rejection
+		}
+		picture = BAD_WITH_MONARCH_eventPicture
+	}
+	
+	is_triggered_only = yes
+	major = yes
+	
+	option = {
+		trigger = {
+			has_country_flag = incident_elevation_of_bohemia_elevated
+		}
+		name = incident_elevation_of_bohemia.3.a
+		if = {
+            limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+                any_elector = { 
+					OR = {
+						is_rival = emperor 
+						has_opinion = {
+							who = emperor
+							value = 0
+						}
+					}
+					is_subject = no
+					was_player = no
+				}
+            }
+            random_elector = {
+                limit = { 
+					OR = {
+						is_rival = emperor 
+						has_opinion = {
+							who = emperor
+							value = 0
+						}
+					}
+					is_subject = no
+					was_player = no
+				}
+				elector = no
+            }
+			set_government_rank = 5
+			elector = yes
+			add_prestige = 25
+			add_legitimacy = 25
+			reverse_add_opinion = {
+				who = emperor
+				modifier = opinion_incident_elevation_of_bohemia
+			}	
+        }
+		else_if = {
+			limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+				any_elector = { 
+					is_subject = no
+					was_player = no 				
+                    NOT = {
+						OR = {
+							good_choice_for_electorship_trigger = no
+							has_opinion = {
+								who = emperor
+								value = 50
+							}
+                        }
+                    }
+                }
+			}
+            random_elector = {
+                limit = { 
+					is_subject = no
+					was_player = no 				
+                    NOT = {
+						OR = {
+							good_choice_for_electorship_trigger = no
+							has_opinion = {
+								who = emperor
+								value = 50
+							}
+                        }
+                    }
+				}
+				elector = no
+            }	
+			set_government_rank = 5
+			elector = yes
+			add_prestige = 25
+			add_legitimacy = 25
+			reverse_add_opinion = {
+				who = emperor
+				modifier = opinion_incident_elevation_of_bohemia
+			}
+		}
+        else_if = {
+			limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+			}
+			random_elector = { 
+				elector = no
+			}
+			set_government_rank = 5
+			elector = yes
+			add_prestige = 25
+			add_legitimacy = 25
+			reverse_add_opinion = {
+				who = emperor
+				modifier = opinion_incident_elevation_of_bohemia
+			}
+        }		
+		else = {
+			set_government_rank = 5
+			elector = yes
+			add_prestige = 25
+			add_legitimacy = 25
+			reverse_add_opinion = {
+				who = emperor
+				modifier = opinion_incident_elevation_of_bohemia
+			}
+		}	
+	}
+	option = {
+		trigger = {
+			has_country_flag = incident_elevation_of_bohemia_compromise
+		}
+		name = incident_elevation_of_bohemia.3.b
+		if = {
+            limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+                any_elector = { 
+					OR = {
+						is_rival = emperor 
+						has_opinion = {
+							who = emperor
+							value = 0
+						}
+					}
+					is_subject = no
+					was_player = no
+				}
+            }
+            random_elector = {
+                limit = { 
+					OR = {
+						is_rival = emperor 
+						has_opinion = {
+							who = emperor
+							value = 0
+						}
+					}
+					is_subject = no
+					was_player = no
+				}
+				elector = no
+            }
+			elector = yes
+			add_prestige = 25
+			add_legitimacy = 25
+			reverse_add_opinion = {
+				who = emperor
+				modifier = opinion_incident_elevation_of_bohemia
+			}	
+        }
+		else_if = {
+			limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+				any_elector = { 
+					is_subject = no
+					was_player = no 				
+                    NOT = {
+						OR = {
+							good_choice_for_electorship_trigger = no
+							has_opinion = {
+								who = emperor
+								value = 50
+							}
+                        }
+                    }
+                }
+			}
+            random_elector = {
+                limit = { 
+					is_subject = no
+					was_player = no 				
+                    NOT = {
+						OR = {
+							good_choice_for_electorship_trigger = no
+							has_opinion = {
+								who = emperor
+								value = 50
+							}
+                        }
+                    }
+				}
+				elector = no
+            }	
+			elector = yes
+			add_prestige = 25
+			add_legitimacy = 25
+			reverse_add_opinion = {
+				who = emperor
+				modifier = opinion_incident_elevation_of_bohemia
+			}
+		}
+        else_if = {
+			limit = {
+				OR = {
+					num_of_electors = 7
+					num_of_electors = 8
+				}
+			}
+			random_elector = { 
+				elector = no
+			}
+			elector = yes
+			add_prestige = 25
+			add_legitimacy = 25
+			reverse_add_opinion = {
+				who = emperor
+				modifier = opinion_incident_elevation_of_bohemia
+			}
+        }		
+		else = {
+			elector = yes
+			add_prestige = 25
+			add_legitimacy = 25
+			reverse_add_opinion = {
+				who = emperor
+				modifier = opinion_incident_elevation_of_bohemia
+			}
+		}	
+	}
+	option = {
+		trigger = {
+			has_country_flag = incident_elevation_of_bohemia_rejection
+		}
+		ai_chance = { 
+			factor = 1
+		}
+		name = incident_elevation_of_bohemia.3.c
+		reverse_add_opinion = {
+			who = emperor
+			modifier = opinion_incident_elevation_of_bohemia_rejection_a
+		}
+	}
+	option = {
+		trigger = {
+			has_country_flag = incident_elevation_of_bohemia_rejection
+		}
+		ai_chance = { 
+			factor = 100 
+			modifier = {
+				factor = 0
+				emperor = {
+					army_strength = {
+						who = ROOT
+						value = 1
+					}
+				}
+			}
+		}
+		name = incident_elevation_of_bohemia.3.e
+		reverse_add_opinion = {
+			who = emperor
+			modifier = opinion_incident_elevation_of_bohemia_rejection_b
+		}
+		add_casus_belli = {
+			target = emperor
+			type = cb_insult
+			months = 24
+		}
+	}
+}

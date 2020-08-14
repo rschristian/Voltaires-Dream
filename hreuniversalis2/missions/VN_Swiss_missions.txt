@@ -765,22 +765,38 @@ vn_swi_missions_slot_5 = {
         icon = mission_large_army
         position = 3 #PLACEHOLDER and will be finished post-Emperor 
         required_missions = { vn_swi_famous_discipline }
-        trigger = {
-            #!
-        }
+		trigger = {
+			any_known_country = { 
+				OR = {
+					template = merc_reislaufer
+					template = merc_swiss_canton_mercenaries
+				}
+			}
+		}
         effect = {
-            #!
+			add_prestige = 10
+            add_army_tradition = 10
+			add_army_professionalism = 0.05
         }
     }
     vn_swi_swiss_guard = {
         icon = form_the_swiss_guard
         position = 4 #PLACEHOLDER and will be finished post-Emperor
         required_missions = { vn_swi_schweizer_reislauferei vn_swi_papal_relations }
-        trigger = {
-            #!
-        }
+		trigger = {
+			any_known_country = { 
+				OR = {
+					template = merc_free_swiss_guard
+					template = merc_swiss_guard
+				}
+			}
+		}
         effect = {
-            #!
+			add_prestige = 10
+            add_power_projection = {
+                type = mission_rewards_power_projection
+                amount = 20
+            }
         }
     }
     vn_swi_universitat_basel = {
@@ -818,10 +834,32 @@ vn_swi_missions_slot_5 = {
         position = 6 #event? FINISH
         required_missions = {  }
         trigger = {
-            #!
+            OR = {
+				AND = {
+					army_tradition = 100
+					army_professionalism = 100
+					army_size_percentage = 1
+				}
+				AND = {
+					diplomatic_reputation = 3
+					has_truce = no
+					calc_true_if = {
+						all_known_country = {
+							has_opinion = {
+								who = ROOT
+								value = 100
+							}
+						}
+						amount = 5
+					}					
+				}
+			}
         }
         effect = {
-            #!
+			add_prestige = 10
+            add_adm_power = 50
+			add_dip_power = 50
+			add_mil_power = 50
         }
     }
     vn_swi_gain_the_austrian_alps = {
