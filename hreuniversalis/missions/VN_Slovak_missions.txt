@@ -12,9 +12,9 @@ vn_slo_missions_slot_1_a = {
 	has_country_shield = yes
 	
 	vn_slo_back_for_more = {
-		required_missions = { vn_slo_nasi_bratia }
+		required_missions = { vn_slo_zlucenie }
 		icon = mission_cannons_firing
-		position = 5
+		position = 3
 		provinces_to_highlight = {
 			OR = {
 				area = pest_area
@@ -47,31 +47,26 @@ vn_slo_missions_slot_1_a = {
 					duration = 9125
 				}
 			}
-			tabor_area = {
+			transdanubia_region = {
 				limit = {
 					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_claim = ROOT }
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
+			}
+			danubia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
 			}
 		}
 	}
-}
-
-vn_slo_missions_slot_1_b = {
-	slot = 6
-    generic = no
-    ai = yes
-    potential = {
-        tag = SLO
-        NOT = { map_setup = map_setup_random }
-    }
-	has_country_shield = yes
-	
 	vn_slo_end_of_magyars = {
-		required_missions = { vn_slo_restore_great_moravia }
+		required_missions = { vn_slo_back_for_more }
 		icon = king_of_hungary
-		position = 8
+		position = 4
 		provinces_to_highlight = {
 			OR = {
 				region = transdanubia_region
@@ -80,7 +75,6 @@ vn_slo_missions_slot_1_b = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			NOT = { exists = HUN }
 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 				value = 30
 				region = transdanubia_region
@@ -93,6 +87,28 @@ vn_slo_missions_slot_1_b = {
 		effect = {
 			add_country_modifier = {
 				name = "slo_end_of_magyars_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_slo_silesian_integration = {
+		required_missions = { vn_slo_entrance_to_poland }
+		position = 6
+		icon = take_silesia
+		provinces_to_highlight = {
+			region = silesia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 40
+				region = silesia_region
+			}
+		}
+		effect = {
+			add_accepted_culture = schlesian
+			add_country_modifier = {
+				name = "slo_silesian_integration_mission"
 				duration = 9125
 			}
 		}
@@ -127,33 +143,12 @@ vn_slo_missions_slot_2_a = {
 		trigger = {
 			army_size_percentage = 0.75
 			is_subject = no
-			if = {
-				limit = { exists = HUN }
-				HUN = {
-					OR = {
-						any_rival_country = {
-							OR = {
-								alliance_with = ROOT
-								has_opinion = {
-									who = ROOT
-									value = 100
-								}
-							}
-						}
-						any_enemy_country = {
-							OR = {
-								alliance_with = ROOT
-								has_opinion = {
-									who = ROOT
-									value = 100
-								}
-							}
-						}
-					}
+			num_of_allies = 2
+			all_ally = {
+				has_opinion = {
+					who = ROOT
+					value = 150
 				}
-			}
-			else = {
-				num_of_allies = 1
 			}
 			nyitra_area = {
 				type = all
@@ -195,6 +190,7 @@ vn_slo_missions_slot_2_a = {
 	vn_slo_zlucenie = {
 		required_missions = { vn_slo_freedom }
 		icon = mission_unite_home_region
+		position = 2
 		provinces_to_highlight = {
 			OR = {
 				area = abauj_area
@@ -221,12 +217,179 @@ vn_slo_missions_slot_2_a = {
 		effect = {
 			add_country_modifier = {
 				name = "slo_zlucenie_mission"
-				duration = 7300
+				duration = 9125
+			}
+			fejer_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			pest_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			sacz_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
 			}
 		}
 	}
+	vn_slo_entrance_to_poland = {
+		required_missions = { vn_slo_zlucenie }
+		icon = polish_diplomacy
+		position = 5
+		provinces_to_highlight = {
+			area = sacz_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			sacz_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			2419 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			malopolska_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			silesia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			add_accepted_culture = polish
+		}
+	}
+	vn_slo_polish_realm = {
+		required_missions = { vn_slo_entrance_to_poland }
+		icon = king_of_poland
+		position = 6
+		provinces_to_highlight = {
+			region = malopolska_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 35
+				region = malopolska_region
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "slo_polish_realm_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_3_a = {
+	slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
+	vn_slo_czechian_cities = {
+		required_missions = { vn_slo_our_namesake }
+		icon = mission_big_city
+		position = 2
+		provinces_to_highlight = {
+			OR = {
+				province_id = 781
+				province_id = 2871
+			}
+		}
+		trigger = {
+			781 = {
+				owned_by = ROOT
+				development = 30
+				has_education_building_trigger = yes
+			}
+			2871 = {
+				owned_by = ROOT
+				development = 20
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+					781 = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+				}
+				781 = {
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				781 = { 
+					add_base_production = 2 
+				}
+			}
+			781 = {
+				add_province_modifier = {
+					name = "slo_czechian_cities_mission"
+					duration = -1
+				}
+			}
+			2871 = {
+				if = {
+					limit = {
+						NOT = { has_building = arsenal }
+						num_free_building_slots = 1
+					}
+					add_building = arsenal
+				}
+				add_province_modifier = {
+					name = "slo_czechian_cities_mission"
+					duration = -1
+				}
+			}
+		}
+	}
+}
+
+vn_slo_missions_slot_3_b = {
+	slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = SLO
+        NOT = { map_setup = map_setup_random }
+    }
+	has_country_shield = yes
+	
 	vn_slo_join_empire = {
 		required_missions = { vn_slo_zlucenie }
+		position = 3
 		icon = mission_rb_control_electors
 		trigger = {
 			is_subject = no
@@ -280,6 +443,7 @@ vn_slo_missions_slot_2_a = {
 	vn_slo_nasi_bratia = {
 		required_missions = { vn_slo_join_empire }
 		icon = mission_alliances
+		position = 4
 		provinces_to_highlight = {
 			region = moravia_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -296,21 +460,14 @@ vn_slo_missions_slot_2_a = {
 				duration = 9125
 			}
 			add_accepted_culture = moravian
-			fejer_area = {
+			tabor_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
-			pest_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			sacz_area = {
+			hradecko_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -321,8 +478,8 @@ vn_slo_missions_slot_2_a = {
 	}
 }
 
-vn_slo_missions_slot_2_b = {
-	slot = 7
+vn_slo_missions_slot_3_c = {
+	slot = 8
     generic = no
     ai = yes
     potential = {
@@ -330,68 +487,11 @@ vn_slo_missions_slot_2_b = {
         NOT = { map_setup = map_setup_random }
     }
 	has_country_shield = yes
-
-	vn_slo_czech_invasion = {
-		required_missions = { 
-			vn_slo_back_for_more
-			vn_slo_entrance_to_poland
-		}
-		icon = bohemian_borderlands
-		position = 6
-		provinces_to_highlight = {
-			OR = {
-				area = hradecko_area
-				area = tabor_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 15
-				OR = {
-					area = hradecko_area
-					area = tabor_area
-				}
-			}
-		}
-		effect = {
-			add_country_modifier = {
-				name = "slo_czech_invasion_mission"
-				duration = 9125
-			}
-			praha_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			erz_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			eger_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			plzen_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-		}
-	}
+	
 	vn_slo_restore_great_moravia = {
 		required_missions = { vn_slo_czech_invasion }
 		icon = restore_great_moravia
+		position = 6
 		provinces_to_highlight = {
 			region = bohemia_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -423,37 +523,15 @@ vn_slo_missions_slot_2_b = {
 			}
 		}
 	}
-	vn_slo_silesian_integration = {
-		required_missions = { vn_slo_restore_great_moravia }
-		icon = take_silesia
-		provinces_to_highlight = {
-			region = silesia_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 40
-				region = silesia_region
-			}
-			NOT = { exists = SIL }
-		}
-		effect = {
-			add_accepted_culture = schlesian
-			add_country_modifier = {
-				name = "slo_silesian_integration_mission"
-				duration = 9125
-			}
-		}
-	}
 	vn_slo_great_moravia_supreme = {
 		required_missions = { 
-			vn_slo_end_of_magyars
 			vn_slo_silesian_integration
 			vn_slo_polish_realm
+			vn_slo_restore_great_moravia
 			vn_slo_our_sorbian_neighbors
 		}
 		icon = mission_empire
-		position = 9
+		position = 7
 		provinces_to_highlight = {
 			OR = {
 				region = silesia_region
@@ -545,193 +623,6 @@ vn_slo_missions_slot_2_b = {
 	}
 }
 
-vn_slo_missions_slot_3_a = {
-	slot = 8
-    generic = no
-    ai = yes
-    potential = {
-        tag = SLO
-        NOT = { map_setup = map_setup_random }
-    }
-	has_country_shield = yes
-	
-	vn_slo_czechian_cities = {
-		required_missions = { vn_slo_our_second_capital }
-		icon = mission_big_city
-		position = 3
-		provinces_to_highlight = {
-			OR = {
-				province_id = 781
-				province_id = 2871
-			}
-		}
-		trigger = {
-			781 = {
-				owned_by = ROOT
-				development = 30
-				has_education_building_trigger = yes
-			}
-			2871 = {
-				owned_by = ROOT
-				development = 20
-			}
-		}
-		effect = {
-			if = {
-				limit = {
-					has_dlc = "Dharma"
-					781 = {
-						NOT = { province_has_center_of_trade_of_level = 3 }
-					}
-				}
-				781 = {
-					add_center_of_trade_level = 1
-				}
-			}
-			else = {
-				781 = { 
-					add_base_production = 2 
-				}
-			}
-			2871 = {
-				if = {
-					limit = {
-						NOT = { has_building = arsenal }
-						num_free_building_slots = 1
-					}
-					add_building = arsenal
-				}
-				add_province_modifier = {
-					name = "slo_czechian_cities_mission"
-					duration = -1
-				}
-			}
-		}
-	}
-}
-
-vn_slo_missions_slot_3_b = {
-	slot = 8
-    generic = no
-    ai = yes
-    potential = {
-        tag = SLO
-        NOT = { map_setup = map_setup_random }
-    }
-	has_country_shield = yes
-	
-	vn_slo_entrance_to_poland = {
-		required_missions = { vn_slo_nasi_bratia }
-		icon = polish_diplomacy
-		position = 5
-		provinces_to_highlight = {
-			area = sacz_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			sacz_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			hradecko_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			2419 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			add_accepted_culture = polish
-		}
-	}
-}
-
-
-
-vn_slo_missions_slot_3_c = {
-	slot = 8
-    generic = no
-    ai = yes
-    potential = {
-        tag = SLO
-        NOT = { map_setup = map_setup_random }
-    }
-	has_country_shield = yes
-	
-	vn_slo_decline_of_bohemia = {
-		required_missions = { vn_slo_czech_invasion }
-		icon = mission_conquer_50_development
-		position = 7
-		trigger = {
-			OR = {
-				religion = catholic
-				religion = catholique
-			}
-			OR = {
-				alliance_with = emperor
-				any_rival_country = {
-					is_emperor = yes
-				}
-			}
-			if = {
-				limit = { exists = BOH }
-				total_development = BOH
-			}
-			else = {
-				total_development = 200
-			}
-		}
-		effect = {
-			add_historical_rival = BOH
-			BOH = { add_prestige = -25 }
-			add_prestige = 25
-		}
-	}
-}
-
-vn_slo_missions_slot_3_d = {
-	slot = 8
-    generic = no
-    ai = yes
-    potential = {
-        tag = SLO
-        NOT = { map_setup = map_setup_random }
-    }
-	has_country_shield = yes
-	
-	vn_slo_polish_realm = {
-		required_missions = { vn_slo_restore_great_moravia }
-		icon = king_of_poland
-		position = 8
-		provinces_to_highlight = {
-			region = malopolska_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 35
-				region = malopolska_region
-			}
-		}
-		effect = {
-			add_country_modifier = {
-				name = "slo_polish_realm_mission"
-				duration = 9125
-			}
-		}
-	}
-}
-
 vn_slo_missions_slot_4_a = {
 	slot = 9
     generic = no
@@ -817,9 +708,13 @@ vn_slo_missions_slot_4_a = {
 		}
 	}
 	vn_slo_restore_veligrad = {
-		required_missions = { vn_slo_our_second_capital }
+		required_missions = { 
+			vn_slo_our_second_capital 
+			vn_slo_czechian_cities
+			vn_slo_grand_city_of_pest
+		}
 		icon = mission_buildings
-		position = 4
+		position = 3
 		provinces_to_highlight = {
 			province_id = 5150
 		}
@@ -862,10 +757,72 @@ vn_slo_missions_slot_4_b = {
     }
 	has_country_shield = yes
 	
+	vn_slo_czech_invasion = {
+		required_missions = { vn_slo_nasi_bratia }
+		icon = bohemian_borderlands
+		position = 5
+		provinces_to_highlight = {
+			OR = {
+				area = hradecko_area
+				area = tabor_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 15
+				OR = {
+					area = hradecko_area
+					area = tabor_area
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "slo_czech_invasion_mission"
+				duration = 9125
+			}
+			praha_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			erz_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			eger_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			plzen_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			lusatia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
 	vn_slo_our_sorbian_neighbors = {
-		required_missions = { vn_slo_restore_great_moravia }
+		required_missions = { vn_slo_czech_invasion }
 		icon = mission_unite_home_region
-		position = 8
+		position = 6
 		provinces_to_highlight = {
 			region = lusatia_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -875,7 +832,6 @@ vn_slo_missions_slot_4_b = {
 				value = 15
 				region = lusatia_region
 			}
-			NOT = { exists = LST }
 		}
 		effect = {
 			add_accepted_culture = sorbian
@@ -898,9 +854,9 @@ vn_slo_missions_slot_5_a = {
 	has_country_shield = yes
 	
 	vn_slo_grand_city_of_pest = {
-		required_missions = { vn_slo_our_second_capital }
+		required_missions = { vn_slo_our_namesake }
 		icon = mission_big_city
-		position = 3
+		position = 2
 		provinces_to_highlight = {
 			province_id = 444
 		}
@@ -920,6 +876,48 @@ vn_slo_missions_slot_5_a = {
 					add_nationalism = -5
 				}
 			}
+		}
+	}
+	vn_slo_decline_of_bohemia = {
+		required_missions = { vn_slo_czech_invasion }
+		icon = mission_conquer_50_development
+		position = 6
+		trigger = {
+			OR = {
+				alliance_with = emperor
+				is_emperor = yes
+				emperor = {
+					has_opinion = {
+						who = ROOT
+						value = 100
+					}
+				}
+			}
+			if = {
+				limit = { exists = BOH }
+				total_development = BOH
+				BOH = { is_emperor = no }
+			}
+			else = {
+				total_development = 250
+			}
+		}
+		effect = {
+			if = {
+				limit = { exists = BOH }
+				add_historical_rival = BOH
+				BOH = { add_prestige = -25 }
+				if = {
+					limit = {
+						BOH = { is_elector = yes }
+						is_part_of_hre = yes
+						is_elector = no
+					}
+					BOH = { elector = no }
+					elector = yes
+				}
+			}
+			add_prestige = 25
 		}
 	}
 }
