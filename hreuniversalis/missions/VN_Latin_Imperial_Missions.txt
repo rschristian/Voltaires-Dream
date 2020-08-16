@@ -554,6 +554,13 @@ vn_lem_missions_slot_3 = {
         trigger = {
             num_of_generals = 3
             cavalry_fraction = 0.25
+            if = {
+                limit = { has_estate = estate_holy_orders }
+                estate_loyalty = {
+                    estate = estate_holy_orders
+                    loyalty = 60
+                }
+            }
         }
         effect = {
             add_country_modifier = {
@@ -567,13 +574,16 @@ vn_lem_missions_slot_3 = {
         icon = mission_crusade
         required_missions = { vn_lem_obligate_crusaders vn_lem_conquer_athens }
         trigger = {
-            custom_trigger_tooltip = {
-                tooltip = vn_lem_a_new_crusade.tt
-                any_country = {
+            calc_true_if = {
+                amount = 3
+                desc = vn_lem_a_new_crusade.tt
+                all_country = {
                     religion_group = muslim
-                    is_in_war = {
-                        attacker_leader = ROOT
-                        defender_leader = ROOT
+                    ROOT = {
+                        has_won_war_against = {
+                            who = PREV
+                            max_years_since = 50
+                        }
                     }
                 }
             }

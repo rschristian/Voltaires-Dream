@@ -88,21 +88,33 @@ vn_pap_missions_slot_1 = {
         position = 4
 		required_missions = {  }
 		provinces_to_highlight = {
-			owned_by = SWE
+            if = {
+                limit = { exists = SWE }
+                owned_by = SWE
+            }
+            else = {
+                region = gotaland_region
+                NOT = { religion = catholic }
+            }
 		}
         trigger = {
             if = {
 				limit = {
 					exists = SWE
-				}
-				# sweden had event the cross and the raven
-				SWE = {
-					religion = catholic
-					has_opinion = {
-						who = ROOT
-						value = 100
-					}
-				}
+                }
+                OR = {
+                    SWE = {
+                        religion = catholic
+                        has_opinion = {
+                            who = ROOT
+                            value = 100
+                        }
+                    }
+                    SWE = {
+                        NOT = { religion = catholic }
+                        NOT = { num_of_cities = 40 }
+                    }
+                }
 			}
 			else = {
 				gotaland_region = {
