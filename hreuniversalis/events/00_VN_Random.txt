@@ -7090,6 +7090,7 @@ country_event = {
 
 	immediate = {
 		hidden_effect = {
+			set_global_flag = ongoing_rota
 			set_country_flag = recent_rota
 			every_country = {
 				limit = { has_ruler_flag = rota_elected_flag }
@@ -7156,16 +7157,31 @@ country_event = {
 			set_ruler = rota_ruler
 			set_ruler_flag = rota_elected_flag
 		}
-		random_country = {
+		if = {
 			limit = {
-				NOT = { tag = ROOT }
-				NOT = { has_ruler_flag = rota_elected_flag }
-				is_subject_of_type = tributary_state
-				has_reform = principality
-				has_regency = no
-				dynasty = ROOT
+				any_country = {
+					NOT = { tag = ROOT }
+					NOT = { has_ruler_flag = rota_elected_flag }
+					is_subject_of_type = tributary_state
+					has_reform = principality
+					has_regency = no
+					dynasty = ROOT
+				}
 			}
-			country_event = { id = fbievents.124 days = 1 }
+			random_country = {
+				limit = {
+					NOT = { tag = ROOT }
+					NOT = { has_ruler_flag = rota_elected_flag }
+					is_subject_of_type = tributary_state
+					has_reform = principality
+					has_regency = no
+					dynasty = ROOT
+				}
+				country_event = { id = fbievents.124 days = 1 }
+			}
+		}
+		else = {
+			clr_global_flag = ongoing_rota
 		}
 	}
 }
