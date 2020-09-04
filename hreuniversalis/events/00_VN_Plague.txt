@@ -583,6 +583,7 @@ province_event = {
 			flag = plague_epicenter
 			days = 1095
 		}
+		NOT = { owner = { has_country_flag = had_plague_end } }
 	}
 
 	mean_time_to_happen = {
@@ -592,7 +593,10 @@ province_event = {
 	immediate = {
 		hidden_effect = {
 			clr_province_flag = plague_epicenter
-			owner = { clr_country_flag = country_ongoing_plague }
+			owner = { 
+				clr_country_flag = country_ongoing_plague 
+				set_country_flag = had_plague_end
+			}
 			region = {
 				clear_global_event_target = plague_region
 				if = {
@@ -623,7 +627,7 @@ province_event = {
 		hidden_effect = {
 			every_country = {
 				limit = {
-					NOT = { tag = owner }
+					NOT = { has_country_flag = had_plague_end }
 					any_owned_province = {
 						region = event_target:plague_region 
 					}
@@ -632,6 +636,7 @@ province_event = {
 					id = vn_plagues.101
 				}
 			}
+			owner = { clr_country_flag = had_plague_end }
 		}
 	}
 }
