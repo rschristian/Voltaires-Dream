@@ -554,15 +554,29 @@ country_event = {
 		custom_tooltip = sicilian_vespers.100.a.tt
 		hidden_effect = {
 			sicilia_region = {
-				limit = { 
-					controlled_by = REB
-					NOT = { controlled_by = TNC }
+				if = {
+					limit = {
+						OR = {
+							is_core = ROOT
+							is_claim = ROOT
+						}
+						NOT = {
+							is_island = yes
+						}
+					}
+					owner = {
+						remove_core = PREV
+						remove_claim = PREV
+					}
 				}
-				owner = {
-					remove_core = PREV
+				if = {
+					limit = { 
+						controlled_by = REB
+						NOT = { controlled_by = TNC }
+					}
+					cede_province = TNC
+					add_core = TNC
 				}
-				cede_province = TNC
-				add_core = TNC
 			}	
 			every_owned_province = {
 				limit = { culture = sicilian }
