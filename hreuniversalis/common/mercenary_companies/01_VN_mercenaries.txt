@@ -239,7 +239,11 @@ merc_hakkapelitta = {
 	home_province = 3276 # Viipuri
 	sprites = { dlc054_swe_sprite_pack dlc028_swe_sprite_pack swe_base_sprite_pack westerngfx_sprite_pack }
 	trigger = {
-		current_age = age_of_absolutism
+		OR = {
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+			current_Age = age_of_ideology
+		}
 		capital_scope = {
 			superregion = scandinavia_superregion
 		}
@@ -268,7 +272,7 @@ merc_black_guard = {
 }
 
 merc_varangian_guard = {
-    regiments_per_development = 0.015
+    regiments_per_development = 0.01
     artillery_weight = 0 # No artillery
 	cavalry_weight = 0.2
 	cavalry_cap = 4
@@ -294,15 +298,68 @@ merc_kutama = {
     artillery_weight = 0 # No artillery
 	cavalry_weight = 0.4
 	cavalry_cap = 6
-	home_province = 5054 # Cairo
+	home_province = 5022 # Alexandria
 	cost_modifier = 1.25
 	sprites = { dlc058_mam_sprite_pack dlc002_mam_sprite_pack muslimgfx_sprite_pack }
 	trigger = {
 		tag = FTM
-		religion_group = muslim
+		has_reform = feudal_theocracy
 	}
 	modifier = {
 		legitimacy = -0.5
-		cavalry_power = 0.15
+		land_attrition = -0.15
+	}
+}
+
+merc_jutlandic_freischar = {
+	regiments_per_development = 0.02
+    artillery_weight = 0.4
+	cavalry_weight = 0.2
+	cavalry_cap = 4
+	home_province = 365 # Arhus
+	cost_modifier = 1.25
+	sprites = { dlc028_dan_sprite_pack dan_base_sprite_pack westerngfx_sprite_pack }
+	trigger = {
+		OR = {
+			culture_group = germanic
+			culture_group = scandinavian
+		}
+		custom_trigger_tooltip = {
+			tooltip = new_mercs_tt
+			has_global_flag = new_european_mercs
+		}
+	}
+	modifier = {
+		movement_speed = 0.1
+		infantry_power = 0.1
+	}
+}
+
+merc_geharnischte = {
+	regiments_per_development = 0.015
+    artillery_weight = 0.2
+	cavalry_weight = 0.3
+	cavalry_cap = 5
+	home_province = 240 # Torgau
+	cost_modifier = 0.75
+	sprites = { dlc061_sax_sprite_pack dlc028_sax_sprite_pack westerngfx_sprite_pack }
+	trigger = {
+		capital_scope = { 
+			OR = {
+				superregion = germanynorth_superregion
+				superregion = germanysouth_superregion
+				superregion = bohemia_superregion
+				superregion = lowlands_superregion
+				superregion = austria_superregion
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = no_new_mercs_tt
+			NOT = { has_global_flag = new_european_mercs }
+		}
+	}
+	modifier = {
+		reinforce_speed = -0.1
+		shock_damage_received = -0.1
 	}
 }
