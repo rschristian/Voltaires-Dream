@@ -240,17 +240,54 @@ vn_hab_missions_slot_1 = {
         required_missions = { vn_hab_conquer_hungary }
         provinces_to_highlight = {
             owned_by = ROOT
+            culture = hungarian
+            OR = {
+                unrest = 1
+                local_autonomy = 50
+            }
         }
 		trigger = {
-            
+            NOT = {
+                any_owned_province = {
+                    culture = hungarian
+                    unrest = 1
+                    local_autonomy = 50
+                }
+            }
+            OR = {
+                NOT = { exists = HUN }
+                HUN = {
+                    is_subject_of = ROOT
+                    NOT = { liberty_desire = 10 }
+                    NOT = { total_development = ROOT }
+                }
+            }
 		}
 		effect = {
-			
+            custom_tooltip = vn_hab_hungarian_restriction.tt
+			hidden_effect = {
+                every_owned_province = {
+                    limit = { culture = hungarian }
+                    add_province_modifier = {
+                        name = hab_hungarian_restriction_mission
+                        duration = 9125
+                    }
+                }
+                every_subject_country = {
+                    every_owned_province = {
+                        limit = { culture = hungarian }
+                        add_province_modifier = {
+                            name = hab_hungarian_restriction_mission
+                            duration = 9125
+                        }
+                    }
+                }
+            }
 		}
 	}
 	vn_hab_multi_ethnic_state = {
         position = 11
-		icon = multicultura_empire
+		icon = multicultural_empire
         required_missions = { vn_hab_hungarian_restriction }
 		trigger = {
 			num_accepted_cultures = 7
@@ -655,12 +692,14 @@ vn_hab_missions_slot_2 = {
 		}
         effect = {
             serbia_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = hab_conquer_serbia_mission
                     duration = 9125
                 }
             }
             rashkan_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = hab_conquer_serbia_mission
                     duration = 9125
@@ -686,6 +725,15 @@ vn_hab_missions_slot_2 = {
 		}
         effect = {
             add_war_exhaustion = -2
+            balkans_superregion = {
+                limit = {
+                    owner = {
+                        NOT = { tag = ROOT }
+                        primary_culture = turkish
+                    }
+                }
+                add_permanent_claim = ROOT
+            }
             add_country_modifier = {
                 name = hab_humiliate_the_turks_mission
                 duration = 9125
@@ -1036,6 +1084,34 @@ vn_hab_missions_slot_3 = {
                 }
                 add_permanent_claim = ROOT
             }
+            croatia_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = hab_conquer_serbia_mission
+                    duration = 9125
+                }
+            }
+            senj_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = hab_conquer_serbia_mission
+                    duration = 9125
+                }
+            }
+            dalmatia_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = hab_conquer_serbia_mission
+                    duration = 9125
+                }
+            }
+            split_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = hab_conquer_serbia_mission
+                    duration = 9125
+                }
+            }
         }
     }
     vn_hab_conquer_bosnia = {
@@ -1068,6 +1144,7 @@ vn_hab_missions_slot_3 = {
                 add_permanent_claim = ROOT
             }
             bosnia_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
                 add_province_modifier = {
                     name = hab_conquer_serbia_mission
                     duration = 9125
@@ -1410,7 +1487,7 @@ vn_hab_missions_slot_4 = {
     }
     vn_hab_secure_rule_in_belgium = {
         position = 8
-        icon = neapolitan_government
+        icon = neapolitan_governance
         required_missions = { vn_hab_conquer_belgium }
         provinces_to_highlight = {
            OR = {
@@ -1491,7 +1568,7 @@ vn_hab_missions_slot_4 = {
     }
     vn_hab_conquer_milan = {
         position = 10
-		icon = mission_italian_conquest
+		icon = control_the_vatican
         required_missions = { vn_hab_conquer_venetia }
         provinces_to_highlight = {
             region = lombardy_region
@@ -2004,6 +2081,32 @@ vn_hab_missions_slot_5 = {
             add_country_modifier = {
                 name = hab_dominate_adriatic_trade_mission
                 duration = 9125
+            }
+        }
+    }
+    vn_hab_university_of_wien = {
+        position = 12
+		icon = mission_rb_the_education_acts
+        required_missions = { }
+		provinces_to_highlight = {
+            province_id = 2172
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { has_building = university }
+            }
+        }
+		trigger = {
+            has_3_lv3_advisors_trigger = yes
+            2172 = {
+                owned_by = ROOT
+                has_building = university
+            }
+		}
+        effect = {
+            add_innovativeness_big_effect = yes
+            add_country_modifier = {
+                name = hab_university_of_wien_mission
+                duration = -1
             }
         }
     }
