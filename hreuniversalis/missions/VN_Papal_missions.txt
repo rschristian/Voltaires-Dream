@@ -17,6 +17,7 @@ vn_pap_missions_slot_1 = {
         required_missions = {  }
         provinces_to_highlight = {
             owner = {
+                NOT = { tag = ROOT }
                 capital_scope = {
                     superregion = iberia_superregion
                 }
@@ -48,6 +49,7 @@ vn_pap_missions_slot_1 = {
         effect = {
             every_country = {
                 limit = {
+                    NOT = { tag = ROOT }
                     capital_scope = {
                         superregion = iberia_superregion
                     }
@@ -58,7 +60,7 @@ vn_pap_missions_slot_1 = {
                     }
                 }
                 country_event = {
-                    id = 1012
+                    id = vn_missions.40
                 }
             }
         }
@@ -93,11 +95,11 @@ vn_pap_missions_slot_1 = {
             }
         }
         effect = {
-            
+            add_prestige = 25
         }
     }
     vn_pap_missionaries_to_sweden = {
-        #icon = 
+        icon = catholic_confraternity
         position = 4
 		required_missions = {  }
 		provinces_to_highlight = {
@@ -137,12 +139,16 @@ vn_pap_missions_slot_1 = {
 			}
         }
         effect = {
-            if = {
-				limit = { has_dlc = "Emperor" SWE = { religion = catholic } }
-				SWE = {
-					country_event = { id = flavor_pap.12 tooltip = vn_pap_missionaries_to_sweden.tt }
-				}
-			}
+            every_country = {
+                limit = {
+                    NOT = { tag = ROOT }
+                    capital_scope = {
+                        superregion = scandinavia_superregion
+                    }
+                    religion = catholic
+                    culture_group = scandinavian
+                }
+            }
 			add_prestige = 10
         }
     }
@@ -173,19 +179,29 @@ vn_pap_missions_slot_1 = {
             }
         }
         effect = {
+            add_army_tradition = 20
             if = {
 				limit = { has_dlc = "Emperor" TEU = { religion = catholic } }
 				TEU = {
-					country_event = { id = flavor_pap.12 tooltip = vn_pap_missionaries_to_sweden.tt }
+					country_event = { id = flavor_pap.12 }
 				}
+            }
+            else = {
+                TEU = {
+                    add_papal_influence = 25
+                }
             }
             if = {
 				limit = { has_dlc = "Emperor" LIV = { religion = catholic } }
 				LIV = {
-					country_event = { id = flavor_pap.12 tooltip = vn_pap_missionaries_to_sweden.tt }
-				}
+					country_event = { id = flavor_pap.12 }
+                }
 			}
-
+            else = {
+                LIV = {
+                    add_papal_influence = 25
+                }
+            }
         }
     }
     vn_pap_european_christianization = {
@@ -317,7 +333,10 @@ vn_pap_missions_slot_2 = {
         position = 2
         required_missions = { vn_pap_in_nomine_domini }
         trigger = {
-            is_part_of_hre = no
+            OR = {
+                is_part_of_hre = no
+                is_elector = yes
+            }
             has_institution = investiture
             NOT = { war_with = emperor }
         }
