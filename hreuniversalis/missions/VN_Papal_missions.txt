@@ -142,14 +142,17 @@ vn_pap_missions_slot_1 = {
 			}
         }
         effect = {
-            every_country = {
-                limit = {
-                    NOT = { tag = ROOT }
-                    capital_scope = {
-                        superregion = scandinavia_superregion
+            custom_tooltip = vn_pap_missionaries_to_sweden.tt
+            hidden_effect = {
+                every_country = {
+                    limit = {
+                        NOT = { tag = ROOT }
+                        capital_scope = {
+                            superregion = scandinavia_superregion
+                        }
+                        religion = catholic
                     }
-                    religion = catholic
-                    culture_group = scandinavian
+                    country_event = { id = flavor_pap.12 }
                 }
             }
 			add_prestige = 10
@@ -524,15 +527,20 @@ vn_pap_missions_slot_2 = {
 
         }
         effect = {
-            custom_tooltip = emp_pap_eastern_alliances_tt
-            every_country = {
-                limit = {
-                    capital_scope = {
-                        superregion = levant_superregion
+            custom_tooltip = vn_pap_conquer_jerusalem.tt
+            hidden_effect = {
+                every_country = {
+                    limit = {
+                        NOT = { tag = ROOT }
+                        capital_scope = {
+                            superregion = levant_superregion
+                        }
+                        religion = catholic
                     }
+                    add_papal_influence = 25
+                    #event for crusader states
                 }
             }
-            #event for crusader states
         }
     }
     vn_pap_revive_christian_communities = {
@@ -579,8 +587,7 @@ vn_pap_missions_slot_2 = {
         position = 11
         required_missions = { vn_pap_form_the_inquistion }
         provinces_to_highlight = {
-            religion = nestorian
-            owner = { NOT = { religion = nestorian } }
+            
         }
         trigger = {
             calc_true_if = {
@@ -669,7 +676,7 @@ vn_pap_missions_slot_3 = {
     vn_pap_guelphs_and_ghibellines = {
         icon = the_italian_league
         position = 4
-        required_missions = {  }
+        required_missions = { vn_pap_in_nomine_domini }
         provinces_to_highlight = {
             if = {
                 limit = { has_global_flag = guelph_ghib_enabled }
@@ -705,17 +712,23 @@ vn_pap_missions_slot_3 = {
         icon = centralized_empire
         position = 5
         required_missions = { vn_pap_guelphs_and_ghibellines }
+        provinces_to_highlight = {
+            owner = {
+                is_emperor = yes
+            }
+        }
         trigger = {
-            custom_trigger_tooltip = {
-				tooltip = vn_pap_guelphian_victory.tt
-                had_global_flag = {
-                    flag = guelph_ghib_enabled
-                    days = 9125
-                }
+            war_score_against = {
+                who = emperor
+                value = 25
             }
         }
         effect = {
-            
+            add_war_exhausion = -2
+            add_power_projection = {
+                type = mission_rewards_power_projection
+                amount = 20
+            }
         }
     }
     vn_pap_conquer_egypt = {
@@ -749,7 +762,7 @@ vn_pap_missions_slot_3 = {
     vn_pap_mission_to_the_mongols = {
         icon = mission_to_china
         position = 11
-        required_missions = {  }
+        required_missions = { vn_pap_cradle_of_christianity }
         trigger = {
             exists = ILK
             reverse_has_opinion = {
@@ -973,7 +986,7 @@ vn_pap_missions_slot_4 = {
     vn_pap_heal_the_schism = {
         icon = take_constantinople
         position = 10
-        required_missions = {  }
+        required_missions = { vn_pap_conquer_egypt }
         provinces_to_highlight = {
 			OR = {
 				province_id = 2233	#Constaninople
@@ -1037,176 +1050,178 @@ vn_pap_missions_slot_4 = {
                     }
                 }
             }
-            2233 = {
-				if = {
-                    limit = {
-                        NOT = {
-                            has_building = monument
-                            has_building = temple
-                            has_building = cathedral
+            hidden_effect = {
+                2233 = {
+                    if = {
+                        limit = {
+                            NOT = {
+                                has_building = monument
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        add_building = monument
                     }
-                    add_building = monument
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = temple
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = monument
+                        add_building = temple
                     }
-                    remove_building = monument
-                    add_building = temple
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = temple
+                        add_building = cathedral
                     }
-                    remove_building = temple
-                    add_building = cathedral
+                    else = {
+                        add_base_tax = 3
+                    }
                 }
-                else = {
-                    add_base_tax = 3
-                }
-			}
-			2708 = {
-				if = {
-                    limit = {
-                        NOT = {
-                            has_building = monument
-                            has_building = temple
-                            has_building = cathedral
+                2708 = {
+                    if = {
+                        limit = {
+                            NOT = {
+                                has_building = monument
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        add_building = monument
                     }
-                    add_building = monument
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = temple
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = monument
+                        add_building = temple
                     }
-                    remove_building = monument
-                    add_building = temple
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = temple
+                        add_building = cathedral
                     }
-                    remove_building = temple
-                    add_building = cathedral
+                    else = {
+                        add_base_tax = 3
+                    }
                 }
-                else = {
-                    add_base_tax = 3
-                }
-			}
-			4974 = {
-				if = {
-                    limit = {
-                        NOT = {
-                            has_building = monument
-                            has_building = temple
-                            has_building = cathedral
+                4974 = {
+                    if = {
+                        limit = {
+                            NOT = {
+                                has_building = monument
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        add_building = monument
                     }
-                    add_building = monument
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = temple
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = monument
+                        add_building = temple
                     }
-                    remove_building = monument
-                    add_building = temple
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = temple
+                        add_building = cathedral
                     }
-                    remove_building = temple
-                    add_building = cathedral
+                    else = {
+                        add_base_tax = 3
+                    }
                 }
-                else = {
-                    add_base_tax = 3
-                }
-			}
-			5022 = {
-				if = {
-                    limit = {
-                        NOT = {
-                            has_building = monument
-                            has_building = temple
-                            has_building = cathedral
+                5022 = {
+                    if = {
+                        limit = {
+                            NOT = {
+                                has_building = monument
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        add_building = monument
                     }
-                    add_building = monument
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = temple
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = monument
+                        add_building = temple
                     }
-                    remove_building = monument
-                    add_building = temple
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = temple
+                        add_building = cathedral
                     }
-                    remove_building = temple
-                    add_building = cathedral
+                    else = {
+                        add_base_tax = 3
+                    }
                 }
-                else = {
-                    add_base_tax = 3
-                }
-			}
-			3053 = {
-				if = {
-                    limit = {
-                        NOT = {
-                            has_building = monument
-                            has_building = temple
-                            has_building = cathedral
+                3053 = {
+                    if = {
+                        limit = {
+                            NOT = {
+                                has_building = monument
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        add_building = monument
                     }
-                    add_building = monument
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = temple
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = temple
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = monument
+                        add_building = temple
                     }
-                    remove_building = monument
-                    add_building = temple
-                }
-                else_if = {
-                    limit = {
-                        NOT = {
-                            has_building = cathedral
+                    else_if = {
+                        limit = {
+                            NOT = {
+                                has_building = cathedral
+                            }
                         }
+                        remove_building = temple
+                        add_building = cathedral
                     }
-                    remove_building = temple
-                    add_building = cathedral
+                    else = {
+                        add_base_tax = 3
+                    }
                 }
-                else = {
-                    add_base_tax = 3
-                }
-			}
+            }
         }
     }
     vn_pap_establish_swiss_guard = {
@@ -1572,7 +1587,10 @@ vn_pap_missions_slot_5 = {
             }
         }
         effect = {
-            
+            add_devotion = 10
+            add_legitimacy = 10
+            set_country_flag = improved_cathedrals_flag
+            custom_tooltip = vn_pap_sistine_chapel.tt
         }
     }
     vn_pap_apostolic_authority = {
