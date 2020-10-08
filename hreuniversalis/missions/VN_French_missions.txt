@@ -3488,13 +3488,32 @@ vn_fra_missions_slot_5_c = {
         position = 6
         required_missions = { }
         trigger = {
-			exists = TUR
-			alliance_with = TUR
+			if = {
+				limit = { exists = TUR }
+				alliance_with = TUR
+			}
+			else = {
+				any_ally = {
+					primary_culture = turkish
+				}
+			}
         }
         effect = {
-            reverse_add_opinion = {
-				who = TUR
-				modifier = fra_franco_turkish_alliance_opinion
+			if = {
+				limit = { exists = TUR }
+				reverse_add_opinion = {
+					who = TUR
+					modifier = fra_franco_turkish_alliance_opinion
+				}
+			}
+            else = {
+				random_ally = {
+					limit = { primary_culture = turkish }
+					reverse_add_opinion = {
+						who = TUR
+						modifier = fra_franco_turkish_alliance_opinion
+					}
+				}
 			}
 			add_country_modifier = {
 				name = "fra_franco_turkish_alliance_mission"
@@ -4162,7 +4181,6 @@ vn_fra_missions_slot_5_i = {
 						GBR = { navy_size = ROOT }
 					}
 				}
-					
 			}
 			else = {
 				NOT = {
