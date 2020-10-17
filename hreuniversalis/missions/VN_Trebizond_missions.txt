@@ -12,7 +12,7 @@ vn_tre_missions_slot_1 = {
     has_country_shield = yes
 
     vn_tre_expel_latins = {
-        icon = mission_the_latin_empire
+        icon = the_latin_empire
         position = 2
         required_missions = { vn_tre_unite_chaldia }
         provinces_to_highlight = {
@@ -20,6 +20,7 @@ vn_tre_missions_slot_1 = {
             superregion = anatolia_superregion
         }
         trigger = {
+            #add tooltip
             NOT = {
                 anatolia_superregion = {
                     owned_by = LEM
@@ -31,7 +32,7 @@ vn_tre_missions_slot_1 = {
         }
     }
     vn_tre_take_constantinople = {
-        icon = mission_take_constantinople
+        icon = take_constantinople
         position = 4
         required_missions = { vn_tre_expel_latins }
         provinces_to_highlight = {
@@ -49,8 +50,8 @@ vn_tre_missions_slot_1 = {
         }
     }
     vn_tre_end_latinokratia = {
-        icon = mission_la_latinocrazia
-        position = 6
+        icon = la_latinocrazia
+        position = 5
         required_missions = { vn_tre_take_constantinople }
         provinces_to_highlight = {
             owned_by = LEM
@@ -64,7 +65,7 @@ vn_tre_missions_slot_1 = {
     }
     vn_tre_defeat_byzantine_claimants = {
         icon = mission_pf_soldier
-        position = 7
+        position = 6
         required_missions = { vn_tre_end_latinokratia }
         provinces_to_highlight = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -111,7 +112,7 @@ vn_tre_missions_slot_2 = {
     has_country_shield = yes
 
     vn_tre_unite_chaldia = {
-        icon = mission_pf_table_map
+        icon = mission_pf_map_table
         position = 1
         required_missions = {  }
         provinces_to_highlight = {
@@ -136,7 +137,7 @@ vn_tre_missions_slot_2 = {
         }
     }
     vn_tre_secure_marmara = {
-        icon = mission_dalmatian_conquest
+        icon = dalmatian_conquest
         position = 3
         required_missions = { vn_tre_expel_latins }
         provinces_to_highlight = {
@@ -155,27 +156,22 @@ vn_tre_missions_slot_2 = {
     }
     vn_tre_finish_nicenes = {
         icon = mission_city_of_the_world's_desire
-        position = 4
+        position = 5
         required_missions = { vn_tre_secure_marmara }
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    region = thrakesion_region
+                    NOT = { country_or_non_sovereign_subject_holds = ROOT }
+                }
+                owned_by = NKA
+            }
+        }
         trigger = {
             NOT = { exists = NKA }
-        }
-        effect = {
-            #add effect
-        }
-    }
-    vn_tre_take_lycia = {
-        icon = mission_adriatic_access
-        position = 5
-        required_missions = { vn_tre_finish_nicenes }
-        provinces_to_highlight = {
-            region = kibyrraioton_region
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-        }
-        trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
                 value = 15
-                region = kibyrraioton_region
+                region = thrakesion_region
             }
         }
         effect = {
@@ -183,9 +179,9 @@ vn_tre_missions_slot_2 = {
         }
     }
     vn_tre_anatolia_is_ours = {
-        icon = mission_anatolian_frontier
+        icon = anatolian_frontier
         position = 6
-        required_missions = { vn_tre_take_lycia vn_tre_crush_the_turks }
+        required_missions = { vn_tre_finish_nicenes vn_tre_crush_the_turks }
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
                 value = 250
@@ -198,7 +194,7 @@ vn_tre_missions_slot_2 = {
     }
     vn_tre_komnenos_restoration = {
         icon = mission_pf_cross
-        position = 8
+        position = 7
         required_missions = { vn_tre_defeat_byzantine_claimants vn_tre_anatolia_is_ours vn_tre_connect_cherson }
         trigger = {
             NOT = { exists = BYZ }
@@ -227,7 +223,7 @@ vn_tre_missions_slot_3 = {
     has_country_shield = yes
 
     vn_tre_retake_theodosiopolis = {
-        icon = mission_non-western_soldier
+        icon = mission_non-western_soldiers
         position = 2
         required_missions = { vn_tre_unite_chaldia }
         provinces_to_highlight = {
@@ -313,7 +309,7 @@ vn_tre_missions_slot_3 = {
         trigger = {
             NOT = {
                 anatolia_superregion = {
-                    owner = { culture = turkish }
+                    owner = { primary_culture = turkish }
                 }
             }
         }
@@ -323,7 +319,7 @@ vn_tre_missions_slot_3 = {
     }
     vn_tre_convert_asia_minor = {
         icon = mission_hands_praying
-        position = 7
+        position = 6
         required_missions = { vn_tre_crush_the_turks }
         trigger = {
             calc_true_if = {
@@ -365,8 +361,8 @@ vn_tre_missions_slot_4 = {
         }
     }
     vn_tre_take_colchis = {
-        icon = mission_invade_island 
-        position = 3
+        icon = mission_village
+        position = 2
         required_missions = { vn_tre_build_euxine_fleet }
         provinces_to_highlight = {
             OR = {
@@ -390,7 +386,7 @@ vn_tre_missions_slot_4 = {
     }
     vn_tre_annex_iberia = {
         icon = mission_noble_council
-        position = 5
+        position = 4
         required_missions = { vn_tre_take_colchis }
         provinces_to_highlight = {
             OR = {
@@ -421,10 +417,20 @@ vn_tre_missions_slot_4 = {
     }
     vn_tre_connect_cherson = {
         icon = mission_invade_island
-        position = 7
+        position = 6
         required_missions = { vn_tre_annex_iberia }
+        provinces_to_highlight = {
+            province_id = 3718
+            OR = {
+                is_in_capital_area = no
+                NOT = { owned_by = ROOT }
+                NOT = { is_core = ROOT }
+            }   
+        }
         trigger = {
-            3178 = {
+            3718 = {
+                owned_by = ROOT
+                is_core = ROOT
                 is_in_capital_area = yes
             }
         }
@@ -519,7 +525,7 @@ vn_tre_missions_slot_5 = {
         }
     }
     vn_tre_byzantine_architecture = {
-        icon = mission_emperor_and_autocraft
+        icon = emperor_and_autocrat
         position = 5
         required_missions = { vn_tre_silk_road_trade }
         provinces_to_highlight = {
@@ -546,7 +552,7 @@ vn_tre_missions_slot_5 = {
         }
     }
     vn_tre_jewel_on_black_sea = {
-        icon = mission_protect_against_the_turks
+        icon = protect_against_the_turks
         position = 6
         required_missions = { vn_tre_byzantine_architecture }
         provinces_to_highlight = {
