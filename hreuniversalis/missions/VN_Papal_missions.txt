@@ -47,7 +47,7 @@ vn_pap_missions_slot_1 = {
             }
         }
         effect = {
-            custom_tooltip = emp_pap_back_the_catholic_powers_league_tt
+            custom_tooltip = emp_pap_end_the_schism_tt
             hidden_effect = {
                 every_country = {
                     limit = {
@@ -56,10 +56,6 @@ vn_pap_missions_slot_1 = {
                             superregion = iberia_superregion
                         }
                         religion = catholic
-                        has_opinion = {
-                            who = ROOT
-                            value = 100
-                        }
                     }
                     country_event = {
                         id = vn_missions.40
@@ -236,7 +232,7 @@ vn_pap_missions_slot_1 = {
         }
     }
     vn_pap_milites_christianus = {
-        #icon = 
+        icon = catholic_volunteers
         position = 7
         required_missions = {  }
         trigger = {
@@ -319,7 +315,11 @@ vn_pap_missions_slot_1 = {
             }
         }
         effect = {
-            
+            add_prestige = 20
+            add_country_modifier = {
+                name = pap_catholic_italy_mission
+                duration = 18250
+            }
         }
 	}
 }
@@ -366,18 +366,67 @@ vn_pap_missions_slot_2 = {
             else = { add_mil_power = 50 }
         }
     }
-    vn_pap_apulian_diplomacy = {
+    vn_pap_fight_for_the_pontificate = {
         icon = holy_state
         position = 3
         required_missions = {  }
-		provinces_to_highlight = {
-			
-		}
         trigger = {
-            
+            is_papal_controller = yes
+            OR = {
+                AND = {
+                    faction_in_power = pap_orsini
+                    faction_influence = {
+                        faction = pap_orsini
+                        influence = 60
+                    }
+                    NOT = { corruption = 0.01 }
+                }
+                AND = {
+                    faction_in_power = pap_roman_mob
+                    faction_influence = {
+                        faction = pap_roman_mob
+                        influence = 60
+                    }
+                    legitimacy_equivalent = 95
+                }
+                AND = {
+                    faction_in_power = pap_roman_mob
+                    faction_influence = {
+                        faction = pap_roman_mob
+                        influence = 60
+                    }
+                    stability = 2
+                }
+                AND = {
+                    NOT = { has_faction = pap_orsini }
+                    NOT = { has_faction = pap_colonna }
+                    NOT = { has_faction = pap_roman_mob }
+                }
+            }
         }
         effect = {
-            
+            if = {
+                limit = {
+                    faction_in_power = pap_orsini
+                }
+                add_adm_power = 75
+            }
+            if = {
+                limit = {
+                    faction_in_power = pap_colonna
+                }
+                add_dip_power = 75
+            }
+            if = {
+                limit = {
+                    faction_in_power = pap_roman_mob
+                }
+                add_mil_power = 75
+            }
+            add_country_modifier = {
+                name = pap_fight_for_the_pontificate_mission
+                duration = 9125
+            }
         }
     }
     vn_pap_influence_the_electors = {
@@ -449,7 +498,7 @@ vn_pap_missions_slot_2 = {
         }
     }
     vn_pap_council_of_clermont = {
-        icon = shield_of_christianity
+        icon = shield_of_christendom
         position = 7
         required_missions = {  }
         trigger = {
@@ -471,23 +520,25 @@ vn_pap_missions_slot_2 = {
         effect = {
             add_prestige = 15
             add_mil_power = 50
-            every_country = {
-                limit = {
-                    NOT = { tag = ROOT }
-                    religion = catholic
-                    NOT = { war_with = ROOT }
-                    OR = {
-                        is_in_war = {
-                            casus_belli = cb_grand_crusade
-                        }
-                        is_in_war = {
-                            casus_belli = cb_grand_heretic
+            custom_tooltip = vn_pap_council_of_clermont.ss
+            hidden_effect = {
+                every_country = {
+                    limit = {
+                        religion = catholic
+                        NOT = { war_with = ROOT }
+                        OR = {
+                            is_in_war = {
+                                casus_belli = cb_grand_crusade
+                            }
+                            is_in_war = {
+                                casus_belli = cb_grand_heretic
+                            }
                         }
                     }
-                }
-                add_country_modifier = {
-                    name = pap_council_of_clermont_mission
-                    duration = 9125
+                    add_country_modifier = {
+                        name = pap_council_of_clermont_mission
+                        duration = 3650
+                    }
                 }
             }
         }
@@ -573,13 +624,38 @@ vn_pap_missions_slot_2 = {
             
         }
         trigger = {
-            
+            OR = {
+				custom_trigger_tooltip = {
+					tooltip = emp_pap_prester_john_tt
+                    any_country = {
+                        capital_scope = {
+							superregion = mesopotamia_superregion
+						}
+                        OR = {
+                            religion = nestorian
+                            religion = coptic
+                            religion = monothelite
+                        }
+                        has_opinion = {
+							who = ROOT
+							value = 100
+						}
+                    }
+				}
+                calc_true_if = {
+                    amount = 10
+                    all_province = {
+                        superregion = mesopotamia_superregion
+                        owner = { religion = catholic }
+                    }
+                }
+			}
         }
         effect = {
-            #add_country_modifier = {
-            #    name = pap_cradle_of_christianity_mission
-            #    duration = 9125
-            #}
+            add_country_modifier = {
+                name = pap_cradle_of_christianity_mission
+                duration = 9125
+            }
         }
     }
     vn_pap_combat_heresy = {
@@ -724,7 +800,7 @@ vn_pap_missions_slot_3 = {
             }
         }
         effect = {
-            add_war_exhausion = -2
+            add_war_exhaustion = -2
             add_power_projection = {
                 type = mission_rewards_power_projection
                 amount = 20
@@ -1589,8 +1665,16 @@ vn_pap_missions_slot_5 = {
         effect = {
             add_devotion = 10
             add_legitimacy = 10
-            set_country_flag = improved_cathedrals_flag
             custom_tooltip = vn_pap_sistine_chapel.tt
+            hidden_effect = {
+                every_owned_province = {
+                    limit = { has_building = cathedral }
+                    add_province_modifier = {
+                        name = pap_sistine_chapel_mission
+                        duration = 9125
+                    }
+                }
+            }
         }
     }
     vn_pap_apostolic_authority = {
