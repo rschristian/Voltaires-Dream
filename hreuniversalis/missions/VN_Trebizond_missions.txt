@@ -33,7 +33,7 @@ vn_tre_missions_slot_1 = {
     }
     vn_tre_take_constantinople = {
         icon = take_constantinople
-        position = 4
+        position = 3
         required_missions = { vn_tre_expel_latins }
         provinces_to_highlight = {
             area = thrace_area
@@ -54,10 +54,20 @@ vn_tre_missions_slot_1 = {
         position = 5
         required_missions = { vn_tre_take_constantinople }
         provinces_to_highlight = {
-            owned_by = LEM
+            OR = {
+                owned_by = LEM
+                AND = {
+                    region = thrace_region
+                    NOT = { country_or_non_sovereign_subject_holds = ROOT }
+                }
+            }
         }
         trigger = {
             NOT = { exists = LEM }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 25
+                region = thrace_region
+            }
         }
         effect = {
             #add effect
@@ -189,7 +199,10 @@ vn_tre_missions_slot_2 = {
     vn_tre_take_lycia = { 
         icon = adriatic_access
         position = 5
-        required_missions = { vn_tre_finish_nicenes }
+        required_missions = { 
+            vn_tre_finish_nicenes 
+            vn_tre_conquer_phrygia
+        }
         provinces_to_highlight = {
             region = kibyrraioton_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
