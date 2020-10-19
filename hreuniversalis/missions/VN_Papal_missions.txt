@@ -15,7 +15,28 @@ vn_pap_missions_slot_1 = {
         icon = mission_turning_the_tables
         position = 1
         required_missions = {  }
+        trigger = {
+            if = {
+                limit = { has_dlc = "Emperor" }
+                curia_treasury_size = 250
+            }
+            else = {
+                treasury = 100
+            }
+            manpower = 5
+        }
+        effect = {
+            country_event = {
+                id = vn_missions.40
+            }
+        }
+    }
+    vn_pap_sanction_the_reconquista = {
+        icon = king_of_aragon
+        position = 2
+        required_missions = { vn_pap_expedition_to_barbastro }
         provinces_to_highlight = {
+            is_capital = yes
             owner = {
                 NOT = { tag = ROOT }
                 capital_scope = {
@@ -32,7 +53,7 @@ vn_pap_missions_slot_1 = {
         }
         trigger = {
             calc_true_if = {
-                desc = vn_pap_expedition_to_barbastro.tt
+                desc = vn_pap_sanction_the_reconquista.tt
                 all_country = {
                     capital_scope = {
                         superregion = iberia_superregion
@@ -43,36 +64,11 @@ vn_pap_missions_slot_1 = {
                         value = 100
                     }
                 }
-                amount = 3
+                amount = 2
             }
         }
         effect = {
-            custom_tooltip = vn_pap_expedition_to_barbastro.ss
-            hidden_effect = {
-                every_country = {
-                    limit = {
-                        NOT = { tag = ROOT }
-                        capital_scope = {
-                            superregion = iberia_superregion
-                        }
-                        religion = catholic
-                    }
-                    country_event = {
-                        id = vn_missions.40
-                    }
-                }
-            }
-        }
-    }
-    vn_pap_sanction_the_reconquista = {
-        icon = king_of_aragon
-        position = 2
-        required_missions = { vn_pap_expedition_to_barbastro }
-        trigger = {
             
-        }
-        effect = {
-            #
         }
     }
     vn_pap_christian_iberia = {
@@ -169,39 +165,30 @@ vn_pap_missions_slot_1 = {
             }
         }
         trigger = {
-            OR = {
-                custom_trigger_tooltip = {
-                    tooltip = vn_pap_northern_crusades.tt
+            custom_trigger_tooltip = {
+                tooltip = vn_pap_northern_crusades.tt
+                OR = {
                     has_global_flag = danzig_delivered
-                }
-                custom_trigger_tooltip = {
-                    tooltip = vn_pap_northern_crusades.ss
                     has_global_flag = riga_delivered
                 }
+                has_global_flag = danzig_delivered
             }
         }
         effect = {
             add_army_tradition = 20
-            if = {
-				limit = { has_dlc = "Emperor" TEU = { religion = catholic } }
-				TEU = {
-					country_event = { id = flavor_pap.12 }
-				}
-            }
-            else = {
-                TEU = {
-                    add_papal_influence = 25
+            custom_tooltip = vn_pap_northern_crusades.ss
+            hidden_effect = {
+                if = {
+                    limit = { TEU = { religion = catholic } }
+                    TEU = {
+                        country_event = { id = flavor_pap.12 }
+                    }
                 }
-            }
-            if = {
-				limit = { has_dlc = "Emperor" LIV = { religion = catholic } }
-				LIV = {
-					country_event = { id = flavor_pap.12 }
-                }
-			}
-            else = {
-                LIV = {
-                    add_papal_influence = 25
+                if = {
+                    limit = { LIV = { religion = catholic } }
+                    LIV = {
+                        country_event = { id = flavor_pap.12 }
+                    }
                 }
             }
         }
@@ -242,6 +229,7 @@ vn_pap_missions_slot_1 = {
         }
         effect = {
             add_army_professionalism = 0.03
+            
         }
 	}
     vn_pap_form_the_inquistion = {
@@ -397,10 +385,9 @@ vn_pap_missions_slot_2 = {
                     }
                     stability = 2
                 }
-                AND = {
-                    NOT = { has_faction = pap_orsini }
-                    NOT = { has_faction = pap_colonna }
-                    NOT = { has_faction = pap_roman_mob }
+                custom_trigger_tooltip = {
+                    tooltip = vn_pap_fight_for_the_pontificate.tt
+                    has_global_flag = pax_romana
                 }
             }
         }
@@ -977,6 +964,20 @@ vn_pap_missions_slot_4 = {
         }
         effect = {
             tuscany_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            bologna_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            cesena_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
