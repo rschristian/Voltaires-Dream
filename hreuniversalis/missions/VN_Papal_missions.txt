@@ -68,7 +68,19 @@ vn_pap_missions_slot_1 = {
             }
         }
         effect = {
-            
+            custom_tooltip = vn_pap_sanction_the_reconquista.ss
+            hidden_effect = {
+                every_country = {
+                    limit = {
+                        NOT = { tag = ROOT }
+                        capital_scope = {
+                            superregion = iberia_superregion
+                        }
+                        religion = catholic
+                    }
+                    country_event = { id = flavor_pap.12 }
+                }
+            }
         }
     }
     vn_pap_christian_iberia = {
@@ -91,6 +103,7 @@ vn_pap_missions_slot_1 = {
         }
         effect = {
             add_prestige = 25
+            
         }
     }
     vn_pap_missionaries_to_sweden = {
@@ -101,6 +114,7 @@ vn_pap_missions_slot_1 = {
             if = {
                 limit = { exists = SWE }
                 owned_by = SWE
+                is_capital = yes
             }
             else = {
                 region = gotaland_region
@@ -134,6 +148,7 @@ vn_pap_missions_slot_1 = {
 			}
         }
         effect = {
+            add_prestige = 10
             custom_tooltip = vn_pap_missionaries_to_sweden.tt
             hidden_effect = {
                 every_country = {
@@ -147,7 +162,6 @@ vn_pap_missions_slot_1 = {
                     country_event = { id = flavor_pap.12 }
                 }
             }
-			add_prestige = 10
         }
     }
     vn_pap_northern_crusades = {
@@ -155,12 +169,8 @@ vn_pap_missions_slot_1 = {
         position = 5
         required_missions = { vn_pap_missionaries_to_sweden }
         provinces_to_highlight = {
-            if = {
-                limit = { NOT = { has_global_flag = danzig_delivered } }
+            OR = {
                 province_id = 402
-            }
-            if = {
-                limit = { NOT = { has_global_flag = riga_delivered } }
                 province_id = 5793
             }
         }
@@ -198,23 +208,45 @@ vn_pap_missions_slot_1 = {
         position = 6
         required_missions = { vn_pap_northern_crusades }
         provinces_to_highlight = {
-            continent = europe
+            OR = {
+                province_id = 6109 # Stockholm
+                province_id = 402 # Danzig
+                province_id = 5793 # Riga
+                province_id = 410 # Waren
+                province_id = 5752 # Kaunas
+                province_id = 5889 # Tallin
+                province_id = 2041 # Palermo
+                province_id = 555 # Syracuse
+                province_id = 1135 # Lisboa
+                province_id = 1867 # Sevilla
+                province_id = 443 # Granada
+                province_id = 2024 # Valencia
+                province_id = 2233 # Constantinople
+            }
             NOT = { religion_group = christian }
         }
         trigger = {
-            calc_true_if = {
-                desc = vn_pap_european_christianization.tt
-                all_province = {
-                    continent = europe
-                    religion_group = christian
-                }
-                amount = 3500
-            }
+            6109 = { religion_group = christian }
+            402 = { religion_group = christian }
+            5793 = { religion_group = christian }
+            410 = { religion_group = christian }
+            5752 = { religion_group = christian }
+            5889 = { religion_group = christian }
+            2041 = { religion_group = christian }
+            555 = { religion_group = christian }
+            1135 = { religion_group = christian }
+            1867 = { religion_group = christian }
+            443 = { religion_group = christian }
+            2024 = { religion_group = christian }
+            2233 = { religion_group = christian }
         }
         effect = {
+            add_adm_power = 50
+            add_dip_power = 50
+            add_mil_power = 50
             add_country_modifier = {
                 name = pap_european_christianization_mission
-                duration = -1
+                duration = 36500
             }
         }
     }
@@ -282,7 +314,7 @@ vn_pap_missions_slot_1 = {
         }
     }
     vn_pap_catholic_italy = {
-        icon = rule_italy
+        icon = mission_rule_italy
         position = 14
         required_missions = { vn_pap_league_wars }
         provinces_to_highlight = {
@@ -335,23 +367,10 @@ vn_pap_missions_slot_2 = {
             NOT = { war_with = emperor }
         }
         effect = {
-            add_devotion = 5
-            add_legitimacy = 5
-            if = {
-                limit = { NOT = { adm = 6 } }
-                change_adm = 1
+            add_country_modifier = {
+                name = pap_supremacy_and_infallibility_mission
+                duration = 9125
             }
-            else = { add_adm_power = 50 }
-            if = {
-                limit = { NOT = { dip = 6 } }
-                change_dip = 1
-            }
-            else = { add_dip_power = 50 }
-            if = {
-                limit = { NOT = { mil = 6 } }
-                change_mil = 1
-            }
-            else = { add_mil_power = 50 }
         }
     }
     vn_pap_fight_for_the_pontificate = {
@@ -450,15 +469,25 @@ vn_pap_missions_slot_2 = {
                         }
                     }
                 }
+                emperor = {
+                    has_regency = no
+                    has_consort_regency = no
+                }
             }
 			else = {
                 total_development = 750
             }
         }
         effect = {
-            #emperor = {
-				#event decreasing his chance for next emperor
-			#}
+            emperor = {
+				country_event = {
+                    id = vn_missions.43
+                }
+            }
+            add_country_modifier = {
+                name = pap_influence_the_electors_mission
+                duration = 9125
+            }
         }
     }
     vn_pap_italian_emperorship = {
@@ -469,6 +498,9 @@ vn_pap_missions_slot_2 = {
             if = {
                 limit = {
                     hre_size = 1
+                }
+                custom_trigger_tooltip = {
+                    tooltip = vn_pap_italian_emperorship.tt
                 }
                 emperor = {
                     culture_group = latin
@@ -499,11 +531,11 @@ vn_pap_missions_slot_2 = {
                 OR = {
                     is_in_war = {
                         casus_belli = cb_grand_crusade
-                        war_score = 25
+                        war_score = 10
                     }
                     is_in_war = {
                         casus_belli = cb_grand_heretic
-                        war_score = 25
+                        war_score = 10
                     }
                 }
             }
@@ -654,6 +686,23 @@ vn_pap_missions_slot_2 = {
 			}
         }
         effect = {
+            custom_tooltip = vn_pap_cradle_of_christianity.rr
+            hidden_effect = {
+                every_country = {
+                    limit = {
+                        NOT = { tag = ROOT }
+                        capital_scope = {
+							superregion = mesopotamia_superregion
+						}
+                        OR = {
+                            religion = nestorian
+                            religion = coptic
+                            religion = monothelite
+                        }
+                    }
+                    country_event = { id = flavor_pap.12 }
+                }
+            }
             add_country_modifier = {
                 name = pap_cradle_of_christianity_mission
                 duration = 9125
@@ -665,7 +714,19 @@ vn_pap_missions_slot_2 = {
         position = 11
         required_missions = { vn_pap_form_the_inquistion }
         provinces_to_highlight = {
-            
+            is_capital = yes
+            owner = {
+                religion_group = ROOT
+                NOT = { religion = catholic }
+                NOT = {
+                    ROOT = {
+                        has_won_war_against = {
+                            who = PREV
+                            max_years_since = 50
+                        }
+                    }
+                }
+            }
         }
         trigger = {
             calc_true_if = {
@@ -816,7 +877,8 @@ vn_pap_missions_slot_3 = {
         required_missions = { vn_pap_conquer_jerusalem }
         provinces_to_highlight = {
             OR = {
-                
+                region = lower_egypt_region
+                region = middle_egypt_region
             }
             NOT = { religion = catholic }
         }
@@ -825,7 +887,10 @@ vn_pap_missions_slot_3 = {
                 amount = 25
                 desc = vn_pap_conquer_egypt.tt
                 all_province = {
-                    superregion = levant_superregion
+                    OR = {
+                        region = lower_egypt_region
+                        region = middle_egypt_region
+                    }
                     religion = catholic
                 }
             }
@@ -840,7 +905,8 @@ vn_pap_missions_slot_3 = {
         required_missions = { vn_pap_conquer_egypt vn_pap_revive_christian_communities }
         provinces_to_highlight = {
             OR = {
-                
+                region = coastal_tunisia_region
+                region = inner_tunisia_region
             }
             NOT = { religion = catholic }
         }
@@ -849,7 +915,10 @@ vn_pap_missions_slot_3 = {
                 amount = 25
                 desc = vn_pap_conquer_tunis.tt
                 all_province = {
-                    superregion = levant_superregion
+                    OR = {
+                        region = coastal_tunisia_region
+                        region = inner_tunisia_region
+                    }
                     religion = catholic
                 }
             }
