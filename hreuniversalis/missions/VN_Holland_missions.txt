@@ -1769,15 +1769,6 @@ vn_hol_missions_slot_5_b = {
             	name = "hol_against_the_english_mission"  
            	    duration = 9125
             }	
-			2268 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
         }
     }
     vn_hol_rival_english_trade = {
@@ -1794,14 +1785,29 @@ vn_hol_missions_slot_5_b = {
 			}
         }
         effect = {
-			2268 = {
-				owner = {
-					reverse_add_casus_belli = {
-						target = ROOT
-						type = cb_fabricated_claims
-						months = 300
+			if = {
+				limit = {
+					valid_for_personal_unions_trigger = yes
+					2268 = { owner = { valid_for_personal_unions_trigger = yes } }
+				}
+				2268 = {
+					owner = {
+						reverse_add_casus_belli = {
+							target = ROOT
+							type = cb_fabricated_claims
+							months = 300
+						}
 					}
 				}
+			}
+			else = {
+				2268 = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}			
 			}
         }
     }
