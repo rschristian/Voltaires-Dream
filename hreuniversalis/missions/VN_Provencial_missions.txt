@@ -11,34 +11,56 @@ vn_pro_missions_slot_1 = {
     }
     has_country_shield = yes
 
-    vn_pro_subjugate_toulouse = {
-        icon = mission_unite_home_region
-        position = 2
-        required_missions = { vn_pro_provenca }
-        provinces_to_highlight = {
-            region = toulouse_region
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-        }
+    vn_pro_romanesque_and_gothic = {
+        icon = mission_european_church
+        position = 1
+        required_missions = {  }
+		provinces_to_highlight = {
+			province_id = 991
+		}
         trigger = {
-            toulouse_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            991 = {
+                owned_by = ROOT
+                OR = {
+					has_building = temple
+					has_building = cathedral			
+				}
             }
+			OR = {
+				temple = 5
+				cathedral = 5
+			}
         }
         effect = {
-            catalunya_region = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
+			add_adm_power = 25
+            add_country_modifier = {
+                name = "pro_romanesque_and_gothic_mission"
+                duration = 9125 
+            }            
+        }
+    }
+    vn_pro_avignon_papacy = {
+        icon = mission_religious
+        position = 2
+        required_missions = { vn_pro_romanesque_and_gothic }
+        trigger = {
+            OR = {
+                papal_influence = 50
+                invested_papal_influence = 50
+            }
+            is_papal_controller = yes
+        }
+        effect = {
+            add_country_modifier = {
+                name = "pro_avignon_papacy_mission"
+                duration = 18500 
             }
         }
     }
     vn_pro_catalan_union = {
         icon = reclaim_the_ducal_lands
         position = 3
-        required_missions = { vn_pro_subjugate_toulouse }
+        required_missions = { vn_pro_terres_neuves }
         provinces_to_highlight = {
             region = catalunya_region
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -129,23 +151,23 @@ vn_pro_missions_slot_1 = {
         position = 6
         required_missions = { vn_pro_up_the_rhone vn_pro_trade_of_lyon }
         provinces_to_highlight = {
-            region = burgundy_region
+			OR = {
+				area = dole_area
+				area = besancon_area
+			}
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            burgundy_region = {
+            dole_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            besancon_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
         }
         effect = { 
-            troyes_area = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
             nevers_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -162,50 +184,24 @@ vn_pro_missions_slot_1 = {
             }
         }
     }
-    vn_pro_romanesque_and_gothic = {
-        icon = mission_european_church
-        position = 7
-        required_missions = {  }
-		provinces_to_highlight = {
-			province_id = 991
-		}
-        trigger = {
-            991 = {
-                owned_by = ROOT
-                OR = {
-					has_building = temple
-					has_building = cathedral			
-				}
-            }
-			OR = {
-				temple = 5
-				cathedral = 5
-			}
-        }
-        effect = {
-			add_adm_power = 25
-            add_country_modifier = {
-                name = "pro_romanesque_and_gothic_mission"
-                duration = 9125 
-            }            
-        }
-    }
-    vn_pro_avignon_papacy = {
-        icon = mission_religious
+    vn_pro_duke_of_bar = {
+        icon = the_hundred_years_war
         position = 8
-        required_missions = { vn_pro_romanesque_and_gothic }
-        trigger = {
-            OR = {
-                papal_influence = 50
-                invested_papal_influence = 50
-            }
-            is_papal_controller = yes
+        required_missions = { vn_pro_regnum_arelatense }
+        provinces_to_highlight = {
+			area = barrois_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
-        effect = {
-            add_country_modifier = {
-                name = "pro_avignon_papacy_mission"
-                duration = 18500 
+        trigger = {
+            barrois_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
             }
+        }
+        effect = { 
+			add_adm_power = 50
+			add_dip_power = 50
+            add_mil_power = 50       
         }
     }
 }
@@ -268,10 +264,34 @@ vn_pro_missions_slot_2 = {
             }
         }
     }
+    vn_pro_terres_neuves = {
+        icon = mission_unite_home_region
+        position = 2
+        required_missions = { vn_pro_provenca }
+        provinces_to_highlight = {
+            area = nice_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+        }
+        trigger = {
+            nice_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            liguria_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }             
+        }
+    }
     vn_pro_comte_de_vienne = {
         icon = mission_duchy
         position = 4
-        required_missions = { vn_pro_provenca }
+        required_missions = { vn_pro_terres_neuves }
         provinces_to_highlight = {
             area = dauphine_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }          
@@ -400,9 +420,13 @@ vn_pro_missions_slot_2 = {
             }
         }
         effect = { 
-			add_adm_power = 50
-			add_dip_power = 50
-            add_mil_power = 50   
+            alsace_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }  
             add_country_modifier = {
                 name = "pro_heir_to_lotharingia_mission"
                 duration = -1
@@ -421,28 +445,28 @@ vn_pro_missions_slot_3 = {
     }
     has_country_shield = yes
 
-    vn_pro_terres_neuves = {
+    vn_pro_subjugate_toulouse = {
         icon = mission_unite_home_region
         position = 2
         required_missions = { vn_pro_provenca }
         provinces_to_highlight = {
-            area = nice_area
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+            region = toulouse_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            nice_area = {
+            toulouse_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
         }
         effect = {
-            liguria_region = {
+            catalunya_region = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
-            }             
+            }
         }
     }
     vn_pro_a_merchant_fleet = {
@@ -540,24 +564,53 @@ vn_pro_missions_slot_3 = {
             }              
         }
     }
-    vn_pro_duke_of_bar = {
-        icon = the_hundred_years_war
-        position = 8
-        required_missions = { vn_pro_regnum_arelatense }
-        provinces_to_highlight = {
-			area = barrois_area
-            NOT = { country_or_non_sovereign_subject_holds = ROOT }
-        }
+    vn_pro_defeat_the_vespers = {
+        icon = mission_rb_war_of_the_roses
+        position = 7
+        required_missions = { vn_pro_sicily }
         trigger = {
-            barrois_area = {
+            custom_trigger_tooltip = {
+                tooltip = vn_sic_defeat_the_vespers.tt
+                OR = {
+                    has_global_flag = had_sicilian_vespers
+                    current_age = age_of_discovery
+                    current_age = age_of_reformation
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
+            stability = 1
+			NOT = { num_of_rebel_armies = 1 }
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+        }
+		effect = {	       
+			change_mil = 1
+			add_mil_power = 50 
+            add_country_modifier = {
+                name = sic_defeat_the_vespers_mission
+                duration = 9125 #Avoids stacking
+            }			
+        }
+    }
+    vn_pro_albania = {
+        icon = mission_protect_albania
+        position = 8
+        required_missions = { vn_pro_naples }
+		provinces_to_highlight = {
+            region = albania_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            albania_region = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
         }
-        effect = { 
-			add_adm_power = 50
-			add_dip_power = 50
-            add_mil_power = 50       
+		effect = {	         
+			add_army_tradition = 10 
+			add_mil_power = 50			
+			add_yearly_manpower = 1
         }
     }
 }
@@ -753,7 +806,28 @@ vn_pro_missions_slot_4 = {
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
-            }          
+            }     
+	        epirus_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+	        aetolia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 
+	        albania_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            } 			
         }
     }
     vn_pro_greek_expansion = {
@@ -764,17 +838,33 @@ vn_pro_missions_slot_4 = {
             OR = {
                 area = achaea_area
                 area = messinia_area
+                area = epirus_area
+                area = aetolia_area
             }
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            achaea_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-            messinia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			OR = {
+				AND = {
+					achaea_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					messinia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+				}
+				AND = {
+					epirus_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					aetolia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+				}
 			}
         }
         effect = {
@@ -785,6 +875,13 @@ vn_pro_missions_slot_4 = {
                 }
                 add_permanent_claim = ROOT
             }  
+			furthergreece_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
             add_country_modifier = {
                 name = "pro_greek_expansion_mission"
                 duration = 9125
