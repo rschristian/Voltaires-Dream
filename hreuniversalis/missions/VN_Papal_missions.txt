@@ -290,6 +290,7 @@ vn_pap_missions_slot_1 = {
         trigger = {
             is_religion_enabled = protestant
             is_religion_enabled = reformed
+            num_of_missionaries = 3
         }
         effect = {
             
@@ -300,10 +301,51 @@ vn_pap_missions_slot_1 = {
         position = 12
         required_missions = { vn_pap_weather_the_reformation }
         trigger = {
-            
+            if = {
+                limit = { has_dlc = "Emperor" }
+                OR = {
+                    custom_trigger_tooltip = {
+                        tooltip = obj_convert_10_provinces_tooltip
+                        check_variable = { which = num_converted_religion value = 10 }
+                    }
+                    AND = {
+                        is_council_enabled = yes
+                        OR = {
+                            council_position = concilatory
+                            council_position = harsh
+                        }
+                    }
+                }
+            }
+            else = {
+                custom_trigger_tooltip = {
+					tooltip = obj_convert_10_provinces_tooltip
+					check_variable = { which = num_converted_religion value = 10 }
+				}
+            }
         }
         effect = {
-            
+            if = {
+                limit = { has_dlc = "Emperor" }
+                custom_tooltip = council_of_trent_members_tt
+                hidden_effect = {
+                    every_country = {
+                        limit = {
+                            OR = {
+                                council_position = concilatory
+                                council_position = harsh
+                            }
+                        }
+                        add_opinion = {
+                            who = ROOT
+                            modifier = council_of_trent_participation
+                        }
+                    }
+                }
+            }
+            else = {
+                add_dip_power = 100
+            }
         }
     }
     vn_pap_league_wars = {
@@ -311,10 +353,104 @@ vn_pap_missions_slot_1 = {
         position = 13
         required_missions = { vn_pap_council_of_trent }
         trigger = {
-           
+            if = {
+				limit = { 
+					has_dlc = "Art of War"
+					hre_leagues_enabled = yes
+					hre_religion_treaty = no
+					hre_religion_locked = no
+					any_country = {
+						is_emperor = yes
+					}
+				}
+				in_league = catholic
+			}
+			else_if = {
+				limit = { any_country = { is_emperor = yes } }
+				calc_true_if = {
+                    amount = 3
+                    all_ally = {
+                        religion = catholic
+					    is_part_of_hre = yes
+                    }
+                }
+			}
+			else = {
+				any_ally = {
+					religion = catholic
+					capital_scope = {
+						OR = {
+                            superregion = germanynorth_superregion
+                            superregion = germanysouth_superregion
+						}
+					}
+				}
+			}
         }
         effect = {
-            
+            if = {
+				limit = { 
+					has_dlc = "Art of War" 
+					any_country = {
+						is_emperor = yes
+					}
+					NOT = {
+						hre_religion_locked = yes
+						hre_religion_treaty = yes
+						NOT = { hre_religion = catholic }
+					}
+				}
+				custom_tooltip = emp_pap_back_the_catholic_powers_league_tt
+				hidden_effect = {
+					every_country = {
+						limit = {
+							NOT = { tag = ROOT }
+							in_league = catholic
+							NOT = { has_country_modifier = pap_papal_military_aid }
+						}
+						add_country_modifier = {
+							name = pap_papal_military_aid
+							duration = 3650
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					any_country = {
+						is_emperor = yes
+					}
+				}
+				every_ally = {
+					limit = {
+						religion = catholic
+						is_part_of_hre = yes
+					}
+					add_country_modifier = {
+						name = pap_papal_military_aid
+						duration = 3650
+					}
+				}
+			}
+			else = {
+				every_ally = {
+					limit = {
+						religion = catholic
+						capital_scope = {
+							OR = {
+                                superregion = germanynorth_superregion
+                                superregion = germanysouth_superregion
+							}
+						}
+					}
+					add_country_modifier = {
+						name = pap_papal_military_aid
+						duration = 3650
+					}
+				}
+			}
+			add_stability = 1
+			add_war_exhaustion = -2
         }
     }
     vn_pap_catholic_italy = {
@@ -786,7 +922,20 @@ vn_pap_missions_slot_2 = {
             }
         }
         effect = {
-            
+            if = {
+				limit = {
+					has_dlc = "Cradle of Civilization"
+					NOT = { army_professionalism = 0.90 }
+				}
+				add_army_professionalism = 0.1
+			}
+			else = {
+				add_mil_power = 100
+            }
+            add_country_modifier = {
+				name = "pap_universal_church"
+				duration = 9125
+			}
         }
 	}
 }
@@ -1446,13 +1595,34 @@ vn_pap_missions_slot_5 = {
                 tooltip = vn_pap_babylonian_captivity.tt
                 had_global_flag = {
                     flag = western_schism_flag
-                    days = 350
+                    days = 3650
                 }
             }
             monthly_dip = 12
         }
         effect = {
-            
+            add_prestige = 5
+            add_dip_power = 50
+            if = {
+                limit = {
+                    AVI = {
+                        exists = yes
+                        is_subject_other_than_tributary_trigger = yes
+                        religion = catholique
+                        has_reform = papacy_reform
+                    }
+                }
+                add_casus_belli = {
+                    type = cb_vassalize_mission
+                    target = AVI
+                    months = 9125
+                }
+            }
+            else = {
+                202 = {
+                    add_permanent_claim = ROOT
+                }
+            }
         }
     }
     vn_pap_end_anti_papacy = {
@@ -1460,10 +1630,18 @@ vn_pap_missions_slot_5 = {
         position = 8
         required_missions = { vn_pap_babylonian_captivity }
         trigger = {
-            
+            202 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-           
+            add_prestige = 25
+            custom_tooltip = vn_pap_end_anti_papacy.tt
+            hidden_effect = {
+                every_country = {
+                    limit = { religion = catholique }
+                    add_prestige = -10
+                    add_papal_influence = -10
+                }
+            }
         }
     }
     vn_pap_the_city_of_god = {
