@@ -88,7 +88,7 @@ vn_pis_missions_slot_1 = {
 						NOT = { is_permanent_claim = ROOT }
 						has_port = yes
 					}
-				add_permanent_claim = ROOT
+					add_permanent_claim = ROOT
 				}
 			}              
         }
@@ -102,9 +102,13 @@ vn_pis_missions_slot_1 = {
 				culture_group = maghrebi
 				culture_group = turko_semitic				
 			}
-			has_port = yes
-			development = 10
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = { 
+				OR = {
+					is_state = yes
+					consolidated_region_trigger = yes
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
 		}
 		trigger = {
 			religion_group = christian
@@ -116,6 +120,7 @@ vn_pis_missions_slot_1 = {
 					culture_group = maghrebi
 					culture_group = turko_semitic				
 				}
+				consolidated_region_trigger = yes
 			}
 		}
         effect = {
@@ -813,6 +818,14 @@ vn_pis_missions_slot_4 = {
 					}
 					add_permanent_claim = ROOT
 				}
+				coastal_libya_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+						has_port = yes
+					}
+					add_permanent_claim = ROOT
+				}
 			}			
         }
     }
@@ -866,15 +879,33 @@ vn_pis_missions_slot_4 = {
         icon = africa_proconsulare
         position = 5
         required_missions = { vn_pis_saracens_in_algeria }
+		provinces_to_highlight = {
+			OR = {
+				region = tlemcen_region
+				region = kabylia_region
+				region = coastal_tunisia_region
+			}
+			NOT = { 
+				OR = {
+					is_state = yes
+					consolidated_region_trigger = yes
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+		}
         trigger = {
 			religion_group = christian
 			has_3_advisors_trigger = yes
 			treasury = 100
-			OR = {
-				has_idea_group = religious_ideas
-				has_idea_group = maritime_ideas
-				has_idea_group = naval_ideas
-			}
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 10
+				OR = {
+					region = tlemcen_region
+					region = kabylia_region
+					region = coastal_tunisia_region			
+				}
+				consolidated_region_trigger = yes
+			}			
         }
         effect = {
 			add_republican_tradition = 10 #Excludes Legitimacy
