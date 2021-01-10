@@ -7,7 +7,6 @@ vn_pap_missions_slot_1 = {
     ai = yes
     potential = {
         tag = PAP
-        always = no
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -293,7 +292,7 @@ vn_pap_missions_slot_1 = {
             num_of_missionaries = 3
         }
         effect = {
-            
+            add_stability_or_adm_power = yes
         }
     }
     vn_pap_council_of_trent = {
@@ -490,7 +489,6 @@ vn_pap_missions_slot_2 = {
     ai = yes
     potential = {
         tag = PAP
-        always = no
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -501,7 +499,7 @@ vn_pap_missions_slot_2 = {
         required_missions = { vn_pap_in_nomine_domini }
         trigger = {
             OR = {
-                is_part_of_hre = no
+                NOT = { is_part_of_hre = yes }
                 is_elector = yes
             }
             has_institution = investiture
@@ -658,7 +656,17 @@ vn_pap_missions_slot_2 = {
             }
         }
         effect = {
-            
+            add_dip_power = 100
+            emperor = {
+                add_prestige = 10
+                random_owned_province = {
+                    limit = {
+                        has_cardinal = no
+                        religion = catholic
+                    }
+                    add_cardinal = yes
+                }
+            }
         }
     }
     vn_pap_council_of_clermont = {
@@ -776,7 +784,7 @@ vn_pap_missions_slot_2 = {
             }
         }
         effect = {
-            
+            add_prestige = 15
         }
     }
     vn_pap_cradle_of_christianity = {
@@ -949,7 +957,6 @@ vn_pap_missions_slot_3 = {
     ai = yes
     potential = {
         tag = PAP
-        always = no
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -957,7 +964,7 @@ vn_pap_missions_slot_3 = {
     vn_pap_in_nomine_domini = {
         icon = sway_the_pope
         position = 1
-        required_missions = { vn_pap_in_nomine_domini }
+        required_missions = { }
         trigger = {
 			legitimacy_equivalent = 90
             num_of_cardinals = 3
@@ -1053,7 +1060,7 @@ vn_pap_missions_slot_3 = {
             }
         }
         effect = {
-            
+            add_prestige = 15
         }
     }
     vn_pap_conquer_tunis = {
@@ -1081,7 +1088,7 @@ vn_pap_missions_slot_3 = {
             }
         }
         effect = {
-            
+            add_prestige = 15
         }
     }
     vn_pap_mission_to_the_mongols = {
@@ -1112,7 +1119,6 @@ vn_pap_missions_slot_4 = {
     ai = yes
     potential = {
         tag = PAP
-        always = no
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1158,7 +1164,6 @@ vn_pap_missions_slot_4 = {
             }
         }
         effect = {
-            add_adm_power = 50
             urbino_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1197,7 +1202,6 @@ vn_pap_missions_slot_4 = {
             }
         }
         effect = {
-            add_adm_power = 50
             tuscany_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1236,7 +1240,6 @@ vn_pap_missions_slot_4 = {
             }
         }
         effect = {
-            add_adm_power = 50
             liguria_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1465,7 +1468,6 @@ vn_pap_missions_slot_5 = {
     ai = yes
     potential = {
         tag = PAP
-        always = no
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1481,7 +1483,9 @@ vn_pap_missions_slot_5 = {
 				}
 				curia_treasury_size = 2500
 			}
-			treasury = 500
+            treasury = 500
+            is_in_deficit = no
+            NOT = { num_of_loans = 1 }
         }
         effect = {
             add_inflation = -1
@@ -1500,12 +1504,13 @@ vn_pap_missions_slot_5 = {
 				}
             }
             stability = 3
-            prestige = 80
-            is_in_deficit = no
-            NOT = { num_of_loans = 1 }
+            is_at_war = no
         }
         effect = {
             add_years_of_income = 1
+            add_estate_nobles_loyalty_effect = yes
+            add_estate_church_loyalty_effect = yes
+            add_estate_burghers_loyalty_effect = yes
         }
     }
     vn_pap_conquer_ferrara = {
