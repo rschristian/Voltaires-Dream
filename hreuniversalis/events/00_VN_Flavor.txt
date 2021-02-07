@@ -7545,7 +7545,6 @@ country_event = {
 				capital_scope = { superregion = italy_superregion }
 				is_emperor = no
 				is_part_of_hre = yes
-				ai = yes
 			}
 		}
 	}
@@ -7594,7 +7593,6 @@ country_event = {
 							capital_scope = { superregion = italy_superregion }
 							is_emperor = no
 							is_part_of_hre = yes
-							ai = yes
 						}
 					}
 				}
@@ -7614,7 +7612,6 @@ country_event = {
 							capital_scope = { superregion = italy_superregion }
 							is_emperor = no
 							is_part_of_hre = yes
-							ai = yes
 						}
 					}
 					save_event_target_as = italian_commune_province
@@ -7643,7 +7640,6 @@ country_event = {
 							capital_scope = { superregion = italy_superregion }
 							is_emperor = no
 							is_part_of_hre = yes
-							ai = yes
 						}
 					}
 					save_event_target_as = italian_commune_province
@@ -7662,14 +7658,13 @@ country_event = {
 
 country_event = {
 	id = hremodevents.122
-	title = none
-	desc = none
+	title = "HREMT122"
+	desc = "HREMD122"
 	picture = CITY_VIEW_eventPicture
 	
 	is_triggered_only = yes
 	
-	option = {
-		name = "OK"
+	immediate = {
 		hidden_effect = {
 			event_target:italian_commune_province = {
 				random_core_country = {
@@ -7678,38 +7673,48 @@ country_event = {
 						culture_group = latin
 						NOT = { has_country_flag = commune_released }
 					}
+					save_event_target_as = italian_commune_country
 					set_country_flag = commune_released
-					ROOT = { release = PREV }
-					every_owned_province = {
-						limit = { is_core = ROOT }
-						remove_core = ROOT
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "HREMA122"
+		ai_chance = { factor = 100 }
+		custom_tooltip = "HREMA122TT"
+		hidden_effect = {
+			event_target:italian_commune_country = {
+				ROOT = { release = PREV }
+				every_owned_province = {
+					limit = { is_core = ROOT }
+					remove_core = ROOT
+				}
+				change_government = republic
+				add_government_reform = italian_monarchy
+				add_truce_with = ROOT
+				every_neighbor_country = {
+					limit = { 
+						capital_scope = { superregion = italy_superregion }
+						is_emperor = no
+						is_part_of_hre = yes
 					}
-					change_government = republic
-					add_government_reform = italian_monarchy
-					add_truce_with = ROOT
-					every_neighbor_country = {
-						limit = { 
-							capital_scope = { superregion = italy_superregion }
-							is_emperor = no
-							is_part_of_hre = yes
-						}
-						add_truce_with = PREV
+					add_truce_with = PREV
+				}
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.8
+						cavalry = 0.2
 					}
-					capital_scope = {
-						build_to_forcelimit = {
-							infantry = 0.8
-							cavalry = 0.2
-						}
+				}
+				every_core_province = {
+					limit = {
+						NOT = { owned_by = PREV }
+						is_capital = no
 					}
-					every_core_province = {
-						limit = {
-							NOT = { owned_by = PREV }
-							owner = { ai = yes }
-							is_capital = no
-						}
-						remove_core = owner
-						cede_province = PREV
-					}
+					remove_core = owner
+					cede_province = PREV
 				}
 			}
 			if = {
@@ -7729,7 +7734,6 @@ country_event = {
 							capital_scope = { superregion = italy_superregion }
 							is_emperor = no
 							is_part_of_hre = yes
-							ai = yes
 						}
 					}
 				}
@@ -7749,7 +7753,6 @@ country_event = {
 							capital_scope = { superregion = italy_superregion }
 							is_emperor = no
 							is_part_of_hre = yes
-							ai = yes
 						}
 					}
 					save_event_target_as = italian_commune_province
@@ -7778,7 +7781,96 @@ country_event = {
 							capital_scope = { superregion = italy_superregion }
 							is_emperor = no
 							is_part_of_hre = yes
-							ai = yes
+						}
+					}
+					save_event_target_as = italian_commune_province
+					owner = {
+						country_event = {
+							id = hremodevents.122
+							days = 10
+							random = 5
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = "HREMB122"
+		goto = italian_commune_province
+		ai_chance = { factor = 0 }
+		event_target:italian_commune_province = {
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 2
+				friend = event_target:italian_commune_country
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					any_province = {
+						is_in_capital_area = no
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
+						}
+					}
+				}
+				random_province = {
+					limit = {
+						is_in_capital_area = no
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
+						}
+					}
+					save_event_target_as = italian_commune_province
+					owner = {
+						country_event = {
+							id = hremodevents.122
+							days = 10
+							random = 5
+						}
+					}
+				}
+			}
+			else = {
+				random_province = {
+					limit = {
+						any_core_country = { 
+							exists = no 
+							culture_group = latin
+							NOT = { has_country_flag = commune_released }
+						}
+						superregion = italy_superregion
+						is_capital = no
+						is_part_of_hre = yes
+						controlled_by = owner
+						owner = {
+							capital_scope = { superregion = italy_superregion }
+							is_emperor = no
+							is_part_of_hre = yes
 						}
 					}
 					save_event_target_as = italian_commune_province
