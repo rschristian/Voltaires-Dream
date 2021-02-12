@@ -8231,3 +8231,193 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = hremodevents.132
+	title = "HREMT132"
+	desc = "HREMD132"
+	picture = LIBERUM_VETO_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1184 }
+		is_year = 1150
+		NOT = { is_year = 1250 }
+		is_emperor = yes
+		is_at_war = no
+		has_regency = no
+		has_consort_regency = no
+		any_country = {
+			NOT = { tag = ROOT }
+			NOT = { war_with = ROOT }
+			NOT = { is_subject_of_type = personal_union }
+			is_part_of_hre = yes
+			any_owned_province = {
+				OR = {
+					region = thuringia_region
+					region = saxony_region
+				}
+			}
+		}
+		831 = {
+			is_part_of_hre = yes
+			owner = {
+				OR = {
+					tag = ROOT
+					NOT = { war_with = ROOT }
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 300
+	}
+
+	option = {
+		name = "HREMA132"
+		add_years_of_income = -0.25
+		custom_tooltip = hrema132.tt
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { tag = ROOT }
+					NOT = { war_with = ROOT }
+					NOT = { is_subject_of_type = personal_union }
+					is_part_of_hre = yes
+					any_owned_province = {
+						OR = {
+							region = thuringia_region
+							region = saxony_region
+						}
+					}
+				}
+				country_event = { id = hremodevents.133 days = 1 random = 50 }
+			}
+			random_list = {
+				50 = {
+					country_event = { id = hremodevents.134 days = 100 }
+				}
+				45 = {
+					country_event = { id = hremodevents.135 days = 100 }
+				}
+				5 = {
+					set_country_flag = erfurt_hoftag_kill_emperor
+					country_event = { id = hremodevents.135 days = 100 }
+				}
+			}
+		}
+	}
+	option = {
+		name = "HREMB132"
+		add_imperial_influence = -5
+		add_prestige = -5
+	}
+}
+
+country_event = {
+	id = hremodevents.133
+	title = "HREMT133"
+	desc = "HREMD133"
+	picture = MERCHANTS_TALKING_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = "HREMA133"
+		ai_chance = { factor = 75 }
+		set_country_flag = attending_erfurt_hoftag
+		add_years_of_income = -0.1
+		add_opinion = {
+			who = FROM
+			modifier = opinion_pleased
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_pleased
+		}
+	}
+	option = {
+		name = "HREMB133"
+		ai_chance = { factor = 25 }
+		add_prestige = -5
+		add_opinion = {
+			who = FROM
+			modifier = opinion_displeased
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_displeased
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.134
+	title = "HREMT134"
+	desc = "HREMD134"
+	picture = FEAST_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	major_trigger = {
+		has_country_flag = attending_erfurt_hoftag
+	}
+
+	option = {
+		name = "HREMA134"
+		add_prestige = 10
+		add_imperial_influence = 5
+		every_country = {
+			limit = { has_country_flag = attending_erfurt_hoftag }
+			add_prestige = 10
+			clr_country_flag = attending_erfurt_hoftag
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.135
+	title = "HREMT135"
+	desc = {
+		trigger = { NOT = { has_country_flag = erfurt_hoftag_kill_emperor } }
+		desc = HREMD135
+	}
+	desc = {
+		trigger = { has_country_flag = erfurt_hoftag_kill_emperor }
+		desc = HREMDD135
+	}
+	picture = PLAGUE_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	major_trigger = {
+		has_country_flag = attending_erfurt_hoftag
+	}
+
+	option = {
+		name = "HREMA135"
+		add_prestige = -10
+		add_imperial_influence = -5
+		if = {
+			limit = {
+				has_country_flag = erfurt_hoftag_kill_emperor
+			}
+			kill_ruler = yes
+			clr_country_flag = erfurt_hoftag_kill_emperor
+		}
+		every_country = {
+			limit = { has_country_flag = attending_erfurt_hoftag }
+			add_prestige = -10
+			random = {
+				chance = 20
+				kill_ruler = yes
+			}
+			clr_country_flag = attending_erfurt_hoftag
+		}
+	}
+}
