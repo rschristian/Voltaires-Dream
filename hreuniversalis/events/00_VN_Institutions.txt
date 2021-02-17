@@ -106,7 +106,6 @@ country_event = {
 
 	option = {
 		name = institution_events.801.a
-		trigger = { NOT = { faction_in_power = abb_cluniacs } }
 		add_papal_influence = 10
 		add_years_of_income = -0.75
 		capital_scope = {
@@ -191,6 +190,145 @@ country_event = {
 	option = {
 		name = institution_events.74.a
 		custom_tooltip = institution_events.74.a.tt
+	}
+}
+
+country_event = {
+	id = institution_events.741
+	title = institution_events.741.t
+	desc = institution_events.741.d
+	picture = BATTLE_eventPicture
+	goto = institution_province
+
+	is_triggered_only = yes
+
+	trigger = {
+		is_institution_enabled = universities
+		NOT = { has_institution = universities }
+		any_owned_province = {
+			is_state = yes
+			controlled_by = ROOT
+			universities = 25
+			NOT = { universities = 100 }
+			development = 15
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					is_state = yes
+					controlled_by = ROOT
+					universities = 25
+					NOT = { universities = 100 }
+					development = 15
+				}
+				save_event_target_as = institution_province
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = institution_events.741.a
+		event_target:institution_province = {
+			spawn_rebels = {
+				size = 1
+				type = anti_tax_rebels
+			}
+			add_institution_embracement = {
+				which = universities
+				value = 50
+			}
+		}
+	}
+	option = {
+		name = institution_events.741.b
+		add_prestige = -5
+		event_target:institution_province = {
+			add_base_tax = -1
+		}
+	}
+}
+
+country_event = {
+	id = institution_events.742
+	title = institution_events.742.t
+	desc = institution_events.742.d
+	picture = LAND_MILITARY_eventPicture
+	goto = institution_province
+
+	is_triggered_only = yes
+
+	trigger = {
+		is_institution_enabled = universities
+		NOT = { has_institution = universities }
+		is_at_war = yes
+		NOT = { manpower_percentage = 0.75 }
+		any_owned_province = {
+			is_state = yes
+			universities = 25
+			NOT = { universities = 100 }
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					is_state = yes
+					universities = 25
+					NOT = { universities = 100 }
+				}
+				save_event_target_as = institution_province
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = institution_events.742.a
+		add_yearly_manpower = 1.5
+		add_army_tradition = -5
+		event_target:institution_province = {
+			area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_institution_embracement = {
+					which = universities
+					value = -50
+				}
+			}
+		}
+	}
+	option = {
+		name = institution_events.742.b
+		if = {
+			limit = { has_dlc = "Rule Britannia" }
+			add_innovativeness_small_effect = yes
+		}
+		else = {
+			add_prestige = 5
+		}
+		event_target:institution_province = {
+			area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_institution_embracement = {
+					which = universities
+					value = 25
+				}
+			}
+		}
 	}
 }
 
