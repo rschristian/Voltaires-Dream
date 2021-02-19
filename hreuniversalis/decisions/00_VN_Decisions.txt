@@ -750,6 +750,7 @@ country_decisions = {
 			NOT = { is_year = 1160 }
 			NOT = { capital_scope = { area = berlin_area } }
 			NOT = { any_owned_province = { is_core = BRA } }
+			NOT = { primary_culture = central_margravian }
 		}
 		allow = {
 			berlin_area = {
@@ -2159,34 +2160,52 @@ country_decisions = {
 		}
 	}
 
-	byz_aristocrats_d = {
+	byz_unrest_d = {
 		major = yes
 		potential = {
-			has_country_modifier = byz_aristocrats_m
+			has_country_modifier = byz_unrest_m
 		}
 		allow = {
-			NOT = {
-				has_estate_privilege = byz_aristocrats_p
+			NOT = { average_autonomy_above_min = 1 }
+			NOT = { average_unrest = 1 }
+			development_in_provinces = {
+				value = 2700
+				OR = {
+					superregion = anatolia_superregion
+					superregion = balkans_superregion
+				}
 			}
 		}
 		effect = {
-			remove_country_modifier = byz_aristocrats_m
+			remove_country_modifier = byz_unrest_m
 		}
 		ai_will_do = {
 			factor = 1
 		}
 	}
 
-	byz_bureaucrats_d = {
+	byz_army_d = {
 		major = yes
 		potential = {
-			has_country_modifier = byz_bureaucrats_m
+			has_country_modifier = byz_army_m
 		}
 		allow = {
-			has_country_flag = komnenian_restoration_flag #placeholder
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				OR = {
+					army_professionalism = 0.05
+					army_tradition = 20
+				}
+			}
+			else = {
+				army_tradition = 20
+			}
+			army_size_percentage = 1
+			NOT = { num_of_mercenaries = 1 }
+			land_maintenance = 1.0
 		}
 		effect = {
-			remove_country_modifier = byz_bureaucrats_m
+			remove_country_modifier = byz_army_m
 		}
 		ai_will_do = {
 			factor = 1
@@ -2250,52 +2269,35 @@ country_decisions = {
 		}
 	}
 
-	byz_army_d = {
+	byz_bureaucrats_d = {
 		major = yes
 		potential = {
-			has_country_modifier = byz_army_m
+			has_country_modifier = byz_bureaucrats_m
 		}
 		allow = {
-			if = {
-				limit = { has_dlc = "Cradle of Civilization" }
-				OR = {
-					army_professionalism = 0.05
-					army_tradition = 20
-				}
-			}
-			else = {
-				army_tradition = 20
-			}
-			army_size_percentage = 1
-			NOT = { num_of_mercenaries = 1 }
-			land_maintenance = 1.0
+			has_country_flag = komnenian_restoration_flag #placeholder
 		}
 		effect = {
-			remove_country_modifier = byz_army_m
+			remove_country_modifier = byz_bureaucrats_m
 		}
 		ai_will_do = {
 			factor = 1
 		}
 	}
 
-	byz_unrest_d = {
+
+	byz_aristocrats_d = {
 		major = yes
 		potential = {
-			has_country_modifier = byz_unrest_m
+			has_country_modifier = byz_aristocrats_m
 		}
 		allow = {
-			NOT = { average_autonomy_above_min = 1 }
-			NOT = { average_unrest = 1 }
-			development_in_provinces = {
-				value = 2700
-				OR = {
-					superregion = anatolia_superregion
-					superregion = balkans_superregion
-				}
+			NOT = {
+				has_estate_privilege = byz_aristocrats_p
 			}
 		}
 		effect = {
-			remove_country_modifier = byz_unrest_m
+			remove_country_modifier = byz_aristocrats_m
 		}
 		ai_will_do = {
 			factor = 1
