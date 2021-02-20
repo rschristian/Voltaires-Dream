@@ -1,3 +1,5 @@
+namespace = institution_events
+
 ########################################
 # Investiture
 ########################################
@@ -635,6 +637,142 @@ country_event = {
 	option = {
 		name = institution_events.78.a
 		custom_tooltip = institution_events.78.a.tt
+	}
+}
+
+country_event = {
+	id = institution_events.781
+	title = institution_events.781.t
+	desc = institution_events.781.d
+	picture = LIBERUM_VETO_eventPicture
+	goto = institution_province
+
+	trigger = {
+		is_institution_enabled = laytheology
+		NOT = { has_institution = laytheology }
+		NOT = { has_country_modifier = anticlericalism }
+		NOT = { has_country_modifier = controlled_preaching }
+		OR = {
+			AND = {
+				has_estate = estate_nobles
+				has_estate = estate_church
+			}
+			AND = {
+				has_estate = estate_maratha
+				has_estate = estate_brahmins
+			}
+		}
+		any_owned_province = {
+			laytheology = 100
+			any_neighbor_province = {
+				area = PREV
+				NOT = { laytheology = 100 }
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					laytheology = 100
+					any_neighbor_province = {
+						area = PREV
+						NOT = { laytheology = 100 }
+					}
+				}
+				save_event_target_as = institution_province
+			}
+		}
+	}
+
+	option = {
+		name = institution_events.781.a
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_maratha }
+			add_estate_loyalty = {
+				estate = estate_maratha
+				loyalty = 10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_brahmins }
+			add_estate_loyalty = {
+				estate = estate_brahmins
+				loyalty = -10
+			}
+		}
+		event_target:institution_province = {
+			area = {
+				limit = { owned_by = ROOT }
+				add_institution_embracement = {
+					which = laytheology
+					value = 50
+				}
+			}
+		}
+		add_country_modifier = {
+			name = anticlericalism
+			duration = 3650
+		}
+	}
+	option = {
+		name = institution_events.781.b
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_brahmins }
+			add_estate_loyalty = {
+				estate = estate_maratha
+				loyalty = 10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_maratha }
+			add_estate_loyalty = {
+				estate = estate_brahmins
+				loyalty = -10
+			}
+		}
+		event_target:institution_province = {
+			area = {
+				limit = { owned_by = ROOT }
+				add_institution_embracement = {
+					which = laytheology
+					value = -25
+				}
+			}
+		}
+		add_country_modifier = {
+			name = controlled_preaching
+			duration = 3650
+		}
 	}
 }
 
