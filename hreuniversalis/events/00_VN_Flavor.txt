@@ -8431,3 +8431,204 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = hremodevents.136
+	title = "HREMT136"
+	desc = "HREMD136"
+	picture = HRE_eventPicture
+
+	major = yes
+	fire_only_once = yes
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = {
+			factor = 0.1
+			emperor = {
+				OR = {
+					total_development = SAX
+					is_rival = SAX
+				}
+			}
+		}
+	}
+	
+	trigger = {
+		normal_or_historical_nations = yes
+		ai = yes
+		NOT = { has_global_flag = altsax_split }
+		current_age = age_of_holy_wars
+		is_part_of_hre = yes
+		tag = SAX
+		NOT = { war_with = emperor }
+		NOT = { started_in = 1180.1.1 }
+		is_subject = no
+		is_emperor = no
+		
+	}
+	
+	immediate = {
+		hidden_effect = {
+			set_global_flag = altsax_split
+		}
+	}
+	
+	option = {
+		name = "HREMA136"
+		SAX = {
+			set_country_flag = altsax_split
+			country_event = {
+				id = hremodevents.137
+				days = 365
+				random = 5
+			}
+		}
+		custom_tooltip = HREMA136TT
+	}
+}
+
+country_event = {
+	id = hremodevents.137
+	title = "HREMT137"
+	desc = "HREMD137"
+	picture = DEATH_OF_HEIR_eventPicture
+
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = "HREMA137"
+		hidden_effect = {
+			while = {
+				limit = {
+					exists = SAX
+				}
+				random_owned_province = {
+					limit = {
+						any_core_country = {
+							NOT = { tag = ROOT }
+						}
+					}
+					random_core_country = {
+						limit = {
+							NOT = { tag = ROOT }
+							exists = no
+						}
+						ROOT = { release = PREV }
+						set_country_flag = commune_released
+						change_government = monarchy
+						every_neighbor_country = {
+							limit = { 
+								is_emperor = no
+								is_part_of_hre = yes
+							}
+							add_truce_with = PREV
+						}
+						capital_scope = {
+							build_to_forcelimit = {
+								infantry = 0.8
+								cavalry = 0.2
+							}
+						}
+						every_owned_province = {
+							remove_core = ROOT
+						}
+					}
+					random_core_country = {
+						limit = {
+							NOT = { tag = ROOT }
+							exists = yes
+						}
+						every_core_province = {
+							limit = {
+								owned_by = ROOT
+							}
+							cede_province = PREV
+							remove_core = ROOT
+						}
+					}
+				}
+			}
+			every_core_province = {
+				limit = {
+					owned_by = ROOT
+				}
+				cede_province = emperor
+				remove_core = ROOT
+				add_core = emperor
+			}
+			if = {
+				exists = {
+					tag = MEI
+				}	
+				MEI = {
+					country_event = {
+						id = hremodevents.138
+					}				
+				}	
+			}
+			else_if = {
+				limit = {
+					any_country = {
+						culture = saxon
+						is_part_of_hre = yes
+						num_of_cities = 5
+						is_emperor = no
+						is_elector = no
+						is_subject = no
+						is_excommunicated = no
+						has_any_disaster = no
+						is_bankrupt = no
+						NOT = { government = republic }
+					}				
+				}
+				random_country = {
+					limit = {
+						culture = saxon
+						is_part_of_hre = yes
+						num_of_cities = 5
+						is_emperor = no
+						is_elector = no
+						is_subject = no
+						is_excommunicated = no
+						has_any_disaster = no
+						is_bankrupt = no
+						NOT = { government = republic }
+					}
+					country_event = {
+						id = hremodevents.138
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = hremodevents.138
+	title = "HREMT138"
+	desc = "HREMD138"
+	picture = HRE_eventPicture
+
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "HREMA138"
+		elector = yes
+		change_tag = SAX
+		restore_country_name = yes	
+	}
+	
+	option = {
+		name = "HREMB138"
+		add_prestige = -5	
+	}
+}
