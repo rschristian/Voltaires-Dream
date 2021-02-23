@@ -8555,14 +8555,12 @@ country_event = {
 					}
 				}
 			}
-			every_core_province = {
-				limit = {
-					owned_by = ROOT
-				}
-				cede_province = emperor
-				remove_core = ROOT
-				add_core = emperor
-			}
+			#every_owned_province = {
+				#set_province_flag = sax_leftover_prov
+				#cede_province = emperor
+				#remove_core = ROOT
+				#add_core = emperor
+			#}
 			every_province = {
 				limit = {
 					OR = {
@@ -8589,9 +8587,9 @@ country_event = {
 					}
 				}	
 				MEI = {
+					set_country_flag = altsax_split_benefactor
 					country_event = {
 						id = hremodevents.138
-						days = 1
 					}
 				}
 			}
@@ -8623,9 +8621,9 @@ country_event = {
 						is_bankrupt = no
 						NOT = { government = republic }
 					}
+					set_country_flag = altsax_split_benefactor
 					country_event = {
 						id = hremodevents.138
-						days = 1
 					}
 				}
 			}
@@ -8653,7 +8651,13 @@ country_event = {
 		name = "HREMA138"
 		ai_chance = { factor = 95 }
 		hidden_effect = {
-			SAX = { restore_country_name = yes }
+			SAX = { 
+				restore_country_name = yes 
+				every_owned_province = {
+					#limit = { has_province_flag = sax_leftover_prov }
+					cede_province = ROOT
+				}
+			}
 		}
 		change_tag = SAX
 		elector = yes
@@ -8664,7 +8668,6 @@ country_event = {
 			set_government_rank = 3
 		}
 		swap_non_generic_missions = yes
-		set_country_flag = altsax_split_benefactor
 		if = {
 			limit = { has_custom_ideas = no }
 			country_event = { id = ideagroups.1 } #Swap Ideas
