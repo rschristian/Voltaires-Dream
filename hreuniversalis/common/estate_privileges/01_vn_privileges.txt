@@ -717,13 +717,19 @@ estate_burghers_jewish_scapegoats = {
 	loyalty = 0.05
 	influence = 0.10
 	can_select = {
-		current_age = age_of_dynasticism
+		OR = {
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
 		is_part_of_hre = yes
 		religion_group = christian
 		NOT = { has_estate_privilege = estate_burghers_jewish_scapegoats }
 	}
 	is_valid = {
-		current_age = age_of_dynasticism
+		OR = {
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
 		religion_group = christian
 	}
 	conditional_modifier = {
@@ -782,13 +788,19 @@ estate_burghers_jewish_sanctuary = {
 	max_absolutism = -5
 	loyalty = -0.1
 	can_select = {
-		current_age = age_of_dynasticism
+		OR = {
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
 		is_part_of_hre = yes
 		religion_group = christian
 		NOT = { has_estate_privilege = estate_burghers_jewish_scapegoats }
 	}
 	is_valid = {
-		current_age = age_of_dynasticism
+		OR = {
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
 		religion_group = christian
 	}
 	conditional_modifier = {
@@ -869,43 +881,6 @@ estate_nobles_frontier_resettlement = {
 	}
 }
 
-# Clergy
-
-estate_church_priory = {
-	icon = privilege_female
-	max_absolutism = -5
-	loyalty = 0.05
-	influence = 0.05
-	is_valid = {
-		has_reform = monastic_order_reform
-	}
-	on_granted = {
-		add_papal_influence = 5
-		if = {
-			limit = { has_female_heir = no }
-			remove_heir = yes
-		}
-	}
-	penalties = {
-		prestige_decay = 0.01
-	}
-	benefits = {
-		female_advisor_chance = 1
-	}
-	ai_will_do = {
-		factor = 1
-		modifier = {
-			factor = 0
-			NOT = {
-				tag = ROT
-				tag = THO
-				tag = QDL	
-			}
-		}
-	}
-}
-
-# nobles
 byz_aristocrats_p = {
 	icon = privilege_royal_authority
 	max_absolutism = -15
@@ -942,5 +917,41 @@ byz_aristocrats_p = {
 	}
 	ai_will_do = {
 		factor = 0
+	}
+}
+
+# Clergy
+
+estate_church_priory = {
+	icon = privilege_female
+	max_absolutism = -5
+	loyalty = 0.05
+	influence = 0.05
+	is_valid = {
+		has_reform = monastic_order_reform
+	}
+	on_granted = {
+		add_papal_influence = 5
+		if = {
+			limit = { has_female_heir = no }
+			remove_heir = yes
+		}
+	}
+	penalties = {
+		prestige_decay = 0.01
+	}
+	benefits = {
+		female_advisor_chance = 1
+	}
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			NOT = {
+				tag = ROT
+				tag = THO
+				tag = QDL	
+			}
+		}
 	}
 }
