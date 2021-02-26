@@ -2338,4 +2338,44 @@ country_decisions = {
 			factor = 1
 		}
 	}
+
+	church_pagan_deity_decision = {
+		potential = {
+			has_dlc = "Wealth of Nations"
+			OR = {
+				religion = egyptian_religion
+				religion = hellenic_pagan
+				religion = norse_pagan_reformed
+				religion = slavic_pagan
+				religion = animism
+				religion = druwi
+				religion = dievturiba
+			}
+			has_estate = estate_church
+		}
+		allow = {
+			has_regency = no
+			has_estate_privilege = estate_church_flexible_deities
+			custom_trigger_tooltip = {
+				tooltip = decision_once_every_twenty_years
+				OR = {
+					NOT = { has_country_flag = church_pagan_deity_decision }
+					had_country_flag = {
+						flag = church_pagan_deity_decision
+						days = 7300
+					}
+				}
+			}
+		}
+		effect = {
+			reduce_legitimacy_large_effect = yes
+			set_country_flag = church_deity_interaction
+			clr_country_flag = church_pagan_deity_decision
+			set_country_flag = church_pagan_deity_decision
+			country_event = { id = vn_religions.0 }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
 }
