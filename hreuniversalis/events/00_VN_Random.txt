@@ -1511,6 +1511,7 @@ country_event = {
 	title = "FBIT16"
 	desc = "FBID16"
 	picture = RELIGION_eventPicture
+	goto = suffragan_abbey
 
 	is_triggered_only = yes
 	trigger = {
@@ -1528,18 +1529,26 @@ country_event = {
 	}
 	mean_time_to_happen = { days = 1 }
 
+	immediate = {
+		hidden_effect = {
+			random_neighbor_country = {
+				limit = {
+					NOT = { alliance_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+					NOT = { overlord_of = ROOT }
+				}
+				random_owned_province = {
+					limit = { any_neighbor_province = { owned_by = ROOT } }
+					save_event_target_as = suffragan_abbey
+				}
+			}
+		}
+	}
+
 	option = {
 		name = "FBIA16"
-		random_neighbor_country = {
-			limit = {
-				NOT = { alliance_with = ROOT }
-				NOT = { is_subject_of = ROOT }
-				NOT = { overlord_of = ROOT }
-			}
-			random_owned_province = {
-				limit = { any_neighbor_province = { owned_by = ROOT } }
-				add_claim = ROOT
-			}
+		event_target:suffragan_abbey = {
+			add_claim = ROOT
 		}
 		add_faction_influence = {
 			faction = abb_cistercians
@@ -2057,6 +2066,7 @@ country_event = {
 	title = "FBIT32"
 	desc = "FBID32"
 	picture = CITY_VIEW_eventPicture
+	goto = capital
 	
 	is_triggered_only = yes
 	trigger = {
@@ -2178,6 +2188,7 @@ country_event = {
 		add_prestige = 5
 		add_fervor = 10
 		add_church_power = 10
+		add_karma = 5
 		add_papal_influence = 10
 		add_republican_tradition = -2
 	}
@@ -2197,6 +2208,7 @@ country_event = {
 		add_prestige = 5
 		add_fervor = 5
 		add_church_power = 5
+		add_karma = 5
 		add_papal_influence = 5
 	}
 }
@@ -2378,6 +2390,7 @@ country_event = {
 	title = "FBIT43"
 	desc = "FBID43"
 	picture = FORT_eventPicture
+	goto = uncooperative_doux
 	
 	is_triggered_only = yes
 	trigger = {
@@ -2389,17 +2402,26 @@ country_event = {
 	}
 	mean_time_to_happen = { days = 1 }
 
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					is_capital = no
+					NOT = { local_autonomy = 100 }
+				}
+				save_event_target_as = uncooperative_doux
+			}
+		}
+	}
+
 	option = {
 		name = "FBIA43"
 		add_prestige = -5
-		random_owned_province = {
-			limit = {
-				is_capital = no
-				NOT = { local_autonomy = 100 }
-			}
+		event_target:uncooperative_doux = {
 			add_local_autonomy = 20
 			random_neighbor_province = {
 				limit = {
+					owned_by = ROOT
 					is_capital = no
 					NOT = { local_autonomy = 100 }
 				}
@@ -2473,6 +2495,15 @@ country_event = {
 	}
 	mean_time_to_happen = { days = 1 }
 
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = { is_capital = no }
+				save_event_target_as = byzantine_famine
+			}
+		}
+	}
+
 	option = {
 		name = "FBIA45"
 		ai_chance = {
@@ -2491,8 +2522,8 @@ country_event = {
 	option = {
 		name = "FBIB45"
 		ai_chance = { factor = 30 }
-		random_owned_province = {
-			limit = { is_capital = no }
+		goto = byzantine_famine
+		event_target:byzantine_famine = {
 			anti_tax_rebels = 1
 		}
 	}
@@ -2505,8 +2536,8 @@ country_event = {
 		}
 		required_personality = lawgiver_personality
 		ai_chance = { factor = 100 }
-		random_owned_province = {
-			limit = { is_capital = no }
+		goto = byzantine_famine
+		event_target:byzantine_famine = {
 			add_base_tax = -1
 		}
 		capital_scope = { add_base_tax = 1 }
@@ -2556,6 +2587,16 @@ country_event = {
 	}
 	mean_time_to_happen = { days = 1 }
 
+	immediate = {
+		random_owned_province = {
+			limit = {
+				is_capital = no
+				NOT = { local_autonomy = 100 }
+			}
+			save_event_target_as = byzantine_powerful_family
+		}
+	}
+
 	option = {
 		name = "FBIA47"
 		ai_chance = { factor = 60 }
@@ -2567,11 +2608,8 @@ country_event = {
 	option = {
 		name = "FBIB47"
 		ai_chance = { factor = 40 }
-		random_owned_province = {
-			limit = {
-				is_capital = no
-				NOT = { local_autonomy = 100 }
-			}
+		goto = byzantine_powerful_family
+		event_target:byzantine_powerful_family = {
 			add_local_autonomy = 40
 		}
 	}
@@ -2655,6 +2693,18 @@ country_event = {
 			}
 		}
 	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					is_capital = no
+					controlled_by = owner
+				}
+				save_event_target_as = english_noble_revolt
+			}
+		}
+	}
 	
 	option = {
 		name = "FBIA49"
@@ -2667,12 +2717,9 @@ country_event = {
 	option = {
 		name = "FBIB49"
 		ai_chance = { factor = 5 }
+		goto = english_noble_revolt
 		add_legitimacy = 20
-		random_owned_province = {
-			limit = {
-				is_capital = no
-				controlled_by = owner
-			}
+		event_target:english_noble_revolt = {
 			spawn_rebels = {
 				type = noble_rebels
 				size = 4
@@ -3036,6 +3083,7 @@ country_event = {
 
 	option = {
 		name = "FBIA61"
+		goto = 202
 		ai_chance = {
 			factor = 30
 			modifier = {
@@ -3075,6 +3123,7 @@ country_event = {
 	title = "FBIT62"
 	desc = "FBID62"
 	picture = RELIGIOUS_CONVERSION_eventPicture
+	goto = 202
 
 	is_triggered_only = yes
 	mean_time_to_happen = { days = 1 }
@@ -3105,7 +3154,14 @@ country_event = {
 	id = fbievents.63
 	title = "FBIT63"
 	desc = "FBID63"
-	picture = POPE_PREACHING_eventPicture
+	picture = {
+		trigger = { NOT = { has_dlc = "Emperor" } }
+		picture = POPE_PREACHING_eventPicture
+	}
+	picture = {
+		trigger = { has_dlc = "Emperor" }
+		picture = COUNCIL_TRENT_eventPicture
+	}
 
 	fire_only_once = yes
 	major = yes
@@ -3182,6 +3238,7 @@ country_event = {
 	title = "FBIT64"
 	desc = "FBID64"
 	picture = POPE_PREACHING_eventPicture
+	goto = 202
 
 	is_triggered_only = yes
 	mean_time_to_happen = { days = 1 }
@@ -3208,7 +3265,14 @@ country_event = {
 	id = fbievents.65
 	title = "FBIT65"
 	desc = "FBID65"
-	picture = POPE_PREACHING_eventPicture
+	picture = {
+		trigger = { NOT = { has_dlc = "Emperor" } }
+		picture = POPE_PREACHING_eventPicture
+	}
+	picture = {
+		trigger = { has_dlc = "Emperor" }
+		picture = COUNCIL_TRENT_eventPicture
+	}
 
 	fire_only_once = yes
 	major = yes
@@ -3303,7 +3367,15 @@ country_event = {
 	id = fbievents.66
 	title = "FBIT66"
 	desc = "FBID66"
-	picture = POPE_PREACHING_eventPicture
+	picture = {
+		trigger = { NOT = { has_dlc = "Emperor" } }
+		picture = POPE_PREACHING_eventPicture
+	}
+	picture = {
+		trigger = { has_dlc = "Emperor" }
+		picture = COUNCIL_TRENT_eventPicture
+	}
+
 
 	is_triggered_only = yes
 	mean_time_to_happen = { days = 1 }
@@ -7845,12 +7917,21 @@ country_event = {
 	}
 	mean_time_to_happen = { days = 1 }
 
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = { controlled_by = ROOT }
+				save_event_target_as = illegitimate_child
+			}
+		}
+	}
+
 	option = {
 		name = "FBIA131"
 		ai_chance = { factor = 50 }
+		goto = illegitimate_child
 		add_heir_claim = 10
-		random_owned_province = {
-			limit = { controlled_by = ROOT }
+		event_target:illegitimate_chji = {
 			spawn_rebels = {
 				type = pretender_rebels
 				size = 1
@@ -8007,6 +8088,7 @@ country_event = {
 				}
 			}
 		}
+		goto = folkmoot_province
 		event_target:folkmoot_province = {
 			add_local_autonomy = 50
 		}
@@ -8200,6 +8282,7 @@ country_event = {
 			}
 			AND = {
 				tag = CRT
+				has_country_flag = candia_name_flag
 				NOT = { is_subject_of = VEN }
 			}
 			AND = {
@@ -8218,6 +8301,7 @@ country_event = {
 		clr_country_flag = mamluks_name_flag
 		clr_country_flag = almoravids_name_flag
 		clr_country_flag = abbasids_name_flag
+		clr_country_flag = candia_name_flag
 		set_country_flag = name_cleared_flag
 	}
 }
@@ -8294,6 +8378,15 @@ country_event = {
 	}
 	
 	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = { is_in_capital_area = yes }
+				save_event_target_as = roman_mob
+			}
+		}
+	}
 	
 	option = {
 		name = "FBIA142"
@@ -8304,8 +8397,8 @@ country_event = {
 	option = {
 		name = "FBIB142"
 		ai_chance = { factor = 99 }
-		random_owned_province = {
-			limit = { is_in_capital_area = yes }
+		goto = roman_mob
+		event_target:roman_mob = {
 			spawn_rebels = {
 				type = anti_tax_rebels
 				size = 1
@@ -8336,6 +8429,7 @@ country_event = {
 	option = {
 		name = "FBIA143"
 		ai_chance = { factor = 100 }
+		goto = capital
 		add_faction_influence = { faction = pap_roman_mob influence = 50 }
 		capital_scope = { change_controller = ROOT }
 	}
@@ -8545,7 +8639,7 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT  = { has_country_modifier = orsini_admin }
+		NOT = { has_country_modifier = orsini_admin }
 		has_reform = papacy_reform
 		has_factions = yes
 	}
