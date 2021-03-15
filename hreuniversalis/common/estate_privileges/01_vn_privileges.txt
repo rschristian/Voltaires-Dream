@@ -831,6 +831,84 @@ estate_burghers_jewish_sanctuary = {
 	}
 }
 
+estate_burghers_dutch_water_lines = {
+	icon = privilege_grant_new_world_charter
+	max_absolutism = -20
+	loyalty = -0.05
+	influence = 0.1
+	is_valid = {
+		culture_group = dutch_group
+		capital_scope = {
+			superregion = lowlands_superregion
+		}
+	}
+	can_select = {
+		years_of_income = 1
+	}
+	on_granted = {
+		custom_tooltip = estate_burghers_dutch_water_lines_effect_tooltip
+		add_years_of_income = -1
+		hidden_effect = {
+			every_owned_province = {
+				limit = { superregion = lowlands_superregion controlled_by = ROOT }
+				add_province_modifier = {
+					name = estate_burghers_dutch_water_lines_mod
+					duration = -1
+				}
+			}
+		}
+	}
+	on_revoked = {
+		custom_tooltip = estate_burghers_dutch_water_lines_revoke_tooltip
+		hidden_effect = {
+			every_owned_province = {
+				limit = { has_province_modifier = estate_burghers_dutch_water_lines_mod }
+				remove_province_modifier = estate_burghers_dutch_water_lines_mod
+			}
+		}
+	}
+	penalties = {
+	}
+	cooldown_years = 5
+	on_cooldown_expires = {
+		country_event = { id = hremodevents.139 }
+	}
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			OR = {
+				NOT = { crown_land_share = 25 }
+				estate_influence = {
+					estate = estate_burghers
+					influence = 75
+				}
+			}
+			NOT = { has_estate_privilege = estate_burghers_dutch_water_lines }
+		}
+		modifier = {
+			factor = 0
+			NOT = { years_of_income = 1 }
+		}
+		modifier = {
+			factor = 0
+			is_at_war = no
+		}
+		modifier = {
+			factor = 0
+			is_in_deficit = yes
+		}
+		modifier = {
+			factor = 0
+			is_bankrupt = yes
+		}
+		modifier = {
+			factor = 0
+			is_absolutism_active = yes
+		}
+	}
+}
+
 # Nobility
 
 estate_nobles_frontier_resettlement = {
