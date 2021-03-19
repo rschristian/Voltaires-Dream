@@ -1268,30 +1268,74 @@ country_event = {
 	picture = COURT_eventPicture
 	
 	is_triggered_only = yes
+	major = yes
 
 	option = {
 		name = "vn_missions.23.a"
+		ai_chance = { factor = 95 }
+		override_country_name = OCCITANIA_NAME
+		if = {
+			limit = { is_subject_of_type = daimyo_vassal }
+			grant_independence = ROOT
+		}
+		if = {
+			limit = { NOT = { government_rank = 4 } }
+			set_government_rank = 4
+		}
+		add_legitimacy = 25
+		add_prestige = 25
+		add_country_modifier = {
+			name = "tou_elevation_to_principality_mission_a"
+			duration = 18250
+		}
+		random_country = {
+			limit = { has_reform = celestial_empire }
+			add_opinion = {
+				who = ROOT
+				modifier = tou_principality_of_toulouse
+			}
+		}
+	}
+	option = {
+		name = "vn_missions.23.b"
+		ai_chance = { factor = 0 }
+		if = {
+			limit = { is_subject_of_type = daimyo_vassal }
+			grant_independence = ROOT
+		}
 		if = {
 			limit = { NOT = { government_rank = 4 } }
 			set_government_rank = 4
 		}
 		add_prestige = 25
-		every_known_country = {
-			limit = {
-				government_rank = 5
-				culture_group = french
-			}
+		add_legitimacy = 25
+		add_country_modifier = {
+			name = "tou_elevation_to_principality_mission_a"
+			duration = 18250
+		}
+		random_country = {
+			limit = { has_reform = celestial_empire }
 			add_opinion = {
 				who = ROOT
 				modifier = tou_principality_of_toulouse
 			}
-			reverse_add_opinion = {
+		}
+	}
+	option = {
+		name = "vn_missions.23.c"
+		ai_chance = { factor = 5 }
+		trigger = { is_subject_of_type = daimyo_vassal }
+		random_country = {
+			limit = { has_reform = celestial_empire }
+			add_opinion = {
 				who = ROOT
-				modifier = tou_principality_of_toulouse
+				modifier = tou_french_subject
 			}
 		}
+		add_prestige = 25
+		add_legitimacy = 25
 		add_country_modifier = {
-			name = "tou_elevation_to_principality_mission"
+			name = "tou_elevation_to_principality_mission_b"
 			duration = 18250
 		}
 	}
@@ -1302,36 +1346,106 @@ country_event = {
 	id = vn_missions.24
 	title = vn_missions.24.t
 	desc = vn_missions.24.d
-	picture = RELIGIOUS_CONVERSION_eventPicture
+	picture = ADULT_BAPTISME_eventPicture
 	
 	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					any_province = { is_reformation_center = yes religion = cathar }
+				}
+				random_province = {
+					limit = { is_reformation_center = yes religion = cathar }
+					save_event_target_as = cathar_center
+				}
+			}
+			else_if = {
+				limit = {
+					any_province = { religion = cathar }
+				}
+				random_province = {
+					limit = { religion = cathar }
+					save_event_target_as = cathar_center
+				}
+			}
+			else = {
+				capital_scope = {
+					save_event_target_as = cathar_center
+				}
+			}
+		}
+	}
 
 	option = {
 		name = "vn_missions.24.a"
 		ai_chance = { factor = 40 }
-		add_stability = 1
-		add_country_modifier = {
-			name = "tou_weather_catharism_mission_a"
-			duration = 10950
+		if = {
+			limit = { religion = cathar }
+			every_owned_province = {
+				limit = { NOT = { religion = cathar } }
+				add_province_modifier = {
+					name = tou_weather_catharism_mission_a
+					duration = 9125
+				}
+			}
+		}
+		else = {
+			every_owned_province = {
+				limit = { religion = cathar }
+				add_province_modifier = {
+					name = tou_weather_catharism_mission_b
+					duration = 9125
+				}
+			}
 		}
 	}
 	option = {
 		name = "vn_missions.24.b"
 		ai_chance = { factor = 40 }
-		add_papal_influence = 25
-		add_country_modifier = {
-			name = "tou_weather_catharism_mission_b"
-			duration = 10950
+		if = {
+			limit = { religion = cathar }
+			every_owned_province = {
+				limit = { NOT = { religion = cathar } }
+				add_province_modifier = {
+					name = tou_weather_catharism_mission_b
+					duration = 9125
+				}
+			}
+		}
+		else = {
+			every_owned_province = {
+				limit = { religion = cathar }
+				add_province_modifier = {
+					name = tou_weather_catharism_mission_a
+					duration = 9125
+				}
+			}
 		}
 	}
 	option = {
 		name = "vn_missions.24.c"
+		trigger = { NOT = { religion = cathar } }
 		highlight = yes
 		ai_chance = { factor = 20 }
 		change_religion = cathar
-		add_country_modifier = {
-			name = "tou_weather_catharism_mission_c"
-			duration = 10950
+		if = {
+			limit = {
+				capital_scope = {
+					NOT = { religion = cathar }
+				}
+			}
+			capital_scope = {
+				change_religion = cathar
+			}
+		}
+		every_owned_province = {
+			limit = { NOT = { religion = cathar } }
+			add_province_modifier = {
+				name = tou_weather_catharism_mission_b
+				duration = 9125
+			}
 		}
 	}
 }
