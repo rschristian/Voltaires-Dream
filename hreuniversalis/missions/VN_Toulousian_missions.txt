@@ -11,56 +11,33 @@ vn_tou_missions_slot_1 = {
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
-	
-	vn_tou_aragonese_rivalry = {
+
+	vn_tou_patron_of_troubadours = {
 		position = 1
-		icon = italia_transalpina
+		icon = sponsor_the_arts
 		required_missions = { }
 		trigger = {
-			if = {
-				limit = { exists = ARA }
-				OR = {
-					alliance_with = ARA
-					ARA = {
-						custom_trigger_tooltip = {
-							tooltip = rivalled_or_rival_of
-							OR = {
-								is_rival = ROOT
-								ROOT = { is_rival = PREV }
-							}
-						}
-						custom_trigger_tooltip = {
-							tooltip = has_been_insulted_by_root
-							OR = {
-								has_opinion_modifier = {
-									who = ROOT
-									modifier = insulted
-								}
-								has_opinion_modifier = {
-									who = ROOT
-									modifier = scornfully_insulted
-								}
-							}
-						}
-					}
-				}
+			primary_culture = occitain
+			development_in_provinces = {
+				value = 150
+				culture = occitain
 			}
-			else = {
-				num_of_allies = 4
+			capital_scope = {
+				development = 25
 			}
 		}
 		effect = {
-			
-			add_country_modifier = {
-				name = tou_aragonese_rivalry_mission
-				duration = 9125
+			define_advisor = {
+				type = artist
+				skill = 3
+				cost_multiplier = 0.25
 			}
 		}
 	}
 	vn_tou_aquitaine_rivalry = {
 		position = 3
 		icon = mission_humiliate_provence
-		required_missions = { }
+		required_missions = { vn_tou_patron_of_troubadours }
 		trigger = {
 			OR = {
 				NOT = { exists = AQT }
@@ -79,14 +56,7 @@ vn_tou_missions_slot_1 = {
 		}
 		effect = {
 			add_dip_power = 50
-			armagnac_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			cahors_area = {
+			bordeaux_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -97,22 +67,13 @@ vn_tou_missions_slot_1 = {
 	}
 	vn_tou_challenge_the_king = {
 		position = 5
-		icon = mission_the_french_menace
+		icon = feast_of_pheasants
 		required_missions = { vn_tou_aquitaine_rivalry }
 		trigger = {
-			land_forcelimit = 25
-			land_maintenance = 1
-			NOT = { FRA = { tech_difference = 1 } }
+			
 		}
 		effect = {
-			if = {
-				limit = { is_subject_of = FRA }
-				add_liberty_desire = 50
-			}
-			else = {
-				add_prestige = 15
-			}
-			add_army_tradition = 5
+			
 			add_country_modifier = {
 				name = "tou_challenge_the_king_mission"
 				duration = 9125
@@ -121,7 +82,7 @@ vn_tou_missions_slot_1 = {
 	}
 	vn_tou_occitan_kingdom = {
 		position = 7
-		icon = shift_the_balance
+		icon = mission_the_french_menace
 		required_missions = { vn_tou_challenge_the_king }
 		provinces_to_highlight = {
 			superregion = french_superregion
@@ -154,28 +115,6 @@ vn_tou_missions_slot_2 = {
 	}
 	has_country_shield = yes
 	
-	vn_tou_patron_of_troubadours = {
-		position = 1
-		icon = mission_alliances
-		required_missions = { }
-		trigger = {
-			primary_culture = occitain
-			development_in_provinces = {
-				value = 150
-				culture = occitain
-			}
-			capital_scope = {
-				development = 15
-			}
-		}
-		effect = {
-			define_advisor = {
-				type = artist
-				skill = 3
-				cost_multiplier = 0.25
-			}
-		}
-	}
 	vn_tou_conquer_foix = {
 		position = 2
 		icon = mission_soldiers_in_line
@@ -218,46 +157,57 @@ vn_tou_missions_slot_2 = {
 		required_missions = { vn_tou_conquer_foix }
 		provinces_to_highlight = {
 			OR = {
-				province_id = 832
-				province_id = 1222
-				province_id = 1767
+				area = labourd_area
 				province_id = 2787
 				province_id = 2910
 				province_id = 4069
-				province_id = 4070
 				province_id = 4077
-				province_id = 4103
+				province_id = 1281
+				province_id = 4066
+				province_id = 1278
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			
+			labourd_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2787 = { country_or_non_sovereign_subject_holds = ROOT }
+			2910 = { country_or_non_sovereign_subject_holds = ROOT }
+			4069 = { country_or_non_sovereign_subject_holds = ROOT }
+			4077 = { country_or_non_sovereign_subject_holds = ROOT }
+			1281 = { country_or_non_sovereign_subject_holds = ROOT }
+			4066 = { country_or_non_sovereign_subject_holds = ROOT }
+			1278 = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		effect = {
 			add_mil_power = 100
-			bordeaux_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
 		}
 	}
 	vn_tou_conquer_bordeaux = {
 		position = 4
-		icon = mission_unite_coromandel
-		required_missions = { vn_tou_conquer_bearn vn_tou_aquitaine_rivalry }
+		icon = assert_our_sovereignty
+		required_missions = { vn_tou_conquer_bearn vn_tou_aquitaine_rivalry vn_tou_conquer_perigord }
 		provinces_to_highlight = {
-			area = bordeaux_area
+			OR = {
+				area = bordeaux_area
+				province_id = 4054
+				province_id = 2796
+				province_id = 4059
+				province_id = 4054
+			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			2324 = { country_or_non_sovereign_subject_holds = ROOT }
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 5
-				area = bordeaux_area
+			bordeaux_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
 			}
+			4054 = { country_or_non_sovereign_subject_holds = ROOT }
+			2796 = { country_or_non_sovereign_subject_holds = ROOT }
+			4059 = { country_or_non_sovereign_subject_holds = ROOT }
+			4054 = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		effect = {
 			angouleme_area = {
@@ -278,7 +228,7 @@ vn_tou_missions_slot_2 = {
 	}
 	vn_tou_conquer_aquitaine = {
 		position = 5
-		icon = mission_have_two_subjects
+		icon = the_hundred_years_war
 		required_missions = { vn_tou_conquer_bordeaux }
 		provinces_to_highlight = {
 			OR = {
@@ -324,7 +274,7 @@ vn_tou_missions_slot_3 = {
 	
 	vn_tou_conquer_rouergue = {
 		position = 1
-		icon = mission_alliances
+		icon = immaculate_government
 		required_missions = { }
 		provinces_to_highlight = {
 			OR = {
@@ -351,13 +301,178 @@ vn_tou_missions_slot_3 = {
 			owns_core_province = 4067
 		}
 		effect = {
-			#foix land
+			custom_tooltip = vn_lem_recover_from_crusade.tt
+            hidden_effect = {
+                every_owned_province = {
+                    add_local_autonomy = -5
+                }
+            }
+			perigord_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			758 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1273 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1279 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1280 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2776 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2801 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2802 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4056 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4072 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			550 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1283 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1285 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1286 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2894 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4027 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4061 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4065 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
 		}
 	}
 	vn_tou_conquer_perigord = {
-		position = 5
-		icon = renaissance_city
-		required_missions = {  }
+		position = 3
+		icon = reclaim_the_ducal_lands
+		required_missions = { vn_tou_conquer_rouergue }
 		provinces_to_highlight = {
 			area = perigord_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -379,9 +494,9 @@ vn_tou_missions_slot_3 = {
 		}
 	}
 	vn_tou_conquer_limoges = {
-		position = 6
+		position = 4
 		icon = claim_the_borderlands
-		required_missions = { vn_tou_conquer_perigord vn_tou_conquer_bordeaux }
+		required_missions = { vn_tou_conquer_perigord }
 		provinces_to_highlight = {
 			area = limousin_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -402,10 +517,13 @@ vn_tou_missions_slot_3 = {
 	vn_tou_elevation_to_principality = {
 		position = 5
 		icon = mission_invade_occitania
-		required_missions = { vn_tou_patron_of_troubadours vn_tou_conquer_bearn vn_tou_ports_of_languedoc }
+		required_missions = { vn_tou_conquer_bordeaux vn_tou_conquer_limoges vn_tou_conquer_languedoc }
 		trigger = {
+			OR = {
+				is_subject_of_type = daimyo_vassal
+				is_subject = no
+			}
 			legitimacy = 100
-			stability = 1
 			total_development = 400
 		}
 		effect = {
@@ -417,13 +535,34 @@ vn_tou_missions_slot_3 = {
 				}
 				add_permanent_claim = ROOT
 			}
-			perigord_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
+		}
+	}
+	vn_tou_conquer_auvergne = {
+		position = 6
+		icon = mission_build_up_to_force_limit
+		required_missions = {  }
+		provinces_to_highlight = {
+			OR = {
+				area = auvergne_area
+				province_id = 2903
+				province_id = 2924
+				province_id = 2947
+				province_id = 545
 			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			auvergne_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2903 = { country_or_non_sovereign_subject_holds = ROOT }
+			2924 = { country_or_non_sovereign_subject_holds = ROOT }
+			2947 = { country_or_non_sovereign_subject_holds = ROOT }
+			545 = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+			
 		}
 	}
 }
@@ -454,17 +593,20 @@ vn_tou_missions_slot_4 = {
 				province_id = 4061
 				province_id = 4065
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			OR = {
+				NOT = { is_core = ROOT }
+				NOT = { owned_by = ROOT }
+			}
 		}
 		trigger = {
-			550 = { country_or_non_sovereign_subject_holds = ROOT }
-			1283 = { country_or_non_sovereign_subject_holds = ROOT }
-			1285 = { country_or_non_sovereign_subject_holds = ROOT }
-			1286 = { country_or_non_sovereign_subject_holds = ROOT }
-			2894 = { country_or_non_sovereign_subject_holds = ROOT }
-			4027 = { country_or_non_sovereign_subject_holds = ROOT }
-			4061 = { country_or_non_sovereign_subject_holds = ROOT }
-			4065 = { country_or_non_sovereign_subject_holds = ROOT }
+			owns_core_province = 550
+			owns_core_province = 1283
+			owns_core_province = 1285
+			owns_core_province = 1286
+			owns_core_province = 2894
+			owns_core_province = 4027
+			owns_core_province = 4061
+			owns_core_province = 4065
 		}
 		effect = {
 			montpellier_area = {
@@ -474,18 +616,65 @@ vn_tou_missions_slot_4 = {
 				}
 				add_permanent_claim = ROOT
 			}
-			viviers_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+			4071 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+			}
+			4063 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1152 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4073 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2896 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2290 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
 	vn_tou_conquer_languedoc = {
 		position = 4
-		icon = renaissance_city
+		icon = protect_against_austria
 		required_missions = { vn_tou_conquer_carcassonne }
 		provinces_to_highlight = {
 			OR = {
@@ -633,6 +822,128 @@ vn_tou_missions_slot_4 = {
 			}
 		}
 	}
+	vn_tou_aragonese_rivalry = {
+		position = 1
+		icon = italia_transalpina
+		required_missions = { }
+		trigger = {
+			if = {
+				limit = { exists = ARA }
+				OR = {
+					alliance_with = ARA
+					ARA = {
+						custom_trigger_tooltip = {
+							tooltip = rivalled_or_rival_of
+							OR = {
+								is_rival = ROOT
+								ROOT = { is_rival = PREV }
+							}
+						}
+						custom_trigger_tooltip = {
+							tooltip = has_been_insulted_by_root
+							OR = {
+								has_opinion_modifier = {
+									who = ROOT
+									modifier = insulted
+								}
+								has_opinion_modifier = {
+									who = ROOT
+									modifier = scornfully_insulted
+								}
+							}
+						}
+					}
+				}
+			}
+			else = {
+				num_of_allies = 4
+			}
+		}
+		effect = {
+			
+			add_country_modifier = {
+				name = tou_aragonese_rivalry_mission
+				duration = 9125
+			}
+		}
+	}
+	vn_tou_conquer_roussillon = {
+		icon = mission_large_army
+		required_missions = { }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 521
+				province_id = 668
+				province_id = 1245
+				province_id = 1793
+				province_id = 4076
+				province_id = 4293
+				province_id = 4294
+				province_id = 4298
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			521 = { country_or_non_sovereign_subject_holds = ROOT }
+			668 = { country_or_non_sovereign_subject_holds = ROOT }
+			1245 = { country_or_non_sovereign_subject_holds = ROOT }
+			1793 = { country_or_non_sovereign_subject_holds = ROOT }
+			4076 = { country_or_non_sovereign_subject_holds = ROOT }
+			4293 = { country_or_non_sovereign_subject_holds = ROOT }
+			4294 = { country_or_non_sovereign_subject_holds = ROOT }
+			4298 = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+			barcelona_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			1791 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			4296 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+	vn_tou_conquer_barcelona = {
+		icon = mission_city_of_the_world's_desire
+		required_missions = { vn_tou_conquer_roussillon }
+		provinces_to_highlight = {
+			OR = {
+				area = barcelona_area
+				province_id = 1791
+				province_id = 4296
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			barcelona_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1791 = { country_or_non_sovereign_subject_holds = ROOT }
+			4296 = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+
+		}
+	}
 }
 
 vn_tou_missions_slot_5 = {
@@ -646,9 +957,85 @@ vn_tou_missions_slot_5 = {
 	}
 	has_country_shield = yes
 	
-	vn_tou_weather_catharism = {
+	vn_tou_crusading_army = {
 		position = 1
-		icon = a_center_of_religion
+		icon = restore_the_hospitallers
+		required_missions = { }
+		trigger = {
+			NOT = { current_age = age_of_empire }
+			if = {
+				limit = {
+					has_estate = estate_church
+				}
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+				estate_influence = {
+					estate = estate_church
+					influence = 50
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						current_age = age_of_empire
+						has_estate = estate_holy_orders
+					}
+				}
+				estate_loyalty = {
+					estate = estate_holy_orders
+					loyalty = 60
+				}
+				estate_influence = {
+					estate = estate_holy_orders
+					influence = 50
+				}
+			}
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				army_professionalism = 0.2
+			}
+			else = {
+				army_tradition = 40
+			}
+		}
+		effect = {
+			add_religious_influence_effect_large = yes
+			add_country_modifier = {
+				name = tou_crusading_army_mission
+				duration = 9125
+			}
+		}
+	}
+	vn_tou_seize_tripoli = {
+		icon = mission_crusade
+		required_missions = { vn_tou_crusading_army }
+		trigger = {
+			is_in_war = {
+				casus_belli = cb_grand_crusade
+			}
+		}
+		effect = {
+			create_general = {
+				tradition = 100
+			}
+			outremer_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = fra_sanction_crusades_mission
+				duration = 1825
+			}
+		}
+	}
+	vn_tou_weather_catharism = {
+		position = 3
+		icon = protectors_of_christendom
 		required_missions = { }
 		trigger = {
 			OR = {
@@ -681,8 +1068,8 @@ vn_tou_missions_slot_5 = {
 		}
 	}
 	vn_tou_secure_religious_peace = {
-		position = 2
-		icon = shield_of_christendom
+		position = 4
+		icon = a_center_of_religion
 		required_missions = { vn_tou_weather_catharism }
 		provinces_to_highlight = {
 			owner = {
@@ -692,6 +1079,18 @@ vn_tou_missions_slot_5 = {
 			}
 		}
 		trigger = {
+			OR = {
+				religion = cathar
+				custom_trigger_tooltip = {
+					tooltip = vn_tou_secure_religious_peace.tt
+					NOT = { 
+						any_province = {
+							religion = cathar
+							is_reformation_center = yes
+						}
+					}
+				}
+			}
 			religious_unity = 1
 			NOT = {
 				any_neighbor_country = {
@@ -709,16 +1108,12 @@ vn_tou_missions_slot_5 = {
 		}
 	}
 	vn_tou_occitan_wine_empire = {
-		position = 3
+		position = 5
 		icon = mission_wine_monopolies
-		required_missions = { vn_tou_conquer_carcassonne }
+		required_missions = { vn_tou_conquer_languedoc }
 		trigger = {
-			trading_bonus = {
-				trade_goods = wine
-				value = yes
-			}
 			num_of_owned_provinces_with = {
-				value = 5
+				value = 10
 				trade_goods = wine
 				has_production_building_trigger = yes
 			}
@@ -727,106 +1122,6 @@ vn_tou_missions_slot_5 = {
 			add_mercantilism = 2
 			add_country_modifier = {
 				name = "tou_occitan_wine_empire_mission"
-				duration = 9125
-			}
-		}
-	}
-	vn_tou_crusading_army = {
-		position = 4
-		icon = mission_crusade
-		required_missions = { }
-		trigger = {
-			if = {
-				limit = {
-					OR = {
-						has_estate = estate_holy_orders
-						current_age = age_of_empire
-					}
-				}
-				estate_loyalty = {
-					estate = estate_holy_orders
-					loyalty = 60
-				}
-			}
-			army_size = 25
-			num_of_cavalry = 10
-			num_of_generals = 2
-		}
-		effect = {
-			3027 = { 
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT	
-				}		
-			}
-			create_general = {
-				tradition = 75
-			}
-			add_country_modifier = {
-				name = tou_crusading_army_mission
-				duration = 9125
-			}
-		}
-	}
-	vn_tou_seize_tripoli = {
-		icon = restore_the_hospitallers
-		required_missions = { vn_tou_crusading_army }
-		provinces_to_highlight = {
-			province_id = 3027
-		}
-		trigger = {
-			3027 = {
-				OR = {
-					controlled_by = ROOT
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-			}
-		}
-		effect = {
-			add_religious_influence_effect_small = yes
-			lebanon_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			tartus_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-		}
-	}
-	vn_tou_conquer_holy_land = {
-		icon = jerusalem
-		required_missions = { vn_tou_seize_tripoli }
-		provinces_to_highlight = {
-			OR = {
-				area = lebanon_area
-				area = tartus_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			lebanon_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			tartus_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			add_army_tradition = 20
-			add_country_modifier = {
-				name = tou_conquer_holy_land
 				duration = 9125
 			}
 		}
