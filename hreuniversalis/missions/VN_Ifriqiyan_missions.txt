@@ -56,12 +56,18 @@ vn_ifq_missions_slot_1 = {
         position = 2
         required_missions = { vn_ifq_trade_with_europe vn_ifq_construction_of_a_fleet }
         trigger = {
-            has_privateers = yes
-            NOT = {
-                any_country = {
-                    num_ships_privateering = ROOT
+            OR = {
+		AND = {
+                    navy_size = 50
+                    navy_tradition = 100
                 }
-            }
+                has_privateers = yes
+                NOT = {
+                    any_country = {
+                        num_ships_privateering = ROOT
+                    }
+                }
+            }  
         }
         effect = {
             add_dip_power = 50
@@ -228,6 +234,13 @@ vn_ifq_missions_slot_2 = {
                 add_permanent_claim = ROOT
             }
             campania_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            apulia_region = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
@@ -725,9 +738,9 @@ vn_ifq_missions_slot_4 = {
         trigger = {
             any_ally = {
 				primary_culture = turkish
-				capital_scope = {
-					superregion = anatolia_superregion
-				}
+#				capital_scope = {
+#					superregion = anatolia_superregion
+#				}
 			}
         }
         effect = {
