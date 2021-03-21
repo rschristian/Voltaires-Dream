@@ -2991,7 +2991,29 @@ country_decisions = {
 				free_vassal = ALE
 				free_vassal = XAU
 				free_vassal = EUU
-				inherit = ASE
+				if = {
+					limit = {
+						NOT = { government = monarchy }
+					}
+					change_government = monarchy
+					add_government_reform = feudalism_reform
+				}
+				#inherit = ASE
+				ASE = {
+					grant_independence = yes
+					every_subject_country = {
+						limit = { is_lesser_in_union = yes }
+						set_country_flag = was_ase_junior
+					}
+					every_subject_country = {
+						limit = { is_lesser_in_union = no }
+						set_country_flag = was_ase_vassal
+					}
+					every_owned_province = {
+						cede_province = ENG
+						add_core = ENG
+					}
+				}
 				every_province = {
 					limit = { is_core = ASE }
 					remove_core = ASE
@@ -3004,15 +3026,12 @@ country_decisions = {
 					limit = { is_core = MCI }
 					remove_core = MCI
 				}
-				if = {
-					limit = {
-						NOT = { government = monarchy }
-					}
-					change_government = monarchy
-					add_government_reform = feudalism_reform
-				}
-				change_tag = ENG
+				exile_heir_as = nrm_conquest_heir
+				exile_ruler_as = nrm_conquest_ruler
+				switch_tag = ENG
 				set_capital = 2268
+				set_ruler = nrm_conquest_ruler
+				set_heir = nrm_conquest_heir
 				if = {
 					limit = {
 						NOT = { government_rank = 5 }
@@ -3021,17 +3040,25 @@ country_decisions = {
 				}
 				swap_free_idea_group = yes
 				swap_non_generic_missions = yes
-				every_owned_province = {
-					limit = {
-						OR = {
-							superregion = french_superregion
-							superregion = burgundian_superregion
-						}
-					}
-					remove_core = ENG
-					add_core = NRM
-					cede_province = NRM
+				every_country = {
+					limit = { has_country_flag = was_ase_junior }
+					ROOT = { create_union = PREV }
 				}
+				every_country = {
+					limit = { has_country_flag = was_ase_vassal }
+					ROOT = { vassalize = PREV }
+				}
+				#every_owned_province = {
+				#	limit = {
+				#		OR = {
+				#			superregion = french_superregion
+				#			superregion = burgundian_superregion
+				#		}
+				#	}
+				#	remove_core = ENG
+				#	add_core = NRM
+				#	cede_province = NRM
+				#}
 				NRM = {
 					change_primary_culture = normand
 					set_capital = 1172
@@ -3040,10 +3067,12 @@ country_decisions = {
 				}
 				create_union = NRM
 			}
-			change_primary_culture = english
-			2268 = { change_culture = english }
-			add_legitimacy = -20
-			add_prestige = 25
+			ENG = {
+				change_primary_culture = english
+				2268 = { change_culture = english }
+				add_legitimacy = -20
+				add_prestige = 25
+			}
 		}
 		ai_will_do = {
 			factor = 1
