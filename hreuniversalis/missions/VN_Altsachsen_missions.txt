@@ -1157,26 +1157,12 @@ vn_altsax_missions_slot_5 = {
         effect = {
 			add_prestige = 10
 			add_legitimacy = 10
-			if = {
+			swabia_region = {
 				limit = {
-					exists = WWS
-					valid_for_personal_unions_trigger = yes
-					WWS = { valid_for_personal_unions_trigger = yes }	
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
-				add_casus_belli = {
-					target = WWS
-					type = cb_fabricated_claims
-					months = 300
-				}			
-			}
-			else = {
-				swabia_region = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
+				add_permanent_claim = ROOT
 			}            
         }
     }
@@ -1184,18 +1170,14 @@ vn_altsax_missions_slot_5 = {
         icon = milan_victorious
         position = 6
         required_missions = { vn_sax_head_the_guelphs vn_sax_claims_to_bavaria }
+		provinces_to_highlight = {
+			region = swabia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }          
+		}
         trigger = {
-			OR = {
-				senior_union_with = WWS 
-				AND = {
-					NOT = { 
-						exists = WWS
-					}
-					swabia_region = {
-						type = all
-						country_or_non_sovereign_subject_holds = ROOT
-					}
-				}			
+			swabia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT		
 			}
         }
         effect = { 
