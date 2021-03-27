@@ -1,5 +1,6 @@
 namespace = vn_religious_events
 namespace = bogomilist_events
+namespace = baltic_events
 
 # Paths of Religion
 country_event = {
@@ -1584,7 +1585,99 @@ country_event = {
     }
 }
 
-#Baltic
+########################################
+# Romuva / Druwi / Dievturiba
+########################################
+country_event = {
+	id = baltic_events.1
+	title = baltic_events.1.t
+	desc = baltic_events.1.d
+	picture = TRADEGOODS_eventPicture
+	
+	is_triggered_only = yes
+	trigger = {
+        OR = {
+            religion = animism
+            religion = druwi
+            religion = dievturiba
+        }
+        NOT = { has_country_modifier = holy_amber }
+        any_owned_province = {
+            trade_goods = gems
+            is_state = yes
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "baltic_events.1.a"
+        if = {
+            limit = { has_estate = estate_church }
+            add_estate_loyalty = {
+                estate = estate_church
+                loyalty = -5
+            }
+        }
+        else = {
+            add_prestige = -5
+        }
+        add_mercantilism = 1
+    }
+    option = {
+        name = "baltic_events.1.b"
+        if = {
+            limit = { has_estate = estate_church }
+            add_estate_loyalty = {
+                estate = estate_church
+                loyalty = 5
+            }
+        }
+        else = {
+            add_prestige = 5
+        }
+        add_country_modifier = {
+            name = holy_amber
+            duration = 1825
+        }
+    }
+}
+
+country_event = {
+	id = baltic_events.2
+	title = baltic_events.2.t
+	desc = baltic_events.2.d
+	picture = PRAYING_eventPicture
+	
+	is_triggered_only = yes
+	trigger = {
+        OR = {
+            religion = animism
+            religion = druwi
+            religion = dievturiba
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "baltic_events.2.a"
+        add_mil_power = -25
+        add_army_tradition = 5
+    }
+    option = {
+        name = "baltic_events.2.b"
+        if = {
+            limit = { primitives = yes }
+            add_prestige = 5
+        }
+        else = {
+            add_legitimacy = 5
+            add_republican_tradition = 5
+            add_devotion = 5
+            add_horde_unity = 5
+        }
+    }
+}
+
 country_event = {
 	id = vn_religious_events.51
 	title = vn_religious_events.51.t
