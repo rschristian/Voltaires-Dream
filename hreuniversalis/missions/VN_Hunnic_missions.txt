@@ -39,6 +39,7 @@ vn_hns_missions_slot_1 = {
             }
         }
         effect = {
+            add_yearly_manpower = 1
             add_country_modifier = {
                 name = hns_hungarian_khazars_mission
                 duration = 9125
@@ -60,7 +61,13 @@ vn_hns_missions_slot_1 = {
             }
         }
         effect = {
-            
+            georgia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_hns_conquer_georgia = {
@@ -78,7 +85,20 @@ vn_hns_missions_slot_1 = {
             }
         }
         effect = {
-            
+            armenia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            tao_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_hns_conquer_armenia = {
@@ -177,7 +197,20 @@ vn_hns_missions_slot_2 = {
             }
         }
         effect = {
-            
+            circassia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            hiberia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_hns_conquer_circassia = {
@@ -195,6 +228,30 @@ vn_hns_missions_slot_2 = {
             }
         }
         effect = {
+            kuban_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            taman_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            krasnodar_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
             add_country_modifier = {
                 name = hns_conquer_circassia_mission
                 duration = 9125
@@ -212,23 +269,47 @@ vn_hns_missions_slot_2 = {
                 area = krasnodar_area
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
+            is_city = yes
         }
         trigger = {
+            3710 = { country_or_non_sovereign_subject_holds = ROOT }
             kuban_area = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    is_city = no
+                    country_or_non_sovereign_subject_holds = ROOT
+                }
             }
             taman_area = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    is_city = no
+                    country_or_non_sovereign_subject_holds = ROOT
+                }
             }
             krasnodar_area = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    is_city = no
+                    country_or_non_sovereign_subject_holds = ROOT
+                }
             }
         }
         effect = {
-            
+            add_prestige = 10
+            add_horde_unity = 10
+            3710 = {
+                add_base_tax = 1
+                add_base_production = 1
+                add_base_manpower = 1
+                if = {
+                    limit = {
+                        has_fort_trigger = no
+                        num_free_building_slots = 1
+                    }
+                    add_building = fort_14th
+                }
+            }
         }
     }
     vn_hns_conquer_khopyr = {
@@ -314,26 +395,90 @@ vn_hns_missions_slot_3 = {
         }
         effect = {
             if = {
-                limit = {
-                    tag = KHZ
-                    is_free_or_tributary_trigger = yes
-                    HNS = {
-                        is_subject = no
-                        NOT = { num_of_cities = 10 }
+                limit = { tag = KHZ }
+                custom_tooltip = vn_hns_khazarian_succession.tt
+                hidden_effect = {
+                    if = {
+                        limit = {
+                            is_free_or_tributary_trigger = yes
+                            HNS = {
+                                is_subject = no
+                                NOT = { num_of_cities = 10 }
+                            }
+                        }
+                        vassalize = HNS
+                        HNS = { add_liberty_desire = -25 }
+                    }
+                    else = {
+                        add_legitimacy = 25
+                        add_horde_unity = 25
                     }
                 }
-                vassalize = HNS
             }
             else_if = {
-                limit = {
-                    tag = HNS
-                    is_free_or_tributary_trigger = yes
-                    KHZ = {
-                        is_subject = no
-                        NOT = { num_of_cities = 10 }
+                limit = { tag = HNS }
+                custom_tooltip = vn_hns_khazarian_succession.ss
+                hidden_effect = {
+                    if = {
+                        limit = {
+                            is_free_or_tributary_trigger = yes
+                            KHZ = {
+                                is_subject = no
+                                NOT = { num_of_cities = 10 }
+                            }
+                        }
+                        vassalize = KHZ
+                        KHZ = { add_liberty_desire = -25 }
+                    }
+                    else = {
+                        add_legitimacy = 25
+                        add_horde_unity = 25
                     }
                 }
-                vassalize = HNS
+            }
+            else = {
+                add_legitimacy = 25
+                add_horde_unity = 25
+            }
+            alania_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            chechnya_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            astrakhan_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            derbent_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            lekia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
             }
         }
     }
@@ -360,6 +505,14 @@ vn_hns_missions_slot_3 = {
                     duration = 9125
                 }
             }
+            lower_volga_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_hns_conquer_lower_volga = {
@@ -377,7 +530,54 @@ vn_hns_missions_slot_3 = {
             }
         }
         effect = {
-            
+            lower_don_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            pryazovia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            poltava_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            maeotida_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            qale_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
+            qirim_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                    is_city = yes
+                }
+                add_permanent_claim = ROOT
+            }
         }
     }
     vn_hns_conquer_lower_don = {
@@ -394,31 +594,50 @@ vn_hns_missions_slot_3 = {
                 area = qirim_area
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
+            is_city = yes
         }
         trigger = {
             lower_don_region = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    country_or_non_sovereign_subject_holds = ROOT
+                    is_city = yes
+                }
             }
             pryazovia_area = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    country_or_non_sovereign_subject_holds = ROOT
+                    is_city = yes
+                }
             }
             poltava_area = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    country_or_non_sovereign_subject_holds = ROOT
+                    is_city = yes
+                }
             }
             maeotida_area = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    country_or_non_sovereign_subject_holds = ROOT
+                    is_city = yes
+                }
             }
             qale_area = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    country_or_non_sovereign_subject_holds = ROOT
+                    is_city = yes
+                }
             }
             qirim_area = {
                 type = all
-                country_or_non_sovereign_subject_holds = ROOT
+                OR = {
+                    country_or_non_sovereign_subject_holds = ROOT
+                    is_city = yes
+                }
             }
         }
         effect = {
@@ -463,12 +682,22 @@ vn_hns_missions_slot_3 = {
                 }
             }
             else = {
-
+                always = no
             }
         }
         trigger = {
             OR = {
                 is_emperor_of_china = yes
+                custom_trigger_tooltip = {
+                    tooltip = vn_hns_defeat_the_rus.tt
+                    event_target:EmperorOfChina = {
+                        ROOT = {
+                            has_won_war_against = {
+                                who = PREV
+                            }
+                        }
+                    }
+                }
                 custom_trigger_tooltip = {
                     tooltip = no_country_is_EoC
                     NOT = {
@@ -589,7 +818,39 @@ vn_hns_missions_slot_4 = {
             }
         }
         effect = {
-            
+            add_years_of_income = 1
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+					6232 = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+				}
+				6232 = {
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				6232 = {
+					add_base_production = 2
+				}
+			}
+			if = {
+				limit = {
+					has_dlc = "Dharma"
+					6355 = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+				}
+				6355 = {
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				6355 = {
+					add_base_production = 2
+				}
+			}
         }
     }
     vn_hns_conquer_kazakhstan = {
@@ -687,11 +948,16 @@ vn_hns_missions_slot_5 = {
         position = 1
         required_missions = {  }
         trigger = {
-            stability = 1
+            NOT = { num_of_rebel_armies = 1 }
+            NOT = { num_of_rebel_controlled_provinces = 1 }
+            stability = 2
             if = {
                 limit = { has_dlc = "The Cossacks" }
                 OR = {
-                    NOT = { has_reform = steppe_horde }
+                    AND = {
+                        is_tribal = no
+                        has_institution = feudalism
+                    }
                     AND = {
                         horde_unity = 100
                         OR = {
@@ -727,7 +993,7 @@ vn_hns_missions_slot_5 = {
         position = 3
         required_missions = { vn_hns_stable_horde }
         trigger = {
-            has_regency = no
+            has_reform_level = 3
             all_core_province = {
                 owned_by = ROOT
             }
