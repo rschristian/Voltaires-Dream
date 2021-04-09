@@ -3567,10 +3567,25 @@ country_event = {
 				cede_province = GLH
 				add_core = GLH
 				add_building = fort_14th
+				every_neighbor_province = {
+					limit = {
+						country_or_non_sovereign_subject_holds = ROOT
+						controlled_by = owner
+						is_capital = no
+					}
+					change_controller = GLH
+					every_neighbor_province = {
+						limit = {
+							country_or_non_sovereign_subject_holds = ROOT
+							controlled_by = owner
+							is_capital = no
+						}
+						change_controller = GLH
+					}
+				}
 			}
 			GLH = {
 				change_primary_culture = mongol
-				remove_heir = yes
 				define_ruler = {
 					name = "Batu"
 					dynasty = "Borjigin"
@@ -3584,6 +3599,10 @@ country_event = {
 					shock = 6
 					manuever = 5
 					siege = 6
+				}
+				define_heir = {
+					culture = mongol
+					dynasty = "Borjigin"
 				}
 				add_ruler_personality = strict_personality
 				add_ruler_personality = tactical_genius_personality
@@ -3606,6 +3625,7 @@ country_event = {
 				add_treasury = 500
 				add_prestige = 50
 				add_manpower = 35
+				add_army_tradition = 70
 				capital_scope = {
 					build_to_forcelimit = {
 						infantry = 0.6
@@ -3622,24 +3642,44 @@ country_event = {
 	}
     option = {
 		name = "HREMA78"
-		GLH = {
-			declare_war_with_cb = {
-				casus_belli = cb_horde_vs_civ
-				who = ROOT
+		custom_tooltip = hrema78.tt
+		if = {
+			limit = { is_nomad = yes }
+			GLH = {
+				declare_war_with_cb = {
+					casus_belli = cb_tribal_feud
+					who = event_target:mongol_target
+				}
+			}
+		}
+		else = {
+			GLH = {
+				declare_war_with_cb = {
+					casus_belli = cb_horde_vs_civ
+					who = ROOT
+				}
+			}
+		}
+		hidden_effect = {
+			every_ally = {
+				limit = { war_with = GLH ai = yes }
+				random = {
+					chance = 50
+					white_peace = GLH
+				}
+			}
+			6438 = {
+				every_neighbor_province = {
+					limit = {
+						country_or_non_sovereign_subject_holds = ROOT
+						controlled_by = owner
+						is_capital = no
+					}
+					change_controller = GLH
+				}
 			}
 		}
 	}
-	option = {
-		name = "HREMB78"
-		trigger = { ai = no }
-		GLH = {
-			declare_war_with_cb = {
-				casus_belli = cb_horde_vs_civ
-				who = ROOT
-			}
-		}
-		switch_tag = GLH
-    }
 }
 
 country_event = {
@@ -3673,10 +3713,25 @@ country_event = {
 				cede_province = ILK
 				add_core = ILK
 				add_building = fort_14th
+				every_neighbor_province = {
+					limit = {
+						country_or_non_sovereign_subject_holds = ROOT
+						controlled_by = owner
+						is_capital = no
+					}
+					change_controller = ILK
+					every_neighbor_province = {
+						limit = {
+							country_or_non_sovereign_subject_holds = ROOT
+							controlled_by = owner
+							is_capital = no
+						}
+						change_controller = ILK
+					}
+				}
 			}
 			ILK = {
 				change_primary_culture = mongol
-				remove_heir = yes
 				define_ruler = {
 					name = "Ögedei"
 					dynasty = "Borjigin"
@@ -3691,9 +3746,13 @@ country_event = {
 					manuever = 4
 					siege = 5
 				}
+				define_heir = {
+					culture = mongol
+					dynasty = "Borjigin"
+				}
 				add_country_modifier = {
 					name = invasion_nation_m
-					duration = 7300
+					duration = 10950
 				}
 				if = {
 					limit = {
@@ -3709,6 +3768,7 @@ country_event = {
 				add_treasury = 500
 				add_prestige = 50
 				add_manpower = 35
+				add_army_tradition = 70
 				capital_scope = {
 					build_to_forcelimit = {
 						infantry = 0.6
@@ -3730,24 +3790,44 @@ country_event = {
 
 	option = {
 		name = "HREMA79"
-		ILK = {
-			declare_war_with_cb = {
-				casus_belli = cb_horde_vs_civ
-				who = ROOT
+		custom_tooltip = hrema78.tt
+		if = {
+			limit = { is_nomad = yes }
+			ILK = {
+				declare_war_with_cb = {
+					casus_belli = cb_tribal_feud
+					who = event_target:mongol_target
+				}
+			}
+		}
+		else = {
+			ILK = {
+				declare_war_with_cb = {
+					casus_belli = cb_horde_vs_civ
+					who = ROOT
+				}
+			}
+		}
+		hidden_effect = {
+			every_ally = {
+				limit = { war_with = ILK ai = yes }
+				random = {
+					chance = 50
+					white_peace = ILK
+				}
+			}
+			6374 = {
+				every_neighbor_province = {
+					limit = {
+						country_or_non_sovereign_subject_holds = ROOT
+						controlled_by = owner
+						is_capital = no
+					}
+					change_controller = ILK
+				}
 			}
 		}
 	}
-	option = {
-		name = "HREMB79"
-		trigger = { ai = no }
-		ILK = {
-			declare_war_with_cb = {
-				casus_belli = cb_horde_vs_civ
-				who = ROOT
-			}
-		}
-		switch_tag = ILK
-    }
 }
 
 country_event = {
@@ -4257,13 +4337,16 @@ country_event = {
 			tag = ILK
 			tag = JMN
 		}
-		has_reform = steppe_horde
+		OR = {
+			has_reform = steppe_horde
+			has_reform = great_mongol_state_reform
+		}
 		is_at_war = no
 		has_any_disaster = no
 		has_regency = no
 		manpower_percentage = 0.5
 		NOT = { war_exhaustion = 2 }
-		NOT = { overextension_percentage = 0.5 }
+		NOT = { overextension_percentage = 0.01 }
 		any_neighbor_country = {
 			NOT = { is_subject_of = GLH }
 			NOT = { is_subject_of = ILK }
@@ -4277,28 +4360,49 @@ country_event = {
 		}
 	}
 
+	immediate = {
+		hidden_effect = {
+			random_neighbor_country = {
+				limit = {
+					NOT = { is_subject_of = GLH }
+					NOT = { is_subject_of = ILK }
+					NOT = { is_subject_of = JMN }
+					NOT = { tag = GLH }
+					NOT = { tag = ILK }
+					NOT = { tag = JMN }
+					NOT = { alliance_with = ROOT }
+					NOT = { truce_with = ROOT }
+					NOT = { guaranteed_by = ROOT }
+				}
+				save_event_target_as = mongol_target
+			}
+		}
+	}
+
 	mean_time_to_happen = { months = 6 }
 
 	option = {
 		name = "HREMA88"
 		ai_chance = { factor = 99 }
-		add_prestige = 10
-		random_neighbor_country = {
-			limit = {
-				NOT = { is_subject_of = GLH }
-				NOT = { is_subject_of = ILK }
-				NOT = { is_subject_of = JMN }
-				NOT = { tag = GLH }
-				NOT = { tag = ILK }
-				NOT = { tag = JMN }
-				NOT = { alliance_with = ROOT }
-				NOT = { truce_with = ROOT }
-				NOT = { guaranteed_by = ROOT }
+		add_yearly_manpower = 5
+		if = {
+			limit = { event_target:mongol_target = { is_nomad = yes } }
+			event_target:mongol_target = {
+				ROOT = {
+					declare_war_with_cb = {
+						casus_belli = cb_tribal_feud
+						who = PREV
+					}
+				}
 			}
-			ROOT = {
-				declare_war_with_cb = {
-					casus_belli = cb_horde_vs_civ
-					who = PREV
+		}
+		else = {
+			event_target:mongol_target = {
+				ROOT = {
+					declare_war_with_cb = {
+						casus_belli = cb_horde_vs_civ
+						who = PREV
+					}
 				}
 			}
 		}
