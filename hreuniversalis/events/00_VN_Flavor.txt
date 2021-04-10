@@ -1952,13 +1952,24 @@ country_event = {
 	is_triggered_only = yes
 	mean_time_to_happen = { days = 1 }
 
+	immediate = {
+		hidden_effect = {
+			check_if_non_state_advisor_effect = {
+				chance_of_primary = 10
+				chance_of_tertiary = 75
+				chance_of_secondary = 25
+			}
+		}
+	}
+
 	option = {
 		name = "HREMA44"
 		ai_chance = { factor = 90 }
 		add_meritocracy_effect = yes
-		define_advisor = {
-			type = natural_scientist
-			skill = 2
+		generate_advisor_of_type_and_semi_random_religion_effect = {
+			advisor_type = natural_scientist
+			advisor_type_if_not_state = natural_scientist
+			scaled_skill = yes
 			discount = yes
 		}
 	}
@@ -1966,6 +1977,10 @@ country_event = {
 		name = "HREMB44"
 		ai_chance = { factor = 10 }
 		add_prestige = 5
+	}
+
+	after = {
+		erase_advisor_flags_effect = yes
 	}
 }
 
@@ -3606,10 +3621,14 @@ country_event = {
 						duration = -1
 					}
 				}
+				add_stability = 3
 				add_treasury = 500
 				add_prestige = 50
 				add_manpower = 35
 				add_army_tradition = 70
+				create_general = {
+					tradition = 100
+				}
 				capital_scope = {
 					build_to_forcelimit = {
 						infantry = 0.6
@@ -3626,24 +3645,14 @@ country_event = {
 	}
     option = {
 		name = "HREMA78"
+		add_stability = -1
+		GLH = {
+			declare_war_with_cb = {
+				casus_belli = cb_horde_vs_civ
+				who = ROOT
+			}
+		}
 		custom_tooltip = hrema78.tt
-		if = {
-			limit = { is_nomad = yes }
-			GLH = {
-				declare_war_with_cb = {
-					casus_belli = cb_tribal_feud
-					who = ROOT
-				}
-			}
-		}
-		else = {
-			GLH = {
-				declare_war_with_cb = {
-					casus_belli = cb_horde_vs_civ
-					who = ROOT
-				}
-			}
-		}
 		hidden_effect = {
 			every_ally = {
 				limit = { war_with = GLH ai = yes }
@@ -3733,10 +3742,14 @@ country_event = {
 						duration = -1
 					}
 				}
+				add_stability = 3
 				add_treasury = 500
 				add_prestige = 50
 				add_manpower = 35
 				add_army_tradition = 70
+				create_general = {
+					tradition = 100
+				}
 				capital_scope = {
 					build_to_forcelimit = {
 						infantry = 0.6
@@ -3758,24 +3771,14 @@ country_event = {
 
 	option = {
 		name = "HREMA79"
+		add_stability = -1
+		ILK = {
+			declare_war_with_cb = {
+				casus_belli = cb_horde_vs_civ
+				who = ROOT
+			}
+		}
 		custom_tooltip = hrema78.tt
-		if = {
-			limit = { is_nomad = yes }
-			ILK = {
-				declare_war_with_cb = {
-					casus_belli = cb_tribal_feud
-					who = ROOT
-				}
-			}
-		}
-		else = {
-			ILK = {
-				declare_war_with_cb = {
-					casus_belli = cb_horde_vs_civ
-					who = ROOT
-				}
-			}
-		}
 		hidden_effect = {
 			every_ally = {
 				limit = { war_with = ILK ai = yes }
@@ -4293,8 +4296,8 @@ country_event = {
 
 country_event = {
     id = hremodevents.88
-    title = "HREMT88"
-	desc = "HREMD88"
+    title = none
+	desc = none
 	picture = HORDE_ON_HORSEBACK_eventPicture
 
 	trigger = {
@@ -4313,8 +4316,8 @@ country_event = {
 		has_any_disaster = no
 		has_regency = no
 		manpower_percentage = 0.5
-		NOT = { war_exhaustion = 2 }
-		NOT = { overextension_percentage = 0.01 }
+		NOT = { war_exhaustion = 5 }
+		NOT = { overextension_percentage = 0.25 }
 		any_neighbor_country = {
 			NOT = { is_subject_of = GLH }
 			NOT = { is_subject_of = ILK }
@@ -4328,57 +4331,34 @@ country_event = {
 		}
 	}
 
-	immediate = {
-		hidden_effect = {
-			random_neighbor_country = {
-				limit = {
-					NOT = { is_subject_of = GLH }
-					NOT = { is_subject_of = ILK }
-					NOT = { is_subject_of = JMN }
-					NOT = { tag = GLH }
-					NOT = { tag = ILK }
-					NOT = { tag = JMN }
-					NOT = { alliance_with = ROOT }
-					NOT = { truce_with = ROOT }
-					NOT = { guaranteed_by = ROOT }
-				}
-				save_event_target_as = mongol_target
-			}
-		}
-	}
-
 	mean_time_to_happen = { months = 6 }
 
 	option = {
-		name = "HREMA88"
-		ai_chance = { factor = 99 }
+		name = none
+		add_prestige = 15
+		add_years_of_income = 2
 		add_yearly_manpower = 5
-		if = {
-			limit = { event_target:mongol_target = { is_nomad = yes } }
-			event_target:mongol_target = {
-				ROOT = {
-					declare_war_with_cb = {
-						casus_belli = cb_tribal_feud
-						who = PREV
-					}
+		add_army_tradition = 10
+		add_war_exhaustion = -5
+		random_neighbor_country = {
+			limit = {
+				NOT = { is_subject_of = GLH }
+				NOT = { is_subject_of = ILK }
+				NOT = { is_subject_of = JMN }
+				NOT = { tag = GLH }
+				NOT = { tag = ILK }
+				NOT = { tag = JMN }
+				NOT = { alliance_with = ROOT }
+				NOT = { truce_with = ROOT }
+				NOT = { guaranteed_by = ROOT }
+			}
+			ROOT = {
+				declare_war_with_cb = {
+					casus_belli = cb_horde_vs_civ
+					who = PREV
 				}
 			}
 		}
-		else = {
-			event_target:mongol_target = {
-				ROOT = {
-					declare_war_with_cb = {
-						casus_belli = cb_horde_vs_civ
-						who = PREV
-					}
-				}
-			}
-		}
-	}
-	option = {
-		name = "HREMB88"
-		ai_chance = { factor = 1 }
-		add_prestige = -10
 	}
 }
 
@@ -8872,5 +8852,41 @@ country_event = {
 			factor = 1
 		}
 		remove_estate_privilege = estate_burghers_dutch_water_lines
+	}
+}
+
+country_event = {
+	id = fbievents.140
+	title = none
+	desc = none
+	picture = BATTLE_eventPicture
+
+	mean_time_to_happen = { days = 1 }
+	hidden = yes
+
+	trigger = {
+		ai = yes
+		is_subject = yes
+		NOT = { is_subject_of_type = tributary_state }
+		overlord = {
+			ai = yes
+			has_country_modifier = invasion_nation_m
+			OR = {
+				tag = GLH
+				tag = ILK
+				tag = JMN
+			}
+			OR = {
+				has_reform = steppe_horde
+				has_reform = great_mongol_state_reform
+			}
+		}
+	}
+
+	option = {
+		name = none
+		overlord = {
+			inherit = ROOT
+		}
 	}
 }
