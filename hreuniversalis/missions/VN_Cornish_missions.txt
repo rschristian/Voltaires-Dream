@@ -1,0 +1,617 @@
+#Cornish Missions
+#By Isildur
+
+vn_crn_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = CRN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_crn_conquer_devon = {
+        icon = mission_build_up_to_force_limit
+        position = 1
+        required_missions = {  }
+        provinces_to_highlight = {
+            area = devon_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            is_subject = no
+            devon_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "crn_conquer_devon_mission"
+                duration = 7300
+            }
+            somerset_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_crn_cornish_peninsula = {
+        icon = mission_invade_island
+        position = 2
+        required_missions = { vn_crn_conquer_devon }
+        provinces_to_highlight = {
+            area = somerset_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            somerset_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_army_tradition = 10
+            add_mil_power = 100
+            random_owned_province = {
+                limit = {
+                    area = somerset_area
+                    num_free_building_slots = 1
+                    NOT = { has_fort_trigger = yes }
+                }
+                add_building = fort_14th
+            }
+        }
+    }
+    vn_crn_enlarge_our_culture = {
+        icon = mission_unite_home_region
+        position = 3
+        required_missions = { vn_crn_cornish_peninsula }
+        provinces_to_highlight = {
+            superregion = british_isles_superregion
+            NOT = { culture = ROOT }
+        }
+        trigger = {
+            calc_true_if = {
+                desc = vn_crn_enlarge_our_culture.tt
+                amount = 15
+                british_isles_superregion = {
+                    type = all
+                    culture = ROOT
+                }
+            }
+        }
+        effect = {
+            add_dip_power = 100
+            add_country_modifier = {
+                name = "crn_enlarge_our_culture_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_crn_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = CRN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_crn_brothers_in_brittany = {
+        icon = mission_rb_conquer_brittany
+        position = 1
+        required_missions = {  }
+        trigger = {
+            if = {
+                limit = {
+                    any_country = { primary_culture = breton }
+                }
+                any_country = {
+                    primary_culture = breton
+                    has_opinion = {
+                        who = ROOT
+                        value = 125
+                    }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = { any_country = { primary_culture = breton } }
+                random_country = {
+                    limit = {
+                        primary_culture = breton 
+                        has_opinion = {
+                            who = ROOT
+                            value = 125
+                        }
+                    }
+                    add_opinion = {
+                        who = ROOT
+                        modifier = crn_diplomacy_opinion
+                    }
+                }
+            }
+            else = {
+                custom_tooltip = vn_ase_elect_new_king.tt4  #Bypass
+            }
+            custom_tooltip = vn_crn_breton_diplomacy.tt
+            hidden_effect = {
+                every_country = {
+                    limit = { 
+                        is_subject = no
+                        primary_culture = breton 
+                        has_opinion = {
+                            who = ROOT
+                            value = 125
+                        }
+                    }
+                    random = {
+                        chance = 50
+                        every_owned_province = {
+                            limit = { 
+                                region = brittany_region 
+                                NOT = { is_core = ROOT }
+                                NOT = { is_permanent_claim = ROOT }
+                            }
+                            add_permanent_claim = ROOT
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vn_crn_cornish_emperorship = {
+        icon = centralized_empire
+        position = 2
+        required_missions = {  }
+        provinces_to_highlight = {
+            owner = { is_elector = yes }
+        }
+        trigger = {
+            OR = {
+                is_emperor = yes
+                any_elector = {
+                    preferred_emperor = ROOT
+                }
+            }
+        }
+        effect = {
+            add_prestige = 15
+            add_country_modifier = {
+                name = "crn_cornish_emperorship_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_crn_tintagel_castle = {
+        icon = mission_european_castle
+        position = 3
+        required_missions = {  }
+        provinces_to_highlight = {
+            province_id = 320
+        }
+        trigger = {
+            320 = {
+                owned_by = ROOT
+                is_core = ROOT
+                has_building = fort_15th
+                base_manpower = 5
+            }
+        }
+        effect = {
+            320 = {
+                add_province_modifier = {
+                    name = "crn_tintagel_castle_mission"
+                    duration = -1
+                }
+            }
+        }
+    }
+    vn_crn_arthurian_legends = {
+        icon = legacy_of_the_sclavinias
+        position = 4
+        required_missions = { 
+			vn_crn_tintagel_castle 
+			vn_crn_glasney_college 
+		}
+        trigger = {
+            artist = 3
+            has_3_lv3_advisors_trigger = yes
+            full_idea_group = cultural_ideas
+            is_subject = no
+        }
+        effect = {
+            add_prestige = 25  
+            add_legitimacy = 20
+            custom_tooltip = vn_crn_arthurian_legends.tt
+        }
+    }
+}
+
+vn_crn_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = CRN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_crn_welsh_connections = {
+        icon = mission_rb_conquer_wales 
+        position = 1
+        required_missions = {  }
+        trigger = {
+            if = {
+                limit = {
+                    any_country = { primary_culture = welsh }
+                }
+                any_country = {
+                    primary_culture = welsh
+                    has_opinion = {
+                        who = ROOT
+                        value = 125
+                    }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = { any_country = { primary_culture = welsh } }
+                random_country = {
+                    limit = {
+                        primary_culture = welsh 
+                        has_opinion = {
+                            who = ROOT
+                            value = 125
+                        }
+                    }
+                    add_opinion = {
+                        who = ROOT
+                        modifier = crn_diplomacy_opinion
+                    }
+                }
+            }
+            else = {
+                custom_tooltip = vn_ase_elect_new_king.tt4  #Bypass
+            }
+            custom_tooltip = vn_crn_welsh_diplomacy.tt
+            hidden_effect = {
+                every_country = {
+                    limit = { 
+                        is_subject = no
+                        primary_culture = welsh 
+                        has_opinion = {
+                            who = ROOT
+                            value = 125
+                        }
+                    }
+                    random = {
+                        chance = 50
+                        every_owned_province = {
+                            limit = { 
+                                region = wales_region 
+                                NOT = { is_core = ROOT }
+                                NOT = { is_permanent_claim = ROOT }
+                            }
+                            add_permanent_claim = ROOT
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vn_crn_celtic_congress = {
+        icon = mission_alliances
+        position = 2
+        required_missions = { 
+			vn_crn_brothers_in_brittany 
+			vn_crn_welsh_connections 
+			vn_crn_irish_relations 
+		}
+        trigger = {
+            OR = {
+                AND = {
+                    num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                        value = 10
+                        region = wales_region
+                    }
+                    num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                        value = 10
+                        region = brittany_region
+                    }
+                    num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                        value = 20
+                        superregion = irish_superregion
+                    }
+                }
+                AND = {
+                    calc_true_if = {
+                        amount = 10
+                        desc = vn_crn_celtic_congress.tt
+                        all_country = {
+                            capital_scope = {
+                                OR = {
+                                    region = wales_region
+                                    superregion = irish_superregion
+                                    region = brittany_region
+                                }
+                            }
+                            OR = {
+                                is_subject_of = ROOT
+                                has_opinion = {
+                                    who = ROOT
+                                    value = 190
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+        effect = {
+            add_dip_power = 100
+            add_country_modifier = {
+                name = "crn_celtic_congress_mission"
+                duration = 18250
+            }
+        }
+    }
+    vn_crn_glasney_college = {
+        icon = mission_early_modern_university
+        position = 3
+        required_missions = {  }
+        provinces_to_highlight = {
+            province_id = 2170
+        }
+        trigger = {
+            2170 = {
+                owned_by = ROOT
+                is_core = ROOT
+                has_education_building_trigger = yes
+                base_tax = 5
+            }
+        }
+        effect = {
+            add_estate_church_loyalty_effect = yes
+            add_country_modifier = {
+                name = "crn_glasney_college_mission"
+                duration = 18250
+            }
+        }
+    }
+}
+
+vn_crn_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = CRN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_crn_irish_relations = {
+        icon = mission_rb_beyond_the_pale
+        position = 1
+        required_missions = {  }
+        trigger = {
+            if = {
+                limit = {
+                    any_country = { 
+                        capital_scope = { superregion = irish_superregion }
+                    }
+                }
+                any_country = {
+                    capital_scope = { superregion = irish_superregion }
+                    has_opinion = {
+                        who = ROOT
+                        value = 125
+                    }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = { 
+                    any_country = { 
+                        capital_scope = { superregion = irish_superregion }
+                    }
+                }
+                random_country = {
+                    limit = {
+                        capital_scope = { superregion = irish_superregion }
+                        has_opinion = {
+                            who = ROOT
+                            value = 125
+                        }
+                    }
+                    add_opinion = {
+                        who = ROOT
+                        modifier = crn_diplomacy_opinion
+                    }
+                }
+            }
+            else = {
+                custom_tooltip = vn_ase_elect_new_king.tt4  #Bypass
+            }
+            custom_tooltip = vn_crn_irish_diplomacy.tt
+            hidden_effect = {
+                every_country = {
+                    limit = { 
+                        is_subject = no
+                        capital_scope = { superregion = irish_superregion }
+                        has_opinion = {
+                            who = ROOT
+                            value = 125
+                        }
+                    }
+                    random = {
+                        chance = 50
+                        every_owned_province = {
+                            limit = { 
+                                superregion = irish_superregion 
+                                NOT = { is_core = ROOT }
+                                NOT = { is_permanent_claim = ROOT }
+                            }
+                            add_permanent_claim = ROOT
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vn_crn_tin_miners_of_cornwall = {
+        icon = chater_the_voc
+        position = 2
+        required_missions = {  }
+        provinces_to_highlight = {
+            province_id = 320
+        }
+        trigger = {
+            320 = {
+                owned_by = ROOT
+                is_core = ROOT
+                has_production_building_trigger = yes
+                base_production = 5
+            }
+        }
+        effect = {
+            random_owned_province = {
+                limit = { NOT = { trade_goods = tin } }
+                change_trade_goods = tin
+                add_base_production = 1
+            }
+            add_country_modifier = {
+                name = "crn_tin_miners_of_cornwall_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_crn_stannary_laws = {
+        icon = mission_rb_college_of_justice
+        position = 3
+        required_missions = { vn_crn_tin_miners_of_cornwall }
+        trigger = {
+            has_reform_level = 5
+            stability = 2
+        }
+        effect = {
+            change_government_reform_progress = 25
+            add_adm_power = 100
+            add_country_modifier = {
+                name = "crn_stannary_laws_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_crn_industrialize_cornwall = {
+        icon = mission_rb_central_belt_coal_mining
+        position = 4
+        required_missions = { vn_crn_stannary_laws }
+        trigger = {
+            has_institution = industrialization
+            cornwall_area = {
+                type = all
+                owned_by = ROOT
+                is_core = ROOT
+                development = 20
+                has_manufactory_trigger = yes
+                NOT = { num_free_building_slots = 1 }
+            }
+        }
+        effect = {
+            add_years_of_income = 1
+            add_country_modifier = {
+                name = "crn_industrialize_cornwall_mission"
+                duration = 9125
+            }
+        }
+    }
+}
+
+vn_crn_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = CRN
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
+
+    vn_crn_smuggling_business = {
+        icon = mission_sponsor_piracy
+        position = 1
+        required_missions = {  }
+        trigger = {
+            num_ships_privateering = 10
+            num_of_admirals = 1
+        }
+        effect = {
+            add_yearly_sailors = 3
+            add_mercantilism = 2
+            add_country_modifier = {
+                name = "crn_smuggling_business_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_crn_great_cornish_navy = {
+        icon = mission_establish_high_seas_navy
+        position = 2
+        required_missions = { vn_crn_smuggling_business }
+        trigger = {
+            navy_size_percentage = 0.8
+            naval_forcelimit = 40
+            navy_tradition = 50
+        }
+        effect = {
+            define_admiral = {
+                name = "Edward Boscawen"
+                fire = 4
+                shock = 3
+                manuever = 5
+                siege = 0
+            }
+            add_country_modifier = {
+                name = "crn_great_cornish_navy_mission"
+                duration = 9125
+            }
+        }
+    }
+    vn_crn_increase_our_reserves = {
+        icon = defeat_the_english
+        position = 3
+        required_missions = { vn_crn_tin_miners_of_cornwall }
+        provinces_to_highlight = {
+            trade_goods = tin
+            NOT = { owned_by = ROOT }
+        }
+        trigger = {
+            tin = 10
+        }
+        effect = {
+            add_years_of_income = 1
+            every_owned_province = {
+                limit = { trade_goods = tin }
+                add_province_modifier = {
+                    name = "crn_increase_our_reserves_mission"
+                    duration = -1
+                }
+            }
+        }
+    }
+}
