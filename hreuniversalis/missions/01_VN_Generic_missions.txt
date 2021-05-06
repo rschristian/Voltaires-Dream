@@ -6,7 +6,7 @@ VN_naval_missions = {
 	generic = yes
 	ai = yes
 	potential = {
-		NOT = { government = native }
+		always = yes
 	}
 	
 	vn_naval_expansion = {
@@ -577,10 +577,22 @@ vn_military_missions = {
 			artillery_fraction = 0.15
 			num_of_generals = 5
 			army_size = 100
-			army_professionalism = 0.5
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				army_professionalism = 0.5
+			}
+			else = {
+				army_tradition = 50
+			}
 		}
 		effect = {
-			add_army_professionalism = 0.05
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				add_army_professionalism = 0.5
+			}
+			else = {
+				add_army_tradition = 10
+			}
 			add_mil_power = 50
 			add_country_modifier = {
 				name = "professional_armies_mission"
@@ -661,11 +673,9 @@ vn_buildings_missions = {
 		required_missions = { vn_build_hospitals }
 		position = 8
 		trigger = {
-			calc_true_if = {
-				all_owned_province = {
-					has_manufactory_trigger = yes
-				}
-				amount = 20
+			num_of_owned_provinces_with = {
+				value = 20
+				has_manufactory_trigger = yes
 			}
 		}
 		effect = {
@@ -733,6 +743,9 @@ vn_development_missions = {
 			}
 			calc_true_if = {
 				desc = vn_technological_might.tt
+				full_idea_group = horde_gov_ideas
+				full_idea_group = theocracy_gov_ideas
+				full_idea_group = indigenous_ideas
                 full_idea_group = logistics_ideas
 				full_idea_group = cultural_ideas
 				full_idea_group = manufacturing_ideas
@@ -782,18 +795,18 @@ vn_development_missions = {
 			}
 		}
 		effect = {
-			if = {
-				limit = {
-					has_dlc = "Dharma"
-					capital_scope = {
+			capital_scope = {
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+						province_has_center_of_trade_of_level = 2
 						NOT = { province_has_center_of_trade_of_level = 3 }
 					}
-				}			
-				capital_scope = {
 					add_center_of_trade_level = 3
 				}
-			}
-			capital_scope = {
+				else = {
+					add_prosperity = 100
+				}
 				add_province_modifier = {
 					name = "grand_city_mission"
 					duration = 9125
@@ -871,6 +884,16 @@ vn_administrative_missions = {
                 estate_loyalty = { estate = estate_church loyalty = 60 }
 			}
 			if = {
+				limit = {
+					has_estate = estate_nomadic_tribes
+					OR = {
+						has_reform = steppe_horde
+						has_reform = great_mongol_state_reform
+					}
+				}
+				estate_loyalty = { estate = estate_nomadic_tribes loyalty = 60 }
+			}
+			if = {
                 limit = {
                     has_estate = estate_maratha
                 }
@@ -901,6 +924,7 @@ vn_administrative_missions = {
 		required_missions = { vn_loyal_estates }
 		position = 8
 		trigger = {
+			has_completed_all_reforms_trigger = yes
 			if = {
 				limit = { has_dlc = "Emperor" }
 				OR = {
