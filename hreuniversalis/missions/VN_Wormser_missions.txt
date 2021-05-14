@@ -54,7 +54,10 @@
 #         icon = chivalry_is_not_dead
 #         required_missions = { }
 # 		trigger = {
-#             is_emperor = yes
+#             if = {
+#                 limit = { hre_size = 1 }
+#                 is_emperor = yes
+#             }
 #             NOT = { corruption = 0.01 }
 #             is_in_deficit = no
 #             OR = {
@@ -224,19 +227,26 @@
 #             }
 #         }
 # 		trigger = {
-#             is_emperor = yes
 #             if = {
-#                 limit = { num_of_electors = 7 }
-#                 custom_trigger_tooltip = {
-#                     tooltip = vn_die_weaken_the_princes.tt
-#                     all_elector = {
-#                         NOT = { tag = ROOT }
-#                         NOT = { total_development = ROOT }
+#                 limit = { hre_size = 1 }
+#                 is_emperor = yes
+#                 num_of_cities = 30
+#                 if = {
+#                     limit = { num_of_electors = 7 }
+#                     custom_trigger_tooltip = {
+#                         tooltip = vn_die_weaken_the_princes.tt
+#                         all_elector = {
+#                             NOT = { tag = ROOT }
+#                             NOT = { total_development = ROOT }
+#                         }
 #                     }
+#                 }
+#                 else = {
+#                     num_of_electors = 7
 #                 }
 #             }
 #             else = {
-#                 num_of_electors = 7
+#                 government_rank = 6
 #             }
 # 		}
 # 		effect = {
@@ -245,6 +255,8 @@
 #                 name = die_weaken_the_princes_mission
 #                 duration = 9125
 #             }
+#             custom_tooltip = vn_die_weaken_the_princes.ss
+#             set_country_flag = enable_german_campaigns_flag
 #             #cb to crush german nations
 # 		}
 #     }
@@ -373,7 +385,7 @@
 #                 duration = 9125
 #             }
 #             custom_tooltip = vn_die_conquer_rome.tt
-#             set_country_flag = destroy_italian_princes_flag
+#             set_country_flag = enable_italian_campaigns_flag
 #             #cb to destroy italian nations
 # 		}
 #     }
@@ -546,9 +558,7 @@
 #         }
 # 		trigger = {
 #             OR = {
-#                 TUS = {
-#                     is_subject_of = ROOT
-#                 }
+#                 senior_union_with = TUS
 #                 num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 #                     value = 40
 #                     region = tuscany_region
@@ -729,12 +739,43 @@
 #             NOT = { country_or_non_sovereign_subject_holds = ROOT }
 #         }
 # 		trigger = {
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 20
-#                 region = bavaria_region
+#             OR = {
+#                 senior_union_with = BAV
+#                 calc_true_if = {
+#                     desc = vn_die_conquer_bavaria.tt
+#                     bavaria_region = {
+#                         type = all
+#                         NOT = { country_or_non_sovereign_subject_holds = ROOT }
+#                         OR = {
+#                             is_claim = ROOT
+#                             is_core = ROOT
+#                         }
+#                     }
+#                     amount = 5
+#                 }
 #             }
 # 		}
 # 		effect = {
+#             if = {
+#                 limit = {
+#                     valid_for_personal_unions_trigger = yes
+#                     BAV = { valid_for_personal_unions_trigger = yes }
+#                 }
+#                 add_casus_belli = {
+#                     type = cb_fabricated_claims
+#                     target = BAV
+#                     months = 300
+#                 }
+#             }
+#             else = {
+#                 bavaria_region = {
+#                     limit = {
+#                         NOT = { owned_by = ROOT }
+#                         NOT = { is_permanent_claim = ROOT }
+#                     }
+#                     add_permanent_claim = ROOT
+#                 }
+#             }
 #             add_country_modifier = {
 #                 name = die_conquer_bavaria_mission
 #                 duration = 9125
@@ -840,13 +881,6 @@
 #             }
 # 		}
 # 		effect = {
-#             bavaria_region = {
-#                 limit = {
-#                     NOT = { owned_by = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
 #             add_country_modifier = {
 #                 name = die_conquer_franconia_mission
 #                 duration = 9125
