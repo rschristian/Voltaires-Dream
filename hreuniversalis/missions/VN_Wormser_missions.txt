@@ -13,52 +13,86 @@
 # 	}
 #     has_country_shield = yes
     
-#     vn_die_pillars_of_the_empire = {
+#     vn_die_footsteps_of_charlemagne = {
 #         position = 1
-#         icon = influence_the_princes
+#         icon = connect_further_austria
 #         required_missions = { }
 #         provinces_to_highlight = {
-#             owner = {
-#                 is_elector = yes
-#                 OR = {
-#                     NOT = { preferred_emperor = ROOT }
-#                     NOT = { has_opinion = { who = ROOT value = 100 } }
-#                 }
-#             }
+#             province_id = 2995
 #         }
 # 		trigger = {
 #             if = {
 #                 limit = { hre_size = 1 }
 #                 is_emperor = yes
-#                 calc_true_if = {
-#                     desc = secure_the_imperial_crown.tooltip
-#                     all_elector = {
-#                         preferred_emperor = ROOT
-#                         has_opinion = { who = ROOT value = 100 }
-#                     }
-#                     amount = 3
-#                 }
 #             }
 #             else = {
-#                 num_of_allies = 4
+#                 government_rank = 6
 #             }
-# 		}
+#             OR = {
+#                 owns_core_province = 2995
+#                 any_country = {
+#                     owns = 2995
+#                     has_opinion = {
+#                         who = ROOT
+#                         value = 150
+#                     }
+#                 }
+#             }
+#         }
 # 		effect = {
+#             add_legitimacy = 10
 #             add_country_modifier = {
-#                 name = die_pillars_of_the_empire_mission
+#                 name = die_footsteps_of_charlemagne_mission
 #                 duration = 9125
 #             }
 # 		}
 #     }
-#     vn_die_salian_renaissance = {
-#         icon = chivalry_is_not_dead
-#         required_missions = { }
+#     vn_die_saxon_rebellion = {
+#         position = 2
+#         icon = join_the_empire
+#         required_missions = { vn_die_pillars_of_the_empire vn_die_footsteps_of_charlemagne }
+#         provinces_to_highlight = {
+#             is_capital_of = SAX
+#         }
 # 		trigger = {
 #             if = {
 #                 limit = { hre_size = 1 }
 #                 is_emperor = yes
 #             }
-#             NOT = { corruption = 0.01 }
+#             OR = {
+# 				SAX = { humiliated_by = ROOT }
+# 				SAX = { is_subject_of = ROOT }
+# 				NOT = { exists = SAX }
+# 			}
+#         }
+#         effect = {
+#             add_army_professionalism = 0.03
+#             add_country_modifier = {
+#                 name = die_saxon_rebellion_mission
+#                 duration = 9125
+#             }
+#         }
+#     }
+#     vn_die_salian_renaissance = {
+#         position = 3
+#         icon = chivalry_is_not_dead
+#         required_missions = { vn_die_saxon_rebellion }
+# 		trigger = {
+#             if = {
+#                 limit = { hre_size = 1 }
+#                 is_emperor = yes
+#             }
+#             else = {
+#                 government_rank = 6
+#             }
+#             if = {
+#                 limit = { has_dlc = "Mandate of Heaven" }
+#                 OR = {
+#                     in_golden_age = yes
+#                     has_had_golden_age = yes
+#                 }
+#             }
+#             prestige = 75
 #             is_in_deficit = no
 #             OR = {
 #                 adm = 5
@@ -74,38 +108,17 @@
 #             }
 # 		}
 # 		effect = {
-#             add_reform_progress_medium_effect = yes
-#             add_adm_power = 25
-#             add_dip_power = 25
-#             add_mil_power = 25
-# 		}
-#     }
-#     vn_die_ottonian_legacy = {
-#         icon = league_of_the_public_weal
-#         required_missions = { }
-# 		trigger = {
-#             if = {
-#                 limit = { hre_size = 1 }
-#                 is_emperor = yes
-#                 num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                     value = 100
-#                     is_part_of_hre = yes
-#                 }
+#             add_splendor = 100
+#             add_country_modifier = {
+#                 name = die_salian_renaissance_mission
+#                 duration = 9125
 #             }
-#             else = {
-#                 num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                     value = 100
-#                     culture_group = germanic
-#                 }
-#             }
-#         }
-# 		effect = {
-            
 # 		}
 #     }
 #     vn_die_peace_through_rule = {
+#         position = 5
 #         icon = invest_in_the_provinces
-#         required_missions = { }
+#         required_missions = { vn_die_salian_renaissance }
 #         provinces_to_highlight = {
 #             owned_by = ROOT
 #             unrest = 2
@@ -140,38 +153,108 @@
 #                 }
 #             }
 #             NOT = {
-#                 any_province = {
+#                 any_owned_province = {
 #                     unrest = 2
 #                 }
 #             }
+#             NOT = {
+#                 ruler_has_personality = cruel_personality
+#             }
+#             NOT = {
+#                 ruler_has_personality = malevolent_personality
+#             }
 # 		}
 # 		effect = {
-            
+#             add_stability_or_adm_power = yes
+#             add_country_modifier = {
+#                 name = die_peace_through_rule_mission
+#                 duration = 9125
+#             }
 # 		}
 #     }
-#     vn_die_gottesgnadentum = {
-#         icon = guardians_of_saint_sava
-#         required_missions = { vn_die_peace_through_rule vn_die_solve_the_investiture_controversy }
+#     vn_die_ottonian_legacy = {
+#         position = 7
+#         icon = league_of_the_public_weal
+#         required_missions = { vn_die_peace_through_rule }
 # 		trigger = {
-#             has_completed_all_reforms_trigger = yes
-#             if = {
-#                 limit = { has_dlc = "Common Sense" }
-#                 legitimacy_equivalent = 95
-#             }
-#             else_if = {
-#                 limit = { government = monarchy }
-#                 legitimacy = 95
-#             }
 #             if = {
 #                 limit = { hre_size = 1 }
 #                 is_emperor = yes
+#                 num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+#                     value = 125
+#                     is_part_of_hre = yes
+#                 }
+#             }
+#             else = {
+#                 num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+#                     value = 125
+#                     culture_group = germanic
+#                 }
+#             }
+#         }
+# 		effect = {
+#             add_imperial_influence = 10
+#             add_country_modifier = {
+#                 name = die_ottonian_legacy_mission
+#                 duration = 9125
+#             }
+# 		}
+#     }
+#     vn_die_gottesgnadentum = {
+#         position = 8
+#         icon = centralized_empire
+#         required_missions = { vn_die_ottonian_legacy vn_die_solve_the_investiture_controversy }
+# 		trigger = {
+#             has_completed_all_reforms_trigger = yes
+#             if = {
+#                 limit = { hre_size = 1 }
+#                 is_emperor = yes
+#                 if = {
+#                     limit = {
+#                         has_dlc = "Emperor"
+#                     }
+#                     OR = {
+#                         hre_reform_passed = emperor_erbkaisertum
+#                         hre_reform_passed = emperor_rechenschaft
+#                     }
+#                 }
+#                 else = {
+#                     hre_reform_passed = erbkaisertum
+#                 }
 #             }
 #             else = {
 #                 government_rank = 6
 #             }
+#             if = {
+#                 limit = {
+#                     has_dlc = "Rights of Man"
+#                 }
+#                 is_great_power = yes
+#             }
+#             calc_true_if = {
+#                 ADM = 5
+#                 DIP = 5
+#                 MIL = 5
+#                 amount = 2
+#             }
+#             if = {
+#                 limit = { has_dlc = "Common Sense" }
+#                 legitimacy_equivalent = 100
+#             }
+#             else_if = {
+#                 limit = { government = monarchy }
+#                 legitimacy = 100
+#             }
+#             is_defender_of_faith = yes
 # 		}
 # 		effect = {
-            
+#             custom_tooltip = vn_die_gottesgnadentum.tt
+#             set_country_flag = enable_imperial_campaigns_flag
+#             #cb to crush all imperial nations
+#             add_country_modifier = {
+#                 name = die_gottesgnadentum_mission
+#                 duration = -1
+#             }
 # 		}
 #     }
 # }
@@ -188,76 +271,41 @@
 #     }
 #     has_country_shield = yes
 
-#     vn_die_footsteps_of_charlemagne = {
+#     vn_die_pillars_of_the_empire = {
 #         position = 1
-#         icon = chivalry_is_not_dead
-#         required_missions = { }
-#         provinces_to_highlight = {
-#             province_id = 2995
-#         }
-# 		trigger = {
-#             is_emperor = yes
-#             OR = {
-#                 owns_core_province = 2995
-#                 any_country = {
-#                     owns = 2995
-#                     has_opinion = {
-#                         who = ROOT
-#                         value = 150
-#                     }
-#                 }
-#             }
-#         }
-# 		effect = {
-#             add_legitimacy = 10
-#             add_country_modifier = {
-#                 name = die_footsteps_of_charlemagne_mission
-#                 duration = 9125
-#             }
-# 		}
-#     }
-#     vn_die_weaken_the_princes = {
-#         position = 2
-#         icon = unite_the_wittelsbachs
+#         icon = carolingian_empire
 #         required_missions = { }
 #         provinces_to_highlight = {
 #             owner = {
-#                 NOT = { tag = ROOT }
 #                 is_elector = yes
+#                 OR = {
+#                     NOT = { preferred_emperor = ROOT }
+#                     NOT = { has_opinion = { who = ROOT value = 100 } }
+#                 }
 #             }
 #         }
 # 		trigger = {
 #             if = {
 #                 limit = { hre_size = 1 }
 #                 is_emperor = yes
-#                 num_of_cities = 30
-#                 if = {
-#                     limit = { num_of_electors = 7 }
-#                     custom_trigger_tooltip = {
-#                         tooltip = vn_die_weaken_the_princes.tt
-#                         all_elector = {
-#                             NOT = { tag = ROOT }
-#                             NOT = { total_development = ROOT }
-#                         }
+#                 calc_true_if = {
+#                     desc = secure_the_imperial_crown.tooltip
+#                     all_elector = {
+#                         preferred_emperor = ROOT
+#                         has_opinion = { who = ROOT value = 100 }
 #                     }
-#                 }
-#                 else = {
-#                     num_of_electors = 7
+#                     amount = 3
 #                 }
 #             }
 #             else = {
-#                 government_rank = 6
+#                 num_of_allies = 4
 #             }
 # 		}
 # 		effect = {
-#             add_imperial_influence = 25
 #             add_country_modifier = {
-#                 name = die_weaken_the_princes_mission
+#                 name = die_pillars_of_the_empire_mission
 #                 duration = 9125
 #             }
-#             custom_tooltip = vn_die_weaken_the_princes.ss
-#             set_country_flag = enable_german_campaigns_flag
-#             #cb to crush german nations
 # 		}
 #     }
 #     vn_die_conquer_lorraine = {
@@ -283,71 +331,144 @@
 #             }
 # 		}
 # 		effect = {
-#             add_prestige = 20
-#             burgundy_region = {
-#                 limit = {
-#                     NOT = { owned_by = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
+#             add_adm_power = 100
+#             saar_area = {
+#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+#                 add_nationalism = -5
 #             }
+#             toul_area = {
+#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+#                 add_nationalism = -5
+#             }
+#             metz_area = {
+#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+#                 add_nationalism = -5
+#             }
+# 		}
+#     }
+#     vn_die_weaken_the_princes = {
+#         position = 4
+#         icon = unite_the_wittelsbachs
+#         required_missions = { vn_die_salian_renaissance }
+#         provinces_to_highlight = {
+#             owner = {
+#                 NOT = { tag = ROOT }
+#                 is_elector = yes
+#                 total_development = ROOT
+#             }
+#             is_capital = yes
+#         }
+# 		trigger = {
+#             if = {
+#                 limit = { hre_size = 1 }
+#                 is_emperor = yes
+#                 if = {
+#                     limit = {
+#                         has_dlc = "Emperor"
+#                     }
+#                     hre_reform_passed = emperor_chrysobull
+#                 }
+#                 else = {
+#                     hre_reform_passed = chrysobull
+#                 }
+#                 num_of_cities = 30
+#                 if = {
+#                     limit = { num_of_electors = 7 }
+#                     custom_trigger_tooltip = {
+#                         tooltip = vn_die_weaken_the_princes.tt
+#                         all_elector = {
+#                             NOT = { tag = ROOT }
+#                             NOT = { total_development = ROOT }
+#                         }
+#                     }
+#                     custom_trigger_tooltip = {
+#                         tooltip = vn_die_weaken_the_princes.ss
+#                         all_elector = {
+#                             OR = {
+#                                 has_opinion = {
+#                                     who = ROOT
+#                                     value = 150
+#                                 }
+#                                 ROOT = {
+#                                     has_won_war_against = {
+#                                         who = PREV
+#                                         max_years_since = 25
+#                                     }
+#                                 }
+#                             }
+#                         }
+#                     }
+#                 }
+#                 else = {
+#                     num_of_electors = 7
+#                 }
+#             }
+#             else = {
+#                 government_rank = 6
+#                 num_of_allies = 5
+#             }
+# 		}
+# 		effect = {
+#             add_imperial_influence = 25
+#             custom_tooltip = vn_die_weaken_the_princes.rr
+#             set_country_flag = enable_german_campaigns_flag
+#             #cb to crush german nations
 #             add_country_modifier = {
-#                 name = die_conquer_lorraine_mission
+#                 name = die_weaken_the_princes_mission
 #                 duration = 9125
 #             }
 # 		}
 #     }
-#     vn_die_italian_alliances = {
+#     vn_die_conquer_burgundy = {
 #         position = 5
-#         icon = catholic_confraternity
-# 		required_missions = { }
+#         icon = mission_rb_repatriate_burgundy
+#         required_missions = { vn_die_conquer_freigrafschaft vn_die_conquer_swabia }
+#         provinces_to_highlight = {
+#             OR = {
+#                 area = burgundy_area
+#                 area = charolais_area
+#             }
+#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
+#         }
 # 		trigger = {
-#             is_emperor = yes
-#             custom_trigger_tooltip = {
-#                 tooltip = vn_die_italian_alliances.tt
-#                 any_ally = {
-#                     capital_scope = {
-#                         superregion = italy_superregion
-#                     }
-#                     has_opinion = {
-#                         who = ROOT
-#                         value = 150
-#                     }
-#                 }
+#             burgundy_area = {
+#                 type = all
+#                 country_or_non_sovereign_subject_holds = ROOT
+#             }
+#             charolais_area = {
+#                 type = all
+#                 country_or_non_sovereign_subject_holds = ROOT
 #             }
 # 		}
 # 		effect = {
-#             add_army_tradition = 10
+#             add_prestige = 20
+#             add_country_modifier = {
+#                 name = die_conquer_burgundy_mission
+#                 duration = -1
+#             }
 # 		}
 #     }
 #     vn_die_solve_the_investiture_controversy = {
-#         position = 6
+#         position = 7
 #         icon = holy_state
 # 		required_missions = { vn_die_italian_alliances }
 # 		trigger = {
 #             NOT = { current_age = age_of_empire }
-#             is_emperor = yes
+#             if = {
+#                 limit = { hre_size = 1 }
+#                 is_emperor = yes
+#                 hre_reform_passed = pactumcalixtinum
+#             }
+#             else = {
+#                 government_rank = 6
+#             }
 #             has_institution = investiture
 # 		}
 # 		effect = {
-#             if = {
-#                 limit = {
-#                     stability = 2
-#                     NOT = { stability = 3 }
-#                 }
-#                 add_stability = 1
+#             add_country_modifier = {
+#                 name = die_solve_the_investiture_controversy_mission
+#                 duration = 9125
 #             }
-#             else_if = {
-#                 limit = {
-#                     NOT = { stability = 2 }
-#                 }
-#                 add_stability = 2
-#             }
-#             else = {
-#                 add_adm_power = 100
-#             }
-#             add_legitimacy = 10
-#             add_prestige = 10
 # 		}
 #     }
 #     vn_die_conquer_rome = {
@@ -366,24 +487,26 @@
 #         }
 #         trigger = {
 #             PAP = { NOT = { army_size = ROOT } }
-#             if = {
-#                 limit = {
-#                     has_dlc = "Leviathan"
-#                 }
+#             #if = {
+#                 #limit = {
+#                 #    has_dlc = "Leviathan"
+#                 #}
 #                 #has_pillaged_capital_against = PAP
-#             }
-#             else = {
+#             #}
+#             #else = {
 #                 2708 = {
 #                     controlled_by = ROOT
 #                 }
-#             }
+#             #}
 #         }
 # 		effect = {
-# 			add_treasury = 200
-#             add_country_modifier = {
-#                 name = die_conquer_rome_mission
-#                 duration = 9125
+# 			add_power_projection = {
+#                 type = mission_rewards_power_projection
+#                 amount = 20
 #             }
+#             2708 = {
+# 				add_devastation = 50
+# 			}
 #             custom_tooltip = vn_die_conquer_rome.tt
 #             set_country_flag = enable_italian_campaigns_flag
 #             #cb to destroy italian nations
@@ -406,7 +529,7 @@
 #     vn_die_conquer_trier = {
 #         position = 2
 #         icon = glory_to_turin
-#         required_missions = { vn_die_conquer_wormsgau vn_die_footsteps_of_charlemagne }
+#         required_missions = { vn_die_conquer_wormsgau vn_die_pillars_of_the_empire }
 #         provinces_to_highlight = {
 #             area = triersouth_area
 #             NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -438,7 +561,7 @@
 #     vn_die_conquer_alsace = {
 #         position = 3
 #         icon = unite_the_wittelsbachs
-#         required_missions = { vn_die_conquer_trier }
+#         required_missions = { vn_die_conquer_trier vn_die_conquer_hagenau }
 #         provinces_to_highlight = {
 #             OR = {
 #                 area = nordgau_area
@@ -448,7 +571,7 @@
 #             NOT = { country_or_non_sovereign_subject_holds = ROOT }
 #         }
 # 		trigger = {
-#             num_of_owned_provinces_with = {
+#             num_of_states_owned_or_owned_by_non_sovereign_subjects_with = {
 #                 value = 20
 #                 OR = {
 #                     area = nordgau_area
@@ -458,10 +581,27 @@
 #             }
 # 		}
 # 		effect = {
-#             add_imperial_influence = 25
-#             add_country_modifier = {
-#                 name = die_weaken_the_princes_mission
-#                 duration = 9125
+#             add_mercantilism = 1
+#             nordgau_area = {
+#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+#                 add_province_modifier = {
+#                     name = die_conquer_alsace_mission
+#                     duration = 9125
+#                 }
+#             }
+#             strassburg_area = {
+#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+#                 add_province_modifier = {
+#                     name = die_conquer_alsace_mission
+#                     duration = 9125
+#                 }
+#             }
+#             sundgau_area = {
+#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+#                 add_province_modifier = {
+#                     name = die_conquer_alsace_mission
+#                     duration = 9125
+#                 }
 #             }
 # 		}
 #     }
@@ -488,42 +628,26 @@
 # 		}
 # 		effect = {
 #             add_prestige = 10
-            
-#         }
-#     }
-#     vn_die_conquer_burgundy = {
-#         position = 5
-#         icon = carolingian_empire
-#         required_missions = { vn_die_conquer_freigrafschaft }
-#         provinces_to_highlight = {
-#             OR = {
-#                 area = burgundy_area
-#                 area = charolais_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-#         }
-# 		trigger = {
 #             burgundy_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
+#                 limit = {
+#                     NOT = { owned_by = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
+#                 }
+#                 add_permanent_claim = ROOT
 #             }
 #             charolais_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
+#                 limit = {
+#                     NOT = { owned_by = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
+#                 }
+#                 add_permanent_claim = ROOT
 #             }
-# 		}
-# 		effect = {
-#             add_legitimacy = 25
-#             add_country_modifier = {
-#                 name = die_conquer_burgundy_mission
-#                 duration = 9125
-#             }
-# 		}
+#         }
 #     }
 #     vn_die_feudal_obligations = {
-#         position = 6
+#         position = 5
 #         icon = rein_in_the_nobles
-#         required_missions = { }
+#         required_missions = { vn_die_italian_alliances }
 # 		trigger = {
 #             NOT = { war_exhaustion = 1 }
 #             has_regency = no
@@ -532,26 +656,58 @@
 #             land_maintenance = 1
 # 		}
 # 		effect = {
-#             add_army_tradition = 10
-#             baden_region = {
-#                 limit = {
-#                     NOT = { owned_by = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
+#             add_country_modifier = {
+#                 name = die_feudal_obligations_mission
+#                 duration = 9125
 #             }
-#             pfalzeast_area = {
-#                 limit = {
-#                     NOT = { owned_by = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
+# 		}
+#     }
+#     vn_die_italian_alliances = {
+#         position = 6
+#         icon = catholic_confraternity
+# 		required_missions = { }
+# 		trigger = {
+#             if = {
+#                 limit = { hre_size = 1 }
+#                 is_emperor = yes
+#             }
+#             custom_trigger_tooltip = {
+#                 tooltip = vn_die_italian_alliances.tt
+#                 any_ally = {
+#                     capital_scope = {
+#                         superregion = italy_superregion
+#                     }
+#                     has_opinion = {
+#                         who = ROOT
+#                         value = 150
+#                     }
 #                 }
-#                 add_permanent_claim = ROOT
+#             }
+# 		}
+# 		effect = {
+#             add_dip_power = 75
+#             custom_tooltip = vn_die_italian_alliances.ss
+#             hidden_effect = {
+#                 every_country = {
+#                     limit = {
+#                         is_part_of_hre = yes
+#                         capital_scope = {
+#                             superregion = italy_superregion
+#                             superregion = sicily_superregion
+#                         }
+#                     }
+#                     add_opinion = {
+#                         who = ROOT
+#                         modifier = die_impressed_italians_opinion
+#                     }
+#                 }
 #             }
 # 		}
 #     }
 #     vn_die_conquer_tuscany = {
+#         position = 8
 #         icon = tuscan_birthright
-#         required_missions = { vn_die_solve_the_investiture_controversy }
+#         required_missions = { vn_die_conquer_carinthia vn_die_solve_the_investiture_controversy }
 #         provinces_to_highlight = {
 #             region = tuscany_region
 #             NOT = { country_or_non_sovereign_subject_holds = ROOT } 
@@ -560,7 +716,7 @@
 #             OR = {
 #                 senior_union_with = TUS
 #                 num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                     value = 40
+#                     value = 30
 #                     region = tuscany_region
 #                 }
 #             }
@@ -568,32 +724,6 @@
 # 		effect = {
             
 # 		}
-#     }
-#     vn_die_saxon_rebellion = {
-#         position = 1
-#         icon = join_the_empire
-#         required_missions = { }
-#         provinces_to_highlight = {
-#             is_capital_of = SAX
-#         }
-# 		trigger = {
-#             is_emperor = yes
-#             OR = {
-# 				SAX = { humiliated_by = ROOT }
-# 				SAX = { is_subject_of = ROOT }
-# 				NOT = { exists = SAX }
-# 			}
-#         }
-#         effect = {
-#             add_power_projection = {
-# 				type = mission_rewards_power_projection
-# 				amount = 25
-# 			}
-#             add_country_modifier = {
-#                 name = die_saxon_rebellion_mission
-#                 duration = 9125
-#             }
-#         }
 #     }
 # }
 
@@ -685,6 +815,12 @@
 #                 }
 #                 add_permanent_claim = ROOT
 #             }
+#             hagenau_area = {
+#                 add_province_modifier = {
+#                     name = die_conquer_alsace_mission
+#                     duration = 9125
+#                 }
+#             }
 #         }
 #     }
 #     vn_die_conquer_baden = {
@@ -724,7 +860,7 @@
 #             }
 # 		}
 # 		effect = {
-#             add_years_of_income = 0.15
+#             add_years_of_income = 1
 #             add_country_modifier = {
 #                 name = die_conquer_swabia_mission
 #                 duration = 9125
@@ -756,25 +892,12 @@
 #             }
 # 		}
 # 		effect = {
-#             if = {
+#             bavaria_region = {
 #                 limit = {
-#                     valid_for_personal_unions_trigger = yes
-#                     BAV = { valid_for_personal_unions_trigger = yes }
+#                     NOT = { owned_by = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
 #                 }
-#                 add_casus_belli = {
-#                     type = cb_fabricated_claims
-#                     target = BAV
-#                     months = 300
-#                 }
-#             }
-#             else = {
-#                 bavaria_region = {
-#                     limit = {
-#                         NOT = { owned_by = ROOT }
-#                         NOT = { is_permanent_claim = ROOT }
-#                     }
-#                     add_permanent_claim = ROOT
-#                 }
+#                 add_permanent_claim = ROOT
 #             }
 #             add_country_modifier = {
 #                 name = die_conquer_bavaria_mission
@@ -782,7 +905,61 @@
 #             }
 # 		}
 #     }
+#     vn_die_hereditary_feudalism = {
+#         position = 6
+#         icon = empower_the_junkers
+#         required_missions = {  }
+# 		trigger = {
+#             calc_true_if = {
+#                 amount = 3
+#                 all_country = {
+#                     is_subject_of = ROOT
+#                     NOT = { liberty_desire = 20 }
+#                 }
+#                 desc = vn_die_hereditary_feudalism.tt
+#             }
+# 		}
+# 		effect = {
+#             add_country_modifier = {
+#                 name = die_hereditary_feudalism_mission
+#                 duration = -1
+#             }
+# 		}
+#     }
+#     vn_die_conquer_carinthia = {
+#         position = 7
+#         icon = up_the_adige
+#         required_missions = { vn_die_hereditary_feudalism vn_die_italian_alliances }
+#         provinces_to_highlight = {
+#             OR = {
+#                 area = carinthia_area
+#                 province_id = 2071
+#                 province_id = 4230
+#             }
+#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
+#         }
+# 		trigger = {
+#             OR = {
+#                 senior_union_with = CTH
+#                 num_of_states_owned_or_owned_by_non_sovereign_subjects_with = {
+#                     value = 10
+#                     OR = {
+#                         area = carinthia_area
+#                         province_id = 2071
+#                         province_id = 4230
+#                     }
+#                 }
+#             }
+# 		}
+# 		effect = {
+#             add_country_modifier = {
+#                 name = die_conquer_carinthia_mission
+#                 duration = 9125
+#             }
+# 		}
+#     }
 #     vn_die_salian_architecture = {
+#         position = 8
 #         icon = mission_european_church
 #         required_missions = { vn_die_construct_speyer_cathedral }
 # 		trigger = {
@@ -832,7 +1009,20 @@
 #             }
 # 		}
 # 		effect = {
-#             add_prestige = 10
+#             baden_region = {
+#                 limit = {
+#                     NOT = { owned_by = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
+#                 }
+#                 add_permanent_claim = ROOT
+#             }
+#             pfalzeast_area = {
+#                 limit = {
+#                     NOT = { owned_by = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
+#                 }
+#                 add_permanent_claim = ROOT
+#             }
 #             darmstadt_area = {
 #                 limit = {
 #                     NOT = { owned_by = ROOT }
@@ -869,7 +1059,7 @@
 #     }
 #     vn_die_conquer_franconia = {
 #         icon = conquer_franconia
-#         required_missions = { vn_die_conquer_erbach }
+#         required_missions = { vn_die_conquer_erbach vn_die_conquer_baden }
 #         provinces_to_highlight = {
 #             region = nurnburg_region
 #             NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -887,38 +1077,8 @@
 #             }
 # 		}
 #     }
-#     vn_die_conquer_carinthia = {
-#         icon = up_the_adige
-#         required_missions = { }
-#         provinces_to_highlight = {
-#             OR = {
-#                 area = carinthia_area
-#                 province_id = 2071
-#                 province_id = 4230
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-#         }
-# 		trigger = {
-#             OR = {
-#                 CTH = {
-#                     is_subject_of = ROOT
-#                 }
-#                 num_of_states_owned_or_owned_by_non_sovereign_subjects_with = {
-#                     value = 10
-#                     OR = {
-#                         area = carinthia_area
-#                         province_id = 2071
-#                         province_id = 4230
-#                     }
-#                 }
-#             }
-# 		}
-# 		effect = {
-            
-# 		}
-#     }
 #     vn_die_monumental_fundings = {
-#         position = 1
+#         position = 5
 #         icon = mission_establish_mint_towns
 #         required_missions = { }
 # 		trigger = {
@@ -968,7 +1128,7 @@
 # 		}
 #     }
 #     vn_die_construct_speyer_cathedral = {
-#         position = 2
+#         position = 7
 # 		icon = connect_further_austria
 # 		required_missions = { vn_die_monumental_fundings }
 #         provinces_to_highlight = {
@@ -987,12 +1147,22 @@
 #             #else = {
 #                 151 = {
 #                     owned_by = ROOT
-#                     has_tax_building_trigger = yes
+#                     OR = {
+#                         AND = {
+#                             has_building = monument
+#                             base_tax = 20
+#                         }
+#                         AND = {
+#                             has_building = temple
+#                             base_tax = 10
+#                         }
+#                         has_building = cathedral
+#                     }
 #                 }
 #             #}
 # 		}
 # 		effect = {
-#             add_splendor = 100
+#             add_prestige = 25
 # 			151 = {
 #                 add_base_tax = 1
 #                 add_base_production = 1
@@ -1005,7 +1175,7 @@
 # 		}
 #     }
 #     vn_die_capital_of_germany = {
-#         position = 3
+#         position = 8
 #         icon = imperial_capitals
 #         required_missions = { vn_die_construct_speyer_cathedral }
 #         provinces_to_highlight = {
@@ -1051,27 +1221,6 @@
 #             add_adm_power = 50
 #             add_dip_power = 50
 #             add_mil_power = 50
-# 		}
-#     }
-#     vn_die_hereditary_feudalism = {
-#         position = 2
-#         icon = empower_the_junkers
-#         required_missions = {  }
-# 		trigger = {
-#             calc_true_if = {
-#                 amount = 3
-#                 all_country = {
-#                     is_subject_of = ROOT
-#                     NOT = { liberty_desire = 20 }
-#                 }
-#                 desc = vn_die_hereditary_feudalism.tt
-#             }
-# 		}
-# 		effect = {
-#             add_country_modifier = {
-#                 name = die_hereditary_feudalism_mission
-#                 duration = -1
-#             }
 # 		}
 #     }
 # }
