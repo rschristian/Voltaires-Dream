@@ -27,6 +27,11 @@ oligarchy_reform = {
 	legacy_equivalent = oligarchic_republic
 	valid_for_nation_designer = yes
 	nation_designer_cost = 0
+	potential = {
+		NOT = { has_reform = crown_colony_government }
+		NOT = { has_reform = private_enterprise_colony_government }
+		NOT = { has_reform = self_governing_colony_government }
+	}
 	modifiers = {
 		global_tax_modifier = 0.05
 		max_absolutism = -40
@@ -89,13 +94,15 @@ protectorate_parliament_reform = {
 	conditional = {
 		allow = { has_dlc = "Common Sense" }
 		has_parliament = yes
+		custom_attributes = {
+			blocked_call_diet = yes
+		}
 	}
 	has_term_election = no
 	custom_attributes = {
 		locked_government_type = yes
 		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
-		blocked_call_diet = yes
 	}
 }
 
@@ -129,6 +136,8 @@ prussian_republic_reform = {
 			is_playing_custom_nation = yes
 			religion = protestant
 			religion = reformed
+			religion = anabaptist
+			religion = anglican
 		}
 	}
 	valid_for_nation_designer = yes
@@ -175,6 +184,9 @@ merchants_reform = {
 				NOT = { map_setup = map_setup_random }
 			}
 		}
+		NOT = { has_reform = crown_colony_government }
+		NOT = { has_reform = private_enterprise_colony_government }
+		NOT = { has_reform = self_governing_colony_government }
 	}
 	trigger = {
 		OR = {
@@ -317,7 +329,7 @@ pirate_republic_reform = {
 		max_absolutism = -50
 		naval_forcelimit_modifier = 0.5
 		capture_ship_chance = 0.33
-		governing_cost = 0.75
+		state_governing_cost = 0.75
 		may_perform_slave_raid_on_same_religion = yes
 	}
 	trigger = {
@@ -377,6 +389,11 @@ noble_elite_reform = {
 	legacy_equivalent = noble_republic
 	valid_for_nation_designer = yes
 	nation_designer_cost = 0
+	potential = {
+		NOT = { has_reform = crown_colony_government }
+		NOT = { has_reform = private_enterprise_colony_government }
+		NOT = { has_reform = self_governing_colony_government }
+	}
 	modifiers = {
 		army_tradition = 0.10
 		max_absolutism = -20
@@ -646,7 +663,8 @@ peasants_republic = {
 			has_country_flag = great_peasants_war_peasant_republic
 			OR = {	
 				have_had_reform = peasants_republic	
-				has_reform = peasants_republic	
+				have_had_reform = stateless_society
+				has_reform = peasants_republic
 			}
 		}
 	}
@@ -951,6 +969,9 @@ colonial_government = {
 	fixed_rank = 3
 	potential = {
 		is_colonial_nation = yes
+		NOT = { has_reform = crown_colony_government }
+		NOT = { has_reform = private_enterprise_colony_government }
+		NOT = { has_reform = self_governing_colony_government }
 	}
 	legacy_equivalent = colonial_government_legacy
 	modifiers = {
@@ -966,6 +987,93 @@ colonial_government = {
 		enables_aristocratic_idea_group = no
 	}
 	duration = 4
+}
+
+crown_colony_government = {	
+	icon = "peasants"	
+	valid_for_nation_designer = no	
+	lock_level_when_selected = yes	
+	allow_normal_conversion = no	
+	fixed_rank = 3
+	potential = {	
+		is_colonial_nation = yes	
+		OR = {
+			has_reform = crown_colony_government
+			has_reform = private_enterprise_colony_government
+			has_reform = self_governing_colony_government
+		}
+	}	
+	legacy_equivalent = colonial_government_legacy	
+	modifiers = {	
+		global_autonomy = -0.05	
+		recover_army_morale_speed = 0.02	
+		embracement_cost = -0.1	
+		governing_capacity = 100	
+	}	
+	custom_attributes = {	
+		locked_government_type = yes	
+		enables_plutocratic_idea_group = yes	
+		enables_aristocratic_idea_group = no	
+	}	
+	duration = 4	
+}
+
+private_enterprise_colony_government = {	
+	icon = "peasants"	
+	valid_for_nation_designer = no	
+	lock_level_when_selected = yes	
+	allow_normal_conversion = no	
+	fixed_rank = 3
+	potential = {	
+		is_colonial_nation = yes	
+		OR = {
+			has_reform = crown_colony_government
+			has_reform = private_enterprise_colony_government
+			has_reform = self_governing_colony_government
+		}
+	}	
+	legacy_equivalent = colonial_government_legacy	
+	modifiers = {	
+		global_ship_trade_power = 0.2	
+		embracement_cost = -0.1	
+		merchants = 1	
+		production_efficiency = 0.05	
+	}	
+	custom_attributes = {	
+		locked_government_type = yes	
+		enables_plutocratic_idea_group = yes	
+		enables_aristocratic_idea_group = no	
+	}	
+	duration = 4	
+}	
+
+self_governing_colony_government = {	
+	icon = "peasants"	
+	valid_for_nation_designer = no	
+	lock_level_when_selected = yes	
+	allow_normal_conversion = no	
+	fixed_rank = 3
+	potential = {	
+		is_colonial_nation = yes	
+		OR = {
+			has_reform = crown_colony_government
+			has_reform = private_enterprise_colony_government
+			has_reform = self_governing_colony_government
+		}
+	}	
+	legacy_equivalent = colonial_government_legacy	
+	modifiers = {	
+		build_cost = -0.1	
+		development_cost = -0.1	
+		embracement_cost = -0.1	
+		state_maintenance_modifier = -0.25	
+	}	
+	custom_attributes = {	
+		locked_government_type = yes	
+		enables_plutocratic_idea_group = yes	
+		enables_aristocratic_idea_group = no	
+	}	
+	duration = 4	
 }
 
 dutch_republic = {
@@ -1051,6 +1159,7 @@ cossacks_reform = {
 			have_had_reform = cossacks_reform
 		}
 	}
+	raze_province = yes
 	government_abilities = {
 		cossacks_mechanic
 	}
@@ -1387,12 +1496,14 @@ consolidate_power_in_doge_reform = {
 		OR = {
 			has_reform = venice_merchants_reform
 			has_reform = merchants_reform
+			has_reform = veche_republic
 		}
 	}
 	trigger = {
 		OR = {
 			has_reform = venice_merchants_reform
 			has_reform = merchants_reform
+			has_reform = veche_republic
 		}
 	}
 	modifiers = {
@@ -1417,12 +1528,14 @@ consolidate_power_in_cities_reform = {
 		OR = {
 			has_reform = venice_merchants_reform
 			has_reform = merchants_reform
+			has_reform = veche_republic
 		}
 	}
 	trigger = {
 		OR = {
 			has_reform = venice_merchants_reform
 			has_reform = merchants_reform
+			has_reform = veche_republic
 		}
 	}
 	modifiers = {
@@ -2171,4 +2284,37 @@ become_rev_empire_reform = {
 	ai = {
 		factor = 0
 	}
+}
+
+millenarian_theocracy_reform = {	
+	icon = "rioting_burning_2"	
+	allow_normal_conversion = yes	
+	has_term_election = no	
+	potential = {	
+		religion = catholic	
+		has_ruler = "Girolamo Savonarola"	
+		OR = {	
+			tag = LAN	
+			tag = TUS	
+		}	
+	}	
+	trigger = {	
+		religion = catholic	
+		has_ruler = "Girolamo Savonarola"	
+		OR = {	
+			tag = LAN	
+			tag = TUS	
+		}	
+	}	
+	modifiers = {	
+		devotion = 1	
+		tolerance_own = 2	
+		global_missionary_strength = 0.02	
+	}	
+	custom_attributes = {	
+		election_on_death = yes	
+	}	
+	ai = {	
+		factor = 10	
+	}	
 }

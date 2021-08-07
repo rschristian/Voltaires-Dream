@@ -107,10 +107,6 @@ cb_imperial_supremacy = {
         }
 	}
 
-	attacker_disabled_po = {
-		po_demand_provinces
-	}
-
 	war_goal = conquest_imperial_supremacy
 }
 
@@ -229,7 +225,7 @@ cb_dishonored_call = {
 	valid_for_subject = no
 
 	is_triggered_only = yes
-	months = 36
+	months = 96
 
 	war_goal = superiority_insult
 }
@@ -290,7 +286,9 @@ cb_trade_war_triggered = {
 		po_release_annexed
 		po_return_cores
 		po_become_vassal
+		po_subjugate_vassal
 		po_become_tributary_state
+		po_subjugate_tributary_state
 		po_form_personal_union
 		po_transfer_vassals
 	}
@@ -311,8 +309,10 @@ cb_trade_conflict = {
 		po_release_annexed
 		po_return_cores
 		po_become_vassal
+		po_subjugate_vassal
 		po_form_personal_union
 		po_become_tributary_state
+		po_subjugate_tributary_state
 		po_transfer_vassals
 	}
 }
@@ -335,7 +335,9 @@ cb_trade_league_conflict = {
 		po_release_annexed
 		po_return_cores
 		po_become_vassal
+		po_subjugate_vassal
 		po_become_tributary_state
+		po_subjugate_tributary_state
 		po_form_personal_union
 		po_transfer_vassals
 	}
@@ -423,6 +425,12 @@ cb_humiliate = {
 		is_revolutionary = no
 	}
 
+	attacker_disabled_po = {	
+		po_demand_provinces	
+		po_become_vassal	
+		po_subjugate_vassal	
+	}
+
 	war_goal = humiliate
 }
 
@@ -456,6 +464,7 @@ cb_independence_war = {
 		is_subject_other_than_tributary_trigger = yes
 		is_subject_of = FROM
 		NOT = { is_colonial_nation_of = FROM }
+		NOT = { has_country_flag = burgundy_during_imperial_incident }
 	}
 
 	war_goal = defend_capital_independence
@@ -699,10 +708,6 @@ cb_heretic = {
 		is_revolutionary = no
 	}
 
-	allowed_provinces = {
-		always = yes
-	}
-
 	war_goal = superiority_heretic
 }
 
@@ -773,7 +778,9 @@ cb_trade_war = {
 		po_release_annexed
 		po_return_cores
 		po_become_vassal
+		po_subjugate_vassal
 		po_become_tributary_state
+		po_subjugate_tributary_state
 		po_form_personal_union
 		po_transfer_vassals
 	}
@@ -798,7 +805,9 @@ cb_trade_league_dispute = {
 		po_release_annexed
 		po_return_cores
 		po_become_vassal
+		po_subjugate_vassal
 		po_become_tributary_state
+		po_subjugate_tributary_state
 		po_form_personal_union
 		po_transfer_vassals
 	}
@@ -848,10 +857,6 @@ cb_super_badboy = {
 		coalition_target = FROM
 		NOT = { FROM = { is_in_coalition_war = yes } }
 		num_of_coalition_members = 3
-		has_opinion_modifier = {
-			modifier = aggressive_expansion
-			who = FROM
-		}
 		is_revolutionary = no
 	}
 
@@ -976,8 +981,13 @@ cb_crush_the_revolution = {
 	valid_for_subject = no
 	prerequisites = {
 		OR = {
-			capital_scope = { continent = europe }
 			is_neighbor_of = FROM
+			NOT = {	
+				border_distance = {	
+					who = FROM	
+					distance = 800	
+				}	
+			}
 		}
 		is_revolutionary = no
 		is_free_or_tributary_trigger = yes
@@ -1084,7 +1094,9 @@ cb_humiliate_rotw = {
 		po_release_annexed
 		po_return_cores
 		po_become_vassal
+		po_subjugate_vassal
 		po_become_tributary_state
+		po_subjugate_tributary_state
 		po_form_personal_union
 		po_transfer_vassals
 	}
@@ -1130,26 +1142,18 @@ cb_take_mandate = {
 		NOT = { truce_with = FROM }
 		NOT = { has_reform = eastern_monarchy }
 		is_revolutionary = no
+
+		OR = {	
+			ai = no	
+			culture_group = east_slavic
+			any_owned_province = {	
+				culture_group = east_slavic	
+				has_owner_accepted_culture = yes	
+			}	
+		}
 	}
 
 	war_goal = take_capital_take_mandate
-}
-
-# Force migration
-cb_force_migration = {
-
-	valid_for_subject = no
-
-	prerequisites = {
-		has_dlc = "The Cossacks"
-		is_neighbor_of = FROM
-		is_free_or_tributary_trigger = yes
-		FROM = {
-			can_migrate = yes
-			is_free_or_tributary_trigger = yes
-		}
-	}
-	war_goal = force_migration
 }
 
 # Forced our ally to break alliance
@@ -1183,6 +1187,14 @@ cb_force_tributary = {
 		}
 	}
 
+	war_goal = take_capital_force_tributary
+}
+
+cb_force_tributary_mission = {
+	valid_for_subject = no
+	is_triggered_only = yes
+	months = 300
+	
 	war_goal = take_capital_force_tributary
 }
 
@@ -1257,7 +1269,7 @@ cb_world_crusade = {
 				FROM = { religion_group = pagan }
 			}
 		}
-		NOT = { religion_group = FROM }
+		NOT = { religion = FROM }
 		NOT = {	has_matching_religion = FROM }
 		is_revolutionary = no
 	}

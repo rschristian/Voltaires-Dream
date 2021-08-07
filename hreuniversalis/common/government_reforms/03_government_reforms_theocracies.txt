@@ -236,7 +236,7 @@ kingdom_of_god_reform = {
 		global_manpower_modifier = 0.1
 		prestige = 1
 		devotion = 1
-		appoint_cardinal_cost = -0.5
+		appoint_cardinal_cost = -0.3
 		papal_influence_from_cardinals = 1.0
 	}
 	allow_normal_conversion = yes
@@ -416,7 +416,7 @@ conciliarism_reform = {
 		}
 	}
 	modifiers = {
-		appoint_cardinal_cost = -0.5
+		appoint_cardinal_cost = -0.3
 	}
 	ai = {
 		factor = 3
@@ -542,19 +542,23 @@ theocratic_democracy_reform = {
 	trigger = {
 		NOT = { has_reform = crusader_order_reform }
 		NOT = { has_reform = monastic_order_reform }
-		OR = {
-			NOT = { has_estate = estate_nobles }
-			crown_stronger_than_estate = { estate = estate_nobles }
+		if = {	
+			limit = { has_dlc = "Common Sense" }	
+			OR = {	
+				NOT = { has_estate = estate_nobles }	
+				crown_stronger_than_estate = { estate = estate_nobles }	
+			}	
 		}
 	}
 
 	conditional = {
 		allow = { has_dlc = "Common Sense" }
 		has_parliament = yes
+		custom_attributes = {
+			blocked_call_diet = yes
+		}
 	}
-	custom_attributes = {
-		blocked_call_diet = yes
-	}
+	
 	ai = {
 		factor = 1
 		modifier = {
@@ -600,19 +604,23 @@ regionally_elected_commanders = {
 			has_reform = crusader_order_reform
 			tag = KOJ
 		}
-		OR = {
-			NOT = { has_estate = estate_nobles }
-			crown_stronger_than_estate = { estate = estate_nobles }
+		if = {	
+			limit = { has_dlc = "Common Sense" }	
+			OR = {	
+				NOT = { has_estate = estate_nobles }	
+				crown_stronger_than_estate = { estate = estate_nobles }	
+			}	
 		}
 	}
 
 	conditional = {
 		allow = { has_dlc = "Common Sense" }
 		has_parliament = yes
+		custom_attributes = {
+			blocked_call_diet = yes
+		}
 	}
-	custom_attributes = {
-		blocked_call_diet = yes
-	}
+
 	ai = {
 		factor = 1
 		modifier = {
@@ -700,7 +708,7 @@ commander_king_reform = {
 			has_reform = crusader_order_reform
 			tag = KOJ
 		}
-		full_idea_group = aristocracy_ideas
+		full_idea_group = theocracy_gov_ideas
 	}
 	modifiers = {
 		devotion = 0.1
@@ -752,6 +760,8 @@ admiral_king_reform = {
 		admirals_become_rulers = yes
 	}
 	has_term_election = no
+	queen = yes	
+	royal_marriage = yes
 	heir = no
 	ai = {
 		factor = 0.1
@@ -855,6 +865,7 @@ religion_in_one_country_reform = {
 religious_permanent_revolution_reform = {
 	icon = "religious_permanent_revolution_reform"
 	allow_normal_conversion = yes
+	force_conversion_gives_global_holy_war_released_modifier = yes
 	potential = {
 		NOT = {
 			religion_group = pagan
@@ -869,7 +880,7 @@ religious_permanent_revolution_reform = {
 		custom_tooltip = world_crusade_tt
 	}
 	modifiers = {
-		enforce_religion_cost = -0.4
+		enforce_religion_cost = -0.25
 	}
 	ai = {
 		factor = 3
