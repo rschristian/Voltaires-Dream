@@ -1024,13 +1024,20 @@ vn_pap_missions_slot_3 = {
 				tooltip = vn_pap_guelphs_and_ghibellines.tt
 				has_global_flag = guelph_ghib_enabled
             }
-            calc_true_if = {
-                amount = 3
-                all_country = {
-                    has_ruler_modifier = guelph_ruler
-                    alliance_with = ROOT
+            OR = {
+                calc_true_if = {
+                    amount = 3
+                    all_country = {
+                        has_ruler_modifier = guelph_ruler
+                        alliance_with = ROOT
+                    }
+                    desc = vn_pap_guelphs_and_ghibellines.ss
                 }
-                desc = vn_pap_guelphs_and_ghibellines.ss
+                NOT = {
+                    any_country = {
+                        has_ruler_modifier = guelph_ruler
+                    }
+                }
             }
         }
         effect = {
@@ -1048,9 +1055,12 @@ vn_pap_missions_slot_3 = {
             }
         }
         trigger = {
-            war_score_against = {
-                who = emperor
-                value = 25
+            OR = {
+                NOT = { hre_size = 1 }
+                war_score_against = {
+                    who = emperor
+                    value = 25
+                }
             }
         }
         effect = {
