@@ -2134,55 +2134,91 @@ country_decisions = {
 				#}
 				#amount = 60
 			#}
-			calc_true_if = {
-				desc = byz_defenses_d.tt2
-				cilicia_region = {
-					type = all
-					owned_by = ROOT
-					controlled_by = ROOT
-					has_fort_trigger = yes
-					garrison = 1000
+			if = {
+				limit = {
+					OR = {
+						any_owned_province = {
+							any_neighbor_province = {
+								owner = { religion_group = muslim }
+							}
+						}
+						any_subject_country = {
+							any_owned_province = {
+								any_neighbor_province = {
+									owner = { religion_group = muslim }
+								}
+							}
+						}
+					}
 				}
-				amount = 6
-			}
-			calc_true_if = {
-				desc = byz_defenses_d.tt3
-				sophene_region = {
-					type = all
-					owned_by = ROOT
-					controlled_by = ROOT
-					has_fort_trigger = yes
-					garrison = 1000
+				calc_true_if = {
+					desc = byz_defenses_d.tt2
+					cilicia_region = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+						controlled_by = owner
+						has_fort_trigger = yes
+						garrison = 1000
+					}
+					amount = 6
 				}
-				amount = 6
-			}
-			calc_true_if = {
-				desc = byz_defenses_d.tt4
-				corduene_region = {
-					type = all
-					owned_by = ROOT
-					controlled_by = ROOT
-					has_fort_trigger = yes
-					garrison = 1000
+				calc_true_if = {
+					desc = byz_defenses_d.tt3
+					sophene_region = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+						controlled_by = owner
+						has_fort_trigger = yes
+						garrison = 1000
+					}
+					amount = 6
 				}
-				amount = 6
+				calc_true_if = {
+					desc = byz_defenses_d.tt4
+					corduene_region = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+						controlled_by = owner
+						has_fort_trigger = yes
+						garrison = 1000
+					}
+					amount = 6
+				}
 			}
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = byz_defenses_d.tt
-					num_of_owned_provinces_with = {
-						value = 5
-						any_neighbor_province = {
-							NOT = { owned_by = ROOT }
-							owner = {
-								religion_group = muslim
-								capital_scope = { superregion = mesopotamia_superregion }
+					OR = {
+						num_of_owned_provinces_with = {
+							value = 5
+							any_neighbor_province = {
+								NOT = { owned_by = ROOT }
+								owner = {
+									religion_group = muslim
+									capital_scope = { superregion = mesopotamia_superregion }
+								}
+							}
+							controlled_by = ROOT
+							has_fort_trigger = yes
+							garrison = 1000
+						}
+						any_subject_country = {
+							num_of_owned_provinces_with = {
+								value = 5
+								any_neighbor_province = {
+									owner = {
+										NOT = { is_subject_of = ROOT }
+										religion_group = muslim
+										capital_scope = { superregion = mesopotamia_superregion }
+									}
+								}
+								controlled_by = owner
+								has_fort_trigger = yes
+								garrison = 1000
 							}
 						}
-						controlled_by = ROOT
-						has_fort_trigger = yes
-						garrison = 1000
 					}
+					
 				}
 				custom_trigger_tooltip = {
 					tooltip = byz_crisis_stop.tt
