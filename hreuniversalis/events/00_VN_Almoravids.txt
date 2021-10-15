@@ -41,19 +41,41 @@ country_event = {
 	option = {
 		name = almoravids_events.1.a
 		change_tag = MOR
-		if = {
-			limit = { MRK = { ai = yes was_player = no } }
-			inherit = MRK
-		}
-		if = {
-			limit = { TDL = { ai = yes was_player = no } }
-			inherit = TDL
-		}
-		if = {
-			limit = { SOS = { ai = yes was_player = no } }
-			inherit = SOS
-        }
+        custom_tooltip = almoravids_events.tt.1
 		hidden_effect = {
+            sus_region = {
+                limit = {
+                    NOT = { area = macaronesia_area }
+                    NOT = { owned_by = ROOT }
+                    owner = { ai = yes }
+                    is_city = yes
+                }
+                add_core = ROOT
+                cede_province = ROOT
+            }
+            high_atlas_region = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                    owner = { ai = yes }
+                    is_city = yes
+                }
+                add_core = ROOT
+                cede_province = ROOT
+            }
+            gharb_region = {
+                limit = {
+                    NOT = { province_id = 4669 }
+                    NOT = { province_id = 4670 }
+                    NOT = { province_id = 4671 }
+                    NOT = { province_id = 4672 }
+                    NOT = { province_id = 4673 }
+                    NOT = { owned_by = ROOT }
+                    owner = { ai = yes }
+                    is_city = yes
+                }
+                add_core = ROOT
+                cede_province = ROOT
+            }
 			set_government_rank = 5
 			change_government = monarchy
 			add_government_reform = iqta
@@ -67,25 +89,27 @@ country_event = {
             add_manpower = 30
             swap_free_idea_group = yes
             swap_non_generic_missions = yes
+            if = {
+                limit = { has_estate = estate_church }
+                set_estate_privilege = estate_church_for_the_faith
+                set_estate_privilege = estate_church_enforced_one_faith
+            }
             capital_scope = {
                 build_to_forcelimit = {
                     infantry = 0.8
                     cavalry = 0.2
                 }
             }
-            FEZ = {
-                every_owned_province = {
-                    add_claim = ROOT
+            maghreb_superregion = {
+                limit = {
+                    is_city = yes
+                    NOT = { owned_by = ROOT }
                 }
-            }
-            SLE = {
-                every_owned_province = {
-                    add_claim = ROOT
-                }
+                add_claim = ROOT
             }
             add_country_modifier = {
-                name = armed_jihad_m
-                duration = 7300
+                name = almoravid_invasion
+                duration = 18250
             }
 		}
 	}
