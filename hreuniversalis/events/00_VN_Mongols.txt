@@ -1,0 +1,397 @@
+namespace = mongols_events
+
+#Spawn GHL
+country_event = {
+    id = mongols_events.1
+    title = "mongols_events.1.t"
+	desc = "mongols_events.1.d"
+	picture = MONGOL_BANNERS_eventPicture
+	goto = 6438
+ 
+	fire_only_once = yes
+	major = yes
+ 
+    trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1221.1.1 }
+		current_age = age_of_crisis
+		is_year = 1216
+		owns = 6438
+		OR = {
+			ai = yes
+			num_of_cities = 2
+		}
+    }
+ 
+    mean_time_to_happen = {
+        months = 60
+    }
+ 
+    option = {
+		name = "mongols_events.1.a"
+		if = {
+			limit = { ai = yes }
+			GLH = { inherit = ROOT }
+		}
+		else = {
+			6438 = {
+				add_core = GLH
+				cede_province = GLH
+				add_building = fort_14th
+			}
+			GLH = {
+				declare_war_with_cb = {
+					casus_belli = cb_invasion
+					who = ROOT
+				}
+			}
+		}
+		hidden_effect = {
+			GLH = {
+				embrace_institutions_of = ROOT
+				add_stability = 3
+				add_treasury = 500
+				add_prestige = 50
+				add_manpower = 35
+				add_army_tradition = 70
+				add_army_professionalism = 0.2
+				change_primary_culture = mongol
+				add_accepted_culture = turkmeni
+				define_ruler = {
+					name = "Batu"
+					dynasty = "Borjigin"
+					adm = 4
+					dip = 4
+					mil = 5
+					fixed = yes
+				}
+				define_ruler_to_general = {
+					fire = 6
+					shock = 6
+					manuever = 5
+					siege = 6
+				}
+				define_heir = {
+					culture = mongol
+					dynasty = "Borjigin"
+				}
+				add_ruler_personality = strict_personality
+				add_ruler_personality = tactical_genius_personality
+				add_ruler_personality = conqueror_personality
+				add_country_modifier = {
+					name = "invasion_nation_m"
+					duration = 36500
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_country_modifier = extensive_holdings
+						}
+					}
+					add_country_modifier = {
+						name = "extensive_holdings"
+						duration = -1
+					}
+				}
+				create_general = {
+					tradition = 100
+				}
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.6
+						cavalry = 0.4
+					}
+				}
+			}
+			every_owned_province = {
+				GLH = {
+					discover_province = PREV
+				}
+			}
+			if = {
+				limit = { ai = no }
+				every_owned_province = {
+					add_claim = GLH
+				}
+			}
+		}
+	}
+}
+
+#Spawn ILK
+country_event = {
+    id = mongols_events.2
+    title = "mongols_events.2.t"
+	desc = "mongols_events.2.d"
+	picture = MONGOL_BANNERS_eventPicture
+	goto = 6374
+ 
+	fire_only_once = yes
+	major = yes
+
+	trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1236.1.1 }
+		current_age = age_of_crisis
+		is_year = 1231
+		owns = 6374
+		OR = {
+			ai = yes
+			num_of_cities = 2
+		}
+	}
+
+	mean_time_to_happen = {
+        months = 60
+    }
+
+	option = {
+		name = "mongols_events.1.a"
+		if = {
+			limit = { ai = yes }
+			ILK = { inherit = ROOT }
+		}
+		else = {
+			6374 = {
+				add_core = ILK
+				cede_province = ILK
+				add_building = fort_14th
+			}
+			ILK = {
+				declare_war_with_cb = {
+					casus_belli = cb_invasion
+					who = ROOT
+				}
+			}
+		}
+		hidden_effect = {
+			ILK = {
+				embrace_institutions_of = ROOT
+				add_stability = 3
+				add_treasury = 500
+				add_prestige = 50
+				add_manpower = 35
+				add_army_tradition = 70
+				add_army_professionalism = 0.2
+				change_primary_culture = mongol
+				add_accepted_culture = kurdish
+				define_ruler = {
+					name = "Ögedei"
+					dynasty = "Borjigin"
+					adm = 5
+					dip = 4
+					mil = 6
+					fixed = yes
+				}
+				define_ruler_to_general = {
+					fire = 5
+					shock = 4
+					manuever = 4
+					siege = 5
+				}
+				define_heir = {
+					culture = mongol
+					dynasty = "Borjigin"
+				}
+				add_country_modifier = {
+					name = invasion_nation_m
+					duration = 36500
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_country_modifier = extensive_holdings
+						}
+					}
+					add_country_modifier = {
+						name = "extensive_holdings"
+						duration = -1
+					}
+				}
+				add_stability = 3
+				add_treasury = 500
+				add_prestige = 50
+				add_manpower = 35
+				add_army_tradition = 70
+				create_general = {
+					tradition = 100
+				}
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.6
+						cavalry = 0.4
+					}
+				}
+			}
+			every_owned_province = {
+				ILK = {
+					discover_province = PREV
+				}
+			}
+			if = {
+				limit = { ai = no }
+				every_owned_province = {
+					add_claim = ILK
+				}
+			}
+			if = {
+				limit = { SJK = { has_country_modifier = extensive_holdings } }
+				SJK = { remove_country_modifier = extensive_holdings }
+			}
+		}
+	}
+}
+
+
+province_event = {
+	id = mongols_events.3
+	title = "mongols_events.3.t"
+	desc = "mongols_events.3.a"
+	picture = BORDER_TENSION_eventPicture
+	goto = root
+
+	trigger = {
+		controller = { has_country_modifier = invasion_nation_m }
+		owner = { NOT = { has_country_modifier = invasion_nation_m } }
+		any_neighbor_province = {
+			owner = {
+				has_country_modifier = invasion_nation_m
+			}
+		}
+		has_siege = no
+		is_capital = no
+		NOT = { has_province_modifier = add_unrest_5_modifier }
+	}
+
+	mean_time_to_happen = { months = 3 }
+
+	option = {
+		name = "mongols_events.3.a"
+		ai_chance = {
+			factor = 99
+			modifier = {
+				factor = 0
+				NOT = {
+					OR = {
+						superregion = pontic_steppe_superregion
+						superregion = central_asia_superregion
+						superregion = mesopotamia_superregion
+						superregion = anatolia_superregion
+					}
+				}
+			}
+		}
+		if = {
+			limit = { controlled_by = GLH }
+			add_core = GLH
+			cede_province = GLH
+		}
+		else_if = {
+			limit = { controlled_by = ILK }
+			add_core = ILK
+			cede_province = ILK
+		}
+		else_if = {
+			limit = { controlled_by = SJK }
+			add_core = SJK
+			cede_province = SJK
+		}
+		hidden_effect = {
+			add_scaled_local_adm_power = 1
+			add_scaled_local_dip_power = 1
+			add_scaled_local_mil_power = 1
+		}
+	}
+	option = {
+		name = "mongols_events.3.b"
+		ai_chance = { factor = 1 }
+		trigger = {
+			OR = {
+				owner = { mil_power = 0 }
+				NOT = {
+					OR = {
+						superregion = pontic_steppe_superregion
+						superregion = central_asia_superregion
+						superregion = mesopotamia_superregion
+						superregion = anatolia_superregion
+					}
+				}
+			}
+		}
+		owner = { add_mil_power = -50 }
+		add_province_modifier = {
+			name = "add_unrest_5_modifier"
+			duration = 1825
+		}
+	}
+}
+
+## Make AI Mongols declare war
+# country_event = {
+#     id = mongols_events.4
+#     title = none
+# 	desc = none
+# 	picture = HORDE_ON_HORSEBACK_eventPicture
+
+# 	trigger = {
+# 		normal_or_historical_nations = yes
+# 		has_country_modifier = invasion_nation_m
+# 		OR = {
+# 			tag = GLH
+# 			tag = ILK
+# 			tag = JMN
+# 		}
+# 		OR = {
+# 			has_reform = steppe_horde
+# 			has_reform = great_mongol_state_reform
+# 		}
+# 		ai = yes
+# 		is_at_war = no
+# 		has_any_disaster = no
+# 		has_regency = no
+# 		manpower_percentage = 0.5
+# 		NOT = { war_exhaustion = 5 }
+# 		NOT = { overextension_percentage = 0.25 }
+# 		any_neighbor_country = {
+# 			NOT = { is_subject_of = GLH }
+# 			NOT = { is_subject_of = ILK }
+# 			NOT = { is_subject_of = JMN }
+# 			NOT = { tag = GLH }
+# 			NOT = { tag = ILK }
+# 			NOT = { tag = JMN }
+# 			NOT = { alliance_with = ROOT }
+# 			NOT = { truce_with = ROOT }
+# 			NOT = { guaranteed_by = ROOT }
+# 		}
+# 	}
+
+# 	mean_time_to_happen = { months = 6 }
+
+# 	option = {
+# 		name = none
+# 		add_prestige = 15
+# 		add_years_of_income = 2
+# 		add_yearly_manpower = 5
+# 		add_army_tradition = 10
+# 		add_war_exhaustion = -5
+# 		random_neighbor_country = {
+# 			limit = {
+# 				NOT = { is_subject_of = GLH }
+# 				NOT = { is_subject_of = ILK }
+# 				NOT = { is_subject_of = JMN }
+# 				NOT = { tag = GLH }
+# 				NOT = { tag = ILK }
+# 				NOT = { tag = JMN }
+# 				NOT = { alliance_with = ROOT }
+# 				NOT = { truce_with = ROOT }
+# 				NOT = { guaranteed_by = ROOT }
+# 			}
+# 			ROOT = {
+# 				declare_war_with_cb = {
+# 					casus_belli = cb_invasion
+# 					who = PREV
+# 				}
+# 			}
+# 		}
+# 	}
+# }
