@@ -242,7 +242,7 @@ country_event = {
 	}
 }
 
-
+#Province defects
 province_event = {
 	id = mongols_events.3
 	title = "mongols_events.3.t"
@@ -325,6 +325,117 @@ province_event = {
 		}
 	}
 }
+
+#End Historical Friendship
+country_event = {
+	id = mongols_events.4
+	title = "mongols_events.4.t"
+	desc = "mongols_events.4.a"
+	picture = ACCUSATION_eventPicture
+
+	fire_only_once = yes
+	major = yes
+	major_trigger = {
+		OR = {
+			tag = GLH
+			tag = ILK
+			tag = JMN
+		}
+	}
+
+	trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1294.2.18 }
+		is_year = 1294
+		OR = {
+			tag = GLH
+			tag = ILK
+			tag = JMN
+		}
+		calc_true_if = {
+			amount = 2
+			exists = GLH
+			exists = ILK
+			exists = JMN
+		}
+		any_country = {
+			limit = {
+				OR = {
+					tag = GLH
+					tag = ILK
+					tag = JMN
+				}
+			}
+			OR= {
+				historical_friend_with = GLH
+				historical_friend_with = ILK
+				historical_friend_with = JMN
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.1
+			NOT = { has_country_modifier = invasion_nation_m }
+		}
+	}
+
+	option = {
+		name = "mongols_events.4.a"
+		if = {
+			limit = {
+				historical_friend_with = GLH
+			}
+			remove_historical_friend = GLH
+			add_historical_rival = GLH
+		}
+		if = {
+			limit = {
+				historical_friend_with = ILK
+			}
+			remove_historical_friend = ILK
+			add_historical_rival = ILK
+		}
+		if = {
+			limit = {
+				historical_friend_with = JMN
+			}
+			remove_historical_friend = JMN
+			add_historical_rival = JMN
+		}
+		if = {
+			limit = {
+				GLH = { historical_friend_with = ROOT }
+			}
+			GLH = {
+				remove_historical_friend = ROOT
+				add_historical_rival = ROOT
+			}
+		}
+		if = {
+			limit = {
+				ILK = { historical_friend_with = ROOT }
+			}
+			ILK = {
+				remove_historical_friend = ROOT
+				add_historical_rival = ROOT
+			}
+		}
+		if = {
+			limit = {
+				JMN = { historical_friend_with = ROOT }
+			}
+			JMN = {
+				remove_historical_friend = ROOT
+				add_historical_rival = ROOT
+			}
+		}
+	}
+}
+
+
 
 ## Make AI Mongols declare war
 # country_event = {
