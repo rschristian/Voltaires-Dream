@@ -287,31 +287,42 @@ country_event = {
 	desc = "flavor_swi.EVTDESC7"
 	picture = PROTESTANT_GREAT_REFORMER_eventPicture
 
-
 	fire_only_once = yes
-	
 
 	trigger = {
 		is_religion_enabled = reformed
-		AND = { #Geneva vassals will only get this event if they are a player, otherwise Geneva's overlord or province owner gets this event.	
-			is_subject = no	
-			AND = {	
-				tag = GNF	
-				was_player = yes	
-			}	
-		}	
-		OR = { #Geneva is controlled in some way	
-			210 = {	
-				owned_by = ROOT	
-			}	
-			GNV = {	
-				is_subject_of = ROOT	
-				owns_core_province = 210	
-			}	
+		if = {
+			limit = {
+				exists = GNF
+			}
+			if = {
+				limit = {
+					GNF = {
+						OR = {
+							ai = no
+							was_player = yes
+							is_subject = no
+						}
+					}
+				}
+				tag = GNF	#This event ALWAYS happens for Geneva first if it is player controlled or free
+			}
+			else = {
+				#Just any of your subjects needs to be Geneva
+				any_subject_country = {
+					tag = GNF
+				}
+				tag = SWI
+			}
+		}
+		else = {
+			tag = SWI
+			owns = 210
 		}
 		OR = {
 			religion = protestant
 			religion = catholic
+			religion = catholique
 			religion = reformed
 		}
 		210 = {
@@ -394,7 +405,7 @@ country_event = {
 			define_ruler = {
 				name = "Jean"
 				dynasty = "Calvin"
-				culture = normand
+				culture = picard
 				religion = reformed
 				adm = 4
 				dip = 3
@@ -418,7 +429,10 @@ country_event = {
 		}
 		if = {
 			limit = {
-				religion = catholic
+				OR = {
+					religion = catholic
+					religion = catholique
+				}
 			}
 			add_papal_influence = 40
 		}
@@ -480,11 +494,11 @@ country_event = {
 			change_religion = reformed
 		}
 		change_government_to_theocracy = yes
-		add_government_reform = leading_clerfy_reform
+		add_government_reform = leading_clergy_reform
 		define_ruler = {
 			name = "Jean"
 			dynasty = "Calvin"
-			culture = normand
+			culture = picard
 			religion = reformed
 			adm = 4
 			dip = 3
