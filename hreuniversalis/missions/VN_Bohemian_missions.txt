@@ -14,6 +14,7 @@ vn_boh_missions_slot_1 = {
         position = 1
         required_missions = { }
         trigger = {
+            NOT = { current_age = age_of_empire }
 			prestige = 25
             if = {
                 limit = { has_dlc = "Common Sense" }
@@ -24,7 +25,22 @@ vn_boh_missions_slot_1 = {
                 legitimacy = 100
             }
             government_rank = 5
-            is_elector = yes
+            if = {
+                limit = { hre_size = 1 }
+                OR = {
+                    is_elector = yes
+                    AND = {
+                        is_emperor = yes
+                        calc_true_if = {
+                            desc = gen_hre_electors.tooltip
+                            all_elector = {
+                                preferred_emperor = ROOT
+                            }
+                            amount = 3
+                        }
+                    }
+                }
+            }
         }
         effect = {
             add_country_modifier = {
