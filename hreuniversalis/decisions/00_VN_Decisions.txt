@@ -2420,4 +2420,61 @@ country_decisions = {
 			factor = 1
 		}
 	}
+
+	hire_jewish_visirs = {
+		potential = {
+			has_dlc = "The Cossacks"
+			has_estate_privilege = estate_dhimmi_jewish_advisors
+			has_estate = estate_dhimmi
+			estate_loyalty = {
+				estate = estate_dhimmi
+				loyalty = 40
+			}
+		}
+		allow = {
+			estate_loyalty = {
+				estate = estate_dhimmi
+				loyalty = 40
+			}
+			has_estate_privilege = estate_dhimmi_jewish_advisors
+			custom_trigger_tooltip = {
+				tooltip = decision_once_every_twenty_years
+				OR = {
+					NOT = { has_country_flag = jewish_advisor_decision }
+					had_country_flag = {
+						flag = jewish_advisor_decision
+						days = 7300
+					}
+				}
+			}
+		}
+		effect = {
+			set_country_flag = jewish_advisor_decision
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = -5
+			}
+			country_event = {
+				id = hremodevents.140
+				tooltip = hire_jewish_visirs.tt
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_3_advisors_trigger = yes
+			}
+			modifier = {
+				factor = 0
+				has_estate = estate_church
+				NOT = {
+					estate_loyalty = {
+						estate = estate_church
+						loyalty = 40
+					}
+				}
+			}
+		}
+	}
 }
