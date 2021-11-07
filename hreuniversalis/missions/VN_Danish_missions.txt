@@ -13,8 +13,8 @@ vn_dan_missions_slot_1_a = {
 
     vn_dan_join_ostsiedlung = {
         icon = mission_build_up_to_force_limit
-        position = 1
-		required_missions = {  }
+        position = 2
+		required_missions = { vn_dan_incorporate_slesvig }
 		provinces_to_highlight = {
 			OR = {
 				area = kiel_area
@@ -260,7 +260,6 @@ vn_dan_missions_slot_2_a = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-			NOT = { exists = SVG }
             sonderborg_area = {
 				type = all
 				owned_by = ROOT
@@ -292,7 +291,7 @@ vn_dan_missions_slot_2_a = {
     }
     vn_dan_reinforce_danevirke = {
         icon = mission_fort
-        position = 2
+        position = 3
 		required_missions = { vn_dan_incorporate_slesvig }
 		provinces_to_highlight = {
 			OR = {
@@ -310,11 +309,13 @@ vn_dan_missions_slot_2_a = {
 				owned_by = ROOT
 				is_core = ROOT
 				has_fort_trigger = yes
+				base_manpower = 4
 			}
 			1029 = {
 				owned_by = ROOT
 				is_core = ROOT
 				has_fort_trigger = yes
+				base_manpower = 4
 			}
         }
         effect = {
@@ -336,22 +337,16 @@ vn_dan_missions_slot_2_a = {
     }
     vn_dan_advance_into_holstein = {
         icon = mission_unite_home_region	#placeholder
-        position = 4
+        position = 5
 		required_missions = { vn_dan_reinforce_danevirke }
 		provinces_to_highlight = {
-			OR = {
-				area = holstein_area
-				area = kiel_area
-			}
+			area = holstein_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 10
-				OR = {
-					area = holstein_area
-					area = kiel_area
-				}
+			holstein_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
 			}
         }
         effect = {
@@ -548,7 +543,7 @@ vn_dan_missions_slot_3_a = {
     }
     vn_dan_compete_with_hansa = {
         icon = mission_heart_of_the_hansa
-        position = 3
+        position = 4
 		required_missions = { vn_dan_control_oresund }
 		provinces_to_highlight = {
 			OR = {
@@ -585,7 +580,7 @@ vn_dan_missions_slot_3_a = {
     }
     vn_dan_seize_gotland = {
         icon = mission_invade_island 
-        position = 4
+        position = 5
 		required_missions = { vn_dan_compete_with_hansa }
 		provinces_to_highlight = {
 			region = balticislands_region
@@ -606,7 +601,7 @@ vn_dan_missions_slot_3_a = {
 	}
     vn_dan_danish_scandinavia = {
         icon = mission_unite_home_region	#placeholder
-        position = 5
+        position = 6
         required_missions = { 
 			vn_dan_advance_into_holstein 
 			vn_dan_seize_gotland
@@ -647,10 +642,88 @@ vn_dan_missions_slot_4_a = {
     }
     has_country_shield = yes
 
-    vn_dan_conquer_smaland = {
-        icon = mission_fort
+	vn_dan_against_swedes = {
+        icon = mission_alliances
         position = 1
 		required_missions = {  }
+        trigger = {
+            OR = {
+				SWE = {
+					exists = yes
+					custom_trigger_tooltip = {
+						tooltip = vn_nor_against_swedes.tt
+						num_of_owned_provinces_with = {
+							superregion = scandinavia_superregion
+							is_claim = ROOT
+							value = 5
+						}
+					}
+				}
+				AND = {
+					calc_true_if = {
+						desc = vn_dan_against_swedes.tt2
+						scandinavia_region = {
+							type = all
+							OR = {
+								is_claim = ROOT
+								is_core = ROOT
+							}
+						}
+						amount = 2
+					}
+					calc_true_if = {
+						desc = vn_nor_against_swedes.tt3
+						gotaland_region = {
+							type = all
+							OR = {
+								is_claim = ROOT
+								is_core = ROOT
+							}
+						}
+						amount = 2
+					}
+				}
+			}
+        }
+        effect = {
+			add_country_modifier = {
+				name = "nor_against_swedes_mission"
+				duration = 7300
+			}
+			dalsland_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			kronoberg_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			jonkoping_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+			kalmar_area = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_dan_conquer_smaland = {
+        icon = mission_fort
+        position = 2
+		required_missions = { vn_dan_against_swedes }
 		provinces_to_highlight = {
 			OR = {
 				region = scandinavia_region
@@ -680,7 +753,7 @@ vn_dan_missions_slot_4_a = {
     }
     vn_dan_subjugate_swedes = {
 		icon = mission_unite_home_region	#placeholder
-        position = 2
+        position = 3
         required_missions = { 
 			vn_dan_conquer_smaland 
 			vn_dan_conquer_vastergotland 
@@ -707,19 +780,24 @@ vn_dan_missions_slot_4_a = {
     }
     vn_dan_reach_stockholm = {
         icon = mission_big_city
-        position = 3
+        position = 4
 		required_missions = { vn_dan_subjugate_swedes }
 		provinces_to_highlight = {
 			region = uppland_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
+			svealand_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
             uppland_region = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
         effect = {
+			add_adm_power = 100
 			if = {
 				limit = {
 					has_dlc = "Dharma"
@@ -740,7 +818,7 @@ vn_dan_missions_slot_4_a = {
     }
     vn_dan_kalmar_union = {
         icon = mission_unite_home_region	#placeholder 
-        position = 4
+        position = 5
         required_missions = { 
 			vn_dan_reach_stockholm 
 			vn_dan_western_norway
@@ -779,30 +857,6 @@ vn_dan_missions_slot_4_a = {
 			}
         }
     }
-    vn_dan_era_of_absolutism = {
-        icon = mission_monarch_in_throne_room 
-        position = 5
-        required_missions = { vn_dan_kalmar_union }
-        trigger = {
-			custom_trigger_tooltip = {
-                tooltip = vn_dan_era_of_absolutism.tt
-                OR = {
-                    has_country_flag = had_counts_feud
-                    current_age = age_of_absolutism
-                    current_age = age_of_revolutions
-                    current_age = age_of_ideology
-                }
-            }
-        }
-        effect = {
-			add_absolutism = 10
-			add_stability_or_adm_power = yes
-			add_country_modifier = {
-				name = "dan_era_of_absolutism_mission"
-				duration = 9125
-			}
-        }
-	}
 }
 
 vn_dan_missions_slot_4_b = {
@@ -931,8 +985,8 @@ vn_dan_missions_slot_5_a = {
 
     vn_dan_conquer_vastergotland = {
         icon = mission_unite_home_region	#placeholder
-        position = 1
-		required_missions = {  }
+        position = 2
+		required_missions = { vn_dan_against_swedes }
 		provinces_to_highlight = {
 			OR = {
 				area = dalsland_area
@@ -965,6 +1019,13 @@ vn_dan_missions_slot_5_a = {
                 }
                 add_permanent_claim = ROOT
 			}
+			austlandet_region = {
+				limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+			}
         }
 	}
 }
@@ -981,8 +1042,8 @@ vn_dan_missions_slot_5_b = {
 	
     vn_dan_eastern_norway = {
         icon = mission_unite_home_region	#placeholder 
-        position = 2
-		required_missions = {  }
+        position = 3
+		required_missions = { vn_dan_conquer_vastergotland }
 		provinces_to_highlight = {
 			region = austlandet_region
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -1005,7 +1066,7 @@ vn_dan_missions_slot_5_b = {
     }
     vn_dan_western_norway = {
         icon = mission_unite_home_region	#placeholder 
-        position = 3
+        position = 4
 		required_missions = { vn_dan_eastern_norway }
 		provinces_to_highlight = {
 			region = vestlandet_region
@@ -1074,6 +1135,30 @@ vn_dan_missions_slot_5_b = {
 					name = "dan_found_cities_in_norway_mission2"
 					duration = 7300
 				}
+			}
+        }
+	}
+	vn_dan_era_of_absolutism = {
+        icon = mission_monarch_in_throne_room 
+        position = 7
+        required_missions = { }
+        trigger = {
+			custom_trigger_tooltip = {
+                tooltip = vn_dan_era_of_absolutism.tt
+                OR = {
+                    has_country_flag = had_counts_feud
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
+        }
+        effect = {
+			add_absolutism = 10
+			add_stability_or_adm_power = yes
+			add_country_modifier = {
+				name = "dan_era_of_absolutism_mission"
+				duration = 9125
 			}
         }
 	}
