@@ -1,5 +1,5 @@
 namespace = vn_missions
-###TAIFA RELS###
+###TAIFA###
 #Restoration of the Caliphate of Cordoba
 country_event = {
 	id = vn_missions.1
@@ -11,7 +11,7 @@ country_event = {
 
 	option = {
 		name = vn_missions.1.a
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 0 }
 		if = {
 			limit = { NOT = { government_rank = 6 } }
 			set_government_rank = 6
@@ -19,11 +19,99 @@ country_event = {
 		change_government = monarchy
 		add_government_reform = feudal_theocracy
 		add_prestige = 25
+		if = {
+			limit = { uses_piety = yes }
+			add_piety = 0.33
+		}
 	}
 	option = {
 		name = vn_missions.1.b
 		ai_chance = { factor = 0 }
-		add_stability_or_adm_power = yes
+		change_government = monarchy
+		add_government_reform = feudal_theocracy
+		add_prestige = 25
+		add_stability = -1
+		tooltip = { kill_ruler = yes }
+		if = {
+			limit = { has_heir = yes }
+			remove_heir = yes
+		}
+		define_ruler = {
+			dynasty = "Banû Umayya"
+			male = yes
+			claim = 50
+		}
+		if = {
+			limit = { uses_piety = yes }
+			add_piety = 0.33
+		}
+	}
+	option = {
+		name = vn_missions.1.c
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				OR = {
+					tag = CRD
+					was_tag = CRD
+					dynasty = "Banû Hummûd"
+				}
+			}
+		}
+		change_government = monarchy
+		add_government_reform = feudal_theocracy
+		add_prestige = 25
+		if = {
+			limit = { has_consort = yes }
+			remove_consort = yes
+		}
+		define_consort = {
+			dynasty = "Banû Umayya"
+		}
+		if = {
+			limit = { has_heir = yes }
+			remove_heir = yes
+		}
+		define_heir = {
+			dynasty = "Banû Umayya"
+			age = 0
+			male = yes
+			claim = 50
+		}
+		if = {
+			limit = { uses_piety = yes }
+			add_piety = 0.33
+		}
+	}
+	option = {
+		name = vn_missions.1.dd
+		highlight = yes
+		ai_chance = { factor = 100 }
+		trigger = { government = republic }
+		add_government_reform = feudal_governorship
+		if = {
+			limit = { NOT = { religion = ibadi } }
+			change_religion = ibadi
+		}
+		if = {
+			limit = { uses_piety = yes }
+			add_piety = 0.33
+		}
+	}
+	option = {
+		name = vn_missions.1.e
+		highlight = yes
+		ai_chance = { factor = 100 }
+		trigger = { dynasty = "Banû Hammûd" }
+		change_government = monarchy
+		add_government_reform = feudal_theocracy
+		add_stability = 1
+		add_prestige = 25
+		if = {
+			limit = { uses_piety = yes }
+			add_piety = 0.33
+		}
 	}
 }
 
