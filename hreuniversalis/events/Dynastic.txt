@@ -73,7 +73,7 @@ country_event = {
 	
 	option = {
 		name = "EVTOPTA9451"
-		kill_heir = yes
+		kill_heir = {}
 		if = {
 			limit = {
 				NOT = { adm_tech = 36 }
@@ -111,7 +111,7 @@ country_event = {
 	
 	option = {
 		name = "EVTOPTB9451"
-		kill_heir = yes
+		kill_heir = { allow_new_heir = no }
 		define_heir = {
 			dynasty = ROOT
 			claim = 30
@@ -159,7 +159,7 @@ country_event = {
 	
 	option = {
 		name = "EVTOPTB9452"
-		kill_heir = yes
+		kill_heir = {}
 	}
 }
 
@@ -415,7 +415,7 @@ country_event = {
 		name = "EVTOPTA9456"
 		add_years_of_income = -0.2
 		random_list = {
-			50 = { kill_heir = yes }
+			50 = { kill_heir = {} }
 			50 = {
 				add_legitimacy = 5
 			}
@@ -425,7 +425,7 @@ country_event = {
 	option = {
 		name = "EVTOPTB9456"
 		random_list = {
-			75 = { kill_heir = yes}
+			75 = { kill_heir = {} }
 			25 = {
 				add_legitimacy = 30
 			}
@@ -465,9 +465,9 @@ country_event = {
 		define_heir = {
 			claim = 20
 			dynasty = ROOT
-			adm = 1
-			dip = 1
-			mil = 1
+			change_adm = 1
+			change_dip = 1
+			change_mil = 1
 			male = yes
 			no_consort_with_heir = yes
 		}
@@ -520,7 +520,7 @@ country_event = {
 		random_list = {
 			50 = { add_years_of_income = 0.05 }
 			45 = { add_legitimacy = 20}
-			5 = { kill_heir = yes}
+			5 = { kill_heir = {}}
 		}
 	}
 	
@@ -555,12 +555,12 @@ country_event = {
 	}
 	option = {
 		name = "EVTOPTA9459"
-		kill_heir = yes
+		kill_heir = {}
 		add_stability = -1
 	}
 	option = {
 		name = "EVTOPTB9459"
-		kill_heir = yes
+		kill_heir = {}
 		add_prestige = -10
 	}
 }
@@ -680,7 +680,7 @@ country_event = {
 	
 	option = {
 		name = "EVTOPTA9468"
-		kill_heir = yes
+		kill_heir = { allow_new_heir = no }
 		define_ruler = {}
 		if = {
 			limit = {
@@ -1180,7 +1180,7 @@ province_event = {
 	option = {
 		name = "EVTOPTA9481"
 		owner = {
-			kill_heir = yes
+			kill_heir = {}
 			set_country_flag = murdering_bastard
 		}
 	}
@@ -1498,7 +1498,7 @@ country_event = {
 	
 	option = {
 		name = "EVTOPTB9488"
-		kill_heir = yes
+		kill_heir = {}
 		add_war_exhaustion = -2
 	}
 }
@@ -1638,7 +1638,6 @@ country_event = {
 			adm = 4
 			dip = 3
 			mil = 3
-			fixed = yes
 		}
 	}
 	
@@ -1652,7 +1651,6 @@ country_event = {
 			dip = 3
 			mil = 4
 			female = yes
-			fixed = yes
 		}
 	}
 	option = {
@@ -1676,7 +1674,6 @@ country_event = {
 			dip = 3
 			mil = 4
 			female = yes
-			fixed = yes
 		}
 	}
 }
@@ -1806,9 +1803,9 @@ country_event = {
 		define_heir = {
 			dynasty = ROOT
 			age = 13
-			adm = 3
-			dip = 3
-			mil = 3
+			change_adm = 3
+			change_dip = 3
+			change_mil = 3
 			claim = 50
 			female = yes
 			no_consort_with_heir = yes
@@ -2125,21 +2122,6 @@ country_event = {
 	option = {	
 		name = dynastic_events.6.a	
 		add_prestige = 20	
-		hidden_effect = {	
-			if = {	
-				limit = {	
-					has_dlc = "Rights of Man"	
-				}	
-				if = {	
-					limit = {	
-						is_female = yes	
-					}	
-					FROM = {	
-						set_country_flag = new_female_consort	
-					}	
-				}	
-			}	
-		}	
 		FROM = {	
 			set_country_flag = dyn_pu_accepted_flag	
 			tooltip = {	
@@ -2196,62 +2178,22 @@ country_event = {
 	
 	is_triggered_only = yes
 
-	immediate = {	
-		if = {	
-			limit = {	
-				has_dlc = "Rights of Man"	
-				has_country_flag = dyn_pu_accepted_flag	
-			}	
-			export_to_variable = {	
-				which = new_consort_religion	
-				value = ruler_religion	
-				who = FROM	
-			}	
-			export_to_variable = {	
-				which = new_consort_culture	
-				value = ruler_culture	
-				who = FROM	
-			}	
-		}	
-	}
-	
-	option = {	
-		name = dynastic_events.7.a	
-		trigger = {	
-			has_country_flag = dyn_pu_accepted_flag	
-		}	
-		add_legitimacy = 20	
-		if = {	
-			limit = {	
-				has_dlc = "Rights of Man"	
-			}	
-			if = {	
-				limit = {	
-					has_country_flag = new_female_consort	
-				}	
-				define_consort = {	
-					country_of_origin = FROM	
-					dynasty = FROM	
-					female = yes	
-					religion = FROM	
-					culture = FROM	
-				}	
-			}	
-			else = {	
-				define_consort = {	
-					country_of_origin = FROM	
-					dynasty = FROM	
-					male = yes	
-					religion = FROM	
-					culture = FROM	
-				}	
-			}	
-			hidden_effect = {	
-				set_consort_culture = variable:new_consort_culture	
-				set_consort_religion = variable:new_consort_religion	
-			}	
-		}	
-		create_union = FROM			
+	option = {
+		name = dynastic_events.7.a
+		trigger = {
+
+			has_country_flag = dyn_pu_accepted_flag
+		}
+		add_legitimacy = 20
+		if = {
+			define_consort = {
+				country_of_origin = FROM
+				dynasty = FROM
+				culture = FROM
+				religion = FROM
+			}
+		}
+		create_union = FROM		
 	}
 	
 	option = {

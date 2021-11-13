@@ -3998,9 +3998,9 @@ country_event = {
 		exile_ruler_as = colonial_exiled_governor
 		define_ruler = {
 			culture = ROOT
-			ADM = 4
-			DIP = 3
-			MIL = 3
+			change_adm = 4
+			change_dip = 3
+			change_mil = 3
 		}
 		random = {
 			chance = 50
@@ -4147,7 +4147,7 @@ country_event = {
 			is_subject_of_type = crown_colony
 			is_subject_of_type = self_governing_colony
 		}
-		NOT = { development = 70 }
+		NOT = { total_development = 70 }
 		NOT = { manpower_percentage = 0.9 }
 		stability = 0
 		has_adm_advisor = yes
@@ -4424,15 +4424,10 @@ country_event = {
 	trigger = {
 		any_owned_province = {
 			is_colony = yes
+			NOT = { has_province_flag = absent_governor }
 		}
 		has_dlc = "Leviathan"
-		OR = {
-			is_colonial_nation = yes
-			owner = {
-				is_colonial_nation = yes
-			}
-		}	
-		NOT = { has_province_flag = absent_governor }
+		is_colonial_nation = yes
 	}
 	
 	immediate = {
@@ -4442,8 +4437,8 @@ country_event = {
 					is_colony = yes
 				}
 				save_event_target_as = absent_governor_province
+				set_province_flag = absent_governor
 			}
-			set_province_flag = absent_governor
 		}
 	}
 	
@@ -4485,13 +4480,7 @@ province_event = {
 	
 	immediate = {
 		hidden_effect = {
-			random_owned_province = {
-				limit = {
-					is_colony = yes
-					religion = catholic
-				}
-				save_event_target_as = miraculous_colony
-			}
+			save_event_target_as = miraculous_colony
 			set_province_flag = miraculous_colony
 		}
 	}
@@ -4520,8 +4509,8 @@ province_event = {
 	
 	option = { #we must inform the pope immediately!
 		name = colonial_nation.191.b 
-		trigger = { NOT = { tag = PAP } }
-		add_papal_influence = 10
+		trigger = { owner = { NOT = { tag = PAP } } }
+		owner = { add_papal_influence = 10 }
 		event_target:miraculous_colony = {
 			add_province_modifier = {
 				name = miraculous_colony
@@ -4532,10 +4521,12 @@ province_event = {
 	
 	option = { #nonsense
 		name = colonial_nation.191.c
-		add_adm_power = 50
-		add_estate_loyalty = {
-			estate = estate_church
-			loyalty = -5
+		owner = {
+			add_adm_power = 50
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = -5
+			}
 		}
 		event_target:miraculous_colony = {
 			add_unrest = 1
