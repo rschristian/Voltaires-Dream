@@ -1,0 +1,93 @@
+country_decisions = {
+	bulgaria_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_bulgaria_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { tag = BUL }
+			OR = {
+				ai = no
+				AND = {
+					NOT = { exists = BUL }
+					num_of_cities = 3 #Carnage
+				}
+			}
+			NOT = { tag = HLR }
+			NOT = { tag = PAP }
+			primary_culture = bulgarian
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 588	# Sofia
+				province_id = 5393	# Nigbolu
+				province_id = 2438	# Vidin
+				province_id = 2131	# Plodiv
+				province_id = 613	# Kostendil
+				province_id = 2135	# Tirnovo
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = BUL }
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+			is_nomad = no
+			owns_core_province = 588	# Sofia
+			owns_core_province = 5393	# Nigbolu
+			owns_core_province = 2438	# Vidin
+			owns_core_province = 2131	# Plodiv
+			owns_core_province = 613	# Kostendil
+			owns_core_province = 2135	# Tirnovo
+			religion_group = christian
+		}
+		effect = {
+			change_tag = BUL
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { NOT = { government_rank = 5 } }
+				set_government_rank = 5
+			}
+			set_capital = 2135
+			bulgaria_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = BUL
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			add_prestige = 25
+			if = {
+				limit = {
+					has_custom_ideas = no
+					NOT = { has_idea_group = BUL_ideas }
+				}
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			set_country_flag = formed_bulgaria_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 400 #
+	}
+}
