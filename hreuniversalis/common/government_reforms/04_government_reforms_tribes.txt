@@ -170,6 +170,9 @@ great_mongol_state_reform = {
 		allow = { has_dlc = "Mandate of Heaven" }
 		allow_banners = yes
 	}
+	ai = {
+		factor = 1000
+	}
 }
 
 tribal_federation = {
@@ -196,6 +199,9 @@ tribal_federation = {
 			tribal_federation_mechanic
 		}
 	}
+	ai = {
+		factor = 0
+	}
 }
 
 tribal_despotism = {
@@ -207,6 +213,9 @@ tribal_despotism = {
 		core_creation = -0.1
 	}
 	legacy_equivalent = tribal_despotism_legacy
+	ai = {
+		factor = 1
+	}
 }
 
 tribal_kingdom = {
@@ -229,6 +238,9 @@ tribal_kingdom = {
 		hostile_attrition = 1
 		diplomatic_upkeep = -1
 	}
+	ai = {
+		factor = 1
+	}
 }
 
 stateless_society = {	
@@ -241,7 +253,14 @@ stateless_society = {
 		governing_capacity_modifier = -0.99	
 		defensiveness = 0.75	
 		land_morale = 0.15	
-	}	
+	}
+	ai = {
+		factor = 1
+		modifier = {
+			factor = -1
+			num_of_cities = 2
+		}
+	}
 }
 
 #tribal_cultural_values
@@ -350,6 +369,8 @@ centralize_tribal_power_reform = {
 	}
 }
 
+#Tribal Reformation
+
 horde_barbaric_despoilers_reform = {
 	icon = "rioting_burning_2"
 	allow_normal_conversion = yes
@@ -392,6 +413,9 @@ tribe_becomes_monarchy_reform = {
 	allow_normal_conversion = yes
 	potential = {	
 		NOT = { has_reform = stateless_society }
+	}
+	trigger = {
+		NOT = { has_government_attribute_short_desc = locked_government_type }
 	}
 	effect = {
 		set_country_flag = populists_in_government
@@ -451,6 +475,10 @@ tribe_becomes_monarchy_reform = {
 tribe_becomes_republic_reform = {
 	icon = "parliament_highlighted"
 	allow_normal_conversion = yes
+	trigger = {
+		NOT = { is_lesser_in_union = yes }
+		NOT = { has_government_attribute_short_desc = locked_government_type }
+	}
 	effect = {
 		set_country_flag = populists_in_government
 		lose_reforms = 4
@@ -510,6 +538,10 @@ tribe_becomes_theocracy_reform = {
 	allow_normal_conversion = yes
 	potential = {	
 		NOT = { has_reform = stateless_society }
+	}
+	trigger = {
+		NOT = { is_lesser_in_union = yes }
+		NOT = { has_government_attribute_short_desc = locked_government_type }
 	}
 	effect = {
 		set_country_flag = populists_in_government
@@ -587,8 +619,46 @@ tribe_becomes_horde_reform = {
 			has_reform = tribe_becomes_horde_reform
 		}
 		NOT = { has_reform = great_mongol_state_reform }
+		NOT = { has_government_attribute_short_desc = locked_government_type }
 	}
 	ai = {
 		factor = 0
+	}
+}
+
+tribe_remain_tribal_reform = {
+	icon = "rioting_burning_2"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			AND = {
+				NOT = { has_reform = steppe_horde }
+				NOT = { has_reform = great_mongol_state_reform }
+			}
+			NOT = { has_dlc = "The Cossacks" }
+		}
+	}
+	modifiers = {
+		legitimacy = 0.5
+		war_exhaustion = -0.02
+	}
+}
+
+tribe_tribal_unity = {
+	icon = "fist_in_air"
+	allow_normal_conversion = yes
+	potential = {
+		has_reform = tribal_federation
+		has_dlc = "Cradle of Civilization"
+	}
+	modifiers = {
+		yearly_tribal_allegiance = 1
+		church_loyalty_modifier = 0.05
+		nobles_loyalty_modifier = 0.05
+		dhimmi_loyalty_modifier = 0.05
+		burghers_loyalty_modifier = 0.05
+	}
+	ai = {
+		factor = 2
 	}
 }
