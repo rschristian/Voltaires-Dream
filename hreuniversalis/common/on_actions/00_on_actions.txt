@@ -226,19 +226,6 @@ on_religion_change = {
 			remove_province_modifier = sufi_shrine
 		}
 	}
-	if = {
-		limit = {
-			religion = shamanism
-			has_country_modifier = son_fetishism_as_secondary_religion
-		}
-		remove_country_modifier = son_fetishism_as_secondary_religion
-		every_owned_province = {
-			limit = {
-				has_province_modifier = son_fetishism_as_secondary_religion_province
-			}
-			remove_province_modifier = son_fetishism_as_secondary_religion_province
-		}
-	}
 	events = {
 		muslim_school_events.20 #Pick School
 	}
@@ -4174,28 +4161,14 @@ on_province_owner_change = {
 		limit = {
 			owner = {
 				NOT = { culture_group = ROOT }
-				has_owner_accepted_culture = no
 				has_estate_privilege = estate_church_one_faith_one_culture
 			}
+			has_owner_accepted_culture = no
 			NOT = { has_province_modifier = estate_church_false_culture }
 		}
 		add_province_modifier = {
 			name = estate_church_false_culture
 			duration = -1
-		}
-	}
-	if = {
-		limit = {
-			owner = {
-				has_country_modifier = son_fetishism_as_secondary_religion
-			}
-			religion = shamanism
-			NOT = { has_province_modifier = son_fetishism_as_secondary_religion_province }
-		}
-		add_province_modifier = {
-			name = son_fetishism_as_secondary_religion_province
-			duration = -1
-			desc = son_fetishism_as_secondary_religion_province_desc
 		}
 	}
 	
@@ -4207,18 +4180,6 @@ on_province_owner_change = {
 			}
 		}
 		remove_country_modifier = third_temple_country_modifier
-	}
-	else_if = {
-		limit = {
-			OR = {
-				owner = {
-					NOT = { has_country_modifier = son_fetishism_as_secondary_religion }
-				}
-				NOT = { religion = shamanism }
-			}
-			has_province_modifier = son_fetishism_as_secondary_religion_province
-		}
-		remove_province_modifier = son_fetishism_as_secondary_religion_province
 	}
 }
 
@@ -4821,81 +4782,6 @@ on_estate_removed = {
 }
 
 on_colonist_boosting_colony = {
-	hidden_effect = {
-		if = {
-			limit = {
-				OR = {
-					religion = noreligion
-					#test if colonists outnumber natives
-					variable_arithmetic_trigger = {
-						custom_tooltip = colonysize_is_larger_than_nativesize_tt
-						export_to_variable = {
-							which = vab_colonysize
-							value = trigger_value:colonysize
-						}
-						export_to_variable = {
-							which = vab_nativesize
-							value = trigger_value:native_size
-						}
-						check_variable = {
-							which = vab_colonysize
-							which = vab_nativesize
-						}
-					}
-					is_in_capital_area = yes
-					OR = {
-						continent = north_america
-						continent = south_america
-						continent = new_world
-					}
-					NOT = {
-						OR = {
-							has_dlc = "Dharma"
-							has_dlc = "Wealth of Nations"
-						}
-					}
-				}
-			}
-			change_religion = FROM
-		}
-		if = {
-			limit = {
-				OR = {
-					culture = noculture
-					#test if colonists outnumber natives
-					variable_arithmetic_trigger = {
-						custom_tooltip = colonysize_is_larger_than_nativesize_tt
-						export_to_variable = {
-							which = vab_colonysize
-							value = trigger_value:colonysize
-						}
-						export_to_variable = {
-							which = vab_nativesize
-							value = trigger_value:native_size
-						}
-						check_variable = {
-							which = vab_colonysize
-							which = vab_nativesize
-						}
-					}
-					is_in_capital_area = yes
-					OR = {
-						continent = north_america
-						continent = south_america
-						continent = new_world
-					}
-					NOT = {
-						OR = {
-							has_dlc = "Dharma"
-							has_dlc = "Wealth of Nations"
-						}
-					}
-				}
-			}
-			change_culture = FROM
-			change_original_culture = FROM
-		}
-	}
 }
 
 #ROOT = converted country, FROM = country which force converts ROOT, on_action gets called on Force religion peace and Enforce Religion subject interaction
