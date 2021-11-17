@@ -26,7 +26,7 @@ vn_taifa_missions_slot_1 = {
 
     vn_taifa_placate_the_christians = {
         position = 2
-        icon = mission_tear_down_spanish_strongholds
+        icon = mission_african_gold
         required_missions = { vn_taifa_gather_support }
         trigger = {
             calc_true_if = {
@@ -184,15 +184,11 @@ vn_taifa_missions_slot_3 = {
 		}
         effect = {
             capital_scope = {
-                if = {
-                    limit = {
-                        has_fort_trigger = no
-                    }
-                    add_building = road_network
-                }
-                else = {
-                    add_base_manpower = 2
-                }
+                add_base_tax = 1
+                add_latest_building = {
+					trade = yes
+					builder = ROOT
+				}
             }
         }
     }
@@ -258,7 +254,7 @@ vn_taifa_missions_slot_3 = {
     }
     vn_taifa_restore_cordoba = {
         position = 4
-        icon = mission_fortify_mandu
+        icon = mission_mal_riches_of_trade
         required_missions = { vn_taifa_conquer_cordoba }
         trigger = {
             OR = {
@@ -360,10 +356,6 @@ vn_taifa_missions_slot_4 = {
 					NOT = { unrest = 1 }
 				}
             }
-            num_of_owned_provinces_with = {
-                value = 3
-                has_production_building_trigger = yes
-            }
         }
         effect = {
             if = {
@@ -387,6 +379,12 @@ vn_taifa_missions_slot_4 = {
             else = {
                 add_dip_power = 75
             }
+            custom_tooltip = vn_lem_recover_from_crusade.tt
+            hidden_effect = {
+                every_owned_province = {
+                    add_local_autonomy = -5
+                }
+            }
         }
     }
     vn_taifa_cultural_splendor = {
@@ -403,10 +401,10 @@ vn_taifa_missions_slot_4 = {
 					}
 				}
 				AND = {
-					superregion = iberia_superregion
+					NOT = { province_id = 2670 }
                     religion_group = muslim
-					NOT = { is_capital_of = ROOT }
-					higher_development_than = capital_scope
+                    NOT = { is_capital_of = ROOT }
+                    higher_development_than = PREV
 				}
 			}
         }
@@ -417,16 +415,19 @@ vn_taifa_missions_slot_4 = {
                 culture = ROOT
                 religion = ROOT
             }
-            #custom_trigger_tooltip = {
-                #tooltip = vn_taifa_cultural_splendor.tt
-                NOT = {
-                    iberia_superregion = {
-                        religion_group = muslim
-                        NOT = { is_capital_of = ROOT }
-                        higher_development_than = capital_scope
+            custom_trigger_tooltip = {
+                tooltip = vn_taifa_cultural_splendor.tt
+                capital_scope = {
+                    NOT = {
+                        iberia_superregion = {
+                            NOT = { province_id = 2670 }
+                            religion_group = muslim
+                            NOT = { is_capital_of = ROOT }
+                            higher_development_than = PREV
+                        }
                     }
                 }
-            #}
+            }
 		}
         effect = {
             add_country_modifier = {
@@ -511,18 +512,21 @@ vn_taifa_missions_slot_5 = {
 
     vn_taifa_summon_a_council = {
         position = 2
-        icon = mission_portuguese_ceylon
+        icon = mission_ottoman_harem
         required_missions = { }
         trigger = {
             has_3_advisors_trigger = yes
         }
         effect = {
-            
+            add_country_modifier = {
+                name = taifa_summon_a_council_mission
+                duration = 9125
+            }
         }
     }
     vn_taifa_foreign_military_aid = {
         position = 3
-        icon = mission_portuguese_ceylon
+        icon = mission_son_military_expertise
         required_missions = { vn_taifa_summon_a_council }
         provinces_to_highlight = {
             is_capital = yes
