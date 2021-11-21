@@ -36,7 +36,6 @@ country_event = {
         name = "parias_events.1.a"
         ai_chance = {
             factor = 20
-
             modifier = {
                 factor = 0
                 OR = {
@@ -75,7 +74,6 @@ country_event = {
         name = "parias_events.1.b"
         ai_chance = {
             factor = 60
-
             modifier = {
                 factor = 0.5
                 num_of_rebel_armies = 1
@@ -122,7 +120,6 @@ country_event = {
         name = "parias_events.1.c"
         ai_chance = {
             factor = 10
-
             modifier = {
                 factor = 0
                 OR = {
@@ -241,6 +238,7 @@ country_event = {
                 country_event = {
                     id = parias_events.2
                     days = 1
+                    tooltip = parias_events.tt.1
                 }
             }
         }
@@ -249,10 +247,10 @@ country_event = {
                 country_event = {
                     id = parias_events.2
                     days = 1
+                    tooltip = parias_events.tt.1
                 }
             }
         }
-        custom_tooltip = parias_events.tt.1
     }
 }
 
@@ -269,7 +267,6 @@ country_event = {
         name = "parias_events.2.a"
         ai_chance = {
             factor = 80
-
             modifier = {
                 factor = 0
                 is_bankrupt = yes
@@ -353,14 +350,14 @@ country_event = {
             who = FROM
             casus_belli = cb_restore_paria
         }
-        set_country_flag = paria_war_attacker
-        FROM = {
-            set_country_flag = paria_war_defender
-        }
-        FROM = {
-            country_event = {
-                id = parias_events.3
-                days = 1
+        hidden_effect = {
+            set_country_flag = paria_war_attacker
+            FROM = {
+                set_country_flag = paria_war_defender
+                country_event = {
+                    id = parias_events.3
+                    days = 1
+                }
             }
         }
     }
@@ -373,10 +370,12 @@ country_event = {
             type = cb_restore_paria
             months = 240
         }
-        FROM = {
-            country_event = {
-                id = parias_events.4
-                days = 1
+        hidden_effect = {
+            FROM = {
+                country_event = {
+                    id = parias_events.4
+                    days = 1
+                }
             }
         }
     }
@@ -425,13 +424,6 @@ country_event = {
                 attacker_leader = ROOT
                 casus_belli = cb_restore_paria
             }
-            any_enemy_country = {
-                is_in_war = {
-                    attacker_leader = ROOT
-                    defender_leader = THIS
-                    casus_belli = cb_restore_paria
-                }
-            }
         }
         NOT = { has_country_flag = paria_war_attacker }
     }
@@ -444,9 +436,10 @@ country_event = {
         name = "parias_events.5.a"
         ai_chance = { factor = 100 }
         set_country_flag = paria_war_attacker
-        every_enemy_country = {
+        every_country = {
             limit = {
                 is_in_war = {
+                    attacker_leader = ROOT
                     defender_leader = THIS
                     casus_belli = cb_restore_paria
                 }
