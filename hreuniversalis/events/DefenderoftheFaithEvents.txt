@@ -236,10 +236,22 @@ country_event = {
 		has_dlc = "Emperor"
 		is_defender_of_faith = yes
 		is_defender_of_faith_of_tier = 4
-		religion = catholic
-		any_rival_country = {
-			religion = catholic
-			NOT = { war_with = ROOT }
+		OR = {
+			AND = {
+				religion = catholic
+				any_rival_country = {
+					religion = catholic
+					NOT = { war_with = ROOT }
+				}
+			}
+			AND = {
+				religion = catholique
+				any_rival_country = {
+					religion = catholique
+					NOT = { war_with = ROOT }
+				}
+			}
+			religion = catholique
 		}
 		NOT = {
 			any_country = {
@@ -253,12 +265,24 @@ country_event = {
 	
 	immediate = {
 		hidden_effect = {
-			random_rival_country = {
-				limit = {
-					religion = catholic
-					NOT = { war_with = ROOT }
+			if = {
+				limit = { religion = catholic }
+				random_rival_country = {
+					limit = {
+						religion = catholic
+						NOT = { war_with = ROOT }
+					}
+					save_event_target_as = catholic_rival
 				}
-				save_event_target_as = catholic_rival
+			}
+			else = {
+				random_rival_country = {
+					limit = {
+						religion = catholique
+						NOT = { war_with = ROOT }
+					}
+					save_event_target_as = catholic_rival
+				}
 			}
 			set_saved_name = {
 				key = humanist_thinker_name
@@ -277,20 +301,41 @@ country_event = {
 		event_target:catholic_rival = {
 			country_event = { id = dotf.5 days = 3 }
 		}
-		every_country = {
-			limit = {
-				capital_scope = {
-					has_discovered = ROOT
+		if = {
+			limit = { religion = catholic }
+			every_country = {
+				limit = {
+					capital_scope = {
+						has_discovered = ROOT
+					}
+					religion = catholic
+					total_development = 200
+					NOT = {
+						tag = event_target:catholic_rival
+					}
 				}
-				religion = catholic
-				total_development = 200
-				NOT = {
-					tag = event_target:catholic_rival
+				add_opinion = {	
+					who = ROOT
+					modifier = opinion_benevolent_dotf
 				}
 			}
-			add_opinion = {	
-				who = ROOT
-				modifier = opinion_benevolent_dotf
+		}
+		else = {
+			every_country = {
+				limit = {
+					capital_scope = {
+						has_discovered = ROOT
+					}
+					religion = catholique
+					total_development = 200
+					NOT = {
+						tag = event_target:catholic_rival
+					}
+				}
+				add_opinion = {	
+					who = ROOT
+					modifier = opinion_benevolent_dotf
+				}
 			}
 		}
 	}
@@ -468,7 +513,10 @@ country_event = {
 		has_dlc = "Emperor"
 		is_defender_of_faith = yes
 		is_defender_of_faith_of_tier = 4
-		religion = catholic
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
 		current_age = age_of_reformation
 		capital_scope = { continent = europe }
 		NOT = {
@@ -485,15 +533,31 @@ country_event = {
 		name = dotf.7.a
 		custom_tooltip = bastion_of_the_church_tt
 		hidden_effect = {
-			every_owned_province = {
-				limit = {
-					religion = catholic
-					continent = europe
-					culture = ROOT
+			if = {
+				limit = { religion = catholic }
+				every_owned_province = {
+					limit = {
+						religion = catholic
+						continent = europe
+						culture = ROOT
+					}
+					add_province_modifier = {
+						name = "bastion_of_the_church"
+						duration = 7300
+					}
 				}
-				add_province_modifier = {
-					name = "bastion_of_the_church"
-					duration = 7300
+			}
+			else = {
+				every_owned_province = {
+					limit = {
+						religion = catholique
+						continent = europe
+						culture = ROOT
+					}
+					add_province_modifier = {
+						name = "bastion_of_the_church"
+						duration = 7300
+					}
 				}
 			}
 		}

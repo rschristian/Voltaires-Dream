@@ -41,13 +41,10 @@ country_event = {
 		add_prestige = 25
 		add_legitimacy = 25
 		PAP = { set_papacy_active = no }
-		PAP = { change_government = theocratic_government }
+		PAP = { add_government_reform = leading_clergy_reform }
 		hidden_effect = {
-			if = {
-				limit = { AVI = { government = papal_government } }
-				AVI = { set_papacy_active = no }
-				AVI = { change_government = theocratic_government }
-			}
+			AVI = { set_papacy_active = no }
+			AVI = { add_government_reform = leading_clergy_reform }
 		}
 		#added for VN
 		add_patriarch_authority = 0.1
@@ -68,7 +65,10 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		religion = catholic
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
 		NOT = { is_religion_enabled = protestant }
 		NOT = { tag = PAP }
 		NOT = { tag = AVI }
@@ -113,7 +113,10 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		religion = catholic
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
 		NOT = { is_religion_enabled = protestant }
 		is_institution_enabled = laytheology
 		NOT = { tag = PAP }
@@ -139,7 +142,13 @@ country_event = {
 			factor = 10
 			modifier = {
 				factor = 0.5
+				religion = catholic
 				is_rival = PAP
+			}
+			modifier = {
+				factor = 0.5
+				religion = catholique
+				is_rival = AVI
 			}
 		}
 		add_years_of_income = -1
@@ -166,7 +175,13 @@ country_event = {
 			}
 			modifier = {
 				factor = 0.5
+				religion = catholic
 				alliance_with = PAP
+			}
+			modifier = {
+				factor = 0.5
+				religion = catholique
+				alliance_with = AVI
 			}
 		}
 		custom_tooltip = remove_reform_desire_effect.2
@@ -174,10 +189,21 @@ country_event = {
 			base_reform_desire = -0.02
 		}
 		add_papal_influence = -10
-		PAP = {
-			add_opinion = {
-				who = root
-				modifier = catholic_obstructing_church
+		if = {
+			limit = { religion = catholic }
+			PAP = {
+				add_opinion = {
+					who = root
+					modifier = catholic_obstructing_church
+				}
+			}
+		}
+		else = {
+			AVI = {
+				add_opinion = {
+					who = root
+					modifier = catholic_obstructing_church
+				}
 			}
 		}
 	}
@@ -193,23 +219,42 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		religion = catholic
+		OR = {
+			AND = {
+				religion = catholic
+				any_owned_province = { religion = catholic }
+			}
+			AND = {
+				religion = catholique
+				any_owned_province = { religion = catholique }
+			}
+		}
 		NOT = { is_religion_enabled = protestant }
 		is_institution_enabled = laytheology
 		NOT = { tag = PAP }
 		NOT = { tag = AVI }
-		any_owned_province = { religion = catholic }
 		is_year = 1490
 		NOT = { has_global_flag = pap_disables_veneration_relics_flag }
 	}
 
 	immediate = {
 		hidden_effect = {
-			random_owned_province = {
-				limit = {
-					religion = catholic
+			if = {
+				limit = { religion = catholic }
+				random_owned_province = {
+					limit = {
+						religion = catholic
+					}
+					save_event_target_as = unrest_province
 				}
-				save_event_target_as = unrest_province
+			}
+			else = {
+				random_owned_province = {
+					limit = {
+						religion = catholique
+					}
+					save_event_target_as = unrest_province
+				}
 			}
 		}
 	}
@@ -253,7 +298,10 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		religion = catholic
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
 		NOT = { is_religion_enabled = protestant }
 		is_institution_enabled = laytheology
 		NOT = { tag = PAP }
@@ -272,10 +320,21 @@ country_event = {
 	}
 	option = {
 		name = catholic_flavor.7.b
-		PAP = {
-			add_opinion = {
-				who = root
-				modifier = opinion_denying_the_holy_mother
+		if = {
+			limit = { religion = catholic }
+			PAP = {
+				add_opinion = {
+					who = root
+					modifier = opinion_denying_the_holy_mother
+				}
+			}
+		}
+		else = {
+			AVI = {
+				add_opinion = {
+					who = root
+					modifier = opinion_denying_the_holy_mother
+				}
 			}
 		}
 	}
@@ -291,23 +350,41 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		religion = catholic
-		NOT = { is_religion_enabled = protestant }
+		OR = {
+			AND = {
+				religion = catholic
+				any_owned_province = { religion = catholic }
+			}
+			AND = {
+				religion = catholique
+				any_owned_province = { religion = catholique }
+			}
+		}		NOT = { is_religion_enabled = protestant }
 		is_institution_enabled = laytheology
 		NOT = { tag = PAP }
 		NOT = { tag = AVI }
-		any_owned_province = { religion = catholic }
 	}
 	
 	mean_time_to_happen = { days = 1 }
 
 	immediate = {
 		hidden_effect = {
-			random_owned_province = {
-				limit = {
-					religion = catholic
+			if = {
+				limit = { religion = catholic }
+				random_owned_province = {
+					limit = {
+						religion = catholic
+					}
+					save_event_target_as = unrest_province
 				}
-				save_event_target_as = unrest_province
+			}
+			else = {
+				random_owned_province = {
+					limit = {
+						religion = catholique
+					}
+					save_event_target_as = unrest_province
+				}
 			}
 		}
 	}
@@ -342,7 +419,10 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		religion = catholic
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
 		NOT = { is_religion_enabled = protestant }
 		is_institution_enabled = laytheology
 		NOT = { tag = PAP }
@@ -381,7 +461,10 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		religion = catholic
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
 		NOT = { is_religion_enabled = protestant }
 		is_institution_enabled = laytheology
 		NOT = { tag = PAP }
