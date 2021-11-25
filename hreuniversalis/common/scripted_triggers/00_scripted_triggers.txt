@@ -652,8 +652,8 @@ has_no_manufactory_trigger = { #Province Scope
 root_can_build_manufactory_here_trigger = {
     has_no_manufactory_trigger = yes
     num_free_building_slots = 1
-    if = {
-        limit = {
+    OR = {
+        AND = {
             OR = {
                 trade_goods = fish
 				trade_goods = whales
@@ -665,12 +665,10 @@ root_can_build_manufactory_here_trigger = {
 				trade_goods = wax
 				trade_goods = slaves
             }
+			ROOT = { dip_tech = 45 }
         }
-        ROOT = { dip_tech = 45 }
-    }
-    else_if = {
-        limit = {
-            OR = {
+		AND = {
+			OR = {
                 trade_goods = iron
 				trade_goods = copper
 				trade_goods = plumbum
@@ -681,12 +679,10 @@ root_can_build_manufactory_here_trigger = {
 				trade_goods = gold
 				trade_goods = mercury
             }
-        }
-        ROOT = { mil_tech = 45 }
-    }
-    else_if = {
-        limit = {
-            OR = {
+			ROOT = { mil_tech = 45 }
+		}
+		AND = {
+			OR = {
                 trade_goods = silk
 				trade_goods = cloth
 				trade_goods = carpet
@@ -697,12 +693,10 @@ root_can_build_manufactory_here_trigger = {
 				trade_goods = paper
 				trade_goods = cotton
             }
-        }
-        ROOT = { adm_tech = 45 }
-    }
-    else_if = {
-        limit = {
-            OR = {
+			ROOT = { adm_tech = 45 }
+		}
+		AND = {
+			OR = {
             	trade_goods = sugar
             	trade_goods = tobacco
             	trade_goods = vegetables
@@ -713,12 +707,11 @@ root_can_build_manufactory_here_trigger = {
             	trade_goods = bananas
             	trade_goods = olive
             }
-        }
-        ROOT = { adm_tech = 48 }
-    }
-    else_if = {
-        limit = {
-            OR = {
+			ROOT = { adm_tech = 48 }
+
+		}
+		AND = {
+			OR = {
                 trade_goods = gems
 				trade_goods = glass
 				trade_goods = chinaware
@@ -729,12 +722,10 @@ root_can_build_manufactory_here_trigger = {
 				trade_goods = ivory
 				trade_goods = fur
             }
-        }
-        ROOT = { dip_tech = 48 }
-    }
-    else_if = {
-        limit = {
-            OR = {
+			ROOT = { dip_tech = 48 }
+		}
+		AND = {
+			OR = {
                 trade_goods = horses
 				trade_goods = livestock
 				trade_goods = pigs
@@ -744,12 +735,10 @@ root_can_build_manufactory_here_trigger = {
 				trade_goods = cheese
 				trade_goods = oil
             }
-        }
-        ROOT = { adm_tech = 32 }
-    }
-    else_if = {
-        limit = {
-            OR = {
+			ROOT = { adm_tech = 32 }
+		}
+		AND = {
+			OR = {
                 trade_goods = grain
 				trade_goods = barley
 				trade_goods = rye
@@ -760,17 +749,15 @@ root_can_build_manufactory_here_trigger = {
 				trade_goods = beer
 				trade_goods = spirits
             }
-        }
-        ROOT = { adm_tech = 50 }
-    }
-    else_if = {
-        limit = {
-            OR = {
+			ROOT = { adm_tech = 50 }
+		}
+		AND = {
+			OR = {
             	trade_goods = coal
             	trade_goods = steel
             }
-        }
-        ROOT = { adm_tech = 56 }
+			ROOT = { adm_tech = 56 }
+		}
     }
 }
 
@@ -1874,12 +1861,9 @@ has_better_tech_than_westerns = {
 	custom_trigger_tooltip = {
 		tooltip = has_better_tech_than_westerns_tt
 		NOT = {
-			calc_true_if = {
-				all_country = {
-					tech_difference = 1
-					technology_group = western
-				}
-				amount = 1
+			any_country = {
+				tech_difference = 1
+				technology_group = western
 			}
 		}
 	}
@@ -1909,4 +1893,11 @@ has_unlocked_estate_privilege = {
 
 has_unlocked_merc_company = {
 	has_country_flag = unlocked_$merc_company$
+}
+
+province_is_or_accepts_culture = {
+	OR = {
+		has_owner_culture = yes
+		has_owner_accepted_culture = yes
+	}
 }
