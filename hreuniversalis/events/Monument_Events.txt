@@ -1,7 +1,7 @@
 namespace = monument_events
 
 # Monument reaches highest tier
-country_event = {
+province_event = {
     id = monument_events.1
     title = monument_events.1.t
     desc = monument_events.1.d
@@ -10,28 +10,18 @@ country_event = {
 	
 	trigger = {
 		has_dlc = "Leviathan"
-		any_owned_province = {
-			has_great_project = {
-				type = any
-				tier = 3
-			}
-			NOT = { has_province_flag = monument_triggered_highest_tier_event_flag }	#The same monument shouldn't trigger this event multiple times
+		has_great_project = {
+			type = any
+			tier = 3
 		}
-		NOT = { has_country_modifier = monumental_pride }
+		NOT = { has_province_flag = monument_triggered_highest_tier_event_flag }	#The same monument shouldn't trigger this event multiple times
+		owner = { NOT = { has_country_modifier = monumental_pride } }
 	}
 	
 	 immediate = {
 		hidden_effect = {
-			random_owned_province = {
-				limit = {
-					has_great_project = {
-						type = any
-						tier = 3
-					}
-				}
-				save_event_target_as = monument_province
-				set_province_flag = monument_triggered_highest_tier_event_flag
-			}
+			save_event_target_as = monument_province
+			set_province_flag = monument_triggered_highest_tier_event_flag
 		}
     }
 	
@@ -41,18 +31,20 @@ country_event = {
 
     option = { #great!
         name = monument_events.1.a
-		if = {
-			limit = {
-				NOT = { stability = 1 }
+		owner = {
+			if = {
+				limit = {
+					NOT = { stability = 1 }
+				}
+				add_stability = 1
 			}
-			add_stability = 1
-		}
-		else = {
-			add_prestige = 20
-		}
-		add_country_modifier = {
-			name = monumental_pride
-			duration = 3650
+			else = {
+				add_prestige = 20
+			}
+			add_country_modifier = {
+				name = monumental_pride
+				duration = 3650
+			}
 		}
     }
 }
