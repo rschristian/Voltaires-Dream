@@ -106,84 +106,108 @@ vn_nrm_missions_slot_2_a = {
 		icon = mission_alliances
 		completed_by = 1066.1.5
 		required_missions = { }
+		provinces_to_highlight = {
+			is_capital_of = ASE
+		}
 		trigger = {
-			has_casus_belli = {
-				type = cb_fabricated_claims
-				target = ASE
+			if = {
+				limit = {
+					exists = ASE
+					ASE = { NOT = { is_subject_of = ROOT } }
+				}
+				has_casus_belli = {
+					type = cb_fabricated_claims
+					target = ASE
+				}
+			}
+			else = {
+				OR = {
+					NOT = { exists = ASE }
+					ASE = { is_subject_of = ROOT }
+				}
 			}
 		}
 		effect = {
-			custom_tooltip = vn_nrm_english_succession.tt
-			hidden_effect = {
-				if = {
-					limit = { exists = BRI }
-					BRI = {
-						country_event = {
-							id = vn_missions.55
-							days = 15
-							random = 5
+			if = {
+				limit = {
+					exists = ASE
+					ASE = { NOT = { is_subject_of = ROOT } }
+				}
+				custom_tooltip = vn_nrm_english_succession.tt
+				hidden_effect = {
+					if = {
+						limit = { exists = BRI }
+						BRI = {
+							country_event = {
+								id = vn_missions.55
+								days = 15
+								random = 5
+							}
+						}
+					}
+					else = {
+						random_country = {
+							limit = {
+								exists = yes
+								primary_culture = breton
+							}
+							country_event = {
+								id = vn_missions.55
+								days = 15
+								random = 5
+							}
+						}
+					}
+					if = {
+						limit = { exists = FLA }
+						FLA = {
+							country_event = {
+								id = vn_missions.55
+								days = 15
+								random = 5
+							}
+						}
+					}
+					else = {
+						random_country = {
+							limit = {
+								exists = yes
+								primary_culture = flemish
+							}
+							country_event = {
+								id = vn_missions.55
+								days = 15
+								random = 5
+							}
+						}
+					}
+					if = {
+						limit = { exists = AQT }
+						AQT = {
+							country_event = {
+								id = vn_missions.55
+								days = 15
+								random = 5
+							}
+						}
+					}
+					else = {
+						random_country = {
+							limit = {
+								exists = yes
+								primary_culture = poitevin
+							}
+							country_event = {
+								id = vn_missions.55
+								days = 15
+								random = 5
+							}
 						}
 					}
 				}
-				else = {
-					random_country = {
-						limit = {
-							exists = yes
-							primary_culture = breton
-						}
-						country_event = {
-							id = vn_missions.55
-							days = 15
-							random = 5
-						}
-					}
-				}
-				if = {
-					limit = { exists = FLA }
-					FLA = {
-						country_event = {
-							id = vn_missions.55
-							days = 15
-							random = 5
-						}
-					}
-				}
-				else = {
-					random_country = {
-						limit = {
-							exists = yes
-							primary_culture = flemish
-						}
-						country_event = {
-							id = vn_missions.55
-							days = 15
-							random = 5
-						}
-					}
-				}
-				if = {
-					limit = { exists = AQT }
-					AQT = {
-						country_event = {
-							id = vn_missions.55
-							days = 15
-							random = 5
-						}
-					}
-				}
-				else = {
-					random_country = {
-						limit = {
-							exists = yes
-							primary_culture = poitevin
-						}
-						country_event = {
-							id = vn_missions.55
-							days = 15
-							random = 5
-						}
-					}
-				}
+			}
+			else = {
+				add_mil_power = 50
 			}
 		}
     }
@@ -192,11 +216,26 @@ vn_nrm_missions_slot_2_a = {
 		icon = mission_invade_island
 		completed_by = 1066.1.5
 		required_missions = { vn_nrm_english_succession }
+		provinces_to_highlight = {
+			is_capital_of = ASE
+		}
 		trigger = {
-			is_in_war = {
-				attacker_leader = NRM
-				defender_leader = ASE
-				casus_belli = cb_fabricated_claims
+			if = {
+				limit = {
+					exists = ASE
+					ASE = { NOT = { is_subject_of = ROOT } }
+				}
+				is_in_war = {
+					attacker_leader = NRM
+					defender_leader = ASE
+					casus_belli = cb_fabricated_claims
+				}
+			}
+			else = {
+				OR = {
+					NOT = { exists = ASE }
+					ASE = { is_subject_of = ROOT }
+				}
 			}
 		}
 		effect = {
@@ -785,6 +824,7 @@ vn_nrm_missions_slot_5_a = {
 		required_missions = { vn_nrm_consolidate_duchy }
 		trigger = {
 			OR = {
+				monument = 7
 				temple = 5
 				cathedral = 3
 			}
@@ -912,6 +952,9 @@ vn_nrm_missions_slot_5_b = {
 	vn_nrm_attack_france = {
 		icon = mission_the_french_menace
 		required_missions = { vn_nrm_claim_ponthieu }
+		provinces_to_highlight = {
+			is_capital_of = FRA
+		}
 		trigger = {
 			if = {
 				limit = { exists = FRA }
