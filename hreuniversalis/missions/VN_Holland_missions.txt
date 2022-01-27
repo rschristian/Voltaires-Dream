@@ -215,6 +215,9 @@ vn_hol_missions_slot_1_b = {
         required_missions = { }
         trigger = {
 			has_reform = dutch_republic
+			has_any_disaster = no
+			is_at_war = no
+			is_subject = no
         }
         effect = {
 			add_adm_power = 100
@@ -281,10 +284,25 @@ vn_hol_missions_slot_1_b = {
         required_missions = { vn_hol_the_act_of_abjuration }
         trigger = {
 			has_reform = dutch_republic
-			is_orangists_in_power = yes
+			if = {
+				limit = {
+					has_dlc = "Res Publica"
+				}
+				is_orangists_in_power = yes
+			}
+			else = {
+				NOT = { republican_tradition = 50 }
+				NOT = { average_unrest = 1 }
+			}
         }
         effect = {
-			add_absolutism = 10
+			if = {
+				limit = { is_absolutism_active = yes }
+				add_absolutism = 10
+			}
+			else = {
+				add_prestige = 10
+			}
 			add_country_modifier = {
 				name = "hol_orangists_mission"
 				duration = 9125 
@@ -295,10 +313,28 @@ vn_hol_missions_slot_1_b = {
         icon = become_king
         required_missions = { vn_hol_orangists }
         trigger = {
-			statists_vs_orangists = 0.8
+			has_reform = dutch_republic
+			if = {
+				limit = {
+					has_dlc = "Res Publica"
+				}
+				statists_vs_orangists = 0.8
+			}
+			else = {
+				NOT = { republican_tradition = 50 }
+				monthly_adm = 8
+				monthly_dip = 8
+				monthly_mil = 8
+			}
         }
         effect = {
-			add_absolutism = 10
+			if = {
+				limit = { is_absolutism_active = yes }
+				add_absolutism = 10
+			}
+			else = {
+				add_prestige = 10
+			}
 			add_mil_power = 50
         }
     }
@@ -649,7 +685,16 @@ vn_hol_missions_slot_2_b = {
         required_missions = { vn_hol_the_act_of_abjuration }
         trigger = {
 			has_reform = dutch_republic
-			is_statists_in_power = yes
+			if = {
+				limit = {
+					has_dlc = "Res Publica"
+				}
+				is_statists_in_power = yes
+			}
+			else = {
+				republican_tradition = 90
+				stability = 2
+			}
         }
         effect = {
 			add_republican_tradition = 10
@@ -663,7 +708,37 @@ vn_hol_missions_slot_2_b = {
         icon = mission_noble_council
         required_missions = { vn_hol_statists }
         trigger = {
-			statists_vs_orangists = -0.8
+			has_reform = dutch_republic
+			if = {
+				limit = {
+					has_dlc = "Res Publica"
+				}
+				is_statists_in_power = yes
+			}
+			else = {
+				republican_tradition = 90
+				if = {
+					limit = { has_estate = estate_nobles }
+					estate_loyalty = {
+						estate = estate_nobles
+						loyalty = 60
+					}
+				}
+				if = {
+					limit = { has_estate = estate_church }
+					estate_loyalty = {
+						estate = estate_church
+						loyalty = 60
+					}
+				}
+				if = {
+					limit = { has_estate = estate_burghers }
+					estate_loyalty = {
+						estate = estate_burghers
+						loyalty = 60
+					}
+				}
+			}
         }
         effect = {
  			add_republican_tradition = 10
@@ -1339,19 +1414,27 @@ vn_hol_missions_slot_4_b = {
 			vn_hol_merchant_throne 
 			vn_hol_naval_expansion 
 		}
+		provinces_to_highlight = {
+			province_id = 328
+			OR = {
+				NOT = { is_core = ROOT }
+				NOT = { owned_by = ROOT }
+			}
+		}
         trigger = {
+			owns_core_province = 328 
 			employed_advisor = {
 				type = trader
 			}
 			trade_income_percentage = 0.33
         }
         effect = {
-			308 = {
+			328 = {
 				add_base_production = 1
-				add_province_modifier = {
-					name = "hol_dutch_trading_culture_mission" 
-					duration = 9125
-				}
+			}
+			add_country_modifier = {
+				name = "hol_dutch_trading_culture_mission" 
+				duration = 9125
 			}
         }
     }
