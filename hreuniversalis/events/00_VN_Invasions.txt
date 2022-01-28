@@ -1,10 +1,10 @@
-namespace = mongols_events
+namespace = invasion_events
 
 #Spawn GHL
 country_event = {
-    id = mongols_events.1
-    title = "mongols_events.1.t"
-	desc = "mongols_events.1.d"
+    id = invasion_events.1
+    title = "invasion_events.1.t"
+	desc = "invasion_events.1.d"
 	picture = MONGOL_BANNERS_eventPicture
 	goto = 6438
  
@@ -28,7 +28,7 @@ country_event = {
     }
  
     option = {
-		name = "mongols_events.1.a"
+		name = "invasion_events.1.a"
 		6438 = {
 			add_core = GLH
 			cede_province = GLH
@@ -126,9 +126,9 @@ country_event = {
 
 #Spawn ILK
 country_event = {
-    id = mongols_events.2
-    title = "mongols_events.2.t"
-	desc = "mongols_events.2.d"
+    id = invasion_events.2
+    title = "invasion_events.2.t"
+	desc = "invasion_events.2.d"
 	picture = MONGOL_BANNERS_eventPicture
 	goto = 6374
  
@@ -152,7 +152,7 @@ country_event = {
     }
 
 	option = {
-		name = "mongols_events.1.a"
+		name = "invasion_events.1.a"
 		6374 = {
 			add_core = ILK
 			cede_province = ILK
@@ -253,9 +253,9 @@ country_event = {
 
 #Province defects
 province_event = {
-	id = mongols_events.3
-	title = "mongols_events.3.t"
-	desc = "mongols_events.3.d"
+	id = invasion_events.3
+	title = "invasion_events.3.t"
+	desc = "invasion_events.3.d"
 	picture = BORDER_TENSION_eventPicture
 	goto = root
 
@@ -277,7 +277,7 @@ province_event = {
 	mean_time_to_happen = { months = 3 }
 
 	option = {
-		name = "mongols_events.3.a"
+		name = "invasion_events.3.a"
 		ai_chance = {
 			factor = 99
 			modifier = {
@@ -314,6 +314,11 @@ province_event = {
 			add_core = SJK
 			cede_province = SJK
 		}
+		else_if = {
+			limit = { controlled_by = TIM }
+			add_core = TIM
+			cede_province = TIM
+		}
 		hidden_effect = {
 			add_scaled_local_adm_power = 1
 			add_scaled_local_dip_power = 1
@@ -321,7 +326,7 @@ province_event = {
 		}
 	}
 	option = {
-		name = "mongols_events.3.b"
+		name = "invasion_events.3.b"
 		ai_chance = { factor = 1 }
 		trigger = {
 			OR = {
@@ -346,9 +351,9 @@ province_event = {
 
 #End Historical Friendship
 country_event = {
-	id = mongols_events.4
-	title = "mongols_events.4.t"
-	desc = "mongols_events.4.d"
+	id = invasion_events.4
+	title = "invasion_events.4.t"
+	desc = "invasion_events.4.d"
 	picture = ACCUSATION_eventPicture
 
 	fire_only_once = yes
@@ -399,7 +404,8 @@ country_event = {
 	}
 
 	option = {
-		name = "mongols_events.4.a"
+		name = "invasion_events.4.a"
+		set_global_flag = death_of_kublai_khan
 		if = {
 			limit = {
 				historical_friend_with = GLH
@@ -451,72 +457,242 @@ country_event = {
 	}
 }
 
-## Make AI Mongols declare war
-# country_event = {
-#     id = mongols_events.4
-#     title = none
-# 	desc = none
-# 	picture = HORDE_ON_HORSEBACK_eventPicture
+#Spawn SJK
+country_event = {
+	id = invasion_events.5
+	title = "invasion_events.5.t"
+	desc = "invasion_events.5.d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	
+	fire_only_once = yes
+	major = yes
 
-# 	trigger = {
-# 		normal_or_historical_nations = yes
-# 		has_country_modifier = invasion_nation_m
-# 		OR = {
-# 			tag = GLH
-# 			tag = ILK
-# 			tag = JMN
-# 		}
-# 		OR = {
-# 			has_reform = steppe_horde
-# 			has_reform = great_mongol_state_reform
-# 		}
-# 		ai = yes
-# 		is_at_war = no
-# 		has_any_disaster = no
-# 		has_regency = no
-# 		manpower_percentage = 0.5
-# 		NOT = { war_exhaustion = 5 }
-# 		NOT = { overextension_percentage = 0.25 }
-# 		any_neighbor_country = {
-# 			NOT = { is_subject_of = GLH }
-# 			NOT = { is_subject_of = ILK }
-# 			NOT = { is_subject_of = JMN }
-# 			NOT = { tag = GLH }
-# 			NOT = { tag = ILK }
-# 			NOT = { tag = JMN }
-# 			NOT = { alliance_with = ROOT }
-# 			NOT = { truce_with = ROOT }
-# 			NOT = { guaranteed_by = ROOT }
-# 		}
-# 	}
+	trigger = {
+		tag = BGH
+		NOT = { started_in = 1055.12.23 }
+		normal_or_historical_nations = yes
+		NOT = { exists = SJK }
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+		modifier = {
+			factor = 0.75
+			war_exhaustion = 5
+		}
+		modifier = {
+			factor = 0.75
+			war_exhaustion = 10
+		}
+	}
+	
+	option = {
+		name = "invasion_events.5.a"
+		random_owned_province = {
+			limit = {
+				is_capital = no
+			}
+			add_core = SJK
+			cede_province = SJK
+			add_building = fort_14th
+		}
+		if = {
+			limit = { ai = yes }
+			SJK = { inherit = ROOT }
+		}
+		else = {
+			SJK = {
+				declare_war_with_cb = {
+					casus_belli = cb_invasion
+					who = ROOT
+				}
+			}
+		}
+		hidden_effect = {
+			SJK = {
+				add_treasury = 200
+				add_prestige = 40
+				add_manpower = 5
+				add_accepted_culture = al_iraqiya_arabic
+				define_ruler = {
+					name = "Alp Arslan"
+					dynasty = "Selçukoglu"
+					adm = 5
+					dip = 5
+					mil = 5
+				}
+				remove_heir = {}
+				define_ruler_to_general = {
+					fire = 5
+					shock = 4
+					manuever = 1
+					siege = 3
+				}
+				add_ruler_personality = strict_personality
+				add_ruler_personality = conqueror_personality
+				add_country_modifier = {
+					name = "invasion_nation_m"
+					duration = 18250
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_country_modifier = extensive_holdings
+						}
+					}
+					add_country_modifier = {
+						name = "extensive_holdings"
+						duration = -1
+					}
+				}
+				random_owned_province = {
+					build_to_forcelimit = {
+						infantry = 0.7
+						cavalry = 0.3
+					}
+				}
+			}
+			every_owned_province = {
+				SJK = {
+					discover_province = PREV
+				}
+			}
+			if = {
+				limit = { ai = no }
+				every_owned_province = {
+					add_claim = SJK
+				}
+			}
+		}
+	}
+}
 
-# 	mean_time_to_happen = { months = 6 }
+#Spawn TIM
+country_event = {
+    id = invasion_events.6
+    title = "invasion_events.6.t"
+	desc = "invasion_events.6.d"
+	picture = SIEGE_eventPicture
+	goto = 6374
+ 
+	fire_only_once = yes
+	major = yes
+ 
+    trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1393.8.31 }
+		has_global_flag = death_of_kublai_khan
+		is_year = 1388
+		NOT = { is_year = 1430 }
+		NOT = { exists = JMN }
+		owns = 3478
+		OR = {
+			ai = yes
+			num_of_cities = 2
+		}
+    }
+ 
+    mean_time_to_happen = {
+        months = 60
+    }
+ 
+    option = {
+		name = "invasion_events.1.a"
+		3478 = {
+			add_core = TIM
+			cede_province = TIM
+		}
+		if = {
+			limit = { ai = yes }
+			TIM = { inherit = ROOT }
+		}
+		else = {
+			TIM = {
+				declare_war_with_cb = {
+					casus_belli = cb_invasion
+					who = ROOT
+				}
+			}
+		}
+		hidden_effect = {
+			TIM = {
+				change_government = tribal
+				add_government_reform = steppe_horde
+				embrace_institutions_of = ROOT
+				add_stability = 3
+				add_treasury = 500
+				add_prestige = 50
+				add_manpower = 35
+				add_army_tradition = 70
+				add_army_professionalism = 0.6
+				change_primary_culture = mongol
+				add_accepted_culture = azerbaijani
+				define_ruler = {
+					name = "Temür"
+					dynasty = "Barulas"
+					adm = 4	
+					dip = 4	
+					mil = 5
+				}
+				define_ruler_to_general = {
+					fire = 6
+					shock = 6
+					manuever = 6
+					siege = 2
+				}
+				define_heir = {
+					culture = mongol
+					dynasty = "Barulas"
+					age = 15
+				}
+				add_country_modifier = {
+					name = "invasion_nation_m"
+					duration = 18250
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_country_modifier = extensive_holdings
+						}
+					}
+					add_country_modifier = {
+						name = "extensive_holdings"
+						duration = -1
+					}
+				}
+				create_general = {
+					tradition = 100
+				}
+				random_owned_province = {
+					build_to_forcelimit = {
+						infantry = 0.6
+						cavalry = 0.4
+					}
+				}
+			}
+			mesopotamia_superregion = {
+				add_claim = TIM
+			}
+			every_owned_province = {
+				TIM = {
+					discover_province = PREV
+				}
+			}
+			if = {
+				limit = { ai = no }
+				every_owned_province = {
+					add_claim = TIM
+				}
+			}
+			if = {
+				limit = { ILK = { has_country_modifier = extensive_holdings } }
+				ILK = { remove_country_modifier = extensive_holdings }
+			}
+			if = {
+				limit = { GLH = { has_country_modifier = extensive_holdings } }
+				GLH = { remove_country_modifier = extensive_holdings }
+			}
+		}
+	}
+}
 
-# 	option = {
-# 		name = none
-# 		add_prestige = 15
-# 		add_years_of_income = 2
-# 		add_yearly_manpower = 5
-# 		add_army_tradition = 10
-# 		add_war_exhaustion = -5
-# 		random_neighbor_country = {
-# 			limit = {
-# 				NOT = { is_subject_of = GLH }
-# 				NOT = { is_subject_of = ILK }
-# 				NOT = { is_subject_of = JMN }
-# 				NOT = { tag = GLH }
-# 				NOT = { tag = ILK }
-# 				NOT = { tag = JMN }
-# 				NOT = { alliance_with = ROOT }
-# 				NOT = { truce_with = ROOT }
-# 				NOT = { guaranteed_by = ROOT }
-# 			}
-# 			ROOT = {
-# 				declare_war_with_cb = {
-# 					casus_belli = cb_invasion
-# 					who = PREV
-# 				}
-# 			}
-# 		}
-# 	}
-# }
