@@ -1,67 +1,66 @@
 highest_monarch_skill_effect = {
-    if = {
-        limit = {
-            OR = {
-                ADM = 3
-                DIP = 3
-                MIL = 3
-            }
-        }
-        export_to_variable = {
-            variable_name = rulerAdmVar
-            value = trigger_value:ADM
-        }
-        export_to_variable = {
-            variable_name = rulerDipVar
-            value = trigger_value:DIP
-        }
-        export_to_variable = {
-            variable_name = rulerMilVar
-            value = trigger_value:MIL
-        }
-        
-        random_list = {
-            33 = {
-                trigger = {
-                    check_variable = {
-                        which = rulerAdmVar
-                        which = rulerDipVar
-                    }
-                    check_variable = {
-                        which = rulerAdmVar
-                        which = rulerMilVar
-                    }
-                }
-                set_ruler_flag = adm_highest
-            }
-            33 = {
-                trigger = {
-                    check_variable = {
-                        which = rulerDipVar
-                        which = rulerAdmVar
-                    }
-                    check_variable = {
-                        which = rulerDipVar
-                        which = rulerMilVar
-                    }
-                }
-                set_ruler_flag = dip_highest
-            }
-            33 = {
-                trigger = {
-                    check_variable = {
-                        which = rulerMilVar
-                        which = rulerAdmVar
-                    }
-                    check_variable = {
-                        which = rulerMilVar
-                        which = rulerDipVar
-                    }
-                }
-                set_ruler_flag = mil_highest
-            }
-        }
-    }
+	if = {
+		limit = {
+			OR = {
+				ADM = 3
+				DIP = 3
+				MIL = 3
+			}
+		}
+		export_to_variable = {
+			variable_name = rulerAdmVar
+			value = trigger_value:ADM
+		}
+		export_to_variable = {
+			variable_name = rulerDipVar
+			value = trigger_value:DIP
+		}
+		export_to_variable = {
+			variable_name = rulerMilVar
+			value = trigger_value:MIL
+		}
+		random_list = {
+			33 = {
+				trigger = {
+					check_variable = {
+						which = rulerAdmVar
+						which = rulerDipVar
+					}
+					check_variable = {
+						which = rulerAdmVar
+						which = rulerMilVar
+					}
+				}
+				set_ruler_flag = adm_highest
+			}
+			33 = {
+				trigger = {
+					check_variable = {
+						which = rulerDipVar
+						which = rulerAdmVar
+					}
+					check_variable = {
+						which = rulerDipVar
+						which = rulerMilVar
+					}
+				}
+				set_ruler_flag = dip_highest
+			}
+			33 = {
+				trigger = {
+					check_variable = {
+						which = rulerMilVar
+						which = rulerAdmVar
+					}
+					check_variable = {
+						which = rulerMilVar
+						which = rulerDipVar
+					}
+				}
+				set_ruler_flag = mil_highest
+			}
+		}
+	}
 }
 
 #Holy Oders
@@ -76,6 +75,7 @@ add_estate_holy_orders_loyalty_effect = {
 		}
 	}
 }
+
 reduce_estate_holy_orders_loyalty_effect = {
 	if = {
 		limit = {
@@ -100,6 +100,7 @@ add_estate_mamluks_loyalty_effect = {
 		}
 	}
 }
+
 reduce_estate_mamluks_loyalty_effect = {
 	if = {
 		limit = {
@@ -115,34 +116,87 @@ reduce_estate_mamluks_loyalty_effect = {
 #Inversely scales reform desire with # of catholic tags.
 add_reform_desire_effect = {
 	if = {
-		limit = { is_institution_enabled = laytheology }
+		limit = {
+			is_institution_enabled = laytheology
+		}
 		hidden_effect = {
-			REB = { ROOT = { change_variable = { which = num_of_tags_catholic which = PREV } } }
-			set_variable = { which = reform_desire_gain value = $base_reform_desire$ }
-			multiply_variable = { which = reform_desire_gain value = 100 }
+			REB = {
+				ROOT = {
+					change_variable = {
+						which = num_of_tags_catholic
+						which = PREV
+					}
+				}
+			}
+			set_variable = {
+				which = reform_desire_gain
+				value = $base_reform_desire$
+			}
+			multiply_variable = {
+				which = reform_desire_gain
+				value = 100
+			}
 			if = {
-				limit = { check_variable = { which = num_of_tags_catholic value = 100 } }
-				divide_variable = { which = reform_desire_gain which = num_of_tags_catholic }
+				limit = {
+					check_variable = {
+						which = num_of_tags_catholic
+						value = 100
+					}
+				}
+				divide_variable = {
+					which = reform_desire_gain
+					which = num_of_tags_catholic
+				}
 			}
 			else = {
-				divide_variable = { which = reform_desire_gain value = 100 }
+				divide_variable = {
+					which = reform_desire_gain
+					value = 100
+				}
 			}
 			if = {
-				limit = { is_institution_enabled = laytheology}
-				divide_variable = { which = reform_desire_gain value = 2 }
+				limit = {
+					is_institution_enabled = laytheology
+				}
+				divide_variable = {
+					which = reform_desire_gain
+					value = 2
+				}
 			}
 			while = {
-				limit = { check_variable = { which = reform_desire_gain value = 0.01 } }
+				limit = {
+					check_variable = {
+						which = reform_desire_gain
+						value = 0.01
+					}
+				}
 				add_reform_desire = 0.01
-				subtract_variable = { which = reform_desire_gain value = 0.01 }
+				subtract_variable = {
+					which = reform_desire_gain
+					value = 0.01
+				}
 			}
 			while = {
-				limit = { check_variable = { which = reform_desire_gain value = 0.001 } }
+				limit = {
+					check_variable = {
+						which = reform_desire_gain
+						value = 0.001
+					}
+				}
 				add_reform_desire = 0.001
-				subtract_variable = { which = reform_desire_gain value = 0.001 }
+				subtract_variable = {
+					which = reform_desire_gain
+					value = 0.001
+				}
 			}
-			set_variable = { which = reform_desire_gain value = 0 }
-			set_variable = { which = num_of_tags_catholic value = 0 }
+			set_variable = {
+				which = reform_desire_gain
+				value = 0
+			}
+			set_variable = {
+				which = num_of_tags_catholic
+				value = 0
+			}
 		}
 	}
 }
@@ -150,34 +204,91 @@ add_reform_desire_effect = {
 #Inversely scales reform desire with # of catholic tags.
 remove_reform_desire_effect = {
 	if = {
-		limit = { is_institution_enabled = laytheology }
+		limit = {
+			is_institution_enabled = laytheology
+		}
 		hidden_effect = {
-			REB = { ROOT = { change_variable = { which = num_of_tags_catholic which = PREV } } }
-			set_variable = { which = reform_desire_gain value = $base_reform_desire$ }
-			multiply_variable = { which = reform_desire_gain value = 100 }
+			REB = {
+				ROOT = {
+					change_variable = {
+						which = num_of_tags_catholic
+						which = PREV
+					}
+				}
+			}
+			set_variable = {
+				which = reform_desire_gain
+				value = $base_reform_desire$
+			}
+			multiply_variable = {
+				which = reform_desire_gain
+				value = 100
+			}
 			if = {
-				limit = { check_variable = { which = num_of_tags_catholic value = 100 } }
-				divide_variable = { which = reform_desire_gain which = num_of_tags_catholic }
+				limit = {
+					check_variable = {
+						which = num_of_tags_catholic
+						value = 100
+					}
+				}
+				divide_variable = {
+					which = reform_desire_gain
+					which = num_of_tags_catholic
+				}
 			}
 			else = {
-				divide_variable = { which = reform_desire_gain value = 100 }
+				divide_variable = {
+					which = reform_desire_gain
+					value = 100
+				}
 			}
 			if = {
-				limit = { is_institution_enabled = laytheology }
-				divide_variable = { which = reform_desire_gain value = 2 }
+				limit = {
+					is_institution_enabled = laytheology
+				}
+				divide_variable = {
+					which = reform_desire_gain
+					value = 2
+				}
 			}
 			while = {
-				limit = { NOT = { check_variable = { which = reform_desire_gain value = -0.01 } } }
+				limit = {
+					NOT = {
+						check_variable = {
+							which = reform_desire_gain
+							value = -0.01
+						}
+					}
+				}
 				add_reform_desire = -0.01
-				change_variable = { which = reform_desire_gain value = 0.01 }
+				change_variable = {
+					which = reform_desire_gain
+					value = 0.01
+				}
 			}
 			while = {
-				limit = { NOT = { check_variable = { which = reform_desire_gain value = -0.001 } } }
+				limit = {
+					NOT = {
+						check_variable = {
+							which = reform_desire_gain
+							value = -0.001
+						}
+					}
+				}
 				add_reform_desire = -0.001
-				change_variable = { which = reform_desire_gain value = 0.001 }
+				change_variable = {
+					which = reform_desire_gain
+					value = 0.001
+				}
 			}
-			set_variable = { which = reform_desire_gain value = 0 }
-			set_variable = { which = num_of_tags_catholic value = 0 }
+			set_variable = {
+				which = reform_desire_gain
+				value = 0
+			}
+			set_variable = {
+				which = num_of_tags_catholic
+				value = 0
+			}
 		}
 	}
 }
@@ -185,10 +296,20 @@ remove_reform_desire_effect = {
 #Number of Catholic tags
 calc_catholic_tags = {
 	REB = {
-		set_variable = { which = num_of_tags_catholic value = 0 }
+		set_variable = {
+			which = num_of_tags_catholic
+			value = 0
+		}
 		every_country = {
-			limit = { religion = catholic }
-			REB = { change_variable = { which = num_of_tags_catholic value = 1 } }
+			limit = {
+				religion = catholic
+			}
+			REB = {
+				change_variable = {
+					which = num_of_tags_catholic
+					value = 1
+				}
+			}
 		}
 	}
 }
@@ -196,81 +317,187 @@ calc_catholic_tags = {
 #Should only be called by on_startup
 init_centre_of_reformation = {
 	if = {
-		limit = { NOT = { is_year = 1600 } }
-		if = {
-			limit = { 4061 = { religion = cathar } }
-			4061 = { add_reform_center = cathar }
+		limit = {
+			NOT = {
+				is_year = 1600
+			}
 		}
 		if = {
 			limit = {
-				2433 = { religion = bogomilist }
+				4061 = {
+					religion = cathar
+				}
+			}
+			4061 = {
+				add_reform_center = cathar
+			}
+		}
+		if = {
+			limit = {
+				2433 = {
+					religion = bogomilist
+				}
 				is_year = 1248
-				NOT = { is_year = 1305 }
+				NOT = {
+					is_year = 1305
+				}
 			}
-			2433 = { add_reform_center = bogomilist }
-		}
-		if = {
-			limit = { 1837 = { religion = fraticelli } }
-			1837 = { add_reform_center = fraticelli }
-		}
-		if = {
-			limit = { 2272 = { religion = lollardy } }
-			2272 = { add_reform_center = lollardy }
-		}
-		if = {
-			limit = { 541 = { religion = waldensian } }
-			541 = { add_reform_center = waldensian }
-		}
-		if = {
-			limit = { 
-				781 = { religion = hussite }
-				NOT = { is_year = 1471 }
+			2433 = {
+				add_reform_center = bogomilist
 			}
-			781 = { add_reform_center = hussite }
 		}
 		if = {
-			limit = { 781 = { religion = protestant } }
-			781 = { add_reform_center = protestant }
+			limit = {
+				1837 = {
+					religion = fraticelli
+				}
+			}
+			1837 = {
+				add_reform_center = fraticelli
+			}
 		}
 		if = {
-			limit = { 59 = { religion = protestant } }
-			59 = { add_reform_center = protestant }
+			limit = {
+				2272 = {
+					religion = lollardy
+				}
+			}
+			2272 = {
+				add_reform_center = lollardy
+			}
 		}
 		if = {
-			limit = { 656 = { religion = protestant } }
-			656 = { add_reform_center = protestant }
+			limit = {
+				541 = {
+					religion = waldensian
+				}
+			}
+			541 = {
+				add_reform_center = waldensian
+			}
 		}
 		if = {
-			limit = { 2458 = { religion = protestant } }
-			2458 = { add_reform_center = protestant }
+			limit = {
+				781 = {
+					religion = hussite
+				}
+				NOT = {
+					is_year = 1471
+				}
+			}
+			781 = {
+				add_reform_center = hussite
+			}
 		}
 		if = {
-			limit = { 81 = { religion = protestant } }
-			81 = { add_reform_center = protestant }
+			limit = {
+				781 = {
+					religion = protestant
+				}
+			}
+			781 = {
+				add_reform_center = protestant
+			}
 		}
 		if = {
-			limit = { 2230 = { religion = protestant } }
-			2230 = { add_reform_center = protestant }
+			limit = {
+				59 = {
+					religion = protestant
+				}
+			}
+			59 = {
+				add_reform_center = protestant
+			}
 		}
 		if = {
-			limit = { 2467 = { religion = reformed } }
-			2467 = { add_reform_center = reformed }
+			limit = {
+				656 = {
+					religion = protestant
+				}
+			}
+			656 = {
+				add_reform_center = protestant
+			}
 		}
 		if = {
-			limit = { 2621 = { religion = reformed } }
-			2621 = { add_reform_center = reformed }
+			limit = {
+				2458 = {
+					religion = protestant
+				}
+			}
+			2458 = {
+				add_reform_center = protestant
+			}
 		}
 		if = {
-			limit = { 328 = { religion = reformed } }
-			328 = { add_reform_center = reformed }
+			limit = {
+				81 = {
+					religion = protestant
+				}
+			}
+			81 = {
+				add_reform_center = protestant
+			}
 		}
 		if = {
-			limit = { 1123 = { religion = reformed } }
-			1123 = { add_reform_center = reformed }
+			limit = {
+				2230 = {
+					religion = protestant
+				}
+			}
+			2230 = {
+				add_reform_center = protestant
+			}
 		}
 		if = {
-			limit = { 2359 = { religion = reformed } }
-			2359 = { add_reform_center = reformed }
+			limit = {
+				2467 = {
+					religion = reformed
+				}
+			}
+			2467 = {
+				add_reform_center = reformed
+			}
+		}
+		if = {
+			limit = {
+				2621 = {
+					religion = reformed
+				}
+			}
+			2621 = {
+				add_reform_center = reformed
+			}
+		}
+		if = {
+			limit = {
+				328 = {
+					religion = reformed
+				}
+			}
+			328 = {
+				add_reform_center = reformed
+			}
+		}
+		if = {
+			limit = {
+				1123 = {
+					religion = reformed
+				}
+			}
+			1123 = {
+				add_reform_center = reformed
+			}
+		}
+		if = {
+			limit = {
+				2359 = {
+					religion = reformed
+				}
+			}
+			2359 = {
+				add_reform_center = reformed
+			}
 		}
 	}
 }
@@ -279,27 +506,33 @@ fragment_silesia_effect = {
 	#OSW
 	2945 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OSW }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OSW
+				}
 			}
 			add_core = OSW
 		}
 	}
 	4914 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OSW }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OSW
+				}
 			}
 			add_core = OSW
 		}
 	}
 	4913 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OSW }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OSW
+				}
 			}
 			add_core = OSW
 		}
@@ -307,36 +540,44 @@ fragment_silesia_effect = {
 	#CIE
 	301 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = CIE }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = CIE
+				}
 			}
 			add_core = CIE
 		}
 	}
 	2908 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = CIE }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = CIE
+				}
 			}
 			add_core = CIE
 		}
 	}
 	4912 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = CIE }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = CIE
+				}
 			}
 			add_core = CIE
 		}
 	}
 	4911 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = CIE }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = CIE
+				}
 			}
 			add_core = CIE
 		}
@@ -344,18 +585,22 @@ fragment_silesia_effect = {
 	#RCB
 	815 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = RCB }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = RCB
+				}
 			}
 			add_core = RCB
 		}
 	}
 	2823 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = RCB }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = RCB
+				}
 			}
 			add_core = RCB
 		}
@@ -363,18 +608,22 @@ fragment_silesia_effect = {
 	#BYT
 	2825 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = BYT }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = BYT
+				}
 			}
 			add_core = BYT
 		}
 	}
 	4915 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = BYT }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = BYT
+				}
 			}
 			add_core = BYT
 		}
@@ -382,63 +631,77 @@ fragment_silesia_effect = {
 	#OPO
 	4919 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OPO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OPO
+				}
 			}
 			add_core = OPO
 		}
 	}
 	2660 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OPO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OPO
+				}
 			}
 			add_core = OPO
 		}
 	}
 	2943 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OPO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OPO
+				}
 			}
 			add_core = OPO
 		}
 	}
 	2815 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OPO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OPO
+				}
 			}
 			add_core = OPO
 		}
 	}
 	2663 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OPO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OPO
+				}
 			}
 			add_core = OPO
 		}
 	}
 	4918 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OPO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OPO
+				}
 			}
 			add_core = OPO
 		}
 	}
 	4919 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OPO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OPO
+				}
 			}
 			add_core = OPO
 		}
@@ -446,18 +709,22 @@ fragment_silesia_effect = {
 	#NMY
 	2826 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = NMY }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = NMY
+				}
 			}
 			add_core = NMY
 		}
 	}
 	812 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = NMY }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = NMY
+				}
 			}
 			add_core = NMY
 		}
@@ -465,45 +732,55 @@ fragment_silesia_effect = {
 	#OLS
 	2822 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OLS }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OLS
+				}
 			}
 			add_core = OLS
 		}
 	}
 	816 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OLS }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OLS
+				}
 			}
 			add_core = OLS
 		}
 	}
 	4908 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OLS }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OLS
+				}
 			}
 			add_core = OLS
 		}
 	}
 	4905 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OLS }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OLS
+				}
 			}
 			add_core = OLS
 		}
 	}
 	2821 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = OLS }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = OLS
+				}
 			}
 			add_core = OLS
 		}
@@ -511,27 +788,33 @@ fragment_silesia_effect = {
 	#XBZ
 	817 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = XBZ }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = XBZ
+				}
 			}
 			add_core = XBZ
 		}
 	}
 	4901 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = XBZ }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = XBZ
+				}
 			}
 			add_core = XBZ
 		}
 	}
 	4902 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = XBZ }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = XBZ
+				}
 			}
 			add_core = XBZ
 		}
@@ -539,18 +822,22 @@ fragment_silesia_effect = {
 	#NYS
 	819 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = NYS }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = NYS
+				}
 			}
 			add_core = NYS
 		}
 	}
 	2414 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = NYS }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = NYS
+				}
 			}
 			add_core = NYS
 		}
@@ -558,45 +845,55 @@ fragment_silesia_effect = {
 	#TRO
 	820 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = TRO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = TRO
+				}
 			}
 			add_core = TRO
 		}
 	}
 	2904 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = TRO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = TRO
+				}
 			}
 			add_core = TRO
 		}
 	}
 	2905 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = TRO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = TRO
+				}
 			}
 			add_core = TRO
 		}
 	}
 	5927 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = TRO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = TRO
+				}
 			}
 			add_core = TRO
 		}
 	}
 	288 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = TRO }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = TRO
+				}
 			}
 			add_core = TRO
 		}
@@ -604,9 +901,11 @@ fragment_silesia_effect = {
 	#ZIE
 	818 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = ZIE }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = ZIE
+				}
 			}
 			add_core = ZIE
 		}
@@ -614,27 +913,33 @@ fragment_silesia_effect = {
 	#SNC
 	2814 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = SNC }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = SNC
+				}
 			}
 			add_core = SNC
 		}
 	}
 	4903 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = SNC }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = SNC
+				}
 			}
 			add_core = SNC
 		}
 	}
 	4904 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = SNC }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = SNC
+				}
 			}
 			add_core = SNC
 		}
@@ -642,27 +947,33 @@ fragment_silesia_effect = {
 	#JWR
 	2817 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = JWR }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = JWR
+				}
 			}
 			add_core = JWR
 		}
 	}
 	4909 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = JWR }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = JWR
+				}
 			}
 			add_core = JWR
 		}
 	}
 	4906 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = JWR }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = JWR
+				}
 			}
 			add_core = JWR
 		}
@@ -670,9 +981,11 @@ fragment_silesia_effect = {
 	#ZAG
 	827 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = ZAG }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = ZAG
+				}
 			}
 			add_core = ZAG
 		}
@@ -680,18 +993,22 @@ fragment_silesia_effect = {
 	#LNN
 	4907 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = LNN }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = LNN
+				}
 			}
 			add_core = LNN
 		}
 	}
 	826 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = LNN }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = LNN
+				}
 			}
 			add_core = LNN
 		}
@@ -699,9 +1016,11 @@ fragment_silesia_effect = {
 	#SCW
 	813 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = SCW }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = SCW
+				}
 			}
 			add_core = SCW
 		}
@@ -709,18 +1028,22 @@ fragment_silesia_effect = {
 	#WRC
 	822 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = WRC }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = WRC
+				}
 			}
 			add_core = WRC
 		}
 	}
 	4910 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = WRC }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = WRC
+				}
 			}
 			add_core = WRC
 		}
@@ -728,54 +1051,66 @@ fragment_silesia_effect = {
 	#GLG
 	2664 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = GLG }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = GLG
+				}
 			}
 			add_core = GLG
 		}
 	}
 	4916 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = GLG }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = GLG
+				}
 			}
 			add_core = GLG
 		}
 	}
 	263 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = GLG }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = GLG
+				}
 			}
 			add_core = GLG
 		}
 	}
 	835 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = GLG }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = GLG
+				}
 			}
 			add_core = GLG
 		}
 	}
 	828 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = GLG }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = GLG
+				}
 			}
 			add_core = GLG
 		}
 	}
 	4917 = {
 		if = {
-			limit = { 
-				owned_by = ROOT 
-				NOT = { is_core = GLG }
+			limit = {
+				owned_by = ROOT
+				NOT = {
+					is_core = GLG
+				}
 			}
 			add_core = GLG
 		}
@@ -784,26 +1119,38 @@ fragment_silesia_effect = {
 
 add_religious_influence_effect_small = {
 	if = {
-		limit = { uses_papacy = yes }
+		limit = {
+			uses_papacy = yes
+		}
 		add_papal_influence = 10
 	}
 	if = {
-		limit = { uses_church_aspects = yes }
+		limit = {
+			uses_church_aspects = yes
+		}
 		add_church_power = 25
 	}
 	if = {
-		limit = { uses_fervor = yes }
+		limit = {
+			uses_fervor = yes
+		}
 		add_fervor = 10
 	}
 	if = {
-		limit = { religion = orthodox }
+		limit = {
+			religion = orthodox
+		}
 		add_patriarch_authority = 0.05
 	}
 	if = {
-		limit = { uses_piety = yes }
+		limit = {
+			uses_piety = yes
+		}
 		if = {
-			limit = { 
-				NOT = { piety = 0 } 
+			limit = {
+				NOT = {
+					piety = 0
+				}
 			}
 			add_piety = -0.1
 		}
@@ -812,37 +1159,53 @@ add_religious_influence_effect_small = {
 		}
 	}
 	if = {
-		limit = { religion = uatsdin }
+		limit = {
+			religion = uatsdin
+		}
 		add_doom = -5
 	}
 	if = {
-		limit = { religion = uatsdin }
+		limit = {
+			religion = uatsdin
+		}
 		add_authority = -5
 	}
 }
 
 add_religious_influence_effect_large = {
 	if = {
-		limit = { uses_papacy = yes }
+		limit = {
+			uses_papacy = yes
+		}
 		add_papal_influence = 25
 	}
 	if = {
-		limit = { uses_church_aspects = yes }
+		limit = {
+			uses_church_aspects = yes
+		}
 		add_church_power = 50
 	}
 	if = {
-		limit = { uses_fervor = yes }
+		limit = {
+			uses_fervor = yes
+		}
 		add_fervor = 25
 	}
 	if = {
-		limit = { religion = orthodox }
+		limit = {
+			religion = orthodox
+		}
 		add_patriarch_authority = 0.1
 	}
 	if = {
-		limit = { religion_group = muslim }
+		limit = {
+			religion_group = muslim
+		}
 		if = {
-			limit = { 
-				NOT = { piety = 0 } 
+			limit = {
+				NOT = {
+					piety = 0
+				}
 			}
 			add_piety = -0.25
 		}
@@ -851,11 +1214,15 @@ add_religious_influence_effect_large = {
 		}
 	}
 	if = {
-		limit = { religion = uatsdin }
+		limit = {
+			religion = uatsdin
+		}
 		add_doom = -10
 	}
 	if = {
-		limit = { religion = uatsdin }
+		limit = {
+			religion = uatsdin
+		}
 		add_authority = 10
 	}
 }
@@ -863,63 +1230,173 @@ add_religious_influence_effect_large = {
 anglicize_irish_tag_effect = {
 	trigger_switch = {
 		on_trigger = tag
-		OSS = { override_country_name = OSSORY }
-		OIE = { override_country_name = ORIEL }
-		BRF = { override_country_name = BREFFNY }
-		TRY = { override_country_name = TYRCONNELL }
-		MCM = { override_country_name = MUNSTER }
-		ORD = { override_country_name = ORMOND }
-		MNS = { override_country_name = THOMOND }
-		DMS = { override_country_name = DESMOND }
+		OSS = {
+			override_country_name = OSSORY
+		}
+		OIE = {
+			override_country_name = ORIEL
+		}
+		BRF = {
+			override_country_name = BREFFNY
+		}
+		TRY = {
+			override_country_name = TYRCONNELL
+		}
+		MCM = {
+			override_country_name = MUNSTER
+		}
+		ORD = {
+			override_country_name = ORMOND
+		}
+		MNS = {
+			override_country_name = THOMOND
+		}
+		DMS = {
+			override_country_name = DESMOND
+		}
 		#WXF
-		ICN = { override_country_name = EAST_CONNACHT }
-		ACN = { override_country_name = WEST_CONNACHT }
-		UML = { override_country_name = MAYO }
-		XKY = { override_country_name = KERRY }
+		ICN = {
+			override_country_name = EAST_CONNACHT
+		}
+		ACN = {
+			override_country_name = WEST_CONNACHT
+		}
+		UML = {
+			override_country_name = MAYO
+		}
+		XKY = {
+			override_country_name = KERRY
+		}
 		#WTY
-		IAB = { override_country_name = WEST_BREFFNY }
-		YBR = { override_country_name = LOUTH }
-		SLN = { override_country_name = SLIGO }
-		ULS = { override_country_name = ULSTER }
-		TYR = { override_country_name = TYRONE }
-		KID = { override_country_name = KILDARE }
-		MTH = { override_country_name = MEATH }
-		KEE = { override_country_name = KEENAGHT }
-		FMA = { override_country_name = FERMANAGH }
-		FLY = { override_country_name = OFFALY }
-		UIS = { override_country_name = WESTMEATH }
-		TBE = { override_country_name = ANNALY }
-		BNA = { override_country_name = BALLINACOR }
-		FWS = { override_country_name = FEWS }
-		IVE = { override_country_name = IVEAGH }
-		CBY = { override_country_name = ANTRIM }
-		INH = { override_country_name = INISHOWEN }
-		UMA = { override_country_name = HY_MANY }
-		CCL = { override_country_name = BEAR }
-		EIL = { override_country_name = ELY }
-		CCU = { override_country_name = TULLA }
-		GLN = { override_country_name = GALLEN }
-		LEI = { override_country_name = LEINSTER }
-		CBL = { override_country_name = CREBILLY }
-		FCH = { override_country_name = TIRERAGH }
-		LGO = { override_country_name = LEIX }
-		MGL = { override_country_name = MOYLURG }
-		UID = { override_country_name = ATHENRY }
-		LRG = { override_country_name = LURG }
-		FHM = { override_country_name = FERMOY }
-		BEE = { override_country_name = BREGA }
-		LCH = { override_country_name = LOGHER }
-		CHB = { override_country_name = CARBERY }
-		UIL = { override_country_name = MUSKERRY }
-		BNN = { override_country_name = BURREN }
-		UIB = { override_country_name = CARLOW }
-		AIN = { override_country_name = BANAGH }
-		TUC = { override_country_name = TULLYHOGUE }
-		TYH = { override_country_name = TULLYHAW }
-		LCN = { override_country_name = LECAN }
-		CRK = { override_country_name = CORK }
-		DBL = { override_country_name = DUBLIN }
-		XDG = { override_country_name = DONEGAL }
+		IAB = {
+			override_country_name = WEST_BREFFNY
+		}
+		YBR = {
+			override_country_name = LOUTH
+		}
+		SLN = {
+			override_country_name = SLIGO
+		}
+		ULS = {
+			override_country_name = ULSTER
+		}
+		TYR = {
+			override_country_name = TYRONE
+		}
+		KID = {
+			override_country_name = KILDARE
+		}
+		MTH = {
+			override_country_name = MEATH
+		}
+		KEE = {
+			override_country_name = KEENAGHT
+		}
+		FMA = {
+			override_country_name = FERMANAGH
+		}
+		FLY = {
+			override_country_name = OFFALY
+		}
+		UIS = {
+			override_country_name = WESTMEATH
+		}
+		TBE = {
+			override_country_name = ANNALY
+		}
+		BNA = {
+			override_country_name = BALLINACOR
+		}
+		FWS = {
+			override_country_name = FEWS
+		}
+		IVE = {
+			override_country_name = IVEAGH
+		}
+		CBY = {
+			override_country_name = ANTRIM
+		}
+		INH = {
+			override_country_name = INISHOWEN
+		}
+		UMA = {
+			override_country_name = HY_MANY
+		}
+		CCL = {
+			override_country_name = BEAR
+		}
+		EIL = {
+			override_country_name = ELY
+		}
+		CCU = {
+			override_country_name = TULLA
+		}
+		GLN = {
+			override_country_name = GALLEN
+		}
+		LEI = {
+			override_country_name = LEINSTER
+		}
+		CBL = {
+			override_country_name = CREBILLY
+		}
+		FCH = {
+			override_country_name = TIRERAGH
+		}
+		LGO = {
+			override_country_name = LEIX
+		}
+		MGL = {
+			override_country_name = MOYLURG
+		}
+		UID = {
+			override_country_name = ATHENRY
+		}
+		LRG = {
+			override_country_name = LURG
+		}
+		FHM = {
+			override_country_name = FERMOY
+		}
+		BEE = {
+			override_country_name = BREGA
+		}
+		LCH = {
+			override_country_name = LOGHER
+		}
+		CHB = {
+			override_country_name = CARBERY
+		}
+		UIL = {
+			override_country_name = MUSKERRY
+		}
+		BNN = {
+			override_country_name = BURREN
+		}
+		UIB = {
+			override_country_name = CARLOW
+		}
+		AIN = {
+			override_country_name = BANAGH
+		}
+		TUC = {
+			override_country_name = TULLYHOGUE
+		}
+		TYH = {
+			override_country_name = TULLYHAW
+		}
+		LCN = {
+			override_country_name = LECAN
+		}
+		CRK = {
+			override_country_name = CORK
+		}
+		DBL = {
+			override_country_name = DUBLIN
+		}
+		XDG = {
+			override_country_name = DONEGAL
+		}
 		#CNN
 	}
 }
@@ -1767,7 +2244,9 @@ choose_possible_elector_effect = {
 				is_excommunicated = no
 				has_any_disaster = no
 				is_bankrupt = no
-				NOT = { government = republic }
+				NOT = {
+					government = republic
+				}
 			}
 		}
 		every_country = {
@@ -1780,7 +2259,9 @@ choose_possible_elector_effect = {
 				is_excommunicated = no
 				has_any_disaster = no
 				is_bankrupt = no
-				NOT = { government = republic }
+				NOT = {
+					government = republic
+				}
 			}
 			set_variable = {
 				which = electorCondVar
@@ -2036,7 +2517,9 @@ choose_possible_elector_effect = {
 					is_excommunicated = no
 					has_any_disaster = no
 					is_bankrupt = no
-					NOT = { government = republic }
+					NOT = {
+						government = republic
+					}
 				}
 				save_event_target_as = new_elector_$number$
 			}
@@ -2045,28 +2528,186 @@ choose_possible_elector_effect = {
 }
 
 annex_canton_or_clear_flag_effect = {
-    if = {
-        limit = {
-            any_country = {
-                NOT = { tag = SWI }
-                has_reform = canton_government
-                capital_scope = { superregion = switzerland_superregion }
-                is_free_or_tributary_trigger = yes
-                ai = yes
-            }
-        }
-        random_country = {
-            limit = {
-                NOT = { tag = SWI }
-                has_reform = canton_government
-                capital_scope = { superregion = switzerland_superregion }
-                is_free_or_tributary_trigger = yes
-                ai = yes
-            }
-            country_event = { id = hremodevents.11 days = 1 }
-        }
-    } 
-    else = {
-        clr_global_flag = swi_formed_flag
-    }
+	if = {
+		limit = {
+			any_country = {
+				NOT = {
+					tag = SWI
+				}
+				has_reform = canton_government
+				capital_scope = {
+					superregion = switzerland_superregion
+				}
+				is_free_or_tributary_trigger = yes
+				ai = yes
+			}
+		}
+		random_country = {
+			limit = {
+				NOT = {
+					tag = SWI
+				}
+				has_reform = canton_government
+				capital_scope = {
+					superregion = switzerland_superregion
+				}
+				is_free_or_tributary_trigger = yes
+				ai = yes
+			}
+			country_event = {
+				id = hremodevents.11
+				days = 1
+			}
+		}
+	}
+	else = {
+		clr_global_flag = swi_formed_flag
+	}
+}
+
+fragment_mongolia_effect = {
+	#Great Horde
+	lower_don_region = {
+		limit = { owned_by = ROOT }
+		add_core = GOL
+	}
+	khopyor_region = {
+		limit = { owned_by = ROOT }
+		add_core = GOL
+	}
+	sloboda_region = {
+		limit = { owned_by = ROOT }
+		add_core = GOL
+	}
+	#Crimea
+	azov_region = {
+		limit = { owned_by = ROOT }
+		add_core = CRI
+	}
+	crimea_region = {
+		limit = { owned_by = ROOT }
+		add_core = CRI
+	}
+	wild_fields_region = {
+		limit = { owned_by = ROOT }
+		add_core = CRI
+	}
+	#Kazan
+	kazan_region = {
+		limit = { owned_by = ROOT }
+		add_core = KAZ
+	}
+	mordovia_region = {
+		limit = { owned_by = ROOT }
+		add_core = KAZ
+	}
+	#Nogai
+	bashkiria_region = {
+		limit = { owned_by = ROOT }
+		add_core = NOG
+	}
+	atyrau_area = {
+		limit = { owned_by = ROOT }
+		add_core = NOG
+	}
+	oral_area = {
+		limit = { owned_by = ROOT }
+		add_core = NOG
+	}
+	#Astrakhan
+	lower_volga_region = {
+		limit = { owned_by = ROOT }
+		add_core = AST
+	}
+	kumykia_area = {
+		limit = { owned_by = ROOT }
+		add_core = AST
+	}
+	kabardia_area = {
+		limit = { owned_by = ROOT }
+		add_core = AST
+	}
+	#Jalarids
+	lower_mesopotamia_region = {
+		limit = { owned_by = ROOT }
+		add_core = JYA
+	}
+	arabia_region = {
+		limit = { owned_by = ROOT }
+		add_core = JYA
+	}
+	dulaim_area = {
+		limit = { owned_by = ROOT }
+		add_core = JYA
+	}
+	shahrizor_area = {
+		limit = { owned_by = ROOT }
+		add_core = JYA
+	}
+	zab_area = {
+		limit = { owned_by = ROOT }
+		add_core = JYA
+	}
+	#Aq Qoyunlu
+	sophene_region = {
+		limit = { owned_by = ROOT }
+		add_core = AKK
+	}
+	al_jazira_region = {
+		limit = { owned_by = ROOT }
+		add_core = AKK
+	}
+	#Qara Qoyunlu
+	corduene_region = {
+		limit = { owned_by = ROOT }
+		add_core = QAR
+	}
+	armenia_region = {
+		limit = { owned_by = ROOT }
+		add_core = QAR
+	}
+	azerbaijan_region = {
+		limit = { owned_by = ROOT }
+		add_core = QAR
+	}
+	mosul_area = {
+		limit = { owned_by = ROOT }
+		add_core = QAR
+	}
+	zagros_area = {
+		limit = { owned_by = ROOT }
+		add_core = QAR
+	}
+}
+
+change_mongol_culture_effect = {
+	if = {
+		limit = { is_core = GOL }
+		change_culture = mishary
+	}
+	else_if = {
+		limit = { is_core = CRI }
+		change_culture = crimean
+	}
+	else_if = {
+		limit = { is_core = KAZ }
+		change_culture = kazani
+	}
+	else_if = {
+		limit = { is_core = NOG }
+		change_culture = nogaybak
+	}
+	else_if = {
+		limit = { is_core = AST }
+		change_culture = astrakhani
+	}
+	else_if = {
+		limit = {
+			OR = {
+				is_core = QAR
+				is_core = AKK
+			}
+		}
+		change_culture = azerbaijani
+	}
 }
