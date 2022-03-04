@@ -9,10 +9,6 @@ vn_taifa_missions_slot_2_b = {
     potential = {
 		OR = { 
 			tag = ADU
-            NOT = { tag = SEV }
-            NOT = { was_tag = SEV }
-            NOT = { tag = CRD }
-            NOT = { was_tag = CRD }
             AND = {
                 capital_scope = {
                     superregion = iberia_superregion
@@ -191,7 +187,7 @@ vn_adu_missions_slot_1 = {
     vn_adu_local_governors = {
         position = 7
         icon = mission_deccanis
-        required_missions = { vn_taifa_restore_andalusia }
+        required_missions = { vn_adu_eclipse_the_taifas }
         provinces_to_highlight = {
             superregion = iberia_superregion
             owner = {
@@ -284,6 +280,11 @@ vn_adu_missions_slot_1 = {
             }
         }
         effect = {
+            define_advisor = {
+                type = inquisitor
+                skill = 3
+                cost_multiplier = 0.5
+            }
             add_country_modifier = {
                 name = adu_construct_mosques_mission
                 duration = 9125
@@ -292,7 +293,8 @@ vn_adu_missions_slot_1 = {
     }
     vn_adu_crush_separatism = {
         position = 12
-        required_missions = { vn_adu_construct_mosques }
+        icon = mission_have_two_subjects
+        required_missions = { vn_adu_construct_mosques vn_adu_unite_iberia }
         provinces_to_highlight = {
             superregion = iberia_superregion
             OR = {
@@ -310,14 +312,18 @@ vn_adu_missions_slot_1 = {
             }
         }
         effect = {
-            iberia_superregion = {
-                limit = {
-                    NOT = { culture = andalucian }
-                    NOT = { culture = mozarabic }
-                }
-                random = {
-                    chance = 50
-                    change_culture = mozarabic
+            custom_tooltip = vn_adu_crush_separatism.tt
+            hidden_effect = {
+                iberia_superregion = {
+                    limit = {
+                        NOT = { culture = andalucian }
+                        NOT = { culture = mozarabic }
+                        has_owner_religion = yes
+                    }
+                    random = {
+                        chance = 25
+                        change_culture = mozarabic
+                    }
                 }
             }
         }
@@ -392,7 +398,23 @@ vn_adu_missions_slot_1 = {
         icon = prosperity_for_all
         required_missions = { vn_adu_fortfy_the_pyrenees }
         trigger = {
-            stability = 3
+            if = {
+                limit = { has_dlc = "Mandate of Heaven" }
+                custom_trigger_tooltip = {
+                    tooltip = vn_adu_iberia_prospers.tt
+                    calc_true_if = {
+                        all_states = {
+                            is_prosperous = yes
+                        }
+                        amount = 10
+                    }
+                }
+            }
+            else = {
+                stability = 3
+                NOT = { average_unrest = 1 }
+            }
+            has_any_disaster = no
         }
         effect = {
             add_country_modifier = {
@@ -438,7 +460,7 @@ vn_adu_missions_slot_1 = {
     vn_adu_arab_connections = {
         position = 17
         icon = mission_into_persia_1
-        required_missions = { vn_adu_integrate_the_maghreb }
+        required_missions = { vn_adu_integrate_the_maghreb vn_adu_rebuild_tunis }
         trigger = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
                 value = 10
@@ -503,7 +525,7 @@ vn_adu_missions_slot_2 = {
 
     vn_adu_eclipse_the_taifas = {
         icon = mission_friends_or_enemies
-        required_missions = { vn_adu_restore_the_caliphate }
+        required_missions = { vn_taifa_restore_andalusia }
         position = 6
     }
     vn_adu_drive_out_berbers = {
@@ -516,10 +538,10 @@ vn_adu_missions_slot_2 = {
     }
     vn_adu_reform_the_caliphate = {
         icon = mission_high_income
-        required_missions = { vn_adu_crush_revolts }
+        required_missions = { vn_adu_crush_revolts vn_adu_reform_the_caliphate }
     }
     vn_adu_conquer_galicia = {
-        icon = mission_build_to_force_limit
+        icon = mission_build_up_to_force_limit
         required_missions = { vn_adu_victory_over_the_christians }
         provinces_to_highlight = {
             OR = {
@@ -575,6 +597,7 @@ vn_adu_missions_slot_2 = {
     vn_adu_conquer_gharb = {
         position = 13
         icon = mission_fatimid_caliphate
+        required_missions = { vn_adu_conquer_rif }
         provinces_to_highlight = {
             OR = {
                 region = gharb_region
@@ -679,6 +702,7 @@ vn_adu_missions_slot_2 = {
     }
     vn_adu_rebuild_tunis = {
         icon = mission_conquer_tunisia
+        required_missions = { vn_adu_conquer_tunisia }
         provinces_to_highlight = {
             province_id = 586
         }
@@ -743,7 +767,34 @@ vn_adu_missions_slot_2 = {
             }
         }
         effect = {
-            
+            arabia_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            lower_mesopotamia_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            assyria_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            al_jazira_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
         }
     }
     vn_adu_rebuild_damascus = {
@@ -792,11 +843,41 @@ vn_adu_missions_slot_3 = {
         position = 6
         icon = mission_hands_praying
         required_missions = { vn_taifa_restore_andalusia }
+        trigger = {
+            NOT = {
+                any_country = {
+                    religion_group = christian
+                    capital_scope = {
+                        superregion = iberia_superregion
+                    }
+                    army_strength = {
+                        who = ROOT
+                        value = 1.5
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = adu_rival_the_christians_mission
+                duration = 9125
+            }
+        }
     }
     vn_adu_taifa_patron = {
         position = 7
         icon = mission_restore_faith_in_the_throne
         required_missions = { vn_adu_agricultural_revolution vn_adu_eclipse_the_taifas vn_adu_rival_the_christians }
+        trigger = {
+            NOT = { current_age = age_of_empire }
+            stability = 2
+			has_reached_government_reform_tier = {
+                tier_4 = yes
+            }
+        }
+        effect = {
+            #event
+        }
     }
     vn_adu_restore_the_caliphate = {
         position = 8
@@ -908,6 +989,13 @@ vn_adu_missions_slot_3 = {
         }
         effect = {
             add_stability_or_adm_power = yes
+            rif_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
         }
     }
     vn_adu_conquer_rif = {
@@ -924,7 +1012,13 @@ vn_adu_missions_slot_3 = {
             }
         }
         effect = {
-            
+            tlemcen_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
         }
     }
     vn_adu_conquer_algeria = {
@@ -941,7 +1035,13 @@ vn_adu_missions_slot_3 = {
             }
         }
         effect = {
-            
+            kabylia_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
         }
     }
     vn_adu_conquer_kabylia = {
@@ -958,7 +1058,20 @@ vn_adu_missions_slot_3 = {
             }
         }
         effect = {
-            
+            coastal_tunisia_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            inner_tunisia_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
         }
     }
     vn_adu_conquer_tunisia = {
@@ -982,7 +1095,13 @@ vn_adu_missions_slot_3 = {
             }
         }
         effect = {
-            
+            coastal_libya_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
         }
     }
     vn_adu_conquer_libya = {
@@ -999,7 +1118,27 @@ vn_adu_missions_slot_3 = {
             }
         }
         effect = {
-            
+            inner_egypt_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            lower_egypt_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            middle_egypt_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
         }
     }
     vn_adu_conquer_egypt = {
@@ -1029,7 +1168,14 @@ vn_adu_missions_slot_3 = {
             }
         }
         effect = {
-            
+            add_prestige = 20
+            levant_superregion = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
         }
     }
     vn_adu_conquer_palestine = {
@@ -1419,6 +1565,8 @@ vn_adu_missions_slot_4 = {
             }
         }
         effect = {
+            add_mil_power = 50
+            add_prestige = 5
             548 = {
                 if = {
                     limit = {
@@ -1472,7 +1620,7 @@ vn_adu_missions_slot_4 = {
             }
         }
         effect = {
-            
+            #event
         }
     }
     vn_adu_conquer_levant = {
@@ -1501,7 +1649,20 @@ vn_adu_missions_slot_4 = {
             }
         }
         effect = {
-            
+            sophene_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+            corduene_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
         }
     }
     vn_adu_conquer_turkish_diplomacy = {
@@ -1590,7 +1751,49 @@ vn_adu_missions_slot_5 = {
         position = 7
         icon = mission_dominate_home_trade_node
         required_missions = { vn_adu_agricultural_revolution }
-       
+        provinces_to_highlight = {
+            OR = {
+                province_id = 1208
+                province_id = 1346
+                province_id = 1955
+                province_id = 1946
+            }
+            NOT = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+        }
+        trigger = {
+            1208 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            1346 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            1955 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+            1946 = {
+                trade_share = {
+                    country = ROOT
+                    share = 50
+                }
+            }
+        }
+        effect = {
+            add_mercantilism = 10
+        }
     }
     vn_adu_construct_a_navy = {
         icon = overshadow_venice
@@ -1829,6 +2032,7 @@ vn_adu_missions_slot_5 = {
             }
         }
         effect = {
+            add_army_professionalism = 0.03
             2235 = {
                 add_devastation = 75
                 remove_loot = {
