@@ -172,6 +172,33 @@ cb_restore_personal_union = {
 	war_goal = take_capital_personal_union
 }
 
+#Hundred Years War
+cb_hundred_years_war = {
+	valid_for_subject = no
+
+	is_triggered_only = yes
+	months = 240
+
+	prerequisites = {
+		OR = {
+			government = monarchy
+			has_reform = dutch_republic
+		}
+		is_revolutionary = no
+		FROM = {
+			OR = {
+				government = monarchy
+				has_reform = ambrosian_republic
+				# has_reform = military_dictatorship_reform
+				has_country_flag = neapolitan_republic
+			}
+			is_subject = no
+		}
+	}
+
+	war_goal = take_capital_hundred_years_war
+}
+
 # Defected province
 cb_defection = {
 	valid_for_subject = no
@@ -1124,8 +1151,10 @@ cb_chinese_unification = {
 	prerequisites = {
 		is_free_or_tributary_trigger = yes
 		has_dlc = "Mandate of Heaven"
-		is_emperor_of_china = yes
-		
+		OR = {
+			is_emperor_of_china = yes
+			has_government_attribute = has_unify_china_cb
+		}		
 		FROM = {
 			NOT = { is_subject_of = ROOT }
 			any_owned_province = {
@@ -1134,8 +1163,14 @@ cb_chinese_unification = {
 					superregion = ruthenia_superregion
 				}
 			}
+			is_emperor_of_china = no
 		}
 		is_neighbor_of = FROM
+	}
+
+	attacker_disabled_po = {
+		po_become_tributary_state
+		po_subjugate_tributary_state
 	}
 
 	war_goal = superiority_chinese_unification
