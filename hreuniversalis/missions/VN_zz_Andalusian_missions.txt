@@ -465,6 +465,7 @@ vn_adu_missions_slot_1 = {
             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
                 value = 10
                 culture_group = turko_semitic
+                has_owner_accepted_culture = yes
                 development = 20
             }
         }
@@ -529,16 +530,68 @@ vn_adu_missions_slot_2 = {
         position = 6
     }
     vn_adu_drive_out_berbers = {
-        icon = mission_expel_the_moriscos
+        icon = mission_soldiers_in_line
         required_missions = { vn_adu_eclipse_the_taifas }
+        provinces_to_highlight = {
+            superregion = iberia_superregion
+            OR = {
+                owned_by = MOR
+                owner = {
+                    is_subject_of = MOR
+                }
+            }
+        }
+        trigger = {
+            is_year = 1150
+            custom_trigger_tooltip = {
+                tooltip = vn_adu_drive_out_berbers.tt
+                MOR = {
+                    NOT = {
+                        any_owned_province = {
+                            superregion = iberia_superregion
+                        }
+                    }
+                    NOT = {
+                        any_subject_country = {
+                            any_owned_province = {
+                                superregion = iberia_superregion
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_army_professionalism = 0.05
+            create_general = {
+                tradition = 100
+            }
+        }
     }
     vn_adu_crush_revolts = {
         icon = mission_fatimid_caliphate
         required_missions = { vn_adu_taifa_patron }
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = own_all_cores_fra_minors
+                NOT = {
+                    any_province = {
+                        is_core = ROOT
+                        NOT = { owned_by = ROOT }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = adu_crush_revolts_mission
+                duration = 9125
+            }
+        }
     }
     vn_adu_reform_the_caliphate = {
         icon = mission_high_income
-        required_missions = { vn_adu_crush_revolts vn_adu_reform_the_caliphate }
+        required_missions = { vn_adu_crush_revolts vn_adu_restore_the_caliphate }
     }
     vn_adu_conquer_galicia = {
         icon = mission_build_up_to_force_limit
@@ -596,7 +649,7 @@ vn_adu_missions_slot_2 = {
     }
     vn_adu_conquer_gharb = {
         position = 13
-        icon = mission_fatimid_caliphate
+        icon = mission_bedouins
         required_missions = { vn_adu_conquer_rif }
         provinces_to_highlight = {
             OR = {
@@ -633,7 +686,7 @@ vn_adu_missions_slot_2 = {
         }
     }
     vn_adu_conquer_sus = {
-        icon = mission_fatimid_caliphate
+        icon = mission_cope_with_refugees
         required_missions = { vn_adu_conquer_gharb }
         provinces_to_highlight = {
             OR = {
@@ -971,7 +1024,14 @@ vn_adu_missions_slot_3 = {
             }
         }
         effect = {
-            
+            castile_region = {
+                add_local_autonomy = -10
+                add_nationalism = -5
+            }
+            basque_region = {
+                add_local_autonomy = -10
+                add_nationalism = -5
+            }
         }
     }
     vn_adu_unite_iberia = {
@@ -1013,6 +1073,20 @@ vn_adu_missions_slot_3 = {
         }
         effect = {
             tlemcen_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            gharb_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            middle_atlas_region = {
                 limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -1133,6 +1207,13 @@ vn_adu_missions_slot_3 = {
 				add_permanent_claim = ROOT
             }
             middle_egypt_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            crete_area = {
                 limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -1326,7 +1407,11 @@ vn_adu_missions_slot_4 = {
         required_missions = { vn_adu_taifa_patron }
         trigger = {
             religion_group = muslim
-            is_defender_of_faith = yes
+            OR = {
+                is_defender_of_faith = yes
+                full_idea_group = religious_ideas
+                inquisitor = 3
+            }
             land_forcelimit = 100
             army_size_percentage = 0.75
         }
@@ -1429,7 +1514,7 @@ vn_adu_missions_slot_4 = {
 				}
 				add_permanent_claim = ROOT
 			}
-            auvergne_region = {
+            gascony_region = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -1462,6 +1547,13 @@ vn_adu_missions_slot_4 = {
 				add_permanent_claim = ROOT
 			}
             guyenne_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+            auvergne_region = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -1546,7 +1638,7 @@ vn_adu_missions_slot_4 = {
         }
     }
     vn_adu_conquer_fight_france = {
-        icon = mission_fatimid_caliphate
+        icon = mission_assemble_an_army
         required_missions = { vn_adu_conquer_cisjurania }
         provinces_to_highlight = {
             owned_by = FRA
