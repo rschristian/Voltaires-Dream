@@ -17,7 +17,10 @@ country_event = {
 	trigger = {
 		has_country_flag = has_increased_religios_opinion
 		any_known_country = {
-			religion = ROOT
+			OR = {
+				ROOT = { has_harmonized_with = PREV }
+				religion = ROOT
+			}
 			NOT = {
 				has_opinion_modifier = {
 					who = ROOT
@@ -34,7 +37,10 @@ country_event = {
 	option = { 
 		every_known_country = {
 			limit = {
-				religion = ROOT
+				OR = {
+					ROOT = { has_harmonized_with = PREV }
+					religion = ROOT
+				}
 				NOT = {
 					has_opinion_modifier = {
 						who = ROOT
@@ -69,6 +75,7 @@ country_event = {
 	trigger = {
 		has_country_flag = has_increased_religios_opinion
 		any_known_country = {
+			ROOT = { NOT = { has_harmonized_with = PREV } }
 			NOT = { religion = ROOT }
 			has_opinion_modifier = {
 				who = ROOT
@@ -84,6 +91,7 @@ country_event = {
 	option = { 
 		every_known_country = {
 			limit = {
+				ROOT = { NOT = { has_harmonized_with = PREV } }
 				NOT = { religion = ROOT }
 				has_opinion_modifier = {
 					who = ROOT
@@ -418,7 +426,7 @@ province_event = {
 }
 
 # Add the province modifiers for secondary religion changes
-province_event = {
+country_event = {
 	id = passive_effects_events.10
 	title = none
 	desc = none
@@ -430,8 +438,11 @@ province_event = {
 		owner = {
 			if = {
 				limit = {
-					has_estate_privilege = estate_church_one_faith_one_culture
-				}
+					OR = {
+						has_estate_privilege = estate_church_one_faith_one_culture
+						has_estate_privilege = estate_brahmins_one_faith_one_culture
+					}
+				}	
 				every_owned_province = {
 					limit = {
 						has_province_modifier = estate_church_united_faith_and_culture
