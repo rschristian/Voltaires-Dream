@@ -528,6 +528,59 @@ vn_adu_missions_slot_2 = {
         icon = mission_friends_or_enemies
         required_missions = { vn_taifa_restore_andalusia }
         position = 6
+        provinces_to_highlight = {
+            is_capital = yes
+            owner = {
+                NOT = { tag = ROOT }
+                capital_scope = {
+                    superregion = iberia_superregion
+                }
+                religion_group = muslim
+                OR = {
+                    num_of_cities = ROOT
+                    is_rival = ROOT
+                }
+            }
+        }
+        trigger = {
+            num_of_cities = 125
+            custom_trigger_tooltip = {
+                tooltip = vn_adu_eclipse_the_taifas.tt
+                NOT = {
+                    any_country = {
+                        NOT = { tag = ROOT }
+                        religion_group = muslim
+                        num_of_cities = ROOT
+                        capital_scope = {
+                            superregion = iberia_superregion
+                        }
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = vn_adu_eclipse_the_taifas.ss
+                NOT = {
+                    any_country = {
+                        NOT = { tag = ROOT }
+                        religion_group = muslim
+                        is_rival = ROOT
+                        capital_scope = {
+                            superregion = iberia_superregion
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_power_projection = {
+                type = mission_rewards_power_projection
+                amount = 10
+            }
+            add_country_modifier = {
+                name = adu_eclipse_the_taifas_mission
+                duration = 9125
+            }
+        }
     }
     vn_adu_drive_out_berbers = {
         icon = mission_soldiers_in_line
@@ -865,7 +918,28 @@ vn_adu_missions_slot_2 = {
             }
         }
         effect = {
-            #event
+            if = {
+                limit = {
+                    3065 = {
+                        NOT = { is_capital_of = ROOT }
+                    }
+                }
+                country_event = {
+                    id = vn_missions.46
+                }
+            }
+            else = {
+                add_prestige = 10
+                add_piety = -0.2
+                3065 = {
+                    add_base_tax = 2
+                    add_base_production = 2
+                    add_province_modifier = {
+                        name = adu_rebuild_damascus_mission
+                        duration = -1
+                    }
+                }
+            }
         }
     }
 }
@@ -1712,7 +1786,21 @@ vn_adu_missions_slot_4 = {
             }
         }
         effect = {
-            #event
+            if = {
+                limit = {
+                    CRT = { exists = no }
+                }
+                country_event = {
+                    id = vn_missions.47
+                }
+            }
+            else = {
+                add_reform_progress_small_effect = yes
+                crete_area = {
+                    add_local_autonomy = -10
+                    add_nationalism = -5
+                }
+            }
         }
     }
     vn_adu_conquer_levant = {
@@ -2020,25 +2108,18 @@ vn_adu_missions_slot_5 = {
         effect = {
             if = {
                 limit = {
-                    has_dlc = "Golden Century"
                     TNC = { exists = no }
                 }
-                country_event = { id = flavor_gra.2 }
-            }
-            else_if = {
-                has_limit = {
-                    has_dlc = "Golden Century"
-                }
-                sicilia_region = {
-                    add_province_modifier = {
-                        name = "sicily_in_safe_hands"
-                        duration = 9125
-                    }
+                country_event = {
+                    id = vn_missions.48
                 }
             }
             else = {
-                add_dip_power = 50
-                add_navy_tradition = 25
+                add_reform_progress_small_effect = yes
+                sicilia_region = {
+                    add_local_autonomy = -10
+                    add_nationalism = -5
+                }
             }
         }
     }
