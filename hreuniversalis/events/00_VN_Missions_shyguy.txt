@@ -523,42 +523,78 @@ country_event = {
 	}
 }
 
-###TEUTONIC ORDER###
-#The Foundation of Königsberg
-# country_event = {
-# 	id = vn_missions.8
-# 	title = vn_missions.8.t
-# 	desc = vn_missions.8.d
-# 	picture = BATTLE_VISTULA_LAGOON_eventPicture
+###THURINGIA###
+#The Fate of Martin Luther
+country_event = {
+	id = vn_missions.8
+	title = vn_missions.8.t
+	desc = vn_missions.8.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
 
-# 	is_triggered_only = yes
+	is_triggered_only = yes
 
-# 	option = {
-# 		name = "vn_missions.8.a"
-# 		trigger = {
-# 			4854 = {
-# 				owned_by = ROOT
-# 				is_capital = no
-# 			}
-# 		}
-# 		ai_chance = { factor = 75 }
-# 		4854 = {
-# 			move_capital_effect = yes
-# 			add_base_tax = 2
-# 			add_base_production = 2
-# 			add_base_manpower = 2
-# 		}
-# 	}
-# 	option = {
-# 		name = "vn_missions.8.b"
-# 		ai_chance = { factor = 25 }
-# 		capital_scope = {
-# 			add_base_tax = 2
-# 			add_base_production = 2
-# 			add_base_manpower = 2
-# 		}
-# 	}
-# }
+	option = {
+		name = "vn_missions.8.a"
+		if = {
+			limit = { religion = catholic }
+			reverse_add_opinion = {
+				who = PAP
+				modifier = thu_luther_heresy_opinion
+			}
+		}
+		else_if = {
+			limit = { religion = catholique }
+			reverse_add_opinion = {
+				who = AVI
+				modifier = thu_luther_heresy_opinion
+			}
+		}
+		change_religion = protestant
+		2925 = {
+			if = {
+				limit = {
+					NOT = {
+						calc_true_if = {
+							all_province = {
+								religion = protestant
+								is_reformation_center = yes
+							}
+							amount = 3
+						}
+					}
+				}
+				add_reform_center = protestant
+			}
+		}
+		define_advisor = {
+			type = army_organiser
+			skill = 3
+			cost_multiplier = 0.25
+			religion = protestant
+		}
+	}
+	option = {
+		name = "vn_missions.8.b"
+		if = {
+			limit = { religion = catholic }
+			reverse_add_opinion = {
+				who = PAP
+				modifier = thu_sued_luther_opinion
+			}
+		}
+		else_if = {
+			limit = { religion = catholique }
+			reverse_add_opinion = {
+				who = AVI
+				modifier = thu_sued_luther_opinion
+			}
+		}
+		add_country_modifier = {
+			name = thu_religious_overthrow_mission_b
+			duration = 18250
+		}
+	}
+}
 
 ###ASSYRIA###
 #Religious Uncertainty

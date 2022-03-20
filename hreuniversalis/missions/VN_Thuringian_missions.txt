@@ -266,6 +266,10 @@ vn_thu_missions_slot_2 = {
         }
         effect = {
 			add_dip_power = 75
+			add_country_modifier = {
+				name = thu_conquer_thuringia_mission
+				duration = 9125
+			}
             hesse_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -438,6 +442,7 @@ vn_thu_missions_slot_4 = {
 			OR = {
 				province_id = 232
 				province_id = 2851
+				is_capital_of = ROOT
 			}
 		}
         trigger = {
@@ -454,12 +459,42 @@ vn_thu_missions_slot_4 = {
 					num_of_buildings_in_province = 3
 					NOT = { unrest = 1 }
 				}
+				capital_scope = {
+					NOT = { province_id = 232 }
+					NOT = { province_id = 2851 }
+					development = 25
+					calc_true_if = {
+						amount = 3
+						has_tax_building_trigger = yes
+						has_production_building_trigger = yes
+						has_trade_building_trigger = yes
+						has_courthouse_building_trigger = yes
+						has_manpower_building_trigger = yes
+					}
+					NOT = { unrest = 1 }
+				}
 			}
         }
         effect = {
-            add_country_modifier = {
-				name = thu_a_worthy_capital_mission
-				duration = 9125
+			capital_scope = {
+				if = {
+					limit = { province_id = 232 }
+					add_base_tax = 1
+					add_base_production = 1
+				}
+				else_if = {
+					limit = { province_id = 2851 }
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+				else = {
+					add_base_tax = 1
+					add_base_manpower = 1
+				}
+				add_province_modifier = {
+					name = thu_a_worthy_capital_mission
+					duration = 9125
+				}
 			}
         }
     }
@@ -553,8 +588,9 @@ vn_thu_missions_slot_4 = {
 			}
         }
         effect = {
+			country_event = { id = vn_missions.8 }
             add_country_modifier = {
-				name = thu_religious_overthrow_mission
+				name = thu_religious_overthrow_mission_a
 				duration = 9125
 			}
         }
@@ -587,6 +623,7 @@ vn_thu_missions_slot_4 = {
 			}
         }
         effect = {
+			add_prestige = 15
             add_country_modifier = {
 				name = thu_thuringians_abroad_mission
 				duration = 9125
