@@ -167,19 +167,7 @@ vn_adu_missions_slot_1 = {
     generic = no
     ai = yes
     potential = {
-		OR = { 
-			tag = ADU
-            AND = {
-                capital_scope = {
-                    superregion = iberia_superregion
-                }
-                religion_group = muslim
-                OR = {
-                    primary_culture = andalucian
-                    primary_culture = mozarabic
-                }
-            }
-        }
+		tag = ADU
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -436,6 +424,7 @@ vn_adu_missions_slot_1 = {
                     accepted_culture = atlas_berber
                     accepted_culture = guanche
                     accepted_culture = tuareg
+                    amount = 2
                 }
             }
             else = {
@@ -507,19 +496,7 @@ vn_adu_missions_slot_2 = {
     generic = no
     ai = yes
     potential = {
-		OR = { 
-			tag = ADU
-            AND = {
-                capital_scope = {
-                    superregion = iberia_superregion
-                }
-                religion_group = muslim
-                OR = {
-                    primary_culture = andalucian
-                    primary_culture = mozarabic
-                }
-            }
-        }
+		tag = ADU
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -645,6 +622,50 @@ vn_adu_missions_slot_2 = {
     vn_adu_reform_the_caliphate = {
         icon = mission_high_income
         required_missions = { vn_adu_crush_revolts vn_adu_restore_the_caliphate }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 20
+                NOT = { culture_group = ROOT }
+                has_owner_accepted_culture = yes
+                has_owner_religion = yes
+            }
+            custom_trigger_tooltip = {
+                tooltip = vn_adu_reform_the_caliphate.tt
+                has_adm_advisor = yes
+                NOT = {
+                    employed_advisor = {
+                        culture = ROOT
+                        category = ADM
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = vn_adu_reform_the_caliphate.ss
+                has_dip_advisor = yes
+                NOT = {
+                    employed_advisor = {
+                        culture = ROOT
+                        category = DIP
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = vn_adu_reform_the_caliphate.rr
+                has_mil_advisor = yes
+                NOT = {
+                    employed_advisor = {
+                        culture = ROOT
+                        category = MIL
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = adu_reform_the_caliphate_mission
+                duration = 9125
+            }
+        }
     }
     vn_adu_conquer_galicia = {
         icon = mission_build_up_to_force_limit
@@ -949,19 +970,7 @@ vn_adu_missions_slot_3 = {
     generic = no
     ai = yes
     potential = {
-		OR = { 
-			tag = ADU
-            AND = {
-                capital_scope = {
-                    superregion = iberia_superregion
-                }
-                religion_group = muslim
-                OR = {
-                    primary_culture = andalucian
-                    primary_culture = mozarabic
-                }
-            }
-        }
+		tag = ADU
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -970,16 +979,33 @@ vn_adu_missions_slot_3 = {
         position = 6
         icon = mission_hands_praying
         required_missions = { vn_taifa_restore_andalusia }
+        provinces_to_highlight = {
+            is_capital = yes
+            owner = {
+                NOT = { tag = ROOT }
+                religion_group = christian
+                capital_scope = {
+                    superregion = iberia_superregion
+                }
+                army_strength = {
+                    who = ROOT
+                    value = 0.5
+                }
+            }
+        }
         trigger = {
-            NOT = {
-                any_country = {
-                    religion_group = christian
-                    capital_scope = {
-                        superregion = iberia_superregion
-                    }
-                    army_strength = {
-                        who = ROOT
-                        value = 1.5
+            custom_trigger_tooltip = {
+                tooltip = vn_adu_rival_the_christians.tt
+                NOT = {
+                    any_country = {
+                        religion_group = christian
+                        capital_scope = {
+                            superregion = iberia_superregion
+                        }
+                        army_strength = {
+                            who = ROOT
+                            value = 0.5
+                        }
                     }
                 }
             }
@@ -997,13 +1023,31 @@ vn_adu_missions_slot_3 = {
         required_missions = { vn_adu_agricultural_revolution vn_adu_eclipse_the_taifas vn_adu_rival_the_christians }
         trigger = {
             NOT = { current_age = age_of_empire }
+            religion_group = muslim
             stability = 2
 			has_reached_government_reform_tier = {
                 tier_4 = yes
             }
         }
         effect = {
-            #event
+            custom_tooltip = vn_adu_taifa_patron.tt
+            hidden_effect = {
+                every_country = {
+                    limit = {
+                        NOT = { tag = ROOT }
+                        has_opinion = {
+                            who = ROOT
+                            value = 100
+                        }
+                        religion_group = muslim
+                        OR = {
+                            primary_culture = andalucian
+                            primary_culture = mozarabic
+                        }
+                    }
+                    country_event = { id = vn_missions.49 days = 5 }
+                } 
+            }
         }
     }
     vn_adu_restore_the_caliphate = {
@@ -1074,7 +1118,10 @@ vn_adu_missions_slot_3 = {
             }
         }
         effect = {
-            
+            add_country_modifier = {
+                name = adu_victory_over_the_christians_mission
+                duration = 9125
+            }
         }
     }
     vn_adu_conquer_castile = {
@@ -1424,19 +1471,7 @@ vn_adu_missions_slot_4 = {
     generic = no
     ai = yes
     potential = {
-		OR = { 
-			tag = ADU
-            AND = {
-                capital_scope = {
-                    superregion = iberia_superregion
-                }
-                religion_group = muslim
-                OR = {
-                    primary_culture = andalucian
-                    primary_culture = mozarabic
-                }
-            }
-        }
+		tag = ADU
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -1910,19 +1945,7 @@ vn_adu_missions_slot_5 = {
     generic = no
     ai = yes
     potential = {
-		OR = { 
-			tag = ADU
-            AND = {
-                capital_scope = {
-                    superregion = iberia_superregion
-                }
-                religion_group = muslim
-                OR = {
-                    primary_culture = andalucian
-                    primary_culture = mozarabic
-                }
-            }
-        }
+		tag = ADU
         NOT = { map_setup = map_setup_random }
     }
     has_country_shield = yes
@@ -2271,42 +2294,3 @@ vn_adu_missions_slot_5 = {
         }
     }
 }
-
-# vn_taifa_placate_the_christians = {
-#     position = 2
-#     icon = mission_tear_down_spanish_strongholds
-#     required_missions = { vn_taifa_gather_support }
-#     trigger = {
-#         religion_group = muslim
-#         NOT = { has_country_modifier = parias_modifier }
-#         if = {
-#             limit = {
-#                 any_country = {
-#                     religion_group = christian
-#                     culture_group = iberian
-#                 }
-#             }
-#             any_country = {
-#                 religion_group = christian
-#                 culture_group = iberian
-#                 war_with = ROOT
-#                 NOT = {
-#                     war_score_against = {
-#                         who = ROOT
-#                         value = -50
-#                     }
-#                 }
-#             }
-#         }
-#     }
-#     effect = {
-#         add_estate_loyalty = {
-#             estate = estate_nobles
-#             loyalty = 10
-#         }
-#         add_country_modifier = {
-#             name = taifa_placate_the_christians_mission
-#             duration = 9125
-#         }
-#     }
-# }
