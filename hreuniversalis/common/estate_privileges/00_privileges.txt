@@ -9167,8 +9167,146 @@ estate_church_integrated_school = {
 	}
 }
 
-
 #Mission tree rewards
+
+estate_nobles_cawa_peace_keepers = {
+	icon = privilege_cawa_peacekeeper
+	max_absolutism = -5
+	influence = 0.05
+	loyalty = 0.05
+	is_valid = {
+		has_unlocked_estate_privilege = { estate_privilege = estate_nobles_cawa_peace_keepers }
+	}
+	can_select = {
+		custom_trigger_tooltip = {
+			tooltip = eth_estate_did_not_have_cawa_privilege_for_five_years
+			OR = {
+				NOT = { has_country_flag = picked_cawa_privilege }
+				had_country_flag = {
+					flag = picked_cawa_privilege
+					days = 1825
+				}
+			}
+		}
+	}
+	on_granted = {
+		remove_estate_privilege = estate_nobles_cawa_offensive_fighters
+		hidden_effect = {
+			clr_country_flag = picked_cawa_privilege
+			set_country_flag = picked_cawa_privilege
+		}
+		add_country_modifier = {
+			name = estate_nobles_cawa_peace_keepers_modifier
+			duration = -1
+		}
+	}
+	on_revoked = {
+		remove_country_modifier = estate_nobles_cawa_peace_keepers_modifier
+	}
+	on_invalid = {
+		remove_country_modifier = estate_nobles_cawa_peace_keepers_modifier
+	}
+	penalties = {
+	}
+	benefits = {
+	}
+	cooldown_years = 5
+	ai_will_do = {
+		factor = 4
+		modifier = {
+			factor = 0
+			NOT = { num_of_cawa = 10 }
+		}
+		modifier = {
+			factor = 2
+			is_at_war = no
+		}
+		modifier = {
+			factor = 2
+			is_in_important_war = no
+		}
+		modifier = {
+			factor = 4
+			num_of_rebel_armies = 3
+		}
+		modifier = {
+			factor = 4
+			num_of_rebel_controlled_provinces = 3
+		}
+		modifier = {
+			factor = 4
+			NOT = { stability = 0 }
+		}
+		modifier = {
+			factor = 0.5
+			is_absolutism_active = yes
+		}
+	}
+}
+
+estate_nobles_cawa_offensive_fighters = {
+	icon = privilege_cawa_offensive_fighters
+	max_absolutism = -5
+	influence = 0.05
+	loyalty = 0.05
+	is_valid = {
+		has_unlocked_estate_privilege = { estate_privilege = estate_nobles_cawa_offensive_fighters }
+	}
+	can_select = {
+		custom_trigger_tooltip = {
+			tooltip = eth_estate_did_not_have_cawa_privilege_for_five_years
+			OR = {
+				NOT = { has_country_flag = picked_cawa_privilege }
+				had_country_flag = {
+					flag = picked_cawa_privilege
+					days = 1825
+				}
+			}
+		}
+	}
+	on_granted = {
+		remove_estate_privilege = estate_nobles_cawa_peace_keepers
+		hidden_effect = {
+			clr_country_flag = picked_cawa_privilege
+			set_country_flag = picked_cawa_privilege
+		}
+		add_country_modifier = {
+			name = estate_nobles_cawa_offensive_fighters_modifier
+			duration = -1
+		}
+	}
+	on_revoked = {
+		remove_country_modifier = estate_nobles_cawa_offensive_fighters_modifier
+	}
+	on_invalid = {
+		remove_country_modifier = estate_nobles_cawa_offensive_fighters_modifier
+	}
+	penalties = {
+	}
+	benefits = {
+	}
+	cooldown_years = 5
+	ai_will_do = {
+		factor = 4
+		modifier = {
+			factor = 0
+			NOT = { num_of_cawa = 10 }
+		}
+		modifier = {
+			factor = 5
+			is_at_war = yes
+		}
+		modifier = {
+			factor = 10
+			is_in_important_war = yes
+		}
+		modifier = {
+			factor = 0.5
+			is_absolutism_active = yes
+		}
+	}
+}
+
 estate_burghers_control_over_the_mint = {
 	icon = privilege_gold_mint
 	max_absolutism = -30
