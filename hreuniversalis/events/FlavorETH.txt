@@ -1,4 +1,178 @@
+########################################
+# Events for Ethiopia
+#
+# written by Johan Andersson
+########################################
+
 namespace = flavor_eth
+normal_or_historical_nations = yes
+
+# Pero da Covilha
+country_event = {
+	id = flavor_eth.1
+	title = flavor_eth.1.t
+	desc = flavor_eth.1.d
+	picture = SHIP_SAILING_eventPicture
+	fire_only_once = yes
+
+	trigger = {
+		tag = CLC
+		OR = {
+			current_age = age_of_holy_wars
+			current_age = age_of_crisis
+		}
+		religion_group = christian
+		exists = KOJ
+		NOT = { war_with = KOJ }
+	}
+
+	mean_time_to_happen = {
+		months = 30
+	}
+	
+	immediate = {
+		hidden_effect = {
+			set_country_flag = eth_contact_with_portugal
+		}
+	}
+	
+	option = { 
+		name = flavor_eth.1.a
+		ai_chance = { factor = 90 }
+		add_prestige = 5
+		custom_tooltip = flavor_eth.1.a.desc
+		set_country_flag = portuguese_embassy
+	}
+	option = {
+		name = flavor_eth.1.b	
+		ai_chance = { factor = 5 }
+		add_legitimacy = 5
+	}
+	option = {
+		name = flavor_eth.1.c
+		ai_chance = { factor = 5 }
+		reverse_add_casus_belli = {
+			target = KOJ
+			type = cb_insult
+			months = 60
+		}
+	}
+}
+
+#An Embassy Is Here!
+country_event = {
+	id = flavor_eth.2
+	title = flavor_eth.2.t
+	desc = flavor_eth.2.d
+	picture = DIPLOMACY_eventPicture
+	fire_only_once = yes
+
+	trigger = {
+		tag = CLC
+		has_country_flag = portuguese_embassy
+		exists = KOJ
+		NOT = { war_with = KOJ }
+	}
+
+	mean_time_to_happen = {
+		months = 90
+	}
+	
+	option = {
+		name = flavor_eth.2.a
+		trigger = {
+			is_neighbor_of = SJK
+		}
+		KOJ = {
+			country_event = {
+				id = flavor_eth.3
+				days = 180
+				tooltip = flavor_eth.2.3
+			}
+		}
+		add_mil_power = 25
+	}
+	option = {
+		name = flavor_eth.2.b	
+		add_adm_power = 50
+		add_dip_power = 50
+		add_mil_power = 50
+	}
+	option = {
+		name = flavor_eth.2.c
+		add_years_of_income = 1.0
+	}	
+}
+
+#Prester John?
+country_event = {
+	id = flavor_eth.3
+	title = flavor_eth.3.t
+	desc = flavor_eth.3.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	
+	option = { 
+		name = flavor_eth.3.a
+		ai_chance = { factor = 90 }
+		hidden_effect = {
+			FROM = {
+				country_event = {
+					id = flavor_eth.4
+					days = 180
+				}
+			}
+		}
+		add_mil_power = -50
+		add_papal_influence = 10
+		reverse_add_opinion = { who = FROM modifier = opinion_military_aid }	
+	}
+	option = {
+		name = flavor_eth.3.b
+		add_prestige = -5
+		hidden_effect = {
+			FROM = {
+				country_event = {
+					id = flavor_eth.5
+					days = 1825
+				}
+			}
+		}
+		reverse_add_opinion = { who = ETH modifier = opinion_refused_military_aid }
+	}
+}
+
+# aid given
+country_event = {
+	id = flavor_eth.4
+	title = flavor_eth.4.t
+	desc = flavor_eth.4.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	
+	option = { 
+		name = flavor_eth.4.a
+		reverse_add_opinion = { who = FROM modifier = opinion_military_aid }
+		add_country_modifier = {
+			name = eth_mil_aid_from_portugal
+			duration = 3650
+		}
+	}
+}
+
+# aid refused
+country_event = {
+	id = flavor_eth.5
+	title = flavor_eth.5.t
+	desc = flavor_eth.5.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	
+	option = { 
+		name = flavor_eth.5.a
+		add_legitimacy = -10
+	}
+}
 
 #Mechanic events
 #Itinerant Capital Mechanic - Move the capital
