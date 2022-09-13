@@ -991,6 +991,238 @@ country_event = {
 	}
 }
 
+#Black Monk of Jersey
+country_event = {
+	id = pirates.20
+	title = "pirates.20.t"
+	picture = PIRATE_CAPTAINS_eventPicture
+	desc = "pirates.20.d"
+
+	fire_only_once = yes
+
+	trigger = {
+		has_dlc = "Golden Century"
+		is_year = 1200
+		NOT = { is_year = 1230 }
+		NOT = { has_reform = pirate_republic_reform }
+		NOT = { exists = EUU }
+		OR = {
+			AND = {
+				owns_core_province = 136
+				is_subject = no
+				num_of_cities = 2
+			}
+			any_subject_country = {
+				owns_core_province = 136
+				num_of_cities = 2
+			}
+		}
+		OR = {
+			2173 = {
+				recent_treasure_ship_passage = yes
+			}
+			2173 = {
+				privateer_power = { share = 1 }
+			}
+			any_country = {
+				capital_scope = {
+					OR = {
+						region = normandy_region
+						region = brittany_region
+						region = picard_region
+						region = southeast_england_region
+						region = southwest_england_region
+					}
+				}
+				war_exhaustion = 5
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			every_province = {
+				limit = { is_core = EUU }
+				remove_core = EUU
+			}
+			136 = {
+				discover_country = EUU
+				add_core = EUU
+			}
+			EUU = {
+				override_country_name = JERSEY
+				set_country_flag = is_pirates_of_jersey_flag
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 12
+	}
+
+	option = { # play as the pirates
+		name = "pirates.2.a"
+		# play as EUU
+		trigger = {
+			ai = no
+		}
+		136 = {
+			owner = {
+				release = EUU
+			}
+		}
+		EUU = {
+			change_government = republic
+			add_government_reform = pirate_republic_reform
+			change_religion = ROOT
+			change_primary_culture = picard
+			discover_provinces = ROOT
+			adopt_reform_progress = ROOT
+			add_republican_tradition = 50
+			capital_scope = {
+				build_to_forcelimit = {
+					infantry = 0.8
+					artillery = 0.2
+					heavy_ship = 0.3
+					light_ship = 0.3
+					transport = 0.3
+				}
+			}
+			define_ruler = {
+				force_republican_names = yes
+				name = "Eustache"
+				dynasty = "Busket"
+				adm = 4
+				dip = 4
+				mil = 3
+			}
+			if = {
+				limit = {
+					NOT = { has_idea_group = pirate_ideas }
+				}
+				swap_free_idea_group = yes
+			}
+			swap_non_generic_missions = yes
+			set_ruler_flag = historical_pirate
+		}
+		switch_tag = EUU
+	}
+	option = { # pirates get released
+		name = "pirates.2.b"
+		136 = {
+			owner = {
+				release = EUU
+			}
+		}
+		EUU = {
+			change_government = republic
+			add_government_reform = pirate_republic_reform
+			add_republican_tradition = 50
+			change_religion = ROOT
+			change_primary_culture = picard
+			adopt_reform_progress = ROOT
+			capital_scope = {
+				build_to_forcelimit = {
+					infantry = 0.8
+					artillery = 0.2
+					heavy_ship = 0.3
+					light_ship = 0.3
+					transport = 0.3
+				}
+			}
+			define_ruler = {
+				force_republican_names = yes
+				name = "Eustache"
+				dynasty = "Busket"
+				adm = 4
+				dip = 4
+				mil = 3
+			}
+			if = {
+				limit = {
+					NOT = { has_idea_group = pirate_ideas }
+				}
+				swap_free_idea_group = yes
+			}
+			swap_non_generic_missions = yes
+			set_ruler_flag = historical_pirate
+		}
+	}
+
+	after = { # Trigger an event, which will swap the national ideas of pirate tag with correct ideas
+		hidden_effect = {
+			EUU = {
+				apply_sprite_pack = dlc098_nss_sprite_pack
+				country_event = {
+					id = pirates.25
+				}
+			}
+		}
+	}
+}
+
+# Cilician Pirates
+country_event = {
+	id = pirates.21
+	title = "pirates.21.t"
+	picture = SMUGGLERS_eventPicture
+	desc = "pirates.21.d"
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = CLC
+		has_dlc = "Golden Century"
+		primary_culture = armenian
+		has_regency = no
+		is_subject = no
+		is_at_war = no
+		num_of_ports = 10
+		OR = {
+			AND = {
+				dip = 6
+				mil = 4
+			}
+			AND = {
+				mil = 6
+				dip = 4
+			}
+			AND = {
+				dip = 5
+				mil = 5
+			}
+		}
+		NOT = { has_reform = pirate_republic_reform }
+	}
+
+	mean_time_to_happen = {
+		months = 12
+	}
+
+	option = {
+		name = "pirates.21.a"
+		ai_chance = {
+			factor = 0
+		}
+		change_government = republic
+		add_government_reform = pirate_republic_reform
+		define_ruler = {
+			force_republican_names = yes
+			culture = armenian
+		}
+		add_republican_tradition = 50
+		swap_non_generic_missions = yes
+	}
+
+	option = {
+		name = "pirates.21.b"
+		ai_chance = {
+			factor = 1
+		}
+		add_prestige = 10
+	}
+}
+
 # Pirates of Rugen
 country_event = {
 	id = pirates.22
