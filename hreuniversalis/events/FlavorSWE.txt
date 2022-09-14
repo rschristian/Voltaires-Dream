@@ -10,17 +10,35 @@ normal_or_historical_nations = yes
 country_event = {
 	id = flavor_swe.1
 	title = flavor_swe.1.t
-	desc = flavor_swe.1.d
-	picture = REFORM_eventPicture
-
+	desc = flavor_swe.1.swe_debt_with_the_burghers
+	picture = {
+		trigger = {
+			has_dlc = "Lions of the North"
+		}
+		picture = VASA_REFORMS_eventPicture
+	}
+	picture = {
+		trigger = {
+			NOT = { has_dlc = "Lions of the North" }
+		}
+		picture = REFORM_eventPicture
+	}
 
 	fire_only_once = yes
 
 	trigger = {
-		tag = SWE
+		OR = {
+			tag = SWE
+			AND = {
+				was_tag = SWE
+				NOT = { exists = SWE }
+				tag = SCA
+			}		
+		}
 		is_free_or_tributary_trigger = yes
 		is_at_war = no
 		is_year = 1500
+		NOT = { has_dlc = "Lions of the North" }
 	}
 
 	mean_time_to_happen = {
@@ -101,10 +119,6 @@ country_event = {
 	}
 }
 
-
-
-
-
 # The Engelbrekt Rebellion
 country_event = {
 	id = flavor_swe.3217
@@ -112,21 +126,18 @@ country_event = {
 	desc = "flavor_swe.EVTDESC3217"
 	picture = ANGRY_MOB_eventPicture
 
-
 	fire_only_once = yes
-
 
 	trigger = {
 		tag = SWE
 		junior_union_with = DAN
-		is_year = 1399
+		is_year = 1399^
+		NOT = { has_dlc = "Lions of the North" }
 	}
 	
 	mean_time_to_happen = {
 		months = 120
 	}
-	
-
 	
 	option = {		# Have Engelbrekt murdered
 		name = "flavor_swe.EVTOPTA3217"
@@ -173,7 +184,7 @@ country_event = {
 		tag = SWE
 		junior_union_with = DAN
 		is_year = 1470
-		
+		NOT = { has_dlc = "Lions of the North" }
 	}
 
 	mean_time_to_happen = {
@@ -217,10 +228,11 @@ country_event = {
 		tag = SWE
 		junior_union_with = DAN
 		is_year = 1490
+		NOT = { has_country_flag = swe_had_vasa_event }
 	}
 
 	mean_time_to_happen = {
-		months = 200
+		months = 12
 	}
 
 	immediate = {
@@ -229,17 +241,17 @@ country_event = {
 
 	option = {		# Freedom!
 		name = "flavor_swe.EVTOPTA3219"
-		add_liberty_desire = 25
+		custom_tooltip = swe_vasa_leads_the_rebellion_tt
+		add_country_modifier = {
+			name = swe_vasa_leads_the_rebellion
+			duration = 9125
+		}		
+		hidden_effect = { set_country_flag = swe_support_from_Gustav_vasa }
 		DAN = {
 			add_opinion = {
 				who = ROOT
 				modifier = swe_renounced_the_union
 			}
-		}
-		add_casus_belli = {
-			target = DAN
-			type = cb_independence_war
-			months = 120
 		}
 		# Danish notification event
 		hidden_effect = {
@@ -507,27 +519,66 @@ country_event = {
 	id = flavor_swe.1628	
 	title = "flavor_swe.EVTNAME1628"
 	desc = "flavor_swe.EVTDESC1628"
-	picture = SHIP_SAILING_eventPicture
-	
-	
+	picture = {
+		trigger = {
+			has_dlc = "Golden Century"
+		}
+		picture = FLAGSHIP_SUNK_eventPicture
+	}
+	picture = {
+		trigger = {
+			NOT = { has_dlc = "Golden Century" }
+		}
+		picture = SHIP_SAILING_eventPicture
+	}
+	goto = sink_sink_province	
+
 	fire_only_once = yes
 	
 	trigger = {
-		tag = SWE
+		NOT = { has_country_flag = sca_swe_unsinkable_vasa }
+		OR = {
+			tag = SWE
+			AND = {
+				was_tag = SWE
+				NOT = { exists = SWE }
+				tag = SCA
+			}		
+		}
 		dip_tech = 50
-		6109 = {
-			has_construction = navy
+		num_of_heavy_ship = 1
+		any_owned_province = {
+			heavy_ships_in_province = ROOT
 		}
 	}
 	
 	mean_time_to_happen = {
 		months = 12
 	}
-	
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = {
+					heavy_ships_in_province = ROOT
+				}
+				save_event_target_as = sink_sink_province
+				kill_units = {
+					type = heavy_ship
+					who = ROOT
+					amount = 1
+				}
+			}
+		}
+	}
 	
 	option = {		# Our reputation is ruined!
 		name = "flavor_swe.EVTOPTA1628"
-		add_prestige = -5
+		add_prestige = -25
+		event_target:sink_sink_province = {
+			custom_tooltip = flavor_swe.1628.a.tt
+		}
+		set_country_flag = lost_first_vasa_ship
 	}
 }
 
@@ -774,6 +825,7 @@ country_event = {
 		is_year = 1399
 		NOT = { is_year = 1670 }
 		has_country_flag = swe_oxenstierna
+		has_estate = estate_nobles 
 	}
 
 	mean_time_to_happen = {
@@ -788,7 +840,7 @@ country_event = {
 		add_stability_or_adm_power = yes
 		add_ruler_modifier = {
 			name = aristocratic_privileges
-			duration = -1
+			duration = 9125
 		}
 	}
 	option = {		# Resist these tendencies
@@ -905,7 +957,9 @@ country_event = {
 	trigger = {
 		tag = SWE
 		is_female = yes
-		religion = protestant
+		religion_group = christian
+		NOT = { religion = catholic }
+		ruler_religion = catholic
 		NOT = { ruler_has_personality = immortal_personality }
 		has_regency = no
 	}
@@ -1084,13 +1138,14 @@ country_event = {
 		add_army_professionalism = 0.05
 		add_country_modifier = {
 			name = the_great_army_reorganization
-			duration = -1
+			duration = 9125
 		}
 	}
 	option = {		# Maintain present system
 		name = "flavor_swe.EVTOPTB3244"
 		ai_chance = { factor = 10 }
-		add_stability = 2		
+		add_stability_or_adm_power = yes 
+		add_army_tradition = 10 
 	}
 }
 
@@ -1121,7 +1176,7 @@ country_event = {
 		add_stability = -1
 		add_country_modifier = {
 			name = the_product_act
-			duration = -1
+			duration = 9125
 		}
 	}
 	option = {		# The present policy is perfect
@@ -1161,7 +1216,7 @@ country_event = {
 		ai_chance = { factor = 75 }
 		add_country_modifier = {
 			name = the_conventicle_edict
-			duration = -1
+			duration = 9125
 		}
 	}
 	option = {		# Allow Pietism
@@ -1169,7 +1224,7 @@ country_event = {
 		ai_chance = { factor = 25 }
 		add_country_modifier = {
 			name = pietism
-			duration = -1
+			duration = 9125
 		}
 	}
 }
@@ -1194,7 +1249,10 @@ country_event = {
 		}
 		RUS = {
 			any_owned_province = {
-				is_core = SWE
+				OR = {
+					is_core = SCA
+					is_core = SWE
+				}
 			}
 		}
 		num_of_generals = 1
@@ -1341,7 +1399,7 @@ country_event = {
 		add_stability = -1
 		add_country_modifier = {
 			name = the_act_of_union_and_security
-			duration = -1
+			duration = 9125
 		}
 	}
 	option = {		# Refuse the Act
@@ -1377,6 +1435,35 @@ country_event = {
 			name = the_great_agricultural_reform
 			duration = -1
 		}
+		change_government_reform_progress = -50
+		random_owned_province = {
+			limit = { 
+				superregion = scandinavia_superregion 
+				trade_goods = grain 
+			}
+			add_base_production = 1 
+		}
+		random_owned_province = {
+			limit = { 
+				superregion = scandinavia_superregion 
+				trade_goods = grain 
+			}
+			add_base_production = 1 
+		}
+		random_owned_province = {
+			limit = { 
+				superregion = scandinavia_superregion 
+				trade_goods = grain 
+			}
+			add_base_production = 1 
+		}
+		random_owned_province = {
+			limit = { 
+				superregion = scandinavia_superregion 
+				trade_goods = grain 
+			}
+			add_base_production = 1 
+		} 
 	}
 	option = {		# Carry on as before
 		name = "flavor_swe.EVTOPTB3264"
@@ -1593,7 +1680,7 @@ country_event = {
 				NOT = { stability = 1 }
 			}
 		}
-		add_stability = -3
+		add_stability = -5
 	}
 }
 
@@ -1952,4 +2039,81 @@ country_event = {
 	}
 }
 
+########################################
+# DLC Events for Sweden
+#
+# written by Ogulcan Yildirim
+########################################
 
+# The League War - Swedish Contribution
+country_event = {
+	id = flavor_swe.101
+	title = "flavor_swe.101.t"
+	desc = "flavor_swe.101.desc"
+	picture = SWEDEN_LEAGUE_WAR_eventPicture
+	trigger = {
+		has_dlc = "Art of War"
+		OR = {
+			AND = {
+				has_country_flag = swe_catholic_modifier_for_league_war
+				in_league = catholic
+			}
+			AND = {
+				has_country_flag = swe_reformation_modifier_for_league_war
+				in_league = protestant
+			}
+		}
+		NOT = { has_country_modifier = swe_fight_for_the_catholic_league }
+		NOT = { has_country_modifier = swe_fight_for_the_protestant_league }
+		is_in_league_war = yes
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { months = 1 }
+	option = {		# Let us show these infidels what Swedish soldiers are made of!
+		name = "flavor_swe.101.a"
+		if = {
+			limit = { has_country_flag = swe_catholic_modifier_for_league_war }
+			add_country_modifier = {
+				name = swe_fight_for_the_catholic_league
+				duration = -1
+				desc = swe_fight_for_league_tt
+			}
+		}
+		if = {
+			limit = { has_country_flag = swe_reformation_modifier_for_league_war }
+			add_country_modifier = {
+				name = swe_fight_for_the_protestant_league
+				duration = -1
+				desc = swe_fight_for_league_tt
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# The League War - End of Swedish Contribution
+country_event = {
+	id = flavor_swe.1010
+	title = "flavor_swe.1010.t"
+	desc = "flavor_swe.1010.desc"
+	picture = SWEDEN_LEAGUE_WAR_eventPicture
+	trigger = {
+		OR = {
+			has_country_modifier = swe_fight_for_the_catholic_league
+			has_country_modifier = swe_fight_for_the_protestant_league
+		}
+		is_in_league_war = no
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { months = 1 }
+	option = {		# It was a good run
+		name = "flavor_swe.1010.a"
+		remove_country_modifier = swe_fight_for_the_catholic_league
+		remove_country_modifier = swe_fight_for_the_protestant_league
+		ai_chance = {
+			factor = 1
+		}
+	}
+}

@@ -9,7 +9,7 @@ country_event = {
 	id = flavor_teu.1
 	title = "flavor_teu.EVTNAME1"
 	desc = "flavor_teu.EVTDESC1"
-	picture = BATTLE_VISTULA_LAGOON_eventPicture
+	picture = ANGRY_MOB_eventPicture
 	
 	fire_only_once = yes
 	
@@ -18,8 +18,10 @@ country_event = {
 		NOT = { is_year = 1500 }
 		tag = TEU
 		NOT = { has_country_flag = pru_confederation_curtailed }
+		NOT = { has_country_flag = pru_confederation_happened }
+		NOT = { has_country_flag = pru_danzig_victory_happend }
 		NOT = { has_estate_privilege = estate_burghers_prussian_confederation }
-		has_country_flag = pru_confederation_flag
+		has_disaster = prussian_confederation_disaster
 		is_subject = no
 		exists = POL
 		is_neighbor_of = POL
@@ -73,6 +75,10 @@ country_event = {
 					has_province_modifier = hanseatic_city
 				}
 				add_core = DNZ
+				if = {
+					limit = { is_part_of_hre = yes }
+					set_in_empire = no
+				}
 			}
 			# add cores to DNZ based on burgher land share
 			if = {
@@ -101,6 +107,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 				random_owned_province = {
 					limit = {
@@ -121,6 +131,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 			}
 			if = {
@@ -149,6 +163,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 				random_owned_province = {
 					limit = {
@@ -169,6 +187,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 			}
 			if = {
@@ -197,6 +219,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 				random_owned_province = {
 					limit = {
@@ -217,6 +243,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 			}
 			if = {
@@ -245,6 +275,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 				random_owned_province = {
 					limit = {
@@ -265,6 +299,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 			}
 			if = {
@@ -293,6 +331,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 				random_owned_province = {
 					limit = {
@@ -313,6 +355,10 @@ country_event = {
 						}
 					}
 					add_core = DNZ
+					if = {
+						limit = { is_part_of_hre = yes }
+						set_in_empire = no
+					}
 				}
 			}
 			if = {
@@ -326,6 +372,9 @@ country_event = {
 					change_government = republic
 					add_government_reform = oligarchy_reform
 					adopt_reform_progress = ROOT
+					hidden_effect = {
+						if = { limit = { is_part_of_hre = yes } set_in_empire = no }
+					}
 				}
 				DNZ = {
 					add_stability = 1
@@ -500,6 +549,58 @@ country_event = {
 			add_permanent_claim = ROOT
 		}
 	}
+
+	option = {
+		name = "flavor_teu.3.b"
+		trigger = {
+			PRU = { exists = no } 
+		}
+		highlight = yes 
+		vassalize = DNZ
+		if = {
+			limit = {
+				2764 = {
+					owned_by = DNZ
+					culture = polish
+				}
+			}
+			2764 = {
+				cede_province = ROOT
+				add_core = ROOT
+				remove_core = DNZ
+			}
+		}
+		westpreussen_region = {
+			limit = { country_or_non_sovereign_subject_holds = ROOT }
+			cede_province = ROOT 
+			add_core = ROOT 
+		}
+		custom_tooltip = pol_delegate_the_formation_of_royal_prussia_tt
+		hidden_effect = {
+			DNZ = { 
+				change_tag = PRU
+				override_country_name = RPR
+				set_country_flag = is_RPR_flag
+			}
+		}
+		if = {
+			limit = { has_dlc = "Cradle of Civilization" }
+			custom_tooltip = pol_more_army_prof_per_general_tt
+			hidden_effect = {
+				add_country_modifier = {
+					name = pol_trigger_for_army_professionalism_modifier
+					duration = 7300 
+					hidden = yes 
+				}
+			}
+		}
+		else = { 
+			add_country_modifier = {
+				name = pol_overlordship_in_prussia_modifier
+				duration = 5475 
+			}
+		}
+	}
 }
 
 # The Prussian Confederation
@@ -509,25 +610,10 @@ country_event = {
 	desc = "flavor_teu.EVTDESC4"
 	picture = SEJM_eventPicture
 	
-	fire_only_once = yes
-	
-	trigger = {
-		tag = TEU
-		is_year = 1440
-		NOT = {
-			is_year = 1450
-		}
-		num_of_cities = 10
-		NOT = { has_country_flag = pru_confederation_flag }
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
+	is_triggered_only = yes
 	
 	option = {
 		name = "flavor_teu.4.a"
-		set_country_flag = pru_confederation_flag
 		add_estate_loyalty = {
 			estate = estate_burghers
 			loyalty = -20
@@ -554,7 +640,8 @@ country_event = {
 		NOT = { is_year = 1500 }
 		tag = TEU
 		NOT = { has_country_flag = pru_confederation_curtailed }
-		has_country_flag = pru_confederation_flag
+		NOT = { has_country_flag = pru_danzig_victory_happend }
+		has_disaster = prussian_confederation_disaster
 		has_estate_privilege = estate_burghers_prussian_confederation
 		is_subject = no
 		is_at_war = no
@@ -563,14 +650,26 @@ country_event = {
 		}
 	}
 	
+	immediate = {
+		hidden_effect = {
+			set_country_flag = pru_danzig_victory_happend
+		}
+	}
+
 	mean_time_to_happen = {
 		months = 120
 	}
 	
 	option = {
 		name = flavor_teu.5.a
-		clr_country_flag = pru_confederation_flag
+		end_disaster = prussian_confederation_disaster
 		change_tag = DNZ
+		if = {
+			limit = {
+				owns = 402
+			}
+			set_capital = 402
+		}
 		change_government = republic
 		add_government_reform = oligarchy_reform
 		remove_estate_privilege = estate_burghers_prussian_confederation
@@ -579,6 +678,40 @@ country_event = {
 		if = {
 			limit = { has_custom_ideas = no }
 			country_event = { id = ideagroups.1 } #Swap Ideas
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {	#Only over my dead body!
+		name = flavor_teu.5.b
+		end_disaster = prussian_confederation_disaster
+		add_stability = -4
+		add_prestige = -50
+		random_owned_province = {
+			spawn_rebels = {
+				type = particularist_rebels
+				size = 4
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = particularist_rebels
+				size = 3
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = particularist_rebels
+				size = 2
+			}
+		}
+		every_owned_province = {
+			add_local_autonomy = 50
+		}
+		ai_chance = {
+			factor = 0
 		}
 	}
 }

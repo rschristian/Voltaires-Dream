@@ -114,7 +114,8 @@ country_event = {
 		exists = SWE
 		SWE = {	is_subject_of = DAN }
 		is_year = 1450
-		NOT = { is_year = 1550 }		
+		NOT = { is_year = 1550 }
+		NOT = { has_dlc = "Lions of the North" }
 	}
 	
 	mean_time_to_happen = {
@@ -127,11 +128,20 @@ country_event = {
 		add_adm_power = 100
 		add_dip_power = 100
 		add_mil_power = 100
-		add_historical_rival = SWE
+		if = {
+			limit = {
+				historical_friend_with = SWE
+			}
+			remove_historical_friend = SWE
+			SWE = { remove_historical_friend = ROOT }
+		}
+		else = {
+			add_historical_rival = SWE
+			SWE = { add_historical_rival = ROOT }
+		}
 		SWE = {
-			add_historical_rival = DAN
 			add_opinion = {
-				who = DAN
+				who = ROOT
 				modifier = opinion_enforced_scandinavian_constitution
 			}
 		}
@@ -416,7 +426,7 @@ country_event = {
 	
 	option = {
 		name = "flavor_dan.EVTOPTA3300"
-		add_claim = 654 #Skåne
+		add_core = 654 #Skåne
 		SWE = {
 			add_opinion = {
 				who = DAN
@@ -867,6 +877,7 @@ country_event = {
 		is_year = 1475
 		NOT = { is_year = 1500 }
 		owns = 411
+		NOT = { has_dlc = "Lions of the North" }
 	}
 	
 	mean_time_to_happen = {
@@ -900,6 +911,7 @@ country_event = {
 			religion = catholic
 			religion = catholique
 		}
+		NOT = { has_dlc = "Lions of the North" }
 	}
 	
 	mean_time_to_happen = {
@@ -950,8 +962,17 @@ country_event = {
 		if = {
 			limit = { owns = 2384 }
 			2384 = {
-				add_base_tax = -1
-				add_base_manpower = -1
+				if = {
+					limit = { NOT = { base_tax = 3 } }
+					set_base_tax = 1
+				}
+				else = { add_base_tax = -2 }
+				if = {
+					limit = { NOT = { base_manpower = 3 } }
+					set_base_manpower = 1
+				}
+				else = { add_base_manpower = -2 }
+				add_devastation = 100
 				set_province_flag = drowned
 			}
 		}
@@ -959,8 +980,17 @@ country_event = {
 			limit = { NOT = { owns = 2384 } }
 			tooltip = {
 				2384 = {
-					add_base_tax = -1
-					add_base_manpower = -1
+					if = {
+						limit = { NOT = { base_tax = 3 } }
+						set_base_tax = 1
+					}
+					else = { add_base_tax = -2 }
+					if = {
+						limit = { NOT = { base_manpower = 3 } }
+						set_base_manpower = 1
+					}
+					else = { add_base_manpower = -2 }
+					add_devastation = 100
 				}
 			}
 			hidden_effect = {
@@ -974,8 +1004,17 @@ country_event = {
 		if = {
 			limit = { owns = 2317 }
 			2317 = {
-				add_base_tax = -1
-				add_base_manpower = -1
+				if = {
+					limit = { NOT = { base_tax = 3 } }
+					set_base_tax = 1
+				}
+				else = { add_base_tax = -2 }
+				if = {
+					limit = { NOT = { base_manpower = 3 } }
+					set_base_manpower = 1
+				}
+				else = { add_base_manpower = -2 }
+				add_devastation = 100
 				set_province_flag = drowned
 			}
 		}
@@ -983,8 +1022,17 @@ country_event = {
 			limit = { NOT = { owns = 2317 } }
 			tooltip = {
 				2317 = {
-					add_base_tax = -1
-					add_base_manpower = -1
+					if = {
+						limit = { NOT = { base_tax = 3 } }
+						set_base_tax = 1
+					}
+					else = { add_base_tax = -2 }
+					if = {
+						limit = { NOT = { base_manpower = 3 } }
+						set_base_manpower = 1
+					}
+					else = { add_base_manpower = -2 }
+					add_devastation = 100
 				}
 			}
 			hidden_effect = {
@@ -1110,7 +1158,7 @@ country_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 12 #Should trigger close to start
+		months = 120
 	}
 	
 	option = {

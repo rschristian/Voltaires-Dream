@@ -17,7 +17,7 @@ country_event = {
 	fire_only_once = yes
 	
 	trigger = {
-		NOT = {	num_of_estate_privileges = { estate = estate_nobles	value = 4 } }
+		#NOT = {	num_of_estate_privileges = { estate = estate_nobles	value = 4 } }
 		OR = {
 			AND = {
 				tag = POL
@@ -25,17 +25,92 @@ country_event = {
 			}
 			tag = PLC
 		}
-		is_year = 1460
+		is_year = 1454
 		NOT = { is_year = 1485 }
 	}
 	
 	mean_time_to_happen = {
 		months = 50
 	}
+
+	immediate = { 
+		hidden_effect = { set_country_flag = pol_had_nieszawa_privileges_country_flag } 
+	}
 	
 	option = {
 		name = "flavor_pol.EVTOPTA3467" # Accept the Conventions
-		set_estate_privilege = estate_nobles_nieszawa_privileges
+		if = {
+			limit = {
+				NOT = { has_estate_privilege = estate_nobles_nieszawa_privileges }
+			}
+			if = {
+				limit = {
+					num_of_estate_privileges = { estate = estate_nobles	value = 6 }
+				}
+				if = {
+					limit = {
+						has_estate_privilege = estate_nobles_nobility_primacy
+					}
+					remove_estate_privilege = estate_nobles_nobility_primacy
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_land_rights
+					}
+					remove_estate_privilege = estate_nobles_land_rights
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_officer_corp
+					}
+					remove_estate_privilege = estate_nobles_officer_corp
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_levies
+					}
+					remove_estate_privilege = estate_nobles_levies
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_advisors
+					}
+					remove_estate_privilege = estate_nobles_advisors
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_right_of_counsel
+					}
+					remove_estate_privilege = estate_nobles_right_of_counsel
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_supremacy_over_crown
+					}
+					remove_estate_privilege = estate_nobles_supremacy_over_crown
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_supremacy_over_crown
+					}
+					remove_estate_privilege = estate_nobles_supremacy_over_crown
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_strong_duchies
+					}
+					remove_estate_privilege = estate_nobles_strong_duchies
+				}
+				else_if = {
+					limit = {
+						has_estate_privilege = estate_nobles_better_integration
+					}
+					remove_estate_privilege = estate_nobles_better_integration
+				}
+			}
+			set_estate_privilege = estate_nobles_nieszawa_privileges
+		}
+		else = { set_estate_privilege = estate_nobles_nieszawa_privileges }
 	}
 	option = {
 		name = "flavor_pol.EVTOPTB3467" # Refuse to sign it and defy the Magnates
@@ -209,7 +284,10 @@ country_event = {
 	trigger = {
 		tag = POL
 		NOT = {	num_of_estate_privileges = { estate = estate_nobles	value = 4 } }
-		has_reform = elective_monarchy
+		OR = {
+			has_reform = polish_elective_monarchy
+			has_reform = elective_monarchy
+		}
 		NOT = { has_country_flag = pol_pact_conventa_flag }
 		OR = {
 			NOT = { ADM = 2 }
@@ -228,6 +306,21 @@ country_event = {
 	
 	option = {
 		name = "flavor_pol.EVTOPTA3480" # There is nothing we can do my King
+		if = {
+			limit = { num_of_estate_privileges = { estate = estate_nobles value = 6 } }
+			trigger_switch = {
+				on_trigger = has_estate_privilege
+				estate_nobles_better_integration = { remove_estate_privilege = estate_nobles_better_integration }
+				estate_nobles_nobility_primacy = { remove_estate_privilege = estate_nobles_nobility_primacy }
+				estate_nobles_land_rights = { remove_estate_privilege = estate_nobles_land_rights }
+				estate_nobles_officer_corp = { remove_estate_privilege = estate_nobles_officer_corp }
+				estate_nobles_levies = { remove_estate_privilege = estate_nobles_levies }
+				estate_nobles_advisors = { remove_estate_privilege = estate_nobles_advisors }
+				estate_nobles_right_of_counsel = { remove_estate_privilege = estate_nobles_right_of_counsel }
+				estate_nobles_supremacy_over_crown = { remove_estate_privilege = estate_nobles_supremacy_over_crown }
+				estate_nobles_strong_duchies = { remove_estate_privilege = estate_nobles_strong_duchies }
+			}
+		}
 		set_estate_privilege = estate_nobles_pacta_conventa
 		set_country_flag = pol_pact_conventa_flag
 		set_country_flag = pol_pact_conventa_flag_had_before
@@ -1139,7 +1232,7 @@ country_event = {
 		add_adm_power = 100
 		define_advisor = {
 			type = philosopher
-			name = "Michal Sedziwój"
+			name = "Michal Sedziwj"
 			culture = polish
 			discount = yes
 			skill = 3
@@ -1431,6 +1524,7 @@ country_event = {
 		add_stability = 3
 		add_legitimacy = 50
 		take_estate_land_share_large = { estate = estate_nobles }
+		remove_estate_privilege = estate_nobles_golden_liberty
 		if = {
 			limit = {
 				has_reform = elective_monarchy
@@ -1439,6 +1533,27 @@ country_event = {
 			remove_heir = {}
 			add_absolutism = 10
 		}
+		if = { 
+			limit = { has_reform = polish_elective_monarchy }
+			remove_government_reform = polish_elective_monarchy 
+		}
+		else_if = {
+			limit = { has_reform = polish_great_sejm }
+			remove_government_reform = polish_great_sejm
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_estate_privilege = estate_nobles_nieszawa_privileges }
+				remove_estate_privilege = estate_nobles_nieszawa_privileges
+			}
+		}
+		if = {
+			limit = {
+				has_estate_privilege = estate_nobles_pacta_conventa
+			}
+			remove_estate_privilege = estate_nobles_pacta_conventa
+		}
+
 	}
 }
 
@@ -1727,19 +1842,13 @@ country_event = {
 			}
 		}
 		ai_chance = { factor = 75 }
-		hidden_effect = {
-			define_ruler = {
-				name = "Kazimierz"
-				dynasty = "Jagiellon"
-				age = 18
-				adm = 4
-				dip = 4
-				mil = 1
-			}
+		LIT = { 
+			country_event = { id = flavor_lit.16 }
 		}
-		create_union = LIT
-		country_event = {
-			id = flavor_pol.20
+		if = {
+			limit = { has_dlc = "Lions of the North" }
+			custom_tooltip = pol_impact_future_missions_tt 
+			set_country_flag = pol_chose_pu_flag
 		}
 	}
 	
@@ -1767,6 +1876,12 @@ country_event = {
 				who = ROOT
 				modifier = lit_denied_birthright
 			}
+			set_country_flag = lit_decline_pu_flag
+		}
+		if = {
+			limit = { has_dlc = "Emperor" }
+			custom_tooltip = pol_impact_future_missions_tt 
+			set_country_flag = pol_denied_pu_flag
 		}
 	}
 }
@@ -1788,14 +1903,14 @@ country_event = {
 	
 	option = {
 		name = flavor_pol.20.a
-		add_government_reform = elective_monarchy
+		add_government_reform = polish_elective_monarchy
 		if = {
 			limit = {
 				NOT = { has_estate_privilege = estate_nobles_golden_liberty }
 			}
 			if = {
 				limit = {
-					num_of_estate_privileges = { estate = estate_nobles	value = 4 }
+					num_of_estate_privileges = { estate = estate_nobles	value = 6 }
 				}
 				if = {
 					limit = {
@@ -1913,12 +2028,48 @@ country_event = {
 		trigger = {
 			government = monarchy
 		}
+		if = {
+			limit = {
+				OR = {
+					has_reform = polish_elective_monarchy
+					has_reform = elective_monarchy
+				}
+			}
+			remove_government_reform = elective_monarchy
+			remove_government_reform = polish_elective_monarchy
+			#set_legacy_government = administrative_monarchy
+			remove_heir = {}
+			add_absolutism = 10
+		}
+		if = {
+			limit = { has_estate_privilege = estate_nobles_golden_liberty }
+			remove_estate_privilege = estate_nobles_golden_liberty
+		}
+		set_country_flag = pol_royal_power_monarchy_won_flag
 		name = flavor_pol.22.a
 	}
 	option = {
 		trigger = {
 			NOT = { government = monarchy }
 		}
+		if = {
+			limit = {
+				OR = {
+					has_reform = polish_elective_monarchy
+					has_reform = elective_monarchy
+				}
+			}
+			remove_government_reform = elective_monarchy
+			remove_government_reform = polish_elective_monarchy
+			#set_legacy_government = administrative_monarchy
+			remove_heir = {}
+			add_absolutism = 10
+			if = {
+				limit = { has_estate_privilege = estate_nobles_golden_liberty }
+				remove_estate_privilege = estate_nobles_golden_liberty
+			}
+		}
+		set_country_flag = pol_royal_power_non_monarchy_won_flag
 		name = flavor_pol.22.b
 	}
 }
