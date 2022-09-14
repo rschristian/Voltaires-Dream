@@ -44,6 +44,15 @@ improve_inland_routes =
 				share = 50
 			}
 		}
+		if = {
+			limit = { NOT = { has_government_attribute = free_improve_inland_routes } }
+			FROM = {
+				trade_share = {
+					country = ROOT
+					share = 50
+				}
+			}
+		}
 	}
 
 	can_maintain = {
@@ -54,11 +63,20 @@ improve_inland_routes =
 				share = 40
 			}
 		}
+		if = {
+			limit = { NOT = { has_government_attribute = free_improve_inland_routes } }
+			FROM = {
+				trade_share = {
+					country = ROOT
+					share = 40
+				}
+			}
+		}
 	}
 	
 	node_province_modifier = {
 		siege_ability = 0.10
-		artillery_bonus_vs_fort = 1
+		artillery_levels_available_vs_fort = 1
 	}	
 	button_gfx = GFX_Trading_Policy_Improve_Routes
 }
@@ -91,25 +109,50 @@ propagate_religion =
 				}
 				has_country_flag = allow_propagate_religion_by_mission_flag
 			}
-			AND = {
-				religion_group = christian
-				custom_trigger_tooltip = {
-					tooltip = can_use_propagate_religion_tt
-					has_country_flag = can_use_propagate_religion
+			custom_trigger_tooltip = {
+				tooltip = can_use_propagate_religion_tt
+				has_country_flag = can_use_propagate_religion
+			}
+			custom_trigger_tooltip = {
+				tooltip = can_spread_reformation_tt
+				AND = {
+					#has_government_attribute = can_spread_the_reformation
+					has_reform = reformer_state_reform
+					OR = {
+						current_age = age_of_discovery
+						current_age = age_of_reformation
+					}
 				}
 			}
 		}
 		dominant_religion = ROOT
-		FROM = {
-			has_trader = ROOT
-			OR = {
-				superregion = pontic_steppe_superregion
-				superregion = central_asia_superregion
-				superregion = caucasia_superregion
+		if = {
+			limit = { has_country_flag = 15_trade_power_for_propogate_religion }
+			FROM = {
+				has_trader = ROOT
+				OR = {
+					superregion = pontic_steppe_superregion
+					superregion = central_asia_superregion
+					superregion = caucasia_superregion
+				}
+				trade_share = {
+					country = ROOT
+					share = 15
+				}
 			}
-			trade_share = {
-				country = ROOT
-				share = 50
+		}
+		else = {
+			FROM = {
+				has_trader = ROOT
+				OR = {
+					superregion = pontic_steppe_superregion
+					superregion = central_asia_superregion
+					superregion = caucasia_superregion
+				}
+				trade_share = {
+					country = ROOT
+					share = 50
+				}
 			}
 		}
 	}
@@ -124,25 +167,50 @@ propagate_religion =
 				}
 				has_country_flag = allow_propagate_religion_by_mission_flag
 			}
-			AND = {
-				religion_group = christian
-				custom_trigger_tooltip = {
-					tooltip = can_use_propagate_religion_tt
+			custom_trigger_tooltip = {
+				tooltip = can_use_propagate_religion_tt
+				OR = {
 					has_country_flag = can_use_propagate_religion
+					has_government_attribute = can_propogate_religion
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = can_spread_reformation_tt
+				has_government_attribute = can_spread_the_reformation
+				OR = {
+					current_age = age_of_discovery
+					current_age = age_of_reformation
 				}
 			}
 		}
 		dominant_religion = ROOT
-		FROM = {
-			has_trader = ROOT
-			OR = {
-				superregion = pontic_steppe_superregion
-				superregion = central_asia_superregion
-				superregion = caucasia_superregion
+		if = {
+			limit = { has_country_flag = 15_trade_power_for_propogate_religion }
+			FROM = {
+				has_trader = ROOT
+				OR = {
+					superregion = pontic_steppe_superregion
+					superregion = central_asia_superregion
+					superregion = caucasia_superregion
+				}
+				trade_share = {
+					country = ROOT
+					share = 5
+				}
 			}
-			trade_share = {
-				country = ROOT
-				share = 40
+		}
+		else = {
+			FROM = {
+				has_trader = ROOT
+				OR = {
+					superregion = pontic_steppe_superregion
+					superregion = central_asia_superregion
+					superregion = caucasia_superregion
+				}
+				trade_share = {
+					country = ROOT
+					share = 40
+				}
 			}
 		}
 	}
