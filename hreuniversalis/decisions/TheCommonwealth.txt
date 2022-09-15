@@ -9,14 +9,14 @@ country_decisions = {
 				ai = no
 				is_playing_custom_nation = no
 			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
 			NOT = { exists = PLC }
 			was_never_end_game_tag_trigger = yes
 			tag = POL
-			LIT = {
-				exists = yes
-				ai = yes
-				was_player = no
-			}
+			LIT = { exists = yes }
 			OR = {
 				ai = no
 				AND = {
@@ -40,7 +40,10 @@ country_decisions = {
 		allow = {
 			LIT = { was_player = no }
 			is_nomad = no
-			LIT = { NOT = { num_of_cities = 201 } }
+			LIT = {
+				NOT = { num_of_cities = 201 }
+				NOT = { liberty_desire = 25 } 
+			}
 			adm_tech = 40
 			is_subject = no
 			stability = 1
@@ -112,6 +115,10 @@ country_decisions = {
 			}
 			set_country_flag = formed_plc_flag
 			add_prestige = 25
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			} 
 		}
 		ai_will_do = {
 			factor = 1
@@ -128,6 +135,10 @@ country_decisions = {
 			OR = {
 				ai = no
 				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
 			}
 			NOT = { exists = PLC }
 			was_never_end_game_tag_trigger = yes
@@ -158,7 +169,10 @@ country_decisions = {
 			}
 		}
 		allow = {
-			POL = { NOT = { num_of_cities = 201 } }
+			POL = {
+				NOT = { num_of_cities = 201 }
+				NOT = { liberty_desire = 25 } 
+			}
 			adm_tech = 40
 			is_nomad = no
 			is_subject = no
@@ -173,7 +187,17 @@ country_decisions = {
 		}
 		effect = {
 			change_tag = PLC
-			hidden_effect = { restore_country_name = yes }
+			if = { 
+				limit = { 
+					OR = { 
+						tag = LIT
+						primary_culture = lithuanian 
+					}
+				}
+				override_country_name = LPC
+				set_country_flag = is_LPC_flag
+			}
+			else = { hidden_effect = { restore_country_name = yes } }
 			inherit = POL
 			swap_non_generic_missions = yes
 			add_country_modifier = {
@@ -231,6 +255,11 @@ country_decisions = {
 			}
 			set_country_flag = formed_plc_flag
 			add_prestige = 25
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			} 
+
 		}
 		ai_will_do = {
 			factor = 1
@@ -247,6 +276,10 @@ country_decisions = {
 			OR = {
 				ai = no
 				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
 			}
 			NOT = { exists = PLC }
 			LIT = {
@@ -301,7 +334,17 @@ country_decisions = {
 		}
 		effect = {
 			change_tag = PLC
-			hidden_effect = { restore_country_name = yes }
+			if = { 
+				limit = { 
+					OR = { 
+						tag = LIT 
+						primary_culture = lithuanian 
+					}
+				}
+				override_country_name = LPC
+				set_country_flag = is_LPC_flag
+			}
+			else = { hidden_effect = { restore_country_name = yes } }
 			swap_non_generic_missions = yes
 			remove_non_electors_emperors_from_empire_effect = yes
 			if = {
@@ -368,6 +411,10 @@ country_decisions = {
 			}
 			set_country_flag = formed_plc_flag
 			add_prestige = 25
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
 		}
 		ai_will_do = {
 			factor = 1

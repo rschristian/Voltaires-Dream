@@ -13,6 +13,10 @@ country_decisions = {
 				ai = no
 				is_playing_custom_nation = no
 			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
 			NOT = { exists = GER }
 			OR = {
 				tag = NGC
@@ -109,7 +113,12 @@ country_decisions = {
 			hidden_effect = { restore_country_name = yes }
 			restore_country_name_effect = yes
 			if = {
-				limit = { is_part_of_hre = yes }
+				limit = {
+					is_emperor = yes
+				}
+				dismantle_hre = yes
+			}
+			else = {
 				emperor = {
 					add_opinion = {
 						who = root
@@ -148,12 +157,19 @@ country_decisions = {
 			}
 		}
 		ai_will_do = {
-			factor = 1
+			factor = 100
 			modifier = {
 				factor = 0
 				tag = HAB
 			}
+			modifier = {
+				factor = 0
+				NOT = { adm_tech = 54 }
+			}
+			modifier = {
+				factor = 0
+				NOT = { num_of_owned_provinces_with = { OR = { superregion = germanynorth_superregion superregion = germanysouth_superregion } value = 25 } }
+			}
 		}
 	}
-
 }

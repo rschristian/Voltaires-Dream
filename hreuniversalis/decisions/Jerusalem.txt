@@ -11,6 +11,10 @@ country_decisions = {
 				ai = no
 				is_playing_custom_nation = no
 			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
 			religion = catholic
 			NOT = { government = republic }
 			NOT = { has_reform = tsardom }
@@ -18,14 +22,19 @@ country_decisions = {
 				owns = 4974
 				AND = {
 					ai = no
-					tag = KNI
-				}
-				AND = {
-					ai = no
-					tag = CYP
+					OR = {
+						tag = KNI
+						tag = CYP
+						tag = PRO
+						tag = TEU
+						tag = LIV
+					}
 				}
 			}
-			NOT = { is_year = 1600 }
+			OR = {
+				NOT = { is_year = 1600 }
+				has_country_flag = can_form_jerusalem_later_too
+			}
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -55,6 +64,9 @@ country_decisions = {
 				limit = {
 					NOT = { tag = KNI }
 					NOT = { tag = CYP }
+					NOT = { tag = PRO }
+					NOT = { tag = TEU }
+					NOT = { tag = LIV }
 					NOT = { capital_scope = { continent = asia } }
 				}
 				release = KOJ
@@ -65,6 +77,9 @@ country_decisions = {
 					OR = {
 						tag = KNI
 						tag = CYP
+						tag = PRO
+						tag = TEU
+						tag = LIV
 						capital_scope = { continent = asia }
 					}
 				}
@@ -79,6 +94,9 @@ country_decisions = {
 				limit = { tag = KNI }
 				set_country_flag = knights_formed_jerusalem
 			}
+			4974 = {
+				change_religion = catholic
+			}
 			KOJ = {
 				hidden_effect = { restore_country_name = yes }
 				set_capital = 4974 #Jerusalem
@@ -89,7 +107,11 @@ country_decisions = {
 					add_government_reform = holy_state_reform
 				}
 				else_if = {
-					limit = { government = theocracy }
+					limit = {
+						government = theocracy
+						NOT = { has_reform = holy_horde_reform }
+						NOT = { has_reform = militarized_crusader_order_reform }
+					}
 					add_government_reform = holy_state_reform
 				}
 				if = {
@@ -105,5 +127,4 @@ country_decisions = {
 			factor = 1
 		}
 	}
-
 }

@@ -15,6 +15,10 @@ country_decisions = {
 				ai = no
 				is_playing_custom_nation = no
 			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
 			NOT = { tag = POL }
 			NOT = { tag = RUS }
 			OR = {
@@ -124,20 +128,20 @@ country_decisions = {
 			swap_non_generic_missions = yes
 			remove_non_electors_emperors_from_empire_effect = yes
 			if = {
-				limit = {
-					NOT = { government = monarchy }
-					is_revolutionary = no
-				}
-				change_government_to_monarchy = yes
-			}
-			if = {
 				limit = { is_revolutionary = no }
-				add_government_reform = tsardom
+				if = {
+					limit = { government = republic }
+					add_government_reform = great_veche_republic
+				}
+				else = {
+					if = {
+						limit = { NOT = { government = monarchy } }
+						change_government_to_monarchy = yes
+					}
+					add_government_reform = tsardom
+				}
 			}
-			if = {
-				limit = { NOT = { government_rank = 6 } }
-				RUS = { set_government_rank = 6 }
-			}
+			RUS = { set_government_rank = 6 }
 			russia_superregion = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -160,6 +164,29 @@ country_decisions = {
 			factor = 1
 		}
 		ai_importance = 400
+		modifier = {
+			factor = 0
+			NOT = { tag = MOS }
+			NOT = {
+				calc_true_if = {
+					owns_core_province = 6594			# Moskva
+					owns_core_province = 6144			# Novgorod
+					OR = {
+						owns_core_province = 3807		# Tver
+						owns_core_province = 6577		# Yaroslavl	
+					}
+					OR = {
+						owns_core_province = 6611		# Ryazan
+						owns_core_province = 3959		# Smolensk
+					}
+					OR = {
+						owns_core_province = 6689		# Nijni-Novgorod
+						owns_core_province = 6692		# Vladimir	
+					}			
+					amount = 2
+				}
+			}
+		}
 	}
 	
 }
