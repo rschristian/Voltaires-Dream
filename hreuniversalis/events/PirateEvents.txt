@@ -30,12 +30,7 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		OR = {
-			has_reform = pirate_republic_reform
-			has_reform = pirate_king_reform
-			has_reform = war_against_the_world_doctrine_reform
-			has_reform = black_market_consortium_reform
-		}
+		has_government_attribute = is_pirate_republic_reform
 	}
 	option = { # Current ruler
 		name = "pirates.1.keep"
@@ -65,9 +60,33 @@ country_event = {
 		custom_tooltip = remains_ruler
 		if = {
 			limit = {
-				has_ruler_flag = historical_pirate
+				OR = {
+					ruler_has_personality = legendary_pirate_personality
+					has_ruler_flag = historical_pirate
+				}
 			}
 			custom_tooltip = historical_pirate_tooltip
+		}
+		if = {
+			limit = { has_government_attribute = reelection_increases_absolutism }
+			tooltip = {
+				add_absolutism = 10
+			}
+			custom_tooltip = ADD_ABSOLUTISM_BASED_ON_ELECTION_TERM
+			hidden_effect = {
+				for_variable_amount = {
+					variable = election_term
+					effect = "
+						add_absolutism = 10
+					"
+				}
+			}
+			hidden_effect = {
+				change_variable = {
+					which = election_term
+					value = 1
+				}
+			}
 		}
 		change_adm = 1
 		change_dip = 1
@@ -75,8 +94,18 @@ country_event = {
 		if = {
 			limit = {
 				NOT = { has_ruler_flag = historical_pirate }
+				NOT = { ruler_has_personality = legendary_pirate_personality }
 			}
-			add_scaled_republican_tradition = -10
+			if = {
+				limit = {
+					has_country_flag = increased_election_cost
+				}
+				add_scaled_republican_tradition = -15
+				clr_country_flag = increased_election_cost
+			}
+			else = {
+				add_scaled_republican_tradition = -10
+			}
 		}
 		if = {	
 			limit = {	
@@ -120,13 +149,10 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { 
-				has_faction = pr_buccaneers 
-			}
-			add_faction_influence = {
-				faction = pr_buccaneers
+			limit = { has_government_attribute = elections_increase_factions_influence }
+			add_influence_to_adm_faction = {
 				influence = 20
-			}				
+			}
 		}
 		add_karma = 10
 	}
@@ -150,13 +176,10 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { 
-				has_faction = pr_smugglers 
-			}
-			add_faction_influence = {
-				faction = pr_smugglers
+			limit = { has_government_attribute = elections_increase_factions_influence }
+			add_influence_to_dip_faction = {
 				influence = 20
-			}				
+			}
 		}
 		add_karma = 10
 	}
@@ -180,13 +203,10 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { 
-				has_faction = pr_captains 
-			}
-			add_faction_influence = {
-				faction = pr_captains
+			limit = { has_government_attribute = elections_increase_factions_influence }
+			add_influence_to_mil_faction = {
 				influence = 20
-			}				
+			}
 		}
 		add_karma = 10
 	}
@@ -198,6 +218,67 @@ country_event = {
 
 ###### Faction events ######
 		
+# Sunken Treasure
+country_event = {
+	id = pirates.10
+	title = "pirates.10.t"
+	picture = FLAGSHIP_SUNK_eventPicture
+	desc = "pirates.10.d"
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
+		any_country = {
+			any_trade_node = {
+				has_merchant = PREV
+			}
+		}
+	}
+	
+	immediate = {
+		hidden_effect = {
+			random_country = {
+				limit = {
+					any_trade_node = {
+						has_merchant = PREV
+					}
+				}
+				save_event_target_as = sunken_ship_country
+			}
+		}
+	}
+	
+	option = {
+		name = "pirates.10.a"
+		add_faction_influence = {
+			faction = pr_captains
+			influence = 10
+		}
+	}
+	
+	option = {
+		name = "pirates.10.b"
+		add_faction_influence = {
+			faction = pr_buccaneers
+			influence = 10
+		}
+		add_yearly_sailors = -5
+		random_list = {
+			10 = {
+				add_years_of_income = 2
+			}
+			90 = {
+				# nothing happens
+			}
+		}
+	}
+}
+
 # Tyrant Captain
 country_event = {
 	id = pirates.11
@@ -208,8 +289,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 	}
 	
 	immediate = {
@@ -262,8 +346,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 		has_privateers = yes
 	}
 	
@@ -313,8 +400,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 	}
 	
 	immediate = {
@@ -355,8 +445,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 		dip_tech = 9
 		any_country = {
 			num_of_heavy_ship = 3
@@ -441,8 +534,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 		has_privateers = yes
 		any_active_trade_node = {
 			any_trade_node_member_province = {
@@ -494,8 +590,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {	
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 		navy_size = 5
 		NOT = { has_country_modifier = thorough_careening }
 		NOT = { has_country_modifier = relaxed_careening }
@@ -535,8 +634,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 		NOT = { has_country_modifier = smugglers_struggling }
 	}
 	
@@ -563,8 +665,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 		has_flagship = yes
 	}
 	
@@ -634,8 +739,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_dlc = "Golden Century"
-		has_reform = pirate_republic_reform
+		OR = {
+			has_dlc = "Golden Century"
+			has_dlc = "Lions of the North"
+		}
+		has_government_attribute = is_pirate_republic_reform
 	}
 	
 	option = {
