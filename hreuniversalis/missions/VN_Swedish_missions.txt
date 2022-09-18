@@ -48,7 +48,7 @@ vn_swe_missions_slot_1_a = {
         }
     }
     vn_swe_develop_stockholm = {
-        icon = mission_lit_reform_madgeburg_law
+        icon = mission_lit_reform_magdeburg_laws
         position = 2
 		required_missions = { vn_swe_birger_magnusson }
 		provinces_to_highlight = {
@@ -155,7 +155,7 @@ vn_swe_missions_slot_1_b = {
 	has_country_shield = yes
 	
 	vn_swe_copper_mines_of_falun = {
-        icon = mission_entrepot_of_india
+        icon = mission_dalaskogen
         position = 5
 		required_missions = {  }
 		provinces_to_highlight = {
@@ -169,6 +169,13 @@ vn_swe_missions_slot_1_b = {
             }
 		}
         trigger = {
+			if = {
+				limit = {
+					has_dlc = "Leviathan"
+					has_dlc = "Lions of the North"
+				}
+				treasury = 1500
+			}
 			6123 = {
 				owned_by = ROOT
 				is_core = ROOT
@@ -186,19 +193,29 @@ vn_swe_missions_slot_1_b = {
 			}
         }
         effect = {
-			add_years_of_income = 0.5
-            6123 = {
-				add_base_production = 2
-				add_province_modifier = {
-					name = "swe_copper_mines_of_falun_mission"
-					duration = 9125
+			if = {
+				limit = {
+					has_dlc = "Lions of the North"
+				}
+				country_event = {
+					id = flavor_swe.112
 				}
 			}
-			6122 = {
-				add_base_production = 2
-				add_province_modifier = {
-					name = "swe_copper_mines_of_falun_mission"
-					duration = 9125
+			else = {
+				add_years_of_income = 0.5
+				6123 = {
+					add_base_production = 2
+					add_province_modifier = {
+						name = "swe_copper_mines_of_falun_mission"
+						duration = 9125
+					}
+				}
+				6122 = {
+					add_base_production = 2
+					add_province_modifier = {
+						name = "swe_copper_mines_of_falun_mission"
+						duration = 9125
+					}
 				}
 			}
         }
@@ -230,24 +247,34 @@ vn_swe_missions_slot_1_b = {
 			}
         }
         effect = {
-			custom_tooltip = vn_will_receive_rewards_tt
-			random_owned_province = {
+			if = {
 				limit = {
-					OR = {
-						region = svealand_region
-						region = scandinavia_region
-						region = gotaland_region
-						region = uppland_region
-					}
-					development = 10
+					has_dlc = "Lions of the North"
 				}
-				add_base_tax = 1
-				add_base_production = 1
-				add_base_manpower = 1
+				country_event = {
+					id = flavor_swe.133
+				}
 			}
-            add_country_modifier = {
-				name = "fra_encourage_urbanization_mission"
-				duration = 9125
+			else = {
+				custom_tooltip = vn_will_receive_rewards_tt
+				random_owned_province = {
+					limit = {
+						OR = {
+							region = svealand_region
+							region = scandinavia_region
+							region = gotaland_region
+							region = uppland_region
+						}
+						development = 10
+					}
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 1
+				}
+				add_country_modifier = {
+					name = "fra_encourage_urbanization_mission"
+					duration = 9125
+				}
 			}
         }
     }
@@ -344,7 +371,7 @@ vn_swe_missions_slot_1_c = {
 	has_country_shield = yes
 	
     vn_swe_convert_sweden = {
-        icon = mission_sweden_and_the_reformation
+        icon = restore_the_hospitallers
         position = 9
 		required_missions = {  }
 		provinces_to_highlight = {
@@ -589,7 +616,7 @@ vn_swe_missions_slot_2_c = {
 	has_country_shield = yes
 	
 	vn_swe_schleswig_holstein = {
-        icon = mission_unite_home_region	#placeholder
+        icon = mission_integrate_holstein
         position = 5
 		required_missions = { vn_swe_scandinavia_united }
 		provinces_to_highlight = {
@@ -676,12 +703,22 @@ vn_swe_missions_slot_2_d = {
 				army_tradition = 50
 			}
 			has_commanding_three_star = yes
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				num_of_carolean = 20
+			}
         }
         effect = {
-			add_yearly_manpower = 0.25
-			add_country_modifier = {
-				name = "swe_military_reforms_mission"
-				duration = 18250
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				country_event = { id = flavor_swe.103 }
+			}
+			else = {
+				add_yearly_manpower = 0.25
+				add_country_modifier = {
+					name = "swe_military_reforms_mission"
+					duration = 18250
+				}
 			}
 			add_country_modifier = {
 				name = "swe_military_reforms_mission2"
@@ -707,6 +744,10 @@ vn_swe_missions_slot_2_d = {
 			}
 			army_size = 80
 			navy_size = 50
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				num_of_carolean = 40
+			}
         }
         effect = {
 			add_prestige = 25
@@ -726,7 +767,7 @@ vn_swe_missions_slot_2_d = {
         }
     }
     vn_swe_swedish_enlightenment = {
-        icon = mission_early_modern_university 
+        icon = mission_plc_cultural_flowering 
         position = 9
         required_missions = { vn_swe_stormakstiden }
         trigger = {
@@ -815,6 +856,12 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				country_event = {
+					id = flavor_swe.120
+				}
+			}
             danishislands_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -877,7 +924,7 @@ vn_swe_missions_slot_3_a = {
         }
     }
     vn_swe_scandinavia_united = {
-        icon = mission_unite_home_region	#placeholder
+        icon = mission_lion_of_the_north
         position = 4
         required_missions = { 
 			vn_swe_western_norway 
@@ -1294,15 +1341,23 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
-			add_mercantilism = 5
-			add_years_of_income = 1
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				country_event = {
+					id = flavor_swe.114
+				}
+			}
+			else = {
+				add_mercantilism = 5
+				add_years_of_income = 1
+				add_country_modifier = {
+					name = "swe_destroy_hansa_mission"
+					duration = 9125
+				}
+			}
 			every_owned_province = {
 				limit = { has_province_modifier = hanseatic_city }
 				remove_province_modifier = hanseatic_city
-			}
-			add_country_modifier = {
-				name = "swe_destroy_hansa_mission"
-				duration = 9125
 			}
         }
 	}
@@ -1319,7 +1374,7 @@ vn_swe_missions_slot_4_a = {
     has_country_shield = yes
 
     vn_swe_prepare_for_crusade = {
-        icon = mission_sword_of_the_reformation
+        icon = mission_livonian_knights
         position = 1
 		required_missions = {  }
         trigger = {
@@ -1430,7 +1485,7 @@ vn_swe_missions_slot_4_b = {
 	has_country_shield = yes
 
     vn_swe_end_kingdom_of_gotland = {
-        icon = mission_sea_battles
+        icon = mission_eric_the_pirate
         position = 3
 		required_missions = {  }
 		provinces_to_highlight = {
@@ -1509,7 +1564,7 @@ vn_swe_missions_slot_4_b = {
         }
     }
     vn_swe_into_livonia = {
-        icon = mission_conquer_riga
+        icon = mission_pol_embellish_gdansk
         position = 7
 		required_missions = { vn_swe_conquer_estonia }
 		provinces_to_highlight = {
@@ -1561,7 +1616,7 @@ vn_swe_missions_slot_4_b = {
         }
     }
     vn_swe_occupy_prussia = {
-        icon = mission_danzig_or_war
+        icon = mission_conquer_prussia
         position = 8
 		required_missions = { vn_swe_into_livonia }
 		provinces_to_highlight = {
@@ -1997,6 +2052,12 @@ vn_swe_missions_slot_5_c = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				country_event = {
+					id = flavor_swe.123
+				}
+			}
             poland_superregion = {
 				limit = { controlled_by = ROOT }
 				random_list = {

@@ -29,13 +29,16 @@ oligarchy_reform = {
 	valid_for_nation_designer = yes
 	nation_designer_cost = 0
 	potential = {
+		NOT = { primary_culture = tuscan }
 		NOT = { has_reform = crown_colony_government }
 		NOT = { has_reform = private_enterprise_colony_government }
 		NOT = { has_reform = self_governing_colony_government }
 	}
+	nation_designer_trigger = {
+		NOT = { primary_culture = tuscan }
+	}
 	modifiers = {
 		global_tax_modifier = 0.05
-		max_absolutism = -40
 	}
 	custom_attributes = {
 		enables_plutocratic_idea_group = yes
@@ -144,6 +147,7 @@ prussian_republic_reform = {
 			is_playing_custom_nation = yes
 			religion = protestant
 			religion = reformed
+			religion = hussite
 			religion = anabaptist
 			religion = anglican
 			has_unlocked_government_reform_tooltip = {
@@ -279,7 +283,6 @@ venice_merchants_reform = {
 	}
 	valid_for_nation_designer = yes
 	nation_designer_cost = 40
-	royal_marriage = yes
 	legacy_equivalent = venetian_merchant_republic
 	potential = {
 		NOT = { map_setup = map_setup_random }
@@ -428,7 +431,6 @@ noble_elite_reform = {
 		nobles_influence_modifier = 0.05
 		maratha_exclusive_influence_modifier = 0.05
 		rajput_exclusive_influence_modifier = 0.05
-		max_absolutism = 40
 	}
 	duration = 8
 
@@ -438,67 +440,6 @@ noble_elite_reform = {
 	}
 	ai = {
 		factor = 0.5 #generic
-	}
-}
-
-banate_reform = {	
-	icon = "nobleman"	
-	allow_normal_conversion = no	
-	lock_level_when_selected = yes	
-	potential = {	
-		OR = {	
-			is_subject = yes	
-			has_reform = banate_reform	
-		}	
-		OR = {	
-			culture_group = south_slavic	
-			culture_group = vlach	
-		}	
-	}	
-	legacy_equivalent = banate_reform_legacy	
-	valid_for_nation_designer = no	
-	modifiers = {	
-		war_exhaustion = -0.02	
-		max_absolutism = 20	
-	}	
-	duration = 4	
-	custom_attributes = {	
-		locked_government_type = yes	
-		enables_plutocratic_idea_group = no	
-		enables_aristocratic_idea_group = yes	
-	}	
-}
-
-feudal_governorship = {
-	lock_level_when_selected = yes
-	icon = "feudal_theocracy"
-	allow_normal_conversion = no
-	potential = {
-		religion_group = muslim
-		has_reform = feudal_governorship
-	}
-	legacy_equivalent = feudal_governorship_legacy
-	valid_for_nation_designer = no
-	modifiers = {
-		missionaries = 1
-		global_missionary_strength = 0.01
-		tolerance_own = 2
-		governing_capacity = 250
-		brahmins_hindu_loyalty_modifier = 0.05
-		church_loyalty_modifier = 0.05
-		max_absolutism = 30
-	}
-
-	duration = 6
-	custom_attributes = {
-		locked_government_type = yes
-	}
-
-	conditional = {
-		allow = { has_dlc = "Cradle of Civilization" }
-		government_abilities = {
-			feudal_theocracy_mechanic
-		}
 	}
 }
 
@@ -916,7 +857,7 @@ ambrosian_republic = {
 	}
 	legacy_equivalent = ambrosian_republic_legacy
 	valid_for_nation_designer = yes
-	nation_designer_cost = 10
+	nation_designer_cost = 25
 	modifiers = {
 		global_tax_modifier = 0.1
 		land_morale = 0.05
@@ -928,36 +869,6 @@ ambrosian_republic = {
 		enables_aristocratic_idea_group = no
 	}
 	duration = 4
-}
-
-canton_government = {	
-	icon = "united_cantons_reform"	
-	allow_normal_conversion = no	
-	allow_convert = no	
-	lock_level_when_selected = yes	
-	legacy_equivalent = canton_government_legacy	
-	valid_for_nation_designer = yes	
-	potential = {	
-		has_reform = canton_government	
-	}	
-	nation_designer_trigger = {	
-		capital_scope = { superregion = switzerland_superregion }	
-	}
-	modifiers = {
-		governing_capacity = -100	
-		diplomatic_reputation = 2	
-		diplomatic_upkeep = 2	
-		max_absolutism = 10	
-	}	
-	custom_attributes = {	
-		enables_plutocratic_idea_group = yes	
-		enables_aristocratic_idea_group = no	
-	}	
-	conditional = {	
-		allow = { has_dlc = "Mare Nostrum" }	
-		can_form_trade_league = yes	
-	}	
-	duration = 4	
 }
 
 veche_republic = {
@@ -1259,24 +1170,24 @@ colonial_government = {
 }
 
 crown_colony_government = {	
-	icon = "peasants"	
-	valid_for_nation_designer = no	
-	lock_level_when_selected = yes	
-	allow_normal_conversion = no	
+	icon = "crown_colony_government"
+	valid_for_nation_designer = no
+	lock_level_when_selected = yes
+	allow_normal_conversion = no
 	fixed_rank = 3
-	potential = {	
-		is_colonial_nation = yes	
+	potential = {
+		is_colonial_nation = yes
 		OR = {
 			has_reform = crown_colony_government
 			has_reform = private_enterprise_colony_government
 			has_reform = self_governing_colony_government
 		}
-	}	
+	}
 	trigger = {
 		is_subject_of_type = crown_colony
 	}
-	legacy_equivalent = colonial_government_legacy	
-	modifiers = {	
+	legacy_equivalent = colonial_government_legacy
+	modifiers = {
 		recover_army_morale_speed = 0.02
 		embracement_cost = -0.1
 		governing_capacity = 100
@@ -1306,12 +1217,12 @@ crown_colony_government = {
 			}
 		}
 	}
-	custom_attributes = {	
-		locked_government_type = yes	
-		enables_plutocratic_idea_group = yes	
-		enables_aristocratic_idea_group = no	
-	}	
-	duration = 4	
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	duration = 4
 }
 
 private_enterprise_colony_government = {
@@ -1551,63 +1462,6 @@ cossacks_reform = {
 	duration = 4
 }
 
-italian_monarchy = {	
-	icon = "italian_flag"	
-	allow_normal_conversion = no	
-	allow_convert = no	
-	lock_level_when_selected = yes	
-	potential = {	
-		OR = {	
-			culture_group = latin	
-			primary_culture = langobardic	
-		}	
-		capital_scope = { superregion = italy_superregion }	
-	}	
-	legacy_equivalent = italian_monarchy_legacy	
-	valid_for_nation_designer = yes	
-	nation_designer_cost = 40	
-	royal_marriage = yes	
-	nation_designer_trigger = {	
-		has_dlc = "Res Publica"	
-	}	
-	modifiers = {	
-		free_leader_pool = 1	
-		global_unrest = 1	
-		governing_capacity = 50
-		max_absolutism = 10
-	}	
-	removed_effect = {	
-		if = {	
-			# Monarchs seize power	
-			limit = { government = monarchy }	
-			country_event = { id = dutch_republic.33 }	
-		}	
-	}	
-	custom_attributes = {	
-		locked_government_type = yes
-		enables_plutocratic_idea_group = yes	
-		enables_aristocratic_idea_group = no	
-	}	
-	conditional = {	
-		allow = {	
-			has_dlc = "Res Publica"	
-		}	
-		states_general_mechanic = {	
-			statists = {	
-				naval_forcelimit_modifier = 0.10	
-				global_trade_power = 0.05	
-				republican_tradition = 1	
-			}	
-			monarchists = {	
-				land_forcelimit_modifier = 0.25	
-				stability_cost_modifier = -0.10	
-				republican_tradition = -1	
-			}	
-		}	
-	}	
-	duration = 4	
-}
-
 #Republican Virtues
 
 republican_authoritarianism_reform = {
@@ -1615,7 +1469,7 @@ republican_authoritarianism_reform = {
 	allow_normal_conversion = yes
 	potential = {
 		NOT = {
-			has_reform = pirate_republic_reform
+			has_government_attribute = is_pirate_republic_reform
 		}
 		OR = {
 			is_revolutionary = no
@@ -1636,7 +1490,7 @@ nepotism_reform = {
 	allow_normal_conversion = yes
 	potential = {
 		NOT = {
-			has_reform = pirate_republic_reform
+			has_government_attribute = is_pirate_republic_reform
 		}
 		NOT = { has_reform = signoria_reform }
 		OR = {

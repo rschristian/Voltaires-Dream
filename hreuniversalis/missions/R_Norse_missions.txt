@@ -1,0 +1,291 @@
+vn_norse_missions_1 = {
+	slot = 3
+	generic = yes
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Lions of the North"
+	}
+	potential = {
+		has_dlc = "Lions of the North"
+		religion = norse_pagan_reformed
+	}
+	
+	swe_spread_the_norse_faith = {
+		icon = mission_longships
+		position = 9
+		required_missions = { }
+		provinces_to_highlight = {
+			superregion = scandinavia_superregion
+			NOT = { religion = norse_pagan_reformed }
+		}
+		trigger = {
+			religion = norse_pagan_reformed
+			if = {
+				limit = { has_dlc = "Wealth of Nations" }
+				has_personal_deity = odin
+			}
+			calc_true_if = {
+				scandinavia_superregion = {
+					religion = norse_pagan_reformed
+					type = all
+				}
+				amount = 75
+			}
+		}
+		effect = {
+			add_yearly_manpower = 2
+			add_stability_or_adm_power = yes
+			add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 25
+			}
+		}
+	}
+	
+	swe_devastate_the_christians = {
+		icon = mission_devastate_christianity
+		position = 10
+		required_missions = { swe_spread_the_norse_faith }
+		provinces_to_highlight = {}
+		trigger = {
+			religion = norse_pagan_reformed
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = swe_devastate_the_christians_ct
+					NOT = {
+						any_known_country = {
+							capital_scope = { continent = europe }
+							religion_group = christian
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = swe_devastate_the_christians_tt
+					check_variable = {
+						which = swe_won_wars_against_christians
+						value = 25
+					}
+				}
+			}
+			prestige = 50
+		}
+		effect = {
+			add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 50
+			}
+			add_prestige = 100
+			add_country_modifier = {
+				name = swe_might_of_the_varangians
+				duration = 9125
+			}
+		}
+	}
+	
+	swe_a_viking_empire = {
+		icon = mission_the_varangians
+		position = 11
+		required_missions = { swe_devastate_the_christians }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { religion = norse_pagan_reformed }
+		}
+		trigger = {
+			religion = norse_pagan_reformed
+			government_rank = 3
+			religious_unity = 1
+			land_forcelimit = 80
+			army_size = 80
+			num_of_cities = 60
+		}
+		effect = {
+			add_country_modifier = {
+				name = swe_norse_great_power
+				duration = -1
+			}
+		}
+	}
+}
+
+vn_norse_missions_2 = {
+	slot = 4
+	generic = yes
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Lions of the North"
+	}
+	potential = {
+		has_dlc = "Lions of the North"
+		religion = norse_pagan_reformed
+	}
+
+	swe_worship_the_gods = {
+		icon =  mission_norse_faith
+		position = 9
+		required_missions = { }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				NOT = { has_manpower_building_trigger = yes }
+				NOT = { has_tax_building_trigger = yes }
+				NOT = { religion = ROOT }
+			}
+		}
+		trigger = {
+			religion = norse_pagan_reformed
+			num_of_owned_provinces_with = {
+				has_manpower_building_trigger = yes
+				has_tax_building_trigger = yes
+				religion = ROOT
+				value = 10
+			}
+			6112 = {
+				owned_by = ROOT
+				is_core = ROOT
+				religion = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					6112 = { NOT = { has_province_flag = has_uppsala_temple_flag } }
+				}
+				country_event = {
+					id = norse_events.6
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						has_country_flag = has_norse_flexible_deities_permanent
+					}
+					if = {
+						limit = { has_dlc = "Wealth of Nations" }
+						custom_tooltip = unlock_norse_free_deity_decision_tt
+					}
+					hidden_effect = {
+						set_country_flag = has_norse_flexible_deities_permanent
+					}
+				}
+				else = {
+					add_power_projection = {
+						type = mission_rewards_power_projection
+						amount = 25
+					}
+				}
+			}
+		}
+	}
+	dan_raid_the_north_sea = {
+		icon = mission_longships
+		position = 10
+		required_missions = { swe_worship_the_gods }
+		provinces_to_highlight = {
+			region = scandinavia_region
+			NOT = { religion = norse_pagan_reformed }
+		}
+		trigger = {
+			religion = norse_pagan_reformed
+			OR = {
+				calc_true_if = {
+					europe = {
+						controlled_by = ROOT
+						NOT = { owned_by = ROOT }
+						is_looted = yes
+						type = all
+					}
+					amount = 25
+				}
+				custom_trigger_tooltip = {
+					tooltip = dan_raid_the_north_sea_tt
+					check_variable = {
+						which = num_of_raided_coasts
+						value = 40
+					}
+				}
+				total_development = 1000
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = dan_plunder_and_pillaging
+				duration = 12775
+			}
+		}
+	}
+
+	dan_return_of_the_north_sea_empire = {
+		icon = mission_north_sea_empire
+		position = 11
+		required_missions = { dan_raid_the_north_sea }
+		provinces_to_highlight = {
+			superregion = british_isles_superregion
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { religion = norse_pagan_reformed }
+			}
+		}
+		trigger = {
+			religion = norse_pagan_reformed
+			num_of_owned_provinces_with = {
+				religion = norse_pagan_reformed
+				superregion = british_isles_superregion
+				value = 75
+			}
+		}
+		effect = {
+			country_event = {
+				id = norse_events.9
+			}
+			add_country_modifier = {
+				name = swe_norse_great_power
+				duration = -1
+			}
+			if = {
+				limit = { tag = SCA }
+				picard_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+				normandy_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+				brittany_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+				paris_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+				angevin_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+				flanders_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+}

@@ -29,21 +29,32 @@ estate_holy_orders = {
 	# If true, country will get estate
 	
 	trigger = {	
+		NOT = { has_government_attribute = disables_holy_orders }
+		NOT = { has_country_flag = disables_holy_orders_flag }
 		OR = {
-			religion = catholic
-			religion = catholique
+			has_government_attribute = enables_holy_orders
+			has_country_flag = enables_holy_orders_flag
+			AND = {
+				OR = {
+					religion = catholic
+					religion = catholique
+				}
+				government = monarchy
+				primitives = no
+				is_nomad = no
+				NOT = { has_reform = cossacks_reform }
+				NOT = { has_government_attribute = is_pirate_republic_reform }
+				NOT = { has_reform = revolutionary_empire_reform }
+			}
 		}
-		government = monarchy
-		primitives = no
-		is_nomad = no
 		OR =  {
 			current_age = age_of_holy_wars
 			current_age = age_of_crisis
 			current_age = age_of_dynasticism
 			current_age = age_of_discovery
 			current_age = age_of_reformation
+			#has_country_flag = enables_holy_orders_after_age_limit_flag
 		}
-		NOT = { has_country_flag = removed_templars }
 	}
 
 	# These scale with loyalty & power

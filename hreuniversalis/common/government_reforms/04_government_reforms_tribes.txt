@@ -13,8 +13,15 @@ tribe_mechanic = {
 steppe_horde = {
 	icon = "horde_riding"
 	allow_normal_conversion = no
-	allow_convert = no
 	potential = {
+		OR = {
+			has_reform = steppe_horde
+			culture_group = altaic
+			AND = {
+				culture_group = oghuz
+				primary_culture = turkish
+			}
+		}
 		has_reform = steppe_horde
 		NOT = { has_reform = great_mongol_state_reform }
 	}
@@ -47,6 +54,10 @@ steppe_horde = {
 		enables_horde_idea_group = yes
 		enables_aristocratic_idea_group = no
 	}
+
+	ai = {
+		factor = 1000
+	}
 }
 
 great_mongol_state_reform = {
@@ -72,7 +83,7 @@ great_mongol_state_reform = {
 		land_forcelimit_modifier = 0.2
 		loot_amount = 0.50
 		reinforce_cost_modifier = -0.5
-		cav_to_inf_ratio = 0.25
+		cav_to_inf_ratio = 0.5
 		movement_speed = 0.2
 		years_of_nationalism = -5
 	}
@@ -254,16 +265,16 @@ tribal_kingdom = {
 	}
 }
 
-stateless_society = {	
-	icon = "fist_in_air"	
-	allow_normal_conversion = no	
-	valid_for_nation_designer = yes	
-	lock_level_when_selected = yes	
-	nation_designer_cost = 0	
-	modifiers = {	
-		governing_capacity_modifier = -0.99	
-		defensiveness = 0.75	
-		land_morale = 0.15	
+stateless_society = {
+	icon = "fist_in_air"
+	allow_normal_conversion = no
+	valid_for_nation_designer = yes
+	lock_level_when_selected = yes
+	nation_designer_cost = 0
+	modifiers = {
+		governing_capacity_modifier = -0.99
+		defensiveness = 0.75
+		land_morale = 0.15
 	}
 	ai = {
 		factor = 1
@@ -271,6 +282,73 @@ stateless_society = {
 			factor = -1
 			num_of_cities = 2
 		}
+	}
+}
+
+sacred_kingdom = {
+	icon = "divine_guidance_reform"
+	allow_normal_conversion = yes
+	lock_level_when_selected = yes
+	potential = {
+		has_dlc = "Origins"
+		religion_group = pagan
+	}
+	trigger = {
+		OR = {
+			NOT = { has_institution = enlightenment }	#Why should any enlightened person ever want to support this system?
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = sacred_kingdom
+			}
+		}
+	}
+	valid_for_nation_designer = yes
+	nation_designer_cost = 10
+	nation_designer_trigger = {
+		religion_group = pagan
+	}
+	legacy_equivalent = sacred_kingdom_legacy
+	maintain_dynasty = yes
+	
+	removed_effect = {
+		if = {
+			limit = {
+				NOT = { has_institution = enlightenment }
+			}
+			add_stability = -2
+		}
+	}
+	modifiers = {
+		tolerance_own = 2
+		max_absolutism = 25
+		legitimacy = 0.5
+	}
+}
+
+matrilineal_system = {
+	icon = "british_queen"
+	allow_normal_conversion = yes
+	valid_for_nation_designer = yes
+	nation_designer_cost = 30
+	legacy_equivalent = matrilineal_system_legacy
+	potential = {
+		OR = {
+			primary_culture = tuareg
+			primary_culture = guanche
+			have_had_reform = matrilineal_system
+		}
+	}
+	trigger = {
+		OR = {
+			primary_culture = tuareg
+			primary_culture = guanche
+			have_had_reform = matrilineal_system
+		}
+	}
+	modifiers = {
+		heir_chance = -0.5
+		female_advisor_chance = 0.5
+		legitimacy = 1
 	}
 }
 
@@ -397,7 +475,7 @@ horde_barbaric_despoilers_reform = {
 		
 	}
 	ai = {
-		factor = 20
+		factor = 2
 	}
 }
 
@@ -415,14 +493,14 @@ horde_tribal_unity_reform = {
 		horde_unity = 2
 	}
 	ai = {
-		factor = 20
+		factor = 2
 	}
 }
 
 tribe_becomes_monarchy_reform = {
 	icon = "king_highlighted"
 	allow_normal_conversion = yes
-	potential = {	
+	potential = {
 		NOT = { has_reform = stateless_society }
 	}
 	trigger = {
@@ -474,12 +552,7 @@ tribe_becomes_monarchy_reform = {
 		}
 	}
 	ai = {
-		factor = 10
-		modifier = {
-			factor = 0
-			has_reform = steppe_horde
-			NOT = { is_year = 1500 }
-		}
+		factor = 1
 	}
 }
 
@@ -541,7 +614,24 @@ tribe_becomes_republic_reform = {
 			}
 		}
 	}
-	ai = { factor = 0 }
+	ai = {
+		factor = 1
+		modifier = {
+			factor = 0
+			OR = {
+				has_reform = steppe_horde
+				has_reform = great_mongol_state_reform
+				NOT = { trade_income_percentage = 0.3 }
+			}
+		}
+		modifier = {
+			factor = 1.5
+			OR = {
+				num_of_centers_of_trade = 5
+				trade_income_percentage = 0.4
+			}
+		}
+	}
 }
 
 tribe_becomes_theocracy_reform = {
@@ -605,8 +695,11 @@ tribe_becomes_theocracy_reform = {
 		factor = 1
 		modifier = {
 			factor = 0
-			NOT = { religion_group = pagan }
-			NOT = { is_year = 1500 }
+			OR = {
+				has_reform = steppe_horde
+				has_reform = great_mongol_state_reform
+				NOT = { religion_group = muslim }
+			}
 		}
 	}
 }
@@ -614,7 +707,7 @@ tribe_becomes_theocracy_reform = {
 tribe_becomes_horde_reform = {
 	icon = "horde_riding_highlighted"
 	allow_normal_conversion = yes
-	potential = {	
+	potential = {
 		NOT = { has_reform = stateless_society }
 	}
 	effect = {

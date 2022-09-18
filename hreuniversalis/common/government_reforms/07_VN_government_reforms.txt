@@ -1,3 +1,273 @@
+# T1 Reforms
+germanic_monarchy = {
+	icon = "assembly_hall"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = germanic_monarchy
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = germanic_monarchy
+			}
+		}
+	}
+	legacy_equivalent = germanic_monarchy_legacy
+	lock_level_when_selected = yes
+	valid_for_nation_designer = yes
+	nation_designer_cost = 10
+	nation_designer_trigger = {
+		OR = {
+			culture_group = scandinavian
+			primary_culture = anglosaxon
+		}
+	}
+	modifiers = {
+		legitimacy = 0.5
+		max_absolutism = -30
+		heir_chance = -10
+	}
+
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+eastern_monarchy = {
+	icon = "basileos"
+	allow_convert = no
+	allow_normal_conversion = no
+	potential = {
+		have_had_reform = eastern_monarchy
+	}
+	lock_level_when_selected = yes
+	valid_for_nation_designer = yes
+	allow_force_tributary = no
+	legacy_equivalent = eastern_monarchy_legacy
+	start_territory_to_estates = 0.5
+	min_autonomy = 50
+	modifiers = {
+		governing_capacity = 600
+	}
+	conditional = {
+		allow = { 
+			has_dlc = "Mandate of Heaven"
+		}
+		custom_attributes = {
+			has_tributaries = yes
+		}
+	}
+	fixed_rank = 6
+}
+
+andalusian_slave_state = {
+	icon = "mamluk_government"
+	allow_normal_conversion = no
+	potential = {
+		religion_group = muslim
+		primary_culture = andalucian
+		OR = { 
+			has_reform = andalusian_slave_state
+			have_had_reform = andalusian_slave_state
+		}
+	}
+	legacy_equivalent = andalusian_slave_state_legacy
+	queen = no
+
+	valid_for_nation_designer = no
+
+	modifiers = {
+		same_culture_advisor_cost = -0.25
+		governing_capacity = 50
+		mamluks_influence_modifier = 0.1
+		mamluks_loyalty_modifier = 0.05
+	}
+
+	conditional = {
+		allow = { has_dlc = "Cradle of Civilization" }
+		government_abilities = {
+			mamluk_mechanic
+		}
+		heir = no
+		foreign_slave_rulers = yes
+	}
+}
+
+banate_reform = {	
+	icon = "nobleman"	
+	allow_normal_conversion = no	
+	lock_level_when_selected = yes	
+	potential = {	
+		OR = {	
+			is_subject = yes	
+			has_reform = banate_reform	
+		}	
+		OR = {	
+			culture_group = south_slavic	
+			culture_group = vlach	
+		}	
+	}	
+	legacy_equivalent = banate_reform_legacy	
+	valid_for_nation_designer = no	
+	modifiers = {	
+		war_exhaustion = -0.02	
+		max_absolutism = 20	
+	}	
+	duration = 4	
+	custom_attributes = {	
+		locked_government_type = yes	
+		enables_plutocratic_idea_group = no	
+		enables_aristocratic_idea_group = yes	
+	}	
+}
+
+feudal_governorship = {
+	lock_level_when_selected = yes
+	icon = "feudal_theocracy"
+	allow_normal_conversion = no
+	potential = {
+		religion_group = muslim
+		has_reform = feudal_governorship
+	}
+	legacy_equivalent = feudal_governorship_legacy
+	valid_for_nation_designer = no
+	modifiers = {
+		missionaries = 1
+		global_missionary_strength = 0.01
+		tolerance_own = 2
+		governing_capacity = 250
+		brahmins_hindu_loyalty_modifier = 0.05
+		church_loyalty_modifier = 0.05
+		max_absolutism = 30
+	}
+
+	duration = 6
+	custom_attributes = {
+		locked_government_type = yes
+	}
+
+	conditional = {
+		allow = { has_dlc = "Cradle of Civilization" }
+		government_abilities = {
+			feudal_theocracy_mechanic
+		}
+	}
+}
+
+canton_government = {	
+	icon = "united_cantons_reform"	
+	allow_normal_conversion = no	
+	allow_convert = no	
+	lock_level_when_selected = yes	
+	legacy_equivalent = canton_government_legacy	
+	valid_for_nation_designer = yes	
+	potential = {	
+		has_reform = canton_government	
+	}	
+	nation_designer_trigger = {	
+		capital_scope = { superregion = switzerland_superregion }	
+	}
+	modifiers = {
+		governing_capacity = -100	
+		diplomatic_reputation = 2	
+		diplomatic_upkeep = 2	
+		max_absolutism = 10	
+	}	
+	custom_attributes = {	
+		enables_plutocratic_idea_group = yes	
+		enables_aristocratic_idea_group = no	
+	}	
+	conditional = {	
+		allow = { has_dlc = "Mare Nostrum" }	
+		can_form_trade_league = yes	
+	}	
+	duration = 4	
+}
+
+
+italian_monarchy = {	
+	icon = "italian_flag"	
+	allow_normal_conversion = no	
+	allow_convert = no	
+	lock_level_when_selected = yes	
+	potential = {	
+		OR = {	
+			culture_group = latin	
+			primary_culture = langobardic	
+		}	
+		capital_scope = { superregion = italy_superregion }	
+	}	
+	legacy_equivalent = italian_monarchy_legacy	
+	valid_for_nation_designer = yes	
+	nation_designer_cost = 40	
+	royal_marriage = yes	
+	nation_designer_trigger = {	
+		has_dlc = "Res Publica"	
+	}	
+	modifiers = {	
+		free_leader_pool = 1	
+		global_unrest = 1	
+		governing_capacity = 50
+		max_absolutism = 10
+	}	
+	removed_effect = {	
+		if = {	
+			# Monarchs seize power	
+			limit = { government = monarchy }	
+			country_event = { id = dutch_republic.33 }	
+		}	
+	}	
+	custom_attributes = {	
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes	
+		enables_aristocratic_idea_group = no	
+	}	
+	conditional = {	
+		allow = {	
+			has_dlc = "Res Publica"	
+		}	
+		states_general_mechanic = {	
+			statists = {	
+				naval_forcelimit_modifier = 0.10	
+				global_trade_power = 0.05	
+				republican_tradition = 1	
+			}	
+			monarchists = {	
+				land_forcelimit_modifier = 0.25	
+				stability_cost_modifier = -0.10	
+				republican_tradition = -1	
+			}	
+		}	
+	}	
+	duration = 4	
+}
+
+sufi_reform = {
+	icon = "arabic_scripture"
+	allow_normal_conversion = yes
+	rulers_can_be_generals = yes
+	heirs_can_be_generals = yes
+	royal_marriage = yes
+	potential = { religion_group = muslim }
+	nation_designer_trigger = {
+		religion_group = muslim
+	}
+	valid_for_nation_designer = yes
+	nation_designer_cost = 10
+	
+	modifiers = {
+		missionaries = 1
+		monthly_piety = -0.02
+	}
+	legacy_equivalent = sufi_reform_legacy
+	
+	conditional = {
+		allow = { has_dlc = "Cradle of Civilization" }
+		government_abilities = {
+			feudal_theocracy_mechanic
+		}
+	}
+}
+
 # Monarchy
 chivalrous_confederations_reform = {
 	potential = {
@@ -404,3 +674,12 @@ memorial_tradition_reform = {
 		global_institution_spread = 0.15
 	}
 }
+
+#france
+#Pair de France
+#Limited Princess Marriages
+#Homagium ligium
+#Monetary fiefdoms
+#Reform Succession Laws 
+#Prévoté 
+#Lingua franca 
