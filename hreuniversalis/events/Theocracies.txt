@@ -97,6 +97,7 @@ country_event = {
 			clr_country_flag = theo_papal_protege_flag
 			clr_country_flag = theo_imam_khatib_flag
 			clr_country_flag = theo_influential_reformer_flag
+			clr_country_flag = theo_prominent_professor_reformer_flag
 		
 			#Local Noble,etc:
 			if = {
@@ -216,6 +217,14 @@ country_event = {
 					}
 				}
 				save_event_target_as = papal_protoge_country
+			}
+			#Prominent Professor
+			random_country = {
+				limit = {
+					culture_group = ROOT
+					religion = ROOT
+				}
+				save_event_target_as = prominent_professor_country
 			}
 		}
 	}
@@ -407,7 +416,6 @@ country_event = {
 		clr_country_flag = in_theocracy_heir_selection
 		custom_tooltip = theocracy.1.tt
 	}
-
 	option = {
 		name = theocracy.1.b		# A Foreign Noble
 		trigger = {
@@ -558,7 +566,6 @@ country_event = {
 		clr_country_flag = in_theocracy_heir_selection
 		custom_tooltip = theocracy.1.tt
 	}
-
 	option = {
 		name = theocracy.1.c		# A Merchant's Son
 		trigger = { NOT = { has_country_flag = KOL_secondogeniture_of_BAV } }
@@ -730,7 +737,6 @@ country_event = {
 		clr_country_flag = in_theocracy_heir_selection
 		custom_tooltip = theocracy.1.tt
 	}
-
 	option = {
 		name = theocracy.1.e		# A Talented Theologian
 		trigger = { NOT = { has_country_flag = KOL_secondogeniture_of_BAV } }
@@ -1344,7 +1350,6 @@ country_event = {
 			}
 		}
 		set_country_flag = theo_influential_reformer_flag # USED IN DEVOTION.TXT
-		set_country_flag = theo_influential_reformer_flag # USED IN DEVOTION.TXT
 		if = {
 			limit = {
 				has_estate = estate_burghers
@@ -1421,6 +1426,89 @@ country_event = {
 			add_church_power = 10
 		}
 		add_prestige = -10
+		clr_country_flag = in_theocracy_heir_selection
+		custom_tooltip = theocracy.1.tt
+	}
+	option = {
+		name = theocracy.1.professor
+		trigger = {
+			NOT = { has_country_flag = KOL_secondogeniture_of_BAV }
+			has_government_attribute = allow_monastic_entry_for_professors
+		}
+		set_country_flag = theo_prominent_professor_reformer_flag # USED IN DEVOTION.TXT
+		if = {
+			limit = {
+				has_estate = estate_burghers
+			}
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+		}		
+		if = {
+			limit = {
+				has_estate = estate_nobles
+			}
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { has_government_attribute = can_see_theocratic_heir_stats }
+			if = {
+				limit = {
+					has_global_modifier_value = {
+						which = female_advisor_chance
+						value = 1
+					}
+				}
+				define_heir = {
+					age = 35
+					female = yes
+					culture = event_target:prominent_professor_country
+				}
+			}
+			else = {
+				define_heir = {
+					age = 35
+					culture = event_target:prominent_professor_country
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					has_global_modifier_value = {
+						which = female_advisor_chance
+						value = 1
+					}
+				}
+				define_heir = {
+					age = 35
+					female = yes
+					culture = event_target:prominent_professor_country
+					hidden = yes
+				}
+			}
+			else = {
+				define_heir = {
+					age = 35
+					culture = event_target:prominent_professor_country
+					hidden = yes
+				}
+			}
+		}
+		if = {
+			limit = { has_dlc = "Rule Britannia" }
+			change_innovativeness = 3
+		}
+		else = {
+			add_adm_power = 10
+			add_dip_power = 10
+			add_mil_power = 10
+		}
+		add_devotion = -10
 		clr_country_flag = in_theocracy_heir_selection
 		custom_tooltip = theocracy.1.tt
 	}

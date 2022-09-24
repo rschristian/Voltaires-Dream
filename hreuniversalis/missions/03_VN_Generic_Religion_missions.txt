@@ -15,7 +15,10 @@ vn_gen_religion_missions_1 = {
 		icon = mission_convert_provinces
 		required_missions = { }
 		trigger = {
-			check_variable = { which = num_converted_religion value = 5 }
+			custom_trigger_tooltip = {
+				tooltip = vn_convert_provinces.tt
+				check_variable = { which = num_converted_religion value = 5 }
+			}
 		}
 		effect = {
 			add_country_modifier = {
@@ -41,7 +44,10 @@ vn_gen_religion_missions_2 = {
 		required_missions = { }
 		trigger = {
 			NOT = { current_age = age_of_empire }
-			at_war_with_religious_enemy = yes
+			custom_trigger_tooltip = {
+				tooltip = vn_religious_wars.tt
+				check_variable = { which = won_wars_against_heathen value = 5 }
+			}
 		}
 		effect = {
 			add_country_modifier = {
@@ -69,13 +75,20 @@ vn_gen_religion_missions_3 = {
 		required_missions = { }
 		trigger = {
 			NOT = { current_age = age_of_empire }
-			is_defender_of_faith = yes
+			if = {
+				limit = { NOT = { religion_group = pagan } }
+				is_defender_of_faith = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = vn_defend_the_faith.tt
+				check_variable = { which = won_battles_against_religious_enemies value = 100 }
+			}
 			religious_unity = 1
 		}
 		effect = {
 			add_country_modifier = {
 				name = "defend_faith_mission"
-				duration = 9125
+				duration = 12775
 			}
 		}
 	}

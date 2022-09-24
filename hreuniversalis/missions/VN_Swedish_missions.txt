@@ -16,7 +16,7 @@ vn_swe_missions_slot_1_a = {
         position = 1
         required_missions = {  }
         trigger = {
-			has_reached_government_reform_tier = { tier_2 = yes }
+			reform_level = 2
 			NOT = { has_ruler = "Emund I" }
 			NOT = { exists = GTH }
 			stability = 1
@@ -72,6 +72,15 @@ vn_swe_missions_slot_1_a = {
 			}
         }
         effect = {
+			if = {
+				limit = {
+					has_dlc = "Lions of the North"
+					owns = 6112
+				}
+				country_event = {
+					id = flavor_swe.119
+				}
+			}
             6109 = {
 				add_base_tax = 1
 				add_base_production = 1
@@ -112,7 +121,7 @@ vn_swe_missions_slot_1_a = {
         position = 4
         required_missions = { vn_swe_abolish_serfdom }
         trigger = {
-			has_reached_government_reform_tier = { tier_4 = yes }
+			reform_level = 4
 			if = {
 				limit = { has_estate = estate_burghers }
 				estate_loyalty = {
@@ -459,6 +468,21 @@ vn_swe_missions_slot_1_c = {
 					duration = 9125
 				}
 			}
+			if = {
+				limit = {
+					has_dlc = "Lions of the North"
+					has_dlc = "Art of War"
+					hre_religion_locked = no
+					hre_religion_treaty = no
+					custom_tooltip = swe_protestant_sword_ct
+					hidden_effect = { set_country_flag = swe_reformation_modifier_for_league_war }
+					if = {
+						limit = { hre_leagues_enabled = no }
+						custom_tooltip = swe_protestant_sword_dt
+						hidden_effect = { set_country_flag = swe_can_provoke_religious_league_forming }
+					}
+				}
+			}
         }
     }
     vn_swe_gott_mit_uns = {
@@ -755,7 +779,18 @@ vn_swe_missions_slot_2_d = {
 			}
         }
         effect = {
-			add_prestige = 25
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				unlock_estate_privilege = {
+					estate_privilege = estate_nobles_carolean_march
+				}
+				unlock_estate_privilege = {
+					estate_privilege = estate_nobles_carolean_charge
+				}
+			}
+			else = {
+				add_prestige = 25
+			}
 			if = {
 				limit = { has_dlc = "Cradle of Civilization" }
 				add_army_professionalism = 0.05
@@ -847,7 +882,7 @@ vn_swe_missions_slot_3_a = {
     has_country_shield = yes
 
     vn_swe_conquest_of_skane = {
-        icon = mission_unite_home_region	#placeholder
+        icon = mission_conquer_skaneland
         position = 1
 		required_missions = {  }
 		provinces_to_highlight = {
@@ -1085,15 +1120,23 @@ vn_swe_missions_slot_3_a = {
 			}
         }
         effect = {
+			if = {
+				limit = {
+					has_dlc = "Lions of the North"
+					country_event = { id = flavor_swe.109 }
+				}
+			}
+			else = {
+				add_country_modifier = {
+					name = "swe_dominum_maris_baltici_mission"
+					duration = -1
+				}
+			}
 			add_power_projection = {
                 type = mission_rewards_power_projection
                 amount = 25
             }
 			add_navy_tradition = 10
-			add_country_modifier = {
-				name = "swe_dominum_maris_baltici_mission"
-				duration = -1
-			}
 			add_country_modifier = {
 				name = "swe_dominum_maris_baltici_mission2"
 				duration = 9125
@@ -1371,7 +1414,7 @@ vn_swe_missions_slot_4_a = {
     has_country_shield = yes
 
     vn_swe_prepare_for_crusade = {
-        icon = mission_livonian_knights
+        icon = shield_of_christendom
         position = 1
 		required_missions = {  }
         trigger = {
@@ -1506,7 +1549,7 @@ vn_swe_missions_slot_4_b = {
         }
     }
     vn_swe_conquer_estonia = {
-        icon = mission_unite_home_region	#placeholder
+        icon = overshadow_venice
         position = 4
         required_missions = { 
 			vn_swe_end_kingdom_of_gotland
@@ -1932,6 +1975,12 @@ vn_swe_missions_slot_5_a = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				country_event = {
+					id = flavor_swe.123
+				}
+			}
 			add_prestige = 20
 			add_country_modifier = {
 				name = "swe_strike_into_russia_mission"
@@ -2049,12 +2098,6 @@ vn_swe_missions_slot_5_c = {
 			}
         }
         effect = {
-			if = {
-				limit = { has_dlc = "Lions of the North" }
-				country_event = {
-					id = flavor_swe.123
-				}
-			}
             poland_superregion = {
 				limit = { controlled_by = ROOT }
 				random_list = {

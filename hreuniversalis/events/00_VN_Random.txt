@@ -3906,7 +3906,9 @@ country_event = {
 		add_adm_power = 25
 		add_republican_tradition = 10
 		add_legitimacy = 10
-		add_devotion = 10
+		add_devotion = 5
+		add_horde_unity = 5
+		add_meritocracy = 5
 	}
 }
 
@@ -3939,13 +3941,24 @@ country_event = {
 	picture = ARTWORK_eventPicture
 
 	is_triggered_only = yes
-	trigger = { has_idea_group = cultural_ideas }
+	trigger = {
+		NOT = { has_country_modifier = cultural_construction }
+		has_idea_group = cultural_ideas
+	}
 	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				save_event_target_as = new_museum
+			}
+		}
+	}
 
 	option = {
 		name = "FBIA78"
-		random_owned_province = {
-			limit = {}
+		goto = new_museum
+		event_target:new_museum = {
 			add_base_tax = 1
 		}
 	}
@@ -3964,6 +3977,7 @@ country_event = {
 	title = "FBIT79"
 	desc = "FBID79"
 	picture = ANGRY_MOB_eventPicture
+	goto = angry_peasants
 
 	is_triggered_only = yes
 	trigger = {
@@ -3974,10 +3988,18 @@ country_event = {
 	}
 	mean_time_to_happen = { days = 1 }
 
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = { NOT = { culture = ROOT } }
+				save_event_target_as = angry_peasants
+			}
+		}
+	}
+
 	option = {
 		name = "FBIA79"
-		random_owned_province = {
-			limit = { NOT = { culture = ROOT } }
+		event_target:angry_peasants = {
 			add_unrest = 10
 		}
 	}
@@ -4036,6 +4058,8 @@ country_event = {
 		has_idea_group = cultural_ideas
 		is_institution_enabled = new_world_i
 		NOT = { tag = GEN }
+		NOT = { has_country_modifier = cultural_enthusiasm }
+		NOT = { has_country_modifier = cultural_skepticism }
 	}
 	mean_time_to_happen = { days = 1 }
 
@@ -4238,8 +4262,16 @@ country_event = {
 	}
 	mean_time_to_happen = { days = 1 }
 
+	immediate = {
+		random_owned_province = {
+			limit = { has_siege = yes }
+			save_event_target_as = secret_passages
+		}
+	}
+
 	option = {
 		name = "FBIA90"
+		goto = secret_passages
 		ai_chance = {
 			factor = 70
 			modifier = {
@@ -4248,8 +4280,7 @@ country_event = {
 			}
 		}
 		add_treasury = -50
-		random_owned_province = {
-			limit = { has_siege = yes }
+		event_target:secret_passages = {
 			change_siege = -2
 		}
 	}
@@ -7425,7 +7456,7 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { has_reform = representative_thing_reform }
+			limit = { has_government_attribute = mechanic_representative_thing }
 			define_heir = {
 				dynasty = ROOT
 				claim = 100
@@ -7505,7 +7536,7 @@ country_event = {
 			limit = { has_ruler_flag = edward_the_confessor_flag }
 			custom_tooltip = hrema1.tt
 			if = {
-				limit = { has_reform = authorized_thing_reform }
+				limit = { has_government_attribute = mechanic_authorized_thing }
 				define_heir = {
 					name = "Hereweald"
 					dynasty = "Godwining"
@@ -7603,7 +7634,7 @@ country_event = {
 			}
 			ROOT = {
 				if = {
-					limit = {has_reform = authorized_thing_reform }
+					limit = { has_government_attribute = mechanic_authorized_thing }
 					define_heir = {
 						dynasty = PREV
 						culture = PREV
@@ -7649,7 +7680,7 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { has_reform = authorized_thing_reform }
+			limit = { has_government_attribute = mechanic_authorized_thing }
 			define_heir = {
 				dynasty = "Hardrådeætta"
 				culture = norwegian
@@ -7712,7 +7743,7 @@ country_event = {
 			}
 			ROOT = {
 				if = {
-					limit = { has_reform = authorized_thing_reform }
+					limit = { has_government_attribute = mechanic_authorized_thing }
 					define_heir = {
 						dynasty = PREV
 						culture = PREV
@@ -7753,7 +7784,7 @@ country_event = {
 		ai_chance = { factor = 2 }
 		trigger = { has_ruler_flag = christian_elected }
 		if = {
-			limit = { has_reform = authorized_thing_reform }
+			limit = { has_government_attribute = mechanic_authorized_thing }
 			define_heir = {
 				name = "Christian"
 				dynasty = "von Oldenburg"
@@ -7799,7 +7830,7 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { has_reform = authorized_thing_reform }
+			limit = { has_government_attribute = mechanic_authorized_thing }
 			define_heir = {
 				dynasty = "Rolloning"
 				culture = normand
@@ -8716,6 +8747,11 @@ country_event = {
 			OR = {
 				has_reform = principality
 				has_reform = veche_republic
+			}
+		}
+		NOT = {
+			overlord = {
+				has_reform = eastern_monarchy
 			}
 		}
 	}

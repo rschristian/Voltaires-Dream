@@ -449,32 +449,32 @@ on_war_won = {
 		}
 		add_church_power = 10
 	}
-	if = {
-		limit = {
-			ROOT = { 
-				tag = SWE
-				has_country_modifier = swe_vasa_leads_the_rebellion
-				is_subject = no
-			}
-			FROM = { tag = DAN }
-		}
-		country_event = {
-			id = flavor_swe.111
-		}
-	}
-	if = {
-		limit = {
-			ROOT = { 
-				tag = SWE
-				has_country_modifier = swe_any_vasa_leads_the_rebellion
-				is_subject = no
-			}
-			FROM = { tag = DAN }
-		}
-		country_event = {
-			id = flavor_swe.105
-		}
-	}
+	# if = {
+	# 	limit = {
+	# 		ROOT = { 
+	# 			tag = SWE
+	# 			has_country_modifier = swe_vasa_leads_the_rebellion
+	# 			is_subject = no
+	# 		}
+	# 		FROM = { tag = DAN }
+	# 	}
+	# 	country_event = {
+	# 		id = flavor_swe.111
+	# 	}
+	# }
+	# if = {
+	# 	limit = {
+	# 		ROOT = { 
+	# 			tag = SWE
+	# 			has_country_modifier = swe_any_vasa_leads_the_rebellion
+	# 			is_subject = no
+	# 		}
+	# 		FROM = { tag = DAN }
+	# 	}
+	# 	country_event = {
+	# 		id = flavor_swe.105
+	# 	}
+	# }
 	# if = {
 	# 	limit = {
 	# 		ROOT = { 
@@ -554,6 +554,23 @@ on_main_war_won = {
 		}
 		change_variable = {
 			which = swe_won_wars_against_christians
+			value = 1
+		}
+	}
+	if = {
+		limit = {
+			ROOT = {
+				has_mission = vn_religious_wars
+				NOT = { mission_completed = vn_religious_wars }
+				OR = {
+					is_defender_of_faith = yes
+					religion_group = pagan
+				}
+			}
+			FROM = { NOT = { religion_group = ROOT } }
+		}
+		change_variable = {
+			which = won_wars_against_heathen
 			value = 1
 		}
 	}
@@ -654,15 +671,20 @@ on_battle_won_country = {
 			add_war_exhaustion = -0.05
 		}
 	}
-	#count_won_battles_and_reward_at_end = {
-	#	counting_flag = teu_crusader_battle_counter
-	#	max_value = 20
-	#	effect = "
-	#		country_event = {
-	#			id = flavor_teu.12
-	#		}
-	#	"
-	#}
+	if = {
+		limit = {
+			ROOT = {
+				is_defender_of_faith = yes
+				has_mission = vn_defend_the_faith
+				NOT = { mission_completed = vn_defend_the_faith }
+			}
+			FROM = { NOT = { religion = ROOT } }
+		}
+		change_variable = {
+			which = won_battles_against_religious_enemies
+			value = 1
+		}
+	}
 }
 
 # country
@@ -901,31 +923,6 @@ on_siege_won_country = {
 		}
 		ROOT = {
 			add_church_power = 5
-		}
-	}
-	if = {
-		limit = {
-			has_dlc = "Lions of the North"
-			ROOT = {
-				OR = {
-					AND = {
-						tag = SWE
-						NOT = { exists = SCA }
-					}
-					tag = SCA
-				}
-			}
-			FROM = {
-				province_id = 13
-			}
-		}
-		ROOT = {
-			add_loot_from_rich_province_general_effect = {
-				LOOTER = ROOT
-			}
-		}
-		FROM = {
-			owner = { country_event = { id = flavor_swe.110 } }
 		}
 	}
 	grant_manpower_from_capital_slave_raid = yes
