@@ -221,34 +221,34 @@ council_of_the_indies_reform = {
 	}
 }
 
-penal_colonies_reform = {
-	icon = "merchant_ship"
-	allow_normal_conversion = yes
-	potential = {
-		has_dlc = "Golden Century"
-		has_idea_group = exploration_ideas
-		capital_scope = {
-			NOT = {
-				OR = {
-					continent = north_america
-					continent = south_america
-					continent = new_world
-					continent = oceania
-				}
-			}
-		}
-	}
-	trigger = {
-		has_idea_group = exploration_ideas
-	}
-	modifiers = {
-		expel_minorities_cost = -1
-		colonist_placement_chance = 0.05
-	}
-	ai = {
-		factor = 0.1
-	}
-}
+# penal_colonies_reform = {
+# 	icon = "merchant_ship"
+# 	allow_normal_conversion = yes
+# 	potential = {
+# 		has_dlc = "Golden Century"
+# 		has_idea_group = exploration_ideas
+# 		capital_scope = {
+# 			NOT = {
+# 				OR = {
+# 					continent = north_america
+# 					continent = south_america
+# 					continent = new_world
+# 					continent = oceania
+# 				}
+# 			}
+# 		}
+# 	}
+# 	trigger = {
+# 		has_idea_group = exploration_ideas
+# 	}
+# 	modifiers = {
+# 		expel_minorities_cost = -1
+# 		colonist_placement_chance = 0.05
+# 	}
+# 	ai = {
+# 		factor = 0.1
+# 	}
+# }
 
 # Holy State for Jerusalem
 holy_state_reform = {
@@ -319,8 +319,12 @@ papal_embassy_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		religion = catholic
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
 		NOT = { tag = PAP }
+		NOT = { tag = AVI }
 	}
 	trigger = {
 		NOT = {
@@ -376,8 +380,14 @@ i_am_the_church_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		religion = catholic
-		tag = PAP
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		OR = {
+			tag = PAP
+			tag = AVI
+		}
 	}
 	modifiers = {
 		devotion = 0.5
@@ -416,7 +426,10 @@ focus_of_the_patriarchy_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		religion = coptic
+		OR = {
+			religion = coptic
+			religion = fraticelli
+		}
 	}
 	modifiers = {
 		institution_spread_from_true_faith = 0.25
@@ -442,7 +455,12 @@ lands_for_the_monasteries_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		religion = orthodox
+		OR = {
+			religion = orthodox
+			religion = paulician
+			religion = iconoclast
+			religion = monothelite
+		}
 	}
 	modifiers = {
 		church_influence_modifier = 0.1
@@ -527,8 +545,14 @@ head_of_the_reformed_church_reform = {
 			NOT = { has_dlc = "Emperor" }
 		}
 		NOT = { religion = catholic }
+		NOT = { religion = catholique }
 		NOT = { religion = coptic }
+		NOT = { religion = fraticelli }
 		NOT = { religion = orthodox }
+		NOT = { religion = paulician }
+		NOT = { religion = iconoclast }
+		NOT = { religion = monothelite }
+		NOT = { religion = bogomilist }
 		religion_group = christian
 	}
 	modifiers = {
@@ -569,7 +593,7 @@ confucian_governing_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		religion = confucianism
+		religion = bogomilist
 	}
 	modifiers = {
 		church_influence_modifier = 0.1
@@ -598,11 +622,7 @@ empower_buddhist_temples_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		OR = {
-			religion = buddhism
-			religion = vajrayana
-			religion = mahayana
-		}
+		religion = buddhism
 	}
 	modifiers = {
 		church_influence_modifier = 0.1
@@ -633,7 +653,7 @@ public_hindu_practices_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		religion = hinduism
+		religion = hellenic
 	}
 	modifiers = {
 		church_influence_modifier = 0.1
@@ -674,30 +694,6 @@ strengthen_shaman_privileges_reform = {
 		custom_attributes = {
 			no_influence_from_fetishist_privileges = yes
 		}
-	}
-	
-	ai = {
-		factor = 1
-	}
-}
-
-abolished_caste_system_reform = {
-	icon = "indian_sultanate"
-	allow_normal_conversion = yes
-	potential = {
-		NOT = { has_government_attribute = is_pirate_republic_reform }
-		OR = {
-			is_revolutionary = no
-			NOT = { has_dlc = "Emperor" }
-		}
-		religion = sikhism
-	}
-	modifiers = {
-		all_estate_influence_modifier = -0.15
-		stability_cost_modifier = -0.2
-	}
-	custom_attributes = {
-		seizing_land_no_rebels = yes
 	}
 	
 	ai = {
@@ -797,7 +793,7 @@ state_and_shrines_intertwined_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		religion = shinto
+		religion = zikri
 	}
 	modifiers = {
 		church_loyalty_modifier = 0.15
@@ -847,16 +843,15 @@ strengthen_clergy_reform = {
 			is_revolutionary = no
 			NOT = { has_dlc = "Emperor" }
 		}
-		NOT = { religion = jewish }
-		NOT = { religion = zoroastrian }
-		NOT = { religion = hinduism }
-		NOT = { religion = sikhism }
+		NOT = { religion_group = jewish_group }
+		NOT = { religion = zoroastrian_group }
 		NOT = { religion_group = muslim }
 		NOT = { religion_group = christian }
 		NOT = { religion_group = eastern }
 		NOT = { religion = tengri_pagan_reformed }
 		NOT = { religion = shamanism }
 		NOT = { religion = norse_pagan_reformed }
+		NOT = { religion = hellenic }
 	}
 	modifiers = {
 		church_influence_modifier = 0.1

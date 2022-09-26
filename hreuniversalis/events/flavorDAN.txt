@@ -1734,9 +1734,7 @@ country_event = {
 #	}
 #}
 
-#101 removed
-
-#102 removed
+#101-102 removed
 
 #Ratification of the Kalmar Union
 # country_event = {
@@ -1768,7 +1766,7 @@ country_event = {
 		add_adm_power = 50
 		add_dip_power = 50
 		add_mil_power = 50
-		411 = { add_building = university }
+		411 = { add_latest_building = education }
 	}
 }
 
@@ -1792,56 +1790,15 @@ country_event = {
 		}
 		add_legitimacy = 100
 		add_prestige = 100
-		#custom_tooltip = allow_earlier_scandinavia_formation_tt
-		#hidden_effect = { set_country_flag = can_form_scandinavia_earlier }
+		custom_tooltip = allow_earlier_scandinavia_formation_tt
+		hidden_effect = { set_country_flag = can_form_scandinavia_earlier }
 		ai_chance = {
 			factor = 1
 		}
 	}
 }
 
-#The [Root.Capital.GetName] Bloodbath
-country_event = {
-	id = flavor_dan.106
-	title = "flavor_dan.106.t"
-	desc = "flavor_dan.106.desc"
-	picture = REVOLUTION_eventPicture
-	is_triggered_only = yes
-	trigger = {
-		is_subject = yes
-		overlord = { NOT = { has_country_flag = got_no_swedish_disloayalty_to_gotland } }
-	}
-	
-	option = {
-		name = "flavor_dan.106.a"
-		set_country_flag = dan_had_stockholm_bloodbath
-		FROM = { add_historical_rival = ROOT }
-		add_historical_rival = FROM
-		add_liberty_desire = -100
-		add_country_modifier = {
-			name = stockholm_bloodbath
-			duration = 36500
-		}
-		add_opinion = {
-			who = FROM
-			modifier = stockholm_bloodbath_opinion
-		}
-		add_opinion = {
-			who = FROM
-			modifier = stockholm_bloodbath_extra_opinion
-		}
-	}
-
-	after = {
-		FROM = {
-			country_event = {
-				id = flavor_dan.122
-			}
-		}
-	}
-}
-
-#107-108 removed
+#106-108 removed
 
 #The Succession Struggle of the Kalmar Union - Info event
 country_event = {
@@ -1851,7 +1808,7 @@ country_event = {
 	picture = BAD_WITH_MONARCH_eventPicture
 	fire_only_once = yes
 	trigger = {
-		started_in = 1444.11.11
+		started_in = 1389.2.24
 		has_government_attribute = kalmar_union_succession
 	}
 	mean_time_to_happen = {
@@ -1868,327 +1825,104 @@ country_event = {
 }
 
 #Denmark provokes a trade conflict
-# country_event = {
-# 	id = flavor_dan.110
-# 	title = flavor_dan.110.t
-# 	desc = flavor_dan.110.desc
-# 	picture = ACCUSATION_eventPicture	
-# 	is_triggered_only = yes
+country_event = {
+	id = flavor_dan.110
+	title = flavor_dan.110.t
+	desc = flavor_dan.110.desc
+	picture = ACCUSATION_eventPicture	
+	is_triggered_only = yes
 
-# 	immediate = { hidden_effect = { set_country_flag = dan_considers_war_with_denmark } }
-# 	after = { clr_country_flag = dan_considers_war_with_denmark }
+	immediate = { hidden_effect = { set_country_flag = dan_considers_war_with_denmark } }
+	after = { clr_country_flag = dan_considers_war_with_denmark }
 	
-# 	option = {	#That's it! We wage war with the Danes!
-# 		name = flavor_dan.110.a
-# 		declare_war_with_cb = {
-# 			casus_belli = cb_trade_conflict_triggered
-# 			who = FROM
-# 		}
-# 		if = {
-# 			limit = {
-# 				is_trade_league_leader = yes
-# 			}
-# 			custom_tooltip = flavor_dan.110.a.tt
-# 			hidden_effect = {
-# 				every_known_country = {
-# 					limit = {
-# 						is_in_trade_league_with = ROOT
-# 						NOT = { has_country_flag = dan_considers_war_with_denmark }
-# 					}
-# 					join_all_offensive_wars_of = ROOT
-# 				}
-# 			}
-# 		}
-# 		ai_chance = {
-# 			factor = 1
-# 			modifier = {
-# 				factor = 0
-# 				is_at_war = yes
-# 			}
-# 		}
-# 	}
+	option = {	#That's it! We wage war with the Danes!
+		name = flavor_dan.110.a
+		declare_war_with_cb = {
+			casus_belli = cb_trade_conflict_triggered
+			who = FROM
+		}
+		if = {
+			limit = {
+				is_trade_league_leader = yes
+			}
+			custom_tooltip = flavor_dan.110.a.tt
+			hidden_effect = {
+				every_known_country = {
+					limit = {
+						is_in_trade_league_with = ROOT
+						NOT = { has_country_flag = dan_considers_war_with_denmark }
+					}
+					join_all_offensive_wars_of = ROOT
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				is_at_war = yes
+			}
+		}
+	}
 	
-# 	option = {	#We cannot afford a conflict with Denmark...
-# 		name = flavor_dan.110.b
-# 		45 = {
-# 			add_trade_modifier = {
-# 				who = ROOT
-# 				duration = 18250
-# 				power = -15
-# 				key = dan_submitted_to_danish_trade_dominance_modifier
-# 			}
-# 		}
-# 		hidden_effect = {
-# 			set_country_flag = dan_submitted_to_danish_trade_dominance
-# 			FROM = {
-# 				country_event = {
-# 					id = flavor_dan.111
-# 				}
-# 			}
-# 		}
-# 		ai_chance = {
-# 			factor = 1
-# 			modifier = {
-# 				factor = 0
-# 				is_at_war = no
-# 			}
-# 		}
-# 	}
-# }
+	option = {	#We cannot afford a conflict with Denmark...
+		name = flavor_dan.110.b
+		13 = {
+			add_trade_modifier = {
+				who = ROOT
+				duration = 18250
+				power = -15
+				key = dan_submitted_to_danish_trade_dominance_modifier
+			}
+		}
+		hidden_effect = {
+			set_country_flag = dan_submitted_to_danish_trade_dominance
+			FROM = {
+				country_event = {
+					id = flavor_dan.111
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				is_at_war = no
+			}
+		}
+	}
+}
 
-# #[From.GetName] submits to Danish Trade Dominance
-# country_event = {
-# 	id = flavor_dan.111
-# 	title = flavor_dan.111.t
-# 	desc = flavor_dan.111.desc
-# 	picture = CONQUEST_eventPicture	
-# 	is_triggered_only = yes
+#[From.GetName] submits to Danish Trade Dominance
+country_event = {
+	id = flavor_dan.111
+	title = flavor_dan.111.t
+	desc = flavor_dan.111.desc
+	picture = CONQUEST_eventPicture	
+	is_triggered_only = yes
 	
-# 	option = {	#Excellent!
-# 		name = flavor_dan.111.a
-# 		tooltip = {
-# 			45 = {
-# 				add_trade_modifier = {
-# 					who = FROM
-# 					duration = 18250
-# 					power = -15
-# 					key = dan_submitted_to_danish_trade_dominance_modifier
-# 				}
-# 			}
-# 		}
-# 		FROM = {
-# 			custom_tooltip = dan_submitted_to_danish_trade_dominance_tt
-# 		}
-# 		ai_chance = {
-# 			factor = 1
-# 		}
-# 	}
-# }
+	option = {	#Excellent!
+		name = flavor_dan.111.a
+		tooltip = {
+			13 = {
+				add_trade_modifier = {
+					who = FROM
+					duration = 18250
+					power = -15
+					key = dan_submitted_to_danish_trade_dominance_modifier
+				}
+			}
+		}
+		FROM = {
+			custom_tooltip = dan_submitted_to_danish_trade_dominance_tt
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
 
-#Norway's Role in the Kalmar Union
-# country_event = {
-# 	id = flavor_dan.112
-# 	title = flavor_dan.112.t
-# 	desc = flavor_dan.112.desc
-# 	picture = NOBLE_ESTATE_eventPicture	
-# 	is_triggered_only = yes
-	
-# 	option = {	#Grant Norway a more important role in the Union
-# 		name = flavor_dan.112.a
-# 		add_country_modifier = {
-# 			name = dan_nor_equal_crowns
-# 			duration = -1
-# 			desc = dan_nor_equal_crowns_tt
-# 		}
-# 		NOR = {
-# 			add_country_modifier = {
-# 				name = dan_nor_equal_crowns_norway
-# 				duration = -1
-# 				desc = dan_nor_equal_crowns_tt
-# 			}
-# 		}
-# 		if = {
-# 			limit = {
-# 				NOR = { NOT = { historical_friend_with = ROOT } }
-# 			}
-# 			NOR = { add_historical_friend = ROOT }
-# 			add_historical_friend = NOR
-# 		}
-# 		ai_chance = {
-# 			factor = 0
-# 		}
-# 	}
-	
-# 	option = {	#Let's keep status quo
-# 		name = flavor_dan.112.b
-# 		add_dip_power = 100
-# 		ai_chance = {
-# 			factor = 1
-# 		}
-# 	}
-	
-# 	option = {	#Exploit the Norwegian Crown
-# 		name = flavor_dan.112.c
-# 		add_country_modifier = {
-# 			name = dan_exploiting_norwegians
-# 			duration = -1
-# 			desc = dan_nor_equal_crowns_tt
-# 		}
-# 		remove_historical_friend = NOR
-# 		add_historical_rival = NOR
-# 		NOR = { 
-# 			remove_historical_friend = ROOT
-# 			add_historical_rival = ROOT
-# 		}
-# 		ai_chance = {
-# 			factor = 0
-# 		}
-# 	}
-# }
-
-# #Merc Contracts for Denmark
-# country_event = {
-# 	id = flavor_dan.113
-# 	title = flavor_dan.113.t
-# 	desc = flavor_dan.113.desc
-# 	picture = DIPLOMACY_SIGNING_eventPicture
-# 	is_triggered_only = yes
-
-# 	immediate = {
-# 		hidden_effect = {
-# 			if = {
-# 				limit = { 61 = { OR = { country_or_non_sovereign_subject_holds = ROOT owner = { has_opinion = { who = ROOT value = 100 } } } } }
-# 				set_country_flag = 61_owner_allow_merc_company_flag
-# 			}
-# 			if = {
-# 				limit = { 1762 = { OR = { country_or_non_sovereign_subject_holds = ROOT owner = { has_opinion = { who = ROOT value = 100 } } } } }
-# 				set_country_flag = 1762_owner_allow_merc_company_flag
-# 			}
-# 			if = {
-# 				limit = { 70 = { OR = { country_or_non_sovereign_subject_holds = ROOT owner = { has_opinion = { who = ROOT value = 100 } } } } }
-# 				set_country_flag = 70_owner_allow_merc_company_flag
-# 			}
-# 			if = {
-# 				limit = { 4382 = { OR = { country_or_non_sovereign_subject_holds = ROOT owner = { has_opinion = { who = ROOT value = 100 } } } } }
-# 				set_country_flag = 4382_owner_allow_merc_company_flag
-# 			}
-# 			if = {
-# 				limit = { 90 = { OR = { country_or_non_sovereign_subject_holds = ROOT owner = { has_opinion = { who = ROOT value = 100 } } } } }
-# 				set_country_flag = 90_owner_allow_merc_company_flag
-# 			}
-# 			if = {
-# 				limit = { 41 = { OR = { country_or_non_sovereign_subject_holds = ROOT owner = { has_opinion = { who = ROOT value = 100 } } } } }
-# 				set_country_flag = 41_owner_allow_merc_company_flag
-# 			}
-# 			if = {
-# 				limit = { 165 = { OR = { country_or_non_sovereign_subject_holds = ROOT owner = { has_opinion = { who = ROOT value = 100 } } } } }
-# 				set_country_flag = 165_owner_allow_merc_company_flag
-# 			}
-# 			if = {
-# 				limit = { 4758 = { OR = { country_or_non_sovereign_subject_holds = ROOT owner = { has_opinion = { who = ROOT value = 100 } } } } }
-# 				set_country_flag = 4758_owner_allow_merc_company_flag
-# 			}
-# 		}
-# 	}
-
-# 	option = {
-# 		name = flavor_dan.113.a
-# 		if = {
-# 			limit = { has_country_flag = 61_owner_allow_merc_company_flag }
-# 			clr_country_flag = 61_owner_allow_merc_company_flag
-# 			unlock_merc_company = {
-# 				merc_company = merc_schwarze_garde
-# 			}
-# 		}
-# 		if = {
-# 			limit = { has_country_flag = 1762_owner_allow_merc_company_flag }
-# 			clr_country_flag = 1762_owner_allow_merc_company_flag
-# 			unlock_merc_company = {
-# 				merc_company = merc_hessian_jaegerkorps
-# 			}
-# 		}
-# 		if = {
-# 			limit = { has_country_flag = 70_owner_allow_merc_company_flag }
-# 			clr_country_flag = 70_owner_allow_merc_company_flag
-# 			unlock_merc_company = {
-# 				merc_company = merc_doppelsoeldner
-# 			}
-# 		}
-# 		if = {
-# 			limit = { has_country_flag = 4382_owner_allow_merc_company_flag }
-# 			clr_country_flag = 4382_owner_allow_merc_company_flag
-# 			unlock_merc_company = {
-# 				merc_company = merc_frisian_free_company
-# 			}
-# 		}
-# 		if = {
-# 			limit = { has_country_flag = 90_owner_allow_merc_company_flag }
-# 			clr_country_flag = 90_owner_allow_merc_company_flag
-# 			unlock_merc_company = {
-# 				merc_company = merc_flemish_company
-# 			}
-# 		}
-# 		if = {
-# 			limit = { has_country_flag = 41_owner_allow_merc_company_flag }
-# 			clr_country_flag = 41_owner_allow_merc_company_flag
-# 			unlock_merc_company = {
-# 				merc_company = merc_prussian_volunteer_army
-# 				free_merc = yes
-# 			}
-# 		}
-# 		if = {
-# 			limit = { has_country_flag = 165_owner_allow_merc_company_flag }
-# 			clr_country_flag = 165_owner_allow_merc_company_flag
-# 			unlock_merc_company = {
-# 				merc_company = merc_reislaufer
-# 			}
-# 		}
-# 		if = {
-# 			limit = { has_country_flag = 4758_owner_allow_merc_company_flag }
-# 			clr_country_flag = 4758_owner_allow_merc_company_flag
-# 			unlock_merc_company = {
-# 				merc_company = merc_tyrolean_guard
-# 			}
-# 		}
-# 		add_country_modifier = {
-# 			name = dan_sca_merc_contract
-# 			duration = -1
-# 		}
-# 		if = {
-# 			limit = { has_dlc = "Cradle of Civilization" }
-# 			custom_tooltip = dan_sca_merc_contract_tt
-# 		}
-# 	}
-# }
-
-# #Sweden's Role in the Kalmar Union
-# country_event = {
-# 	id = flavor_dan.114
-# 	title = flavor_dan.114.t
-# 	desc = flavor_dan.114.desc
-# 	picture = NOBLE_ESTATE_DEMANDS_eventPicture	
-# 	is_triggered_only = yes
-	
-# 	option = {	#Grant Sweden a more important role in the Union
-# 		name = flavor_dan.114.a
-# 		add_country_modifier = {
-# 			name = dan_swe_supports_pro_unionists
-# 			duration = -1
-# 			desc = dan_swe_supports_pro_unionists_tt
-# 		}
-# 		SWE = {
-# 			add_country_modifier = {
-# 				name = dan_swe_supported_unionists
-# 				duration = -1
-# 			}
-# 		}
-# 		ai_chance = {
-# 			factor = 0
-# 		}
-# 	}
-	
-# 	option = {	#Let's keep status quo
-# 		name = flavor_dan.114.b
-# 		add_adm_power = 100
-# 		ai_chance = {
-# 			factor = 0
-# 		}
-# 	}
-	
-# 	option = {	#Exploit the Swedish Crown
-# 		name = flavor_dan.114.c
-# 		add_country_modifier = {
-# 			name = dan_exploiting_swedes
-# 			duration = -1
-# 			desc = dan_swe_supports_pro_unionists_tt
-# 		}
-# 		add_historical_rival = SWE
-# 		SWE = { add_historical_rival = ROOT }
-# 		ai_chance = {
-# 			factor = 1
-# 		}
-# 	}
-# }
+#112-114 removed
 
 #Sweden's Dream of Independence
 country_event = {
@@ -2206,7 +1940,6 @@ country_event = {
 		is_subject_of = DAN
 		is_year = 1450
 		current_age = age_of_discovery
-		overlord = { NOT = { has_country_flag = got_no_swedish_disloayalty_to_gotland } }
 	}
 	mean_time_to_happen = {
 		months = 60
@@ -2243,7 +1976,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		overlord_of = SWE
-		NOT = { has_country_flag = got_no_swedish_disloayalty_to_gotland }
 	}
 	
 	option = {
@@ -2402,7 +2134,7 @@ country_event = {
 		name = "flavor_dan.119.a"
 		set_capital = 236
 		add_accepted_culture = english
-		236 = {
+		2268 = {
 			add_base_tax = 3
 			add_base_production = 3
 			add_base_manpower = 2
@@ -2419,145 +2151,7 @@ country_event = {
 	}
 }
 
-# Loss of the English Channel Trade
-country_event = {
-	id = flavor_dan.120
-	title = "flavor_dan.120.t"
-	desc = "flavor_dan.120.desc"
-	picture = BUCCANEERS_eventPicture
-	trigger = {
-		has_country_modifier = dan_control_over_the_english_channel
-		NOT = {
-			1269 = {
-				trade_share = {
-					country = ROOT
-					share = 1
-				}
-			}
-		}
-	}
-	mean_time_to_happen = {
-		months = 1
-	}
-	fire_only_once = yes
-	
-	option = {	#Darn
-		name = "flavor_dan.120.a"
-		remove_country_modifier = dan_control_over_the_english_channel
-	}
-}
-
-#Remove subject related modifiers when they are no longer applicable
-country_event = {
-	id = flavor_dan.121
-	title = none
-	desc = none
-	picture = none
-	hidden = yes
-	trigger = {
-		OR = {
-			AND = {
-				OR = {
-					has_country_modifier = dan_swe_supports_pro_unionists
-					has_country_modifier = dan_exploiting_swedes
-				}
-				SWE = {
-					OR = {
-						NOT = { is_subject_of = ROOT }
-						is_lesser_in_union = no
-					}
-				}
-			}
-			AND = {
-				OR = {
-					has_country_modifier = dan_nor_equal_crowns
-					has_country_modifier = dan_exploiting_norwegians
-				}
-				NOR = {
-					OR = {
-						NOT = { is_subject_of = ROOT }
-						is_lesser_in_union = no
-					}
-				}
-			}
-		}
-	}
-	mean_time_to_happen = {
-		months = 1
-	}
-	
-	option = {
-		if = {
-			limit = {
-				OR = {
-					has_country_modifier = dan_swe_supports_pro_unionists
-					has_country_modifier = dan_exploiting_swedes
-				}
-				SWE = {
-					OR = {
-						NOT = { is_subject_of = ROOT }
-						is_lesser_in_union = no
-					}
-				}
-			}
-			remove_country_modifier = dan_swe_supports_pro_unionists
-			remove_country_modifier = dan_exploiting_swedes
-			SWE = { remove_country_modifier = dan_swe_supported_unionists }
-		}
-		if = {
-			limit = {
-				OR = {
-					has_country_modifier = dan_nor_equal_crowns
-					has_country_modifier = dan_exploiting_norwegians
-				}
-				NOR = {
-					OR = {
-						NOT = { is_subject_of = ROOT }
-						is_lesser_in_union = no
-					}
-				}
-			}
-			remove_country_modifier = dan_nor_equal_crowns
-			remove_country_modifier = dan_exploiting_norwegians
-			NOR = { remove_country_modifier = dan_nor_equal_crowns_norway }
-		}
-		ai_chance = {
-			factor = 1
-		}
-	}
-}
-
-# Consequences of the Stockholm Bloodbath
-country_event = {
-	id = flavor_dan.122
-	title = "flavor_dan.122.t"
-	desc = "flavor_dan.122.desc"
-	picture = REVOLUTION_eventPicture
-	is_triggered_only = yes
-	
-	option = {	#Keeping them loyal will be impossible now...
-		name = "flavor_dan.122.a"
-		tooltip = {
-			FROM = {
-				add_historical_rival = ROOT
-				add_liberty_desire = -100
-				add_country_modifier = {
-					name = stockholm_bloodbath
-					duration = 36500
-				}
-				add_opinion = {
-					who = ROOT
-					modifier = stockholm_bloodbath_opinion
-				}
-				add_opinion = {
-					who = ROOT
-					modifier = stockholm_bloodbath_extra_opinion
-				}
-			}
-			add_historical_rival = FROM
-		}
-	}
-}
+# 120-122 removed
 
 # The last Pretender Rebellions of Sweden
 country_event = {
@@ -2623,8 +2217,6 @@ country_event = {
 	
 	option = {	#The time for Mercs is long over
 		name = flavor_dan.124.b
-		remove_country_modifier = dan_sca_merc_contract
-		remove_country_modifier = dan_sca_grand_merc_army
 		add_country_modifier = {
 			name = dan_sca_refocus_on_personal_armies
 			duration = -1
