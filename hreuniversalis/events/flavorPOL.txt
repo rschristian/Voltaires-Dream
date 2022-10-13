@@ -2229,6 +2229,21 @@ country_event = { #The Constitution of [GetYear]
 				}
 				factor = 1.5 
 			}
+			modifier = {
+				PLC = { diplomatic_ideas = 2 } 
+				factor = 1.5
+			}
+			modifier = { 
+				PLC = { influence_ideas = 2 } 
+				factor = 1.5
+			}
+			modifier = { 
+				trust = { 
+					who = PLC 
+					value = 100 
+				}
+				factor = 1.5 
+			}
 		}
 		if = { 
 			limit = {
@@ -2252,11 +2267,23 @@ country_event = { #The Constitution of [GetYear]
 				desc = pol_as_long_as_allies_or_subjects
 			}
 		}
-		POL = { 
-			add_country_modifier = {
-				name = pol_polish_bohemian_ties_modifier
-				duration = -1 
-				desc = pol_as_long_as_allies_or_subjects
+		if = { 
+			limit = { exists = POL }
+			POL = { 
+				add_country_modifier = {
+					name = pol_polish_bohemian_ties_modifier
+					duration = -1 
+					desc = pol_as_long_as_allies_or_subjects
+				}
+			}
+		}
+		else = {
+			PLC = {
+				add_country_modifier = {
+					name = pol_polish_bohemian_ties_modifier
+					duration = -1 
+					desc = pol_as_long_as_allies_or_subjects
+				}
 			}
 		}
 	}
@@ -2266,14 +2293,29 @@ country_event = { #The Constitution of [GetYear]
 		
 		ai_chance = { factor = 0 } 
 		remove_historical_friend = POL 
-		POL = { 
-			remove_historical_friend = ROOT 
-			add_casus_belli = {
-				type = cb_restore_personal_union
-				months = 300
-				target = BOH
+		if = { 
+			limit = { exists = POL }
+			remove_historical_friend = POL 
+			POL = { 
+				remove_historical_friend = ROOT 
+				add_casus_belli = {
+					type = cb_restore_personal_union
+					months = 300
+					target = BOH
+				} 
 			} 
-		} 
+		}
+		else = {
+			remove_historical_friend = PLC 
+			PLC = { 
+				remove_historical_friend = ROOT 
+				add_casus_belli = {
+					type = cb_restore_personal_union
+					months = 300
+					target = BOH
+				} 
+			} 
+		}
 	}
 }		
 
@@ -2309,6 +2351,21 @@ country_event = { #Polish-Hungarian Ties
 				}
 				factor = 1.5 
 			}
+			modifier = {
+				PLC = { diplomatic_ideas = 2 } 
+				factor = 1.5
+			}
+			modifier = { 
+				PLC = { influence_ideas = 2 } 
+				factor = 1.5
+			}
+			modifier = { 
+				trust = { 
+					who = PLC 
+					value = 100 
+				}
+				factor = 1.5 
+			}
 		}
 		if = { 
 			limit = {
@@ -2331,10 +2388,21 @@ country_event = { #Polish-Hungarian Ties
 				duration = 9125
 			}
 		}
-		POL = { 
-			add_country_modifier = {
-				name = pol_polish_hungarian_ties_modifier
-				duration = 9125
+		if = {
+			limit = { exists = POL }
+			POL = { 
+				add_country_modifier = {
+					name = pol_polish_hungarian_ties_modifier
+					duration = 9125
+				}
+			}
+		}
+		else = {
+			PLC = {
+				add_country_modifier = {
+					name = pol_polish_hungarian_ties_modifier
+					duration = 9125
+				}
 			}
 		}
 	}
@@ -2344,14 +2412,27 @@ country_event = { #Polish-Hungarian Ties
 		
 		ai_chance = { factor = 0 } 
 		remove_historical_friend = POL 
-		POL = { 
-			remove_historical_friend = ROOT 
-			add_casus_belli = {
-				type = cb_restore_personal_union
-				months = 300
-				target = HUN
+		if = {
+			limit = { exists = POL }
+			POL = { 
+				remove_historical_friend = ROOT 
+				add_casus_belli = {
+					type = cb_restore_personal_union
+					months = 300
+					target = HUN
+				} 
 			} 
-		} 
+		}
+		else = {
+			PLC = { 
+				remove_historical_friend = ROOT 
+				add_casus_belli = {
+					type = cb_restore_personal_union
+					months = 300
+					target = HUN
+				} 
+			}
+		}
 	}
 }
 
@@ -2622,7 +2703,10 @@ country_event = { #The Crown of Rome
 			set_country_flag = is_LAE_flag
 			hidden_effect = { 
 				every_owned_province = { 
-					limit = { has_owner_religion = no } 
+					limit = {
+						region = balkan_region
+						has_owner_religion = no 
+					} 
 					change_religion = catholic 
 					change_culture = ROOT
 				}

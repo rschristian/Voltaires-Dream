@@ -2740,6 +2740,18 @@ estate_burghers_enforced_interfaith_dialogue = {
 		tolerance_heathen = 2
 		tolerance_heretic = 2
 	}
+	conditional_modifier = {
+		trigger = { NOT = { has_government_attribute = enforced_interfaith_dialogue_buff } }
+		modifier = {
+			church_loyalty_modifier = -0.1
+		}
+	}
+	conditional_modifier = {
+		trigger = { has_government_attribute = enforced_interfaith_dialogue_buff }
+		modifier = {
+			max_absolutism = 5
+		}
+	}
 	ai_will_do = {
 		factor = 0
 	}
@@ -8740,7 +8752,25 @@ estate_church_karma_temples = {
 	can_select = {
 	}
 	on_granted = {
-		custom_tooltip = estate_church_karma_temples_tt
+		if = {
+			limit = {
+				has_government_attribute = buffed_monastic_temples
+			}
+			custom_tooltip = estate_church_karma_temples_ct
+		}
+		else = {
+			custom_tooltip = estate_church_karma_temples_tt
+		}
+	}
+	conditional_modifier = {
+		trigger = {
+			has_government_attribute = buffed_monastic_temples
+		}
+		modifier = {
+			max_absolutism = 5
+			church_influence_modifier = -0.1
+			yearly_karma_decay = 0.03
+		}
 	}
 	penalties = {
 	}
@@ -10153,7 +10183,14 @@ estate_burghers_orthodox_tolerance = {
 	loyalty = 0.05
 	influence = 0.05
 	is_valid = {
-		has_unlocked_estate_privilege = { estate_privilege = estate_burghers_orthodox_tolerance }
+		religion_group = christian
+		NOT = { religion = orthodox }
+		NOT = { religion = coptic }
+		NOT = { religion = nestorian }
+		NOT = { religion = paulician }
+		NOT = { religion = monothelite }
+		NOT = { religion = iconoclast }
+		NOT = { religion = bogomilist }
 	}
 	can_select = {
 		religion_group = christian
