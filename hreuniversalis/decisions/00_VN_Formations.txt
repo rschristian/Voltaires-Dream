@@ -3165,9 +3165,17 @@ country_decisions = {
 			custom_tooltip = normand_english_tooltip
 			hidden_effect = {
 				remove_non_electors_emperors_from_empire_effect = yes
-				every_country = {
-					limit = { overlord_of = NRM }
-					free_vassal = NRM
+				overlord = { free_vassal = NRM }
+				ASE = {
+					every_subject_country = {
+						limit = { is_lesser_in_union = yes }
+						set_country_flag = was_ase_junior
+					}
+					every_subject_country = {
+						limit = { is_lesser_in_union = no }
+						set_country_flag = was_ase_vassal
+					}
+					grant_independence = yes
 				}
 				free_vassal = XEV
 				free_vassal = ALE
@@ -3180,27 +3188,7 @@ country_decisions = {
 					change_government = monarchy
 					add_government_reform = feudalism_reform
 				}
-				add_country_modifier = {
-					name = nrm_invasion_m
-					duration = -1
-					hidden = yes
-				}
-				#inherit = ASE
-				ASE = {
-					grant_independence = yes
-					every_subject_country = {
-						limit = { is_lesser_in_union = yes }
-						set_country_flag = was_ase_junior
-					}
-					every_subject_country = {
-						limit = { is_lesser_in_union = no }
-						set_country_flag = was_ase_vassal
-					}
-					every_owned_province = {
-						cede_province = ENG
-						add_core = ENG
-					}
-				}
+				ENG = { inherit = ASE }
 				every_province = {
 					remove_core = ASE
 					remove_core = WSX
@@ -3208,7 +3196,7 @@ country_decisions = {
 					discover_country = ENG
 				}
 				exile_heir_as = nrm_conquest_heir
-				exile_ruler_as = nrm_conquest_ruler
+				exile_ruler_as = { name = nrm_conquest_ruler }
 				switch_tag = ENG
 				set_capital = 2268
 				set_ruler = nrm_conquest_ruler
@@ -3221,43 +3209,30 @@ country_decisions = {
 				}
 				every_country = {
 					limit = { has_country_flag = was_ase_junior }
-					ROOT = { create_union = PREV }
+					ENG = { create_union = PREV }
 					add_liberty_desire = -50
 				}
 				every_country = {
 					limit = { has_country_flag = was_ase_vassal }
-					ROOT = { vassalize = PREV }
+					ENG = { vassalize = PREV }
 					add_liberty_desire = -50
 				}
-				#every_owned_province = {
-				#	limit = {
-				#		OR = {
-				#			superregion = french_superregion
-				#			superregion = burgundian_superregion
-				#		}
-				#	}
-				#	remove_core = ENG
-				#	add_core = NRM
-				#	cede_province = NRM
-				#}
 				create_union = NRM
 				NRM = {
-					change_primary_culture = normand
-					set_capital = 1172
-					swap_non_generic_missions = yes
 					add_liberty_desire = -50
 					complete_mission = vn_nrm_english_succession
 					complete_mission = vn_nrm_alea_iacta_est
 					complete_mission = vn_nrm_subjugate_england
 				}
+				add_country_modifier = {
+					name = nrm_invasion_m
+					duration = -1
+					hidden = yes
+				}
 			}
-			ENG = {
-				swap_non_generic_missions = yes
-				change_primary_culture = english
-				2268 = { change_culture = english }
-				add_legitimacy = -20
-				add_prestige = 25
-			}
+			2268 = { change_culture = english }
+			add_legitimacy = -20
+			add_prestige = 25
 		}
 		ai_will_do = {
 			factor = 1
