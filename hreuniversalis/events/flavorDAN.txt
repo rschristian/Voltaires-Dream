@@ -1692,64 +1692,64 @@ country_event = {
 ########################################
 
 #Rebellious Pretenders! - Triggers every 3 years
-#country_event = {
-#	id = flavor_dan.100
-#	title = "flavor_dan.100.t"
-#	desc = "flavor_dan.100.desc"
-#	picture = ANGRY_MOB_eventPicture
-#	is_triggered_only = yes
-#	trigger = {
-#		has_dlc = "Lions of the North"
-#		NOT = { has_country_flag = dan_no_more_swedish_rebels }
-#		has_reform = kalmar_union
-#		SWE = { is_subject_of = ROOT }
-#	}
-#	mean_time_to_happen = {
-#		days = 1
-#	}
-#	
-#	option = {
-#		name = "flavor_dan.100.a"
-#		SWE = {
-#			capital_scope = {
-#				spawn_rebels = {
-#					type = pretender_rebels
-#					size = 2
-#					friend = SWE
-#				}
-#			}
-#			random_owned_province = {
-#				limit = { is_capital = no }
-#				spawn_rebels = {
-#					type = pretender_rebels
-#					size = 1
-#					friend = SWE
-#				}
-#			}
-#		}
-#
-#		ai_chance = {
-#			factor = 1
-#		}
-#	}
-#}
+# country_event = {
+# 	id = flavor_dan.100
+# 	title = "flavor_dan.100.t"
+# 	desc = "flavor_dan.100.desc"
+# 	picture = ANGRY_MOB_eventPicture
+# 	is_triggered_only = yes
+# 	trigger = {
+# 		has_dlc = "Lions of the North"
+# 		NOT = { has_country_flag = dan_no_more_swedish_rebels }
+# 		has_reform = kalmar_union
+# 		SWE = { is_subject_of = ROOT }
+# 	}
+# 	mean_time_to_happen = {
+# 		days = 1
+# 	}
+	
+# 	option = {
+# 		name = "flavor_dan.100.a"
+# 		SWE = {
+# 			capital_scope = {
+# 				spawn_rebels = {
+# 					type = pretender_rebels
+# 					size = 2
+# 					friend = SWE
+# 				}
+# 			}
+# 			random_owned_province = {
+# 				limit = { is_capital = no }
+# 				spawn_rebels = {
+# 					type = pretender_rebels
+# 					size = 1
+# 					friend = SWE
+# 				}
+# 			}
+# 		}
+
+# 		ai_chance = {
+# 			factor = 1
+# 		}
+# 	}
+# }
 
 #101-102 removed
 
 #Ratification of the Kalmar Union
-# country_event = {
-# 	id = flavor_dan.103
-# 	title = "flavor_dan.103.t"
-# 	desc = "flavor_dan.103.desc"
-# 	picture = DEBATE_REPUBLICAN_eventPicture
-# 	is_triggered_only = yes
+country_event = {
+	id = flavor_dan.103
+	title = "flavor_dan.103.t"
+	desc = "flavor_dan.103.desc"
+	picture = DEBATE_REPUBLICAN_eventPicture
+	is_triggered_only = yes
 	
-# 	option = {
-# 		name = "flavor_dan.103.a"
-# 		remove_government_reform = kalmar_union
-# 		add_government_reform = danish_archkingdom
-# 	}
-# }
+	option = {
+		name = "flavor_dan.103.a"
+		remove_government_reform = kalmar_union
+		add_government_reform = danish_archkingdom
+	}
+}
 
 #University of Kobenhavn
 country_event = {
@@ -1922,7 +1922,117 @@ country_event = {
 	}
 }
 
-#112-114 removed
+#Norway's Role in the Kalmar Union
+country_event = {
+	id = flavor_dan.112
+	title = flavor_dan.112.t
+	desc = flavor_dan.112.desc
+	picture = NOBLE_ESTATE_eventPicture	
+	is_triggered_only = yes
+	
+	option = {	#Grant Norway a more important role in the Union
+		name = flavor_dan.112.a
+		add_country_modifier = {
+			name = dan_nor_equal_crowns
+			duration = -1
+			desc = dan_nor_equal_crowns_tt
+		}
+		NOR = {
+			add_country_modifier = {
+				name = dan_nor_equal_crowns_norway
+				duration = -1
+				desc = dan_nor_equal_crowns_tt
+			}
+		}
+		if = {
+			limit = {
+				NOR = { NOT = { historical_friend_with = ROOT } }
+			}
+			NOR = { add_historical_friend = ROOT }
+			add_historical_friend = NOR
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+	
+	option = {	#Let's keep status quo
+		name = flavor_dan.112.b
+		add_dip_power = 100
+		ai_chance = {
+			factor = 1
+		}
+	}
+	
+	option = {	#Exploit the Norwegian Crown
+		name = flavor_dan.112.c
+		add_country_modifier = {
+			name = dan_exploiting_norwegians
+			duration = -1
+			desc = dan_nor_equal_crowns_tt
+		}
+		remove_historical_friend = NOR
+		add_historical_rival = NOR
+		NOR = { 
+			remove_historical_friend = ROOT
+			add_historical_rival = ROOT
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+#113 removed
+
+#Sweden's Role in the Kalmar Union
+country_event = {
+	id = flavor_dan.114
+	title = flavor_dan.114.t
+	desc = flavor_dan.114.desc
+	picture = NOBLE_ESTATE_DEMANDS_eventPicture	
+	is_triggered_only = yes
+	
+	option = {	#Grant Sweden a more important role in the Union
+		name = flavor_dan.114.a
+		add_country_modifier = {
+			name = dan_swe_supports_pro_unionists
+			duration = -1
+			desc = dan_swe_supports_pro_unionists_tt
+		}
+		SWE = {
+			add_country_modifier = {
+				name = dan_swe_supported_unionists
+				duration = -1
+			}
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+	
+	option = {	#Let's keep status quo
+		name = flavor_dan.114.b
+		add_adm_power = 100
+		ai_chance = {
+			factor = 0
+		}
+	}
+	
+	option = {	#Exploit the Swedish Crown
+		name = flavor_dan.114.c
+		add_country_modifier = {
+			name = dan_exploiting_swedes
+			duration = -1
+			desc = dan_swe_supports_pro_unionists_tt
+		}
+		add_historical_rival = SWE
+		SWE = { add_historical_rival = ROOT }
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
 
 #Sweden's Dream of Independence
 country_event = {
@@ -2132,7 +2242,7 @@ country_event = {
 	
 	option = {	#Make London to our new Capital!
 		name = "flavor_dan.119.a"
-		set_capital = 236
+		set_capital = 2268
 		add_accepted_culture_or_dip_power = {
 			culture = english
 		}

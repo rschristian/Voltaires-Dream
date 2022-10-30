@@ -1123,8 +1123,8 @@ vn_swe_missions_slot_3_a = {
 			if = {
 				limit = {
 					has_dlc = "Lions of the North"
-					country_event = { id = flavor_swe.109 }
 				}
+				country_event = { id = flavor_swe.109 }
 			}
 			else = {
 				add_country_modifier = {
@@ -1485,9 +1485,14 @@ vn_swe_missions_slot_4_a = {
 			}
         }
         effect = {
-			add_country_modifier = {
-				name = "swe_conquer_finland_mission"
-				duration = 9125
+			if = {
+				limit = {
+					has_dlc = "Lions of the North"
+					unlock_merc_company = {
+						merc_company = merc_hakkapeliita_cavalry
+						free_merc = yes
+					}
+				}
 			}
 			vyborg_area = {
 				limit = {
@@ -1509,6 +1514,10 @@ vn_swe_missions_slot_4_a = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "swe_conquer_finland_mission"
+				duration = 9125
 			}
         }
 	}
@@ -1724,6 +1733,19 @@ vn_swe_missions_slot_4_c = {
         icon = mission_ottoman_diplomacy 
         position = 10
         required_missions = { vn_swe_wars_with_poland }
+		provinces_to_highlight = {
+			if = {
+				limit = { exists = TUR }
+				is_capital_of = TUR
+			}
+			else = {
+				owner = {
+					NOT = { tag = ROOT }
+					primary_culture = turkish
+				}
+				is_capital = yes
+			}
+		}
         trigger = {
 			if = {
 				limit = { exists = TUR }
@@ -2036,6 +2058,12 @@ vn_swe_missions_slot_5_b = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				unlock_estate_privilege = {
+					estate_privilege = estate_burghers_forest_expansion
+				}
+			}
 			custom_tooltip = vn_swe_swedish_settlement.tt
 			hidden_effect = {
 				finland_region = {
