@@ -1,0 +1,362 @@
+VN_latvian_missions = {
+	slot = 5
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			primary_culture = latvian
+			primary_culture = selonian
+			primary_culture = semigallian
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+
+	vn_latvian_agriculture = {
+		position = 5
+		icon = mission_peasantry
+		required_missions = { }
+		trigger = {
+			reform_level = 3
+			num_of_owned_provinces_with = {
+				value = 2
+				OR = {
+					has_building = native_irrigation 
+					has_production_building_trigger = yes
+				}
+			}
+		}
+		effect = {
+			add_years_of_income = 1
+			add_country_modifier = {
+				name = latvian_agriculture_mission
+				duration = 9125
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	vn_foreign_merchants_in_latvia = {
+		icon = mission_lit_reform_magdeburg_laws
+		required_missions = { vn_latvian_agriculture }
+		provinces_to_highlight = {
+			province_id = 5793
+			NOT = {
+				trade_share = {
+					country = ROOT
+					share = 15
+				}
+			}
+		}
+		trigger = {
+			5793 = {
+				trade_share = {
+					country = ROOT
+					share = 15
+				}
+			}
+			capital_scope = {
+				base_production = 4
+			}
+		}
+		effect = {
+			add_mercantilism = 2
+			define_advisor = {
+				type = trader
+				skill = 2
+				culture = english
+				religion = catholic
+				cost_multiplier = 0.25
+			}
+			custom_tooltip = vn_foreign_merchants_in_latvia.tt
+			hidden_effect = {
+				every_province = {
+					limit = {
+						OR = {
+							culture = lithuanian
+							culture = samogitian
+							culture = sudovian
+						}
+						continent = europe
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+	vn_lithuanian_diplomacy = {
+		icon = mission_diplomatic_relation
+		required_missions = { vn_foreign_merchants_in_latvia }
+		provinces_to_highlight = {
+			OR = {
+				culture = lithuanian
+				culture = samogitian
+				culture = sudovian
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			owner = { NOT = { alliance_with = ROOT } }
+		}
+		trigger = {
+			OR = {
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					OR = {
+						culture = lithuanian
+						culture = samogitian
+						culture = sudovian
+					}
+					value = 10
+				}
+				custom_trigger_tooltip = {
+					tooltip = vn_lithuanian_diplomacy.tt
+					any_ally = {
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+						trust = {
+							who = ROOT
+							value = 70
+						}
+						OR = {
+							primary_culture = lithuanian
+							primary_culture = samogitian
+							primary_culture = sudovian
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = vn_lithuanian_diplomacy.ss
+            tooltip = {
+				add_dip_power = 100
+				add_prestige = 10
+            }
+            custom_tooltip = vn_lithuanian_diplomacy.rr
+            tooltip = {
+				add_mil_power = 100
+                add_army_tradition = 10
+            }
+			hidden_effect = {
+				if = {
+					limit = {
+						any_ally = {
+							has_opinion = {
+								who = ROOT
+								value = 100
+							}
+							trust = {
+								who = ROOT
+								value = 70
+							}
+							OR = {
+								primary_culture = lithuanian
+								primary_culture = samogitian
+								primary_culture = sudovian
+							}
+						}
+					}
+					add_dip_power = 100
+					add_prestige = 10
+				}
+				else = {
+					add_mil_power = 100
+                	add_army_tradition = 10
+				}
+			}
+		}
+	}
+	vn_chanting_dainos = {
+		icon = mission_zim_cults
+		required_missions = { vn_lithuanian_diplomacy }
+		trigger = {
+			if = {
+				limit = {
+					has_dlc = "Wealth of Nations"
+					OR = {
+						religion = dievturiba
+						religion = animism
+						religion = druwi
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = vn_chanting_dainos.tt
+					OR = {
+						has_personal_deity = dievs
+						has_personal_deity = mara
+						has_personal_deity = karta
+						has_personal_deity = udens
+						has_personal_deity = juras
+						has_personal_deity = upes
+						has_personal_deity = potrimpo
+						has_personal_deity = autrimpo
+						has_personal_deity = peckols
+						has_personal_deity = occopirmo
+						has_personal_deity = suaixtix
+						has_personal_deity = piluuyto
+						has_personal_deity = dievs
+						has_personal_deity = mara
+						has_personal_deity = karta
+						has_personal_deity = udens
+						has_personal_deity = juras
+						has_personal_deity = upes
+					}
+				}
+			}
+			else = {
+				NOT = { corruption = 1 }
+			}
+			stability = 2
+			NOT = { num_of_rebel_armies = 1 }
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+			prestige = 30
+		}
+		effect = {
+			add_splendor = 100
+			add_country_modifier = {
+				name = chanting_dainos_mission
+				duration = 36500
+			}
+		}
+	}
+	vn_hill_forts = {
+		icon = mission_se_platform_mounds
+		required_missions = { }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 2
+				OR = {
+					has_building = native_earthwork
+					has_fort_trigger = yes
+				}
+			}
+		}
+		effect = {
+			livonia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			estonia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			add_country_modifier = {
+				name = hill_forts_mission
+				duration = 9125
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	vn_defeat_the_livs = {
+		icon = mission_crusade_for_varna
+		required_missions = { vn_hill_forts }
+		provinces_to_highlight = {
+			OR = {
+				region = livonia_region
+				region = estonia_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			livonia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			estonia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			polotsk_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			pskov_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			opochka_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			livonia_region = {
+				add_nationalism = -5
+				add_province_modifier = {
+					name = defeat_the_livs_mission
+					duration = 9125
+				}
+			}
+			estonia_region = {
+				add_nationalism = -5
+				add_province_modifier = {
+					name = defeat_the_livs_mission
+					duration = 9125
+				}
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	vn_conquer_polotsk = {
+		icon = mission_plc_break_the_rus
+		required_missions = { vn_defeat_the_livs }
+		provinces_to_highlight = {
+			OR = {
+				region = polotsk_region
+				area = pskov_area
+				area = opochka_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			polotsk_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			pskov_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			opochka_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_reform_progress_big_effect = yes
+			ruthenia_superregion = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			add_country_modifier = {
+				name = conquer_polotsk_mission
+				duration = -1
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+}

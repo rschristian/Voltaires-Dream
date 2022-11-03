@@ -1,0 +1,345 @@
+VN_curonian_missions = {
+	slot = 5
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			primary_culture = curonian
+			primary_culture = pruthenian
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+
+	vn_venetration_of_romuva = {
+		position = 5
+		icon = mission_se_birdmen
+        required_missions = {  }
+		trigger = {
+			is_at_war = no
+			capital_scope = {
+				OR = {
+					has_building = native_ceremonial_fire_pit
+					has_tax_building_trigger = yes
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						religion = animism
+						religion = druwi
+						religion = dievturiba
+					}
+					owns = 4825
+				}
+				capital_scope = {
+					add_base_tax = 2
+				}
+			}
+			else_if = {
+				limit = {
+					OR = {
+						religion = animism
+						religion = druwi
+						religion = dievturiba
+					}
+				}
+				capital_scope = {
+					add_base_tax = 1
+				}
+				4825 = {
+					add_permanent_claim = ROOT		
+				}
+			}
+			add_country_modifier = {
+				name = venetration_of_romuva_mission
+				duration = 9125
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	vn_viking_relations = {
+		icon = mission_modernized_vikings
+        required_missions = { vn_venetration_of_romuva }
+		provinces_to_highlight = {
+			owner = {
+				capital_scope = {
+					superregion = scandinavia_superregion
+				}
+				NOT = {
+					has_opinion = {
+						who = ROOT
+						value = 125
+					}
+				}
+			}
+			is_capital = yes
+		}
+		trigger = {
+			any_country = {
+				capital_scope = {
+					superregion = scandinavia_superregion
+				}
+				has_opinion = {
+					who = ROOT
+					value = 125
+				}
+			}
+		}
+		effect = {
+			add_army_tradition = 10
+			create_general = {
+				tradition = 50
+				culture = swedish
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	vn_curonian_fisheries = {
+		icon = mission_fish_markets
+        required_missions = { vn_viking_relations }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			has_port = yes
+			NOT = {
+				OR = {
+					has_building = native_storehouse
+					has_production_building_trigger = yes
+				}
+			}
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 3
+				has_port = yes
+				OR = {
+					has_building = native_storehouse
+					has_production_building_trigger = yes
+				}
+			}
+		}
+		effect = {
+			add_years_of_owned_provinces_production_income = {
+				years = 8
+				trigger = {
+					has_port = yes
+				}
+				custom_tooltip = INCOME_FROM_COASTAL_PROVS_DESC
+			}
+		}
+	}
+	vn_curonian_piracy = {
+		icon = mission_pirate_flag
+        required_missions = { vn_curonian_fisheries }
+		trigger = {
+			num_of_admirals = 1
+			navy_size = 10
+			sailors_percentage = 0.8
+		}
+		effect = {
+			saaremaa_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			6131 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			6130 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			2697 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			2700 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+			add_country_modifier = {
+				name = curonian_piracy_mission
+				duration = 18250
+			}
+		}
+	}
+	vn_curonian_horses = {
+		icon = mission_marwari_horses
+        required_missions = {  }
+		trigger = {
+			OR = {
+				mil_tech = 3
+				horses = 1
+			}
+			has_mil_advisor = yes
+		}
+		effect = {
+			custom_tooltip = vn_curonian_horses.tt
+			hidden_effect = {
+				every_province = {
+					limit = {
+						OR = {
+							culture = pruthenian
+							culture = curonian
+						}
+						continent = europe
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			add_country_modifier = {
+				name = curonian_horses_mission
+				duration = 9125
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	vn_the_baltic_rivers = {
+		icon = mission_engelbrekt
+        required_missions = { vn_curonian_horses }
+		provinces_to_highlight = {
+			OR = {
+				culture = pruthenian
+				culture = curonian
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT}
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 25
+				OR = {
+					culture = pruthenian
+					culture = curonian
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					primary_culture = pruthenian
+					NOT = {
+						any_country = {
+							has_country_flag = is_witland
+						}
+					}
+				}
+				set_country_flag = is_witland
+				override_country_name = WITLAND_NAME
+			}
+			if = {
+				limit = {
+					primary_culture = curonian
+					NOT = {
+						any_country = {
+							has_country_flag = is_kurland
+						}
+					}
+					KUR = { exists = no }
+				}
+				set_country_flag = is_kurland
+				override_country_name = KUR
+			}
+			add_stability_or_adm_power = yes
+			add_adm_power = 25
+			add_dip_power = 25
+			add_mil_power = 25
+			mazovia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			kulmerland_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			leczyca_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	vn_polish_pushback = {
+		icon = polish_diplomacy
+        required_missions = { vn_the_baltic_rivers }
+		provinces_to_highlight = {
+			OR = {
+				region = mazovia_region
+				area = kulmerland_area
+				area = leczyca_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			mazovia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			kulmerland_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			leczyca_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_war_exhaustion = -2
+			poland_superregion = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+			add_country_modifier = {
+				name = polish_pushback_mission
+				duration = -1
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
