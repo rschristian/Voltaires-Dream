@@ -1666,6 +1666,103 @@ sufi_reform_legacy = {
 	}
 }
 
+lesbian_matriarchate_reform_legacy = {
+	icon = "british_queen"
+	allow_normal_conversion = yes
+	rulers_can_be_generals = yes
+	heirs_can_be_generals = yes
+	royal_marriage = yes
+	potential = { tag = LBO }
+	valid_for_nation_designer = no
+	nation_designer_cost = 10
+	
+	modifiers = {
+		may_recruit_female_generals = yes
+		female_advisor_chance = 0.5
+		heir_chance = 0.5
+	}
+	
+	custom_attributes = {
+		mechanic_bonus_on_female_rulers = yes
+	}
+
+	ai = {
+		factor = 0
+	}
+}
+
+prague_confederation_reform = {
+	icon = "soldiers_3"
+	allow_convert = no
+	allow_normal_conversion = no
+	potential = {
+		religion = hussite
+		OR = {
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = prague_confederation_reform
+			}
+			tag = HGA
+		}
+	}
+	trigger = {
+		religion = hussite
+	}
+
+	valid_for_nation_designer = yes
+	nation_designer_cost = 10
+
+	nation_designer_trigger = {
+		religion = hussite
+	}
+
+	#mechanics: utraquists vs. taborites
+
+	modifiers = {
+		church_power_modifier = 0.1
+		church_loyalty_modifier = 0.1
+		tolerance_own = 1
+		global_missionary_strength = 0.01
+		global_unrest = -1
+	}
+	
+	custom_attributes = {
+		can_loot_heretic_churches = yes
+	}
+
+	ai = {
+		factor = 5
+	}
+}
+
+georgian_monarchy_reform = { #patronqmoba 
+	icon = "georgian_monarchy"
+	allow_convert = no
+	allow_normal_conversion = no
+	potential = {
+		OR = {
+			tag = GEO
+			primary_culture = georgian
+		}
+	}
+	valid_for_nation_designer = no
+
+	#mechanics:
+	#adm: caucasian missionary
+	#dip: byzantine / persian scholarship
+	#mil: inspiration & discipline
+	
+	modifiers = {
+		improve_relation_modifier = 0.2
+		vassal_income = 0.2
+		can_fabricate_for_vassals = yes
+	}
+
+	ai = {
+		factor = 5
+	}
+}
+
 #Special for Poland
 elective_monarchy_legacy = {
 	# government mechanics flags go here
@@ -2469,6 +2566,98 @@ united_cantons_legacy = {
 	}
 	ai = {
 		factor = 5
+	}
+}
+
+tribal_confederacy_legacy = {
+	# government mechanics flags go here
+	icon = "native_settle_down_reform"
+	allow_normal_conversion = no
+	lock_level_when_selected = yes
+	legacy_government = yes
+	valid_for_new_country = no
+
+	valid_for_nation_designer = yes
+	nation_designer_cost = 30
+
+	modifiers = {
+		nobles_influence_modifier = 0.15
+		nobles_loyalty_modifier = 0.1
+		global_unrest = -1
+		max_absolutism = -20
+	}
+
+	conditional = {
+		allow = {
+			has_dlc = "Origins"
+		}
+		custom_attributes = {
+			has_internal_tribes = yes
+			locked_government_type = yes
+		}
+	}
+
+	effect = {
+		hidden_effect = {
+			if = {
+				limit = {
+					has_dlc = "Origins"
+				}
+				set_estate_privilege = estate_nobles_decentralized_tribe
+			}
+		}
+	}
+}
+
+mossi_federal_kingdom_legacy = {
+	# government mechanics flags go here
+	icon = "native_war_band_reform"
+	allow_normal_conversion = no
+	legacy_government = yes
+	valid_for_new_country = no
+
+	valid_for_nation_designer = yes
+	nation_designer_cost = 30
+
+	potential = {
+		OR = {
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = mossi_federal_kingdom
+			}
+			AND = {
+				has_country_flag = msi_mossi_kingdom_event
+				tag = CIR
+			}
+		}
+	}
+
+	modifiers = {
+		nobles_influence_modifier = 0.15
+		nobles_loyalty_modifier = 0.1
+		global_unrest = -1
+		max_absolutism = -20
+	}
+
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Origins"
+				has_dlc = "Cradle of Civilization"
+			}
+		}
+		custom_attributes = {
+			has_federal_kingdoms = yes
+		}
+	}
+
+	conditional = {
+		allow = {
+			has_dlc = "Cradle of Civilization"
+		}
+		government_abilities = {
+			tribal_federation_mechanic
+		}
 	}
 }
 
