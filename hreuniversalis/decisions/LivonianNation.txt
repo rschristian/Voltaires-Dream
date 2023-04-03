@@ -1,16 +1,13 @@
 country_decisions = {
-
-	couronian_nation = {
+	livonian_nation = {
 		major = yes
 		potential = {
 			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_livonia_flag }
 			OR = {
 				ai = no
 				is_playing_custom_nation = no
-			}
-			OR = {
-				is_free_or_tributary_trigger = yes
-				ai = no
 			}
 			OR = {
 				tag = RIG
@@ -19,116 +16,23 @@ country_decisions = {
 				tag = DPT
 				tag = OSL
 			}
-			NOT = { tag = LVA }
-			NOT = { exists = KUR }
+			NOT = { exists = LVA }
 			OR = {
 				ai = no
 				is_religion_enabled = protestant
-				is_religion_enabled = hussite
-				is_religion_enabled = reformed
-				is_religion_enabled = anglican
 				is_religion_enabled = anabaptist
+				is_religion_enabled = reformed
+				is_religion_enabled = hussite
+				is_religion_enabled = anglican
 			}
 		}
 		provinces_to_highlight = {
 			OR = {
-				province_id = 5809
-				province_id = 5790
-			}
-			OR = {
-				NOT = { owned_by = ROOT }
-				NOT = { is_core = ROOT }
-			}
-		}
-		allow = {
-			adm_tech = 40		
-			is_at_war = no
-			is_nomad = no
-			OR = {
-				religion = reformed
-				religion = hussite
-				religion = protestant
-				religion = anglican
-				religion = anabaptist
-			}
-			owns_core_province = 5809	 # Kurland
-			owns_core_province = 5790	 # Semigallia
-			5790 = { is_state = yes }
-		}
-		effect = {
-			change_tag = KUR
-			add_prestige = 10
-			hidden_effect = { restore_country_name = yes }
-			remove_non_electors_emperors_from_empire_effect = yes
-			set_capital = 5790		# Semigallia
-			if = {
-				limit = { has_custom_ideas = no }
-				country_event = { id = ideagroups.1 } #Swap Ideas
-			}
-			add_country_modifier = {
-				name = "centralization_modifier"
-				duration = 3650
-			}
-			if = {
-				limit = {
-					government = theocracy
-				}
-				change_government_to_monarchy = yes
-				every_neighbor_country = {
-					limit = { government = monarchy }
-					add_opinion = { who = ROOT modifier = secularized_monastic_order }
-				}
-			}
-		}
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = { owns_core_province = 5809 }
-				NOT = { owns_core_province = 5790 }
-			}
-		}
-	}
-
-	couronian_nation_baltic_german = {
-		major = yes
-		potential = {
-			normal_or_historical_nations = yes
-			was_never_end_game_tag_trigger = yes
-			NOT = { has_country_flag = formed_courland_flag }
-			OR = {
-				ai = no
-				is_playing_custom_nation = no
-			}
-			OR = {
-				is_free_or_tributary_trigger = yes
-				ai = no
-			}
-			NOT = {
-				OR = {
-					tag = RIG
-					tag = RGS
-					tag = LIV
-					tag = DPT
-					tag = OSL
-				}
-			}
-			primary_culture = baltic_german
-			NOT = { tag = LVA }
-			NOT = { exists = KUR }
-			OR = {
-				ai = no
-				is_religion_enabled = protestant
-				is_religion_enabled = reformed
-				is_religion_enabled = hussite
-				is_religion_enabled = anglican
-				is_religion_enabled = anabaptist
-			}
-		}
-		provinces_to_highlight = {
-			OR = {
-				province_id = 5809	 # Kurland
-				province_id = 5790	 # Semigallia
+				province_id = 5830	# Koknese
+				province_id = 5811	# Dünaburg
+				province_id = 5831	# Wenden
+				province_id = 5875	# Tartu
+				province_id = 5889	# Tallinn
 			}
 			OR = {
 				NOT = { owned_by = ROOT }
@@ -146,25 +50,34 @@ country_decisions = {
 				religion = hussite
 				religion = anglican
 			}
-			owns_core_province = 5809	 # Kurland
-			owns_core_province = 5790	# Semigallia
-			5790 = { 					# Semigallia
+			owns_core_province = 5830	# Koknese
+			owns_core_province = 5811	# Dünaburg
+			owns_core_province = 5831	# Wenden
+			owns_core_province = 5875	# Tartu
+			owns_core_province = 5889	# Tallinn
+			5831 = {
 				is_state = yes
 			}
 		}
 		effect = {
-			5790 = { # Semigallia
+			5831 = {
 				move_capital_effect = yes
 			}
-			change_tag = KUR
+			change_tag = LVA
 			if = {
 				limit = {
 					NOT = { accepted_culture = latvian }
 				}
 				add_accepted_culture = latvian
 			}
+			if = {
+				limit = {
+					NOT = { accepted_culture = estonian }
+				}
+				add_accepted_culture = estonian
+			}
 			restore_country_name_effect = yes
-			remove_non_electors_emperors_from_empire_effect = yes
+			swap_non_generic_missions = yes
 			add_prestige = 10	
 			if = {
 				limit = { has_custom_ideas = no }
@@ -180,19 +93,139 @@ country_decisions = {
 				}
 				change_government_to_monarchy = yes
 				#set_legacy_government = feudal_monarchy
+				every_neighbor_country = {
+					limit = { government = monarchy }
+					add_opinion = { who = ROOT modifier = secularized_monastic_order }
+				}
 			}
-			every_neighbor_country = {
-				limit = { government = monarchy }
-				add_opinion = { who = ROOT modifier = secularized_monastic_order }
-			}
-			set_country_flag = formed_courland_flag
+			set_country_flag = formed_livonia_flag
 		}
 		ai_will_do = {
 			factor = 1
 			modifier = {
 				factor = 0
-				NOT = { owns_core_province = 5809 }
-				NOT = { owns_core_province = 5790 }
+				NOT = { owns_core_province = 5830 }
+				NOT = { owns_core_province = 5811 }
+				NOT = { owns_core_province = 5831 }
+				NOT = { owns_core_province = 5875 }
+				NOT = { owns_core_province = 5889 }
+			}
+		}
+	}
+
+	livonian_nation_batlic_german = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_livonia_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = {
+				OR = {
+					tag = RIG
+					tag = RGS
+					tag = LIV
+					tag = DPT
+					tag = OSL
+				}
+			}
+			primary_culture = baltic_german
+			NOT = { exists = LVA }
+			OR = {
+				ai = no
+				is_religion_enabled = protestant
+				is_religion_enabled = anabaptist
+				is_religion_enabled = reformed
+				is_religion_enabled = hussite
+				is_religion_enabled = anglican
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 5830	# Koknese
+				province_id = 5811	# Dünaburg
+				province_id = 5831	# Wenden
+				province_id = 5875	# Tartu
+				province_id = 5889	# Tallinn
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 40
+			is_nomad = no			
+			is_at_war = no
+			OR = {
+				religion = protestant
+				religion = anabaptist
+				religion = reformed
+				religion = hussite
+				religion = anglican
+			}
+			owns_core_province = 5830	# Koknese
+			owns_core_province = 5811	# Dünaburg
+			owns_core_province = 5831	# Wenden
+			owns_core_province = 5875	# Tartu
+			owns_core_province = 5889	# Tallinn
+			5831 = {
+				is_state = yes
+			}
+		}
+		effect = {
+			5831 = {
+				move_capital_effect = yes
+			}
+			change_tag = LVA
+			if = {
+				limit = {
+					NOT = { accepted_culture = latvian }
+				}
+				add_accepted_culture = latvian
+			}
+			if = {
+				limit = {
+					NOT = { accepted_culture = estonian }
+				}
+				add_accepted_culture = estonian
+			}
+			restore_country_name_effect = yes
+			swap_non_generic_missions = yes
+			add_prestige = 10	
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 3650
+			}
+			if = {
+				limit = {
+					government = theocracy
+				}
+				change_government_to_monarchy = yes
+				#set_legacy_government = feudal_monarchy
+				every_neighbor_country = {
+					limit = { government = monarchy }
+					add_opinion = { who = ROOT modifier = secularized_monastic_order }
+				}
+			}
+			set_country_flag = formed_livonia_flag
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { owns_core_province = 5830 }
+				NOT = { owns_core_province = 5811 }
+				NOT = { owns_core_province = 5831 }
+				NOT = { owns_core_province = 5875 }
+				NOT = { owns_core_province = 5889 }
 			}
 		}
 	}
