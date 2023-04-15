@@ -863,6 +863,14 @@ on_province_owner_change_government_effect = {
 	}
 	if = {
 		limit = {
+			has_province_modifier = paper_bonus_prod
+			FROM = { has_government_attribute = extra_trade_goods_from_paper }
+			NOT = { owner = { has_government_attribute = extra_trade_goods_from_paper } }
+		}
+		remove_province_modifier = paper_bonus_prod
+	}
+	if = {
+		limit = {
 			NOT = { has_province_modifier = naval_supplies_bonus_prod }
 			owner = { has_government_attribute = extra_trade_goods_from_naval_supplies }
 			NOT = { FROM = { has_government_attribute = extra_trade_goods_from_naval_supplies } }
@@ -874,6 +882,25 @@ on_province_owner_change_government_effect = {
 				}
 				add_province_modifier = { 
 					name = naval_supplies_bonus_prod
+					duration = -1
+					hidden = yes
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			NOT = { has_province_modifier = paper_bonus_prod }
+			owner = { has_government_attribute = extra_trade_goods_from_paper }
+			NOT = { FROM = { has_government_attribute = extra_trade_goods_from_paper } }
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					trade_goods = paper
+				}
+				add_province_modifier = { 
+					name = paper_bonus_prod
 					duration = -1
 					hidden = yes
 				}
@@ -979,6 +1006,27 @@ on_trade_good_changed_government_effect = {
 	}
 	else = {
 		remove_province_modifier = naval_supplies_bonus_prod
+	}
+	if = {
+		limit = {
+			owner = { has_government_attribute = extra_trade_goods_from_paper }
+		}
+		if = {
+			limit = {
+				trade_goods = paper
+			}
+			add_province_modifier = { 
+				name = paper_bonus_prod
+				duration = -1
+				hidden = yes
+			}
+		}
+		else = {
+			remove_province_modifier = paper_bonus_prod
+		}
+	}
+	else = {
+		remove_province_modifier = paper_bonus_prod
 	}
 	if = {
 		limit = {

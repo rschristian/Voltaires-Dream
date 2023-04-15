@@ -353,7 +353,7 @@ prague_confederation_reform = {
 	}
 }
 
-georgian_monarchy_reform = { #patronqmoba 
+georgian_monarchy_reform = {
 	icon = "georgian_monarchy"
 	allow_convert = no
 	allow_normal_conversion = no
@@ -371,9 +371,9 @@ georgian_monarchy_reform = { #patronqmoba
 	#mil: inspiration & discipline
 	
 	modifiers = {
-		improve_relation_modifier = 0.2
-		vassal_income = 0.2
-		can_fabricate_for_vassals = yes
+		improve_relation_modifier = 0.25
+		vassal_income = 0.25
+		nobles_influence_modifier = 0.15
 	}
 	legacy_equivalent = georgian_monarchy_reform_legacy
 }
@@ -676,11 +676,76 @@ ora_et_labora_reform = {
 	}
 	modifiers = {
 		abb_benedictines_influence = 0.1
-		advisor_cost = -0.1
+		trade_efficiency = 0.1
+	}
+	effect = {
+		hidden_effect = {
+			every_owned_province = {
+				if = {
+					limit = {
+						trade_goods = paper
+					}
+					add_province_modifier = { 
+						name = paper_bonus_prod
+						duration = -1
+						hidden = yes
+					}
+				}
+			}
+		}
+	}
+	removed_effect = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					has_province_modifier = paper_bonus_prod
+				}
+				remove_province_modifier = paper_bonus_prod
+			}
+		}
+	}
+	custom_attributes = {
+		extra_trade_goods_from_paper = yes
 	}
 }
 
-monastic_conservatism_reform = {
+outsourced_labour = {
+	icon = "paper_with_seal_3"
+	allow_normal_conversion = yes
+	potential = {
+		has_reform = monastic_order_reform
+	}
+	trigger = {
+		has_reform = monastic_order_reform
+	}
+	modifiers = {
+		abb_cluniacs_influence = 0.1
+		build_cost = -0.1
+	}
+	custom_attributes = {
+		free_land_of_commerce = yes
+	}
+}
+
+acquisition_of_granges_reform = {
+	icon = "dutch_flag"
+	allow_normal_conversion = yes
+	potential = {
+		has_reform = monastic_order_reform
+	}
+	trigger = {
+		has_reform = monastic_order_reform
+	}
+	modifiers = {
+		abb_cistercians_influence = 0.1
+		global_trade_power = 0.1
+	}
+	custom_attributes = {
+		better_expanded_infrastructure = yes
+	}
+}
+
+episcopal_competences_reform = {
 	icon = "religious_leader"
 	allow_normal_conversion = yes
 	potential = {
@@ -690,93 +755,20 @@ monastic_conservatism_reform = {
 		has_reform = monastic_order_reform
 	}
 	modifiers = {
-		abb_cluniacs_influence = 0.1
-		prestige_decay = -0.01
-	}
-}
-
-acquisition_of_granges_reform = {
-	icon = "paper_money_map"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-	}
-	modifiers = {
 		abb_cistercians_influence = 0.1
-		global_autonomy = -0.05
-	}
-}
-
-strenghten_abbatial_hierarchy_reform = {
-	icon = "monastic_elections_reform"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-	}
-	modifiers = {
-		abb_benedictines_influence = 0.1
-		legitimacy = 0.25
-		devotion = 0.25
 		diplomatic_reputation = 1
+		global_autonomy = -0.025
 	}
-}
-
-noble_chanceries_reform = {
-	icon = "nobleman"
-	allow_normal_conversion = yes
-	royal_marriage = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-	}
-	modifiers = {
-		abb_cluniacs_influence = 0.1
-		leader_cost = -0.1
-	}
-}
-
-episcopal_competences_reform = {
-	icon = "pope"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-	}
-	modifiers = {
-		abb_cistercians_influence = 0.1
-		governing_capacity = 100
-		stability_cost_modifier = -0.1
-	}
-}
-
-promote_conversi_reform = {
-	icon = "neutral_ground"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-	}
-	modifiers = {
-		development_cost_modifier = -0.05
-		production_efficiency = 0.1
-		abb_cistercians_influence = 0.1
+	conditional = {
+		allow = { has_dlc = "Lions of the North" }
+		custom_attributes = {
+			can_sell_indulgences = yes
+		}
 	}
 }
 
 electoral_capitulation_reform = {
-	icon = "conciliarism"
+	icon = "conciliarism_reform"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
@@ -793,41 +785,55 @@ electoral_capitulation_reform = {
 	}
 }
 
-humanistic_studies_reform = {
-	icon = "enlightenment"
+temporary_abbots_reform = {
+	icon = "clergyman"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		OR = {
-			full_idea_group = humanist_ideas
-			has_institution = enlightenment
-		}
 	}
 	modifiers = {
-		
+		max_absolutism = -10
+		yearly_corruption = -0.1
+		abb_cluniacs_influence = 0.1
+	}
+	heir = no
+	election_on_death = yes
+	duration = 8
+	has_term_election = yes
+	custom_attributes = {
+		can_force_election = yes
 	}
 }
 
-admission_of_professors_reform = {
-	icon = "leviathan"
+empower_the_congregation_reform = {
+	icon = "monastic_elections_reform"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		full_idea_group = innovativeness_ideas
+		if = {
+			limit = { has_dlc = "Common Sense" }
+			OR = {
+				NOT = { has_estate = estate_church }
+				crown_stronger_than_estate = { estate = estate_church }
+			}
+		}
 	}
 	modifiers = {
-		free_adm_policy = 1
-		innovativeness_gain = 0.25
-		embracement_cost = -0.1
+		global_unrest = -1
 	}
-	custom_attributes = {
-		allow_monastic_entry_for_professors = yes
+	conditional = {
+		allow = { has_dlc = "Common Sense" }
+		has_parliament = yes
+		custom_attributes = {
+			blocked_call_diet = yes
+			disables_estate_church = yes
+		}
 	}
 }
 
@@ -839,179 +845,164 @@ librarianship_renewal_reform = {
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		
 	}
 	modifiers = {
-		
+		abb_benedictines_influence = 0.1
+		possible_adm_policy = 1
+		free_adm_policy = 1
 	}
 }
 
-absolutist_monastery_reform = {
-	icon = "pope"
+strenghten_abbatial_hierarchy_reform = {
+	icon = "monastic_elections_reform"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		
 	}
 	modifiers = {
-		max_absolutism = 10
+		abb_cluniacs_influence = 0.1
+		yearly_corruption = -0.15
+		all_estate_influence_modifier = -0.1
+	}
+}
+
+monastic_conservatism_reform = {
+	icon = "consolidate_power_in_cities_reform"
+	allow_normal_conversion = yes
+	potential = {
+		has_reform = monastic_order_reform
+	}
+	trigger = {
+		has_reform = monastic_order_reform
+	}
+	modifiers = {
+		abb_cistercians_influence = 0.1
+		devotion = 0.75
+		same_culture_advisor_cost = -0.33
 	}
 }
 
 discipline_in_body_and_mind_reform = {
-	icon = "pope"
+	icon = "conciliarism_reform"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		
 	}
 	modifiers = {
 		abb_cistercians_influence = 0.1
+		recover_army_morale_speed = 0.1
+		discipline = 0.05
 	}
 }
 
 enforce_monastic_poverty_reform = {
-	icon = "pope"
+	icon = "clergyman"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		
 	}
 	modifiers = {
-		abb_cistercians_influence = 0.1
+		abb_benedictines_influence = 0.1
+		missionaries = 1
 	}
 	custom_attributes = {
-		seizing_land_gives_money = yes
-	}
-}
-
-selling_fiefs_to_serfs_reform = {
-	icon = "pope"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-		
-	}
-	modifiers = {
-		
-	}
-	custom_attributes = {
-		#increasing autonomy gives money
+		converting_religion_gives_money = yes
 	}
 }
 
 cooperative_monasteries = {
-	icon = "pope"
+	icon = "church"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		
 	}
 	modifiers = {
-		
-	}
-	custom_attributes = {
-		
-	}
-}
-
-empower_the_congregation_reform = {
-	icon = "pope"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-		
-	}
-	modifiers = {
-		
-	}
-	custom_attributes = {
-		
-	}
-}
-
-subject_conventions = {
-	icon = "pope"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-		
-	}
-	modifiers = {
-		
-	}
-	custom_attributes = {
-		
-	}
-}
-
-noble_favoritism_reform = {
-	icon = "pope"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = monastic_order_reform
-	}
-	trigger = {
-		has_reform = monastic_order_reform
-		
-	}
-	modifiers = {
+		diplomatic_upkeep = 1
+		envoy_travel_time = -0.25
 		abb_cluniacs_influence = 0.1
-		nobles_influence_modifier = 0.1
+	}
+}
+
+noble_chanceries_reform = {
+	icon = "nobleman"
+	allow_normal_conversion = yes
+	potential = {
+		has_reform = monastic_order_reform
+	}
+	trigger = {
+		has_reform = monastic_order_reform
+	}
+	modifiers = {
+		land_maintenance_modifier = -0.1
+		abb_cluniacs_influence = 0.1
 		nobles_loyalty_modifier = 0.05
 	}
 }
 
 municipal_patron_reform = {
-	icon = "pope"
+	icon = "merchant"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		
 	}
 	modifiers = {
+		inflation_reduction = 0.1
 		abb_cistercians_influence = 0.1
-
+		burghers_loyalty_modifier = 0.05
 	}
 }
 
 enforce_libertas_ecclesiae_reform = {
-	icon = "pope"
+	icon = "religious_leader"
 	allow_normal_conversion = yes
 	potential = {
 		has_reform = monastic_order_reform
 	}
 	trigger = {
 		has_reform = monastic_order_reform
-		
 	}
 	modifiers = {
+		state_maintenance_modifier = -0.25
 		abb_benedictines_influence = 0.1
+		church_loyalty_modifier = 0.05
+	}
+}
 
+admission_of_professors_reform = {
+	icon = "leviathan"
+	allow_normal_conversion = yes
+	potential = {
+		has_reform = monastic_order_reform
+	}
+	trigger = {
+		has_reform = monastic_order_reform
+		OR = {
+			full_idea_group = innovativeness_ideas
+			has_institution = enlightenment
+		}
+	}
+	modifiers = {
+		technology_cost = -0.05
+		innovativeness_gain = 0.25
+		embracement_cost = -0.1
+	}
+	custom_attributes = {
+		allow_monastic_entry_for_professors = yes
 	}
 }
 
@@ -1032,7 +1023,22 @@ invite_jesuits_reform = {
 	modifiers = {
 		global_religious_conversion_resistance = 0.5
 		global_heretic_missionary_strength = 0.02
-		missionary_maintenance_cost = -0.2
+		missionary_maintenance_cost = -0.25
+	}
+}
+
+absolutist_monastery_reform = {
+	icon = "enlightened_monarchy_reform"
+	allow_normal_conversion = yes
+	potential = {
+		has_reform = monastic_order_reform
+	}
+	trigger = {
+		has_reform = monastic_order_reform
+	}
+	modifiers = {
+		max_absolutism = 10
+		yearly_absolutism = 0.5
 	}
 }
 
