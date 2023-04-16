@@ -250,7 +250,25 @@ italian_monarchy = {
 }
 
 crusader_order_reform = {
-	potential = { has_reform = crusader_order_reform }
+	potential = {
+		NOT = { tag = PAP }
+		NOT = { tag = AVI }
+	}
+	trigger = {
+		if = {
+			limit = {
+				NOT = { has_reform = crusader_order_reform }
+				OR = {
+					religion = catholic
+					religion = catholique
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = reorganize_theocracy_tt
+				always = no
+			}
+		}
+	}
 	modifiers = {
 		fort_maintenance_modifier = -0.2
 		cb_on_religious_enemies = yes
@@ -259,7 +277,7 @@ crusader_order_reform = {
 	heirs_can_be_generals = yes
 	valid_for_nation_designer = yes
 	nation_designer_cost = 10
-	icon = "monks"
+	icon = "soldiers"
 	allow_normal_conversion = no
 	allow_convert = no	
 	lock_level_when_selected = yes
@@ -628,12 +646,16 @@ consular_constitution_reform = {
 	}
 	modifiers = {
 		candidate_random_bonus = 1
+		reelection_cost = -0.1
 	}
 	effect = {
 		change_statists_vs_orangists = 0.15
 	}
 	removed_effect = {
 		change_statists_vs_orangists = -0.15
+	}
+	custom_attributes = {
+		can_force_election = yes
 	}
 	ai = {
 		factor = 1.5
@@ -650,14 +672,17 @@ captain_of_the_people_reform = {
 		has_reform = italian_monarchy
 	}
 	modifiers = {
-		global_autonomy = -0.05
-		governing_capacity = 100
+		army_tradition_from_battle = 1
+		leader_land_shock = 1
 	}
 	effect = {
 		change_statists_vs_orangists = -0.15
 	}
 	removed_effect = {
 		change_statists_vs_orangists = 0.15
+	}
+	custom_attributes = {
+		winning_battles_increases_legitimacy = yes
 	}
 	ai = {
 		factor = 1.5
@@ -880,7 +905,7 @@ monastic_conservatism_reform = {
 	}
 	modifiers = {
 		abb_cistercians_influence = 0.1
-		devotion = 0.75
+		devotion = 1
 		same_culture_advisor_cost = -0.33
 	}
 }

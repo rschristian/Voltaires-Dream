@@ -2409,4 +2409,50 @@ country_decisions = {
 			}
 		}
 	}
+
+	reorganize_theocracy = {
+		major = yes
+		potential = {
+			OR = {
+				religion = catholic
+				religion = catholique
+			}
+			OR = {
+				has_reform = leading_clergy_reform
+				has_reform = monastic_order_reform
+				has_reform = crusader_order_reform
+			}
+		}
+		allow = {
+			is_at_war = no
+			papacy_active = yes
+			papal_influence = 100
+			if = {
+				limit = {
+					religion = catholic
+				}
+				NOT = { war_with = PAP }
+				reverse_has_opinion = {
+					who = PAP
+					value = 0
+				}
+			}
+			else = {
+				NOT = { war_with = AVI }
+				reverse_has_opinion = {
+					who = AVI
+					value = 0
+				}
+			}
+			NOT = { has_country_modifier = the_statue_in_restraint_of_appeals }
+		}
+		effect = {
+			country_event = {
+				id = fbievents.153
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
 }
