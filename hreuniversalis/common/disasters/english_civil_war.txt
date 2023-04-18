@@ -5,11 +5,17 @@ english_civil_war = {
 			AND = {
 				tag = ENG
 				NOT = { exists = GBR }
+				NOT = { exists = AVE }
 			}
 			tag = GBR
+			tag = AVE
 		}
 		NOT = { has_country_flag = eng_civil_war_happened }
-		has_reform = english_monarchy
+		OR = {
+			has_reform = english_monarchy
+			has_reform = british_monarchy
+			has_reform = angevin_monarchy
+		}
 		is_free_or_tributary_trigger = yes
 		is_lesser_in_union = no
 		current_age = age_of_absolutism
@@ -19,8 +25,6 @@ english_civil_war = {
 		normal_or_historical_nations = yes
 	}
 
-	
-	
 	can_start = {
 		current_age = age_of_absolutism
 		has_any_disaster = no
@@ -30,19 +34,24 @@ english_civil_war = {
 				current_size_of_parliament = 20
 				NOT = { stability = 2 }
 			}
+			AND = {
+				absolutism = 20
+				NOT = { stability = 3 }
+			}
 		}
 	}
-	
 	
 	can_stop = {
 		OR = {
 			stability = 3
 			has_any_disaster = yes
-			NOT = { has_reform = english_monarchy }
+			AND = {
+				NOT = { has_reform = english_monarchy }
+				NOT = { has_reform = british_monarchy }
+				NOT = { has_reform = angevin_monarchy }
+			}
 		}
 	}
-	
-	
 	
 	progress = {
 		modifier = {
@@ -52,6 +61,26 @@ english_civil_war = {
 		modifier = {
 			factor = 1
 			NOT = { stability = 0 }
+		}
+		modifier = {
+			factor = 1
+			absolutism = 30
+		}
+		modifier = {
+			factor = 1
+			absolutism = 35
+		}
+		modifier = {
+			factor = 1
+			absolutism = 40
+		}
+		modifier = {
+			factor = 1
+			absolutism = 45
+		}
+		modifier = {
+			factor = 1
+			absolutism = 50
 		}
 		modifier = {
 			factor = 1
@@ -68,14 +97,16 @@ english_civil_war = {
 	}
 	
 	modifier = {
-		global_unrest = 9
+		global_unrest = 10
+		legitimacy = -1
+		republican_tradition = -0.5
 	}	
 	
 	can_end = {
 		NOT = { num_of_rebel_armies = 1 }
 		NOT = { num_of_rebel_controlled_provinces = 1 }
 		NOT = { average_unrest = 1 }
-		stability = 1
+		stability = 2
 		hidden_trigger = {
 			NOT = { has_country_modifier = just_lost_to_rebels }
 			NOT = { has_country_flag = english_civil_war_start_event }
