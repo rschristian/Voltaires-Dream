@@ -6,7 +6,7 @@
 ######################################
 # Catholic control of Rome.
 ######################################
-catholic_rome = {
+papal_subjugation = {
 	potential = {
 		normal_or_historical_nations = yes
 		religion = catholic
@@ -14,30 +14,10 @@ catholic_rome = {
 	}
 
 	trigger = {	
-		NOT = { overlord_of = PAP }
-		owns_or_vassal_of = 2708 # Roma		
-		NOT = { tag = ITA }
-		NOT = { tag = HLR }
-		NOT = { tag = ROM }
-		NOT = { tag = LZO }
-		NOT = { tag = SPI }
-	}
-
-	papal_influence = -10
-	diplomatic_reputation = -1
-	#icon = 9
-}
-
-papal_subjugation = {
-	potential = {
-		normal_or_historical_nations = yes
-		religion = catholic
-	}
-
-	trigger = {	
 		overlord_of = PAP
 		NOT = { tag = ITA }
 		NOT = { tag = HLR }
+		NOT = { tag = FKE }
 		if = {
 			limit = {
 				is_emperor = yes
@@ -62,6 +42,10 @@ papal_subjugation = {
 				NOT = { hre_reform_passed = privilegia_de_non_appelando }
 			}
 		}
+		custom_trigger_tooltip = {
+			tooltip = no_dip_malus_reward_tt
+			NOT = { has_country_flag = general_flag_for_FU_Rome_flag }			
+		}
 	}
 
 	diplomatic_reputation = -2
@@ -71,7 +55,7 @@ papal_subjugation = {
 ######################################
 # Catholique control of Avignon.
 ######################################
-catholique_avignon = {
+papal_subjugation_anti = {
 	potential = {
 		normal_or_historical_nations = yes
 		religion = catholique
@@ -79,23 +63,38 @@ catholique_avignon = {
 	}
 
 	trigger = {	
-		NOT = { overlord_of = AVI }
-		owns_or_vassal_of = 202 # Avignon
-	}
-
-	papal_influence = -10
-	diplomatic_reputation = -1
-	#icon = 9
-}
-
-papal_subjugation_anti = {
-	potential = {
-		normal_or_historical_nations = yes
-		religion = catholique
-	}
-
-	trigger = {	
 		overlord_of = AVI
+		NOT = { tag = FRA }
+		NOT = { tag = HLR }
+		NOT = { tag = FKE }
+		if = {
+			limit = {
+				is_emperor = yes
+				has_dlc = "Emperor"
+			}
+			OR = {
+				AVI = {
+					NOT = { is_part_of_hre = yes }
+				}
+				NOT = { hre_reform_passed = emperor_privilegia_de_non_appelando }
+			}
+		}
+		else_if = {
+			limit = {
+				is_emperor = yes
+				NOT = { has_dlc = "Emperor" }
+			}
+			OR = {
+				AVI = {
+					NOT = { is_part_of_hre = yes }
+				}
+				NOT = { hre_reform_passed = privilegia_de_non_appelando }
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = no_dip_malus_reward_tt
+			NOT = { has_country_flag = general_flag_for_FU_Rome_flag }			
+		}
 	}
 
 	diplomatic_reputation = -2
@@ -516,7 +515,7 @@ great_peasants_war_triggered_modifier = {
 	}
 	trigger = {
 		is_part_of_hre = yes
-		NOT = { has_reform = peasants_republic }
+		NOT = { has_government_attribute = is_peasants_republic }
 	}
 	global_unrest = 6
 }
@@ -533,7 +532,7 @@ great_peasants_war_concessions_triggered_modifier = {
 	}
 	trigger = {
 		is_part_of_hre = yes
-		NOT = { has_reform = peasants_republic }
+		NOT = { has_government_attribute = is_peasants_republic }
 	}
 	global_tax_modifier = -0.05
 }
@@ -642,6 +641,37 @@ judaism_yom_kippur_aspect_defensive_war_modifier = {
 	}
 	manpower_recovery_speed = 0.20
 	church_power_modifier = 0.25
+}
+
+######################################
+# Government Reform Specific
+######################################
+
+ahmudan_system_attacker = {
+	potential = {
+		has_government_attribute = ahmudan_system
+	}
+
+	trigger = {
+		is_at_war = yes
+	}
+	global_regiment_cost = -0.1
+	manpower_recovery_speed = 0.2
+}
+
+ahmudan_system_defender = {
+	potential = {
+		has_government_attribute = ahmudan_system
+	}
+
+	trigger = {
+		is_in_war = {
+			defenders = ROOT
+		}
+	}
+	land_morale = 0.075
+	defensiveness = 0.15
+	manpower_recovery_speed = 0.1
 }
 
 #VN
