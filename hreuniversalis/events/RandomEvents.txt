@@ -11,15 +11,6 @@ country_event = {
 
 	mean_time_to_happen = {
 		days = 1
-		
-		modifier = {
-			factor = 2.0
-			adm = 4
-		}
-		modifier = {
-			factor = 2.0
-			luck = yes
-		}
 	}
 
 	trigger = {
@@ -34,6 +25,14 @@ country_event = {
 				factor = 0
 				NOT = { num_of_cities = 5 }
 			}
+			modifier = {
+				factor = 4
+				prestige = 50
+				OR = { 
+					num_of_loans = 2 
+					NOT = { years_of_income = 0.5 }
+				}
+			}
 		}
 		add_years_of_income = 0.2
 	}
@@ -41,6 +40,11 @@ country_event = {
 		name = "EVTOPTB5008"		# Gain prestige
 		ai_chance = {
 			factor = 45
+			modifier = {
+				factor = 5
+				NOT = { prestige = 0 }
+				years_of_income = 0.5
+			}
 		}
 		add_prestige = 10
 	}
@@ -77,7 +81,11 @@ country_event = {
 			}
 		}
 		ai_chance = {
-			factor = 100
+			factor = 1000
+			modifier = { 
+				factor = 0
+				prestige = 80 
+			}
 		}
 		add_prestige = 15
 	}
@@ -105,20 +113,17 @@ country_event = {
 
 	mean_time_to_happen = {
 		days = 1
-		
-		modifier = {
-			factor = 2.0
-			NOT = { advisor = statesman }
-		}
-		modifier = {
-			factor = 0.66
-			statesman = 3
-		}
 	}
 	
 	option = {
 		name = "EVTOPTA5014"		# Request military guidance.
-		ai_chance = { factor = 55 }
+		ai_chance = { 
+			factor = 55 
+			modifier = {
+				factor = 2
+				national_focus = MIL
+			}
+		}
 		add_prestige = -10
 		add_years_of_income = -0.1
 		add_army_tradition = 5
@@ -126,7 +131,16 @@ country_event = {
 	}
 	option = {
 		name = "EVTOPTB5014"		# Request administrative guidance.
-		ai_chance = { factor = 45 }
+		ai_chance = { 
+			factor = 45 
+			modifier = {
+				factor = 2
+				OR = { 
+					NOT = { adm = 4 }
+					national_focus = ADM 
+				}
+			}
+		}
 		add_prestige = -10
 		add_years_of_income = -0.1
 		add_adm_power = 25
@@ -137,7 +151,7 @@ country_event = {
 		trigger = {
 			ruler_has_personality = well_advised_personality
 		}
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 1000 }
 		add_adm_power = 25
 	}
 }
@@ -207,24 +221,25 @@ country_event = {
 
 	mean_time_to_happen = {
 		days = 1
-		
-		modifier = {
-			factor = 2.0
-			luck = yes
-		}
-		modifier = {
-			factor = 2.0
-			statesman = 3		
-		}
-		modifier = {
-			factor = 0.66
-			NOT = { advisor = statesman }
-		}
 	}
 
 	option = {
 		name = "EVTOPTA5015"		# Reap the administrative benefits
-		ai_chance = { factor = 55 }
+		ai_chance = { 
+			factor = 55 
+			modifier = {
+				factor = 2
+				NOT = { prestige = 0 }
+			}
+			modifier = {
+				factor = 2 
+				has_any_active_incomplete_idea_group_of_category = { adm_ideas = yes }
+			}
+			modifier = {
+				factor = 0 
+				ruler_has_personality = well_advised_personality
+			}
+		}
 		if = {
 			limit = { 
 				OR = {
@@ -242,7 +257,21 @@ country_event = {
 	}
 	option = {
 		name = "EVTOPTB5015"		# Reap the military benefits
-		ai_chance = { factor = 45 }
+		ai_chance = { 
+			factor = 45 
+			modifier = {
+				factor = 1.5
+				prestige = 25
+			}
+			modifier = {
+				factor = 4 
+				has_any_active_incomplete_idea_group_of_category = { mil_ideas = yes }
+			}
+			modifier = {
+				factor = 0 
+				ruler_has_personality = well_advised_personality
+			}
+		}
 		add_army_tradition = 10
 		add_navy_tradition = 10
 		add_mil_power = 100
@@ -381,22 +410,6 @@ country_event = {
 
 	mean_time_to_happen = {
 		days = 1
-		
-		modifier = {
-			factor = 0.5
-			luck = yes
-		}
-		modifier = {
-			factor = 0.5
-			ruler_has_personality = careful_personality
-		}
-		modifier = {
-			factor = 1.25
-			OR = {
-				ruler_has_personality = drunkard_personality
-				ruler_has_personality = babbling_buffoon_personality
-			}
-		}
 	}
 
 	option = {
@@ -550,24 +563,30 @@ country_event = {
 
 	mean_time_to_happen = {
 		days = 1
-		
-		modifier = {
-			factor = 2.0
-			NOT = { innovativeness_ideas = 1 }
-		}
-		modifier = {
-			factor = 0.5
-			luck = yes
-		}
-		modifier = {
-			factor = 0.66
-			advisor = natural_scientist
-		}
 	}
 
 	option = {
 		name = "EVTOPTA5018"		# Knowledge is power
-		ai_chance = { factor = 45 }
+		ai_chance = { 
+			factor = 45 
+			modifier = {
+				factor = 2
+				stability = 2 
+			}
+			modifier = {
+				factor = 2
+				NOT = { prestige = 0 }
+			}
+			modifier = {
+				factor = 0 
+				OR = {
+					ruler_has_personality_ancestor = { key = free_thinker }
+					ruler_has_personality_ancestor = { key = scholar }
+					ruler_has_personality = greedy_personality
+					ruler_has_personality_ancestor = { key = secretive }
+				}
+			}
+		}
 		add_country_modifier = {
 			name = "obscurantism"
 			duration = 1825
@@ -575,7 +594,22 @@ country_event = {
 	}
 	option = {
 		name = "EVTOPTB5018"		# Ignorance is bliss
-		ai_chance = { factor = 55 }
+		ai_chance = { 
+			factor = 55 
+			modifier = {
+				factor = 2 
+				NOT = { stability = -1 }
+			}
+			modifier = {
+				factor = 0 
+				OR = {
+					ruler_has_personality_ancestor = { key = free_thinker }
+					ruler_has_personality_ancestor = { key = scholar }
+					ruler_has_personality = greedy_personality
+					ruler_has_personality_ancestor = { key = secretive }
+				}
+			}
+		}
 		add_prestige = -10
 	}
 	option = {
@@ -587,6 +621,9 @@ country_event = {
 				ruler_has_personality = scholar_personality
 			}
 		}
+		ai_chance = { 
+			factor = 55 
+		}
 		add_adm_power = -5
 	}
 	option = {
@@ -595,6 +632,13 @@ country_event = {
 		trigger = {
 			ruler_has_personality = greedy_personality
 		}
+		ai_chance = { 
+			factor = 55 
+			modifier = {
+				factor = 0 
+				num_of_loans = 10 
+			}
+		}
 		add_years_of_income = 0.05
 	}
 	option = {
@@ -602,6 +646,9 @@ country_event = {
 		highlight = yes
 		trigger = {
 			ruler_has_personality = secretive_personality
+		}
+		ai_chance = { 
+			factor = 55 
 		}
 		add_prestige = 5
 	}
@@ -619,43 +666,22 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		is_year = 1450
+		NOT = { is_year = 1550 }
+		NOT = { has_country_modifier = exceptional_year }
 		OR = {
 			advisor = treasurer
 			advisor = trader
 			advisor = statesman
 			advisor = natural_scientist
-			ruler_has_personality_ancestor = { key = midas_touched }	
-			ruler_has_personality_ancestor = { key = industrious }	
+			ruler_has_personality_ancestor = { key = midas_touched }
+			ruler_has_personality_ancestor = { key = industrious }
 			ruler_has_personality_ancestor = { key = entrepreneur }
 		}
-		is_year = 1450
-		NOT = { is_year = 1550 }
-		NOT = { has_country_modifier = exceptional_year }
 	}
 
 	mean_time_to_happen = {
 		days = 1
-		
-		modifier = {
-			factor = 2.0
-			production_efficiency = 0.5
-		}
-		modifier = {
-			factor = 0.8
-			NOT = { stability = 0 }
-		}
-		modifier = {
-			factor = 1.25
-			stability = 1
-		}
-		modifier = {
-			factor = 2.0
-			luck = yes
-		}
-		modifier = {
-			factor = 0.66
-			is_bankrupt = yes
-		}
 	}
 
 	option = {
@@ -692,6 +718,9 @@ country_event = {
 				ruler_has_personality_ancestor = { key = industrious }	
 				ruler_has_personality_ancestor = { key = midas_touched }	
 			}
+		}
+		ai_chance = {
+			factor = 100
 		}
 		if = { #If you have more than one of these you get more than one reward
 			limit = {
@@ -739,35 +768,23 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		is_year = 1550
+		NOT = { is_year = 1650 }
+		NOT = { has_country_modifier = exceptional_year }
 		OR = {
 			advisor = treasurer
 			advisor = trader
 			advisor = statesman
 			advisor = natural_scientist
-			ruler_has_personality_ancestor = { key = midas_touched }	
-			ruler_has_personality_ancestor = { key = industrious }	
+			ruler_has_personality_ancestor = { key = midas_touched }
+			ruler_has_personality_ancestor = { key = industrious }
 			ruler_has_personality_ancestor = { key = entrepreneur }
 		}
-		is_year = 1550
-		NOT = { is_year = 1650 }
-		NOT = { has_country_modifier = exceptional_year }
+
 	}
 
 	mean_time_to_happen = {
 		days = 1
-		
-		modifier = {
-			factor = 2.0
-			production_efficiency = 0.5
-		}
-		modifier = {
-			factor = 2.0
-			luck = yes
-		}
-		modifier = {
-			factor = 0.66
-			is_bankrupt = yes
-		}
 	}
 
 	option = {
@@ -790,6 +807,9 @@ country_event = {
 		trigger = {
 			ruler_has_personality = embezzler_personality
 		}
+		ai_chance = {
+			factor = 100
+		}
 		add_years_of_income = 0.15
 	}
 	option = {
@@ -801,6 +821,9 @@ country_event = {
 				ruler_has_personality_ancestor = { key = industrious }	
 				ruler_has_personality_ancestor = { key = midas_touched }
 			}
+		}
+		ai_chance = {
+			factor = 100
 		}
 		if = { #If you have more than one of these you get more than one reward
 			limit = {

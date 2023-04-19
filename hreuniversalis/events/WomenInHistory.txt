@@ -14,8 +14,10 @@ country_event = {
 	title = women_history_events.1.t
 	desc = women_history_events.1.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-	
+	fire_only_once = yes
+
 	trigger = {
+		NOT = { has_dlc = "Domination" }	#Domination version of this event
 		is_year = 1533
 		NOT = {
 			is_year = 1603
@@ -44,12 +46,6 @@ country_event = {
 	
 	mean_time_to_happen = {
 		months = 200
-	}
-	
-	immediate = {
-		hidden_effect = {
-			set_global_flag = wih_elizabeth_eng_flag
-		}
 	}
 	
 	option = {
@@ -97,6 +93,7 @@ country_event = {
 	picture = wihgfx_FEMALE_RULER_eventPicture
 
 	trigger = {
+		NOT = { has_dlc = "Domination" }	#Domination version of this event
 		tag = RUS
 		is_year = 1729
 		NOT = {
@@ -621,6 +618,8 @@ country_event = {
 	desc = women_history_events.11.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
 
+	fire_only_once = yes
+
 	trigger = {
 		tag = CAS
 		is_year = 1450
@@ -640,18 +639,13 @@ country_event = {
 		NOT = {
 			has_disaster = castilian_civil_war
 		}
+		NOT = { has_country_flag = no_isabella_event_flag } 
 	}
 	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
-	immediate = {
-		hidden_effect = {
-			set_global_flag = wih_isabella_castile_flag
-		}
-	}
-	
+
 	option = {
 		name = women_history_events.11.a
 		add_meritocracy_effect = yes
@@ -663,7 +657,7 @@ country_event = {
 			adm = 5
 			dip = 6
 			mil = 3
-			age = 23
+			age = 5
 			female = yes
 		}
 		if = {
@@ -1085,6 +1079,9 @@ country_event = {
 	
 	option = {
 		name = women_history_events.22.a
+		trigger = {
+			NOT = { has_global_flag  = grace_omalley_flag }
+		}
 		add_meritocracy_effect = yes
 		define_advisor = {
 			female = yes
@@ -1097,6 +1094,9 @@ country_event = {
 	}
 	option = {
 		name = women_history_events.22.b
+		trigger = {
+			NOT = { has_global_flag  = grace_omalley_flag }
+		}
 		define_admiral = {
 			name = "Grainne Ni Mhaille"
 			shock = 4
@@ -1107,7 +1107,50 @@ country_event = {
 	}
 	option = {
 		name = women_history_events.22.c
+		trigger = {
+			NOT = { has_global_flag  = grace_omalley_flag }
+		}
 		add_prestige = 10
+	}
+	option = {
+		name = women_history_events.22.da
+		trigger = {
+			has_global_flag  = grace_omalley_flag
+		}
+		define_ruler = {
+			name = "Grainne Ni Mhaille"
+			adm = 3
+			dip = 4
+			mil = 5
+			culture = irish
+		}
+		if = {
+			limit = {
+				has_spare_flagship_capacity = yes
+				capital_scope = {
+					has_port = yes
+				}
+			}
+			capital_scope = {
+				create_flagship = {	
+					name = "White Seahorse"
+					type = heavy_ship
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				capital_scope = {
+					has_port = yes
+				}
+			}
+			capital_scope = {
+				create_named_ship = {
+					name = "White Seahorse"
+					type = heavy_ship
+				}
+			}
+		}
 	}
 }
 

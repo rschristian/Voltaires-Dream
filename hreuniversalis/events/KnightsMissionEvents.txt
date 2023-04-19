@@ -40,17 +40,50 @@ country_event = {
 	option = {
 		name = "knights_missions.3.a"
 		if = {
-			limit = {
-				is_free_or_tributary_trigger = yes
-				NOT = { exists = LEM }
-			}
-			change_tag = LEM
-			change_government = monarchy
-			add_government_reform = feudal_monarchy
-			swap_non_generic_missions = yes
+			limit = { NOT = { government_rank = 6 } }
+			set_government_rank = 6
 		}
-		set_government_rank = 6
-		add_prestige = 50
+		if = {
+			limit = {
+				OR = {
+					government = monarchy
+					government = theocracy
+				}
+			}
+			add_government_reform = holy_state_reform
+		}
+		change_tag = LEM
+		on_change_tag_effect = yes
+		if = {
+			limit = { NOT = { has_idea_group = LEM_ideas } }
+			country_event = {
+				id = ideagroups.1
+			}
+		}
+		else = {
+			add_prestige_or_monarch_power = {
+				amount = 50
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = "knights_missions.3.b"
+		if = {
+			limit = {
+				NOT = { has_reform = monastic_order_reform }
+				NOT = { government_rank = 6 }
+			}
+			set_government_rank = 6
+		}
+		add_prestige_or_monarch_power = {
+			amount = 50
+		}
+		ai_chance = {
+			factor = 0
+		}
 	}
 }
 

@@ -579,6 +579,7 @@ country_event = {
 		hidden_effect = {
 			DNZ = { 
 				change_tag = PRU
+				on_change_tag_effect = yes
 				override_country_name = RPR
 				set_country_flag = is_RPR_flag
 			}
@@ -664,6 +665,7 @@ country_event = {
 		name = flavor_teu.5.a
 		end_disaster = prussian_confederation_disaster
 		change_tag = DNZ
+		on_change_tag_effect = yes
 		if = {
 			limit = {
 				owns = 402
@@ -1582,6 +1584,7 @@ country_event = {
 		NOT = { in_league = catholic }
 		NOT = { in_league = protestant }
 		hre_leagues_enabled = yes
+		is_free_or_tributary_trigger = yes
 	}
 	mean_time_to_happen = {
 		months = 3
@@ -1700,7 +1703,7 @@ country_event = {
 		#}
 		hidden_effect = {
 			unlock_government_reform = {
-				government_reform = prussian_monarchy
+				government_reform = prussian_monarchy_base
 			}
 			unlock_government_reform = {
 				government_reform = prussian_republic_reform
@@ -1713,7 +1716,7 @@ country_event = {
 			limit = { NOT = { government = monarchy } }
 			change_government = monarchy
 		}
-		add_government_reform = prussian_monarchy
+		add_government_reform = prussian_monarchy_base
 		if = {
 			limit = { NOT = { government_rank = 2 } }
 			set_government_rank = 2
@@ -1942,8 +1945,20 @@ country_event = {
 	option = {	# Okay.
 		name = flavor_teu.30.a
 		custom_tooltip = flavor_teu.30.a.tt
-		set_in_empire = yes
-		set_country_flag = teu_joined_the_hre
+		if = {
+			limit = {
+				NOT = { has_country_flag = teu_crusader_path }
+			}
+			set_in_empire = yes
+			set_country_flag = teu_joined_the_hre
+		}
+		else = {
+			custom_tooltip = flavor_teu.30.a.bt
+			if = {
+				limit = { is_part_of_hre = yes }
+				set_in_empire = no
+			}
+		}
 		ai_chance = {
 			factor = 100
 		}
@@ -2072,6 +2087,7 @@ country_event = {
 			NOT = { has_country_flag = teu_is_allowed_to_stay_in_the_hre }
 		}
 		change_tag = PRU
+		on_change_tag_effect = yes
 		restore_country_name_effect = yes
 		if = {
 			limit = {
@@ -2150,6 +2166,7 @@ country_event = {
 	option = {
 		name = flavor_teu.35.a
 		change_tag = GER
+		on_change_tag_effect = yes
 		restore_country_name_effect = yes
 		if = {
 			limit = {

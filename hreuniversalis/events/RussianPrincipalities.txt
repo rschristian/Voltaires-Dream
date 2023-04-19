@@ -99,6 +99,7 @@ country_event = {
 
 	option = {
 		name = russian_principality_events.1.a #
+		goto = appanage_province
 		if = {
 			limit = {
 				dynasty = "Rurikovich"
@@ -153,6 +154,7 @@ country_event = {
 	title = russian_principality_events.2.t
 	desc = russian_principality_events.2.d
 	picture = PEASANTS_ON_STEPPES_eventPicture
+	goto = agricultural_intensification_province
 
 	trigger = {
 		has_dlc = "Third Rome"
@@ -226,18 +228,18 @@ country_event = {
 		name = russian_principality_events.3.a #Let us grant more land to the Boyars.
 		add_meritocracy = 10
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = ADM
-			amount = 35
+			mechanic_type = russian_mechanic
+			power_type = russian_adm_power
+			value = 35
 		}
 	}
 	option = {
 		name = russian_principality_events.3.b #We do not need the Boyar's for this.
 		add_mandate = 5
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = MIL
-			amount = 35
+			mechanic_type = russian_mechanic
+			power_type = russian_mil_power
+			value = 35
 		}
 	}
 }
@@ -249,6 +251,7 @@ country_event = {
 	title = russian_principality_events.4.t
 	desc = russian_principality_events.4.d
 	picture = PEASANTS_ON_STEPPES_eventPicture
+	goto = random_province
 
 	trigger = {
 		has_dlc = "Third Rome"
@@ -273,6 +276,13 @@ country_event = {
 				33 = { set_country_flag = land_production }
 				33 = { set_country_flag = land_manpower }
 			}
+			random_owned_province = {
+				limit = {
+					is_capital = no
+					has_owner_culture = yes
+				}
+				save_event_target_as = random_province
+			}
 		}
 	}
 	
@@ -289,31 +299,19 @@ country_event = {
 			on_trigger = has_country_flag
 			land_tax = {
 				clr_country_flag = land_tax
-				random_owned_province = {
-					limit = {
-						is_capital = no
-						has_owner_culture = yes
-					}
+				event_target:random_province = {
 					add_base_tax = 1
 				}
 			}
 			land_production = {
 				clr_country_flag = land_production
-				random_owned_province = {
-					limit = {
-						is_capital = no
-						has_owner_culture = yes
-					}
+				event_target:random_province = {
 					add_base_production = 1
 				}
 			}
 			land_manpower = {
 				clr_country_flag = land_manpower
-				random_owned_province = {
-					limit = {
-						is_capital = no
-						has_owner_culture = yes
-					}
+				event_target:random_province = {
 					add_base_manpower = 1
 				}
 			}
@@ -331,25 +329,25 @@ country_event = {
 			land_tax = {
 				clr_country_flag = land_tax
 				add_government_power = {
-					government_mechanic = russian_mechanic
-					which = ADM
-					amount = 35
+					mechanic_type = russian_mechanic
+					power_type = russian_adm_power
+					value = 35
 				}
 			}
 			land_production = {
 				clr_country_flag = land_production
 				add_government_power = {
-					government_mechanic = russian_mechanic
-					which = DIP
-					amount = 35
+					mechanic_type = russian_mechanic
+					power_type = russian_dip_power
+					value = 35
 				}
 			}
 			land_manpower = {
 				clr_country_flag = land_manpower
 				add_government_power = {
-					government_mechanic = russian_mechanic
-					which = MIL
-					amount = 35
+					mechanic_type = russian_mechanic
+					power_type = russian_mil_power
+					value = 35
 				}
 			}
 		}
@@ -363,6 +361,7 @@ country_event = {
 	title = russian_principality_events.5.t
 	desc = russian_principality_events.5.d
 	picture = TR_FAMINE_eventPicture
+	goto = famine_province
 
 	trigger = {
 		has_dlc = "Third Rome"
@@ -417,9 +416,9 @@ country_event = {
 		}
 		reduce_estate_nobles_loyalty_effect = yes
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = MIL
-			amount = -25
+			mechanic_type = russian_mechanic
+			power_type = russian_mil_power
+			value = -25
 		}
 		add_legitimacy = -5
 		add_mandate = -5
@@ -437,9 +436,9 @@ country_event = {
 		}
 		reduce_estate_church_loyalty_effect = yes
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = ADM
-			amount = -25
+			mechanic_type = russian_mechanic
+			power_type = russian_adm_power
+			value = -25
 		}
 		if = {
 			limit = { is_emperor_of_china = yes }
@@ -462,9 +461,9 @@ country_event = {
 			factor = 33
 		}
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = DIP
-			amount = -25
+			mechanic_type = russian_mechanic
+			power_type = russian_dip_power
+			value = -25
 		}
 		add_years_of_income = -0.25
 		event_target:famine_province = {
@@ -500,6 +499,7 @@ country_event = {
 	title = russian_principality_events.6.t
 	desc = russian_principality_events.6.d
 	picture = ENTERING_MOSCOW_eventPicture
+	goto = province_to_rob
 
 	trigger = {
 		has_dlc = "Third Rome"
@@ -680,9 +680,9 @@ country_event = {
 		}
 		add_estate_burghers_loyalty_effect = yes
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = DIP
-			amount = 30
+			mechanic_type = russian_mechanic
+			power_type = russian_dip_power
+			value = 30
 		}
 		trigger_switch = {
 			on_trigger = has_country_flag
@@ -705,6 +705,7 @@ country_event = {
 	title = russian_principality_events.7.t
 	desc = russian_principality_events.7.d
 	picture = PEASANTS_ON_STEPPES_eventPicture
+	goto = serfdom_province
 
 	trigger = {
 		has_dlc = "Third Rome"
@@ -781,9 +782,9 @@ country_event = {
 			factor = 50
 		}
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = ADM
-			amount = 25
+			mechanic_type = russian_mechanic
+			power_type = russian_adm_power
+			value = 25
 		}
 		event_target:serfdom_province = {
 			area = {
@@ -885,9 +886,9 @@ country_event = {
 			NOT = { num_of_cities = 2 }
 		}
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = ADM
-			amount = 15
+			mechanic_type = russian_mechanic
+			power_type = russian_adm_power
+			value = 15
 		}
 		add_years_of_income = 0.2
 		reduce_estate_nobles_loyalty_effect = yes
@@ -914,9 +915,9 @@ country_event = {
 			factor = 50
 		}
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = DIP
-			amount = 15
+			mechanic_type = russian_mechanic
+			power_type = russian_dip_power
+			value = 15
 		}
 		add_legitimacy = 5
 		add_estate_nobles_loyalty_effect = yes
@@ -964,6 +965,7 @@ country_event = {
 
 	option = {
 		name = russian_principality_events.9.a #
+		goto = tatar_province
 		ai_chance = {
 			factor = 25
 			modifier = {
@@ -1015,6 +1017,7 @@ country_event = {
 	title = russian_principality_events.10.t
 	desc = russian_principality_events.10.d
 	picture = KREMLIN_eventPicture
+	goto = kremlin_here
 
 	trigger = {
 		has_dlc = "Third Rome"
@@ -1056,9 +1059,9 @@ country_event = {
 		name = russian_principality_events.10.b
 		reduce_estate_burghers_loyalty_effect = yes
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = DIP
-			amount = -35
+			mechanic_type = russian_mechanic
+			power_type = russian_dip_power
+			value = -35
 		}
 		add_prestige = 5
 		event_target:kremlin_here = {
@@ -1071,9 +1074,9 @@ country_event = {
 	option = {
 		name = russian_principality_events.10.c
 		add_government_power = {
-			government_mechanic = russian_mechanic
-			which = ADM
-			amount = -20
+			mechanic_type = russian_mechanic
+			power_type = russian_adm_power
+			value = -20
 		}
 		reduce_estate_church_loyalty_effect = yes
 		add_patriarch_authority = -0.20
