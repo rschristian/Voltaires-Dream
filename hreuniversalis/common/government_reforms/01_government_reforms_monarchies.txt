@@ -194,12 +194,17 @@ feudal_france_reform = {
 		}
 	}
 	fixed_rank = 5
+	maintain_dynasty = yes
 	lock_level_when_selected = yes
 
 	modifiers = {
 		nobles_influence_modifier = 0.1
 		vassal_income = 0.2
 		max_absolutism = -50
+		#mod
+		diplomats = 1
+		diplomatic_annexation_cost = 0.5
+		liberty_desire_from_subject_development = 0.25
 	}
 
 	custom_attributes = {
@@ -207,6 +212,13 @@ feudal_france_reform = {
 		has_appanages = yes
 		need_crownland_to_annex = yes
 		nobility_loyalty_hit_on_integration = yes
+	}
+
+	conditional = {
+		allow = { has_dlc = "Mandate of Heaven" }
+		government_abilities = {
+			france_mechanic
+		}
 	}
 }
 
@@ -278,7 +290,6 @@ absolutist_france_reform = {
 	modifiers = {
 		all_estate_influence_modifier = -0.1
 		max_absolutism = 10
-		
 	}
 
 	custom_attributes = {
@@ -287,11 +298,26 @@ absolutist_france_reform = {
 }
 
 celestial_empire = {
-	icon = "capet"
+	icon = "russian_principality"
 	allow_normal_conversion = no
 	allow_convert = no
 	potential = {
-		have_had_reform = celestial_empire
+		if = {
+			limit = {
+				has_dlc = "Mandate of Heaven"
+			}
+			is_emperor_of_china = yes
+		}
+		else = {
+			OR = {
+				has_reform = celestial_empire
+				AND = {
+					culture_group = east_slavic
+					num_of_cities = 50
+				}
+			}
+		}
+		NOT = { has_global_flag = empire_of_china_dismantled }
 	}
 	legacy_equivalent = celestial_empire_legacy
 	maintain_dynasty = yes
@@ -302,20 +328,53 @@ celestial_empire = {
 	nation_designer_cost = 10
 	lock_level_when_selected = yes
 	nation_designer_trigger = {
-		culture_group = french
-		capital_scope = { superregion = french_superregion }
+		culture_group = east_slavic
+		technology_group = eastern
+		capital_scope = {
+			OR = {
+				superregion = russia_superregion
+				superregion = ruthenia_superregion
+			}
+		}
 	}
 
 	fixed_rank = 5
-	start_territory_to_estates = 0.3
+	start_territory_to_estates = 0.9
 
 	modifiers = {
 		prestige = 0.5
-		diplomats = 1
-		envoy_travel_time = -0.25
-		diplomatic_annexation_cost = 0.5
-		liberty_desire_from_subject_development = 0.25
-		max_absolutism = 5
+		church_influence_modifier = -0.1
+		nobles_influence_modifier = -0.1
+		burghers_influence_modifier = -0.1
+		has_streltsy = yes
+		allowed_streltsy_fraction = 0.1
+		governing_capacity = 300
+	}
+
+	ai = {
+		factor = 1000 # should always be picked if available
+	}
+
+	custom_attributes = {
+		locked_government_type = yes
+		has_unify_china_cb = yes
+	}
+
+	conditional = {
+		allow = { has_dlc = "Mandate of Heaven" }
+		has_meritocracy = yes
+	}
+
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Third Rome" 
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			russian_mechanic
+		}
 	}
 }
 
@@ -1120,7 +1179,7 @@ barbary_sultanate_reform = {
 	modifiers = {
 		land_attrition = -0.1
 		may_perform_slave_raid = yes
-		coast_raid_range = 5
+		coast_raid_range = 3
 		navy_tradition_decay = -0.005
 	}
 	conditional = {
@@ -2773,120 +2832,6 @@ livonian_naval_monarchy = {
 			statists = {
 				global_colonial_growth = 10
 				global_trade_power = 0.1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				trade_efficiency = 0.1
 				legitimacy = -1
 			}
