@@ -295,7 +295,7 @@ vn_spa_missions_slot_1_b = {
 			}
         }
         effect = {
-			add_prestige = 20
+			add_prestige_or_monarch_power = { amount = 20 }
 			add_country_modifier = {
 				name = "spa_invasion_of_england_mission"
 				duration = 9125
@@ -341,15 +341,15 @@ vn_spa_missions_slot_2_a = {
 			}
         }
         effect = {
-            add_stat_or_monarch_power = {
+            change_ruler_stat = {
 				stat = adm
 				amount = 1
 			}
-			add_stat_or_monarch_power = {
+			change_ruler_stat = {
 				stat = dip
 				amount = 1
 			}
-			add_stat_or_monarch_power = {
+			change_ruler_stat = {
 				stat = mil
 				amount = 1
 			}
@@ -520,7 +520,7 @@ vn_spa_missions_slot_2_b = {
 	has_country_shield = yes
 	
     vn_spa_spanish_emperorship = {
-        icon = mission_rb_control_electors
+        icon = mission_imperial_spain
         position = 13
         required_missions = { vn_spa_a_new_dynasty }
         trigger = {
@@ -529,21 +529,18 @@ vn_spa_missions_slot_2_b = {
 				is_emperor = yes
 				imperial_influence = 50
 			}
+			else = {
+				NOT = { exists = HLR }
+			}
         }
         effect = {
-            if = {
-				limit = { hre_size = 1 }
-				add_imperial_influence = 5
-				add_prestige = 25
-				every_elector = {
-					add_opinion = {
-						modifier = spa_spanish_emperorship_opinion
-						who = ROOT
-					}
+			add_imperial_influence = 5
+			add_prestige_or_monarch_power = { amount = 25 } 
+			every_elector = {
+				add_opinion = {
+					modifier = spa_spanish_emperorship_opinion
+					who = ROOT
 				}
-			}
-			else = {
-				custom_tooltip = vn_ase_elect_new_king.tt4	#Bypass
 			}
         }
     }
@@ -626,6 +623,13 @@ vn_spa_missions_slot_2_c = {
 				name = "spa_spanish_armada_mission"
 				duration = 18250			
 			}
+			if = {
+				limit = { has_dlc = "Domination" }
+				add_country_modifier = {
+					name = spa_employ_galleon_modifier
+					duration = -1 
+				}
+			}
         }
     }
     vn_spa_curb_naval_threats = {
@@ -654,19 +658,21 @@ vn_spa_missions_slot_2_c = {
         position = 18
         required_missions = {  }
         trigger = {
+			is_year = 1500
             if = {
 				limit = { has_dlc = "Cradle of Civilization" }
 				army_professionalism = 0.3
 			}
 			num_of_infantry = 30
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				has_age_ability = ab_spain_tercio
-			}
 			num_of_generals = 3
 			army_tradition = 50
+			reform_level = 4
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Domination" }
+				add_government_reform = tercios_reform
+			}
             if = {
 				limit = { has_dlc = "Mandate of Heaven" }
 				add_splendor = 30
@@ -935,6 +941,11 @@ vn_spa_missions_slot_3_a = {
 			}
         }
         effect = {
+			add_power_projection = {
+				type = 25_permanent_power_projection
+				amount = 10
+			}
+			custom_tooltip = zim_amongst_the_great_powers_tt
             picard_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1438,6 +1449,18 @@ vn_spa_missions_slot_5_a = {
 			}
         }
         effect = {
+			change_ruler_stat = {
+				stat = adm
+				amount = 1
+			}
+			change_ruler_stat = {
+				stat = dip
+				amount = 1
+			}
+			change_ruler_stat = {
+				stat = mil
+				amount = 1
+			}
             insular_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -1594,6 +1617,11 @@ vn_spa_missions_slot_5_b = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Domination" }
+				set_country_flag = sevilla_trade_center_flag 
+				country_event = { id = flavor_spa.3153 }
+			}
             1867 = {
 				add_base_production = 2
 				add_province_modifier = {

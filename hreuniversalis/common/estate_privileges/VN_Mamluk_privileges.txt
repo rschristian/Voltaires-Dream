@@ -109,32 +109,32 @@ estate_mamluks_land_rights = {
 		modifier = {
 			factor = 1.25
 			tag = MOS
-			NOT = { adm_tech = 17 }
+			NOT = { adm_tech = 52 }
 		}
 		modifier = {
 			factor = 1.25
 			tag = RUS
-			NOT = { adm_tech = 17 }
+			NOT = { adm_tech = 52 }
 		}
 		modifier = {
 			factor = 1.25
 			tag = TUR
-			NOT = { adm_tech = 17 }
+			NOT = { adm_tech = 52 }
 		}
 		modifier = {
 			factor = 1.25
 			tag = FRA
-			NOT = { adm_tech = 17 }
+			NOT = { adm_tech = 52 }
 		}
 		modifier = {
 			factor = 1.25
 			tag = SPA
-			NOT = { adm_tech = 17 }
+			NOT = { adm_tech = 52 }
 		}
 		modifier = {
 			factor = 1.25
 			tag = PLC
-			NOT = { adm_tech = 17 }
+			NOT = { adm_tech = 52 }
 		}
 		#Has already a similar privilege active
 		modifier = {
@@ -355,9 +355,10 @@ estate_mamluks_mamluk_host = {
 	max_absolutism = -5
 	loyalty = -0.05
 	influence = 0.1
-	benefits = {
+	modifier_by_land_ownership = {
 		mercenary_manpower = 0.25
-		mercenary_discipline = 0.025
+		mercenary_discipline = 0.1
+		army_tradition_decay = -0.02
 	}
 	ai_will_do = {
 		factor = 10
@@ -481,11 +482,16 @@ estate_mamluks_special_privilege = {
 	is_valid = {
 		has_reform = mamluk_leadership_reform
 	}
+	modifier_by_land_ownership = {
+		morale_damage = 0.1
+		land_maintenance_modifier = 0.15
+	}
 	penalties = {
 	}
 	benefits = {
-		reinforce_speed = 0.1
-		reinforce_cost_modifier = -0.1
+	}
+	mechanics = {
+		exempt_from_seize_land
 	}
 	ai_will_do = {
 		factor = 10
@@ -493,5 +499,189 @@ estate_mamluks_special_privilege = {
 			factor = 0
 			is_absolutism_active = yes
 		}
+	}
+}
+
+estate_mamluks_military_ministerium = {
+	icon = privilege_army_professionalism
+	loyalty = 0.0
+	influence = 0.05
+	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
+	is_valid = {
+		has_dlc = "Domination"
+	}
+	can_select = {
+	}
+	on_granted = {
+		enable_estate_action = {
+			estate_action = RECRUIT_MAMLUK_GENERAL_MAMLUKS
+		}
+	}
+	on_revoked = {
+		disable_estate_action = {
+			estate_action = RECRUIT_MAMLUK_GENERAL_MAMLUKS
+		}
+	}
+	on_invalid = {
+		disable_estate_action = {
+			estate_action = RECRUIT_MAMLUK_GENERAL_MAMLUKS
+		}
+	}
+	ai_will_do = {
+		factor = 0
+	}
+}
+
+estate_mamluks_military_service = {
+	icon = privilege_military
+	loyalty = 0.0
+	influence = 0.05
+	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
+	is_valid = {
+		has_dlc = "Domination"
+	}
+	can_select = {
+	}
+	on_granted = {
+		enable_estate_action = {
+			estate_action = CONTRIBUTE_WARRIORS_MAMLUKS
+		}
+		enable_estate_action = {
+			estate_action = RAISE_HOST_MAMLUKS
+		}
+	}
+	on_revoked = {
+		disable_estate_action = {
+			estate_action = CONTRIBUTE_WARRIORS_MAMLUKS
+		}
+		disable_estate_action = {
+			estate_action = RAISE_HOST_MAMLUKS
+		}
+	}
+	on_invalid = {
+		disable_estate_action = {
+			estate_action = CONTRIBUTE_WARRIORS_MAMLUKS
+		}
+		disable_estate_action = {
+			estate_action = RAISE_HOST_MAMLUKS
+		}
+	}
+	ai_will_do = {
+		factor = 1
+	}
+}
+
+estate_mamluks_grant_military_leadership = {
+	icon = privilege_army_tradition
+	loyalty = 0.05
+	influence = 0.05
+	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
+	is_valid = {
+		has_dlc = "Domination"
+	}
+	can_select = {
+	}
+	on_granted = {
+		enable_estate_action = {
+			estate_action = RECRUIT_MINISTER_MAMLUKS
+		}
+	}
+	on_revoked = {
+		disable_estate_action = {
+			estate_action = RECRUIT_MINISTER_MAMLUKS
+		}
+	}
+	on_invalid = {
+		disable_estate_action = {
+			estate_action = RECRUIT_MINISTER_MAMLUKS
+		}
+	}
+	ai_will_do = {
+		factor = 5
+	}
+}
+
+estate_mamluks_patronize_mamluk_familiy = {
+	icon = privilege_monopoly
+	loyalty = 0.0
+	influence = 0.05
+	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
+	is_valid = {
+		has_dlc = "Domination"
+	}
+	on_granted = {
+		enable_estate_action = {
+			estate_action = PATRONIZE_MAMLUK_FAMILIES_MAMLUKS
+		}
+	}
+	on_invalid = {
+		disable_estate_action = {
+			estate_action = PATRONIZE_MAMLUK_FAMILIES_MAMLUKS
+		}
+	}
+	on_revoked = {
+		disable_estate_action = {
+			estate_action = PATRONIZE_MAMLUK_FAMILIES_MAMLUKS
+		}
+	}
+	mechanics = {
+	}
+	conditional_modifier = {
+		trigger = { has_government_mechanic = russian_modernization_mechanic }
+		modifier = { monthly_russian_modernization = -0.02 }
+	}
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 0.1
+			is_absolutism_active = yes
+		}
+	}
+}
+
+estate_mamluks_force_conscription = {
+	icon = privilege_land_force_limit
+	loyalty = 0
+	influence = 0.05
+	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
+	is_valid = {
+		has_dlc = "Domination"
+	}
+	can_select = {
+		if = {
+			limit = { has_estate = estate_nobles }
+			NOT = { has_estate_privilege = estate_nobles_force_conscription }
+		}
+		if = {
+			limit = { has_estate = estate_maratha }
+			NOT = { has_estate_privilege = estate_maratha_force_conscription }
+		}
+		if = {
+			limit = { has_estate = estate_rajput }
+			NOT = { has_estate_privilege = estate_rajput_force_conscription }
+		}
+	}
+	on_granted = {
+		enable_estate_action = {
+			estate_action = RECRUIT_MAMLUK_TROOPS_MAMLUKS
+		}
+	}
+	on_revoked = {
+		disable_estate_action = {
+			estate_action = RECRUIT_MAMLUK_TROOPS_MAMLUKS
+		}
+	}
+	on_invalid = {
+		disable_estate_action = {
+			estate_action = RECRUIT_MAMLUK_TROOPS_MAMLUKS
+		}
+	}
+	ai_will_do = {
+		factor = 0
 	}
 }

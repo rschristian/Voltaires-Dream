@@ -2933,7 +2933,7 @@ province_event = {
 						has_port = yes 
 						OR = { 
 							superregion = balkans_superregion 
-							region = anatolia_region 
+							superregion = anatolia_superregion 
 						}
 					}
 					add_province_modifier = {
@@ -5092,204 +5092,7 @@ country_event = {
 	}
 }
 
-# The Eyalet of Adal
-country_event = {
-	id = flavor_tur.227
-	title = flavor_tur.227.t
-	desc = flavor_tur.227.desc
-	picture = EYALET_eventPicture
-	is_triggered_only = yes
-	
-	option = {	# Turn the Adal into a proper Core Eyalet
-		name = flavor_tur.227.a
-		trigger = {
-			ADA = {
-				is_subject_of = ROOT
-				NOT = { is_subject_of_type = core_eyalet }
-			}
-		}
-		ADA = {
-			hidden_effect = {
-				grant_independence = yes
-			}
-			eyalet_effect = {
-				tag = E13
-			}
-		}
-		create_subject = {
-			who = ADA
-			subject_type = core_eyalet
-		}
-		ADA = {
-			if = {
-				limit = { NOT = { government = monarchy } }
-				change_government = monarchy
-			}
-			if = {
-				limit = { NOT = { has_reform = eyalet_government } }
-				add_government_reform = eyalet_government
-			}
-		}
-		custom_tooltip = CORE_EYALET_TT
-		add_dip_power = 50
-		
-		ai_chance = {
-			factor = 1
-		}
-	}
-	
-	option = {	# Just let them be.
-		name = flavor_tur.227.b
-		trigger = {
-			ADA = {
-				is_subject_of = ROOT
-				NOT = { is_subject_of_type = core_eyalet }
-			}
-		}
-		ADA = {
-			add_opinion = {
-				who = ROOT
-				modifier = tur_granted_subject_autonomy
-			}
-			add_liberty_desire = -50
-		}
-		add_dip_power = 50
-		
-		ai_chance = {
-			factor = 0
-		}
-	}
-	
-	option = {	# Our greatest Core Eyalet
-		name = flavor_tur.227.c
-		trigger = {
-			ADA = {
-				is_subject_of = ROOT
-				is_subject_of_type = core_eyalet
-			}
-		}
-		ADA = {
-			eyalet_effect = {
-				tag = E13
-			}
-		}
-		add_country_modifier = {
-			name = tur_integration_of_a_core_eyalet
-			duration = 7300
-		}
-		add_dip_power = 50
-		
-		ai_chance = {
-			factor = 0
-		}
-	}
-	
-	option = {	# Fallback option
-		name = flavor_tur.209.d
-		trigger = {
-			NOT = { ADA = { is_subject_of = ROOT } }
-		}
-		add_adm_power = 100
-		
-		ai_chance = {
-			factor = 0
-		}
-	}
-}
-
-# The Eyalet in the Adal area
-country_event = {
-	id = flavor_tur.228
-	title = flavor_tur.228.t
-	desc = flavor_tur.228.desc
-	picture = EYALET_eventPicture
-	fire_only_once = yes
-	trigger = {
-		has_dlc = "Domination"
-		has_government_attribute = has_eyalets
-		tag = TUR
-		OR = {
-			NOT = { exists = ADA }
-			NOT = { exists = HAR }
-			NOT = { exists = AFA }
-		}
-		any_owned_province = {
-			OR = {
-				area = red_sea_coast_area
-				area = tigray_area
-				area = aussa_area
-				area = ifat_area
-				area = central_ethiopia_area
-			}
-		}
-	}
-	mean_time_to_happen = {
-		months = 12
-	}
-
-	immediate = {
-		hidden_effect = {
-			if = {
-				limit = { NOT = { exists = ADA } }
-				ADA = { save_event_target_as = first_potential_eyalet }
-			}
-			else_if = {
-				limit = { NOT = { exists = HAR } }
-				HAR = { save_event_target_as = first_potential_eyalet }
-			}
-			else_if = {
-				limit = { NOT = { exists = AFA } }
-				AFA = { save_event_target_as = first_potential_eyalet }
-			}
-		}
-	}
-	
-	option = {	# Create the great Adal Eyalet
-		name = flavor_tur.228.a
-		trigger = {
-			has_saved_event_target = first_potential_eyalet
-		}
-		hidden_effect = {
-			every_owned_province = {
-				limit = { is_core = event_target:first_potential_eyalet }
-				remove_core = event_target:first_potential_eyalet
-			}
-		}
-		horn_of_africa_region = {
-			limit = { owned_by = ROOT }
-			add_core = event_target:first_potential_eyalet
-		}
-		release = event_target:first_potential_eyalet
-		create_subject = { 
-			subject_type = eyalet
-			who = event_target:first_potential_eyalet
-		}
-		event_target:first_potential_eyalet = {
-			if = {
-				limit = { NOT = { government = monarchy } }
-				change_government = monarchy
-			}
-			add_government_reform = eyalet_government
-			add_liberty_desire = -25
-			eyalet_effect = {
-				tag = E13
-			}
-		}
-		add_dip_power = 75
-		
-		ai_chance = {
-			factor = 1
-		}
-	}
-	
-	option = {	# Fallback
-		name = flavor_tur.210.d
-		add_adm_power = 100
-		ai_chance = {
-			factor = 0
-		}
-	}
-}
+# flavor_tur.227 - 228 removed
 
 # Seizing the Caliphate - written by Big Boss
 country_event = {
@@ -5374,7 +5177,7 @@ country_event = {
 	option = { 
 		name = flavor_tur.231.a
 		
-		anatolia_region = { 
+		anatolia_superregion = { 
 			limit = { country_or_non_sovereign_subject_holds = ROOT }
 			add_province_modifier = { 
 				name = tur_integration_in_the_ottoman_government_modifier
@@ -7815,7 +7618,7 @@ country_event = {
 		num_of_cities = 5
 		NOT = { religion = shiite }
 		any_rival_country = { religion = shiite }
-		anatolia_region = { owned_by = TUR } 
+		anatolia_superregion = { owned_by = TUR } 
 	}
 	mean_time_to_happen = { months = 120 } 
 	
@@ -7823,21 +7626,21 @@ country_event = {
 		name = flavor_tur.275.a 
 		random_owned_province = { 
 			limit = {
-				region = anatolia_region
+				superregion = anatolia_superregion
 				religion_group = muslim
 			}
 			shiite_rebels = 1 
 		}
 		random_owned_province = { 
 			limit = {
-				region = anatolia_region
+				superregion = anatolia_superregion
 				religion_group = muslim
 			}
 			shiite_rebels = 2 
 		}
 		random_owned_province = { 
 			limit = {
-				region = anatolia_region
+				superregion = anatolia_superregion
 				religion_group = muslim
 			}
 			shiite_rebels = 2 
@@ -7861,7 +7664,7 @@ country_event = {
 		NOT = { is_year = 1600 }
 		NOT = { religion = shiite }
 		any_rival_country = { religion = shiite } 
-		anatolia_region = { owned_by = TUR } 
+		anatolia_superregion = { owned_by = TUR } 
 		num_of_cities = 5
 	}
 	mean_time_to_happen = { months = 360 } 
@@ -7870,21 +7673,21 @@ country_event = {
 		name = flavor_tur.276.a 
 		random_owned_province = { 
 			limit = {
-				region = anatolia_region
+				superregion = anatolia_superregion
 				religion_group = muslim
 			}
 			shiite_rebels = 2
 		}
 		random_owned_province = { 
 			limit = {
-				region = anatolia_region
+				superregion = anatolia_superregion
 				religion_group = muslim
 			}
 			shiite_rebels = 1 
 		}
 		random_owned_province = { 
 			limit = {
-				region = anatolia_region
+				superregion = anatolia_superregion
 				religion_group = muslim
 			}
 			shiite_rebels = 1
