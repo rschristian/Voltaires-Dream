@@ -203,40 +203,55 @@ estate_mamluks_build_temple_in_y = {
     task_requirements = {
 		if = {
 			limit = {
-				check_variable = {
-					which = estate_mamluks_build_temple_in_y_var
-					value = 3
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
 				}
 			}
-			event_target:agenda_province = {
-				has_building = cathedral
-			}
-		}
-		else_if = {
-			limit = {
-				check_variable = {
-					which = estate_mamluks_build_temple_in_y_var
-					value = 2
-				}
-			}
-			event_target:agenda_province = {
-				OR = {
-					has_building = cathedral
-					has_building = temple
-				}
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
 			}
 		}
 		else = {
-			event_target:agenda_province = {
-				OR = {
-					has_building = monument
-					has_building = temple
+			if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_build_temple_in_y_var
+						value = 3
+					}
+				}
+				event_target:agenda_province = {
 					has_building = cathedral
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_build_temple_in_y_var
+						value = 2
+					}
+				}
+				event_target:agenda_province = {
+					OR = {
+						has_building = cathedral
+						has_building = temple
+					}
+				}
+			}
+			else = {
+				event_target:agenda_province = {
+					OR = {
+						has_building = monument
+						has_building = temple
+						has_building = cathedral
+					}
 				}
 			}
 		}
     }
     task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
@@ -258,6 +273,8 @@ estate_mamluks_build_temple_in_y = {
 		}
     }
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
 		event_target:agenda_province = {
 			if = {
 				limit = { owned_by = root }
@@ -478,25 +495,40 @@ estate_mamluks_build_university_in_y = {
     task_requirements = {
 		if = {
 			limit = {
-				check_variable = {
-					which = estate_mamluks_build_university_in_y_var
-					value = 2
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
 				}
 			}
-			event_target:agenda_province = {
-				has_building = university
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
 			}
 		}
 		else = {
-			event_target:agenda_province = {
-				OR = {
-					has_building = college
+			if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_build_university_in_y_var
+						value = 2
+					}
+				}
+				event_target:agenda_province = {
 					has_building = university
+				}
+			}
+			else = {
+				event_target:agenda_province = {
+					OR = {
+						has_building = college
+						has_building = university
+					}
 				}
 			}
 		}
     }
     task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
@@ -506,6 +538,8 @@ estate_mamluks_build_university_in_y = {
 		add_mil_power = 35
     }
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
 		event_target:agenda_province = {
 			if = {
 				limit = { owned_by = root }
@@ -665,35 +699,50 @@ estate_mamluks_develop_x = {
 		}
 	}
     task_requirements = {
-		event_target:agenda_province = {
-			if = {
-				limit = {
-					root = {
-						check_variable = {
-							which = develop_x_category
-							value = 3
+		if = {
+			limit = {
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
+				}
+			}
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				if = {
+					limit = {
+						root = {
+							check_variable = {
+								which = develop_x_category
+								value = 3
+							}
 						}
 					}
+					base_manpower = "province_mil_var"
 				}
-				base_manpower = "province_mil_var"
-			}
-			else_if = {
-				limit = {
-					root = {
-						check_variable = {
-							which = develop_x_category
-							value = 2
+				else_if = {
+					limit = {
+						root = {
+							check_variable = {
+								which = develop_x_category
+								value = 2
+							}
 						}
 					}
+					base_production = "province_dip_var"
 				}
-				base_production = "province_dip_var"
-			}
-			else = {
-				base_tax = "province_adm_var"
+				else = {
+					base_tax = "province_adm_var"
+				}
 			}
 		}
     }
     task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
@@ -721,6 +770,8 @@ estate_mamluks_develop_x = {
 		}
     }
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
 		event_target:agenda_province = {
 			if = {
 				limit = { owned_by = root }
@@ -917,40 +968,55 @@ estate_mamluks_build_government_building_in_y = {
     task_requirements = {
 		if = {
 			limit = {
-				check_variable = {
-					which = estate_mamluks_build_government_building_in_y_var
-					value = 3
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
 				}
 			}
-			event_target:agenda_province = {
-				has_building = town_hall
-			}
-		}
-		else_if = {
-			limit = {
-				check_variable = {
-					which = estate_mamluks_build_government_building_in_y_var
-					value = 2
-				}
-			}
-			event_target:agenda_province = {
-				OR = {
-					has_building = courthouse
-					has_building = town_hall
-				}
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
 			}
 		}
 		else = {
-			event_target:agenda_province = {
-				OR = {
-					has_building = courthouse
+			if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_build_government_building_in_y_var
+						value = 3
+					}
+				}
+				event_target:agenda_province = {
 					has_building = town_hall
-					has_building = watchman
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_build_government_building_in_y_var
+						value = 2
+					}
+				}
+				event_target:agenda_province = {
+					OR = {
+						has_building = courthouse
+						has_building = town_hall
+					}
+				}
+			}
+			else = {
+				event_target:agenda_province = {
+					OR = {
+						has_building = courthouse
+						has_building = town_hall
+						has_building = watchman
+					}
 				}
 			}
 		}
     }
     task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
@@ -958,6 +1024,8 @@ estate_mamluks_build_government_building_in_y = {
 		add_stability = 1
     }
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
 		event_target:agenda_province = {
 			if = {
 				limit = { owned_by = root }
@@ -988,18 +1056,35 @@ estate_mamluks_hire_advisor = {
 		factor = 1
 	}
 	task_requirements = {
-		employed_advisor = {
-			category = ADM
+		if = {
+			limit = {
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
+				}
+			}
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
+			}
 		}
-		is_in_deficit = no
+		else = {
+			employed_advisor = {
+				category = ADM
+			}
+			is_in_deficit = no
+		}
 	}
     task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
 		}
     }
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
             estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
@@ -1031,12 +1116,27 @@ estate_mamluks_fire_advisor = {
 		clr_country_flag = need_to_fire_adm_advisor
 	}
 	task_requirements = {
-		custom_trigger_tooltip = {
-			tooltip = fire_adm_advisor_tooltip
-			has_country_flag = just_fired_adm_advisor
+		if = {
+			limit = {
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
+				}
+			}
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
+			}
+		}
+		else = {
+			custom_trigger_tooltip = {
+				tooltip = fire_adm_advisor_tooltip
+				has_country_flag = just_fired_adm_advisor
+			}
 		}
 	}
     task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
@@ -1053,6 +1153,8 @@ estate_mamluks_fire_advisor = {
 		NOT = { has_country_flag = just_fired_adm_advisor }
 	}
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
             estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
@@ -1204,55 +1306,70 @@ estate_mamluks_increase_autonomy_in_province_x = {
 	task_requirements = {
 		if = {
 			limit = {
-				check_variable = {
-					which = estate_mamluks_increase_autonomy_in_province_x_var
-					value = 5
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
 				}
 			}
-			event_target:agenda_province = {
-				local_autonomy = 75
-			}
-		}
-		else_if = {
-			limit = {
-				check_variable = {
-					which = estate_mamluks_increase_autonomy_in_province_x_var
-					value = 4
-				}
-			}
-			event_target:agenda_province = {
-				local_autonomy = 60
-			}
-		}
-		else_if = {
-			limit = {
-				check_variable = {
-					which = estate_mamluks_increase_autonomy_in_province_x_var
-					value = 3
-				}
-			}
-			event_target:agenda_province = {
-				local_autonomy = 45
-			}
-		}
-		else_if = {
-			limit = {
-				check_variable = {
-					which = estate_mamluks_increase_autonomy_in_province_x_var
-					value = 2
-				}
-			}
-			event_target:agenda_province = {
-				local_autonomy = 30
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
 			}
 		}
 		else = {
-			event_target:agenda_province = {
-				local_autonomy = 15
+			if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_increase_autonomy_in_province_x_var
+						value = 5
+					}
+				}
+				event_target:agenda_province = {
+					local_autonomy = 75
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_increase_autonomy_in_province_x_var
+						value = 4
+					}
+				}
+				event_target:agenda_province = {
+					local_autonomy = 60
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_increase_autonomy_in_province_x_var
+						value = 3
+					}
+				}
+				event_target:agenda_province = {
+					local_autonomy = 45
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_increase_autonomy_in_province_x_var
+						value = 2
+					}
+				}
+				event_target:agenda_province = {
+					local_autonomy = 30
+				}
+			}
+			else = {
+				event_target:agenda_province = {
+					local_autonomy = 15
+				}
 			}
 		}
 	}
     task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
@@ -1262,6 +1379,8 @@ estate_mamluks_increase_autonomy_in_province_x = {
 		}
     }
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
 		event_target:agenda_province = {
 			clear_random_development_bonus_flags_effect = yes
 		}
@@ -1314,20 +1433,32 @@ estate_mamluks_three_privileges = {
 	task_requirements = {
 		if = {
 			limit = {
-				check_variable = {
-					which = estate_mamluks_three_privileges_var
-					value = 2
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
 				}
 			}
-			num_of_estate_privileges = {
+			has_estate_agenda_auto_completion = {
 				estate = estate_mamluks
-				value = 3
 			}
 		}
 		else = {
-			num_of_estate_privileges = {
-				estate = estate_mamluks
-				value = 2
+			if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_three_privileges_var
+						value = 2
+					}
+				}
+				num_of_estate_privileges = {
+					estate = estate_mamluks
+					value = 3
+				}
+			}
+			else = {
+				num_of_estate_privileges = {
+					estate = estate_mamluks
+					value = 2
+				}
 			}
 		}
 	}
@@ -1338,6 +1469,8 @@ estate_mamluks_three_privileges = {
 		}
     }
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
             estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
@@ -1467,23 +1600,35 @@ estate_mamluks_relations_with_X = {
 	task_requirements = {
 		if = {
 			limit = {
-				check_variable = {
-					which = estate_mamluks_relations_with_X
-					value = 2
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
 				}
 			}
-			event_target:agenda_country = {
-				has_opinion = {
-					who = root
-					value = 100
-				}
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
 			}
 		}
 		else = {
-			event_target:agenda_country = {
-				has_opinion = {
-					who = root
-					value = 50
+			if = {
+				limit = {
+					check_variable = {
+						which = estate_mamluks_relations_with_X
+						value = 2
+					}
+				}
+				event_target:agenda_country = {
+					has_opinion = {
+						who = root
+						value = 100
+					}
+				}
+			}
+			else = {
+				event_target:agenda_country = {
+					has_opinion = {
+						who = root
+						value = 50
+					}
 				}
 			}
 		}
@@ -1495,6 +1640,8 @@ estate_mamluks_relations_with_X = {
 		}
 	}
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
             estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
@@ -1621,11 +1768,26 @@ estate_mamluks_take_slave_province = {
 		province_id = event_target:agenda_province
 	}
 	task_requirements = {
-		event_target:agenda_province = {
-			owned_by = root
+		if = {
+			limit = {
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
+				}
+			}
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
+			}
+		}
+		else = {
+			event_target:agenda_province = {
+				owned_by = root
+			}
 		}
 	}
 	task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
@@ -1636,6 +1798,8 @@ estate_mamluks_take_slave_province = {
 		}
 	}
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
             estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
@@ -1702,11 +1866,26 @@ estate_mamluks_jihad = {
 		is_capital_of = event_target:agenda_country
 	}
 	task_requirements = {
-		event_target:agenda_country = {
-			defensive_war_with = ROOT
+		if = {
+			limit = {
+				has_estate_agenda_auto_completion = {
+					estate = estate_mamluks
+				}
+			}
+			has_estate_agenda_auto_completion = {
+				estate = estate_mamluks
+			}
+		}
+		else = {
+			event_target:agenda_country = {
+				defensive_war_with = ROOT
+			}
 		}
 	}
 	task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_mamluks
+		}
 		add_estate_loyalty = {
 			estate = estate_mamluks
 			loyalty = 10
@@ -1717,6 +1896,8 @@ estate_mamluks_jihad = {
 		}
 	}
     failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
             estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
