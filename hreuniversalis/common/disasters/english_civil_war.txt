@@ -11,6 +11,18 @@ english_civil_war = {
 			tag = AVE
 		}
 		NOT = { has_country_flag = eng_civil_war_happened }
+		if = {
+			limit = {
+				NOT = { has_country_flag = eng_easier_civil_war_triggers }
+			}
+			british_isles_superregion = {
+				owned_by = ROOT
+				NOT = { region = ireland_region }
+				NOT = { region = westireland_region }
+				NOT = { region = mhumhain_region }
+				NOT = { region = northern_ireland_region }
+			}
+		}
 		OR = {
 			has_reform = english_monarchy
 			has_reform = british_monarchy
@@ -26,25 +38,41 @@ english_civil_war = {
 	}
 
 	can_start = {
-		current_age = age_of_absolutism
-		has_any_disaster = no
-		OR = {
-			NOT = { stability = 1 }
-			AND = {
-				current_size_of_parliament = 20
-				NOT = { stability = 2 }
+		if = {
+			limit = {
+				NOT = { has_country_flag = eng_easier_civil_war_triggers }
 			}
-			AND = {
-				absolutism = 20
-				NOT = { stability = 3 }
+			current_age = age_of_absolutism
+			OR = {
+				NOT = { stability = 1 }
+				AND = {
+					current_size_of_parliament = 20
+					NOT = { stability = 2 }
+				}
+				AND = {
+					absolutism = 20
+					NOT = { stability = 3 }
+				}
 			}
 		}
+		else = {
+			NOT = { stability = 3 }
+		}
+		has_any_disaster = no
 	}
 	
 	can_stop = {
 		OR = {
-			stability = 3
 			has_any_disaster = yes
+			if = {
+				limit = {
+					NOT = { has_country_flag = eng_easier_civil_war_triggers }
+				}
+				stability = 1
+			}
+			else = {
+				stability = 3
+			}
 			AND = {
 				NOT = { has_reform = english_monarchy }
 				NOT = { has_reform = british_monarchy }
