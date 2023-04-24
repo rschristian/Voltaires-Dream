@@ -2,6 +2,7 @@ estate_mamluks_land_rights = {
 	icon = privilege_grant_autonomy
 	land_share = 5
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.05
 	influence = 0.05
 	can_select = {
@@ -191,6 +192,7 @@ estate_mamluks_land_rights = {
 estate_mamluks_import_mamluks = {
 	icon = privilege_circassian_slaves
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	influence = 0.1
 	loyalty = 0.05
 	can_select = {
@@ -277,6 +279,7 @@ estate_mamluks_import_mamluks = {
 estate_mamluks_advisors = {
 	icon = privilege_recruit_minister
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	influence = 0.1
 	loyalty = 0.05
 	penalties = {
@@ -305,6 +308,7 @@ estate_mamluks_advisors = {
 estate_mamluks_guaranteed_autonomy = {
 	icon = privilege_permit_self_governance
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.2
 	influence = 0.05
 	is_valid = {
@@ -368,6 +372,7 @@ estate_mamluks_guaranteed_autonomy = {
 estate_mamluks_mamluk_host = {
 	icon = privilege_raise_host
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = -0.05
 	influence = 0.1
 	modifier_by_land_ownership = {
@@ -387,6 +392,7 @@ estate_mamluks_mamluk_host = {
 estate_mamluks_recruit_mamluk_generals = {
 	icon = privilege_military_power 
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	influence = 0.1
 	penalties = {
 	}
@@ -406,6 +412,7 @@ estate_mamluks_recruit_mamluk_generals = {
 estate_mamluks_monopoly_of_slaves = {
 	icon = privilege_monopoly_of_goods_slaves
 	max_absolutism = -10
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.1
 	is_valid = {
 		has_dlc = "Emperor"
@@ -492,6 +499,7 @@ estate_mamluks_monopoly_of_slaves = {
 estate_mamluks_special_privilege = {
 	icon = privilege_recruit_rajput_general
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.05
 	influence = 0.05
 	is_valid = {
@@ -514,6 +522,69 @@ estate_mamluks_special_privilege = {
 			factor = 0
 			is_absolutism_active = yes
 		}
+	}
+}
+
+#Domination generic Estate Privileges
+estate_mamluks_development_of_barracks = {
+	icon = privilege_infantry
+	loyalty = 0.1
+	influence = 0.05
+	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
+	is_valid = {
+		has_dlc = "Domination"
+	}
+	on_granted = {
+		custom_tooltip = estate_mamluks_development_of_barracks
+		tooltip = {
+			add_province_modifier = {
+				name = estate_mamluks_development_of_barracks_mod
+				duration = -1
+			}
+		}
+	}
+	on_revoked = {
+		custom_tooltip = estate_mamluks_development_of_barracks_rt
+	}
+	on_granted_province = {
+		if = {
+			limit = {
+				has_owner_accepted_culture = yes
+				has_manpower_building_trigger = yes
+			}
+			add_province_modifier = {
+				name = estate_mamluks_development_of_barracks_mod
+				duration = -1
+			}
+		}
+	}
+	on_invalid_province = {
+		if = {
+			limit = { has_province_modifier = estate_mamluks_development_of_barracks_mod }
+			remove_province_modifier = estate_mamluks_development_of_barracks_mod
+		}
+	}
+	on_revoked_province = {
+		if = {
+			limit = { has_province_modifier = estate_mamluks_development_of_barracks_mod }
+			remove_province_modifier = estate_mamluks_development_of_barracks_mod
+		}
+	}
+
+	mechanics = {
+		no_estate_crownland_loss_from_developing
+	}
+	conditional_modifier = {
+		trigger = { has_government_mechanic = russian_modernization_mechanic }
+		modifier = { monthly_russian_modernization = -0.03 }
+	}
+	#conditional_modifier = {
+	#	trigger = { has_government_mechanic = ottoman_decadence_mechanic }
+	#	modifier = { monthly_ottoman_decadence = 0.02 }
+	#}
+	ai_will_do = {
+		factor = 0
 	}
 }
 
@@ -624,40 +695,5 @@ estate_mamluks_patronize_mamluk_familiy = {
 			factor = 0.1
 			is_absolutism_active = yes
 		}
-	}
-}
-
-estate_mamluks_exempt_from_bureaucracy = {
-	icon = privilege_empty_throne
-	loyalty = 0.0
-	influence = 0.05
-	max_absolutism = -5
-	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
-	is_valid = {
-		has_dlc = "Domination"
-	}
-	on_granted = {
-		enable_estate_action = {
-			estate_action = PERMIT_SELF_GOVERNANCE_MAMLUKS
-		}
-	}
-	on_invalid = {
-		disable_estate_action = {
-			estate_action = PERMIT_SELF_GOVERNANCE_MAMLUKS
-		}
-	}
-	on_revoked = {
-		disable_estate_action = {
-			estate_action = PERMIT_SELF_GOVERNANCE_MAMLUKS
-		}
-	}
-	mechanics = {
-	}
-	conditional_modifier = {
-		trigger = { has_government_mechanic = russian_modernization_mechanic }
-		modifier = { monthly_russian_modernization = -0.02 }
-	}
-	ai_will_do = {
-		factor = 0
 	}
 }

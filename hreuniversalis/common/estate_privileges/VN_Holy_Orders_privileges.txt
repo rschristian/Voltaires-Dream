@@ -1,6 +1,7 @@
 estate_holy_orders_liberties = {
 	icon = privilege_royal_authority
 	max_absolutism = -10
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	influence = 0.1
 	loyalty = 0.1
 	is_valid = {
@@ -17,6 +18,7 @@ estate_holy_orders_liberties = {
 estate_holy_orders_indebted_to_holy_orders = {
 	icon = privilege_give_money
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.05
 	influence = 0.05
 	on_granted = {
@@ -81,6 +83,7 @@ estate_holy_orders_land_rights = {
 	icon = privilege_grant_autonomy
 	land_share = 5
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.05
 	influence = 0.05
 	can_select = {
@@ -270,6 +273,7 @@ estate_holy_orders_land_rights = {
 estate_holy_orders_settle_templars = {
 	icon = privilege_settle_templars
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	influence = 0.05
 	loyalty = 0.05
 	is_valid = {
@@ -304,6 +308,7 @@ estate_holy_orders_settle_templars = {
 estate_holy_orders_monopoly_of_beer = {
 	icon = privilege_monopoly_of_goods_beer
 	max_absolutism = -10
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.1
 	is_valid = {
 		has_dlc = "Emperor"
@@ -388,6 +393,7 @@ estate_holy_orders_monopoly_of_beer = {
 estate_holy_orders_banking_rights = {
 	icon = privilege_give_money
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.05
 	influence = 0.1
 	penalties = {
@@ -416,6 +422,7 @@ estate_holy_orders_banking_rights = {
 estate_holy_orders_monopoly_on_banking = {
 	icon = privilege_give_money
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.05
 	influence = 0.1
 	is_valid = {
@@ -451,6 +458,7 @@ estate_holy_orders_monopoly_on_banking = {
 estate_holy_orders_court_representation = {
 	icon = privilege_order_court
 	max_absolutism = -10
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.1
 	influence = 0.1
 	is_valid = {
@@ -475,6 +483,7 @@ estate_holy_orders_court_representation = {
 estate_holy_orders_special_privilege = {
 	icon = privilege_grant_new_world_charter
 	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
 	loyalty = 0.05
 	influence = 0.05
 	is_valid = {
@@ -494,6 +503,69 @@ estate_holy_orders_special_privilege = {
 			factor = 0
 			is_absolutism_active = yes
 		}
+	}
+}
+
+#Domination generic Estate Privileges
+estate_holy_orders_development_of_hospitals = {
+	icon = privilege_religious
+	loyalty = 0.1
+	influence = 0.05
+	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
+	is_valid = {
+		has_dlc = "Domination"
+	}
+	on_granted = {
+		custom_tooltip = estate_holy_orders_development_of_hospitals_gt
+		tooltip = {
+			add_province_modifier = {
+				name = estate_holy_orders_development_of_hospitals_mod
+				duration = -1
+			}
+		}
+	}
+	on_revoked = {
+		custom_tooltip = estate_holy_orders_development_of_hospitals_rt
+	}
+	on_granted_province = {
+		if = {
+			limit = {
+				religion_group = christian
+				has_medical_building_trigger = yes
+			}
+			add_province_modifier = {
+				name = estate_holy_orders_development_of_hospitals_mod
+				duration = -1
+			}
+		}
+	}
+	on_invalid_province = {
+		if = {
+			limit = { has_province_modifier = estate_holy_orders_development_of_hospitals_mod }
+			remove_province_modifier = estate_holy_orders_development_of_hospitals_mod
+		}
+	}
+	on_revoked_province = {
+		if = {
+			limit = { has_province_modifier = estate_holy_orders_development_of_hospitals_mod }
+			remove_province_modifier = estate_holy_orders_development_of_hospitals_mod
+		}
+	}
+
+	mechanics = {
+		no_estate_crownland_loss_from_developing
+	}
+	conditional_modifier = {
+		trigger = { has_government_mechanic = russian_modernization_mechanic }
+		modifier = { monthly_russian_modernization = -0.03 }
+	}
+	#conditional_modifier = {
+	#	trigger = { has_government_mechanic = ottoman_decadence_mechanic }
+	#	modifier = { monthly_ottoman_decadence = 0.02 }
+	#}
+	ai_will_do = {
+		factor = 0
 	}
 }
 

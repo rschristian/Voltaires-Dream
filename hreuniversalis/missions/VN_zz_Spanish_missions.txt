@@ -442,6 +442,10 @@ vn_spa_missions_slot_2_a = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Domination" }
+				add_government_reform = system_of_councils_reform 
+			}
 			add_country_modifier = {
 				name = "spa_nueva_planta_decrees_mission"
 				duration = 18250
@@ -520,7 +524,7 @@ vn_spa_missions_slot_2_b = {
 	has_country_shield = yes
 	
     vn_spa_spanish_emperorship = {
-        icon = mission_imperial_spain
+        icon = spa_universal_monarchy
         position = 13
         required_missions = { vn_spa_a_new_dynasty }
         trigger = {
@@ -654,7 +658,7 @@ vn_spa_missions_slot_2_c = {
         }
 	}
 	vn_spa_spanish_tercios = {
-        icon = mission_italian_condottiere
+        icon = spa_tercios_system
         position = 18
         required_missions = {  }
         trigger = {
@@ -774,7 +778,7 @@ vn_spa_missions_slot_3_a = {
         }
     }
     vn_spa_a_new_dynasty = {
-        icon = mission_alliances
+        icon = spa_infantes_aragon
         position = 12
         required_missions = { vn_spa_kingdom_of_spain }
         trigger = {
@@ -1110,7 +1114,7 @@ vn_spa_missions_slot_3_d = {
 	has_country_shield = yes
 	
     vn_spa_el_escorial = {
-        icon = mission_imperial_cities
+        icon = spa_new_capital
         position = 18
 		required_missions = { vn_spa_economic_stability }
 		provinces_to_highlight = {
@@ -1123,7 +1127,7 @@ vn_spa_missions_slot_3_d = {
 					limit = { has_dlc = "Leviathan" }
 					has_great_project = {
 						type = el_escorial
-						tier = 3
+						tier = 1
 					}
 				}
 				else = {
@@ -1134,11 +1138,16 @@ vn_spa_missions_slot_3_d = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Domination" }
+				country_event = { id = flavor_spa.23 }
+			}
             1236 = {
 				add_base_tax = 1
 				add_base_production = 1
 				add_base_manpower = 1
 				move_capital_effect = yes
+				change_trade_goods = paper
 				add_province_modifier = {
 					name = "spa_el_escorial_mission"
 					duration = -1
@@ -1360,10 +1369,16 @@ vn_spa_missions_slot_4_c = {
 			master_of_mint = 3
         }
         effect = {
-			add_years_of_income = 0.5
-			add_country_modifier = {
-				name = "spa_economic_stability_mission"
-				duration = 9125
+			if = {
+				limit = { has_dlc = "Domination" }
+				country_event = { id = flavor_spa.22 }
+			}
+			else = {
+				add_years_of_income = 0.5
+				add_country_modifier = {
+					name = "spa_economic_stability_mission"
+					duration = 9125
+				}
 			}
         }
     }
@@ -1383,6 +1398,10 @@ vn_spa_missions_slot_4_c = {
                     has_had_golden_age = yes
                 }
             }
+			if = {
+				limit = { has_dlc = "Domination" }
+				num_of_tercio = 50
+			}
 			is_in_deficit = no
 			NOT = {
 				any_known_country = {
@@ -1403,6 +1422,12 @@ vn_spa_missions_slot_4_c = {
 			else_if = { 	
 				limit = { in_golden_age = yes } 
 				extend_golden_age = 240 
+			}
+			else = {
+				change_ruler_stat = {
+					stat = adm
+					amount = 2
+				}
 			}
             add_country_modifier = {
 				name = "spa_siglo_de_oro_mission"
@@ -1449,6 +1474,10 @@ vn_spa_missions_slot_5_a = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Domination" }
+				country_event = { id = flavor_spa.199 }
+			}
 			change_ruler_stat = {
 				stat = adm
 				amount = 1
@@ -1595,7 +1624,7 @@ vn_spa_missions_slot_5_b = {
     has_country_shield = yes
 
     vn_spa_port_of_sevilla = {
-        icon = mission_great_trading_houses
+        icon = spa_dominate_sevilla
         position = 18
 		required_missions = { vn_spa_economic_stability }
 		provinces_to_highlight = {
@@ -1617,11 +1646,8 @@ vn_spa_missions_slot_5_b = {
 			}
         }
         effect = {
-			if = {
-				limit = { has_dlc = "Domination" }
-				set_country_flag = sevilla_trade_center_flag 
-				country_event = { id = flavor_spa.3153 }
-			}
+			set_country_flag = sevilla_trade_center_flag 
+			country_event = { id = flavor_spa.3153 }
             1867 = {
 				add_base_production = 2
 				add_province_modifier = {

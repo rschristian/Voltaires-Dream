@@ -77,6 +77,13 @@ country_event = {
 				is_capital = yes
 			}
 		}
+		modifier = {
+			factor = 0.5
+			FROM = {
+				owned_by = AVI
+				is_capital = yes
+			}
+		}
 	}
 
 	option = {
@@ -127,6 +134,12 @@ country_event = {
 					owned_by = PAP
 				}
 			}
+			NOT = {
+				FROM = {
+					is_capital = yes
+					owned_by = AVI
+				}
+			}
 		}
 		ai_chance = {
 			factor = 25
@@ -171,9 +184,15 @@ country_event = {
 		name = army_professionalism_events.1.d2 # plunder the curia treasury
 		trigger = {
 			has_dlc = "Emperor"
-			FROM = {
-				is_capital = yes
-				owned_by = PAP
+			OR = {
+				FROM = {
+					is_capital = yes
+					owned_by = PAP
+				}
+				FROM = {
+					is_capital = yes
+					owned_by = AVI
+				}
 			}
 		}
 		highlight = yes
@@ -200,6 +219,14 @@ country_event = {
 			modifier = {
 				factor = 100
 				religion = catholic
+				OR = {
+					ruler_has_personality = sinner_personality
+					ruler_has_personality = malevolent_personality
+				}
+			}
+			modifier = {
+				factor = 100
+				religion = catholique
 				OR = {
 					ruler_has_personality = sinner_personality
 					ruler_has_personality = malevolent_personality
@@ -262,13 +289,18 @@ province_event = {
 	title = army_professionalism_events.3.t
 	desc = {
 		trigger = {
-			owner = { NOT = { tag = PAP } }
+			owner = { NOT = { tag = PAP } NOT = { tag = AVI } }
 		}
 		desc = army_professionalism_events.3.d
 	}
 	desc = {
 		trigger = {
-			owner = { tag = PAP }
+			owner = {
+				OR = {
+					tag = PAP
+					tag = AVI
+				}
+			}
 		}
 		desc = army_professionalism_events.3.d2
 	}
@@ -281,7 +313,7 @@ province_event = {
 		name = army_professionalism_events.3.a #Barbarians!
 		trigger = {
 			OR = {
-				owner = { NOT = { tag = PAP } }
+				owner = { NOT = { tag = PAP } NOT = { tag = AVI } }
 				NOT = { has_dlc = "Emperor" }
 			}
 		}
@@ -301,7 +333,12 @@ province_event = {
 	option = {
 		name = army_professionalism_events.3.b
 		trigger = {
-			owner = { tag = PAP }
+			owner = {
+				OR = {
+					tag = PAP
+					tag = AVI
+				}
+			}
 			has_dlc = "Emperor"
 		}
 		add_devastation = 100

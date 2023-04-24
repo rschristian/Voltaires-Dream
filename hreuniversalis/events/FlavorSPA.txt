@@ -572,12 +572,18 @@ country_event = {
 	trigger = {
 		OR = {
 			AND = {
-				tag = CAS
-				NOT = { exists = SPA }
+				NOT = { has_dlc = "Golden Century" }
+				OR = {
+					AND = {
+						tag = CAS
+						NOT = { exists = SPA }
+					}
+					tag = SPA
+				}
+				num_of_colonists = 2
 			}
-			tag = SPA
+			has_country_flag = spa_house_of_trade_flag
 		}
-		num_of_colonists = 2
 	}
 
 	mean_time_to_happen = {
@@ -607,10 +613,15 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		tag = SPA
+		OR = {
+			AND = {
+				NOT = { has_dlc = "Golden Century" }
+				tag = SPA
 
-		owns = 1867	# Andalucia
-		num_of_colonies = 1
+				owns = 1867	# Andalucia
+			}
+			has_country_flag = sevilla_trade_center_flag
+		}
 	}
 
 	mean_time_to_happen = {
@@ -2032,24 +2043,26 @@ country_event = {
 	
 	trigger = {
 		OR = {
+			has_country_flag = fate_of_granada_mission_flag
 			AND = {
-				tag = CAS
-				NOT = { exists = SPA }
-			}
-			tag = SPA
-		}
-		OR = {
-		 	religion = catholic
-		 	religion = catholique
-		}
-		has_country_flag = alpujarras_revolt_happened
-		NOT = { has_country_flag = end_of_granada }
-		NOT = { exists = GRA }
-		owns = 443 #Granada
-		NOT = {
-			any_owned_province = {
-				is_core = GRA
-				controlled_by = REB
+				NOT = { has_dlc = "Golden Century" }
+				OR = {
+					AND = {
+						tag = CAS
+						NOT = { exists = SPA }
+					}
+					tag = SPA
+				}
+				has_country_flag = alpujarras_revolt_happened
+				NOT = { has_country_flag = end_of_granada }
+				NOT = { exists = GRA }
+				owns = 443 #Granada
+				NOT = {
+					any_owned_province = {
+						is_core = GRA
+						controlled_by = REB
+					}
+				}
 			}
 		}
 	}
@@ -2805,7 +2818,7 @@ country_event = { #The Infantes of Aragon
 		add_stability = -1
 		random_owned_province = {
 			limit = { 
-				region = iberia_region 
+				superregion = iberia_superregion
 				controlled_by = ROOT 
 			}
 			spawn_rebels = {
@@ -2817,7 +2830,7 @@ country_event = { #The Infantes of Aragon
 		}
 		random_owned_province = {
 			limit = { 
-				region = iberia_region 
+				superregion = iberia_superregion 
 				controlled_by = ROOT 
 			}
 			spawn_rebels = {
@@ -2827,7 +2840,7 @@ country_event = { #The Infantes of Aragon
 				should_take_capital = yes
 			}
 		}
-		custom_tooltip = cas_impact_mission_tt
+		#custom_tooltip = cas_impact_mission_tt
 	}
 	
 	option = { 
@@ -2836,7 +2849,7 @@ country_event = { #The Infantes of Aragon
 		
 		random_owned_province = {
 			limit = { 
-				region = iberia_region 
+				superregion = iberia_superregion
 				controlled_by = ROOT 
 			}
 			spawn_rebels = {
@@ -2847,7 +2860,7 @@ country_event = { #The Infantes of Aragon
 			}
 		}
 		
-		custom_tooltip = cas_impact_mission_tt
+		^#custom_tooltip = cas_impact_mission_tt
 	}
 }
 
@@ -2930,13 +2943,13 @@ country_event = { #San Lorenzo de El Escorial
 	picture = GREAT_BUILDING_eventPicture
 	fire_only_once = yes 
 	is_triggered_only = yes 
-	goto = 217
+	goto = 1236
 	option = { 
 		name = flavor_spa.23.a 
 		
 		if = { 
 			limit = { has_dlc = "Leviathan" } 
-			217 = {
+			1236 = {
 				add_great_project_tier = {
 					type = el_escorial
 					tier = 2 
@@ -2948,7 +2961,7 @@ country_event = { #San Lorenzo de El Escorial
 				name = spa_san_lorenzo_escorial_modifier
 				duration = 9125
 			}
-			217 = {
+			1236 = {
 				add_base_production = 2 
 				add_base_manpower = 1
 			}
