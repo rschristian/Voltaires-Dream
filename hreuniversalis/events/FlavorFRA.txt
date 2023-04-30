@@ -493,7 +493,7 @@ country_event = {
 		name = "flavor_fra.EVTOPTA3119"
 		2910 = {
 			spawn_rebels = {
-				type = huguenot_rebels
+				type = protestant_rebels
 				size = 2
 			}
 		}
@@ -1862,6 +1862,11 @@ country_event = {
 					culture_group = west_slavic
 					culture_group = east_slavic
 					culture_group = byzantine
+					culture_group = basquegroup
+					culture_group = magyar
+					culture_group = albanian_group
+					culture_group = celtic
+					culture_group = dutch_group
 				}
 				root = {
 					consort_culture = prev
@@ -2032,7 +2037,7 @@ country_event = { #The Garden of France
 			}
 		}
 		else = { add_prestige = 10 } 
-		loire_area = { add_base_manpower = 1 }
+		tours_area = { add_base_manpower = 1 }
 	}
 	
 	option = { 
@@ -2085,9 +2090,14 @@ country_event = { #A Lady of Remarkable Beauty
 	desc = flavor_fra.105.d 
 	picture = wihgfx_FEMALE_RULER_eventPicture
 	trigger = {
+		is_year = 1205
 		is_or_was_tag = { tag = ENG }
-		guyenne_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
-		pyrenees_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
+		gascony_region = {
+			type = all country_or_non_sovereign_subject_holds = ROOT
+		}
+		aquitaine_region = {
+			type = all country_or_non_sovereign_subject_holds = ROOT
+		}
 	}
 	fire_only_once = yes
 	mean_time_to_happen = { months = 120 }
@@ -2120,11 +2130,19 @@ country_event = { #House de Valois
 		name = flavor_fra.106.a 
 		
 		ai_chance = { factor = 10 } 
-		FRA = { create_union = PRO }  
+		FRA = { create_union = ROOT }  
 		if = { 
-			limit = { LOR = { is_subject_of = PRO } }
+			limit = { LOR = { is_subject_of = ROOT } }
+			LOR = { grant_independence = yes }
 		}
-		inherit = LOR 
+		if = { 
+			limit = { BAR = { is_subject_of = ROOT } }
+			inherit = BAR 
+		}
+		if = { 
+			limit = { ANJ = { is_subject_of = ROOT } }
+			inherit = ANJ
+		}
 		add_stability_or_adm_power = yes 
 	}
 	
@@ -2206,7 +2224,7 @@ country_event = { #Securing the Milanese Lands
 		hidden_effect = { 
 			every_country = { 
 				limit = { 
-					capital_scope = { region = italy_region } 
+					capital_scope = { superregion = italy_superregion } 
 					NOT = { alliance_with = ROOT } 
 				}
 				add_spy_network_from = {
@@ -2256,7 +2274,7 @@ country_event = {
 			limit = {
 				NOT = { has_country_flag = KNIGHT_WANTS_MALTA_MISSION }
 			}
-			126 = {
+			2711 = {
 				remove_core = ROOT
 				add_core = KNI
 				cede_province = KNI
@@ -2274,7 +2292,7 @@ country_event = {
 			
 		}
 		else = {
-			126 = {
+			2711 = {
 				remove_core = ROOT
 				cede_province = FROM
 				add_core = FROM
@@ -2286,7 +2304,7 @@ country_event = {
 				}
 			}
 		}
-		126 = { 
+		2711 = { 
 			galley = KNI
 			galley = KNI
 			galley = KNI
@@ -2356,9 +2374,9 @@ country_event = { #The Fate of Naples
 		}
 		if = { 
 			limit = { 
-				121 = { country_or_non_sovereign_subject_holds = ROOT }
+				564 = { country_or_non_sovereign_subject_holds = ROOT }
 			}
-			121 = { 
+			564 = { 
 				add_base_tax = 2 
 				add_base_production = 2 
 				add_base_manpower = 2 
@@ -2377,59 +2395,49 @@ country_event = { #The Fate of Naples
 		hidden_effect = { 
 			if = { 
 				limit = { 
-					naples_area = { 
+					campania_region = { 
 						type = all 
 						country_or_non_sovereign_subject_holds = ROOT 
 					}
 				}
-				naples_area = { add_base_tax = -1 }
+				campania_region = { add_base_tax = -1 }
 			}
 			if = { 
 				limit = { 
-					apulia_area = { 
+					apulia_region = { 
 						type = all 
 						country_or_non_sovereign_subject_holds = ROOT 
 					}
 				}
-				apulia_area = { add_base_tax = -1 }
-			}
-			if = { 
-				limit = { 
-					calabria_area = { 
-						type = all 
-						country_or_non_sovereign_subject_holds = ROOT 
-					}
-				}
-				calabria_area = { add_base_tax = -1 }
+				apulia_region = { add_base_tax = -1 }
 			}
 		}
 	}
 	
 	option = {
 		name = flavor_fra.113.c 
-		
-		catalonia_area = {
+		basque_region = {
 			limit = { 
 				NOT = { owned_by = ROOT }
 				NOT = { is_core = ROOT } 
 			}
 			add_permanent_claim = ROOT 
 		}
-		aragon_area = {
+		aragon_region = {
 			limit = { 
 				NOT = { owned_by = ROOT }
 				NOT = { is_core = ROOT } 
 			}
 			add_permanent_claim = ROOT 
 		}
-		valencia_area = {
+		valencian_region = {
 			limit = { 
 				NOT = { owned_by = ROOT }
 				NOT = { is_core = ROOT } 
 			}
 			add_permanent_claim = ROOT 
 		}
-		basque_country = {
+		catalunya_region = {
 			limit = { 
 				NOT = { owned_by = ROOT }
 				NOT = { is_core = ROOT } 
@@ -2457,7 +2465,7 @@ country_event = { #Victory in the Franco-Spanish War
 			limit = { 
 				CAS = { is_subject_of = ROOT } 
 			}
-			iberia_region = { 
+			iberia_superregion = {
 				limit = { 
 					NOT = { is_core = ROOT }
 					NOT = { owned_by = CAS } 
@@ -2469,7 +2477,7 @@ country_event = { #Victory in the Franco-Spanish War
 			limit = { 
 				SPA = { is_subject_of = ROOT } 
 			}
-			iberia_region = { 
+			iberia_superregion = {
 				limit = { 
 					NOT = { is_core = ROOT }
 					NOT = { owned_by = SPA } 
@@ -2481,7 +2489,7 @@ country_event = { #Victory in the Franco-Spanish War
 			limit = { 
 				ARA = { is_subject_of = ROOT } 
 			}
-			iberia_region = { 
+			iberia_superregion = { 
 				limit = { 
 					NOT = { is_core = ROOT }
 					NOT = { owned_by = ARA } 
@@ -2490,7 +2498,7 @@ country_event = { #Victory in the Franco-Spanish War
 			}
 		}
 		else = { 
-			iberia_region = { 
+			iberia_superregion = { 
 				limit = { 
 					NOT = { owned_by = ROOT } 
 					NOT = { is_permanent_claim = ROOT } 
@@ -2521,7 +2529,7 @@ country_event = { #The Paypal Domain
 			country_event = { id = flavor_fra.116 }
 		} 
 		add_papal_influence = 15
-		italy_region = { 
+		italy_superregion = {
 			limit = { 
 				NOT = { is_core = ROOT } 
 				NOT = { owned_by = ROOT }
@@ -2536,7 +2544,7 @@ country_event = { #The Paypal Domain
 		custom_tooltip = fra_change_flag_to_defy_tt
 		clr_country_flag = fra_papal_lap_dop_flag 
 		set_country_flag = fra_chose_to_piss_off_pope_flag
-		swap_non_generic_missions = yes 
+		#swap_non_generic_missions = yes 
 		remove_country_modifier = fra_resurgence_of_crusader_fervor_modifier
 		remove_country_modifier = fra_fervent_call_to_arms_modifier
 		remove_country_modifier = fra_supplementary_pi_and_dip_rep_modifier
@@ -2548,7 +2556,7 @@ country_event = { #The Paypal Domain
 			add_historical_rival = ROOT 
 		}
 		add_historical_rival = ROOT 
-		italy_region = { 
+		italy_superregion = { 
 			limit = { 
 				NOT = { is_core = ROOT } 
 				NOT = { owned_by = ROOT } 
@@ -2583,20 +2591,10 @@ country_event = { #Treaty fo the Lily Flower
 		}
 		custom_tooltip = fra_cede_north_italy_to_pope_tt
 		hidden_effect = { 
-			italy_region = { 
+			italy_superregion = { 
 				limit = { 
 					country_or_non_sovereign_subject_holds = FRA 
 					NOT = { owned_by = PAP } 
-					NOT = { 
-						OR = { 
-							area = naples_area
-							area = calabria_area 
-							area = apulia_area 
-							area = corsica_sardinia_area
-							area = sicily_area 
-							area = western_sicily_area
-						}
-					}
 				}
 				remove_core = FRA 
 				add_core = PAP
@@ -2731,18 +2729,18 @@ country_event = { #The Angevin Government in Genoa
 		
 		if = { 	
 			limit = { 
-				liguria_area = { owned_by = ROOT } 
+				liguria_region = { owned_by = ROOT } 
 			}
-			liguria_area = { change_culture = ROOT } 
+			liguria_region = { change_culture = ROOT } 
 		}
 		custom_tooltip = fra_genoese_fleet_tt
 		hidden_effect = { 
-			101 = { 
+			2560 = { 
 				transport = ROOT transport = ROOT transport = ROOT transport = ROOT transport = ROOT 
 				transport = ROOT transport = ROOT transport = ROOT transport = ROOT transport = ROOT 	
 			}
 		}
-		101 = { 
+		2560 = { 
 			add_province_modifier = { 
 				name = fra_port_of_french_signoria_modifier
 				duration = -1 
@@ -2945,7 +2943,7 @@ country_event = { #The Rade of the Toulon Arsenal
 	option = {
 		name = flavor_fra.202.a 
 		
-		4696 = {
+		2330 = {
 			add_province_modifier = {
 				name = pro_natural_anchorage_of_the_mediterranean_modifier
 				duration = -1 
@@ -2953,7 +2951,7 @@ country_event = { #The Rade of the Toulon Arsenal
 		}
 		custom_tooltip = pro_upgrade_dock_and_shipyard_if_possible_tt
 		hidden_effect = {
-			4696 = {
+			2330 = {
 				if = {
 					limit = { has_building = dock }
 					remove_building = dock 
@@ -3018,103 +3016,103 @@ country_event = { #La Sorbonne
 	option = {
 		name = flavor_fra.204.a 
 		
-		183 = {
+		548 = {
 			add_province_modifier = {
 				name = fra_university_of_paris_modifier
 				duration = -1 
 			}
 		}
 		
-		if = { 
-			limit = { has_dlc = "Rule Britannia" }
-			custom_tooltip = fra_inno_mana_tt
-			hidden_effect = {
-				196 = {
-					if = { 
-						limit = {
-							OR = { 
-								num_of_times_improved = 5 
-								has_building = university 
-							}
-							num_of_buildings_in_province = 2 
-						}
-						ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
-					}
-				}
-				184 = {
-					if = { 
-						limit = {
-							OR = { 
-								num_of_times_improved = 5 
-								has_building = university 
-							}
-							num_of_buildings_in_province = 2 
-						}
-						ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
-					}
-				}
-				200 = {
-					if = { 
-						limit = {
-							OR = { 
-								num_of_times_improved = 5 
-								has_building = university 
-							}
-							num_of_buildings_in_province = 2 
-						}
-						ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
-					}
-				}
-				204 = {
-					if = { 
-						limit = {
-							OR = { 
-								num_of_times_improved = 5 
-								has_building = university 
-							}
-							num_of_buildings_in_province = 2 
-						}
-						ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
-					}
-				}
-				177 = {
-					if = { 
-						limit = {
-							OR = { 
-								num_of_times_improved = 5 
-								has_building = university 
-							}
-							num_of_buildings_in_province = 2 
-						}
-						ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
-					}
-				}
-				201 = {
-					if = { 
-						limit = {
-							OR = { 
-								num_of_times_improved = 5 
-								has_building = university 
-							}
-							num_of_buildings_in_province = 2 
-						}
-						ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
-					}
-				}
-				174 = {
-					if = { 
-						limit = {
-							OR = { 
-								num_of_times_improved = 5 
-								has_building = university 
-							}
-							num_of_buildings_in_province = 2 
-						}
-						ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
-					}
-				}
-			}
-		}
+		# if = { 
+		# 	limit = { has_dlc = "Rule Britannia" }
+		# 	custom_tooltip = fra_inno_mana_tt
+		# 	hidden_effect = {
+		# 		196 = {
+		# 			if = { 
+		# 				limit = {
+		# 					OR = { 
+		# 						num_of_times_improved = 5 
+		# 						has_building = university 
+		# 					}
+		# 					num_of_buildings_in_province = 2 
+		# 				}
+		# 				ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
+		# 			}
+		# 		}
+		# 		184 = {
+		# 			if = { 
+		# 				limit = {
+		# 					OR = { 
+		# 						num_of_times_improved = 5 
+		# 						has_building = university 
+		# 					}
+		# 					num_of_buildings_in_province = 2 
+		# 				}
+		# 				ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
+		# 			}
+		# 		}
+		# 		200 = {
+		# 			if = { 
+		# 				limit = {
+		# 					OR = { 
+		# 						num_of_times_improved = 5 
+		# 						has_building = university 
+		# 					}
+		# 					num_of_buildings_in_province = 2 
+		# 				}
+		# 				ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
+		# 			}
+		# 		}
+		# 		204 = {
+		# 			if = { 
+		# 				limit = {
+		# 					OR = { 
+		# 						num_of_times_improved = 5 
+		# 						has_building = university 
+		# 					}
+		# 					num_of_buildings_in_province = 2 
+		# 				}
+		# 				ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
+		# 			}
+		# 		}
+		# 		177 = {
+		# 			if = { 
+		# 				limit = {
+		# 					OR = { 
+		# 						num_of_times_improved = 5 
+		# 						has_building = university 
+		# 					}
+		# 					num_of_buildings_in_province = 2 
+		# 				}
+		# 				ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
+		# 			}
+		# 		}
+		# 		201 = {
+		# 			if = { 
+		# 				limit = {
+		# 					OR = { 
+		# 						num_of_times_improved = 5 
+		# 						has_building = university 
+		# 					}
+		# 					num_of_buildings_in_province = 2 
+		# 				}
+		# 				ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
+		# 			}
+		# 		}
+		# 		174 = {
+		# 			if = { 
+		# 				limit = {
+		# 					OR = { 
+		# 						num_of_times_improved = 5 
+		# 						has_building = university 
+		# 					}
+		# 					num_of_buildings_in_province = 2 
+		# 				}
+		# 				ROOT = { change_innovativeness = 1 add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
+		# 			}
+		# 		}
+		# 	}
+		# }
 	}
 }
 
@@ -3132,7 +3130,7 @@ country_event = { #The Holy Lands of Jerusalem
 			KOJ = { exists = no } 
 		}
 		
-		palestine_area = {
+		palestine_region = {
 			remove_core = ROOT
 			add_core = KOJ
 			cede_province = KOJ
@@ -3149,11 +3147,8 @@ country_event = { #The Holy Lands of Jerusalem
 			every_province = {
 				limit = {
 					OR = {
-						area = trans_jordan_area
-						area = palestine_area
-						province_id = 378 #County of Tripoli
-						province_id = 1855 #Sayda
-						province_id = 4268 #Aqaba
+						region = transjordan_region
+						region = outremer_region
 					}
 				}
 				add_core = KOJ
@@ -3179,29 +3174,4 @@ country_event = { #The Holy Lands of Jerusalem
 	}
 }
 
-country_event = { #France in the 15th Century
-	id = flavor_fra.206
-	title = flavor_fra.206.t 
-	desc = flavor_fra.206.d 
-	picture = wihgfx_FEMALE_GENERAL_eventPicture
-	is_triggered_only = yes 
-	fire_only_once = yes 
-	immediate = {
-		hidden_effect = {
-			if = { 
-				limit = { 	
-					NOT = { mission_completed = fra_refine_bombards }
-				}
-				set_variable = {
-					which = jean_bureau_battles_won
-					value = 0
-				}
-			}
-		}
-	}
-	
-	option = {
-		name = flavor_fra.206.a 
-		
-	}
-}
+#flavor_fra.206 removed

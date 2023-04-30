@@ -70,6 +70,12 @@ vn_eng_missions_slot_1_a = {
             }
 		}
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = {
+                    issue = appointment_of_state_minister
+                }
+            }
             add_country_modifier = {
                 name = "eng_consolidate_our_rule_mission"
                 duration = 9125
@@ -83,6 +89,18 @@ vn_eng_missions_slot_1_a = {
             vn_eng_fortify_england
         }
         completed_by = 1076.5.31
+        provinces_to_highlight = {
+            OR = {
+                province_id = 2240
+                province_id = 2238
+                province_id = 2250
+            }
+            OR = {
+                NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+				has_fort_trigger = no
+            }
+        }
         trigger = {
 			2240 = {
 				owned_by = ROOT
@@ -101,6 +119,20 @@ vn_eng_missions_slot_1_a = {
 			}
         }
         effect = {
+            if = {
+                limit = {
+                    has_dlc = "Domination"
+                }
+                unlock_issue = {
+                    issue = discipline_for_the_marines_acts
+                }
+                unlock_issue = {
+                    issue = improved_man_of_war_acts
+                }
+                unlock_issue = {
+                    issue = army_reform_acts
+                }
+            }
 			2240 = {
 				add_province_modifier = {
 					name = "eng_marcher_earldoms_mission"
@@ -224,6 +256,15 @@ vn_eng_missions_slot_1_b = {
 			}
 		}
 		effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                custom_tooltip = eng_the_english_civil_war_dt
+				hidden_effect = {
+					unlock_issue = { issue = british_ideas_laws }
+					unlock_issue = { issue = angevin_ideas_laws }
+					unlock_issue = { issue = english_ideas_laws }
+				}
+            }
 			add_dip_power = 50
 			add_country_modifier = {
 				name = "eng_integrate_normandy_mission"
@@ -311,7 +352,7 @@ vn_eng_missions_slot_1_c = {
             }
         }
         effect = {
-			add_prestige = 15
+			add_prestige_or_monarch_power = { amount = 15 } 
 			limousin_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -394,6 +435,13 @@ vn_eng_missions_slot_1_c = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                custom_tooltip = ave_claim_the_empire_title_bt
+                country_event = {
+                    id = flavor_gbr.20
+                }
+            }
             rodez_area = {
                 limit = { trade_goods = wine }
                 add_province_modifier = {
@@ -526,6 +574,12 @@ vn_eng_missions_slot_2_b = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = {
+					issue = cultural_unity_act
+				}
+            }
 			add_country_modifier = {
 				name = "ase_conquer_strathclyde_mission"
 				duration = 7300
@@ -551,6 +605,12 @@ vn_eng_missions_slot_2_b = {
                 }
                 add_permanent_claim = ROOT
             }
+            add_permanent_claim_province = { province = 5201 }
+            add_permanent_claim_province = { province = 5202 }
+            add_permanent_claim_province = { province = 5203 }
+            add_permanent_claim_province = { province = 5204 }
+            add_permanent_claim_province = { province = 5205 }
+            add_permanent_claim_province = { province = 5206 }
         }
     }
     vn_eng_conquer_highlands = {
@@ -559,17 +619,18 @@ vn_eng_missions_slot_2_b = {
         required_missions = { vn_eng_conquer_strathclyde }
         provinces_to_highlight = {
             OR = {
-                area = caithness_area
                 area = hebrides_area
                 area = morvern_area
+                province_id = 5201
+                province_id = 5202
+                province_id = 5203
+                province_id = 5204
+                province_id = 5205
+                province_id = 5206
             }
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            caithness_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
             hebrides_area = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
@@ -578,8 +639,23 @@ vn_eng_missions_slot_2_b = {
                 type = all
                 country_or_non_sovereign_subject_holds = ROOT
             }
+            5201 = { country_or_non_sovereign_subject_holds = ROOT }
+            5202 = { country_or_non_sovereign_subject_holds = ROOT }
+            5203 = { country_or_non_sovereign_subject_holds = ROOT }
+            5204 = { country_or_non_sovereign_subject_holds = ROOT }
+            5205 = { country_or_non_sovereign_subject_holds = ROOT }
+            5206 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
+			if = {
+				limit = {
+                    has_dlc = "Domination"
+					NOT = { owns_or_non_sovereign_subject_of = 4706 }
+				}
+                country_event = {
+                    id = flavor_gbr.2
+                }
+			}
             add_country_modifier = {
                 name = "ase_conquer_highlands_mission"
                 duration = 9125
@@ -626,7 +702,18 @@ vn_eng_missions_slot_2_b = {
             }
         }
         effect = {
-            add_prestige = 10
+			add_prestige_or_monarch_power = {
+				amount = 10
+			}
+            if = {
+				limit = {
+                    has_dlc = "Domination"
+                    NOT = { has_country_flag = eng_took_ave_branch }
+                }
+				unlock_issue = {
+					issue = english_scottish_act_of_union
+				}
+			}
             add_country_modifier = {
                 name = "ase_anglo_scottish_union_mission"
                 duration = 9125
@@ -684,8 +771,14 @@ vn_eng_missions_slot_2_b = {
             add_adm_power = 75
             add_dip_power = 75
             add_mil_power = 75
-            add_prestige = 25
+            add_prestige_or_monarch_power = { amount = 25 } 
             add_legitimacy = 20
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_government_reform = {
+                    government_reform = direct_royal_administration_reform
+                }
+            }
             add_country_modifier = {
                 name = "sco_rule_britannia_mission"
                 duration = -1
@@ -721,7 +814,7 @@ vn_eng_missions_slot_2_c = {
 			}
         }
         effect = {
-            add_prestige = 10
+            add_prestige_or_monarch_power = { amount = 10 } 
             add_country_modifier = {
 				name = "fra_sanction_crusades_mission"
 				duration = 1825
@@ -761,6 +854,40 @@ vn_eng_missions_slot_2_c = {
 					duration = 9125
 				}
 			}
+            if = {
+                limit = { has_dlc = "Domination" }
+                hidden_effect = {
+                    unlock_church_aspect = {
+                        church_aspect = anglican_aspect
+                    }	
+                    unlock_church_aspect = {
+                        church_aspect = spread_the_book_of_common_prayer
+                    }	
+                }
+                simple_dynamic_effect = {
+                    first_custom_tooltip = eng_piety_of_the_state_at
+                    first_limit = "
+                    OR = {
+                        has_reform = separate_clergy_from_state_affairs_reform
+                        has_reform = curtail_clergy_power_reform
+                    }
+                    "
+                    first_effect = "
+                    unlock_government_reform = {
+                        government_reform = anglican_state_church_reform
+                    }
+                    "
+                    second_limit = "
+                    NOT = { has_reform = separate_clergy_from_state_affairs_reform }
+                    NOT = { has_reform = curtail_clergy_power_reform }
+                    "
+                    second_effect = "
+                    unlock_government_reform = {
+                        government_reform = english_conciliarism_reform
+                    }
+                    "
+                }
+            }
         }
     }
 }
@@ -782,7 +909,7 @@ vn_eng_missions_slot_2_d = {
     has_country_shield = yes
 
     vn_eng_renounce_homage = {
-        icon = mission_monarch_in_throne_room
+        icon = mission_the_angevin_age
         completed_by = 1337.4.30
 		position = 10
         required_missions = { vn_eng_claims_in_anjou }
@@ -808,7 +935,7 @@ vn_eng_missions_slot_2_d = {
 			}
         }
         effect = {
-            add_prestige = 10
+            add_prestige_or_monarch_power = { amount = 10 } 
             brittany_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -975,22 +1102,34 @@ vn_eng_missions_slot_2_e = {
         required_missions = { vn_eng_dual_monarchy }
         position = 13
         trigger = {
-            calc_true_if = {
-                desc = gen_hre_electors.tooltip
-                all_elector = {
-                    preferred_emperor = ROOT
+            if = {
+                limit = { hre_size = 1 }
+                calc_true_if = {
+                    desc = gen_hre_electors.tooltip
+                    all_elector = {
+                        preferred_emperor = ROOT
+                    }
+                    amount = 3
                 }
-                amount = 3
+                any_elector = {
+                    has_opinion = {
+                        who = ROOT
+                        value = 125
+                    }
+                }
             }
-            any_elector = {
-                has_opinion = {
-                    who = ROOT
-                    value = 125
-                }
+            else = {
+                NOT = { exists = HLR }
             }
         }
         effect = {
-            add_prestige = 15
+            add_prestige_or_monarch_power = { amount = 15 } 
+            if = {
+                limit = { has_dlc = "Domination" hre_size = 1 }
+                unlock_issue = {
+					issue = crown_of_the_empire_act
+				}
+            }
             add_power_projection = {
 				type = mission_rewards_power_projection
 				amount = 20
@@ -1170,7 +1309,7 @@ vn_eng_missions_slot_3_a = {
             }
         }
         effect = {
-			add_prestige = 10
+			add_prestige_or_monarch_power = { amount = 10 } 
             fife_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1284,6 +1423,7 @@ vn_eng_missions_slot_3_c = {
 		trigger = {
 			if = {
 				limit = { uses_church_aspects = yes }
+                num_of_aspects = 3
 				church_power = 150
 			}
 			else_if = {
@@ -1295,6 +1435,25 @@ vn_eng_missions_slot_3_c = {
 				limit = { uses_fervor = yes }
 				fervor = 75
 			}
+            else = {
+                inquisitor = 1
+            }
+            if = {
+                limit = {
+                    OR = {
+                        current_age = age_of_empire
+                        has_estate = estate_holy_orders
+                    }
+                }
+                has_estate_loyalty_modifier = {
+                    estate = estate_holy_orders
+                    modifier = 60
+                }
+                num_of_estate_privileges = {
+                    estate = estate_holy_orders
+                    value = 3
+                }
+            }
 		}
 		effect = {
 			add_army_tradition = 15
@@ -1335,6 +1494,33 @@ vn_eng_missions_slot_3_c = {
 		}
 		effect = {
 			add_religious_influence_effect_large = yes
+            if = {
+				limit = {
+                    has_dlc = "Domination"
+					has_dlc = "Common Sense"
+					OR = {
+                        religion = protestant
+                        religion = anabaptist
+                    }
+				}
+				tooltip = {
+					unlock_church_aspect = {
+						church_aspect = anglican_aspect
+					}	
+				}
+			}
+			else_if = {
+				limit = {
+                    has_dlc = "Domination"
+					has_dlc = "Rule Britannia"
+					religion = anglican
+				}
+				tooltip = {
+					unlock_church_aspect = {
+						church_aspect = spread_the_book_of_common_prayer
+					}	
+				}
+			}
 			add_country_modifier = {
 				name = "eng_a_new_religion_mission"
 				duration = 9125
@@ -1399,6 +1585,11 @@ vn_eng_missions_slot_3_d = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = { issue = acts_of_taxation }
+                unlock_issue = { issue = act_of_representation }
+            }
             142 = {
                 add_devastation = -10
                 add_base_tax = 2
@@ -1450,9 +1641,15 @@ vn_eng_missions_slot_3_e = {
         }
         effect = {
             if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = {
+					issue = english_french_act_of_union
+				}
+            }
+            if = {
                 limit = { has_global_flag = eng_had_start_of_hundred_years_war }
 				add_legitimacy = 10
-				add_prestige = 15
+				add_prestige_or_monarch_power = { amount = 15 } 
                 548 = {
                     if = {
                         limit = {
@@ -1502,7 +1699,7 @@ vn_eng_missions_slot_3_e = {
             }
         }
         effect = {
-			add_prestige = 10
+			add_prestige_or_monarch_power = { amount = 10 } 
             paris_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1575,6 +1772,12 @@ vn_eng_missions_slot_4_a = {
 			recruitmaster = 1
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_estate_privilege = {
+                    estate_privilege = estate_nobles_english_copyhold_tenure
+                }
+            }
             add_country_modifier = {
                 name = "eng_domesday_survey_mission"
                 duration = 18250
@@ -1761,6 +1964,12 @@ vn_eng_missions_slot_4_b = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = {
+                    issue = crown_of_ireland_act
+                }
+            }
             custom_tooltip = vn_will_receive_rewards_tt
             random_owned_province = {
 				limit = {
@@ -1927,6 +2136,11 @@ vn_eng_missions_slot_4_e = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = { issue = enact_mercantilism }
+                unlock_issue = { issue = promote_free_trade }
+            }
             2729 = {
                 add_trade_modifier = {
                     who = ROOT
@@ -2032,6 +2246,15 @@ vn_eng_missions_slot_4_f = {
         }
         effect = {
             add_mercantilism = 2
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_estate_privilege = {
+                    estate_privilege = estate_burghers_autonomous_trade_companies
+                }
+                unlock_government_reform = {
+                    government_reform = royal_charters_reform
+                }
+            }
             add_country_modifier = {
                 name = "eng_mercantilist_policy_mission"
                 duration = 9125
@@ -2068,6 +2291,12 @@ vn_eng_missions_slot_4_f = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_government_reform = {
+                    government_reform = commercial_trade_empire_reform
+                }
+            }
             add_country_modifier = {
                 name = "eng_mediterranean_authority_mission"
                 duration = 9125
@@ -2119,6 +2348,12 @@ vn_eng_missions_slot_5_a = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                country_event = {
+                    id = flavor_gbr.12
+                }
+            }
             2268 = {
                 add_base_tax = 1
                 add_base_production = 1
@@ -2157,6 +2392,52 @@ vn_eng_missions_slot_5_a = {
             }
         }
         effect = {
+            if = {
+                limit = {
+                    OR = {
+                        has_dlc = "Rule Britannia"
+                        has_dlc = "Domination"
+                    }
+                }
+                country_event = {
+                    id = flavor_eng.9880
+                    days = 1
+                }
+                hidden_effect = {
+                    random_list = {
+                        20 = {
+                            set_variable = {
+                                which = oxbridge_subject
+                                value = 1
+                            }
+                        }
+                        20 = {
+                            set_variable = {
+                                which = oxbridge_subject
+                                value = 2
+                            }
+                        }
+                        20 = {
+                            set_variable = {
+                                which = oxbridge_subject
+                                value = 3
+                            }
+                        }
+                        20 = {
+                            set_variable = {
+                                which = oxbridge_subject
+                                value = 4
+                            }
+                        }
+                        20 = {
+                            set_variable = {
+                                which = oxbridge_subject
+                                value = 5
+                            }
+                        }
+                    }
+                }
+            }
             change_innovativeness = 5
             1242 = {
                 add_base_tax = 2
@@ -2367,6 +2648,12 @@ vn_eng_missions_slot_5_d = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = {
+                    issue = acts_of_impressment
+                }
+            }
             add_navy_tradition = 15
             create_admiral = {
                 tradition = 75
@@ -2388,6 +2675,12 @@ vn_eng_missions_slot_5_d = {
             }
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_government_reform = {
+                    government_reform = administration_of_the_parliament_reform
+                }
+            }
             add_country_modifier = {
                 name = "eng_secure_channel_mission"
                 duration = 9125
@@ -2409,6 +2702,12 @@ vn_eng_missions_slot_5_d = {
             owns_core_province = 761
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = {
+                    issue = crown_of_iberia_act
+                }
+            }
             if = {
                 limit = {
                     2711 = {
@@ -2434,6 +2733,12 @@ vn_eng_missions_slot_5_d = {
             owns_core_province = 2711
         }
         effect = {
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = {
+                    issue = crown_of_italy_act
+                }
+            }
             sicilia_region = {
                 limit = {
                     NOT = { is_core = ROOT }
