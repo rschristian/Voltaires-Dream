@@ -426,8 +426,8 @@ vn_pru_missions_slot_2_a = {
 				is_core = ROOT
 			}
 			if = {
-				limit = { has_dlc = "Rights of Man" }
-				militarised_society = 25
+				limit = { has_dlc = "Cradle of Civilization" }
+				army_professionalism = 0.2
 			}
         }
         effect = {
@@ -449,14 +449,17 @@ vn_pru_missions_slot_2_a = {
 			}
 			has_commanding_three_star = yes
 			NOT = { num_of_mercenaries = 1 }
-			if = {
-				limit = { has_dlc = "Rights of Man" }
-				militarised_society = 50
-			}
+			monthly_mil = 10
 			army_professionalism = 0.4
         }
         effect = {
 			add_army_professionalism = 0.05
+			if = {
+				limit = { has_dlc = "Domination" }
+				custom_tooltip = pru_access_normal_militarization_tt
+				set_country_flag = enable_second_mil_level_flag
+				regenerate_government_mechanics = yes
+			}
 			add_country_modifier = {
 				name = "pru_royal_prussian_army_mission"
 				duration = 9125
@@ -473,13 +476,21 @@ vn_pru_missions_slot_2_a = {
 			NOT = { num_of_mercenaries = 1 }
 			army_professionalism = 0.8
 			absolutism = 75
-			if = {
-				limit = { has_dlc = "Rights of Man" }
-				militarised_society = 75
+			has_global_modifier_value = {
+				which = discipline
+				value = 0.2
+				extra_shortcut = yes
 			}
         }
         effect = {
 			add_army_tradition = 10
+			if = {
+				limit = { has_dlc = "Domination" }
+				custom_tooltip = pru_access_advanced_militarization_tt
+				clr_country_flag = enable_second_mil_level_flag
+				set_country_flag = enable_third_mil_level_flag
+				regenerate_government_mechanics = yes
+			}
 			country_event = {
 				id = vn_missions.80
 			}
@@ -564,7 +575,15 @@ vn_pru_missions_slot_2_b = {
         icon = mission_swedish_peasantry
         position = 6
         required_missions = { vn_pru_encourage_settlement }
-        trigger = {
+        provinces_to_highlight = {
+			region = wielkopolska_region
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { culture_group = ROOT }
+			}
+		}
+		trigger = {
+			culture_group = germanic
             num_of_owned_provinces_with = {
 				value = 15
 				region = wielkopolska_region
@@ -820,7 +839,7 @@ vn_pru_missions_slot_3_d = {
 	has_country_shield = yes
 
     vn_pru_southern_dominion = {
-        icon = kaiserreich
+        icon = ger_kaiserreich
         position = 7
         required_missions = { vn_pru_influence_south }
         trigger = {
