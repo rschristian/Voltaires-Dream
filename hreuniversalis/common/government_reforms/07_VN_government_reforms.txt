@@ -344,7 +344,7 @@ lesbian_matriarchate_reform = {
 }
 
 prague_confederation_reform = {
-	icon = "soldiers_3"
+	icon = "calvinism"
 	allow_convert = no
 	allow_normal_conversion = no
 	potential = {
@@ -356,6 +356,8 @@ prague_confederation_reform = {
 			}
 			tag = HGA
 		}
+		NOT = { has_country_flag = unlocked_utraquist_state_reform }
+		NOT = { has_country_flag = unlocked_taborite_state_reform }
 	}
 	trigger = {
 		religion = hussite
@@ -368,19 +370,92 @@ prague_confederation_reform = {
 		religion = hussite
 	}
 
-	#mechanics: utraquists vs. taborites
+	modifiers = {
+		cb_on_religious_enemies = yes
+		tolerance_own = 1
+		devotion = 0.5
+		governing_capacity_modifier = -0.5
+	}
+	
+	conditional = {
+		allow = { has_dlc = "Lions of the North" }
+		custom_attributes = {
+			can_loot_heretic_churches = yes
+		}
+	}
+
+	government_abilities = {
+		utraquists_vs_taborites_mechanic
+	}
+}
+
+taborite_state_reform = {
+	icon = "calvinism"
+	allow_convert = no
+	allow_normal_conversion = no
+	potential = {
+		religion = hussite
+		OR = {
+			has_reform = taborite_state_reform
+			has_unlocked_government_reform = {
+				government_reform = taborite_state_reform
+			}
+			have_had_reform = taborite_state_reform
+		}
+	}
+	trigger = {
+		religion = hussite
+	}
+
+	valid_for_nation_designer = no
 
 	modifiers = {
-		church_power_modifier = 0.1
-		church_loyalty_modifier = 0.1
-		tolerance_own = 1
-		global_missionary_strength = 0.01
-		global_unrest = -1
+		cb_on_religious_enemies = yes
+		morale_damage_received = -0.1
+		army_tradition = 0.25
+		warscore_cost_vs_other_religion = -0.1
 	}
-	legacy_equivalent = prague_confederation_reform_legacy
 	
-	custom_attributes = {
-		can_loot_heretic_churches = yes
+	conditional = {
+		allow = { has_dlc = "Lions of the North" }
+		custom_attributes = {
+			can_loot_heretic_churches = yes
+		}
+	}
+}
+
+utraquist_state_reform = {
+	icon = "calvinism"
+	allow_convert = no
+	allow_normal_conversion = no
+	potential = {
+		religion = hussite
+		OR = {
+			has_reform = utraquist_state_reform
+			has_unlocked_government_reform = {
+				government_reform = utraquist_state_reform
+			}
+			have_had_reform = utraquist_state_reform
+		}
+	}
+	trigger = {
+		religion = hussite
+	}
+
+	valid_for_nation_designer = no
+
+	modifiers = {
+		cb_on_religious_enemies = yes
+		tolerance_heretic = 3
+		relation_with_heretics = 30
+		diplomatic_reputation = 1
+	}
+	
+	conditional = {
+		allow = { has_dlc = "Lions of the North" }
+		custom_attributes = {
+			can_loot_heretic_churches = yes
+		}
 	}
 }
 
