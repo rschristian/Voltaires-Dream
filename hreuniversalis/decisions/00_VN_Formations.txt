@@ -3643,7 +3643,7 @@ country_decisions = {
 			NOT = { tag = TIM }
 			NOT = { tag = SJK }
 			NOT = { exists = IRQ }
-			NOT = { has_reform = tsardom }
+			NOT = { has_reform = celestial_empire }
 			primary_culture = al_iraqiya_arabic
 			OR = {
 				ai = no
@@ -3738,7 +3738,7 @@ country_decisions = {
 			NOT = { tag = ISR }
 			NOT = { tag = JOR }
 			NOT = { exists = SYR }
-			NOT = { has_reform = tsardom }
+			NOT = { has_reform = celestial_empire }
 			primary_culture = al_suryah_arabic
 			OR = {
 				ai = no
@@ -3835,7 +3835,7 @@ country_decisions = {
 			NOT = { tag = TIM }
 			NOT = { tag = SJK }
 			NOT = { tag = ASY }
-			NOT = { has_reform = tsardom }
+			NOT = { has_reform = celestial_empire }
 			OR = {
 				religion = nestorian
 				religion = mandaeism
@@ -3942,7 +3942,7 @@ country_decisions = {
 			NOT = { tag = ILK }
 			NOT = { tag = GLH }
 			NOT = { exists = CIR }
-			NOT = { has_reform = tsardom }
+			NOT = { has_reform = celestial_empire }
 			culture_group = abkhazian_group
 		}
 		provinces_to_highlight = {
@@ -4012,7 +4012,7 @@ country_decisions = {
 			}
 			NOT = { tag = GLH }
 			NOT = { exists = FIN }
-			NOT = { has_reform = tsardom }
+			NOT = { has_reform = celestial_empire }
 			OR = {
 				primary_culture = finnish
 				primary_culture = tavastian
@@ -4097,7 +4097,7 @@ country_decisions = {
 				ai = no
 			}
 			NOT = { exists = EST }
-			NOT = { has_reform = tsardom }
+			NOT = { has_reform = celestial_empire }
 			OR = {
 				primary_culture = estonian
 				primary_culture = livlander
@@ -4189,7 +4189,7 @@ country_decisions = {
 			NOT = { tag = LIT }
 			NOT = { tag = LIV }
 			NOT = { tag = TEU }
-			NOT = { has_reform = tsardom }
+			NOT = { has_reform = celestial_empire }
 			OR = {
 				primary_culture = latvian
 				primary_culture = semigallian
@@ -4496,6 +4496,138 @@ country_decisions = {
 				country_event = { id = ideagroups.1 } #Swap Ideas
 			}
 			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	latin_empire = {
+		major = yes
+		potential = {
+			NOT = { has_country_flag = formed_latin_empire }
+			was_never_end_game_tag_trigger = yes
+			NOT = { exists = LAE }
+			normal_or_historical_nations = yes
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
+			OR = {
+				religion = catholic
+				religion = catholique
+			}
+			NOT = { government = republic }
+			NOT = { has_reform = celestial_empire }
+			OR = {
+				owns = 2233
+				AND = {
+					ai = no
+					OR = {
+						tag = KNI
+						tag = NAP
+						tag = SIC
+						tag = TEU
+						tag = LIV
+					}
+				}
+			}
+			OR = {
+				NOT = { is_year = 1600 }
+				has_country_flag = can_form_latin_empire_later_too
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2233 #Constantinople
+				province_id = 573 #Adrianople
+				province_id = 2398 #Thessaloniki
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_at_war = no
+			owns_core_province = 2233 #Constantinople
+			owns_core_province = 573 #Adrianople
+			owns_core_province = 2398 #Thessaloniki
+			2233 = { is_state = yes }
+		}
+		effect = {
+			add_prestige = 25
+			every_province = {
+				limit = { region = thrace_region }
+				add_core = LAE
+			}
+			if = {
+				limit = {
+					NOT = { tag = KNI }
+					NOT = { tag = NAP }
+					NOT = { tag = SIC }
+					NOT = { tag = TEU }
+					NOT = { tag = LIV }
+					NOT = { capital_scope = { superregion = balkans_superregion } }
+				}
+				release = LAE
+				LAE = { define_ruler = { culture = ROOT } }
+			}
+			if = {
+				limit = {
+					OR = {
+						tag = KNI
+						tag = NAP
+						tag = SIC
+						tag = TEU
+						tag = LIV
+						capital_scope = { superregion = balkans_superregion }
+					}
+				}
+				change_tag = LAE
+				on_change_tag_effect = yes
+				change_primary_culture = outremer
+				if = {
+					limit = { has_custom_ideas = no }
+					country_event = { id = ideagroups.1 }
+				}
+			}
+			2233 = {
+				if = {
+					limit = { ROOT = { religion = catholic } }
+					change_religion = catholic
+				}
+				else = {
+					change_religion = catholique
+				}
+			}
+			LAE = {
+				hidden_effect = { restore_country_name = yes }
+				set_capital = 2233 #Constantinople
+				if = {
+					limit = { ROOT = { religion = catholic } }
+					change_religion = catholic
+				}
+				else = {
+					change_religion = catholique
+				}
+				if = {
+					limit = { NOT = { government = monarchy } }
+					change_government = monarchy
+					add_government_reform = feudalism_reform
+				}
+				if = {
+					limit = {
+						NOT = { government_rank = 6 }
+					}
+					set_government_rank = 6
+				}
+				set_country_flag = formed_latin_empire
+			}
 		}
 		ai_will_do = {
 			factor = 1

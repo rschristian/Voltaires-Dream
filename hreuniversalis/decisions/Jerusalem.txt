@@ -15,9 +15,12 @@ country_decisions = {
 				is_free_or_tributary_trigger = yes
 				ai = no
 			}
-			religion = catholic
+			OR = {
+				religion = catholic
+				religion = catholique
+			}
 			NOT = { government = republic }
-			NOT = { has_reform = tsardom }
+			NOT = { has_reform = celestial_empire }
 			OR = {
 				owns = 4974
 				AND = {
@@ -96,12 +99,24 @@ country_decisions = {
 				set_country_flag = knights_formed_jerusalem
 			}
 			4974 = {
-				change_religion = catholic
+				if = {
+					limit = { ROOT = { religion = catholic } }
+					change_religion = catholic
+				}
+				else = {
+					change_religion = catholique
+				}
 			}
 			KOJ = {
 				hidden_effect = { restore_country_name = yes }
 				set_capital = 4974 #Jerusalem
-				change_religion = catholic
+				if = {
+					limit = { ROOT = { religion = catholic } }
+					change_religion = catholic
+				}
+				else = {
+					change_religion = catholique
+				}
 				if = {
 					limit = { NOT = { government = theocracy } }
 					change_government = monarchy
