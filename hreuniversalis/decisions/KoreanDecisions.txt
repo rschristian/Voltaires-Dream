@@ -1,0 +1,112 @@
+country_decisions = {
+
+	reinforce_tripitaka_koreana_decision = {
+		potential = {
+			any_owned_province = {
+				has_province_modifier = tripitaka_koreana
+				NOT = { has_province_modifier = tripitaka_koreana_defenses }
+			}
+		}
+		allow = {
+			mil_power_cost = 25
+			any_owned_province = {
+				has_province_modifier = tripitaka_koreana
+				controlled_by = ROOT
+				NOT = { has_province_modifier = tripitaka_koreana_defenses }
+			}
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			has_province_modifier = tripitaka_koreana
+		}
+		effect = {
+			mil_power_cost = 25
+			random_owned_province = {
+				limit = {
+					has_province_modifier = tripitaka_koreana
+				}
+				add_province_modifier = {
+					name = tripitaka_koreana_defenses
+					duration = -1
+					desc = tripitaka_koreana_defenses_tt
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	evacuate_tripitaka_koreana_decision = {
+		potential = {
+			is_in_war = {
+				defenders = ROOT
+			}
+			any_owned_province = {
+				has_province_modifier = tripitaka_koreana
+				is_capital = no
+			}
+		}
+		allow = {
+			is_in_war = {
+				defenders = ROOT
+			}
+			adm_power_cost = 25
+			any_owned_province = {
+				has_province_modifier = tripitaka_koreana
+				controlled_by = ROOT
+			}
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			has_province_modifier = tripitaka_koreana
+		}
+		effect = {
+			adm_power_cost = 25
+			custom_tooltip = evacuate_tripitaka_koreana_decision_tt
+			if = {
+				limit = {
+					NOT = {
+						any_owned_province = {
+							has_province_modifier = tripitaka_koreana_defenses
+						}
+					}
+				}
+				capital_scope = {
+					add_province_modifier = {
+						name = tripitaka_koreana_defenses
+						duration = -1
+						desc = tripitaka_koreana_defenses_tt
+					}
+				}
+			}
+			hidden_effect = {
+				every_owned_province = {
+					limit = { has_province_modifier = tripitaka_koreana }
+					remove_province_modifier = tripitaka_koreana
+					if = {
+						limit = {
+							has_province_modifier = tripitaka_koreana_defenses
+						}
+						remove_province_modifier = tripitaka_koreana_defenses
+					}
+				}
+				capital_scope = {
+					add_province_modifier = {
+						name = tripitaka_koreana
+						duration = -1
+						desc = tripitaka_koreana_defenses_tt
+					}
+					add_province_modifier = {
+						name = tripitaka_koreana_defenses
+						duration = -1
+						desc = tripitaka_koreana_defenses_tt
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+	}
+}

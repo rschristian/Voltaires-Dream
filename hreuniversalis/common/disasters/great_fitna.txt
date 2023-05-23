@@ -1,12 +1,7 @@
 great_fitna = {
 	potential = {
 		tag = FTM
-		num_of_cities = 50
-		any_owned_province = {
-			is_capital = no
-			is_core = ROOT
-		}
-		has_reform = feudal_theocracy
+		has_reform = fatimid_caliphate_reform
 		religion_group = muslim
 		is_free_or_tributary_trigger = yes
 		normal_or_historical_nations = yes
@@ -20,36 +15,52 @@ great_fitna = {
 	
 	can_start = {
 		has_any_disaster = no
-		has_regency = no
+		has_government_power = {
+			mechanic_type = fatimid_irreverence_mechanic 
+			power_type = fatimid_irreverence 
+			value = 100
+		}
 		OR = {
-			NOT = { stability = 0 }
+			NOT = { stability = 3 }
 			NOT = { legitimacy = 50 }
-			corruption = 10
+			war_exhaustion = 10
+			NOT = { ruler_total_stats = { stats = 10 } }
 			is_bankrupt = yes
-			4974 = { NOT = { country_or_non_sovereign_subject_holds = ROOT } }
 		}
 	}
 	
 	
 	can_stop = {
-		OR = {
-			has_any_disaster = yes
-			has_regency = yes
-			stability = 3
-			legitimacy = 100
+		NOT = {
+			has_government_power = {
+				mechanic_type = fatimid_irreverence_mechanic 
+				power_type = fatimid_irreverence 
+				value = 80
+			}
 		}
+		stability = 3
+		legitimacy = 50
+		NOT = { war_exhaustion = 10 }
+		ruler_total_stats = { stats = 10 }
+		is_bankrupt = no
 	}
-		
-	
-	
+
 	progress = {
 		modifier = {
-			factor = 1
+			factor = 0.5
 			corruption = 5
 		}
 		modifier = {
-			factor = 1
+			factor = 0.5
 			corruption = 10
+		}
+		modifier = {
+			factor = 0.5
+			corruption = 15
+		}
+		modifier = {
+			factor = 0.5
+			corruption = 20
 		}
 		modifier = {
 			factor = 0.5
@@ -65,80 +76,86 @@ great_fitna = {
 		}
 		modifier = {
 			factor = 0.5
-			NOT = { religious_unity = 0.75 }
+			NOT = { estate_loyalty = { estate = estate_mamluks loyalty = 60 } }
 		}
 		modifier = {
 			factor = 0.5
-			NOT = { religious_unity = 0.50 }
-		}	
+			NOT = { estate_loyalty = { estate = estate_mamluks loyalty = 50 } }
+		}
 		modifier = {
 			factor = 0.5
-			NOT = { religious_unity = 0.25 }
+			NOT = { estate_loyalty = { estate = estate_mamluks loyalty = 40 } }
 		}
 		modifier = {
-			factor = 1
-			has_estate = estate_mamluks
-			NOT = {
-				estate_loyalty = {
-					estate = estate_mamluks
-					loyalty = 40
-				}
-			}
+			factor = 0.5
+			NOT = { estate_loyalty = { estate = estate_mamluks loyalty = 30 } }
 		}
 		modifier = {
-			factor = 1
-			has_estate = estate_mamluks
-			estate_influence = {
-				estate = estate_mamluks
-				influence = 70
-			}
+			factor = 0.5
+			NOT = { estate_loyalty = { estate = estate_mamluks loyalty = 20 } }
 		}
 		modifier = {
-			factor = 1
-			has_estate = estate_mamluks
-			num_of_estate_privileges = {
-				estate = estate_mamluks
-				value = 3
-			}
+			factor = 0.5
+			NOT = { estate_loyalty = { estate = estate_mamluks loyalty = 10 } }
 		}
 		modifier = {
-			factor = 1
+			factor = 0.5
+			NOT = { stability = 3 }
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { stability = 2 }
+		}
+		modifier = {
+			factor = 0.5
 			NOT = { stability = 1 }
 		}
 		modifier = {
 			factor = 1
-			overextension_percentage = 0.5
+			is_bankrupt = yes
 		}
 		modifier = {
 			factor = 0.5
-			is_neighbor_of = SJK
+			war_exhaustion = 10
 		}
 		modifier = {
-			factor = 1
-			4974 = { NOT = { country_or_non_sovereign_subject_holds = ROOT } }
+			factor = 0.5
+			war_exhaustion = 15
+		}
+		modifier = {
+			factor = 0.5
+			war_exhaustion = 20
 		}
 	}
 	
-	
-	
 	can_end = {
-		stability = 1
-		NOT = { num_of_rebel_armies = 1 }
-		NOT = { num_of_rebel_controlled_provinces = 1 }
+		OR = {
+			custom_trigger_tooltip = {
+				tooltip = great_fitna.tt
+				has_country_flag = ended_fitna_by_high_authority
+			}
+			custom_trigger_tooltip = {
+				tooltip = great_fitna.tt2
+				has_country_flag = ended_fitna_by_low_authority
+			}
+		}
 	}
-	
 
 	modifier = {
-		religious_unity = -0.5
 		global_unrest = 10
-		land_morale = -0.1
+		mercenary_cost = 0.25
 		mercenary_manpower = -0.25
-		mamluks_loyalty_modifier = -0.25
+		stability_cost_modifier = 0.5
 	}	
-	
 	
 	on_start = great_fitna.1
 	on_end = great_fitna.100
+	on_start_effect = {
+		freeze_government_power = {
+			mechanic_type = fatimid_irreverence_mechanic
+			power_type = fatimid_irreverence
+		}
+	}
 	
 	on_monthly = {
 		events = {
