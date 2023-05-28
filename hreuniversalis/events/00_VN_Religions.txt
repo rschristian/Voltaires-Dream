@@ -1,6 +1,5 @@
 namespace = vn_religious_events
 namespace = vn_bogomilist_events
-namespace = vn_baltic_events
 
 # Paths of Religion
 country_event = {
@@ -1404,11 +1403,15 @@ country_event = {
     }
 }
 
-#Slavic
+########################################
+# Rodnovery
+########################################
+namespace = vn_slavic_events
+
 country_event = {
-	id = vn_religious_events.41
-	title = vn_religious_events.41.t
-	desc = vn_religious_events.41.d
+	id = vn_slavic_events.1
+	title = vn_slavic_events.1.t
+	desc = vn_slavic_events.1.d
 	picture = CULTURE_eventPicture
 	
 	is_triggered_only = yes
@@ -1418,38 +1421,29 @@ country_event = {
     mean_time_to_happen = { days = 1 }
 
     option = {
-        name = "vn_religious_events.41.a"
-        add_years_of_income = 0.25
+        name = "vn_slavic_events.1.a"
+        add_army_tradition = 10
     }
-}
-
-country_event = {
-	id = vn_religious_events.42
-	title = vn_religious_events.42.t
-	desc = vn_religious_events.42.d
-	picture = CITY_DEVELOPMENT_eventPicture
-	
-	is_triggered_only = yes
-	trigger = {
-        religion = slavic_pagan
-        NOT = { has_country_modifier = paparuda_m }
-    }
-    mean_time_to_happen = { days = 1 }
 
     option = {
-        name = "vn_religious_events.42.a"
+        name = "vn_slavic_events.1.b"
+        add_years_of_income = 0.2
+    }
+
+    option = {
+        name = "vn_slavic_events.1.c"
         add_country_modifier = {
-            name = paparuda_m
+            name = ancestral_worship
             duration = 1825
         }
     }
 }
 
 country_event = {
-	id = vn_religious_events.43
-	title = vn_religious_events.43.t
-	desc = vn_religious_events.43.d
-	picture = CULTURE_eventPicture
+	id = vn_slavic_events.2
+	title = vn_slavic_events.2.t
+	desc = vn_slavic_events.2.d
+	picture = ADVISOR_eventPicture
 	
 	is_triggered_only = yes
 	trigger = {
@@ -1457,169 +1451,231 @@ country_event = {
     }
     mean_time_to_happen = { days = 1 }
 
-    option = {
-        name = "vn_religious_events.43.a"
-        add_stability_or_adm_power = yes
-    }
-}
-
-country_event = {
-	id = vn_religious_events.44
-	title = vn_religious_events.44.t
-	desc = vn_religious_events.44.d
-	picture = CULTURE_eventPicture
-	
-	is_triggered_only = yes
-	trigger = {
-        religion = slavic_pagan
-    }
-    mean_time_to_happen = { days = 1 }
-
-    option = {
-        name = "vn_religious_events.44.a"
-        random_owned_province = {
-            add_base_tax = -1
-        }
-    }
-}
-
-country_event = {
-	id = vn_religious_events.45
-	title = vn_religious_events.45.t
-	desc = vn_religious_events.45.d
-	picture = CITY_VIEW_eventPicture
-	
-	is_triggered_only = yes
-	trigger = {
-        religion = slavic_pagan
-    }
-    mean_time_to_happen = { days = 1 }
-
-    option = {
-        name = "vn_religious_events.45.a"
-        add_prestige = 10
-    }
-}
-
-country_event = {
-	id = vn_religious_events.46
-	title = vn_religious_events.46.t
-	desc = vn_religious_events.46.d
-	picture = DIPLOMACY_eventPicture
-	
-	is_triggered_only = yes
-	trigger = {
-        religion = slavic_pagan
-        any_neighbor_country = {
-            religion = ROOT
-            NOT = { war_with = ROOT }
-        }
-    }
-    mean_time_to_happen = { days = 1 }
-
-    option = {
-        name = "vn_religious_events.46.a"
-        random_neighbor_country = {
-            limit = {
-                religion = ROOT
-                NOT = { war_with = ROOT }
-            }
-            add_opinion = {
-                who = ROOT
-                modifier = opinion_good_relations
+    immediate = {
+        hidden_effect = {
+            random_list = {
+                1 = { set_country_flag = vedmak_scientist }
+                1 = { set_country_flag = vedmak_artist }
+                1 = { set_country_flag = vedmak_theologian }
             }
         }
     }
-}
-
-country_event = {
-	id = vn_religious_events.47
-	title = vn_religious_events.47.t
-	desc = vn_religious_events.47.d
-	picture = LAND_MILITARY_eventPicture
-	
-	is_triggered_only = yes
-	trigger = {
-        religion = slavic_pagan
-    }
-    mean_time_to_happen = { days = 1 }
 
     option = {
-        name = "vn_religious_events.47.a"
-        define_advisor = {
-            type = natural_scientist
-            skill = 2
-            discount = yes
+        name = "vn_slavic_events.2.a"
+        if = {
+            limit = { has_estate = estate_church }
+            add_estate_loyalty = {
+                estate = estate_church
+                loyalty = -10
+            }
+        }
+        else = {
+            add_prestige = -10
+        }
+        trigger_switch = {
+            on_trigger = has_country_flag
+            vedmak_scientist = {
+                generate_scaled_advisor_of_type_and_cost_effect = {
+                    type = natural_scientist
+                    cost_multiplier = 0.5 
+                }
+            }
+            vedmak_artist = {
+                generate_scaled_advisor_of_type_and_cost_effect = {
+                    type = artist
+                    cost_multiplier = 0.5 
+                }
+            }
+            vedmak_theologian = {
+                generate_scaled_advisor_of_type_and_cost_effect = {
+                    type = theologian
+                    cost_multiplier = 0.5 
+                }
+            }
         }
     }
-}
-
-country_event = {
-	id = vn_religious_events.48
-	title = vn_religious_events.48.t
-	desc = vn_religious_events.48.d
-	picture = TRADEGOODS_eventPicture
-	
-	is_triggered_only = yes
-	trigger = {
-        religion = slavic_pagan
-        NOT = { has_country_modifier = slavic_scandinavian_trade_m }
-    }
-    mean_time_to_happen = { days = 1 }
 
     option = {
-        name = "vn_religious_events.48.a"
-        add_country_modifier = {
-            name = slavic_scandinavian_trade_m
-            duration = 1825
+        name = "vn_slavic_events.2.b"
+        if = {
+            limit = { has_estate = estate_church }
+            add_estate_loyalty = {
+                estate = estate_church
+                loyalty = 10
+            }
+        }
+        else = {
+            add_prestige = 5
         }
     }
-    option = {
-        name = "vn_religious_events.48.b"
-        add_mercantilism = 1
+
+    after = {
+        clr_country_flag = vedmak_scientist
+        clr_country_flag = vedmak_artist
+        clr_country_flag = vedmak_theologian
     }
 }
 
 country_event = {
-	id = vn_religious_events.49
-	title = vn_religious_events.49.t
-	desc = vn_religious_events.49.d
-	picture = LAND_MILITARY_eventPicture
-	
-	is_triggered_only = yes
-	trigger = {
-        religion = slavic_pagan
-    }
-    mean_time_to_happen = { days = 1 }
-
-    option = {
-        name = "vn_religious_events.49.a"
-        add_yearly_manpower = 0.25
-    }
-}
-
-country_event = {
-	id = vn_religious_events.50
-	title = vn_religious_events.50.t
-	desc = vn_religious_events.50.d
+	id = vn_slavic_events.3
+	title = vn_slavic_events.3.t
+	desc = vn_slavic_events.3.d
 	picture = ACCUSATION_eventPicture
 	
 	is_triggered_only = yes
 	trigger = {
         religion = slavic_pagan
-        has_advisor = yes
+        any_owned_province = {
+            religion = slavic_pagan
+            is_capital = no
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    immediate = {
+        hidden_effect = {
+            random_owned_province = {
+                limit = {
+                    religion = slavic_pagan
+                    is_capital = no
+                }
+                save_event_target_as = holy_glade_prov
+            }
+        }
+    }
+
+    option = {
+        name = vn_slavic_events.3.a
+        goto = holy_glade_prov
+        event_target:holy_glade_prov = {
+            add_devastation = 10
+        }
+    }
+
+    option = {
+        name = vn_slavic_events.3.b
+        add_prestige = -5
+    }
+}
+
+country_event = {
+	id = vn_slavic_events.4
+	title = vn_slavic_events.4.t
+	desc = vn_slavic_events.4.d
+	picture = COUNTRY_COLLAPSE_eventPicture
+
+    is_triggered_only = yes
+	trigger = {
+        religion = slavic_pagan
+        NOT = { has_country_modifier = rusalka_anxiety }
     }
     mean_time_to_happen = { days = 1 }
 
     option = {
-        name = "vn_religious_events.50.a"
-        kill_advisor = random
+        name = vn_slavic_events.4.a
+        add_country_modifier = {
+            name = rusalka_anxiety
+            duration = 3650
+        }
+    }
+}
+
+country_event = {
+	id = vn_slavic_events.5
+	title = vn_slavic_events.5.t
+	desc = vn_slavic_events.5.d
+	picture = FAMINE_eventPicture
+
+    is_triggered_only = yes
+	trigger = {
+        religion = slavic_pagan
+        any_owned_province = {
+            is_capital = no
+            base_production = 2
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    immediate = {
+        hidden_effect = {
+            random_owned_province = {
+                limit = {
+                    is_capital = no
+                    base_production = 2
+                }
+                save_event_target_as = paparuda_prov
+            }
+        }
+    }
+
+    option = {
+        name = vn_slavic_events.5.a
+        add_years_of_income = -0.15
+    }
+
+    option = {
+        name = vn_slavic_events.5.b
+        goto = paparuda_prov
+        event_target:paparuda_prov = {
+            add_base_production = -1
+        }
+    }
+}
+
+country_event = {
+	id = vn_slavic_events.6
+	title = vn_slavic_events.6.t
+	desc = vn_slavic_events.6.d
+	picture = FEAST_eventPicture
+
+    is_triggered_only = yes
+	trigger = {
+        religion = slavic_pagan
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = vn_slavic_events.6.a
+        add_stability_or_adm_power = yes
+    }
+}
+
+country_event = {
+	id = vn_slavic_events.7
+	title = vn_slavic_events.7.t
+	desc = vn_slavic_events.7.d
+	picture = COMET_SIGHTED_eventPicture
+	
+	is_triggered_only = yes
+	trigger = {
+        religion = slavic_pagan
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_slavic_events.7.a"
+        if = { 
+            limit = { has_dlc = "Rule Britannia" }
+            change_innovativeness = 1
+        }
+        else = { add_adm_power = 10 add_dip_power = 10 add_mil_power = 10 } 
+    }
+    option = {
+        name = "vn_slavic_events.7.b"
+        add_mercantilism = 1
+    }
+    option = {
+        name = "vn_slavic_events.7.c"
+        add_yearly_manpower = 0.5
     }
 }
 
 ########################################
 # Romuva / Druwi / Dievturiba
 ########################################
+namespace = vn_baltic_events
+
 country_event = {
 	id = vn_baltic_events.1
 	title = vn_baltic_events.1.t
@@ -1697,15 +1753,23 @@ country_event = {
     }
     option = {
         name = "vn_baltic_events.2.b"
-        if = {
-            limit = { primitives = yes }
-            add_prestige = 5
-        }
-        else = {
-            add_legitimacy = 5
-            add_republican_tradition = 5
-            add_devotion = 5
-            add_horde_unity = 5
+        add_adm_power = -25
+        add_prestige = 5
+    }
+    option = {
+        name = "vn_baltic_events.2.c"
+        every_neighbor_country = {
+            limit = {
+                OR = {
+                    religion = animism
+                    religion = druwi
+                    religion = dievturiba
+                }
+            }
+            add_opinion = {
+                who = ROOT
+                modifier = opinion_pleased
+            }
         }
     }
 }
@@ -1730,20 +1794,26 @@ country_event = {
     option = {
         name = "vn_baltic_events.3.a"
         random_list = {
-            60 = {
-                if = { 
-                    limit = { primitives = yes }
-                    add_prestige = 10
-                }
-                else = {
-                    add_legitimacy = 10
-                    add_republican_tradition = 10
-                    add_devotion = 10
-                    add_horde_unity = 10
-                }
+            50 = { add_stability_or_adm_power = yes }
+            10 = {
+                change_ruler_stat = {
+					stat = adm
+					amount = 1
+				}
             }
-            30 = { add_stability_or_adm_power = yes }
-            10 = { kill_ruler = yes }
+            10 = {
+                change_ruler_stat = {
+					stat = dip
+					amount = 1
+				}
+            }
+            10 = {
+                change_ruler_stat = {
+					stat = mil
+					amount = 1
+				}
+            }
+            20 = { kill_ruler = yes }
         }
     }
     option = {
@@ -1777,6 +1847,90 @@ country_event = {
     option = {
         name = "vn_baltic_events.4.b"
         add_war_exhaustion = -1
+    }
+}
+
+country_event = {
+	id = vn_baltic_events.5
+	title = vn_baltic_events.5.t
+	desc = vn_baltic_events.5.d
+	picture = COUNTRY_COLLAPSE_eventPicture
+	
+	is_triggered_only = yes
+	trigger = {
+        OR = {
+            religion = animism
+            religion = druwi
+            religion = dievturiba
+        }
+        stability = 0
+        NOT = { has_country_modifier = purification_ritual }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_baltic_events.5.a"
+        add_country_modifier = {
+			name = "purification_ritual"
+			duration = 3650
+		}
+    }
+    option = {
+        name = "vn_baltic_events.5.b"
+        add_stability = -1
+    }
+}
+
+country_event = {
+	id = vn_baltic_events.6
+	title = vn_baltic_events.6.t
+	desc = vn_baltic_events.6.d
+	picture = EXPLORERS_eventPicture
+	
+	is_triggered_only = yes
+	trigger = {
+        OR = {
+            religion = animism
+            religion = druwi
+            religion = dievturiba
+        }
+        any_owned_province = {
+            religion = ROOT
+            is_capital = no
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    immediate = {
+        hidden_effect = {
+            random_owned_province = {
+                limit = {
+                    religion = ROOT
+                    is_capital = no
+                }
+                save_event_target_as = white_deer_prov
+            }
+        }
+    }
+
+    option = {
+        name = "vn_baltic_events.6.a"
+        goto = white_deer_prov
+        add_prestige = -5
+        event_target:white_deer_prov = { add_base_tax = 1 }
+    }
+    option = {
+        name = "vn_baltic_events.6.b"
+        if = {
+            limit = { has_estate = estate_church }
+            add_estate_loyalty = {
+                estate = estate_church
+                loyalty = 10
+            }
+        }
+        else = {
+            add_prestige = 5
+        }
     }
 }
 
