@@ -1,7 +1,47 @@
 namespace = flavor_kor
 normal_or_historical_nations = yes
 
-#flavor_kor.1 - 15 removed
+#flavor_kor.1 - 14 removed
+
+#End of the Righteous Army
+country_event = {
+	id = flavor_kor.15
+	title = flavor_kor.15.t
+	desc = flavor_kor.15.d
+	picture = BATTLE_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		is_at_war = no
+		has_country_modifier = the_righteous_army
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_hired_mercenary_company = {
+				limit = {
+					template = merc_righteous_army
+				}
+				save_event_target_as = merc_righteous_army_target
+			}
+			add_country_modifier = {
+				name = the_righteous_army_cd
+				duration = 365
+			}
+		}
+	}
+
+	option = {
+		name = flavor_kor.15.a
+		remove_country_modifier = the_righteous_army
+		if = {
+			limit = { has_saved_event_target = merc_righteous_army_target }
+			event_target:merc_righteous_army_target = {
+				disband_mercenary_company = THIS
+			}
+		}
+	}
+}
 
 #The Tripitaka Koreana
 country_event = {
