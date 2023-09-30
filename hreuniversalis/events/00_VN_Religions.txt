@@ -1934,6 +1934,153 @@ country_event = {
     }
 }
 
+########################################
+# Maausko / Suomenusko / Uralinusko
+########################################
+namespace = vn_finnish_events
+
+country_event = {
+	id = vn_finnish_events.1
+	title = vn_finnish_events.1.t
+	desc = vn_finnish_events.1.d
+	picture = FEAST_eventPicture
+
+    is_triggered_only = yes
+	trigger = {
+        OR = {
+            religion = finnish_pagan
+            religion = maausko
+            religion = uralinusko
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_finnish_events.1.a"
+        add_years_of_income = -0.2
+        add_prestige = 10
+    }
+    option = {
+        name = "vn_finnish_events.1.b"
+        add_years_of_income = -0.1
+        add_prestige = 5
+    }
+    option = {
+        name = "vn_finnish_events.1.c"
+        add_prestige = -5
+    }
+}
+
+country_event = {
+	id = vn_finnish_events.2
+	title = vn_finnish_events.2.t
+	desc = vn_finnish_events.2.d
+	picture = FORT_eventPicture
+
+    is_triggered_only = yes
+	trigger = {
+        OR = {
+            religion = finnish_pagan
+            religion = maausko
+            religion = uralinusko
+        }
+        has_regency = no
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_finnish_events.2.a"
+        random_list = {
+            20 = { 
+                change_ruler_stat = {
+					stat = mil
+					amount = 1
+				}
+            }
+            30 = { add_prestige = 10 }
+            30 = { add_mil_power = 50 }
+            20 = { kill_ruler = yes }
+        }
+    }
+    option = {
+        name = "vn_finnish_events.2.b"
+        random_list = {
+            10 = { 
+                change_ruler_stat = {
+					stat = mil
+					amount = 1
+				}
+            }
+            40 = { add_prestige = 5 }
+            40 = { add_mil_power = 25 }
+            10 = { kill_ruler = yes }
+        }
+    }
+    option = {
+        name = "vn_finnish_events.2.c"
+        add_mil_power = -10
+    }
+}
+
+country_event = {
+	id = vn_finnish_events.3
+	title = vn_finnish_events.3.t
+	desc = vn_finnish_events.3.d
+	picture = FARMING_eventPicture
+
+    is_triggered_only = yes
+	trigger = {
+        OR = {
+            religion = finnish_pagan
+            religion = maausko
+            religion = uralinusko
+        }
+        any_owned_province = {
+            OR = {
+                superregion = ural_superregion
+                superregion = scandinavia_superregion
+            }
+            OR = {
+                has_terrain = forest
+                has_terrain = woods
+            }
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    immediate = {
+        hidden_effect = {
+            random_owned_province = {
+                limit = {
+                    OR = {
+                        superregion = ural_superregion
+                        superregion = scandinavia_superregion
+                    }
+                    OR = {
+                        has_terrain = forest
+                        has_terrain = woods
+                    }
+                }
+                save_event_target_as = reindeer_province
+            }
+        }
+    }
+
+    option = {
+        name = "vn_finnish_events.3.a"
+        goto = reindeer_province
+        add_adm_power = -15
+        add_dip_power = -15
+        event_target:reindeer_province = {
+            add_base_production = 1
+        }
+    }
+    option = {
+        name = "vn_finnish_events.3.b"
+        add_prestige = 10
+    }
+}
+
 #Scandinavian Pagan
 country_event = {
 	id = vn_religious_events.61
@@ -4275,126 +4422,137 @@ country_event = {
     }
 }
 
-#Iconoclast
+########################################
+# Iconoclast
+########################################
+namespace = vn_iconoclast_events
+
 country_event = {
-	id = vn_religious_events.141
-	title = "vn_religious_events.141.t"
-	desc = "vn_religious_events.141.d"
-    picture = ICONS_IN_CHURCH_eventPicture
-    
-    is_triggered_only = yes
+	id = vn_iconoclast_events.1
+	title = vn_iconoclast_events.1.t
+	desc = vn_iconoclast_events.1.d
+	picture = ICONS_IN_CHURCH_eventPicture
+	
+	is_triggered_only = yes
 	trigger = {
-        religion = iconoclast
+		has_dlc = "Third Rome"
+		uses_religious_icons = yes
+		current_icon = icon_aniconism_eleusa
+        NOT = { has_country_modifier = iconoclast_revelation_m }
     }
     mean_time_to_happen = { days = 1 }
 
     option = {
-        name = "vn_religious_events.141.a"
-        add_years_of_income = -0.4
-        increase_legitimacy_medium_effect = yes
-    }
-    option = {
-        name = "vn_religious_events.141.b"
-        add_years_of_income = -0.2
-    }
-    option = {
-        name = "vn_religious_events.141.c"
-        reduce_legitimacy_medium_effect = yes
-    }
-}
-
-country_event = {
-	id = vn_religious_events.142
-	title = "vn_religious_events.142.t"
-	desc = "vn_religious_events.142.d"
-    picture = ICONS_IN_CHURCH_eventPicture
-    
-    is_triggered_only = yes
-	trigger = {
-        religion = iconoclast
-        has_estate = estate_church
-    }
-    mean_time_to_happen = { days = 1 }
-
-    option = {
-        name = "vn_religious_events.142.a"
-        add_corruption = 1
-    }
-    option = {
-        name = "vn_religious_events.142.b"
-        reduce_estate_church_loyalty_effect = yes
-    }
-}
-
-country_event = {
-	id = vn_religious_events.143
-	title = "vn_religious_events.143.t"
-	desc = "vn_religious_events.143.d"
-    picture = ICONS_IN_CHURCH_eventPicture
-    
-    is_triggered_only = yes
-	trigger = {
-        religion = iconoclast
-        
-    }
-    mean_time_to_happen = { days = 1 }
-
-    option = {
-        name = "vn_religious_events.143.a"
-        add_prestige = 10
-        define_advisor = {
-            type = artist
-            skill = 3
-            discount = yes
-        }
-    }
-}
-
-country_event = {
-	id = vn_religious_events.144
-	title = "vn_religious_events.144.t"
-	desc = "vn_religious_events.144.d"
-    picture = ORTHODOX_ICON_FLAG_eventPicture
-    
-    is_triggered_only = yes
-	trigger = {
-        religion = iconoclast
-        NOT = { has_country_modifier = iconoclast_tolerance_m }
-    }
-    mean_time_to_happen = { days = 1 }
-
-    option = {
-        name = "vn_religious_events.144.a"
-        add_stability_or_adm_power = yes
-    }
-    option = {
-        name = "vn_religious_events.144.b"
-        add_country_modifier = {
-            name = iconoclast_tolerance_m
+        name = "vn_iconoclast_events.1.a"
+		add_country_modifier = {
+            name = iconoclast_revelation_m
             duration = 3650
         }
     }
+    option = {
+        name = "vn_iconoclast_events.1.b"
+        add_patriarch_authority = 0.05
+        add_estate_church_loyalty_effect = yes
+    }
 }
 
 country_event = {
-	id = vn_religious_events.145
-	title = "vn_religious_events.145.t"
-	desc = "vn_religious_events.145.d"
-    picture = ORTHODOX_ICON_FLAG_eventPicture
-    
-    is_triggered_only = yes
+	id = vn_iconoclast_events.2
+	title = vn_iconoclast_events.2.t
+	desc = vn_iconoclast_events.2.d
+	picture = ORTHODOX_ICON_FLAG_eventPicture
+	
+	is_triggered_only = yes
 	trigger = {
-        religion = iconoclast
+		has_dlc = "Third Rome"
+		uses_religious_icons = yes
+		current_icon = icon_aniconism_michael
     }
     mean_time_to_happen = { days = 1 }
 
     option = {
-        name = "vn_religious_events.145.a"
-        add_yearly_manpower = -0.25
+        name = "vn_iconoclast_events.2.a"
+        generate_scaled_advisor_of_type_and_religion_effect = {
+			type = artist
+			discount = yes
+			religion = ROOT
+		}
     }
     option = {
-        name = "vn_religious_events.145.b"
-        add_mil_power = -50
+        name = "vn_iconoclast_events.2.b"
+        add_prestige = 10
+    }
+}
+
+#Destroy icons
+country_event = {
+	id = vn_iconoclast_events.3
+	title = vn_iconoclast_events.3.t
+	desc = vn_iconoclast_events.3.d
+	picture = ICONS_IN_CHURCH_eventPicture
+	
+	is_triggered_only = yes
+	trigger = {
+		has_dlc = "Third Rome"
+		uses_religious_icons = yes
+		current_icon = icon_aniconism_pancreator
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_iconoclast_events.3.a"
+		add_years_of_income = 1
+    }
+}
+
+country_event = {
+	id = vn_iconoclast_events.4
+	title = vn_iconoclast_events.4.t
+	desc = vn_iconoclast_events.4.d
+	picture = ICONS_IN_CHURCH_eventPicture
+	
+	is_triggered_only = yes
+	trigger = {
+		has_dlc = "Third Rome"
+		uses_religious_icons = yes
+		current_icon = icon_aniconism_climacus
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_iconoclast_events.4.a"
+		add_inflation = -2
+    }
+    option = {
+        name = "vn_iconoclast_events.4.b"
+		add_mercantilism = 2
+    }
+}
+
+country_event = {
+	id = vn_iconoclast_events.5
+	title = vn_iconoclast_events.5.t
+	desc = vn_iconoclast_events.5.d
+	picture = ORTHODOX_ICON_FLAG_eventPicture
+	
+	is_triggered_only = yes
+	trigger = {
+		has_dlc = "Third Rome"
+		uses_religious_icons = yes
+		current_icon = icon_aniconism_nicholas
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = "vn_iconoclast_events.5.a"
+		add_stability_or_adm_power = yes
+    }
+    option = {
+        name = "vn_iconoclast_events.5.b"
+		add_country_modifier = {
+            name = iconoclast_peace_m
+            duration = 3650
+        }
     }
 }
 
