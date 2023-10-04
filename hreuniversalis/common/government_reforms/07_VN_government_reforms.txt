@@ -240,15 +240,15 @@ italian_monarchy = {
 			has_dlc = "Res Publica"	
 		}	
 		states_general_mechanic = {	
-			statists = {	
-				naval_forcelimit_modifier = 0.10	
-				global_trade_power = 0.05	
-				republican_tradition = 1	
+			communia_statists = {	
+				improve_relation_modifier = 0.15
+				global_trade_power = 0.05
+				republican_tradition = 1
 			}	
-			monarchists = {	
-				land_forcelimit_modifier = 0.25	
-				stability_cost_modifier = -0.10	
-				republican_tradition = -1	
+			signoria_monarchists = {	
+				manpower_recovery_speed = 0.25
+				advisor_cost = -0.05
+				republican_tradition = -1
 			}	
 		}	
 	}	
@@ -299,7 +299,7 @@ crusader_order_reform = {
 }
 
 sufi_reform = {
-	icon = "arabic_scripture"
+	icon = "sufism_decree"
 	allow_normal_conversion = yes
 	rulers_can_be_generals = yes
 	heirs_can_be_generals = yes
@@ -634,6 +634,95 @@ fatimid_caliphate_reform = {
 	}
 }
 
+frankokratia_reform = {
+	icon = "frankokratia"
+	allow_normal_conversion = no
+	potential = {
+		OR = {
+			AND = {
+				tag = LAE
+				NOT = { map_setup = map_setup_random }
+			}
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = frankokratia_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+	}
+	valid_for_nation_designer = yes
+	nation_designer_cost = 50
+	modifiers = {
+		cb_on_religious_enemies = yes
+		fort_maintenance_modifier = -0.15
+	}
+	conditional = {
+		allow = { has_dlc = "Origins" }
+		allow_cawa = yes
+	}
+	ai = {
+		factor = 100
+	}
+}
+
+giudicato_reform = {
+	icon = "judicate"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = giudicato_reform
+			have_had_reform = giudicato_reform
+		}
+	}
+	trigger = {
+		primary_culture = sardinian
+	}
+	nation_designer_trigger = {
+		primary_culture = sardinian
+	}
+	valid_for_nation_designer = yes
+	nation_designer_cost = 15
+	modifiers = {
+		development_cost_in_primary_culture = -0.1
+		same_culture_advisor_cost = -0.1
+		own_coast_naval_combat_bonus = 1
+	}
+	conditional = {
+		allow = { has_dlc = "Res Publica" }
+		queen = no
+		heir = no
+		duration = 4
+		has_term_election = yes
+		states_general_mechanic = {
+			statists = {
+				diplomatic_reputation = 1
+				global_unrest = -1
+				legitimacy = -0.5
+			}
+
+			monarchists = {
+				prestige = 0.5
+				manpower_recovery_speed = 0.1
+				legitimacy = 0.5
+			}
+		}
+	}
+	conditional = {
+		allow = { has_dlc = "Domination" }
+		government_abilities = {
+			sardinian_isolationism_mechanic
+		}
+	}
+	ai = {
+		factor = 100
+	}
+}
+
 # outremer_empire = {
 # 	icon = "religious_permanent_revolution"
 # 	legacy_equivalent = ourtemer_empire_legacy
@@ -873,22 +962,6 @@ representative_thing_reform = {
 	}
 	ai = {
 		factor = 1.5
-	}
-}
-
-nakharar_system_reform = {
-	potential = {
-		primary_culture = armenian
-	}
-	icon = "king_2"
-	allow_normal_conversion = yes
-	modifiers = {
-		nobles_loyalty_modifier = 0.05
-		land_forcelimit_modifier = 0.1
-		land_maintenance_modifier = -0.05
-	}
-	ai = {
-		factor = 3
 	}
 }
 
@@ -1410,24 +1483,6 @@ hussite_radicalism_reform = {
 	}
 }
 
-wisdom_of_the_dervishes_reform = {
-	icon = "indian_sultanate"
-	allow_normal_conversion = yes
-	potential = {
-		has_reform = sufi_reform
-	}
-	trigger = {
-		has_reform = sufi_reform
-	}
-	modifiers = {
-		global_institution_spread = 0.2
-		technology_cost = -0.05
-	}
-	ai = {
-		factor = 1.5
-	}
-}
-
 #Tribes
 sept_privileges_reform = {
 	icon = "imperial_nobility_reform"
@@ -1473,30 +1528,6 @@ memorial_tradition_reform = {
 	modifiers = {
 		cla_filid_influence = 0.1
 		global_institution_spread = 0.15
-	}
-}
-
-#Common
-reform_the_gallowglass = {
-	icon = "soldiers_6"
-	allow_normal_conversion = yes
-	potential = {
-		has_dlc = "Domination"
-		OR = {
-			primary_culture = manxculture
-			primary_culture = highland_scottish
-			primary_culture = cumbric
-			primary_culture = irish
-			primary_culture = gallowglass
-		}
-	}
-	modifiers = {
-		allowed_samurai_fraction = 0.1
-		army_tradition_decay = -0.01
-	}
-	
-	ai = {
-		factor = 1000
 	}
 }
 
