@@ -276,63 +276,49 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			set_country_flag = had_election_event
-			select_biggest_country_of_scope_type = {
-				limit = "
-					has_regency = no
-					is_free_or_tributary_trigger = yes
-					OR = {
-						has_estate = estate_nobles
-						has_estate = estate_brahmins
-						has_estate = estate_rajput
-					}
-					government = monarchy
-					NOT = { war_with = ROOT }
-				"
-				trigger_scope = "any_neighbor_country"
-				effect_scope = "random_neighbor_country"
+			if = {
+				limit = { has_government_attribute = has_outremer_election }
+				select_biggest_country_of_scope_type = {
+					limit = "
+						religion_group = ROOT
+						has_regency = no
+						is_free_or_tributary_trigger = yes
+						OR = {
+							has_estate = estate_nobles
+							has_estate = estate_brahmins
+							has_estate = estate_rajput
+						}
+						government = monarchy
+						NOT = { war_with = ROOT }
+					"
+					trigger_scope = "any_neighbor_country"
+					effect_scope = "random_neighbor_country"
+				}
+			}
+			else = {
+				select_biggest_country_of_scope_type = {
+					limit = "
+						has_regency = no
+						is_free_or_tributary_trigger = yes
+						OR = {
+							has_estate = estate_nobles
+							has_estate = estate_brahmins
+							has_estate = estate_rajput
+						}
+						government = monarchy
+						NOT = { war_with = ROOT }
+					"
+					trigger_scope = "any_neighbor_country"
+					effect_scope = "random_neighbor_country"
+				}
 			}
 			if = {
 				limit = {
 					has_government_attribute = has_outremer_election
 				}
-				random_country = {
+				random_subject_country = {
 					limit = {
-						OR = {
-							tag = ADL
-							tag = ARF
-							tag = BIR
-							tag = BLC
-							tag = BSA
-							tag = CAE
-							tag = GEE
-							tag = HBR
-							tag = HFA
-							tag = IBE
-							tag = JFF
-							tag = OTJ
-							tag = RML
-							tag = SAO
-							tag = SCU
-							tag = SID
-							tag = SKE
-							tag = TXO
-							tag = TYE
-						}
-						religion = ROOT
-						government = monarchy
-						has_regency = no
-						has_heir = yes
-						is_at_war = no
-						OR = {
-							is_free_or_tributary_trigger = yes
-							is_subject_of = ROOT
-						}
-						if = {
-							limit = {
-								ROOT = { religion_group = christian }
-							}
-							religion_group = christian
-						}
+						is_subject_of_type = seigneury
 					}
 					save_event_target_as = jerusalemite_fief
 				}
@@ -805,7 +791,7 @@ country_event = {
 		}
 	}
 
-	#Any other fief
+	#Any other seigneury
 	option = {
 		name = government_events.3.fief
 		trigger = {
