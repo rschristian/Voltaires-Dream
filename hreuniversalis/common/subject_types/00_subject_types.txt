@@ -33,13 +33,13 @@ default = {
 	transfer_trade_if_merchant_republic = no
 	joins_overlords_wars = yes
 	can_be_co_belligerented =  no    #Enemies can force this subject to join its overlord into the defense war. Only used when the subject has the "joins_overlords_wars = no". By default it's "no".
-	can_be_called_to_wars =  no    #Overlord can ask subject to join wars like it could ask allies to join. You would require favors  to call them to wars. Only used when the subject has the "joins_overlords_wars = no". By default it's "no"
+	must_accept_cta_from_overlord =  no    #Overlord can ask subject to join wars like it could ask allies to join. You would require favors  to call them to wars. Only used when the subject has the "joins_overlords_wars = no". By default it's "no"
 	favors_cost_to_join_offensive_wars = 0   #Defines how much favors the overlord need to invest to call the subject into an offensive war
 	favors_cost_to_join_defensive_wars = 0   #Defines how much favors the overlord need to invest to call the subject into a defensive war
 	opinion_cost_to_join_offensive_wars = 0   #Defines how much opinion the subject loses of the overlord to call the subject into an offensive war. Applied if you do not have Leviathan
 	opinion_cost_to_join_defensive_wars = 0   #Defines how much opinion the subject loses of the overlord to call the subject into a defensive war. Applied if you do not have Leviathan
 	opinion_cost_instead_of_favors_cost = no   #Determines if the subject requires favors or opinion to join a the war. If set "yes" then it requires the aforementioned opinion costs - regardless if Leviathan is active or not. "No" is the default setting
-	opinion_on_subject_integration = -30 #Determines how much opinion they actually lose when a fellow subject gets integrated.
+	opinion_on_subject_integration = 30 #Determines how much opinion they actually lose when a fellow subject gets integrated.
 	joins_colonial_wars = no
 	can_be_integrated = no
 	can_release_and_play = no							# "Release Colony" in SubjectView
@@ -55,9 +55,9 @@ default = {
 	has_power_projection = yes
 	can_release_in_peace = yes
 	uses_military_focus = yes
-	overlord_protects_external = no						# Whether overlord always gets called (declinable) against countries
-	counts_for_borders = yes							# Whether distance between borders counts
-	overlord_enforce_peace_attacking = no				# Whether the overlord can enforce peace
+	overlord_protects_external = no						# Whether overlord always gets called (declinable) against countries without the same overlord. When this is 'no' overlord will only join if the defender would have been blocked (by its subject type) from attacking the attacker.
+	counts_for_borders = yes							# Whether distance between borders counts this subject type as part of its overlord's borders.
+	overlord_enforce_peace_attacking = no				# Whether the overlord can enforce peace on the subject's enemy even when the subject is the attacker
 	can_use_claims = yes								# Whether the overlord can use the subject's claims and cores for declaring war
 	gives_daimyo_bonuses = no
 	gets_help_with_rebels = no							# Only for AI. Bidirectional.
@@ -66,13 +66,13 @@ default = {
 	allows_taking_land_without_independence = no
 	can_transfer_in_peace = yes							# Whether this subject type can be made into a vassal with the "Transfer Subject" Age Ability.
 	can_set_mil_focus = yes
-	can_send_missionary_to_subject = yes
-	can_union_break = no
+	can_send_missionary_to_subject = yes				# Requires Cradle of Civilization
+	can_union_break = no								# Only works together with has_overlords_ruler
 	overlord_can_fabricate_for = yes
-	does_overlord_size_count_for_warscore_cost = yes	
-	is_colony_subtype = no	
-	is_march = no	
-	forms_trade_companies = yes	
+	does_overlord_size_count_for_warscore_cost = yes
+	is_colony_subtype = no
+	is_march = no
+	forms_trade_companies = yes
 	can_concentrate_development = yes
 	can_have_great_projects_moved_by_overlord = yes
 	extend_trading_range = no
@@ -86,19 +86,18 @@ default = {
 	liberty_desire_negative_prestige = 0.0
 	liberty_desire_development_ratio = 0.0
 	liberty_desire_same_dynasty = 0.0
-	liberty_desire_revolution = 30.0
+	liberty_desire_revolution = 30.0					# Liberty desire at 100% revolution spread in country
 	pays_overlord = 0.0									# 1.0 represents the amount payed by vassals
 	forcelimit_to_overlord = 0.0						# Percent of subject FL to use as base for modifiers
-	naval_forcelimit_to_overlord = 0.0					# Percent of subject FL to use as base for modifiers	
-	manpower_to_overlord = 0.0							# Percent of subject FL to use as base for modifiers	
+	naval_forcelimit_to_overlord = 0.0					# Percent of subject FL to use as base for modifiers
+	manpower_to_overlord = 0.0							# Percent of subject FL to use as base for modifiers
 	sailors_to_overlord = 0.0							# Percent of subject FL to use as base for modifiers
-	military_focus = 1.0								# How much the AI subject should spend etc
+	military_focus = 1.0								# How much the AI subject should spend etc. on army and forts. 0 should make them spend nothing. Very high values will probably not make a big difference since there will be sanity checks.
 	annex_cost_per_development = 8.0					# annex/integrate cost per development
 
 	relative_power_class = 1 							# See description above
 	should_quit_wars_on_activation = yes
 	diplomacy_view_class = 1							# See description above
-
 	can_fight = {
 	}
 	can_rival = {
@@ -147,7 +146,7 @@ default = {
 	knowledge_sharing = yes
 	block_settlement_growth = yes
 	allow_settlement_growth = yes
-	change_colonial_type = no	
+	change_colonial_type = no
 	upgrade_subject_type = no
 	seize_court_resources = no
 	request_extra_levies = no
@@ -165,7 +164,7 @@ default = {
 	}
 	modifier_overlord = clear
 
-	overlord_opinion_modifier = null
+	overlord_opinion_modifier = null # If not "null" it will look for a modifier with that name in 00_opinion_modifiers.txt and other files in that directory.
 	subject_opinion_modifier = null
 }
 
@@ -308,39 +307,49 @@ march = {
 daimyo_vassal = {
 	copy_from = vassal
 	count = vassal
-
-	# Triggers:
-	is_potential_overlord = { always = no }
 	
 	# Properties:
-	joins_overlords_wars = no
-	joins_colonial_wars = no
 	has_power_projection = yes
 	takes_diplo_slot = no
 	gives_daimyo_bonuses = yes
 	gets_help_with_rebels = no
 	separatists_become_subjects = yes
-	overlord_protects_external = yes
-	can_transfer_in_peace = no
-	counts_for_borders = yes
 	allows_taking_land_without_independence = yes
-	overlord_can_fabricate_for = no
 	can_use_claims = no
-	forms_trade_companies = no	
+	forms_trade_companies = no
 	can_concentrate_development = no
 
-	trust_on_start = 15
+	trust_on_start = 0
+
 	base_liberty_desire = 10.0
 	military_focus = 1.2
+
 	relative_power_class = 1
 	should_quit_wars_on_activation = yes
 
-	can_fight = { same_overlord = daimyo_vassal }
-	can_rival = { same_overlord = daimyo_vassal }
-	can_ally = { same_overlord = daimyo_vassal }
-	can_marry = { same_overlord = daimyo_vassal }
+	can_fight = {
+		independent_nations = yes
+		same_overlord = daimyo_vassal
+		other_overlord = all
+	}
+	can_rival = {
+		independent_nations = yes
+		same_overlord = daimyo_vassal
+		other_overlord = all
+	}
+	can_ally = {
+		independent_nations = yes
+		same_overlord = daimyo_vassal
+		other_overlord = all
+	}
+	can_marry = {
+		independent_nations = yes
+		same_overlord = daimyo_vassal
+		other_overlord = all
+	}
 	
 	# Subject Interactions
+	#(disable)
 	scutage = no
 	grant_core_claim = yes
 	grant_province = yes
@@ -348,13 +357,12 @@ daimyo_vassal = {
 	enforce_religion = no
 	enforce_culture = no
 	seize_territory = no
+	#(enable)
+	force_seppuku = yes
 	contribute_to_capital = yes
-	return_land = yes
 	conscript_general = yes
-	#(special)
-	sword_hunt = yes
-	sankin_kotai = yes
-	expel_ronin = yes
+	force_isolation = yes
+	return_land = yes
 	
 	# Modifiers
 	modifier_overlord = clear #We don't want to duplicate the ones inherited from vassal
@@ -552,7 +560,6 @@ colony = {
 	diplomacy_subject_sprite = GFX_diplomacy_subjectcolony
 
 	# Properties:
-	transfer_trade_power = yes
 	can_release_and_play = yes
 	uses_tariffs = yes
 	eats_overlords_colonies = yes
@@ -565,6 +572,7 @@ colony = {
 	overlord_enforce_peace_attacking = yes
 	can_transfer_in_peace = no
 	press_sailors = yes
+	transfer_trade_power = yes
 	can_concentrate_development = no
 	extend_trading_range = yes
 	
@@ -762,13 +770,13 @@ tributary_state = {
 
 	# Properties:
 	can_fight_independence_war = no
-	is_voluntary = yes
 	joins_overlords_wars = no
 	joins_colonial_wars = no
+	is_voluntary = yes
 	overlord_can_attack = yes
 	takes_diplo_slot = no
 	base_liberty_desire = -5
-	relative_power_class = 0
+	relative_power_class = 1
 	should_quit_wars_on_activation = no
 	can_send_tribute = yes
 	can_have_subjects_of_other_types = yes
@@ -784,8 +792,8 @@ tributary_state = {
 	does_overlord_size_count_for_warscore_cost = no	
 	can_concentrate_development = no
 	
-	liberty_desire_development_ratio = 0.1
-	trust_on_start = 15
+	liberty_desire_development_ratio = 0.175
+	trust_on_start = 0
 	
 	overlord_opinion_modifier = is_tributary
 	subject_opinion_modifier = is_tributary
@@ -870,16 +878,16 @@ eyalet = {
 	gets_help_with_rebels = yes
 	forms_trade_companies = no
 	takes_diplo_slot = no
-	can_be_co_belligerented = yes
-	can_be_called_to_wars = yes
 	extend_trading_range = yes
-	opinion_cost_instead_of_favors_cost = yes
-	opinion_cost_to_join_offensive_wars = 40
-	opinion_cost_to_join_defensive_wars = 20
-	opinion_on_subject_integration = 0
 	counts_for_borders = yes
-
 	max_government_rank = 5
+	can_be_co_belligerented = yes
+	must_accept_cta_from_overlord = yes
+	favors_cost_to_join_offensive_wars = 20   #Defines how much favors the overlord need to invest to call the subject into an offensive war
+	favors_cost_to_join_defensive_wars = 10   #Defines how much favors the overlord need to invest to call the subject into a defensive war
+	opinion_cost_to_join_offensive_wars = 40   #Defines how much opinion the subject loses of the overlord to call the subject into an offensive war. Applied if you do not have Leviathan
+	opinion_cost_to_join_defensive_wars = 20   #Defines how much opinion the subject loses of the overlord to call the subject into a defensive war. Applied if you do not have Leviathan
+	opinion_on_subject_integration = 0
 
 	liberty_desire_development_ratio = 0.1
 	liberty_desire_same_dynasty = -5.0
@@ -922,7 +930,6 @@ eyalet = {
 			}
 		}
 	}
-
 	modifier_subject = {
 		modifier = eyalet_modifier
 	}
@@ -952,7 +959,7 @@ core_eyalet = {
 	manpower_to_overlord = 0.33							# Percent of subject FL to use as base for modifiers
 	sailors_to_overlord = 0.33							# Percent of subject FL to use as base for modifiers
 	annex_cost_per_development = 6.0					# annex/integrate cost per development
-
+	must_accept_cta_from_overlord = no
 	relative_power_class = 2
 	should_quit_wars_on_activation = yes
 
@@ -1122,7 +1129,7 @@ trade_protectorate = {
 	joins_overlords_wars = no
 	joins_colonial_wars = no
 	can_be_co_belligerented = yes    #Enemies can force this subject to join its overlord into the defense war. Only used when the subject has the "joins_overlords_wars = no". By default it's "no".
-	can_be_called_to_wars = yes    #Overlord can ask subject to join wars like it could ask allies to join. You would require favors  to call them to wars. Only used when the subject has the "joins_overlords_wars = no". By default it's "no"
+	must_accept_cta_from_overlord = yes    #Overlord can ask subject to join wars like it could ask allies to join. You would require favors  to call them to wars. Only used when the subject has the "joins_overlords_wars = no". By default it's "no"
 	opinion_cost_to_join_offensive_wars = 100   #Defines how much opinion the subject loses of the overlord to call the subject into an offensive war. Applied if you do not have Leviathan
 	opinion_cost_to_join_defensive_wars = 50   #Defines how much opinion the subject loses of the overlord to call the subject into a defensive war. Applied if you do not have Leviathan
 	opinion_cost_instead_of_favors_cost = yes   #Determines if the subject requires favors or opinion to join a the war. If set "yes" then it requires the aforementioned opinion costs - regardless if Leviathan is active or not. "No" is the default setting
