@@ -37,7 +37,7 @@ country_decisions = {
 			reform_desire = 0.10
 		}
 		allow = {
-			stability = 2
+			adm_tech = 36
 		}
 		effect = {	
 			add_country_modifier = {
@@ -66,7 +66,12 @@ country_decisions = {
 			}
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { full_idea_group = religious_ideas  }
+				NOT = { government = theocracy }
+			}
 		}
 	}
 	
@@ -97,11 +102,11 @@ country_decisions = {
 
 	declaration_of_indulgence = {
 		potential = {
-			NOT = { has_country_modifier = the_declaration_of_indulgence }
-			NOT = { has_country_modifier = the_test_act }
 			religion_group = christian
+			NOT = { has_country_modifier = the_declaration_of_indulgence }
 		}
 		allow = {
+			NOT = { has_country_modifier = the_test_act }
 			adm_tech = 44
 		}
 		effect = {	
@@ -139,6 +144,11 @@ country_decisions = {
 		}
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { full_idea_group = religious_ideas  }
+				NOT = { government = theocracy }
+			}
 		}
 	}
 	
@@ -189,7 +199,6 @@ country_decisions = {
 	
 	test_act = {
 		potential = {
-			NOT = { has_country_modifier = the_declaration_of_indulgence }
 			NOT = { has_country_modifier = the_test_act }
 			OR = {
 				religion = protestant
@@ -200,6 +209,7 @@ country_decisions = {
 		}
 		allow = {
 			adm_tech = 40
+			NOT = { has_country_modifier = the_declaration_of_indulgence }
 		}
 		effect = {	
 			add_country_modifier = {
@@ -229,7 +239,6 @@ country_decisions = {
 					has_country_modifier = the_statue_in_restraint_of_appeals
 				}
 			}
-			government = monarchy
 		}
 		allow = {
 			adm = 4
@@ -278,6 +287,7 @@ country_decisions = {
 	enforce_religion_muslim = {
 		potential = {
 			NOT = { has_ruler_modifier = muslim_enforced_religion }
+			NOT = { has_ruler_modifier = ARB_muslim_enforced_religion_buff }
 			religion_group = muslim
 		}
 		allow = {
@@ -285,11 +295,23 @@ country_decisions = {
 			has_regency = no
 		}
 		effect = {	
-			add_ruler_modifier = {
-				name = "muslim_enforced_religion"
-				duration = -1
+			if = {
+				limit = {
+					has_country_flag = ARB_buff_enforce_religious_unity_flag
+				}
+				add_ruler_modifier = {
+					name = "ARB_muslim_enforced_religion_buff"
+					duration = -1
+				}
+				add_piety = 0.3
 			}
-			add_piety = -0.15
+			else = {
+				add_ruler_modifier = {
+					name = "muslim_enforced_religion"
+					duration = -1
+				}
+				add_piety = -0.15
+			}
 		}
 		ai_will_do = {
 			factor = 1		
@@ -299,9 +321,11 @@ country_decisions = {
 	the_khalifah = {
 		potential = {
 			NOT = { has_ruler_modifier = khalifah }
+			NOT = { has_ruler_modifier = ARB_khalifah_upgraded }
 			religion = sunni
-			NOT = { government = republic }
-			ruler_religion = sunni
+			NOT = { tag = MAM } #Controls the Caliph already.
+			NOT = { tag = FTM } #Controls the Caliph already.
+			NOT = { tag = BGH } #Controls the Caliph already.
 		}
 		allow = {
 			mil = 3
@@ -309,12 +333,27 @@ country_decisions = {
 			is_female = no
 		}
 		effect = {	
-			add_ruler_modifier = {
-				name = "khalifah"
-				duration = -1
+			if = {
+				limit = {
+					always = no
+					#mission_completed = ARB_unite_arabia
+				}
+				add_ruler_modifier = {
+					name = "ARB_khalifah_upgraded"
+					duration = -1
+				}
+				change_piety_effect = {
+					amount = 0.2
+				}
 			}
-			change_piety_effect = {
-				amount = 0.1
+			else = {
+				add_ruler_modifier = {
+					name = "khalifah"
+					duration = -1
+				}
+				change_piety_effect = {
+					amount = 0.1
+				}
 			}
 		}
 		ai_will_do = {
@@ -336,10 +375,10 @@ country_decisions = {
 				name = "sect_practices"
 				duration = -1
 			}
-			add_piety = 0.10
+			add_piety = 0.1
 		}
 		ai_will_do = {
-			factor = 1		
+			factor = 1
 		}
 	}
 	
@@ -347,7 +386,7 @@ country_decisions = {
 		potential = {
 			NOT = { has_ruler_modifier = islamic_scholarly_centre }
 			religion_group = muslim
-			adm_tech = 10
+			adm_tech = 38
 		}
 		allow = {
 			dip = 5
@@ -434,7 +473,14 @@ country_decisions = {
 			}
 		}
 		allow = {
-			legitimacy = 90
+			if = {
+				limit = { OR = { government = monarchy government = tribal } }
+				legitimacy = 90
+			}
+			if = {
+				limit = { uses_devotion = yes }
+				NOT = { devotion = 80 }
+			}
 			has_regency = no
 			is_free_or_tributary_trigger = yes
 			custom_trigger_tooltip = {
@@ -478,6 +524,69 @@ country_decisions = {
 				factor = 0
 				has_country_flag = sultan_titles_for_non_muslims
 				had_country_flag = { flag = sultan_titles_for_non_muslims days = 10950 }
+			}
+			modifier = {
+				factor = 0
+				government = theocracy
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					religion_group = jewish_group
+					religion_group = zoroastrian_group
+				}
+			}
+		}
+	}
+
+	trade_propagation_convert_to_zoroastrianism = {
+		potential = {
+			has_dlc = "Cradle of Civilization"
+			NOT = { religion_group = zoroastrian_group }
+			capital_scope = {
+				religion_group = zoroastrian_group
+				OR = {
+					superregion = pontic_steppe_superregion
+					superregion = central_asia_superregion
+					superregion = caucasia_superregion
+				}
+			}
+		}
+		allow = {
+			if = {
+				limit = { OR = { government = monarchy government = tribal } }
+				legitimacy = 90
+			}
+			if = {
+				limit = { uses_devotion = yes }
+				NOT = { devotion = 80 }
+			}
+			has_regency = no
+			is_free_or_tributary_trigger = yes
+			dominant_religion = zoroastrian
+		}
+		effect = {
+			change_religion = zoroastrian
+			add_stability = 1
+			add_legitimacy = 10
+			country_event = {
+				id = flavor_per.72
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				government = theocracy
+
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					religion_group = jewish_group
+					religion_group = muslim
+					religion_group = christian
+				}
 			}
 		}
 	}
@@ -691,7 +800,7 @@ country_decisions = {
 			religion_group = pagan
 		}
 		allow = {
-			advisor = theologian
+			ADM = 3
 		}
 		effect = {	
 			add_country_modifier = {
@@ -767,7 +876,7 @@ country_decisions = {
 			religion = jewish
 		}
 		allow = {
-			advisor = theologian
+			ADM = 3
 		}
 		effect = {
 			add_country_modifier = {
@@ -790,7 +899,7 @@ country_decisions = {
 			religion = norse_pagan_reformed
 		}
 		allow = {
-			advisor = theologian
+			ADM = 3
 		}
 		effect = {	
 			add_country_modifier = {
@@ -817,6 +926,14 @@ country_decisions = {
 			has_regency = no
 			custom_trigger_tooltip = {
 				tooltip = decision_once_every_twenty_years
+				OR = {
+					has_personal_deity = odin
+					has_personal_deity = freya
+					has_personal_deity = tor
+					has_personal_deity = tyr
+					has_personal_deity = njord
+					has_personal_deity = snotra
+				}
 				OR = {
 					NOT = { has_country_flag = flexible_norse_deity_decision }
 					had_country_flag = {
@@ -887,7 +1004,7 @@ country_decisions = {
 			religion = tengri_pagan_reformed
 		}
 		allow = {
-			advisor = theologian
+			ADM = 3
 		}
 		effect = {	
 			add_country_modifier = {
@@ -1059,9 +1176,9 @@ country_decisions = {
 			}
 		}
 		allow = {
-			adm_tech = 10
+			adm_tech = 8
 			stability = 2
-			advisor = theologian
+			ADM 3
 			adm_power = 50
 		}
 		effect = {
@@ -1345,7 +1462,7 @@ country_decisions = {
 			religion_group = pagan
 			NOT = { religion = tengri_pagan_reformed }
 			any_owned_province = {
-				religion_group = jewish_group
+				religion = jewish
 			}
 			is_free_or_tributary_trigger = yes
 		}
@@ -1370,6 +1487,7 @@ country_decisions = {
 
 	conversion_of_convenience = {
 		potential = {
+			is_lesser_in_union = no
 			NOT = { ruler_religion = ROOT }
 			OR = {
 				has_regency = no
@@ -1377,12 +1495,6 @@ country_decisions = {
 					NOT = { ruler_religion = ROOT }
 					has_heir = yes
 					NOT = { heir_religion = ROOT }
-				}
-			}
-			NOT = {
-				AND = {
-					ai = yes
-					is_subject_of_type = personal_union
 				}
 			}
 			OR = {

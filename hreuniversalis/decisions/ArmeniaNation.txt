@@ -70,6 +70,7 @@ country_decisions = {
 			}
 		}
 		effect = {
+			add_prestige = 25
 			change_tag = ARM
 			on_change_tag_effect = yes
 			hidden_effect = { restore_country_name = yes }
@@ -78,6 +79,22 @@ country_decisions = {
 				limit = { NOT = { government_rank = 5 } }
 				set_government_rank = 5
 			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			if = {
+				limit = {
+					has_custom_ideas = no
+					NOT = { has_idea_group = ARM_ideas }
+				}
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			set_country_flag = formed_armenia_flag
+			# if = {
+			# 	limit = { has_dlc = "King of Kings" }
+			# 	swap_non_generic_missions = yes
+			# }
 			armenia_region = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -106,24 +123,57 @@ country_decisions = {
 				}
 				add_permanent_claim = ARM
 			}
-			add_country_modifier = {
-				name = "centralization_modifier"
-				duration = 7300
-			}
-			add_prestige = 25
-			if = {
-				limit = {
-					has_custom_ideas = no
-					NOT = { has_idea_group = ARM_ideas }
-				}
-				country_event = { id = ideagroups.1 }
-			}
-			set_country_flag = formed_armenia_flag
 		}
 		ai_will_do = {
 			factor = 1
 		}
-		ai_importance = 400
+		ai_importance = 400 #
 	}
 	
+	armenia_tigranakert = {
+		major = yes
+		potential = {
+			OR = {
+				tag = MLK
+				was_tag = MLK
+				tag = ARM
+				was_tag = ARM
+				tag = CLC
+				was_tag = CLC
+				primary_culture = armenian
+			}
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = arm_moved_capital }
+			has_country_flag = arm_capital_tigranakert
+		}
+		allow = {
+			is_core = 3671
+			owns = 3671
+			NOT = { capital = 3671 }
+			is_at_war = no
+		}
+		provinces_to_highlight = {
+			province_id = 3671
+		}
+		effect = {
+			set_country_flag = arm_moved_capital
+			3671 = {
+				move_capital_effect = yes
+			}
+			3671 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+			3671 = {
+				add_province_modifier = {
+					name = "arm_new_capital"
+					duration = 7300
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
 }
