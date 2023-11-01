@@ -7,6 +7,7 @@
 namespace = espionage_events
 
 # Half the Loyalty, Double the Agent
+# Commented out because of the performance hit this event deals
 # country_event = {
 # 	id = espionage_events.1
 # 	title = "espionage_events.1.t"
@@ -91,133 +92,133 @@ namespace = espionage_events
 # }
 
 # Second Chance for a Traitor
-country_event = {
-	id = espionage_events.2
-	title = "espionage_events.2.t"
-	desc = "espionage_events.2.d"
-	picture = DIPLOMAT_INTERROGATION_eventPicture
-	goto = espionage_event_country_2_capital
+# country_event = {
+# 	id = espionage_events.2
+# 	title = "espionage_events.2.t"
+# 	desc = "espionage_events.2.d"
+# 	picture = DIPLOMAT_INTERROGATION_eventPicture
+# 	goto = espionage_event_country_2_capital
 
-	is_triggered_only = yes
+# 	is_triggered_only = yes
 
-	# Try to turn the spy back
-	option = {
-		name = "espionage_events.2.a"
-		random_list = {
-			50 = {
-				add_spy_network_in = {
-					who = FROM
-					value = 25
-				}
-				FROM = { set_country_flag = re_doubled_agent }
-			}
-			50 = {
-				add_spy_network_from = {
-					who = FROM
-					value = 15
-				}
-			}
-		}
-		FROM = {
-			country_event = {
-				id = espionage_events.3 # Suspect the double agent's loyalty
-				days = 30
-			}
-		}
-	}
+# 	# Try to turn the spy back
+# 	option = {
+# 		name = "espionage_events.2.a"
+# 		random_list = {
+# 			50 = {
+# 				add_spy_network_in = {
+# 					who = FROM
+# 					value = 25
+# 				}
+# 				FROM = { set_country_flag = re_doubled_agent }
+# 			}
+# 			50 = {
+# 				add_spy_network_from = {
+# 					who = FROM
+# 					value = 15
+# 				}
+# 			}
+# 		}
+# 		FROM = {
+# 			country_event = {
+# 				id = espionage_events.3 # Suspect the double agent's loyalty
+# 				days = 30
+# 			}
+# 		}
+# 	}
 
-	# Execute the spy
-	option = {
-		name = "espionage_events.2.b"
-		add_spy_network_from = {
-			who = FROM
-			value = -20
-		}
-	}
-}
+# 	# Execute the spy
+# 	option = {
+# 		name = "espionage_events.2.b"
+# 		add_spy_network_from = {
+# 			who = FROM
+# 			value = -20
+# 		}
+# 	}
+# }
 
 # Twice the Traitor
-country_event = {
-	id = espionage_events.3
-	title = "espionage_events.3.t"
-	desc = "espionage_events.3.d"
-	picture = DIPLOMAT_INTERROGATION_eventPicture
-	goto = espionage_event_country_capital
+# country_event = {
+# 	id = espionage_events.3
+# 	title = "espionage_events.3.t"
+# 	desc = "espionage_events.3.d"
+# 	picture = DIPLOMAT_INTERROGATION_eventPicture
+# 	goto = espionage_event_country_capital
 
-	is_triggered_only = yes
+# 	is_triggered_only = yes
 
-	# Kill the agent
-	option = {
-		name = "espionage_events.3.a"
-		custom_tooltip = espionage_events.3.tt_1
-		tooltip = {
-			add_spy_network_from = {
-				who = FROM
-				value = -25
-			}
-		}
-		custom_tooltip = espionage_events.3.tt_2
-		tooltip = {
-			add_spy_network_in = {
-				who = FROM
-				value = -25
-			}
-		}
-		hidden_effect = {
-			if = {
-				limit = { has_country_flag = re_doubled_agent }
-				add_spy_network_from = {
-					who = FROM
-					value = -25
-				}
-			}
-			if = {
-				limit = { NOT = { has_country_flag = re_doubled_agent } }
-				add_spy_network_in = {
-					who = FROM
-					value = -25
-				}
-			}
-			clr_country_flag = re_doubled_agent
-		}
-	}
+# 	# Kill the agent
+# 	option = {
+# 		name = "espionage_events.3.a"
+# 		custom_tooltip = espionage_events.3.tt_1
+# 		tooltip = {
+# 			add_spy_network_from = {
+# 				who = FROM
+# 				value = -25
+# 			}
+# 		}
+# 		custom_tooltip = espionage_events.3.tt_2
+# 		tooltip = {
+# 			add_spy_network_in = {
+# 				who = FROM
+# 				value = -25
+# 			}
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = { has_country_flag = re_doubled_agent }
+# 				add_spy_network_from = {
+# 					who = FROM
+# 					value = -25
+# 				}
+# 			}
+# 			if = {
+# 				limit = { NOT = { has_country_flag = re_doubled_agent } }
+# 				add_spy_network_in = {
+# 					who = FROM
+# 					value = -25
+# 				}
+# 			}
+# 			clr_country_flag = re_doubled_agent
+# 		}
+# 	}
 
-	# Continue operations
-	option = {
-		name = "espionage_events.3.b"
-		custom_tooltip = espionage_events.3.tt_1
-		tooltip = {
-			add_spy_network_from = {
-				who = FROM
-				value = 15
-			}
-		}
-		custom_tooltip = espionage_events.3.tt_2
-		tooltip = {
-			add_spy_network_in = {
-				who = FROM
-				value = 15
-			}
-		}
-		hidden_effect = {
-			if = {
-				limit = { has_country_flag = re_doubled_agent }
-				add_spy_network_from = {
-					who = FROM
-					value = 15
-				}
-			}
-			if = {
-				limit = { NOT = { has_country_flag = re_doubled_agent } }
-				add_spy_network_in = {
-					who = FROM
-					value = 15
-				}
-			}
-			clr_country_flag = re_doubled_agent
-		}
-	}
-}
+# 	# Continue operations
+# 	option = {
+# 		name = "espionage_events.3.b"
+# 		custom_tooltip = espionage_events.3.tt_1
+# 		tooltip = {
+# 			add_spy_network_from = {
+# 				who = FROM
+# 				value = 15
+# 			}
+# 		}
+# 		custom_tooltip = espionage_events.3.tt_2
+# 		tooltip = {
+# 			add_spy_network_in = {
+# 				who = FROM
+# 				value = 15
+# 			}
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = { has_country_flag = re_doubled_agent }
+# 				add_spy_network_from = {
+# 					who = FROM
+# 					value = 15
+# 				}
+# 			}
+# 			if = {
+# 				limit = { NOT = { has_country_flag = re_doubled_agent } }
+# 				add_spy_network_in = {
+# 					who = FROM
+# 					value = 15
+# 				}
+# 			}
+# 			clr_country_flag = re_doubled_agent
+# 		}
+# 	}
+# }
 
 # Seal of Confession
 country_event = {
@@ -314,6 +315,83 @@ country_event = {
 	option = {
 		name = "espionage_events.5.a"
 		add_papal_influence = -15
+	}
+}
+
+# Opportunity to End a Reign
+country_event = {
+	id = espionage_events.6
+	title = "espionage_events.6.t"
+	desc = "espionage_events.6.d"
+	picture = KING_ASSASSINATION_eventPicture
+
+	trigger = {
+		has_dlc = "Mare Nostrum"
+		always = no #Removed due to balance concerns
+		any_known_country = {
+			has_spy_network_from = {
+				who = ROOT
+				value = 100
+			}
+		}
+	}
+
+	is_triggered_only = yes #Never triggered, marginally better for performance
+#	mean_time_to_happen = {
+#		months = 1200
+#	}
+
+	# 
+	option = {
+		name = "espionage_events.6.a"
+		random_known_country = {
+			limit = {
+				has_spy_network_from = {
+					who = ROOT
+					value = 100
+				}
+			}
+			tooltip = {
+				kill_ruler = yes
+				add_casus_belli = {
+					target = ROOT
+					type = cb_insult
+					months = 36
+				}
+			}
+			hidden_effect = {
+				country_event = { id = espionage_events.7 days = 7 }
+			}
+		}
+	}
+
+	# 
+	option = {
+		name = "espionage_events.6.b"
+		add_dip_power = 20
+
+
+	}
+}
+
+# Regicide!
+country_event = {
+	id = espionage_events.7
+	title = "espionage_events.7.t"
+	desc = "espionage_events.7.d"
+	picture = KING_ASSASSINATION_eventPicture
+
+	is_triggered_only = yes
+
+	# 
+	option = {
+		name = "espionage_events.7.a"
+		#kill_ruler = yes
+		add_casus_belli = {
+			target = FROM
+			type = cb_insult
+			months = 36
+		}
 	}
 }
 
