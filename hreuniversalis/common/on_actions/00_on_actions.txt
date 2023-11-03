@@ -4,9 +4,7 @@ on_startup = {
 		save_global_event_target_as = Emperor
 	}
 	if = {
-		limit = {
-			is_emperor_of_china = yes
-		}
+		limit = { is_emperor_of_china = yes }
 		save_global_event_target_as = EmperorOfChina
 	}
 	if = {
@@ -105,14 +103,12 @@ on_startup = {
 		muslim_school_events.20 #Pick School
 		flavor_got.1 #Event for Gotland to select their mission tree
 		flavor_mos.1 #Event regarding the Tatar Yoke
+		#flavor_fra.206 # Setup the general for missions
+		#flavor_geo.1 # Disaster info
+		#flavor_mam.111 # Mamluks-Syria relations
 	}
-	if = {
-		limit = {
-			has_dlc = "Cradle of Civilization"
-			has_country_modifier = tur_janissary
-		}
-		remove_country_modifier = tur_janissary
-	}
+	on_startup_effect = yes
+	on_startup_dlc_cleanup_effect = yes
 	initialize_schools_effect = yes
 
 	if = {
@@ -1388,6 +1384,30 @@ on_monarch_death = {
 		add_meritocracy = 5
 		add_scaled_republican_tradition = 5
 	}
+	if = {
+		limit = {
+			is_subject_of_type = pronoia_subject_type
+			NOT = { liberty_desire = 50 }
+		}
+		overlord = {
+			inherit = ROOT
+			if = {
+				limit = {
+					has_country_flag = BYZ_inheriting_pronoia_crownland_flag
+				}
+				change_estate_land_share = {
+					estate = all
+					share = -5
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			has_government_attribute = civil_war_on_every_new_ruler
+		}
+		country_event = { id = 611 }
+	
 	burgundian_inheritance_start_effect = yes
 	joan_de_trastamara_king_died_effect = yes
 	events = {
@@ -1898,49 +1918,7 @@ on_hre_religion_white_peace = {
 
 # When a non-native changes government type
 on_government_change = {
-	clr_country_flag = pirate_mutineer_council
-	clr_country_flag = caretaker_revolutionary_government
-	if = {
-		limit = {
-			NOT = { government = monarchy }
-			any_owned_province = {
-				has_province_modifier = domain_of_spouses_family
-			}
-		}
-		random_owned_province = {
-			limit = { has_province_modifier = domain_of_spouses_family }
-			remove_province_modifier = domain_of_spouses_family
-		}
-	}
-	if = {
-		limit = {
-			NOT = { government = monarchy }
-			any_owned_province = {
-				has_province_modifier = home_of_consort
-			}
-		}
-		random_owned_province = {
-			limit = { has_province_modifier = home_of_consort }
-			remove_province_modifier = home_of_consort
-		}
-	}
-	if = {
-		limit = { has_country_modifier = the_reign_of_terror }
-		remove_country_modifier = the_reign_of_terror
-	}
-	if = {
-		limit = {
-			has_global_flag = great_peasants_war_flag
-			is_part_of_hre = yes
-			has_government_attribute = is_peasants_republic
-		}
-		1 = {
-			change_variable = {
-				which = GPW_counting_variable
-				value = -3
-			}
-		}
-	}
+	on_government_change_effect = yes
 }
 
 # When a native changes government after filling all their advancement groups.
@@ -3053,20 +3031,20 @@ on_thri_yearly_pulse = {
 		100 = fbievents.35
 
 		#Communes
-		100 = italian_monarchy.1
-		100 = italian_monarchy.2
-		100 = italian_monarchy.3
-		100 = italian_monarchy.4
-		100 = italian_monarchy.5
-		100 = italian_monarchy.6
+		100 = italian_monarchy_events.1
+		100 = italian_monarchy_events.2
+		100 = italian_monarchy_events.3
+		100 = italian_monarchy_events.4
+		100 = italian_monarchy_events.5
+		100 = italian_monarchy_events.6
 
 		#Easterns
-		100 = fbievents.43
-		100 = fbievents.44
-		100 = fbievents.45
-		100 = fbievents.46
-		100 = fbievents.47
-		100 = fbievents.48
+		100 = eastern_monarchy_events.1
+		100 = eastern_monarchy_events.2
+		100 = eastern_monarchy_events.3
+		100 = eastern_monarchy_events.4
+		100 = eastern_monarchy_events.5
+		100 = eastern_monarchy_events.6
 
 		#Germanics
 		100 = fbievents.130
@@ -3078,8 +3056,8 @@ on_thri_yearly_pulse = {
 		100 = fbievents.136
 
 		#Sufi Orders
-		100 = fbievents.137
-		100 = fbievents.138
+		100 = sufi_order_events.1
+		100 = sufi_order_events.2
 
 		# Theocracies
 		100 = devotion_events.1
@@ -3374,26 +3352,27 @@ on_four_year_pulse = {
 
 		#Monastic Factions
 
-		100 = fbievents.11
-		100 = fbievents.12
-		100 = fbievents.13
-		100 = fbievents.14
-		100 = fbievents.15
-		100 = fbievents.16
-		100 = fbievents.17
-		100 = fbievents.18
-		100 = fbievents.19
-		100 = fbievents.20
+		100 = abbacy_events.1
+		100 = abbacy_events.2
+		100 = abbacy_events.3
+		100 = abbacy_events.4
+		100 = abbacy_events.5
+		100 = abbacy_events.6
+		100 = abbacy_events.7
+		100 = abbacy_events.8
+		100 = abbacy_events.9
+		100 = abbacy_events.10
 
 		#Turkish Factions
-
-		100 = fbievents.22
-		100 = fbievents.23
-		100 = fbievents.24
-		100 = fbievents.25
-		100 = fbievents.26
-		100 = fbievents.27
-		100 = fbievents.28
+		100 = turkish_government_events.1
+		100 = turkish_government_events.2
+		100 = turkish_government_events.3
+		100 = turkish_government_events.4
+		100 = turkish_government_events.5
+		100 = turkish_government_events.6
+		100 = turkish_government_events.7
+		100 = turkish_government_events.8
+		100 = turkish_government_events.9
 
 		#Irish
 		100 = hremodevents.111
@@ -6227,6 +6206,26 @@ on_war_ended = { #ROOT - Winer FROM - Loser
 
 on_alliance_broken = { #ROOT - Original alliance creator, FROM - Alliance accepter
 	on_alliance_broken_effect = yes
+	if = {
+		limit = { has_country_modifier = grain_trade_imports_modifier }
+		remove_country_modifier = grain_trade_imports_modifier
+	}
+	FROM = { 
+		if = {
+			limit = { has_country_modifier = grain_trade_imports_modifier }
+			remove_country_modifier = grain_trade_imports_modifier
+		}
+	}
+	if = {
+		limit = { has_country_flag = enable_galleass }
+		clr_country_flag = enable_galleass
+	}
+	FROM = {
+		if = {
+			limit = { has_country_flag = enable_galleass }
+			clr_country_flag = enable_galleass
+		}
+	}
 }
 
 on_royal_marriage_broken = { #ROOT - Original marriage creator, FROM - Marriage accepter
@@ -6239,4 +6238,11 @@ on_alliance_created = { #ROOT - Alliance sender, FROM - Alliance accepter
 
 on_royal_marriage = { #ROOT - Marraige sender, FROM - marriage accepter
 
+}
+
+on_heir_disinherited = {
+	on_heir_disinherited_or_death_effect = yes
+}
+
+on_overrun = { #ROOT - winner, FROM - loser, on stackwipe
 }
