@@ -89,6 +89,45 @@ has_adm_advisor_3 = {
 	}
 }
 
+has_adm_advisor_of_level = {
+	OR = {
+		treasurer = $level$
+		philosopher = $level$
+		artist = $level$
+		theologian = $level$
+		master_of_mint = $level$
+		inquisitor = $level$
+		natural_scientist = $level$
+	}
+}
+
+has_dip_advisor_of_level = {
+	OR = {
+		statesman = $level$
+		diplomat = $level$
+		naval_reformer = $level$
+		trader = $level$
+		colonial_governor = $level$
+		navigator = $level$
+		spymaster = $level$
+	}
+}
+
+has_mil_advisor_of_level = {
+	OR = {
+		army_organiser = $level$
+		army_reformer = $level$
+		commandant = $level$
+		grand_captain = $level$
+		recruitmaster = $level$
+		fortification_expert = $level$
+		quartermaster = $level$
+	}
+}
+
+has_advisor_of_type_and_level = {
+	has_$type$_advisor_of_level = { level = $level$ }
+}
 
 has_dip_advisor = {
 	custom_trigger_tooltip = {
@@ -492,6 +531,7 @@ was_never_end_game_tag_trigger = {	#Country Scope
 			tooltip = was_never_end_game_tag_trigger_tt
 			AND = {
 				NOT = { was_tag = FRA }
+				NOT = { was_tag = PER }
 				NOT = { was_tag = TUR }
 				NOT = { was_tag = BYZ }
 				NOT = { was_tag = ROM }
@@ -526,6 +566,7 @@ was_never_end_game_tag_trigger = {	#Country Scope
 				NOT = { was_tag = BGU }
 
 				NOT = { tag = FRA }
+				NOT = { tag = PER }
 				NOT = { tag = TUR }
 				NOT = { tag = BYZ }
 				NOT = { tag = ROM }
@@ -1007,7 +1048,6 @@ has_final_tier_reforms_trigger = {
 	}
 }
 
-
 has_holy_order_trigger = {
 	if = {
 		limit = {
@@ -1016,17 +1056,6 @@ has_holy_order_trigger = {
 		custom_trigger_tooltip = {
 			tooltip = "has_holy_order_trigger_tooltip"
 			OR = {
-				holy_order = jesuit_order
-				holy_order = dominican_order
-				holy_order = franciscan_order
-				holy_order = shadhili_order
-				holy_order = qadiri_order
-				holy_order = aissawa_order
-				holy_order = mevlevi_order
-				holy_order = bektashi_order
-				holy_order = buzhengshi
-				holy_order = anchasi
-				holy_order = du_si
 				holy_order = benedictines
 				holy_order = carthusians
 				holy_order = hieronymites
@@ -1041,9 +1070,100 @@ has_holy_order_trigger = {
 				holy_order = montesa_order
 				holy_order = san_juan_order
 				holy_order = santiago_order
+				holy_order = shadhili_order
+				holy_order = qadiri_order
+				holy_order = aissawa_order
+				holy_order = mevlevi_order
+				holy_order = bektashi_order
+				holy_order = buzhengshi
+				holy_order = anchasi
+				holy_order = du_si
+				holy_order = savafid_order
+				holy_order = zahediyeh_order
 			}
 		}
 	}
+}
+
+has_any_holy_order = {
+	custom_trigger_tooltip = {
+		tooltip = "has_holy_order_trigger_tooltip"
+		OR = {
+			holy_order = benedictines
+			holy_order = carthusians
+			holy_order = hieronymites
+			holy_order = jesuit_order
+			holy_order = augustinians
+			holy_order = carmelites
+			holy_order = dominican_order
+			holy_order = franciscan_order
+			holy_order = alcantara_order
+			holy_order = avis_order
+			holy_order = calatrava_order
+			holy_order = montesa_order
+			holy_order = san_juan_order
+			holy_order = santiago_order
+			holy_order = shadhili_order
+			holy_order = qadiri_order
+			holy_order = aissawa_order
+			holy_order = mevlevi_order
+			holy_order = bektashi_order
+			holy_order = buzhengshi
+			holy_order = anchasi
+			holy_order = du_si
+			holy_order = savafid_order
+			holy_order = zahediyeh_order
+		}
+	}
+}
+
+can_create_holy_orders = {
+	OR = {
+		AND = {
+			OR = { 
+				AND = { 
+					culture_group = iberian
+					religion = catholic
+				}
+				has_country_flag = enable_holy_orders_flag 
+			}
+			religion_group = christian
+		}
+		AND = {
+			OR = {
+				has_government_attribute = unlock_ottoman_holy_orders
+				primary_culture = andalucian
+				has_country_flag = ARB_grant_access_to_muslim_holy_orders_flag
+			}
+			religion_group = muslim
+		}
+		custom_trigger_tooltip = {
+			tooltip = mng_has_enabled_grand_coordinator_offices_tt
+			has_country_flag = mng_enable_3_grand_coordinators_offices_flag
+		} 
+		AND = {
+			OR = {
+				has_government_attribute = unlock_persia_holy_orders
+				has_country_flag = unlocked_holy_order_savafid_order
+				is_or_was_tag = { tag = ARL }
+			}
+			OR = {
+				religion = shiite
+				religion = ibadi
+			}
+		}
+		AND = {
+			OR = {
+				has_government_attribute = unlock_persia_holy_orders
+				has_country_flag = unlocked_holy_order_zahediyeh_order
+			}
+			religion_group = muslim
+		}
+	}
+}
+
+unlocked_holy_order = {
+	has_country_flag = unlocked_holy_order_$type$
 }
 
 same_govt_as_root_trigger = {
@@ -1932,7 +2052,7 @@ has_religion_of_increased_opinion_for_scope = {
 		AND = { religion = egyptian_religion $who$ = { has_country_flag = has_increased_egyptian_religion_opinion } }
 		AND = { religion = finnish_pagan $who$ = { has_country_flag = has_increased_finnish_pagan_opinion } }
 		AND = { religion = fraticelli $who$ = { has_country_flag = has_increased_fraticelli_opinion } }
-		AND = { religion = hellenic $who$ = { has_country_flag = has_increased_hellenic_opinion } }
+		AND = { religion = hellenic_pagan $who$ = { has_country_flag = has_increased_hellenic_pagan_opinion } }
 		AND = { religion = iconoclast $who$ = { has_country_flag = has_increased_iconoclast_opinion } }
 		AND = { religion = khabze $who$ = { has_country_flag = has_increased_khabze_opinion } }
 		AND = { religion = lollardy $who$ = { has_country_flag = has_increased_lollardy_opinion } }
@@ -1970,31 +2090,31 @@ reverse_has_religion_of_increased_opinion_for_scope = {
 		AND = { $who$ = { religion = tengri_pagan_reformed } has_country_flag = has_increased_tengri_pagan_reformed_opinion }
 		AND = { $who$ = { religion = jewish } has_country_flag = has_increased_jewish_opinion }
 		AND = { $who$ = { religion = zoroastrian } has_country_flag = has_increased_zoroastrian_opinion }
-		AND = { $who$ = { religion = bogomilist } has_country_flag = has_increased_bogomilist_opinion } }
-		AND = { $who$ = { religion = cathar } has_country_flag = has_increased_cathar_opinion } }
-		AND = { $who$ = { religion = catholique } has_country_flag = has_increased_catholique_opinion } }
-		AND = { $who$ = { religion = dievturiba } has_country_flag = has_increased_dievturiba_opinion } }
-		AND = { $who$ = { religion = druwi } has_country_flag = has_increased_druwi_opinion } }
-		AND = { $who$ = { religion = druze } has_country_flag = has_increased_druze_opinion } }
-		AND = { $who$ = { religion = egyptian_religion } has_country_flag = has_increased_egyptian_religion_opinion } }
-		AND = { $who$ = { religion = finnish_pagan } has_country_flag = has_increased_finnish_pagan_opinion } }
-		AND = { $who$ = { religion = fraticelli } has_country_flag = has_increased_fraticelli_opinion } }
-		AND = { $who$ = { religion = hellenic } has_country_flag = has_increased_hellenic_opinion } }
-		AND = { $who$ = { religion = iconoclast } has_country_flag = has_increased_iconoclast_opinion } }
-		AND = { $who$ = { religion = khabze } has_country_flag = has_increased_khabze_opinion } }
-		AND = { $who$ = { religion = lollardy } has_country_flag = has_increased_lollardy_opinion } }
-		AND = { $who$ = { religion = maausko } has_country_flag = has_increased_maausko_opinion } }
-		AND = { $who$ = { religion = mandaeism } has_country_flag = has_increased_mandaeism_opinion } }
-		AND = { $who$ = { religion = monothelite } has_country_flag = has_increased_monothelite_opinion } }
-		AND = { $who$ = { religion = nestorian } has_country_flag = has_increased_nestorian_opinion } }
-		AND = { $who$ = { religion = paulician } has_country_flag = has_increased_paulician_opinion } }
-		AND = { $who$ = { religion = slavic_pagan } has_country_flag = has_increased_slavic_pagan_opinion } }
-		AND = { $who$ = { religion = uatsdin } has_country_flag = has_increased_uatsdin_opinion } }
-		AND = { $who$ = { religion = uralinusko } has_country_flag = has_increased_uralinusko_opinion } }
-		AND = { $who$ = { religion = vainakh } has_country_flag = has_increased_vainakh_opinion } }
-		AND = { $who$ = { religion = waldensian } has_country_flag = has_increased_waldensian_opinion } }
-		AND = { $who$ = { religion = yazidi } has_country_flag = has_increased_yazidi_opinion } }
-		AND = { $who$ = { religion = zikri } has_country_flag = has_increased_zikri_opinion } }
+		AND = { $who$ = { religion = bogomilist } has_country_flag = has_increased_bogomilist_opinion }
+		AND = { $who$ = { religion = cathar } has_country_flag = has_increased_cathar_opinion }
+		AND = { $who$ = { religion = catholique } has_country_flag = has_increased_catholique_opinion }
+		AND = { $who$ = { religion = dievturiba } has_country_flag = has_increased_dievturiba_opinion }
+		AND = { $who$ = { religion = druwi } has_country_flag = has_increased_druwi_opinion }
+		AND = { $who$ = { religion = druze } has_country_flag = has_increased_druze_opinion }
+		AND = { $who$ = { religion = egyptian_religion } has_country_flag = has_increased_egyptian_religion_opinion }
+		AND = { $who$ = { religion = finnish_pagan } has_country_flag = has_increased_finnish_pagan_opinion }
+		AND = { $who$ = { religion = fraticelli } has_country_flag = has_increased_fraticelli_opinion }
+		AND = { $who$ = { religion = hellenic } has_country_flag = has_increased_hellenic_opinion }
+		AND = { $who$ = { religion = iconoclast } has_country_flag = has_increased_iconoclast_opinion }
+		AND = { $who$ = { religion = khabze } has_country_flag = has_increased_khabze_opinion }
+		AND = { $who$ = { religion = lollardy } has_country_flag = has_increased_lollardy_opinion }
+		AND = { $who$ = { religion = maausko } has_country_flag = has_increased_maausko_opinion }
+		AND = { $who$ = { religion = mandaeism } has_country_flag = has_increased_mandaeism_opinion }
+		AND = { $who$ = { religion = monothelite } has_country_flag = has_increased_monothelite_opinion }
+		AND = { $who$ = { religion = nestorian } has_country_flag = has_increased_nestorian_opinion }
+		AND = { $who$ = { religion = paulician } has_country_flag = has_increased_paulician_opinion }
+		AND = { $who$ = { religion = slavic_pagan } has_country_flag = has_increased_slavic_pagan_opinion }
+		AND = { $who$ = { religion = uatsdin } has_country_flag = has_increased_uatsdin_opinion }
+		AND = { $who$ = { religion = uralinusko } has_country_flag = has_increased_uralinusko_opinion }
+		AND = { $who$ = { religion = vainakh } has_country_flag = has_increased_vainakh_opinion }
+		AND = { $who$ = { religion = waldensian } has_country_flag = has_increased_waldensian_opinion }
+		AND = { $who$ = { religion = yazidi } has_country_flag = has_increased_yazidi_opinion }
+		AND = { $who$ = { religion = zikri } has_country_flag = has_increased_zikri_opinion }
 	}
 }
 
@@ -2112,6 +2232,8 @@ is_not_free_merc_company = {
 		NOT = { mercenary_company = merc_scouting_almogavars }
 		NOT = { mercenary_company = merc_skirmishing_almogavars }
 		NOT = { mercenary_company = merc_veteran_almogavars }
+		NOT = { mercenary_company = merc_byz_varangian_guard}
+		NOT = { mercenary_company = merc_byz_turkish_janissaries}
 		#mod
 		NOT = { mercenary_company = merc_order_of_aviz }
 		NOT = { mercenary_company = merc_order_of_santiago }
@@ -2180,8 +2302,18 @@ has_unlocked_government_reform = {
 	has_country_flag = unlocked_$government_reform$
 }
 
+#This trigger is used for enabled estates which should be active, but can naturally disappear (like through revolutions)
 has_unlocked_estate = {
-	has_country_flag = unlocked_$estate$
+	has_country_flag = unlocked_$estate$_flag
+}
+
+#This trigger is used for enabled estates which should be active at all time, no matter what
+has_enabled_estate = {
+	has_country_flag = enables_$estate$_flag
+}
+
+has_disabled_estate = {
+	has_country_flag = disables_$estate$_flag
 }
 
 #### Supports the following government reforms ####
@@ -2447,7 +2579,7 @@ has_valuable_resource = {
 #country scope
 ruler_total_stats = {
 	variable_arithmetic_trigger = {
-		custom_tooltip = ruler_total_stats_$stats$
+		custom_tooltip = ruler_total_stats_$amount$
 		export_to_variable = {
 			variable_name = ruler_adm
 			value = ADM
@@ -2473,7 +2605,7 @@ ruler_total_stats = {
 		}
 		check_variable = {
 			which = ruler_adm
-			value = $stats$
+			value = $amount$
 		}
 	}
 }
@@ -2507,7 +2639,7 @@ ruler_total_stats_target = {
 		}
 		check_variable = {
 			which = ruler_adm
-			value = $stats$
+			value = $amount$
 		}
 	}
 }
@@ -2515,7 +2647,7 @@ ruler_total_stats_target = {
 heir_total_stats = {
 
 	variable_arithmetic_trigger = {
-		custom_tooltip = heir_total_stats_$stats$
+		custom_tooltip = heir_total_stats_$amount$
 		export_to_variable = {
 			variable_name = heir_adm_var
 			value = heir_adm
@@ -2541,7 +2673,7 @@ heir_total_stats = {
 		}
 		check_variable = {
 			which = heir_adm_var
-			value = $stats$
+			value = $amount$
 		}
 	}
 }
@@ -2574,14 +2706,14 @@ heir_total_stats_target = {
 		}
 		check_variable = {
 			which = heir_adm_var
-			value = $stats$
+			value = $amount$
 		}
 	}
 }
 
 consort_total_stats = {
 	variable_arithmetic_trigger = {
-		custom_tooltip = consort_total_stats_$stats$
+		custom_tooltip = consort_total_stats_$amount$
 		export_to_variable = {
 			variable_name = consort_adm_var
 			value = consort_adm
@@ -2607,7 +2739,7 @@ consort_total_stats = {
 		}
 		check_variable = {
 			which = consort_adm_var
-			value = $stats$
+			value = $amount$
 		}
 	}
 }
@@ -2640,7 +2772,7 @@ consort_total_stats_target = {
 		}
 		check_variable = {
 			which = consort_adm_var
-			value = $stats$
+			value = $amount$
 		}
 	}
 }
@@ -3061,16 +3193,18 @@ has_stab_reduction_from_dip_action_modifier = {
 # 	}
 # }
 # is_not_eligible_for_trade_good_salt = {
-# 	OR = {
-# 		area = newfoundland_area
-# 		NOT = { has_terrain = desert }
-# 		NOT = { has_terrain = marsh }
-# 		NOT = { has_terrain = mountain }
-# 		NOT = { has_terrain = highlands }
-# 		NOT = { any_neighbor_province = { province_id = 1649 } } #Lake Victoria
-# 		NOT = { any_neighbor_province = { province_id = 1650 } } #Lake Tangyanika
-# 		NOT = { any_neighbor_province = { province_id = 1651 } } #Lake Malawi
-# 	}
+    # OR = {
+    #     area = newfoundland_area
+    #     AND = {
+    #         NOT = { has_terrain = desert }
+    #         NOT = { has_terrain = marsh }
+    #         NOT = { has_terrain = mountain }
+    #         NOT = { has_terrain = highlands }
+    #         NOT = { any_neighbor_province = { province_id = 1649 } } #Lake Victoria
+    #         NOT = { any_neighbor_province = { province_id = 1650 } } #Lake Tangyanika
+    #         NOT = { any_neighbor_province = { province_id = 1651 } } #Lake Malawi
+    #     }
+    # }
 # }
 # is_not_eligible_for_trade_good_naval_supplies = {
 # 	OR = {
@@ -3404,33 +3538,41 @@ has_stab_reduction_from_dip_action_modifier = {
 # 	}
 # }
 # is_not_eligible_for_trade_good_sugar = {
-# 	OR = {
-# 		area = newfoundland_area
-# 		AND = {
-# 			NOT = { has_climate = tropical }
-# 			OR = {
-# 				has_winter = severe_winter
-# 				has_winter = normal_winter
-# 				has_winter = mild_winter
-# 				has_terrain = desert
-# 				has_terrain = mountain
-# 				has_terrain = hills
-# 				has_terrain = highlands
-# 				has_terrain = forest
-# 				has_terrain = steppe
-# 			}
-# 		}
-# 		is_random_new_world = no
-# 		NOT = { region = carribeans_region }
-# 		NOT = { region = brazil_region }
-# 		NOT = { region = mexico_region }
-# 		NOT = { region = rio_grande_region }
-# 		NOT = { region = central_america_region }
-# 		NOT = { region = colombia_region }
-# 		NOT = { region = deccan_region }
-# 		NOT = { region = west_india_region }
-# 		NOT = { area = mascarenes_area }
-# 	}
+    # OR = {
+    #     area = newfoundland_area
+    #     AND = {
+    #         NOT = { has_climate = tropical }
+    #         OR = {
+    #             has_winter = severe_winter
+    #             has_winter = normal_winter
+    #             has_winter = mild_winter
+    #             has_terrain = desert
+    #             has_terrain = mountain
+    #             has_terrain = hills
+    #             has_terrain = highlands
+    #             has_terrain = forest
+    #             has_terrain = steppe
+    #         }
+    #     }
+    #     AND = {
+    #         is_random_new_world = no
+    #         NOT = { region = carribeans_region }
+    #         NOT = { region = brazil_region }
+    #         NOT = { region = mexico_region }
+    #         NOT = { region = rio_grande_region }
+    #         NOT = { region = central_america_region }
+    #         NOT = { region = colombia_region }
+    #         NOT = { region = deccan_region }
+    #         NOT = { region = west_india_region }
+    #         NOT = { area = mascarenes_area }
+    #     }
+    #     AND = {
+    #         is_random_new_world = yes
+    #         NOT = { region = deccan_region }
+    #         NOT = { region = west_india_region }
+    #         NOT = { area = mascarenes_area }
+    #     }
+    # }
 # }
 # is_not_eligible_for_trade_good_tobacco = {
 # 	OR = {
@@ -3531,12 +3673,14 @@ has_stab_reduction_from_dip_action_modifier = {
 # 	}
 # }
 # is_not_eligible_for_trade_good_tropical_wood = {
-# 	OR = {
-# 		area = newfoundland_area
-# 		NOT = { has_terrain = jungle }
-# 		NOT = { has_climate = tropical }
-# 		NOT = { province_id = 1240 }
-# 	}
+    # OR = {
+    #     area = newfoundland_area
+    #     AND = {
+    #         NOT = { has_terrain = jungle }
+    #         NOT = { province_id = 1240 }
+    #     }
+    #     NOT = { has_climate = tropical }
+    # }
 # }
 # is_not_eligible_for_trade_good_livestock = {
 # 	OR = {
@@ -3809,4 +3953,210 @@ has_not_locked_first_tier_reform = {
 	NOT = { has_reform = caliphate_theocracy_reform }
 	NOT = { has_reform = fifth_monarchists_reform }
 	NOT = { has_reform = great_mongol_state_reform }	
+}
+
+ARB_hedjaz_najd_bedouin_potential = {
+	OR = {
+		tag = ARB
+		tag = NAJ
+		tag = SHM 
+		tag = HED
+		tag = ANZ
+		tag = FAD
+	}
+	NOT = { map_setup = map_setup_random }
+}
+
+num_of_forced_converted_countries = {
+	custom_trigger_tooltip = {
+		tooltip = HAS_FORCE_CONVERTED_$amount$_COUNTRIES_TT
+		check_variable = {
+			which = num_of_forced_conversions
+			value = $amount$
+		}
+	}
+}
+
+num_of_converted_provinces = {
+	custom_trigger_tooltip = {
+		tooltip = HAS_CONVERTED_$amount$_PROVINCES_TT
+		check_variable = {
+			which = num_converted_religion
+			value = $amount$
+		}
+	}
+}
+
+has_unlocked_trading_policy = {
+	custom_trigger_tooltip = {
+		tooltip = has_unlocked_trading_policy_$policy$_tt
+		NOT = { has_country_flag = locked_trading_policy_$policy$ }
+	}
+}
+
+has_locked_trading_policy = {
+	custom_trigger_tooltip = {
+		tooltip = has_locked_trading_policy_$policy$_tt
+		has_country_flag = locked_trading_policy_$policy$
+	}
+}
+
+has_enabled_trading_policy = {
+	has_country_flag = enabled_trading_policy_$policy$
+	NOT = { has_country_flag = disabled_trading_policy_$policy$ }
+}
+
+has_disabled_trading_policy = {
+	has_country_flag = disabled_trading_policy_$policy$
+}
+
+has_not_disabled_trading_policy = {
+	NOT = { has_country_flag = disabled_trading_policy_$policy$ }
+}
+
+trading_policy_or_upgraded_policy_in_node = {
+	OR = {
+		trading_policy_in_node = {
+			node = $node$
+			policy = $policy$
+		}
+		trading_policy_in_node = {
+			node = $node$
+			policy = $policy$_upgraded
+		}
+	}
+}
+
+# Supports the following decisions
+##################################
+# grand_vizier_selection
+# horse_breeding_decision
+has_unlocked_decision = {
+	custom_trigger_tooltip = {
+		tooltip = has_unlocked_decision_$type$_tt
+		has_country_flag = unlocked_decision_$type$
+	}
+}
+
+has_max_monthly_monarch_power = {
+	if = {
+		limit = {
+			#Promote Advisors - +2
+			has_dlc = "Cradle of Civilization"
+			#National Focus - +2
+			has_dlc = "Res Publica"
+			has_dlc = "Common Sense"
+		}
+		monthly_$type$ = 18
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_dlc = "Cradle of Civilization"
+				has_dlc = "Res Publica"
+				has_dlc = "Common Sense"
+			}
+		}
+		monthly_$type$ = 16
+	}
+	else = {
+		monthly_$type$ = 14
+	}
+}
+
+has_high_monthly_monarch_power = {
+	if = {
+		limit = {
+			#Promote Advisors - +2
+			has_dlc = "Cradle of Civilization"
+			#National Focus - +2
+			has_dlc = "Res Publica"
+			has_dlc = "Common Sense"
+		}
+		monthly_$type$ = 14
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_dlc = "Cradle of Civilization"
+				has_dlc = "Res Publica"
+				has_dlc = "Common Sense"
+			}
+		}
+		monthly_$type$ = 12
+	}
+	else = {
+		monthly_$type$ = 10
+	}
+}
+
+has_medium_monthly_monarch_power = {
+	if = {
+		limit = {
+			#Promote Advisors - +2
+			has_dlc = "Cradle of Civilization"
+			#National Focus - +2
+			has_dlc = "Res Publica"
+			has_dlc = "Common Sense"
+		}
+		monthly_$type$ = 12
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_dlc = "Cradle of Civilization"
+				has_dlc = "Res Publica"
+				has_dlc = "Common Sense"
+			}
+		}
+		monthly_$type$ = 10
+	}
+	else = {
+		monthly_$type$ = 8
+	}
+}
+
+has_defender_of_faith_religion = {
+	custom_trigger_tooltip = {
+		tooltip = has_defender_of_faith_religion_tt
+		OR = {
+			religion_group = christian
+			religion_group = muslim
+			religion_group = zoroastrian_group
+			religion_group = jewish_group
+		}
+	}
+}
+
+has_unlocked_diplomatic_action = {
+	has_country_flag = unlocked_diplomatic_action_$type$
+}
+
+has_unified_islam = {
+	custom_trigger_tooltip = {
+		tooltip = has_unified_islam_tt
+		has_country_modifier = unified_islam
+	}
+}
+
+has_any_ongoing_construction = {
+	custom_trigger_tooltip = {
+		tooltip = has_any_ongoing_construction_tt
+		has_construction = building
+		has_construction = core
+		has_construction = culture
+		has_construction = great_project
+		has_construction = canal
+		has_construction = missionary
+	}
+}
+
+total_non_estate_disasters_completed = {
+	custom_trigger_tooltip = {
+		tooltip = total_non_estate_disasters_completed_$value$_tt
+		check_variable = {
+			which = total_disasters_completed_counter
+			value = $value$
+		}
+	}
 }

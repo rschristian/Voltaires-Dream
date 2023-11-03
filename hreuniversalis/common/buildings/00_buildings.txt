@@ -9,10 +9,19 @@
 # manufactory = { trade_good trade_good } # list of trade goods that get a production bonus
 # onmap = yes/no # show as a sprite on the map
 
-# FROM = owner 
+# FROM = owner
 # ROOT = province
 
-# AI will consider buildings it does not have the tech for at 20% of scripted AI weight (in case it wants to save slots)
+# Building AI is now mainly hard-coded. The AI will estimate how much it gains yearly from each building,
+# convert the value to ducats, and take the building with biggest yearly return as a percentage of the build cost.
+# If lower than 1%, the AI will not consider the yearly return worth it.
+# It will also require higher yearly return if the economy in not in prime shape.
+# Forts' value also get converted to a yearly return based on terrain and strategic position, as well as available budget for fort maintenance.
+
+# AI can still be modded though; it will multiply the yearly return with the value of ai_will_do.
+# If you don't want the AI to build a building at all, make ai_will_do become 0.
+# AI will consider each building to be worth 0.01 ducats per year as a base, so making ai_will_do above cost will have them build it at some point.
+# It will still check whether it can afford a building before doing so though, but may save up to it.
 
 ################################################
 # Tier 0, 11th Century Buildings
@@ -186,7 +195,6 @@ college = {
 	time = 12
 	modifier = {
 		local_development_cost = -0.05
-		local_institution_spread = 0.1
 	}
 
 	ai_will_do = {
@@ -283,7 +291,8 @@ monument = {
 	modifier = {
 		local_tax_modifier = 0.2
 	}
-	on_built = {	
+	on_built = {
+		on_built_tax_building_effect = yes
 		on_province_tax_building_built_estate_privileges_effect = yes
 		if = {
 			limit = {
@@ -299,7 +308,7 @@ monument = {
 		if = {
 			limit = {
 				FROM = { has_government_attribute = temples_modifier }
-				owned_by = ROOT
+				owned_by = FROM
 			}
 			add_province_modifier = {
 				name = gov_expanded_temple_rights_mod
@@ -437,12 +446,30 @@ marketplace = {
 			type = production
 			value = 1
 		}
+		if = {
+			limit = {
+				FROM = { 
+					has_dlc = "Mandate of Heaven"
+					has_country_flag = mam_trade_building_prosperity_flag
+				}
+			}
+			add_prosperity = 5
+		}
 	}
 	on_destroyed = {
 		remove_development_from_building = {
 			building = marketplace
 			type = production
 			value = 1
+		}
+		if = {
+			limit = {
+				FROM = { 
+					has_dlc = "Mandate of Heaven"
+					has_country_flag = mam_trade_building_prosperity_flag
+				}
+			}
+			add_prosperity = -5
 		}
 	}
 	on_construction_started = { } #Fires when you start the construction,  ROOT - Province FROM - Country that started
@@ -452,7 +479,7 @@ marketplace = {
 	}
 
 	ai_will_do = {
-		factor = 1.5
+		factor = 1.5 # Because hard-coded AI only considers what it will gain, not what its enemies will lose.
 	}
 }
 
@@ -494,7 +521,8 @@ temple = {
 	modifier = {
 		local_tax_modifier = 0.4
 	}
-	on_built = {	
+	on_built = {
+		on_built_tax_building_effect = yes
 		on_province_tax_building_built_estate_privileges_effect = yes
 		add_development_from_building = {
 			building = temple
@@ -515,11 +543,33 @@ temple = {
 		if = {
 			limit = {
 				FROM = { has_government_attribute = temples_modifier }
-				owned_by = ROOT
+				owned_by = FROM 
 			}
 			add_province_modifier = {
 				name = gov_expanded_temple_rights_mod
 				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					has_country_flag = mosque_local_unrest_flag
+				}
+			}
+			add_province_modifier = {
+				name = turkoman_peaceful_worshipping
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				FROM = { has_country_modifier = mam_mosque_great_mosque_generates_crown_land_modifier }
+			}
+			FROM = {
+				change_estate_land_share = {
+					estate = all
+					share = -0.25
+				}
 			}
 		}
 		#mod
@@ -540,6 +590,14 @@ temple = {
 		}
 		if = {
 			limit = {
+				FROM = {
+					has_country_flag = mosque_local_unrest_flag
+				}
+			}
+			remove_province_modifier = turkoman_peaceful_worshipping
+		}
+		if = {
+			limit = {
 				FROM = { has_government_attribute = on_church_built_clergy_loyalty }
 			}
 			FROM = {
@@ -550,6 +608,17 @@ temple = {
 			}
 		}
 		remove_province_modifier = gov_expanded_temple_rights_mod
+		if = {
+			limit = {
+				FROM = { has_country_modifier = mam_mosque_great_mosque_generates_crown_land_modifier }
+			}
+			FROM = {
+				change_estate_land_share = {
+					estate = all
+					share = 0.25
+				}
+			}
+		}
 	}
 	on_obsolete = {
 	}
@@ -672,7 +741,7 @@ shipyard = {
 	ai_will_do = {
 		factor = 1
 		modifier = {
-			factor = 1.5 # Little above build cost
+			factor = 1.5 # bit more likely if close to the naval force limit
 			FROM = { navy_size_percentage = 0.95 }
 		}
 		modifier = {
@@ -758,7 +827,7 @@ fort_15th = {
 	influencing_fort = yes
 
 	ai_will_do = {
-		factor = 1
+		factor = 1 #Lots of logic in code instead, that multiplies with this value
 	}
 }
 
@@ -773,6 +842,7 @@ coastal_defence = {
 		hostile_disembark_speed = 1.0
 		block_slave_raid = yes
 	}
+
 	ai_will_do = {
 		factor = 1
 	}
@@ -894,6 +964,7 @@ dock = {
 		local_has_man_of_war = yes
 		local_has_galleass = yes
 	}
+
 	on_built = {
 		if = {
 			limit = {
@@ -1039,7 +1110,7 @@ regimental_camp = {
 	ai_will_do = {
 		factor = 1
 		modifier = {
-			factor = 1.5 # Little above build cost
+			factor = 1.5 # more likely if we have an army close to the force limit
 			FROM = { army_size_percentage = 0.95 }
 		}
 		modifier = {
@@ -1144,7 +1215,7 @@ naval_battery = {
 		block_slave_raid = yes
 	}
 	ai_will_do = {
-		factor = 1
+		factor = 1 #Lots of logic in code instead, that multiplies with this value
 	}
 }
 
@@ -1160,7 +1231,8 @@ cathedral = {
 		local_missionary_strength = 0.03
 		local_tax_modifier = 0.6
 	}
-	on_built = {	
+	on_built = {
+		on_built_tax_building_effect = yes
 		on_province_tax_building_built_estate_privileges_effect = yes
 		add_development_from_upgrading_or_building = {
 			building = cathedral
@@ -1183,11 +1255,33 @@ cathedral = {
 		if = {
 			limit = {
 				FROM = { has_government_attribute = temples_modifier }
-				owned_by = ROOT
+				owned_by = FROM
 			}
 			add_province_modifier = {
 				name = gov_expanded_temple_rights_mod
 				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					has_country_flag = mosque_local_unrest_flag
+				}
+			}
+			add_province_modifier = {
+				name = turkoman_peaceful_worshipping
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				FROM = { has_country_modifier = mam_mosque_great_mosque_generates_crown_land_modifier }
+			}
+			FROM = {
+				change_estate_land_share = {
+					estate = all
+					share = -0.25
+				}
 			}
 		}
 		#mod
@@ -1208,6 +1302,14 @@ cathedral = {
 		}
 		if = {
 			limit = {
+				FROM = {
+					has_country_flag = mosque_local_unrest_flag
+				}
+			}
+			remove_province_modifier = turkoman_peaceful_worshipping
+		}
+		if = {
+			limit = {
 				FROM = { has_government_attribute = on_church_built_clergy_loyalty }
 			}
 			FROM = {
@@ -1218,6 +1320,17 @@ cathedral = {
 			}
 		}
 		remove_province_modifier = gov_expanded_temple_rights_mod
+		if = {
+			limit = {
+				FROM = { has_country_modifier = mam_mosque_great_mosque_generates_crown_land_modifier }
+			}
+			FROM = {
+				change_estate_land_share = {
+					estate = all
+					share = 0.25
+				}
+			}
+		}
 	}
 	on_obsolete = {
 	}
@@ -1233,7 +1346,6 @@ university = {
 	time = 12
 	modifier = {
 		local_development_cost = -0.20
-		local_institution_spread = 0.15
 		allowed_num_of_buildings = 1
 	}
 	on_built = {
@@ -1352,7 +1464,7 @@ trade_depot = {
 
 
 	ai_will_do = {
-		factor = 1.5
+		factor = 1.5 # Because hard-coded AI only considers what it will gain, not what its enemies will lose.
 	}
 }
 
@@ -1398,7 +1510,7 @@ grand_shipyard = {
 	ai_will_do = {
 		factor = 1
 		modifier = {
-			factor = 1.5 # Little above build cost
+			factor = 1.5 # bit more likely if close to the force limit
 			FROM = { navy_size_percentage = 0.95 }
 		}
 		modifier = {
@@ -1574,7 +1686,7 @@ fort_17th = {
 	influencing_fort = yes
 
 	ai_will_do = {
-		factor = 1
+		factor = 1 #Lots of logic in code instead, that multiplies with this value
 	}
 }
 
@@ -1636,7 +1748,7 @@ stock_exchange = {
 	}
 
 	ai_will_do = {
-		factor = 1.5
+		factor = 1.5 # Because hard-coded AI only considers what it will gain, not what its enemies will lose.
 	}
 }
 
@@ -1900,7 +2012,7 @@ conscription_center = {
 	ai_will_do = {
 		factor = 1
 		modifier = {
-			factor = 1.5 # Little above build cost
+			factor = 1.5 # more likely if we have an army close to the force limit
 			FROM = { army_size_percentage = 0.95 }
 		}
 		modifier = {
@@ -1989,7 +2101,7 @@ fort_18th = {
 	influencing_fort = yes
 
 	ai_will_do = {
-		factor = 1
+		factor = 1 #Lots of logic in code instead, that multiplies with this value
 	}
 }
 
@@ -2004,6 +2116,8 @@ manufactory = {
 		trade_goods_size = 1.0
 	}
 }
+
+#If trade good assignment changes, also update scripted trigger "has_manufactory trigger"!
 
 wharf = {
 	manufactory = {
@@ -2061,6 +2175,14 @@ wharf = {
 		modifier = {
 			factor = 1.5
 			base_production = 15
+		}
+		modifier = {
+			factor = 5
+			OR = {
+				has_province_modifier = skanemarket
+				has_province_modifier = comet_ore_modifier
+				has_province_modifier = paradise_modifier
+			}
 		}
 		modifier = {
 			NOT = { num_free_building_slots = 3 }
@@ -2196,7 +2318,6 @@ plantations = {
 			value = 1
 		}
 	}
-
 	on_obsolete = {
 	}
 
@@ -2273,17 +2394,33 @@ farm_estate = {
 			type = production 
 			value = 1
 		}
+		if = {
+			limit = {
+				FROM = {
+					has_country_flag = geo_wine_manufactory_flag
+				}
+			}
+			add_base_production = 1
+		}
 	}
 	on_destroyed = {
 		remove_development_from_building = {
 			building = manufactory 
 			type = production 
-			value = 1 
+			value = 2 
 		}
 		remove_dev_from_building = {
 			building = manufactory 
 			type = production 
 			value = 1
+		}
+		if = {
+			limit = {
+				FROM = {
+					has_country_flag = geo_wine_manufactory_flag
+				}
+			}
+			add_base_production = -1
 		}
 	}
 	on_obsolete = {
@@ -2331,7 +2468,6 @@ mills = {
 			value = 1
 		}
 	}
-
 	on_obsolete = {
 	}
 
@@ -2346,13 +2482,15 @@ furnace = {
 		steel
 	}
 
-	potential = { has_dlc = "Rule Britannia" }
+	potential = {
+		has_dlc = "Rule Britannia"
+	}
 
 	modifier = {
-		global_trade_goods_size_modifier = 0.05
+		global_trade_goods_size_modifier = 0.05 #National Bonus
 	}
 	onmap = yes
-	show_separate = yes
+	show_separate = yes # Means as a manufactory it will be shown according to the old way
 	on_built = {
 		add_development_from_building = {
 			building = manufactory
@@ -2379,6 +2517,10 @@ ramparts = {
 	manufactory = {
 		all
 	}
+	
+	#build_trigger = {
+	#	is_flatland = yes
+	#}
 	modifier = {
 		local_hostile_attrition = 1
 		local_defensiveness = 0.15
@@ -2386,6 +2528,7 @@ ramparts = {
 	}
 	onmap = no
 	show_separate = yes # Means as a manufactory it will be shown according to the old way
+	
 	on_built = {
 		add_dev_from_building = {
 			building = manufactory 
@@ -2407,6 +2550,10 @@ ramparts = {
 	}
 	
 	on_destroyed = {
+		if = {
+			limit = { has_province_modifier = per_reinforced_defenses }
+			remove_province_modifier = per_reinforced_defenses
+		}
 		remove_dev_from_building = {
 			building = manufactory 
 			type = manpower 
@@ -2422,6 +2569,18 @@ ramparts = {
 
 	ai_will_do = {
 		factor = 1
+		modifier = {
+			factor = 0
+			from = { num_of_loans = 3 }
+		}
+		modifier = {
+			factor = 20
+			has_terrain = mountain
+		}
+		modifier = {
+			factor = 0
+			from = { personality = ai_militarist }
+		}
 	}
 }
 
@@ -2429,6 +2588,7 @@ soldier_households = {
 	manufactory = {
 		all
 	}
+
 	bonus_manufactory = { # Will apply an extra modifier if these goods
 		grain
 		livestock
@@ -2500,6 +2660,7 @@ impressment_offices = {
 	manufactory = {
 		all
 	}
+
 	bonus_manufactory = { # Will apply an extra modifier if these goods
 		salt
 		fish
@@ -2510,14 +2671,21 @@ impressment_offices = {
 		crabs
 		pearls
 	}
+
 	build_trigger = {
 		has_port = yes
 	}
+
 	modifier = {
 		local_sailors = 250
+		ship_recruit_speed = -0.1
+		local_ship_cost = -0.05
 	}
+
 	bonus_modifier = {
 		local_sailors = 250
+		ship_recruit_speed = -0.1
+		local_ship_cost = -0.05
 	}
 	onmap = no
 	show_separate = yes # Means as a manufactory it will be shown according to the old way
@@ -2545,6 +2713,7 @@ impressment_offices = {
 			value = 1 
 		}
 	}
+
 	on_obsolete = {
 	}
 	ai_will_do = {
@@ -2556,6 +2725,7 @@ state_house = {
 	manufactory = {
 		all
 	}
+
 	bonus_manufactory = { # Will apply an extra modifier if these goods
 		paper
 		glass

@@ -1,5 +1,5 @@
 estate_mamluks = {
-	icon = 15
+	icon = 17
 
 	# Used for when declaring independence
 	independence_government = monarchy
@@ -21,10 +21,11 @@ estate_mamluks = {
 	# If true, country will get estate
 	trigger = {
 		NOT = { has_government_attribute = disables_estate_mamluks }
-		NOT = { has_country_flag = disables_estate_mamluks_flag }
+		NOT = { has_disabled_estate = { estate = estate_mamluks } }
 		OR = {
 			has_government_attribute = enables_estate_mamluks
-			has_country_flag = enables_estate_mamluks_flag
+			has_enabled_estate = { estate = estate_mamluks }
+			has_unlocked_estate = { estate = estate_mamluks }
 			AND = {
 				OR = {
 					has_reform = iqta
@@ -41,7 +42,16 @@ estate_mamluks = {
 				primitives = no
 				NOT = { technology_group = western }
 				NOT = { has_country_modifier = the_abolish_slavery_act }
-				culture_group = turko_semitic
+				OR = {
+					AND = {
+						culture_group = turko_semitic
+						NOT = { primary_culture = al_iraqiya_arabic }
+					}
+					AND = {
+						primary_culture = al_iraqiya_arabic
+						NOT = { has_dlc = "King of Kings" }
+					}
+				}
 				religion_group = muslim
 			}
 		}
@@ -120,15 +130,8 @@ estate_mamluks = {
 	influence_modifier = {
 		desc = EST_VAL_OTHER_ESTATE_IN_POWER
 		trigger = {
-			OR = {
-				has_disaster = estate_nobility_disaster
-				has_disaster = estate_church_disaster
-				has_disaster = estate_burghers_disaster
-				has_disaster = estate_brahmins_disaster
-				has_disaster = estate_vaisyas_disaster
-				has_disaster = estate_jains_disaster
-				has_disaster = estate_dhimmi_disaster
-			}
+			has_any_estate_disaster_active = yes
+			has_not_own_estate_disaster_active = { estate = estate_mamluks }
 		}
 		influence = -40
 	}
@@ -139,15 +142,8 @@ estate_mamluks = {
 	loyalty_modifier = {
 		desc = EST_VAL_OTHER_ESTATE_IN_POWER_LOY
 		trigger = {
-			OR = {
-				has_disaster = estate_nobility_disaster
-				has_disaster = estate_church_disaster
-				has_disaster = estate_burghers_disaster
-				has_disaster = estate_brahmins_disaster
-				has_disaster = estate_vaisyas_disaster
-				has_disaster = estate_jains_disaster
-				has_disaster = estate_dhimmi_disaster
-			}
+			has_any_estate_disaster_active = yes
+			has_not_own_estate_disaster_active = { estate = estate_mamluks }
 		}
 		loyalty = -20
 	}
