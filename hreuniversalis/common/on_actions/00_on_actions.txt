@@ -7,271 +7,29 @@ on_startup = {
 		limit = { is_emperor_of_china = yes }
 		save_global_event_target_as = EmperorOfChina
 	}
-	if = {
-		limit = { NOT = { has_global_flag = init_rel } }
-		init_centre_of_reformation = yes
-		calc_catholic_tags = yes
-		set_global_flag = init_rel
-	}
-
-	#RD Fix
-	if = {
-		limit = {
-			tag = SMX
-			started_in = 1415.1.1
-			NOT = { started_in = 1430.1.1 }
-			NOT = { has_global_flag = init_reform_desire }
-		}
-		add_reform_desire = 0.15
-		set_global_flag = init_reform_desire
-	}
-	if = {
-		limit = {
-			tag = SMX
-			started_in = 1430.1.1
-			NOT = { started_in = 1445.1.1 }
-			NOT = { has_global_flag = init_reform_desire }
-		}
-		add_reform_desire = 0.30
-		set_global_flag = init_reform_desire
-	}
-	if = {
-		limit = {
-			tag = SMX
-			started_in = 1445.1.1
-			NOT = { started_in = 1460.1.1 }
-			NOT = { has_global_flag = init_reform_desire }
-		}
-		add_reform_desire = 0.45
-		set_global_flag = init_reform_desire
-	}
-	if = {
-		limit = {
-			tag = SMX
-			started_in = 1460.1.1
-			NOT = { started_in = 1475.1.1 }
-			NOT = { has_global_flag = init_reform_desire }
-		}
-		add_reform_desire = 0.60
-		set_global_flag = init_reform_desire
-	}
-	if = {
-		limit = {
-			tag = SMX
-			started_in = 1475.1.1
-			NOT = { started_in = 1490.1.1 }
-			NOT = { has_global_flag = init_reform_desire }
-		}
-		add_reform_desire = 0.75
-		set_global_flag = init_reform_desire
-	}
-	if = {
-		limit = {
-			tag = SMX
-			started_in = 1490.1.1
-			NOT = { has_global_flag = init_reform_desire }
-		}
-		add_reform_desire = 0.90
-		set_global_flag = init_reform_desire
-	}
-
-	if = {
-		limit = {
-			NOT = { has_country_modifier = assize_of_arms }
-			started_in = 1272.1.1
-			mil_tech = 20
-			primitives = no
-		}
-		add_country_modifier = {
-			name = "assize_of_arms"
-			duration = -1
-		}
-	}
-
-	if = {
-		limit = {
-			OR = {
-				primary_culture = polabian
-				primary_culture = kashubian
-			}
-		}
-		set_country_flag = is_a_wendish_tag
-	}
-
-	#Vanilla
 	events = {
 		muslim_school_events.20 #Pick School
 		flavor_got.1 #Event for Gotland to select their mission tree
 		flavor_mos.1 #Event regarding the Tatar Yoke
+		#flavor_fra.15000 #Make the French Revolution happen if starting in 1789
+		#flavor_mos.1 #Event regarding the Tatar Yoke
 		#flavor_fra.206 # Setup the general for missions
 		#flavor_geo.1 # Disaster info
 		#flavor_mam.111 # Mamluks-Syria relations
 	}
 	on_startup_effect = yes
 	on_startup_dlc_cleanup_effect = yes
-	initialize_schools_effect = yes
-
-	#VN
-	if = {
-		limit = {
-			OR = {
-				has_country_modifier = zenith_of_the_seljuks
-				has_country_modifier = decline_of_the_seljuks
-			}
-		}
-		remove_country_modifier = zenith_of_the_seljuks
-		remove_country_modifier = decline_of_the_seljuks
-	}
-	if = {
-		limit = {
-			tag = SJK
-			has_government_mechanic = ottoman_decadence_mechanic
-			current_age = age_of_empire
-		}
-		add_country_modifier = {
-			name = zenith_of_the_seljuks
-			duration = -1
-			desc = until_end_of_age_desc
-		}
-	}
-	if = {
-		limit = {
-			tag = SJK
-			has_government_mechanic = ottoman_decadence_mechanic
-			NOT = { current_age = age_of_empire }
-		}
-		add_country_modifier = {
-			name = decline_of_the_seljuks
-			duration = -1
-			desc = until_end_of_age_desc
-		}
-	}
-	if = {
-		limit = {
-			tag = FTM
-			has_government_mechanic = fatimid_irreverence_mechanic
-			NOT = { has_country_flag = got_fatimid_decadence_flag }
-		}
-		set_country_flag = got_fatimid_decadence_flag
-		add_government_power = {
-			mechanic_type = fatimid_irreverence_mechanic
-			power_type = fatimid_irreverence
-			value = 50
-		}
-	}
+	initialize_schools_effect = yes #This is only used here but is used for readability of on_action file.
 }
 
 # country
 on_religion_change = {
+	on_religion_change_effect = yes
 	on_religion_change_estate_privileges_effect = yes
 	judaism_on_religion_change_effect = yes
-	remove_country_modifier = counter_reformation
-	remove_country_modifier = the_statue_in_restraint_of_appeals
-	remove_country_modifier = revocation_of_restraint_of_appeals
-	remove_country_modifier = bavarian_jesuits
-	remove_country_modifier = the_societas_jesu
-	remove_country_modifier = the_declaration_of_indulgence
-	remove_country_modifier = de_heretico_comburendo
-	remove_country_modifier = the_conventicle_act
-	if = {
-		limit = {
-			has_heir = yes
-		}
-		set_heir_religion = ROOT
-	}
-	if = {
-		limit = {
-			has_regency = no
-		}
-		set_ruler_religion = ROOT
-	}
-	if = {
-		limit = {
-			has_dlc = "Rights of Man"
-			has_consort = yes
-		}
-		set_consort_religion = ROOT
-	}
-	if = {
-		limit = {
-			NOT = { religion = orthodox }
-		}
-		every_known_country = {
-			limit = {
-				reverse_has_opinion_modifier = {
-					who = ROOT
-					modifier = closed_down_the_patriarchate
-				}
-			}
-			reverse_remove_opinion = {
-				who = ROOT
-				modifier = closed_down_the_patriarchate
-			}
-		}
-	}
-	if = {
-		limit = {
-			religion = catholic
-			has_ruler_flag = personal_catholic_sympathies
-		}
-		country_event = { id = protestantism_events.19 }
-	}
-	if = {
-		limit = {
-			religion = protestant
-		}
-		set_country_flag = converted_to_protestantism
-	}
-	if = {
-		limit = {
-			religion = hussite
-		}
-		remove_country_modifier = hussite_persecution
-	}
-	if = {
-		limit = { has_country_modifier = bav_religious_mandate_mod }
-		remove_country_modifier = bav_religious_mandate_mod
-	}
-	add_country_modifier = {
-		name = recently_changed_religion_dummy
-		duration = 10
-		hidden = yes
-	}
-	if = {
-		limit = {
-			NOT = { religion_group = muslim }
-			any_owned_province = { has_province_modifier = sufi_shrine }
-		}
-		every_owned_province = {
-			limit = { has_province_modifier = sufi_shrine }
-			remove_province_modifier = sufi_shrine
-		}
-	}
-	if = { 
-		limit = { 
-			has_country_flag = fra_papal_lap_dop_flag 
-		}
-		clr_country_flag = fra_papal_lap_dop_flag 
-		set_country_flag = fra_chose_to_piss_off_pope_flag
-		swap_non_generic_missions = yes 
-		remove_country_modifier = fra_catholic_head_of_state_modifier 
-		remove_country_modifier = fra_fervent_call_to_arms_modifier 
-		clr_country_flag = enable_holy_orders_flag 
-		if = { 
-			limit = { 
-				KOJ = { is_subject_of = ROOT } 
-			}
-			KOJ = { add_liberty_desire = 25 } 
-		}
-		remove_country_modifier = fra_sword_of_christianity_modifier
-		remove_country_modifier = fra_sword_of_christianity_modifier2
-		remove_country_modifier = fra_sword_of_christianity_modifier3
-		remove_country_modifier = fra_sword_of_christianity_modifier4
-		remove_country_modifier = fra_sword_of_christianity_modifier5
-		remove_country_modifier = fra_jerusalem_modifier
-	}
 	events = {
 		muslim_school_events.20 #Pick School
+		propagate_religion_events.7 #Propagated Country is now Muslim
 	}
 }
 
@@ -363,12 +121,7 @@ on_colonial_reintegration = {
 }
 
 # country
-on_peace_actor = {
-	if = {
-		limit = { has_country_modifier = normanconquestmod }
-		remove_country_modifier = normanconquestmod
-	}
-}
+on_peace_actor = {}
 
 # country
 on_peace_recipient = {
@@ -2612,10 +2365,14 @@ on_bi_yearly_pulse_2 = {
 }
 
 on_bi_yearly_pulse_3 = {
+
+	#Fire estate agenda if you have that privilege
+	# NOTE DOING THIS THROUGH RANDOM EVENT NOW WITH estate_privileges_and_agendas_events.4 INSTEAD!
+	#on_bi_yearly_pulse_estate_privileges_effect = yes
+
 	events = {
 		muslim_school_events.20 #Pick School
 		promoting_art_events.2	#Art finished!
-		parias_events.1
 	}
 	random_events = {
 		100 = promoting_art_events.3
@@ -2624,12 +2381,6 @@ on_bi_yearly_pulse_3 = {
 		100 = promoting_art_events.6
 		50 = promoting_art_events.7
 		100 = new_court_flavour_events.25 #blood is thicker than water
-		400 = byz_crisis.2
-		400 = byz_crisis.3
-		400 = byz_crisis.4
-		400 = byz_crisis.5
-		400 = byz_crisis.6
-		400 = byz_crisis.7
 		200 = 0
 	}
 }
@@ -2727,147 +2478,6 @@ on_bi_yearly_pulse_4 = {
 		100 = expel_minority_events.4
 		100 = expel_minority_events.5
 
-		# VN religious events
-		100 = vn_religious_events.1
-		100 = vn_religious_events.2
-		100 = vn_religious_events.3
-		100 = vn_religious_events.4
-		100 = vn_religious_events.5
-		100 = vn_religious_events.6
-		100 = vn_religious_events.7
-		100 = vn_religious_events.8
-		100 = vn_religious_events.9
-		100 = vn_religious_events.10
-
-		#Bogomilist events
-		100 = vn_bogomilist_events.1
-		100 = vn_bogomilist_events.2
-		100 = vn_bogomilist_events.3
-		100 = vn_bogomilist_events.4
-		100 = vn_bogomilist_events.5
-		100 = vn_bogomilist_events.6
-		
-		100 = vn_religious_events.21
-		100 = vn_religious_events.22
-		100 = vn_religious_events.23
-		100 = vn_religious_events.24
-		100 = vn_religious_events.25
-		100 = vn_religious_events.26
-		100 = vn_religious_events.27
-		100 = vn_religious_events.28
-		100 = vn_religious_events.29
-		100 = vn_religious_events.30
-		100 = vn_religious_events.31
-		100 = vn_religious_events.32
-		100 = vn_religious_events.33
-		100 = vn_religious_events.34
-		100 = vn_religious_events.35
-		100 = vn_religious_events.36
-		100 = vn_religious_events.37
-		100 = vn_religious_events.38
-		100 = vn_religious_events.39
-		100 = vn_religious_events.40
-		
-		#Slavic Pagan events
-		100 = vn_slavic_events.1
-		100 = vn_slavic_events.2
-		100 = vn_slavic_events.3
-		100 = vn_slavic_events.4
-		100 = vn_slavic_events.5
-		100 = vn_slavic_events.6
-		100 = vn_slavic_events.7
-
-		#Baltic Pagan events
-		100 = vn_baltic_events.1
-		100 = vn_baltic_events.2
-		100 = vn_baltic_events.3
-		100 = vn_baltic_events.4
-		100 = vn_baltic_events.5
-		100 = vn_baltic_events.6
-
-		100 = vn_religious_events.61
-		100 = vn_religious_events.62
-		100 = vn_religious_events.63
-		100 = vn_religious_events.64
-		100 = vn_religious_events.65
-		100 = vn_religious_events.66
-		100 = vn_religious_events.67
-		100 = vn_religious_events.68
-		100 = vn_religious_events.69
-		100 = vn_religious_events.70
-		100 = vn_religious_events.71
-		100 = vn_religious_events.72
-		100 = vn_religious_events.73
-		100 = vn_religious_events.74
-		100 = vn_religious_events.75
-		100 = vn_religious_events.76
-		100 = vn_religious_events.77
-		100 = vn_religious_events.78
-		100 = vn_religious_events.79
-		100 = vn_religious_events.80
-		100 = vn_religious_events.81
-		100 = vn_religious_events.82
-		100 = vn_religious_events.83
-		100 = vn_religious_events.84
-		100 = vn_religious_events.85
-		100 = vn_religious_events.86
-		100 = vn_religious_events.87
-		100 = vn_religious_events.88
-		100 = vn_religious_events.89
-		100 = vn_religious_events.90
-		100 = vn_religious_events.91
-		100 = vn_religious_events.92
-		100 = vn_religious_events.93
-		100 = vn_religious_events.94
-		100 = vn_religious_events.95
-		100 = vn_religious_events.96
-		100 = vn_religious_events.97
-		100 = vn_religious_events.98
-		100 = vn_religious_events.99
-		100 = vn_religious_events.100
-		100 = vn_religious_events.101
-		100 = vn_religious_events.102
-		100 = vn_religious_events.103
-		100 = vn_religious_events.104
-		100 = vn_religious_events.105
-		100 = vn_religious_events.106
-		100 = vn_religious_events.107
-		100 = vn_religious_events.108
-		100 = vn_religious_events.109
-		100 = vn_religious_events.110
-		100 = vn_religious_events.111
-		100 = vn_religious_events.112
-		100 = vn_religious_events.113
-		100 = vn_religious_events.114
-		100 = vn_religious_events.115
-		100 = vn_religious_events.116
-		100 = vn_religious_events.117
-		100 = vn_religious_events.118
-		100 = vn_religious_events.119
-		100 = vn_religious_events.120
-		100 = vn_religious_events.121
-		100 = vn_religious_events.122
-		100 = vn_religious_events.123
-		100 = vn_religious_events.124
-		100 = vn_religious_events.125
-		100 = vn_religious_events.126
-		100 = vn_religious_events.127
-		100 = vn_religious_events.128
-		100 = vn_religious_events.129
-		100 = vn_religious_events.130
-		100 = vn_religious_events.131
-		100 = vn_religious_events.132
-		100 = vn_religious_events.133
-		100 = vn_religious_events.134
-		100 = vn_religious_events.135
-		100 = vn_religious_events.136
-		100 = vn_religious_events.137
-		100 = vn_religious_events.138
-		100 = vn_religious_events.139
-		100 = vn_religious_events.140
-		
-		100 = vn_zoroastrian_events.1
-
 		# Papal Tithe Events
 		100 = curia.1
 		100 = curia.2
@@ -2920,6 +2530,7 @@ on_bi_yearly_pulse_4 = {
 
 		# Agenda from the Estates
 		1000 = estate_privileges_and_agendas_events.4
+		#1000 = estate_privileges_and_agendas_events.5
 
 		2000 = 0
 	}
@@ -3060,42 +2671,6 @@ on_thri_yearly_pulse = {
 		100 = republics.41
 		100 = republics.42
 		100 = republics.43
-
-		#Cantons
-		100 = fbievents.31
-		100 = fbievents.32
-		100 = fbievents.33
-		100 = fbievents.34
-		100 = fbievents.35
-
-		#Communes
-		100 = italian_monarchy_events.1
-		100 = italian_monarchy_events.2
-		100 = italian_monarchy_events.3
-		100 = italian_monarchy_events.4
-		100 = italian_monarchy_events.5
-		100 = italian_monarchy_events.6
-
-		#Easterns
-		100 = eastern_monarchy_events.1
-		100 = eastern_monarchy_events.2
-		100 = eastern_monarchy_events.3
-		100 = eastern_monarchy_events.4
-		100 = eastern_monarchy_events.5
-		100 = eastern_monarchy_events.6
-
-		#Germanics
-		100 = fbievents.130
-		100 = fbievents.131
-		100 = fbievents.132
-		100 = fbievents.133
-		100 = fbievents.134
-		100 = fbievents.135
-		100 = fbievents.136
-
-		#Sufi Orders
-		100 = sufi_order_events.1
-		100 = sufi_order_events.2
 
 		# Theocracies
 		100 = devotion_events.1
@@ -3282,6 +2857,8 @@ on_four_year_pulse = {
 		# Colonial Nations
 		100 = colonial_nation.1
 		100 = colonial_nation.4
+		#100 = colonial_nation.10
+		#100 = colonial_nation.12
 		100 = colonial_nation.14
 		100 = colonial_nation.77
 		100 = colonial_nation.100
@@ -3302,13 +2879,13 @@ on_four_year_pulse = {
 		100 = colonial_nation.130
 		100 = colonial_nation.132
 		100 = colonial_nation.134
-		100 = colonial_nation.182	
-		100 = colonial_nation.183	
-		100 = colonial_nation.184	
-		100 = colonial_nation.185	
-		100 = colonial_nation.186	
-		100 = colonial_nation.187	
-		100 = colonial_nation.188	
+		100 = colonial_nation.182
+		100 = colonial_nation.183
+		100 = colonial_nation.184
+		100 = colonial_nation.185
+		100 = colonial_nation.186
+		100 = colonial_nation.187
+		100 = colonial_nation.188
 		100 = colonial_nation.189
 		10 = colonial_nation.140
 		10 = colonial_nation.142
@@ -3328,6 +2905,7 @@ on_four_year_pulse = {
 		10 = colonial_nation.170
 		10 = colonial_nation.172
 		10 = colonial_nation.174
+		#10 = colonial_nation.176
 
 		# Dutch Republic
 		100 = dutch_republic.1
@@ -3387,58 +2965,13 @@ on_four_year_pulse = {
 		100 = revolutionary_republic_factions.7
 		100 = revolutionary_republic_factions.8
 		100 = revolutionary_republic_factions.9
-
-		#Monastic Factions
-
-		100 = abbacy_events.1
-		100 = abbacy_events.2
-		100 = abbacy_events.3
-		100 = abbacy_events.4
-		100 = abbacy_events.5
-		100 = abbacy_events.6
-		100 = abbacy_events.7
-		100 = abbacy_events.8
-		100 = abbacy_events.9
-		100 = abbacy_events.10
-
-		#Turkish Factions
-		100 = turkish_government_events.1
-		100 = turkish_government_events.2
-		100 = turkish_government_events.3
-		100 = turkish_government_events.4
-		100 = turkish_government_events.5
-		100 = turkish_government_events.6
-		100 = turkish_government_events.7
-		100 = turkish_government_events.8
-		100 = turkish_government_events.9
-
-		#Irish
-		100 = hremodevents.111
-		100 = hremodevents.112
-		100 = hremodevents.113
-		100 = hremodevents.114
-		100 = hremodevents.115
-		100 = hremodevents.116
-		100 = hremodevents.117
-		100 = hremodevents.118
-		100 = hremodevents.119
-		100 = hremodevents.120
-
-		#Papal
-		100 = fbievents.142
-		100 = fbievents.143
-		100 = fbievents.144
-		100 = fbievents.145
-		100 = fbievents.146
-		100 = fbievents.147
-		100 = fbievents.148
-		100 = fbievents.149
-
+		
 		# Revolutionary Empires
 		100 = napoleon.1
 		100 = napoleon.2
 
 		# Pirate Factions
+		100 = pirates.10
 		100 = pirates.11
 		100 = pirates.12
 		100 = pirates.13
@@ -3536,7 +3069,13 @@ on_four_year_pulse = {
 		100 = china_events.42
 		#100 = china_events.44
 
+		10 = tortoise.1 # Galapagos Island Tortoises
+		
+		100 = flavor_pue.5
+		
 		#Totemism Events
+		100 = totemism_flavor.1
+		100 = totemism_flavor.7
 		100 = totemism_flavor.8
 		100 = totemism_flavor.10
 		100 = totemism_flavor.11
@@ -3546,7 +3085,7 @@ on_four_year_pulse = {
 		100 = totemism_flavor.16
 		100 = totemism_flavor.17
 		100 = totemism_flavor.18
-
+		
 		#Volcano Events
 		75 = volcano_events.2
 
