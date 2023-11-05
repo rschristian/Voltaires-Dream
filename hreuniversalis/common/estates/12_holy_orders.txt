@@ -17,12 +17,23 @@ estate_holy_orders = {
 			NOT = { development = 10 }
 		}
 		modifier = {
+			factor = 1.5
+			OR = { 
+				has_building = barracks
+				has_building = training_fields
+			}
+		}
+		modifier = {
 			factor = 0.75
 			development = 15
 		}
 		modifier = {
 			factor = 0.75
 			development = 20
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { is_state_core = owner }
 		}
 	}
 
@@ -70,6 +81,7 @@ estate_holy_orders = {
 	country_modifier_angry = {
 		inflation_action_cost = 0.25
 		interest = 1
+		global_unrest = 2
 	}
 	land_ownership_modifier = {
 		holy_orders_loyalty_modifier = 0.2
@@ -90,7 +102,10 @@ estate_holy_orders = {
 		trigger = {
 			any_country = {
 				has_reform = crusader_order_reform
-				religion = catholic
+				OR = {
+					religion = catholic
+					religion = catholique
+				}
 				alliance_with = ROOT
 			}
 		}
@@ -100,7 +115,8 @@ estate_holy_orders = {
 		desc = EST_VAL_KINGDOM
 		trigger = {
 			government_rank = 5
-			NOT = { has_reform = celestial_empire }
+			NOT = { has_reform = feudal_france_reform }
+			NOT = { tag = FRA }
 		}
 		influence = 10
 	}
@@ -108,21 +124,27 @@ estate_holy_orders = {
 		desc = EST_VAL_HO_GRANTED
 		trigger = {
 			any_owned_province = {
-				OR = {
-					holy_order = jesuit_order
-					holy_order = franciscan_order
-					holy_order = dominican_order
-				}
+				has_holy_order_trigger = yes
 			}
 		}
-		influence = 10
+		influence = 5
 	}
 	influence_modifier = {
 		desc = EST_VAL_FRANKS
 		trigger = {
-			has_reform = celestial_empire
+			OR = {
+				has_reform = feudal_france_reform
+				tag = FRA
+			}
 		}
 		influence = 20
+	}
+	influence_modifier = {
+		desc = EST_VAL_OUTREMER
+		trigger = {
+			primary_culture = outremer
+		}
+		influence = 5
 	}
 
 	influence_from_dev_modifier = 2.0
@@ -140,45 +162,68 @@ estate_holy_orders = {
 		trigger = {
 			any_country = {
 				has_reform = crusader_order_reform
-				religion = catholic
+				OR = {
+					religion = catholic
+					religion = catholique
+				}
 				war_with = ROOT
 			}
 		}
 		loyalty = -40
+	}
+	loyalty_modifier = {
+		desc = EST_VAL_HO_GRANTED
+		trigger = {
+			any_owned_province = {
+				has_holy_order_trigger = yes
+			}
+		}
+		loyalty = 10
+	}
+	loyalty_modifier = {
+		desc = EST_VAL_OUTREMER
+		trigger = {
+			primary_culture = outremer
+		}
+		loyalty = 10
 	}
 
 	#Names
 	custom_name = {
 		desc = estate_ospitalieri
 		trigger = {
-			tag = TUS
+			primary_culture = tuscan
 		}
 	}
 	custom_name = {
 		desc = estate_templars
 		trigger = {
-			tag = FRA
+			culture_group = french
+			NOT = { primary_culture = vivaro_alpine }
+			NOT = { primary_culture = outremer }
+			NOT = { primary_culture = provencal }
+			NOT = { primary_culture = arpitan }
 		}
 	}
 	custom_name = {
 		desc = estate_avis
 		trigger = {
-			tag = POR
+			primary_culture = portugese
 		}
 	}
 	custom_name = {
 		desc = estate_saint_esprit
 		trigger = {
-			tag = PRO
+			OR = {
+				primary_culture = vivaro_alpine
+				primary_culture = provencal
+			}
 		}
 	}
 	custom_name = {
 		desc = estate_calatravos
 		trigger = {
-			OR = {
-				tag = CAS
-				tag = SPA
-			}
+			primary_culture = castillian
 		}
 	}
 	custom_name = {
@@ -190,30 +235,43 @@ estate_holy_orders = {
 	custom_name = {
 		desc = estate_dobrzynski
 		trigger = {
-			tag = POL
+			OR = {
+				primary_culture = polish
+				primary_culture = mazovian
+			}
 		}
 	}
 	custom_name = {
 		desc = estate_krizovnicky
 		trigger = {
-			tag = BOH
+			OR = {
+				primary_culture = czech
+				primary_culture = moravian
+			}
 		}
 	}
 	custom_name = {
 		desc = estate_maurizio
 		trigger = {
-			tag = SAV
+			OR = {
+				primary_culture = piedmontese
+				primary_culture = arpitan
+			}
 		}
 	}
 	custom_name = {
 		desc = estate_crosiers
 		trigger = {
-			tag = KOJ
+			primary_culture = outremer
+			capital_scope = {
+				superregion = levant_superregion
+			}
 		}
 	}
 	custom_name = {
 		desc = estate_hospitallers
 		trigger = {
+			primary_culture = outremer
 			capital_scope = {
 				OR = {
 					superregion = balkans_superregion
@@ -238,7 +296,7 @@ estate_holy_orders = {
 		estate_holy_orders_heir_knight
 		estate_holy_orders_noble_promotion
 		estate_holy_orders_military_service
-		#mod
+		#taken from vanilla
 		estate_nobles_cawa_peace_keepers
 		estate_nobles_cawa_offensive_fighters
 	}
