@@ -1,0 +1,435 @@
+########################################
+# Kiev + Grand Prince of the Rus
+########################################
+namespace = vn_flavor_kie
+
+#Choose Russian Rite or Greek Rite
+country_event = {
+	id = vn_flavor_kie.1
+	title = vn_flavor_kie.1.t
+	desc = vn_flavor_kie.1.d
+	picture = RELIGION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.1.a
+		ai_chance = { factor = 9 }
+		set_country_flag = kie_russian_rite_flag
+		swap_non_generic_missions = yes
+		add_country_modifier = {
+			name = kie_aftermath_of_the_war_mission_a
+			duration = -1
+		}
+		custom_tooltip = upgradable_modifier_tt
+	}
+	option = {
+		name = vn_flavor_kie.1.b
+		ai_chance = { factor = 1 }
+		set_country_flag = kie_byzantine_rite_flag
+		swap_non_generic_missions = yes
+		add_country_modifier = {
+			name = kie_aftermath_of_the_war_mission_b
+			duration = -1
+		}
+		custom_tooltip = upgradable_modifier_tt
+	}
+}
+
+country_event = {
+	id = vn_flavor_kie.2
+	title = vn_flavor_kie.2.t
+	desc = vn_flavor_kie.2.d
+	picture = LAND_MILITARY_eventPicture
+	goto = capital
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.2.a
+		define_general = {
+			name = "Igor Svyatoslavich"
+			fire = 4 
+			shock = 4 
+			manuever = 3 
+			siege = 1 
+			trait = frontline_holder_personality
+		}
+	}
+
+	option = {
+		name = vn_flavor_kie.2.b
+		add_country_modifier = {
+			name = kie_cuman_threat_mission
+			duration = 9125 
+		}
+	}
+
+	option = {
+		name = vn_flavor_kie.2.c
+		if = {
+			limit = { is_emperor_of_china = yes }
+			add_mandate = 5 
+		}
+		else = {
+			add_adm_power = 50
+			change_government_reform_progress = 25 
+		}
+	}
+}
+
+#Yaroslavichi Triumvirate
+country_event = {
+	id = vn_flavor_kie.3
+	title = vn_flavor_kie.3.t
+	desc = vn_flavor_kie.3.d
+	picture = PRINCE_AND_BOYARS_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.3.a
+		if = {
+			limit = { is_emperor_of_china = yes }
+			add_mandate = 5
+		}
+		else = {
+			add_legitimacy = 5
+		}
+		add_ruler_modifier = {
+			name = kie_yaroslavi_triumvirate_mission
+			duration = -1
+		}
+		every_subject_country = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_good_relations
+			}
+		}
+	}
+}
+
+#Alliance with Poland
+country_event = {
+	id = vn_flavor_kie.4
+	title = vn_flavor_kie.4.t
+	desc = vn_flavor_kie.4.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			random_ally = {
+				limit = {
+					capital_scope = {
+						superregion = poland_superregion
+					}
+				}
+				save_event_target_as = polish_ally
+				capital_scope = {
+					save_event_target_as = polish_ally_capital
+				}
+			}
+		}
+	}
+
+	option = {
+		name = vn_flavor_kie.4.a
+		goto = polish_ally_capital
+		add_dip_power = 25
+		event_target:polish_ally = {
+			country_event = {
+				id = vn_flavor_kie.5
+			}
+		}
+	}
+
+	option = {
+		name = vn_flavor_kie.4.b
+		add_mil_power = 25
+		custom_tooltip = vn_kie_fortify_volyn.ss
+		hidden_effect = {
+			poland_superregion = {
+				limit = {
+					OR = {
+						culture = polish
+						culture = mazovian
+					}
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+}
+
+country_event = {
+	id = vn_flavor_kie.5
+	title = vn_flavor_kie.5.t
+	desc = vn_flavor_kie.5.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.5.a
+		add_historical_friend = FROM
+		FROM = { add_historical_friend = ROOT }
+		add_country_modifier = {
+			name = kie_fortify_volyn_mission
+			duration = 9125
+		}
+		FROM = {
+			add_country_modifier = {
+				name = kie_fortify_volyn_mission
+				duration = 9125
+			}
+		}
+		country_event = {
+			id = vn_flavor_kie.6
+		}
+	}
+	option = {
+		name = vn_flavor_kie.5.b
+		add_prestige_or_monarch_power = { amount = 20 }
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_disappointed
+		}
+		country_event = {
+			id = vn_flavor_kie.7
+		}
+	}
+}
+
+country_event = {
+	id = vn_flavor_kie.6
+	title = vn_flavor_kie.6.t
+	desc = vn_flavor_kie.6.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.6.a
+		add_dip_power = 25
+		tooltip = {
+			add_historical_friend = FROM
+			FROM = { add_historical_friend = ROOT }
+			add_country_modifier = {
+				name = kie_fortify_volyn_mission
+				duration = 9125
+			}
+			FROM = {
+				add_country_modifier = {
+					name = kie_fortify_volyn_mission
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = vn_flavor_kie.7
+	title = vn_flavor_kie.7.t
+	desc = vn_flavor_kie.7.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.7.a
+		add_dip_power = -25
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_disappointed
+		}
+	}
+}
+
+#Change country name if formed Ruthenia
+country_event = {
+	id = vn_flavor_kie.8
+	title = vn_flavor_kie.8.t
+	desc = vn_flavor_kie.8.d
+	picture = GREAT_BUILDING_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.8.a
+		ai_chance = { factor = 0 }
+		override_country_name = KIEVAN_RUS_NAME
+		set_country_flag = has_overriden_name_flag
+	}
+	option = {
+		name = vn_flavor_kie.8.b
+		ai_chance = { factor = 0 }
+		override_country_name = GREATER_RUS_NAME
+		set_country_flag = has_overriden_name_flag
+	}
+	option = {
+		name = vn_flavor_kie.8.c
+		ai_chance = { factor = 0 }
+		override_country_name = RUTHENIAN_EMPIRE
+		set_country_flag = has_overriden_name_flag
+	}
+	option = {
+		name = vn_flavor_kie.8.dd
+		ai_chance = { factor = 0 }
+		override_country_name = GARDARIKI_NAME
+		set_country_flag = has_overriden_name_flag
+	}
+	option = {
+		name = vn_flavor_kie.8.e
+		ai_chance = { factor = 1 }
+	}
+}
+
+#Fate of the Pechenegs
+country_event = {
+	id = vn_flavor_kie.9
+	title = vn_flavor_kie.9.t
+	desc = vn_flavor_kie.9.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.9.a
+		ai_chance = { factor = 0 }
+		
+	}
+	option = {
+		name = vn_flavor_kie.9.b
+		ai_chance = { factor = 0 }
+		
+	}
+	option = {
+		name = vn_flavor_kie.9.c
+		ai_chance = { factor = 0 }
+		
+	}
+}
+
+########################################
+# Anjou + Aquitaine
+########################################
+namespace = vn_flavor_aqt
+
+#Formation of the Angevin Kingdom
+country_event = {
+	id = vn_flavor_aqt.1
+	title = vn_flavor_aqt.1.t
+	desc = vn_flavor_aqt.1.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	option = {
+		name = vn_flavor_aqt.1.a
+		trigger = {
+			NOT = { exists = AVE }
+		}
+		if = {
+			limit = {
+				ASE = {
+					exists = yes
+					ai = yes
+					is_subject_of = ROOT
+					NOT = { num_of_cities = 80 }
+				}
+			}
+			inherit = ASE
+		}
+		if = {
+			limit = {
+				ENG = {
+					exists = yes
+					ai = yes
+					is_subject_of = ROOT
+					NOT = { num_of_cities = 80 }
+				}
+			}
+			inherit = ENG
+		}
+		if = {
+			limit = {
+				GBR = {
+					exists = yes
+					ai = yes
+					is_subject_of = ROOT
+					NOT = { num_of_cities = 80 }
+				}
+			}
+			inherit = GBR
+		}
+		change_tag = AVE
+		on_change_tag_effect = yes
+		hidden_effect = { restore_country_name = yes }
+		remove_non_electors_emperors_from_empire_effect = yes
+		if = {
+			limit = { has_custom_ideas = no }
+			country_event = { id = ideagroups.1 }
+		}
+		if = {
+			limit = {
+				NOT = { government_rank = 5 }
+			}
+			set_government_rank = 5
+		}
+		add_prestige = 20
+		ai_chance = { factor = 1 }
+	}
+	
+	option = {
+		name = vn_flavor_aqt.1.b
+		if = {
+			limit = {
+				NOT = { government_rank = 5 }
+			}
+			set_government_rank = 5
+		}
+		add_prestige = 20
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = vn_flavor_aqt.2
+	title = vn_flavor_aqt.2.t
+	desc = vn_flavor_aqt.2.d
+	picture = REFORM_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	option = {
+		name = vn_flavor_aqt.2.a
+		add_liberty_desire = 100
+		add_country_modifier = {
+			name = aqt_guyenne_mission
+			duration = 18250
+		}
+		custom_tooltip = vn_flavor_aqt.2.tt
+		hidden_effect = {
+			overlord = {
+				every_subject_country = {
+					limit = {
+						capital_scope = {
+							OR = {
+								region = aquitaine_region
+								region = gascony_region
+							}
+						}
+					}
+					add_liberty_desire = 50
+				}
+			}
+		}
+	}
+}

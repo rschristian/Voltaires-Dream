@@ -14,7 +14,7 @@ vn_FOI_missions_slot_1 = {
 
     vn_FOI_conquer_toulouse = {
         position = 1
-        icon = mission_build_up_to_force_limit
+        icon = mission_hundred_years_war
         required_missions = { }
         provinces_to_highlight = {
             area = toulouse_area
@@ -44,7 +44,7 @@ vn_FOI_missions_slot_1 = {
         }
     }
     vn_FOI_narbonne = {
-        icon = mission_teutonic_knights
+        icon = the_hundred_years_war
 		position = 3
         required_missions = { vn_FOI_conquer_toulouse }
         provinces_to_highlight = {
@@ -145,7 +145,7 @@ vn_FOI_missions_slot_2 = {
     has_country_shield = yes
 
     vn_FOI_inheritance_of_bearn = {
-        icon = mission_village
+        icon = fra_burg_succession
         provinces_to_highlight = {
             area = bearn_area
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -175,7 +175,7 @@ vn_FOI_missions_slot_2 = {
     }
     vn_FOI_labourd = {
     	position = 3
-        icon = mission_landsknecht_soldier
+        icon = reclaim_our_ancestral_lands
         required_missions = { vn_FOI_inheritance_of_bearn }
         provinces_to_highlight = {
             area = labourd_area
@@ -198,7 +198,7 @@ vn_FOI_missions_slot_2 = {
         }
     }    
     vn_FOI_viscounty_of_bearn = {
-        icon = mission_large_army
+        icon = balance_the_estates
         required_missions = { vn_FOI_labourd vn_FOI_bordeaux }
 		provinces_to_highlight = {
           	region = gascony_region
@@ -229,7 +229,7 @@ vn_FOI_missions_slot_2 = {
         }
     }
     vn_FOI_capital_at_pau = {
-        icon = mission_city_of_the_world's_desire
+        icon = appease_the_estates
         required_missions = { vn_FOI_viscounty_of_bearn }
         provinces_to_highlight = {
             province_id = 2910
@@ -266,7 +266,7 @@ vn_FOI_missions_slot_3 = {
 
     vn_FOI_armagnac = {
     	position = 2
-        icon = mission_landsknecht_soldier
+        icon = mission_wine_monopolies
         required_missions = { vn_FOI_inheritance_of_bearn }
         provinces_to_highlight = {
             area = armagnac_area
@@ -290,7 +290,7 @@ vn_FOI_missions_slot_3 = {
     }
     vn_FOI_bordeaux = {
         position = 3
-        icon = mission_landsknecht_soldier
+        icon = develop_the_po_valley
         required_missions = { vn_FOI_armagnac }
         provinces_to_highlight = {
             area = bordeaux_area
@@ -329,7 +329,7 @@ vn_FOI_missions_slot_3 = {
     }
     vn_FOI_nemours = {
     	position = 5
-        icon = mission_landsknecht_soldier
+        icon = dreams_of_grandeur
         required_missions = { vn_FOI_powerful_prince }
         provinces_to_highlight = {
             area = nemours_area
@@ -351,7 +351,6 @@ vn_FOI_missions_slot_3 = {
     }
 }
 
-
 vn_FOI_missions_slot_4 = {
     slot = 9
     generic = no
@@ -364,30 +363,58 @@ vn_FOI_missions_slot_4 = {
 
     vn_FOI_good_diplomats = {
 		position = 1
-        icon = mission_rb_scottish_conquer_london
+        icon = mission_diplomatic_relation
         required_missions = { }
+        provinces_to_highlight = {
+			is_capital = yes
+			owner = { 
+				culture_group = french
+				OR = {
+					NOT = { has_opinion = { who = ROOT value = 150 } }
+				}
+				OR = {
+					alliance_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
         trigger = {
-	    	dip = 4
-	    	diplomatic_reputation = 4
+            OR = {
+				dip = 4 
+				monthly_dip = 12
+			}
+	    	OR = {
+                diplomatic_reputation = 4
+                calc_true_if = {
+                    custom_trigger_tooltip = {
+                        tooltip = vn_FOI_good_diplomats.tt
+                        all_known_country = {
+                            culture_group = french
+                            OR = {
+                                is_subject_of = ROOT
+                                alliance_with = ROOT
+                            }
+                            has_opinion = {
+                                who = ROOT
+                                value = 150
+                            }
+                        }
+                    }
+                    amount = 3
+                }
+            }
         }
         effect = {
             add_dip_power = 50
-			if = {
-				limit = { NOT = { dip = 6 } }
-				change_dip = 1
-			}
-			else_if = {
-				limit = { has_heir = yes NOT = { heir_dip = 6 } }
-				change_heir_dip = 1
-			}
-			else = {
-				add_prestige_or_monarch_power = { amount = 20 } 
+			change_ruler_stat = {
+				stat = dip
+				amount = 2
 			}
         }
     }
     vn_FOI_crucial_french_ally = {
         position = 3
-        icon = mission_buildings
+        icon = assert_our_sovereignty
         required_missions = { vn_FOI_good_diplomats }
         trigger = {
             if = {
@@ -417,7 +444,7 @@ vn_FOI_missions_slot_4 = {
             }
         }
         effect = {
-			add_dip_power = 100
+			add_stability_or_adm_power = yes
             add_country_modifier = {
                 name = FOI_crucial_french_ally_mission
                 duration = 9125
@@ -426,7 +453,7 @@ vn_FOI_missions_slot_4 = {
     }
     vn_FOI_powerful_prince = {
         position = 4
-        icon = mission_buildings
+        icon = fra_appease_the_princes
         required_missions = { vn_FOI_crucial_french_ally }
         trigger = {
             if = {
@@ -468,7 +495,7 @@ vn_FOI_missions_slot_4 = {
     }
     vn_FOI_vassals_in_name = {
         position = 5
-        icon = mission_buildings
+        icon = mission_among_the_great_powers
         required_missions = { vn_FOI_powerful_prince }
         trigger = {
             is_subject = no
@@ -501,7 +528,7 @@ vn_FOI_missions_slot_5 = {
     has_country_shield = yes
 
     vn_FOI_prince_of_andorra = {
-        icon = mission_roads
+        icon = spa_new_capital
 		position = 1
         required_missions = { }
         provinces_to_highlight = {
@@ -534,7 +561,7 @@ vn_FOI_missions_slot_5 = {
         }
     }
     vn_FOI_rousillon = {
-        icon = mission_dominate_home_trade_node
+        icon = mission_southern_frontier_lotn
 		position = 2
         required_missions = { vn_FOI_prince_of_andorra }
         provinces_to_highlight = {
@@ -552,7 +579,7 @@ vn_FOI_missions_slot_5 = {
         }
     }
     vn_FOI_defeat_urgell = {
-        icon = mission_dominate_home_trade_node
+        icon = adriatic_access
 		position = 3
         required_missions = { vn_FOI_rousillon }
         provinces_to_highlight = {
@@ -580,7 +607,7 @@ vn_FOI_missions_slot_5 = {
         }
     }
     vn_FOI_catalonia_contested = {
-        icon = mission_dominate_home_trade_node
+        icon = dalmatian_conquest
 		position = 4
         required_missions = { vn_FOI_defeat_urgell }
         provinces_to_highlight = {

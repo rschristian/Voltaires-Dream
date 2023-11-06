@@ -82,9 +82,17 @@ vn_altsax_missions_slot_1 = {
         }
     }
     vn_sax_alliance_in_the_north = {
-        icon = mission_conquer_sweden
+        icon = mission_unite_scandinavia
         position = 2
         required_missions = { vn_sax_the_wendish_crusade }
+        provinces_to_highlight = {
+            superregion = scandinavia_superregion
+            is_capital = yes
+            owner = {
+                NOT = { tag = ROOT }
+                NOT = { alliance_with = ROOT }
+            }
+        }
         trigger = {
             custom_trigger_tooltip = {
                 tooltip = vn_sax_alliance_in_the_north.tt
@@ -247,7 +255,7 @@ vn_altsax_missions_slot_1 = {
         }
     }
     vn_sax_ideas_of_the_reformation = {
-        icon = mission_luther_theses
+        icon = mission_danish_reformation
         position = 7
         required_missions = {  }
         trigger = {
@@ -276,7 +284,7 @@ vn_altsax_missions_slot_1 = {
         }
     }
     vn_sax_centers_for_the_arts = {
-        icon = leiden_university
+        icon = mission_educated_people
         position = 8
         required_missions = { vn_sax_ideas_of_the_reformation }
         trigger = {	
@@ -322,7 +330,7 @@ vn_altsax_missions_slot_2 = {
     has_country_shield = yes
 
     vn_sax_holstein = {
-        icon = eastern_catholicization
+        icon = mission_integrate_holstein
         position = 2
         required_missions = { vn_sax_unite_luneburg }
 		provinces_to_highlight = {
@@ -481,7 +489,7 @@ vn_altsax_missions_slot_2 = {
         }
     }
     vn_sax_a_return_to_britannien = {
-        icon = mission_rb_invade_england
+        icon = mission_the_angevin_age
         position = 7
         required_missions = { vn_sax_dynastic_prowess }
 		provinces_to_highlight = {
@@ -721,7 +729,7 @@ vn_altsax_missions_slot_3 = {
         }
     }
     vn_sax_dynastic_prowess = {
-        icon = the_ostend_company
+        icon = fra_burg_succession
         position = 6
         required_missions = {  }
         trigger = {
@@ -1013,17 +1021,30 @@ vn_altsax_missions_slot_5 = {
     has_country_shield = yes
 
     vn_sax_sachsenkrieg = {
-        icon = protect_against_austria
+        icon = mission_war_for_the_crown
         position = 1
         required_missions = {  }
+        provinces_to_highlight = {
+            owner = {
+                is_emperor = yes
+                NOT = { tag = ROOT }
+            }
+            is_capital = yes
+        }
         trigger = {
-            OR = {
-				is_emperor = yes
-				war_score_against = {
-					who = emperor
-					value = 25
-				}
-			}            
+            if = {
+                limit = { hre_size = 1 }
+                OR = {
+                    is_emperor = yes
+                    war_score_against = {
+                        who = emperor
+                        value = 25
+                    }
+                }
+            }
+            else = {
+                total_development = 150
+            }
         }
         effect = {
 			add_army_tradition = 10
@@ -1038,11 +1059,13 @@ vn_altsax_missions_slot_5 = {
         position = 2
         required_missions = { vn_sax_sachsenkrieg }
         trigger = {
-            is_elector = yes
 			diplomatic_reputation = 3
             if = {
                 limit = { hre_size = 1 }
-                is_emperor = yes
+                OR = {
+                    is_emperor = yes
+                    is_elector = yes
+                }
                 custom_trigger_tooltip = {
                     tooltip = vn_boh_bohemian_electorate.tt
                     calc_true_if = {
@@ -1070,14 +1093,48 @@ vn_altsax_missions_slot_5 = {
         icon = invest_in_the_provinces
         position = 3
         required_missions = { vn_sax_imperial_ambitions }
+        provinces_to_highlight = {
+            if = {
+                limit = { 
+                    exists = PAP
+                    ROOT = { religion = catholic }
+                }
+                owned_by = PAP
+                is_capital = yes
+            }
+            else_if = {
+                limit = { 
+                    exists = AVI
+                    ROOT = { religion = catholique }
+                }
+                owned_by = PAP
+                is_capital = yes
+            }
+            else = {
+                always = no
+            }
+        }
         trigger = {
             if = {
                 limit = { 
                     exists = PAP
+                    religion = catholic
                     uses_papacy = yes
                 }
                 reverse_has_opinion = {
                     who = PAP
+                    value = 150
+                }
+				alliance_with = PAP
+            }
+            else_if = {
+                limit = { 
+                    exists = AVI
+                    religion = catholique
+                    uses_papacy = yes
+                }
+                reverse_has_opinion = {
+                    who = AVI
                     value = 150
                 }
 				alliance_with = PAP
@@ -1096,6 +1153,11 @@ vn_altsax_missions_slot_5 = {
 				}
 				add_imperial_influence = 10
 			}
+            else = {
+                add_prestige_or_monarch_power = {
+                    amount = 10
+                }
+            }
             reverse_add_opinion = {
 				who = PAP
 				modifier = sax_papal_recognition_opinion
@@ -1110,6 +1172,17 @@ vn_altsax_missions_slot_5 = {
         icon = confront_the_lombards
         position = 4
         required_missions = { vn_sax_papal_recognition }
+        provinces_to_highlight = {
+            OR = {
+                superregion = italy_superregion
+                superregion = sicily_superregion
+            }
+            is_capital = yes
+            owner = {
+                NOT = { tag = ROOT }
+                NOT = { alliance_with = ROOT }
+            }
+        }
         trigger = {
             custom_trigger_tooltip = {
                 tooltip = vn_sax_italian_support.tt
@@ -1134,7 +1207,15 @@ vn_altsax_missions_slot_5 = {
 				}
 				add_imperial_influence = 10
 			}
-            add_dip_power = 50
+            else = {
+                add_prestige_or_monarch_power = {
+                    amount = 10
+                }
+            }
+            change_ruler_stat = {
+				stat = dip
+				amount = 1
+			}
             add_country_modifier = {
                 name = sax_italian_support_mission
                 duration = 9125
@@ -1190,9 +1271,10 @@ vn_altsax_missions_slot_5 = {
         }
         effect = { 
             add_power_projection = {
-                type = mission_rewards_power_projection
-                amount = 25
-            }	
+				type = 25_permanent_power_projection
+				amount = 10
+			}
+			custom_tooltip = zim_amongst_the_great_powers_tt
  			if = {
  				limit = {
  					exists = APL
@@ -1319,10 +1401,8 @@ vn_altsax_missions_slot_5 = {
 				senior_union_with = APL 
 				senior_union_with = SIC 
 				AND = {
-					NOT = { 
-						exists = APL
-						exists = SIC 
-					}
+					NOT = { exists = APL }
+                    NOT = { exists = SIC }
 					sicilia_region = {
 						type = all
 						country_or_non_sovereign_subject_holds = ROOT
@@ -1335,7 +1415,7 @@ vn_altsax_missions_slot_5 = {
 			add_legitimacy = 10
 			add_country_modifier = {
                 name = sax_confiscate_sicily_mission
-                duration = 9125
+                duration = 18250
             }
         }
     }

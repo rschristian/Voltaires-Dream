@@ -15,31 +15,93 @@ vn_als_missions_slot_1 = {
     has_country_shield = yes
 
     vn_als_pioneer_the_printing_press = {
-        icon = expand_the_confederacy
+        icon = mission_book_of_royal_degrees
         position = 1
         required_missions = {  }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			trade_goods = paper
+		}
         trigger = {
-            has_institution = printing_press
+            OR = {
+				has_institution = printing_press
+				any_owned_province = {
+					trade_goods = paper
+					base_production = 10 
+					has_production_building_trigger = yes 
+				}
+			}
             if = {
                 limit = { has_dlc = "Rule Britannia" }
-                innovativeness = 50
+                OR = {
+					innovativeness = 50
+					full_idea_group = innovativeness_ideas
+				}
             }
-            university = 3
-            has_3_lv3_advisors_trigger = yes            
+			else = {
+				OR = {
+					prestige = 50
+					full_idea_group = innovativeness_ideas
+				}
+			}
+            OR = {
+				has_3_lv3_advisors_trigger = yes
+				num_of_owned_provinces_with = {
+					value = 3
+					has_education_building_trigger = yes
+				}
+			}
         }
         effect = {
-            add_innovativeness_big_effect = yes
+			if = { 
+				limit = { has_dlc = "Rule Britannia" }
+				add_innovativeness_big_effect = yes
+			}
+			else = {
+				add_adm_power = 50
+				add_dip_power = 50
+				add_mil_power = 50
+			}
+			if = {
+				limit = { 
+					NOT = { is_institution_enabled = printing_press } 
+				}
+				custom_tooltip = mng_before_printing_press_embraced_tt
+				hidden_effect = { 
+					every_owned_province = { 
+						limit = {
+							trade_goods = paper 
+							base_production = 10 
+							has_production_building_trigger = yes 
+						}
+						add_institution_embracement = {
+							which = printing_press 
+							value = 100 
+						}
+					}
+				}
+			}
             add_country_modifier = {
                 name = als_pioneer_the_printing_press_mission #technology/idea cost
-                duration = -1
-            }            
+                duration = 9125
+            }
         }
+		ai_weight = {
+			factor = 500
+		}
 	}
     vn_als_legacy_of_martin_bucer = {
-        icon = mission_luther_theses
+        icon = mission_bridge_the_heresy
         position = 3
         required_missions = { vn_als_pioneer_the_printing_press }
-        trigger = {
+        provinces_to_highlight = {
+			region = alsace_region
+			OR = {
+				NOT = { country_or_non_sovereign_subject_holds = ROOT }
+				has_owner_religion = no
+			}
+		}
+		trigger = {
 			OR = {
 				current_age = age_of_absolutism
 				current_age = age_of_revolutions
@@ -52,25 +114,35 @@ vn_als_missions_slot_1 = {
 			}
         }
         effect = {
+			add_religious_influence_effect_large = yes
             add_country_modifier = {
                 name = als_legacy_of_martin_bucer_mission #tolerance own, stability cost
-                duration = 9125
+                duration = -1
             }              
         }
+		ai_weight = {
+			factor = 500
+		}
     }
     vn_als_route_des_vins_dalsace = {
         icon = austria_prospers
         position = 4
         required_missions = { vn_als_develop_colmer }
+		provinces_to_highlight = {
+			region = alsace_region
+			trade_goods = wine
+			OR = {
+				NOT = { development = 20 }
+				NOT = { owned_by = ROOT }
+			}
+		}
         trigger = {
-			calc_true_if = {
-				alsace_region = {
-					type = all
-					trade_goods = wine
-					development = 20
-				}
-				amount = 5
-			}	
+			num_of_owned_provinces_with = {
+				value = 5
+				region = alsace_region
+				trade_goods = wine
+				development = 20
+			}
             home_trade_node = {
 				is_strongest_trade_power = ROOT
 			}
@@ -79,9 +151,14 @@ vn_als_missions_slot_1 = {
 				any_owned_province = {
 					province_has_center_of_trade_of_level = 3
 				}    
-			}           
+			}
         }
         effect = {
+			add_years_of_owned_provinces_production_income = {
+				years = 12
+				trigger = { trade_goods = wine }
+				custom_tooltip = MONOPOLY_INCOME_WINE_DESC
+			}
             add_country_modifier = {
                 name = als_route_des_vins_dalsace_mission #production efficiency
                 duration = 9125
@@ -168,8 +245,8 @@ vn_als_missions_slot_2 = {
 			}
 			37 = {
 				add_province_modifier = {
-					name = als_develop_colmer_mission
-					duration = 9125
+					name = "als_develop_colmer_mission"
+					duration = 10950
 				}
 			}          
         }
@@ -196,41 +273,38 @@ vn_als_missions_slot_2 = {
 				name = "als_cross_the_rhine_mission" #Trade
 				duration = 9125
 			}  
-			custom_tooltip = vn_als_cross_the_rhine.tt #Unite Alamannia!
-			hidden_effect = {
-				wurttemburg_region = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-						culture_group = germanic
-					}
-					add_permanent_claim = ROOT
+			wurttemburg_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+					culture_group = germanic
 				}
-				swabia_region = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-						culture_group = germanic
-					}
-					add_permanent_claim = ROOT
+				add_permanent_claim = ROOT
+			}
+			swabia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+					culture_group = germanic
 				}
-				swisseast_region = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-						culture_group = germanic
-					}
-					add_permanent_claim = ROOT
+				add_permanent_claim = ROOT
+			}
+			swisseast_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+					culture_group = germanic
 				}
-				swisswest_region = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-						culture_group = germanic
-					}
-					add_permanent_claim = ROOT
+				add_permanent_claim = ROOT
+			}
+			swisswest_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+					culture_group = germanic
 				}
-			}             
+				add_permanent_claim = ROOT
+			}       
         }
     }
 }
@@ -249,7 +323,7 @@ vn_als_missions_slot_3 = {
     has_country_shield = yes
 
     vn_als_dethrone_the_bishops = {
-        icon = the_great_city_of_buda
+        icon = take_the_bishoprics
         position = 1
         required_missions = {  }
 		provinces_to_highlight = {
@@ -257,40 +331,34 @@ vn_als_missions_slot_3 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-			NOT = { government = theocracy }
             strassburg_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
-			}   
-            if = {
-				limit = { has_estate = estate_church }
+			}
+			OR = {
+				NOT = { has_estate = estate_church }
 				estate_loyalty = {
 					estate = estate_church
-					loyalty = 50
+					loyalty = 60
 				}
-				NOT = {
-					estate_influence = {
-						estate = estate_church
-						influence = 50
-					}
-				}
-			}			
+			}	
         }
         effect = {
-			add_adm_power = 25
-			add_dip_power = 25
-			add_mil_power = 25
+			add_reform_progress_medium_effect = yes
             alsace_region = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
-            }            
+            }
         }
+		ai_weight = {
+			factor = 500
+		}
     }
     vn_als_consolidate_the_vosges = {
-        icon = take_the_bishoprics
+        icon = mission_expand_into_the_forest
         position = 2
         required_missions = { vn_als_dethrone_the_bishops }
 		provinces_to_highlight = {
@@ -327,18 +395,15 @@ vn_als_missions_slot_3 = {
 				owned_by = ROOT
 				consolidated_region_trigger = yes
 			}
-			calc_true_if = {
-				alsace_region = {
-					type = all
-					development = 20
-				}
-				amount = 5
-			}			
+			development_in_provinces = {
+				value = 100
+				region = alsace_region
+			}		
         }
         effect = {
 			add_power_projection = {
-				type = mission_rewards_power_projection
-				amount = 20
+				type = 10_permanent_power_projection
+				amount = 10
 			}
             lorraine_region = {
                 limit = {
@@ -356,7 +421,7 @@ vn_als_missions_slot_3 = {
             }  
 			add_country_modifier = {
 				name = "als_rot_un_wiss_mission" #Consolidation
-				duration = 9125
+				duration = 36500
 			}
         }
     }
@@ -390,9 +455,11 @@ vn_als_missions_slot_4 = {
 			}   			
         }
         effect = {
-			add_adm_power = 25
-			add_dip_power = 25
-			add_mil_power = 25
+			297 = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 1
+			}
 			add_country_modifier = {
 				name = "als_to_the_saar_mission" #Tax Income
 				duration = 9125
@@ -439,9 +506,21 @@ vn_als_missions_slot_5 = {
     has_country_shield = yes
 
     vn_als_the_true_language = {
-        icon = imperial_ascendancy
+        icon = mission_english_renaissance
         position = 1
         required_missions = {  }
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					owned_by = ROOT
+					NOT = { culture = boden_alemannic }
+				}
+				AND = {
+					NOT = { owned_by = ROOT }
+					culture = boden_alemannic
+				}
+			}
+		}
         trigger = {
 			primary_culture = boden_alemannic
 			grown_by_development = 50
@@ -463,6 +542,7 @@ vn_als_missions_slot_5 = {
             } 			
         }
         effect = {
+			add_splendor = 100
 			add_country_modifier = {
 				name = "als_the_true_language_mission" #Culture Conversion
 				duration = 9125
@@ -502,15 +582,24 @@ vn_als_missions_slot_5 = {
         icon = humiliate_austria
         position = 3
         required_missions = { vn_als_develop_strasbourg }
-        trigger = {
+        provinces_to_highlight = {
 			OR = {
-				548 = {
-					owner = {
-						OR = {
-							alliance_with = ROOT
-							has_opinion = {
-								who = ROOT
-								value = 150
+				province_id = 548
+				province_id = 2172
+			}
+		}
+		trigger = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = vn_als_drive_out_the_habsburgs.tt
+					548 = {
+						owner = {
+							OR = {
+								alliance_with = ROOT
+								has_opinion = {
+									who = ROOT
+									value = 150
+								}
 							}
 						}
 					}
@@ -519,8 +608,11 @@ vn_als_missions_slot_5 = {
 			}            
         }
         effect = {
+			add_legitimacy_equivalent = {
+				amount = 10
+				republican_tradition = 5
+			}
 			add_prestige_or_monarch_power = { amount = 10 } 
-			add_legitimacy = 10
 			if = {
 				limit = {
 					exists = HAB
@@ -568,9 +660,21 @@ vn_als_missions_slot_5 = {
 			}
         }
         effect = {
+			change_ruler_stat = {
+				stat = adm
+				amount = 2
+			}
+			change_ruler_stat = {
+				stat = dip
+				amount = 2
+			}
+			change_ruler_stat = {
+				stat = mil
+				amount = 2
+			}
 			add_country_modifier = {
 				name = "als_free_from_the_empire_mission" #Diplomacy
-				duration = 9125
+				duration = 18250
 			}            
         }
     }
