@@ -621,23 +621,34 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		tag = CAS
-		is_year = 1450
-		NOT = {
-			is_year = 1504
-		}
-		has_regency = no
-		is_female = no
-		has_consort = no
-		has_heir = no
-		has_government_attribute = heir
-		is_lesser_in_union = no
-		government = monarchy
-		NOT = {
-			has_global_flag = wih_isabella_castile_flag
-		}
-		NOT = {
-			has_disaster = castilian_civil_war
+		OR = { 
+			AND = {
+				OR = {
+					tag = SPA
+					AND = {
+						NOT = {
+							exists = SPA
+						}
+						tag = CAS
+					}
+				}
+				is_year = 1450
+				NOT = {
+					is_year = 1504
+				}
+				has_regency = no
+				has_government_attribute = heir
+				is_lesser_in_union = no
+				government = monarchy
+				NOT = {
+					has_disaster = castilian_civil_war
+				}
+			}
+			AND = {
+				has_disaster = castilian_civil_war
+				has_country_flag = cas_aragon_candidate
+				has_country_flag = civil_war_in_castile
+			}
 		}
 		NOT = { has_country_flag = no_isabella_event_flag } 
 	}
@@ -660,6 +671,7 @@ country_event = {
 			age = 5
 			female = yes
 		}
+		set_country_flag = cas_isabel_heir_accepted_flag
 		if = {
 			limit = {
 				has_dlc = "Rights of Man" 
@@ -1080,7 +1092,7 @@ country_event = {
 	option = {
 		name = women_history_events.22.a
 		trigger = {
-			NOT = { has_global_flag  = grace_omalley_flag }
+			NOT = { has_global_flag = grace_omalley_flag }
 		}
 		add_meritocracy_effect = yes
 		define_advisor = {
@@ -1095,7 +1107,7 @@ country_event = {
 	option = {
 		name = women_history_events.22.b
 		trigger = {
-			NOT = { has_global_flag  = grace_omalley_flag }
+			NOT = { has_global_flag = grace_omalley_flag }
 		}
 		define_admiral = {
 			name = "Grainne Ni Mhaille"
