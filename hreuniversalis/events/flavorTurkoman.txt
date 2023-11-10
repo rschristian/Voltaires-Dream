@@ -116,72 +116,53 @@ country_event = {
 }
 
 #The Death of Ispend Mirza
-# country_event = {
-# 	id = flavor_turkoman.6
-# 	title = flavor_turkoman.6.t
-# 	desc = flavor_turkoman.6.d
-# 	picture = muslimgfx_KING_SICK_IN_BED_eventPicture
+country_event = {
+	id = flavor_turkoman.6
+	title = flavor_turkoman.6.t
+	desc = flavor_turkoman.6.d
+	picture = muslimgfx_KING_SICK_IN_BED_eventPicture
 	
-# 	mean_time_to_happen = {
-# 		months = 24
-# 	}
-	
-# 	trigger = {
-# 		has_dlc = "King of Kings"
-# 		is_or_was_tag = { tag = QAR }
-# 		is_year = 1445
-# 		NOT = {
-# 			mission_completed = qara_qoyunlu_emirs_mesopotamia
-# 		}
-# 		has_estate_privilege = estate_nobles_emirs_of_baghdad
-# 		410 = {
-# 			country_or_non_sovereign_subject_holds = ROOT
-# 		}
-# 	}
-	
-# 	fire_only_once = yes
+	is_triggered_only = yes
 
-# 	option = {
-# 		name = flavor_turkoman.6.a
-# 		custom_tooltip = turkmen_emirs_of_baghdad_remove_tt
-# 		if = {
-# 			limit = {
-# 				has_estate = estate_nobles
-# 			}
-# 			add_estate_loyalty = {
-# 				estate = estate_nobles
-# 				loyalty = -20
-# 			}
-# 		}
-# 		410 = {
-# 			spawn_rebels = {
-# 				type = pretender_rebels
-# 				size = 3
-# 				leader = "Fulad Mirza Qara Qoyunlu"
-# 			}
-# 		}
-# 		set_country_flag = turkoman_abolished_privilege_flag
-# 		hidden_effect = {
-# 			remove_estate_privilege = estate_nobles_emirs_of_baghdad
-# 			every_owned_province = {
-# 				limit = {
-# 					OR = {
-# 						area = iraq_arabi_area
-# 						area = basra_area
-# 						area = al_jazira_area
-# 					}
-# 				}
-# 				add_local_autonomy = -100
-# 			}
-# 		}
-# 	}
+	major = yes
+	major_trigger = { tag = JYA }
 	
-# 	option = {
-# 		name = flavor_turkoman.6.b
-# 		custom_tooltip = turkmen_remove_privilege_by_mission_tt
-# 	}
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					JYA = { is_subject_of = ROOT }
+				}
+				JYA = { grant_independence = yes }
+			}
+		}
+	}
+
+	option = {
+		name = flavor_turkoman.6.a
+		ai_chance = { factor = 75 }
+		if = {
+			limit = { ai = yes }
+			every_country = {
+				limit = { war_with = ROOT }
+				white_peace = ROOT
+			}
+		}
+		declare_war_with_cb = {
+			casus_belli = cb_vassalize_mission
+			who = JYA
+		}
+	}
 	
-# }
+	option = {
+		name = flavor_turkoman.6.b
+		ai_chance = { factor = 25 }
+		add_prestige = -20
+	}
+	
+}
 
 #Fate of Trebizond - Qara Qoyunlu
 country_event = {
