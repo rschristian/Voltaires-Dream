@@ -1122,8 +1122,14 @@ can_create_holy_orders = {
 		AND = {
 			OR = { 
 				AND = { 
-					culture_group = iberian
-					religion = catholic
+					OR = {
+						culture_group = iberian
+						culture_group = basquegroup
+					}
+					OR = {
+						religion = catholic
+						religion = catholique
+					}
 				}
 				has_country_flag = enable_holy_orders_flag 
 			}
@@ -1134,13 +1140,17 @@ can_create_holy_orders = {
 				has_government_attribute = unlock_ottoman_holy_orders
 				primary_culture = andalucian
 				has_country_flag = ARB_grant_access_to_muslim_holy_orders_flag
+				has_reform = sufi_reform
 			}
 			religion_group = muslim
 		}
-		custom_trigger_tooltip = {
-			tooltip = mng_has_enabled_grand_coordinator_offices_tt
-			has_country_flag = mng_enable_3_grand_coordinators_offices_flag
-		} 
+		AND = {
+			has_dlc = "Domination"
+			OR = {
+				tag = BYZ
+				was_tag = BYZ
+			}
+		}
 		AND = {
 			OR = {
 				has_government_attribute = unlock_persia_holy_orders
@@ -1914,6 +1924,7 @@ has_any_colonist_idea = {
 		has_idea = lon_conquistadores
 		has_idea = nzh_expand_to_the_east
 		has_idea = asu_colonialism
+		haS_idea = adu_expeditionary_sentiment
 	}
 }
 
@@ -2246,15 +2257,19 @@ is_not_free_merc_company = {
 }
 
 has_free_mercs_trait = {
-	NOT = { has_country_modifier = dan_sca_merc_contract }
-	NOT = { has_idea = seasoned_veterans }
-	NOT = { has_government_attribute = mercs_do_not_cost_army_professionalism }
-	NOT = { has_country_flag = fra_free_mercs_bargain_sale_flag }
+	OR = {
+		has_country_modifier = dan_sca_merc_contract
+		has_idea = seasoned_veterans
+		has_government_attribute = mercs_do_not_cost_army_professionalism
+		has_country_flag = fra_free_mercs_bargain_sale_flag
+	}
 }
 
 has_not_free_mercs_trait = {
 	NOT = { has_country_modifier = dan_sca_merc_contract }
+	NOT = { has_idea = seasoned_veterans }
 	NOT = { has_government_attribute = mercs_do_not_cost_army_professionalism }
+	NOT = { has_country_flag = fra_free_mercs_bargain_sale_flag }
 }
 
 ##########################################################
@@ -3015,18 +3030,9 @@ has_strong_mil_national_ideas = {
 			tag = NED
 			tag = RUM
 			tag = MAM
-			tag = SMZ
-			tag = MCH
-			tag = MLC
-			tag = MJZ
-			tag = BNG
-			tag = NPL
-			tag = RJP
 			tag = HSA
 			tag = SMO
-			tag = MAS
 			tag = MGE
-			#mod
 		}
 	}
 }

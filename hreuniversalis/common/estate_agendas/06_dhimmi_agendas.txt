@@ -617,9 +617,21 @@ estate_dhimmi_build_university_in_y = {
 	can_select = {
 		adm_tech = 23
 		any_owned_province = {
-			NOT = { religion_group = root }
 			is_state_core = root
 			NOT = { has_building = university }
+			OR = {
+				AND = {
+					NOT = { has_building = college }
+					num_free_building_slots = 1
+				}
+				AND = {
+					ROOT = { adm_tech = 51 }
+					OR = {
+						has_building = college
+						num_free_building_slots = 1
+					}
+				}
+			}
 			OR = {
 				development = 10
 				is_capital = yes
@@ -632,20 +644,46 @@ estate_dhimmi_build_university_in_y = {
 			factor = 0.75
 			NOT = {
 				any_owned_province = {
-					NOT = { religion_group = root }
 					is_state_core = root
 					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 51 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
 					development = 15
 				}
 			}
 		}
 		modifier = {
 			factor = 1.2
-			any_owned_province = {
-				NOT = { religion_group = root }
-				is_state_core = root
-				NOT = { has_building = university }
-				development = 20
+			NOT = {
+				any_owned_province = {
+					is_state_core = root
+					NOT = { has_building = university }
+					OR = {
+						AND = {
+							NOT = { has_building = college }
+							num_free_building_slots = 1
+						}
+						AND = {
+							ROOT = { adm_tech = 51 }
+							OR = {
+								has_building = college
+								num_free_building_slots = 1
+							}
+						}
+					}
+					development = 20
+				}
 			}
 		}
 		modifier = {
@@ -657,27 +695,63 @@ estate_dhimmi_build_university_in_y = {
 	pre_effect = {
 		random_owned_province = {
 			limit = {
-				NOT = { religion_group = root }
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 51 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 10
 			}
 			save_event_target_as = agenda_province
 		}
 		random_owned_province = {
 			limit = {
-				NOT = { religion_group = root }
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 51 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 15
 			}
 			save_event_target_as = agenda_province
 		}
 		random_owned_province = {
 			limit = {
-				NOT = { religion_group = root }
 				is_state_core = root
 				NOT = { has_building = university }
+				OR = {
+					AND = {
+						NOT = { has_building = college }
+						num_free_building_slots = 1
+					}
+					AND = {
+						ROOT = { adm_tech = 51 }
+						OR = {
+							has_building = college
+							num_free_building_slots = 1
+						}
+					}
+				}
 				development = 20
 			}
 			save_event_target_as = agenda_province
@@ -707,7 +781,12 @@ estate_dhimmi_build_university_in_y = {
 		}
 		else = {
 			event_target:agenda_province = {
-				has_building = university
+				event_target:agenda_province = {
+					OR = {
+						has_building = college
+						has_building = university
+					}
+				}
 			}
 		}
     }

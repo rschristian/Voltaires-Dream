@@ -176,6 +176,7 @@ clear_religious_scholar_modifiers_effect = {
 	remove_country_modifier = ismaili_scholar_modifier
 	remove_country_modifier = jafari_scholar_modifier
 	remove_country_modifier = zaidi_scholar_modifier
+	#mod
 	remove_country_modifier = ibadi_scholar_modifier	
 	remove_country_modifier = azraqi_scholar_modifier	
 	remove_country_modifier = sufri_scholar_modifier	
@@ -789,13 +790,15 @@ restore_country_name_effect = {
 			limit = {
 				has_country_flag = is_hanseatic_league_flag
 			}
+			restore_country_name = yes
 			clr_country_flag = is_hanseatic_league_flag
 		}
-
+		#mod
 		if = {
 			limit = {
 				has_country_flag = is_pirates_of_omis_flag
 			}
+			restore_country_name = yes
 			clr_country_flag = is_pirates_of_omis_flag
 		}
 	}
@@ -982,6 +985,18 @@ set_great_project_tier_1 = {
 				tier = 1
 			}
 		}
+		else = {
+			random_list = {
+				1 = { add_base_tax = 2 }
+				1 = { add_base_production = 2 }
+				1 = { add_base_manpower = 2 }
+			}
+		}
+	}
+	else = {
+		add_base_tax = 1
+		add_base_production = 1
+		add_base_manpower = 1
 	}
 }
 
@@ -1064,7 +1079,6 @@ set_great_project_tier_3 = {
 		if = {
 			limit = {
 				has_great_project = {
-
 					type = $type$
 					tier = 3
 				}
@@ -1359,6 +1373,15 @@ add_legitimacy_equivalent = {
 # estate_janissary_ottoman_vanguards
 # estate_nobles_english_copyhold_tenure
 # estate_burghers_autonomous_trade_companies
+# estate_nobles_defensive_policy
+# estate_qizilbash_defensive_policy
+# estate_ghulams_defensive_policy
+# estate_nobles_tofangchi_regiment
+# estate_qizilbash_tofangchi_regiment
+# estate_ghulams_tofangchi_regiment
+# estate_nobles_tupchi_artillery_corps
+# estate_qizilbash_tupchi_artillery_corps
+# estate_ghulams_tupchi_artillery_corps
 ##########################################################
 # When adding new privileges then make sure that a unlock_privilege_$estate_privilege$_tt is defined in the localization
 # For checking if an estate privilege is unlocked already, use has_unlocked_estate_privilege = { estate_privilege = $estate_privilege$ }
@@ -1368,6 +1391,22 @@ unlock_estate_privilege = {
 	hidden_effect = {
 		set_country_flag = unlocked_privilege_$estate_privilege$
 	}
+	[[modifier_tooltip]
+		custom_tooltip = unlock_estate_privilege_modifier_tooltip_tt
+		tooltip = {
+			add_country_modifier = {
+				name = $modifier_tooltip$
+				duration = -1
+				desc = UNTIL_PRIVILEGE_REVOKED
+			}
+		}
+	]
+	[[effect_tooltip]
+		custom_tooltip = unlock_estate_privilege_effect_tooltip_tt
+		tooltip = {
+			$effect_tooltip$
+		}
+	]
 }
 
 #Country effect
@@ -1406,18 +1445,6 @@ unlock_merc_company = {
 	]
 }
 
-#Country effect
-##########################################################
-# Supports following church aspects
-# anglican_aspect
-# spread_the_book_of_common_prayer
-unlock_church_aspect = {
-	custom_tooltip = unlock_church_aspect_$church_aspect$_tt
-	hidden_effect = {
-		set_country_flag = unlocked_church_aspect_$church_aspect$
-	}
-}
-
 #Same as above, but this time it makes a company unavailable
 #Does not support any merc company yet
 #lock_merc_company = {
@@ -1427,6 +1454,23 @@ unlock_church_aspect = {
 #	}
 #}
 
+#Country effect
+##########################################################
+# Supports following church aspects
+# anglican_aspect
+# spread_the_book_of_common_prayer
+##########################################################
+# When adding a new unlockable Church Aspect then make sure that a unlock_church_aspect_$church_aspect$_tt is defined in the localization
+# For checking if a Church Aspect is unlocked already, use has_unlocked_church_aspect = { church_aspect = $church_aspect$ }
+# For localization write the following: "Unlock the Protestant church aspect '§Y<Church Aspect>§!'."
+unlock_church_aspect = {
+	custom_tooltip = unlock_church_aspect_$church_aspect$_tt
+	hidden_effect = {
+		set_country_flag = unlocked_church_aspect_$church_aspect$
+	}
+}
+
+#Country effect
 ##########################################################
 # Supports following government reforms
 # prussian_monarchy_base
@@ -1468,6 +1512,9 @@ unlock_church_aspect = {
 # peters_government_reform
 # caliphate_reform
 # caliphate_theocracy_reform
+# legacy_of_timur_reform
+# legacy_of_the_safavid_reform
+# divided_aristocracy_reform
 ##########################################################
 # When adding a new government reform then make sure that a unlock_$government_reform$_tt is defined in the localization
 # For checking if a government reform is unlocked already, use has_unlocked_government_reform = { government_reform = $government_reform$ }
@@ -1477,6 +1524,12 @@ unlock_government_reform = {
 	hidden_effect = {
 		set_country_flag = unlocked_$government_reform$
 	}
+	[[tooltip]
+		custom_tooltip = unlock_government_reform_tooltip
+		tooltip = {
+			add_government_reform = $government_reform$
+		}
+	]
 }
 
 #Country effect
@@ -1495,6 +1548,8 @@ unlock_government_reform = {
 # estate_rajput
 # estate_janissaries
 # estate_eunuchs
+# estate_qizilbash
+# estate_ghulams
 ##########################################################
 # When adding a new estate then make sure that a unlock_$estate$_tt is defined in the localization
 # For checking if an Estate is unlocked already, use has_unlocked_estate = { estate = $estate$ }
@@ -1504,7 +1559,7 @@ unlock_government_reform = {
 unlock_estate = {
 	custom_tooltip = unlock_$estate$_tt
 	hidden_effect = {
-		set_country_flag = unlocked_$estate$
+		set_country_flag = unlocked_$estate$_flag
 	}
 	[[show_conditions]
 		custom_tooltip = is_unavailable_$estate$
@@ -1527,6 +1582,8 @@ unlock_estate = {
 # estate_rajput
 # estate_janissaries
 # estate_eunuchs
+# estate_qizilbash
+# estate_ghulams
 ##########################################################
 # Unlocks the estate without any kind of condition
 enable_estate_effect = {
@@ -1553,6 +1610,8 @@ enable_estate_effect = {
 # estate_rajput
 # estate_janissaries
 # estate_eunuchs
+# estate_qizilbash
+# estate_ghulams
 ##########################################################
 # Locks the estate even if they would 
 disable_estate_effect = {
@@ -1798,6 +1857,14 @@ enable_propogate_religion_effect = {
 	}
 }
 
+#5, #10, #15, #20, #25, #30, #35, #40, #45
+set_trade_power_requirement_of_propogate_religion = {
+	custom_tooltip = set_trade_power_requirement_of_propogate_religion_$value$_tt
+	hidden_effect = {
+		set_country_flag = $value$_trade_power_for_propogate_religion
+	}
+}
+
 #Country effect
 disable_propogate_religion_effect = {
 	custom_tooltip = disable_propogate_religion_effect_tt
@@ -1835,6 +1902,44 @@ disable_propogate_religion_in_abrahamic_provinces = {
 	custom_tooltip = disable_propogate_religion_in_abrahamic_provinces_tt
 	hidden_effect = {
 		clr_country_flag = can_propagate_religion_in_abrahamic_provinces
+	}
+}
+
+#Country effect
+#Supports the following Trading Policies
+# maximize_profit
+# hostile_trading
+# improve_inland_routes
+# establish_communities
+# propagate_religion
+#Makes Trading Policy SELECTABLE
+unlock_trading_policy = {
+	custom_tooltip = unlock_trading_policy_$policy$_tt
+	hidden_effect = {
+		clr_country_flag = locked_trading_policy_$policy$
+	}
+}
+#Makes Trading Policy UNSELECTABLE
+lock_trading_policy = {
+	custom_tooltip = lock_trading_policy_$policy$_tt
+	hidden_effect = {
+		set_country_flag = locked_trading_policy_$policy$
+	}
+}
+#Makes Trading Policy VISIBLE
+enable_trading_policy = {
+	custom_tooltip = enable_trading_policy_$policy$_tt
+	hidden_effect = {
+		set_country_flag = enabled_trading_policy_$policy$
+		clr_country_flag = disabled_trading_policy_$policy$
+	}
+}
+#Makes Trading Policy INVISIBLE
+disable_trading_policy = {
+	custom_tooltip = disable_trading_policy_$policy$_tt
+	hidden_effect = {
+		set_country_flag = disabled_trading_policy_$policy$
+		clr_country_flag = enabled_trading_policy_$policy$
 	}
 }
 
@@ -2729,6 +2834,7 @@ disallow_baseline_invite_scholar = {
 		clr_country_flag = privilege_can_always_invite_ismaili_school
 		clr_country_flag = privilege_can_always_invite_jafari_school
 		clr_country_flag = privilege_can_always_invite_zaidi_school
+		#mod
 		clr_country_flag = privilege_can_always_invite_ibadi_school
 		clr_country_flag = privilege_can_always_invite_azraqi_school
 		clr_country_flag = privilege_can_always_invite_sufri_school
@@ -2755,6 +2861,7 @@ disable_baseline_invite_scholar = {
 			clr_country_flag = privilege_can_always_invite_ismaili_school
 			clr_country_flag = privilege_can_always_invite_jafari_school
 			clr_country_flag = privilege_can_always_invite_zaidi_school
+			#mod
 			clr_country_flag = privilege_can_always_invite_ibadi_school
 			clr_country_flag = privilege_can_always_invite_azraqi_school
 			clr_country_flag = privilege_can_always_invite_sufri_school
@@ -2941,6 +3048,7 @@ disable_tributary_state_use_estate = {
 	}
 }
 
+#Country effect, event target
 select_biggest_country_of_region = {
 	if = {
 		limit = { any_country = { capital_scope = { superregion = $region$ } } }
@@ -3341,74 +3449,6 @@ for = {
 	}
 }
 
-change_ruler_stat = {
-    tooltip = {
-        change_$stat$ = $amount$
-    }
-    custom_tooltip = ADD_STAT_OR_POWER_$stat$
-    hidden_effect = {
-		set_variable = {
-			which = ForLoopCounter
-			value = $amount$
-		}
-		while = {
-			limit = {
-				check_variable = {
-					which = ForLoopCounter
-					value = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { $stat$ = 6 }
-				}
-				change_$stat$ = 1
-			}
-			else = {
-				add_$stat$_power = 100
-			}
-			subtract_variable = {
-				which = ForLoopCounter
-				value = 1
-			}
-		}
-    }
-}
-
-change_heir_stat = {
-    tooltip = {
-        change_heir_$stat$ = $amount$
-    }
-    custom_tooltip = ADD_STAT_OR_POWER_$stat$
-    hidden_effect = {
-		set_variable = {
-			which = ForLoopCounter
-			value = $amount$
-		}
-		while = {
-			limit = {
-				check_variable = {
-					which = ForLoopCounter
-					value = 1
-				}
-			}
-			if = {
-				limit = {
-					NOT = { heir_$stat$ = 6 }
-				}
-				change_heir_$stat$ = 1
-			}
-			else = {
-				add_$stat$_power = 100
-			}
-			subtract_variable = {
-				which = ForLoopCounter
-				value = 1
-			}
-		}
-    }
-}
-
 for_variable_amount = {
     set_variable = {
         which = ForLoopCounter
@@ -3481,6 +3521,9 @@ create_units_of_type_in_province = {
 #Country effect
 ##########################################################
 # Supports following factions (aka. has tooltips for them)
+# temples
+# enuchs
+# bureaucrats
 # mr_aristocrats
 # mr_traders
 # mr_guilds
@@ -3509,9 +3552,17 @@ faction_in_power_effect = {
 }
 
 ## adds the culture as an accepted culture or 100 dip power
-### add_accepted_culture_or_dip_power = { culture = <culture> }
+### add_accepted_culture_or_dip_power = { culture = <culture> (optional) free = yes (optional) dip_reward = yes (optional, use when you have this effect twice in a row) new_line = yes }
 ### the custom effect is only able to check for up to 10 culture slots
 #Credits for that script goes to Stiopa
+# In case you want a culture to be a free slot then make sure that you have the following covered:
+# defined a free_slot_for_$culture$ = { num_accepted_culture = 1 }
+# Supports currently the following cultures:
+#	armenian
+#	georgian
+#	turkish
+#	al_iraqiya_arabic
+#	al_suryah_arabic
 add_accepted_culture_or_dip_power = {
 	tooltip = {
 		add_accepted_culture = $culture$
@@ -3779,38 +3830,44 @@ fifty_percent_merc_army_professionalism_cost = {
 
 #Province effect
 set_center_level_3_center_of_trade = {
-	if = {
-		limit = { NOT = { province_has_center_of_trade_of_level = 1 } }
-		center_of_trade = 3
-	}
-	else = {
+	custom_tooltip = set_center_level_3_center_of_trade_tt
+	hidden_effect = {
 		if = {
-			limit = { province_has_center_of_trade_of_level = 3 }
-			add_base_production = 4
-		}
-		else_if = {
-			limit = { province_has_center_of_trade_of_level = 2 }
-			add_base_production = 2
-			add_center_of_trade_level = 1
+			limit = { NOT = { province_has_center_of_trade_of_level = 1 } }
+			center_of_trade = 3
 		}
 		else = {
-			add_center_of_trade_level = 2
+			if = {
+				limit = { province_has_center_of_trade_of_level = 3 }
+				add_base_production = 4
+			}
+			else_if = {
+				limit = { province_has_center_of_trade_of_level = 2 }
+				add_base_production = 2
+				add_center_of_trade_level = 1
+			}
+			else = {
+				add_center_of_trade_level = 2
+			}
 		}
 	}
 }
 
 set_center_level_2_center_of_trade = {
-	if = {
-		limit = { NOT = { province_has_center_of_trade_of_level = 1 } }
-		center_of_trade = 2
-	}
-	else = {
+	custom_tooltip = set_center_level_2_center_of_trade_tt
+	hidden_effect = {
 		if = {
-			limit = { province_has_center_of_trade_of_level = 2 }
-			add_base_production = 2
+			limit = { NOT = { province_has_center_of_trade_of_level = 1 } }
+			center_of_trade = 2
 		}
 		else = {
-			add_center_of_trade_level = 1
+			if = {
+				limit = { province_has_center_of_trade_of_level = 2 }
+				add_base_production = 2
+			}
+			else = {
+				add_center_of_trade_level = 1
+			}
 		}
 	}
 }
@@ -3928,6 +3985,8 @@ add_influence_to_random_faction = {
 				influence = $influence$
 			}
 		}
+
+		#mod
 		1 = {
 			trigger = {
 				has_faction = tur_militarists
@@ -4094,6 +4153,8 @@ add_influence_to_adm_faction = {
 			influence = $influence$
 		}				
 	}
+
+	#mod
 	if = {
 		limit = { 
 			has_faction = tur_pacifists
@@ -4169,6 +4230,8 @@ add_influence_to_dip_faction = {
 			influence = $influence$
 		}				
 	}
+
+	#mod
 	if = {
 		limit = { 
 			has_faction = tur_lalas
@@ -4244,6 +4307,8 @@ add_influence_to_mil_faction = {
 			influence = $influence$
 		}				
 	}
+
+	#mod
 	if = {
 		limit = { 
 			has_faction = tur_militarists
@@ -4388,6 +4453,19 @@ add_revolutionary_zeal_or_absolutism = {
 		add_absolutism = $amount$
 	}
 }
+
+#Cut because the Grand Crusade war doesn't really have any place in the current content, but it could be very useful for the future.
+#Also modders should have the chance to just uncomment it all so they can experience the great 30 Years War like Crusade.
+#enable_grand_crusade = {
+#	custom_tooltip = enable_grand_crusade_tt
+#	set_country_flag = can_declare_grand_crusade_wars
+#	hidden_effect = {
+#		save_global_event_target_as = grand_crusader_war_monger
+#		set_global_flag = grand_crusades_enabled
+#		set_country_flag = grand_crusader_war_monger_flag
+#	}
+#}
+#enable_grand_crusade_tt: "Enables the §YGrand Crusade§! casus belli against all §YHeathen§! nations which have at least §Y300§! total development.\nThis casus belli enables a decision for every independent §YCatholic§! nation to join the Grand Crusade.\n\nTo join the Grand Crusade the Catholic nation must fulfil the following conditions:\nHas at least §Y100§! opinion of us or vice versa\nIs NOT allied with the §YGrand Crusade Target§! target\nHas NOT a truce with the §YGrand Crusade Target§!\nIs not at war\nDid NOT complete the §YHumanist§! idea group\n\n§RNations of the religion group of the §YGrand Crusade Target§! can join the defender's side.§!"
 
 add_humiliation_reward = {
 	if = {
@@ -4787,6 +4865,7 @@ enable_improved_consecration = {
 				religion = orthodox
 				religion = paulician
 				religion = iconoclast
+				religion = monothelite
 			}
 		}
 		custom_tooltip = enable_improved_consecration_tt
