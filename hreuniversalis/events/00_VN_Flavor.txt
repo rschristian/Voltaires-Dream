@@ -3649,8 +3649,11 @@ country_event = {
 		normal_or_historical_nations = yes
 		NOT = { started_in = 1079.1.1 }
 		is_year = 1070
-		tag = SWE
-		religion = norse_pagan_reformed
+		OR = {
+			has_estate_privilege = estate_church_christian_opposition
+			tag = SwE
+			was_tag = SWE
+		}
 		NOT = { exists = GTH }
 		is_subject = no
 		any_owned_province = {
@@ -3669,33 +3672,73 @@ country_event = {
 			limit = { has_estate_privilege = estate_church_christian_opposition }
 			remove_estate_privilege = estate_church_christian_opposition
 		}
-		custom_tooltip = hrema82.tt
-		hidden_effect = {
-			every_owned_province = {
-				limit = { is_core = GTH }
-				cede_province = GTH
+		if = {
+			limit = {
+				NOT = { exists = GTH }
 			}
-			vassalize = GTH
-			GTH = {
-				change_government = monarchy
-				add_government_reform = germanic_monarchy
-				change_religion = catholic
-				define_ruler = {
-					name = "Erik"
-					dynasty = "Steinkellskr"
-					adm = 0
-					dip = 3
-					mil = 3
+			custom_tooltip = hrema82.tt
+			hidden_effect = {
+				every_owned_province = {
+					limit = { is_core = GTH }
+					cede_province = GTH
 				}
-				capital_scope = {
-					build_to_forcelimit = {
-						infantry = 0.7
-						cavalry = 0.3
+				vassalize = GTH
+				GTH = {
+					change_government = monarchy
+					add_government_reform = germanic_monarchy
+					change_religion = catholic
+					define_ruler = {
+						name = "Erik"
+						dynasty = "Steinkellskr"
+						adm = 0
+						dip = 3
+						mil = 3
+					}
+					capital_scope = {
+						build_to_forcelimit = {
+							infantry = 0.7
+							cavalry = 0.3
+						}
+					}
+					declare_war_with_cb = {
+						casus_belli = cb_independence_war
+						who = ROOT
 					}
 				}
-				declare_war_with_cb = {
-					casus_belli = cb_independence_war
-					who = ROOT
+			}
+		}
+		else = {
+			random_owned_province = {
+				limit = {
+					is_capital = no
+					controlled_by = owner
+				}
+				spawn_rebels = {
+					type = catholic_rebels
+					size = 3
+					win = yes
+				}
+			}
+			random_owned_province = {
+				limit = {
+					is_capital = no
+					controlled_by = owner
+				}
+				spawn_rebels = {
+					type = catholic_rebels
+					size = 3
+					win = yes
+				}
+			}
+			random_owned_province = {
+				limit = {
+					is_capital = no
+					controlled_by = owner
+				}
+				spawn_rebels = {
+					type = catholic_rebels
+					size = 3
+					win = yes
 				}
 			}
 		}
