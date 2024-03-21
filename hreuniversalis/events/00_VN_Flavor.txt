@@ -4051,6 +4051,115 @@ country_event = {
 }
 
 country_event = {
+	id = hremodevents.88
+    title = "HREMT88"
+	desc = "HREMD88"
+	picture = CIVIL_WAR_eventPicture
+	
+	trigger = {
+		normal_or_historical_nations = yes
+		NOT = { started_in = 1185.1.1 }
+		tag = BYZ
+		is_year = 1160
+		NOT = { is_year = 1200 }
+		NOT = { exists = BUL }
+		any_owned_province = {
+			is_core = BUL
+		}
+	}
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	fire_only_once = yes
+	major = yes
+
+	immediate = {
+		hidden_effect = {
+			release = BUL
+			BUL = {
+				change_government = monarchy
+				add_government_reform = bulgarian_tsardom_reform
+				if = {
+					limit = { is_part_of_hre = yes }
+					set_in_empire = no
+				}
+				set_government_rank = 5
+				add_accepted_culture = greek
+				add_stability = 3
+				add_treasury = 500
+				add_manpower = 20
+				define_ruler = {
+					name = "Ivan"
+					dynasty = "Asenev"
+					adm = 4
+					dip = 2
+					mil = 6
+					age = 20
+				}
+				add_ruler_personality = bold_fighter_personality
+				define_heir = {
+					name = "Ivan"
+					dynasty = "Asenev"
+					adm = 5
+					dip = 5
+					mil = 5
+				}
+				define_ruler_to_general = {
+					fire = 4
+					shock = 4
+					manuever = 2
+					siege = 0
+				}
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.7
+						cavalry = 0.3
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "HREMA88"
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				is_at_war = yes
+			}
+			modifier = {
+				factor = 0
+				war_exhaustion = 5
+			}
+			modifier = {
+				factor = 0
+				NOT = { manpower_percentage = 0.50 }
+			}
+		}
+		declare_war_with_cb = {
+			casus_belli = cb_disloyal_vassal
+			who = BUL
+		}
+	}
+
+	option = {
+		name = "HREMB88"
+		ai_chance = { factor = 90 }
+		add_prestige = -10
+		add_truce_with = BUL
+		hidden_effect = {
+			BUL = {
+				every_owned_province = {
+					remove_core = ROOT
+				}
+			}
+		}
+	}
+}
+
+country_event = {
 	id = hremodevents.89
     title = "HREMT89"
 	desc = "HREMD89"
@@ -4983,10 +5092,10 @@ country_event = {
 				clr_country_flag = stop_releasing_another_country
 			}
 			if = {
-				limit = { is_subject_of_type = tributary_state }
+				limit = { is_subject_of_type = partial_principality }
 				overlord = {
 					create_subject = {
-						subject_type = tributary_state
+						subject_type = partial_principality
 						subject = event_target:rus_partition_country
 					}
 				}
