@@ -1404,7 +1404,14 @@ country_event = {
 		normal_or_historical_nations = yes
 		current_age = age_of_dynasticism
 		NOT = { has_global_flag = eng_had_start_of_hundred_years_war }
-		has_reform = feudal_france_reform
+		OR = {
+			has_reform = feudal_france_reform
+			AND = {
+				tag = FRA
+				government = monarchy
+				NOT = { has_dlc = "Domination" }
+			}
+		}
 		is_subject = no
 		any_owned_province = {
 			OR = {
@@ -1521,6 +1528,18 @@ country_event = {
 				junior_union_with = ROOT
 				has_reform = feudal_france_reform
 			}
+			AND = {
+				tag = FRA
+				government = monarchy
+				NOT = { has_dlc = "Domination" }
+			}
+			AND = {
+				NOT = { has_dlc = "Domination" }
+				any_country = {
+					government = monarchy
+					junior_union_with = FRA
+				}
+			}
 		}
 	}
 
@@ -1545,16 +1564,33 @@ country_event = {
 				limit = {
 					any_country = {
 						junior_union_with = ROOT
-						has_reform = feudal_france_reform
+						OR = {
+							has_reform = feudal_france_reform
+							AND = {
+								NOT = { has_dlc = "Domination" }
+								tag = FRA
+								government = monarchy
+							}
+						}
 					}
 				}
 				every_country = {
-					limit = { has_reform = feudal_france_reform }
+					limit = {
+						junior_union_with = ROOT
+						OR = {
+							has_reform = feudal_france_reform
+							AND = {
+								NOT = { has_dlc = "Domination" }
+								tag = FRA
+								government = monarchy
+							}
+						}
+					}
 					change_government = monarchy
 					add_government_reform = feudalism_reform
 					every_subject_country = {
-						limit = { is_vassal = yes }
-						overlord = { free_vassal = PREV }
+						limit = { is_subject_of_type = appanage }
+						grant_independence = yes
 					}
 				}
 			}
@@ -1578,7 +1614,26 @@ country_event = {
 				NOT = { exists = ENG }
 			}
 		}
-		NOT = { any_country = { has_reform = feudal_france_reform } }
+		OR = {
+			AND = {
+				has_dlc = "Domination"
+				NOT = {
+					any_country = {
+						has_reform = feudal_france_reform
+					}
+				}
+			}
+			AND = {
+				NOT = { has_dlc = "Domination" }
+				NOT = {
+					any_country = {
+						tag = FRA
+						government = monarchy
+					}
+				}
+			}
+		}
+		
 	}
 
 	mean_time_to_happen = { days = 10 }
@@ -4619,7 +4674,16 @@ country_event = {
 	trigger = {
 		current_age = age_of_dynasticism
 		NOT = { started_in = 1382.7.27 }
-		NOT = { has_reform = feudal_france_reform }
+		OR = {
+			AND = {
+				has_dlc = "Domination"
+				NOT = { has_reform = feudal_france_reform }
+			}
+			AND = {
+				NOT = { has_dlc = "Domination" }
+				NOT = { tag = FRA }
+			}
+		}
 		NOT = { hre_reform_passed = emperor_perpetual_diet }
 		is_emperor = yes
 		NOT = {
@@ -4639,7 +4703,15 @@ country_event = {
 			}
 			is_part_of_hre = yes
 			NOT = { area = savoy_area }
-			owner = { has_reform = feudal_france_reform }
+			if = {
+				limit = { has_dlc = "Domination" }
+				owner = { has_reform = feudal_france_reform }
+			}
+			else = {
+				owner = {
+					is_or_was_tag = { tag = FRA }
+				}
+			}
 			culture_group = french
 		}
 	}
