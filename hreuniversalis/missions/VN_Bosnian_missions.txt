@@ -13,11 +13,50 @@ vn_bos_missions_slot_1 = {
     has_country_shield = yes
 
     vn_bos_kljuc_mining_district = {
-        #icon = 
+        icon = mission_dalaskogen
         position = 1
         required_missions = {  }
+        provinces_to_highlight = {
+            owned_by = ROOT
+            OR = {
+                trade_goods = copper
+                trade_goods = iron
+                trade_goods = gold
+            }
+            OR = {
+                NOT = { base_production = 5 }
+                NOT = { has_production_building_trigger = yes }
+                NOT = { has_trade_building_trigger = yes }
+            }
+        }
         trigger = {
-            
+            num_of_owned_provinces_with = {
+                value = 5
+                OR = {
+                    trade_goods = copper
+                    trade_goods = iron
+                    trade_goods = gold
+                }
+                base_production = 5
+            }
+            num_of_owned_provinces_with = {
+                value = 5
+                OR = {
+                    trade_goods = copper
+                    trade_goods = iron
+                    trade_goods = gold
+                }
+                has_production_building_trigger = yes
+            }
+            num_of_owned_provinces_with = {
+                value = 5
+                OR = {
+                    trade_goods = copper
+                    trade_goods = iron
+                    trade_goods = gold
+                }
+                has_trade_building_trigger = yes
+            }
         }
         effect = {
             
@@ -84,7 +123,7 @@ vn_bos_missions_slot_2 = {
         }
     }
     vn_bos_reaffirm_papal_ties = {
-        #icon = 
+        icon = mission_sell_indulgences
         position = 3
         required_missions = { vn_bos_side_with_rome }
         trigger = {
@@ -144,11 +183,31 @@ vn_bos_missions_slot_3 = {
         #icon = 
         position = 1
         required_missions = {  }
+        provinces_to_highlight = {
+            province_id = 890
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { is_core = ROOT }
+            }
+        }
         trigger = {
-            
+            owns_core_province = 890
+            539 = {
+				trade_share = {
+					country = ROOT
+					share = 25
+				}
+				is_strongest_trade_power = ROOT
+			}
         }
         effect = {
-            
+            890 = {
+                add_or_upgrade_trade_building = yes
+                add_province_modifier = {
+                    name = bos_dinaric_trade_routes_mission
+                    duration = -1
+                }
+            }
         }
     }
     vn_bos_enforce_bogomilism = {
@@ -156,7 +215,17 @@ vn_bos_missions_slot_3 = {
         position = 2
         required_missions = {  }
         trigger = {
-            
+            religion = bogomilist
+            if = {
+				limit = { 
+					has_dlc = "Mandate of Heaven" 
+					religion = bogomilist 
+				} 
+				harmony = 90 
+			}
+            else = {
+				religious_unity = 0.9
+			}
         }
         effect = {
             
@@ -166,44 +235,140 @@ vn_bos_missions_slot_3 = {
         #icon = 
         position = 3
         required_missions = { vn_bos_enforce_bogomilism }
+        provinces_to_highlight = {
+            province_id = 137
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            137 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
-            
+            137 = {
+                add_unit_construction = {
+					type = light_ship
+					amount = 5
+					speed = 0.1
+					cost = 0
+				}
+            }
         }
     }
     vn_bos_bastion_of_bogomilism = {
-        #icon = 
+        icon = spread_piety
         position = 4
         required_missions = { vn_bos_move_against_dubrovnik }
         trigger = {
             
         }
         effect = {
-            
+            if = {
+				limit = {
+					exists = SER
+					valid_for_personal_unions_trigger = yes
+					SER = {
+						valid_for_personal_unions_trigger = yes
+					}
+				}
+				add_casus_belli = {
+					type = cb_fabricated_claims
+					months = 300
+					target = SER
+				}
+			}
+            else_if = {
+                limit = {
+					exists = KSV
+					valid_for_personal_unions_trigger = yes
+					KSV = {
+						valid_for_personal_unions_trigger = yes
+					}
+				}
+				add_casus_belli = {
+					type = cb_fabricated_claims
+					months = 300
+					target = KSV
+				}
+            }
+            else = {
+                serbia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
         }
     }
     vn_bos_serbian_throne = {
-        #icon = 
+        icon = defeat_the_serbs
         position = 5
         required_missions = { vn_bos_bastion_of_bogomilism }
+        provinces_to_highlight = {
+            region = serbia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
         trigger = {
-            
+            serbia_region = {
+                type = all
+				country_or_non_sovereign_subject_holds = ROOT
+            }
         }
         effect = {
-            
+            add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 50
+			}
+            if = {
+				limit = {
+					SER = {
+						is_subject_of_type = personal_union
+						is_subject_of = ROOT
+						NOT = { religion = ROOT }
+					}
+				}
+				SER = {
+					change_religion = ROOT
+				}
+			}
+			else_if = {
+				limit = {
+					KSV = {
+						is_subject_of_type = personal_union
+						is_subject_of = ROOT
+						NOT = { religion = ROOT }
+					}
+				}
+				KSV = {
+					change_religion = ROOT
+				}
+			}
         }
     }
     vn_bos_tvrtkos_claim = {
-        #icon = 
+        icon = mission_pol_deal_mazovia
         position = 6
         required_missions = { vn_bos_serbian_throne }
         trigger = {
             
         }
         effect = {
-            
+            change_ruler_stat = {
+                type = adm
+                amount = 2
+            }
+            change_ruler_stat = {
+                type = dip
+                amount = 2
+            }
+            change_ruler_stat = {
+                type = mil
+                amount = 2
+            }
+            add_country_modifier = {
+                name = bos_tvrtkos_claim_mission
+                duration = -1
+            }
         }
 	}
 }
@@ -220,7 +385,7 @@ vn_bos_missions_slot_4 = {
     has_country_shield = yes
 
     vn_bos_side_with_constantinople = {
-        #icon = 
+        icon = byz_reinforce_constantinople
         position = 2
         required_missions = {  }
         trigger = {
@@ -231,18 +396,18 @@ vn_bos_missions_slot_4 = {
         }
     }
     vn_bos_blessing_of_patriarch = {
-        #icon = 
+        icon = guardians_of_saint_sava
         position = 3
         required_missions = { vn_bos_side_with_constantinople }
         trigger = {
-            
+            patriarch_authority = 0.5
         }
         effect = {
             
         }
     }
     vn_bos_reaffirm_eastern_ties = {
-        #icon = 
+        icon = promote_the_patriarchate
         position = 4
         required_missions = { vn_bos_blessing_of_patriarch }
         trigger = {
@@ -253,7 +418,7 @@ vn_bos_missions_slot_4 = {
         }
     }
     vn_bos_ravage_croatia = {
-        #icon = 
+        icon = boh_humiliate_austria
         position = 5
         required_missions = { vn_bos_reaffirm_eastern_ties }
         trigger = {
@@ -264,7 +429,7 @@ vn_bos_missions_slot_4 = {
         }
     }
     vn_bos_toppling_of_hungary = {
-        #icon = 
+        icon = the_hungarian_succession
         position = 6
         required_missions = { vn_bos_ravage_croatia }
         trigger = {
@@ -288,7 +453,7 @@ vn_bos_missions_slot_5 = {
     has_country_shield = yes
 
     vn_bos_establish_bosnian_navy = {
-        #icon = 
+        icon = mission_danish_navy
         position = 1
         required_missions = {  }
         trigger = {
@@ -299,7 +464,7 @@ vn_bos_missions_slot_5 = {
         }
     }
     vn_bos_venetian_rivalry = {
-        #icon = 
+        icon = overshadow_venice
         position = 2
         required_missions = { 
 			vn_bos_dinaric_trade_routes 
@@ -324,7 +489,7 @@ vn_bos_missions_slot_5 = {
         }
     }
     vn_bos_bosnian_fortress = {
-        #icon = 
+        icon = pacify_the_albanian_lands
         position = 5
         required_missions = { vn_bos_fortify_sava_river }
         trigger = {

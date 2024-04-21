@@ -57,6 +57,13 @@ vn_bgh_missions_slot_1 = {
         icon = mission_ottoman_law
         position = 3
         required_missions = { vn_bgh_religious_toleration vn_bgh_facilitate_urban_growth }
+        provinces_to_highlight = {
+            province_id = 6301
+            OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { has_education_building_trigger = yes }
+			}
+        }
         trigger = {
 			has_3_advisors_trigger = yes
 			OR = {
@@ -64,28 +71,17 @@ vn_bgh_missions_slot_1 = {
 				full_idea_group = innovativeness_ideas
 			}
 			6301 = {
-				OR = {
-					has_building = college
-					has_building = university
-				}
+                owned_by = ROOT
+				has_education_building_trigger = yes
 			}
         }
         effect = {
-			if = { 
-				limit = { 
-					6031 = {
-						NOT = { 
-							has_building = university 
-						}
-					}
-				}
-				6031 = { add_building = university }
-			}
 			add_country_modifier = {
 				name = bgh_country_center_of_learning_mission
 				duration = 9125 
 			} 
 			6301 = {
+                add_or_upgrade_university_building = yes
 				add_province_modifier = {
 					name = bgh_province_center_of_learning_mission
 					duration = -1
@@ -2267,9 +2263,17 @@ vn_bgh_missions_slot_5 = {
             num_of_states = 10	    
         }
         effect = {
-            country_event = {
-                id = vn_missions.202 #Viziers
-			}	            
+            if = {
+                limit = { has_dlc = "King of Kings" }
+                unlock_decision = {
+                    type = grand_vizier_selection
+                }
+            }
+            else = {
+                country_event = {
+                    id = vn_missions.202 #Viziers
+                }
+            }
         }
     }
     vn_bgh_curb_noble_power = {
