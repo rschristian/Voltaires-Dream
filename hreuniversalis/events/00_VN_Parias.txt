@@ -21,14 +21,209 @@ country_event = {
                     tag = TTO
                 }
             }
-            NOT = { is_in_war = { participants = BRC } }
-            exists = BRC
-            BRC = { is_subject = no }
+            OR = {
+                AND = {
+                    NOT = { is_in_war = { participants = BRC } }
+                    exists = BRC
+                    BRC = { is_subject = no }
+                }
+                AND = {
+                    NOT = { is_in_war = { participants = CAT } }
+                    exists = CAT
+                    CAT = { is_subject = no }
+                }
+                AND = {
+                    NOT = { is_in_war = { participants = ARA } }
+                    exists = ARA
+                    ARA = { is_subject = no }
+                }
+                AND = {
+                    NOT = { is_in_war = { participants = NAV } }
+                    exists = NAV
+                    NAV = { is_subject = no }
+                }
+            }
+        }
+        else_if = {
+            limit = {
+                OR = {
+                    tag = BDJ
+                    tag = STN
+                    tag = BJA
+                    tag = SIV
+                    tag = SEV
+                    tag = AGB
+                }
+            }
+            OR = {
+                AND = {
+                    NOT = { is_in_war = { participants = LON } }
+                    exists = LON
+                    LON = { is_subject = no }
+                }
+                AND = {
+                    NOT = { is_in_war = { participants = GAL } }
+                    exists = GAL
+                    GAL = { is_subject = no }
+                }
+            }
+        }
+        else_if = {
+            limit = {
+                OR = {
+                    tag = CTY
+                    tag = MLN
+                    tag = ARR
+                    tag = ALP
+                    tag = JRC
+                    tag = VLK
+                }
+            }
+            OR = {
+                AND = {
+                    NOT = { is_in_war = { participants = LON } }
+                    exists = LON
+                    LON = { is_subject = no }
+                }
+                AND = {
+                    NOT = { is_in_war = { participants = CAS } }
+                    exists = CAS
+                    CAS = { is_subject = no }
+                }
+            }
         }
         else = {
             NOT = { is_in_war = { participants = LON } }
             exists = LON
             LON = { is_subject = no }
+        }
+    }
+
+    immediate = {
+        hidden_effect = {
+            export_to_variable = {
+                which = paria_amount
+                value = monthly_income
+                who = ROOT
+            }
+            multiply_variable = {
+                which = paria_amount
+                value = 3
+            }
+            export_to_variable = {
+                which = paria_amount_halved
+                value = monthly_income
+                who = ROOT
+            }
+            multiply_variable = {
+                which = paria_amount_halved
+                value = 1.5
+            }
+            #select receiver
+            if = {
+                limit = {
+                    OR = {
+                        tag = ZGZ
+                        tag = LER
+                        tag = TTO
+                    }
+                }
+                if = {
+                    limit = {
+                        NOT = { is_in_war = { participants = CAT } }
+                        exists = CAT
+                        CAT = { is_subject = no }
+                    }
+                    CAT = {
+                        save_event_target_as = paria_receiver
+                    }
+                }
+                else_if = {
+                    limit = {
+                        NOT = { is_in_war = { participants = BRC } }
+                        exists = BRC
+                        BRC = { is_subject = no }
+                    }
+                    BRC = {
+                        save_event_target_as = paria_receiver
+                    }
+                }
+                else_if = {
+                    limit = {
+                        NOT = { is_in_war = { participants = NAV } }
+                        exists = NAV
+                        NAV = { is_subject = no }
+                    }
+                    NAV = {
+                        save_event_target_as = paria_receiver
+                    }
+                }
+                else = {
+                    ARA = {
+                        save_event_target_as = paria_receiver
+                    }
+                }
+            }
+            else_if = {
+                limit = {
+                    OR = {
+                        tag = BDJ
+                        tag = STN
+                        tag = BJA
+                        tag = SIV
+                        tag = SEV
+                        tag = AGB
+                    }
+                }
+                if = {
+                    limit = {
+                        NOT = { is_in_war = { participants = GAL } }
+                        exists = GAL
+                        GAL = { is_subject = no }
+                    }
+                    GAL = {
+                        save_event_target_as = paria_receiver
+                    }
+                }
+                else = {
+                    LON = {
+                        save_event_target_as = paria_receiver
+                    }
+                }
+            }
+            else_if = {
+                limit = {
+                    OR = {
+                        tag = CTY
+                        tag = MLN
+                        tag = ARR
+                        tag = ALP
+                        tag = JRC
+                        tag = VLK
+                    }
+                }
+                if = {
+                    limit = {
+                        NOT = { is_in_war = { participants = CAS } }
+                        exists = CAS
+                        CAS = { is_subject = no }
+                    }
+                    CAS = {
+                        save_event_target_as = paria_receiver
+                    }
+                }
+                else = {
+                    LON = {
+                        save_event_target_as = paria_receiver
+                    }
+                }
+            }
+            else = {
+                LON = {
+                    save_event_target_as = paria_receiver
+                }
+            }
+
         }
     }
 
@@ -45,26 +240,11 @@ country_event = {
                 }
             }
         }
-        add_years_of_income = -0.5
-        if = {
-            limit = {
-                OR = {
-                    tag = ZGZ
-                    tag = LER
-                    tag = TTO
-                }
-            }
-            BRC = {
+        custom_tooltip = parias_events.1.a.tt
+        hidden_effect = {
+            event_target:paria_receiver = {
                 country_event = {
-                    id = parias_events.10
-                    days = 1
-                }
-            }
-        }
-        else = {
-            LON = {
-                country_event = {
-                    id = parias_events.10
+                    id = parias_events.6
                     days = 1
                 }
             }
@@ -87,30 +267,24 @@ country_event = {
                 NOT = { unrest = 0 }
             }
         }
-        add_years_of_income = -0.25
-        add_country_modifier = {
-            name = parias_taxes
-            duration = 730
-        }
+        custom_tooltip = parias_events.1.b.tt
         if = {
-            limit = {
-                OR = {
-                    tag = ZGZ
-                    tag = LER
-                    tag = TTO
-                }
-            }
-            BRC = {
-                country_event = {
-                    id = parias_events.10
-                    days = 1
-                }
+            limit = { has_country_modifier = parias_taxes }
+            extend_country_modifier = {
+                name = parias_taxes
+                duration = 730
             }
         }
         else = {
-            LON = {
+            add_country_modifier = {
+                name = parias_taxes
+                duration = 730
+            }
+        }
+        hidden_effect = {
+            event_target:paria_receiver = {
                 country_event = {
-                    id = parias_events.10
+                    id = parias_events.7
                     days = 1
                 }
             }
@@ -118,6 +292,9 @@ country_event = {
     }
     option = {
         name = "parias_events.1.c"
+        trigger = {
+            NOT = { has_country_modifier = parias_restored }
+        }
         ai_chance = {
             factor = 10
             modifier = {
@@ -132,54 +309,18 @@ country_event = {
             }
             modifier = {
                 factor = 0.1
-                if = {
-                    limit = {
-                        OR = {
-                            tag = ZGZ
-                            tag = LER
-                            tag = TTO
-                        }
-                    }
-                    NOT = {
-                        military_strength = {
-                            who = BRC
-                            value = 1
-                        }
-                    }
-                }
-                else = {
-                    NOT = {
-                        military_strength = {
-                            who = LON
-                            value = 1
-                        }
+                NOT = {
+                    military_strength = {
+                        who = event_target:paria_receiver
+                        value = 1
                     }
                 }
             }
             modifier = {
                 factor = 1.5
-                if = {
-                    limit = {
-                        OR = {
-                            tag = ZGZ
-                            tag = LER
-                            tag = TTO
-                        }
-                    }
-                    NOT = {
-                        military_strength = {
-                            who = BRC
-                            value = 1.5
-                        }
-                    }
-                }
-                else = {
-                    NOT = {
-                        military_strength = {
-                            who = LON
-                            value = 1.5
-                        }
-                    }
+                military_strength = {
+                    who = event_target:paria_receiver
+                    value = 1.5
                 }
             }
             modifier = {
@@ -226,28 +367,12 @@ country_event = {
             }
         }
         remove_country_modifier = parias_modifier
-        if = {
-            limit = {
-                OR = {
-                    tag = ZGZ
-                    tag = LER
-                    tag = TTO
-                }
-            }
-            BRC = {
+        custom_tooltip = parias_events.1.c.tt
+        hidden_effect = {
+            event_target:paria_receiver = {
                 country_event = {
                     id = parias_events.2
                     days = 1
-                    tooltip = parias_events.tt.1
-                }
-            }
-        }
-        else = {
-            LON = {
-                country_event = {
-                    id = parias_events.2
-                    days = 1
-                    tooltip = parias_events.tt.1
                 }
             }
         }
@@ -351,9 +476,7 @@ country_event = {
             casus_belli = cb_restore_paria
         }
         hidden_effect = {
-            set_country_flag = paria_war_attacker
             FROM = {
-                set_country_flag = paria_war_defender
                 country_event = {
                     id = parias_events.3
                     days = 1
@@ -370,6 +493,7 @@ country_event = {
             type = cb_restore_paria
             months = 240
         }
+        custom_tooltip = parias_events.2.b.tt
         hidden_effect = {
             FROM = {
                 country_event = {
@@ -393,6 +517,14 @@ country_event = {
     option = {
         name = "parias_events.3.a"
         ai_chance = { factor = 100 }
+        tooltip = {
+            FROM = {
+                declare_war_with_cb = {
+                    casus_belli = cb_restore_paria
+                    who = ROOT
+                }
+            }
+        }
     }
 }
 
@@ -408,10 +540,18 @@ country_event = {
     option = {
         name = "parias_events.4.a"
         ai_chance = { factor = 100 }
+        add_prestige = 10
+        tooltip = {
+            reverse_add_casus_belli = {
+                type = cb_restore_paria
+                target = FROM
+                months = 240
+            }
+        }
     }
 }
 
-#Behind the Scenes Event to set flag for paria war attacker
+#event to remove the parias when no Christian country is eligable
 country_event = {
     id = parias_events.5
     title = "parias_events.5.t"
@@ -419,213 +559,176 @@ country_event = {
     picture = MILITARY_CAMP_eventPicture
 
     trigger = {
-        OR = {
-            is_in_war = {
-                attacker_leader = ROOT
-                casus_belli = cb_restore_paria
+        has_country_modifier = parias_modifier
+        if = {
+            limit = {
+                OR = {
+                    tag = ZGZ
+                    tag = LER
+                    tag = TTO
+                }
+            }
+            BRC = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
+            }
+            CAT = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
+            }
+            ARA = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
+            }
+            NAV = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
             }
         }
-        NOT = { has_country_flag = paria_war_attacker }
+        else_if = {
+            limit = {
+                OR = {
+                    tag = BDJ
+                    tag = STN
+                    tag = BJA
+                    tag = SIV
+                    tag = SEV
+                    tag = AGB
+                }
+            }
+            LON = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
+            }
+            GAL = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
+            }
+        }
+        else_if = {
+            limit = {
+                OR = {
+                    tag = CTY
+                    tag = MLN
+                    tag = ARR
+                    tag = ALP
+                    tag = JRC
+                    tag = VLK
+                }
+            }
+            LON = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
+            }
+            CAS = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
+            }
+        }
+        else = {
+            LON = {
+                OR = {
+                    exists = no
+                    is_subject = yes
+                }
+            }
+        }
     }
 
     mean_time_to_happen = {
-        months = 0
+        months = 1
     }
 
     option = {
         name = "parias_events.5.a"
         ai_chance = { factor = 100 }
-        set_country_flag = paria_war_attacker
-        every_country = {
-            limit = {
-                is_in_war = {
-                    attacker_leader = ROOT
-                    defender_leader = THIS
-                    casus_belli = cb_restore_paria
-                }
-                NOT = { has_country_flag = paria_war_defender }
-            }
-            set_country_flag = paria_war_defender
-        }
+        add_stability_or_adm_power = yes
+        remove_country_modifier = parias_modifier
     }
 }
 
-#Get paria restored onto you after war
+#Event for receiving a paria (full)
 country_event = {
     id = parias_events.6
     title = "parias_events.6.t"
     desc = "parias_events.6.d"
-    picture = WOUNDED_SOLDIERS_eventPicture
+    picture = FEAST_eventPicture
 
     is_triggered_only = yes
 
-    trigger = {
-        has_country_flag = paria_war_defender
-        NOT = { is_in_war = { casus_belli = cb_restore_paria } }
+    immediate = {
+        hidden_effect = {
+            export_to_variable = {
+                which = paria_amount
+                value = monthly_income
+                who = FROM
+            }
+            multiply_variable = {
+                which = paria_amount
+                value = 3
+            }
+        }
     }
 
     option = {
         name = "parias_events.6.a"
         ai_chance = { factor = 100 }
-        add_prestige = -25
-        add_country_modifier = {
-            name = parias_modifier
-            duration = -1
-        }
-        clr_country_flag = paria_war_defender
-        if = {
-            limit = {
-                OR = {
-                    tag = ZGZ
-                    tag = LER
-                    tag = TTO
-                }
-            }
-            BRC = {
-                country_event = {
-                    id = parias_events.7
-                    days = 1
-                }
-            }
-        }
-        else = {
-            LON = {
-                country_event = {
-                    id = parias_events.7
-                    days = 1
-                }
-            }
-        }
+        transfer_treasury = {
+			giver = FROM
+			taker = ROOT
+			variable = paria_amount
+			custom_tooltip = parias_events.6.tt
+		}
     }
 }
 
-#Restore paria after war
+#Event for receiving a paria (halved)
 country_event = {
     id = parias_events.7
-    title = "parias_events.7.t"
-    desc = "parias_events.7.d"
-    picture = REFORM_eventPicture
-
-    is_triggered_only = yes
-
-    option = {
-        name = "parias_events.7.a"
-        ai_chance = { factor = 100 }
-        add_prestige = 25
-        if = {
-            limit = {
-                NOT = {
-                    is_in_war = {
-                        attacker_leader = ROOT
-                        casus_belli = cb_restore_paria
-                    }
-                }
-            }
-            clr_country_flag = paria_war_attacker
-        }
-    }
-}
-
-#No more parias after war
-country_event = {
-    id = parias_events.8
-    title = "parias_events.8.t"
-    desc = "parias_events.8.d"
-    picture = REFORM_eventPicture
-
-    is_triggered_only = yes
-
-    trigger = {
-        has_country_flag = paria_war_defender
-        NOT = { is_in_war = { casus_belli = cb_restore_paria } }
-    }
-
-    option = {
-        name = "parias_events.8.a"
-        ai_chance = { factor = 100 }
-        add_prestige = 25
-        clr_country_flag = paria_war_defender
-        if = {
-            limit = {
-                OR = {
-                    tag = ZGZ
-                    tag = LER
-                    tag = TTO
-                }
-            }
-            BRC = {
-                country_event = {
-                    id = parias_events.9
-                    days = 1
-                }
-            }
-        }
-        else = {
-            LON = {
-                country_event = {
-                    id = parias_events.9
-                    days = 1
-                }
-            }
-        }
-    }
-}
-
-#No more parias after war (loser)
-country_event = {
-    id = parias_events.9
-    title = "parias_events.9.t"
-    desc = "parias_events.9.d"
-    picture = REFORM_eventPicture
-
-    is_triggered_only = yes
-
-    option = {
-        name = "parias_events.9.a"
-        ai_chance = { factor = 100 }
-        add_prestige = -25
-        if = {
-            limit = {
-                NOT = {
-                    is_in_war = {
-                        attacker_leader = ROOT
-                        casus_belli = cb_restore_paria
-                    }
-                }
-            }
-            clr_country_flag = paria_war_attacker
-        }
-    }
-}
-
-#Should be higher up (Event for receiving a paria)
-country_event = {
-    id = parias_events.10
-    title = "parias_events.10.t"
-    desc = "parias_events.10.d"
+    title = "parias_events.6.t"
+    desc = "parias_events.6.d"
     picture = FEAST_eventPicture
 
     is_triggered_only = yes
 
-    option = {
-        name = "parias_events.10.a"
-        ai_chance = { factor = 100 }
-        custom_tooltip = parias_events.10.tt
+    immediate = {
         hidden_effect = {
-            set_country_flag = received_paria
             export_to_variable = {
-                which = paria_amount
-                value = years_of_income
+                which = paria_amount_halved
+                value = monthly_income
                 who = FROM
             }
-            divide_variable = { which = paria_amount value = 4 }
-            while = {
-                limit = {
-                    check_variable = { which = paria_amount value = 1 }
-                }
-                subtract_variable = { which = paria_amount value = 1 }
-                add_treasury = 1
+            multiply_variable = {
+                which = paria_amount_halved
+                value = 1.5
             }
         }
+    }
+
+    option = {
+        name = "parias_events.6.a"
+        ai_chance = { factor = 100 }
+        transfer_treasury = {
+			giver = FROM
+			taker = ROOT
+			variable = paria_amount_halved
+			custom_tooltip = parias_events.7.tt
+		}
     }
 }

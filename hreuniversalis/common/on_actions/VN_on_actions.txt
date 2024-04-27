@@ -147,8 +147,6 @@ on_peace_actor = {
 }
 
 on_war_won = {
-	FROM = { country_event = { id = parias_events.6 } }
-	ROOT = { country_event = { id = parias_events.8 } }
 	ROOT = { country_event = { id = hremodevents.54 } }
 	if = {
 		limit = {
@@ -521,14 +519,6 @@ on_annexed = {
 	if = {
 		limit = { has_country_flag = high_king_war_f }
 		clr_country_flag = high_king_war_f
-	}
-	if = {
-		limit = { has_country_flag = paria_war_attacker }
-		clr_country_flag = paria_war_attacker
-	}
-	if = {
-		limit = { has_country_flag = paria_war_defender }
-		clr_country_flag = paria_war_defender
 	}
 	if = {
 		limit = {
@@ -1003,7 +993,7 @@ on_province_religion_converted = {
 	}
 	if = {
 		limit = {
-			owner = { has_government_attribute = fatimid_irreverence_mechanic }
+			owner = { has_government_mechanic = fatimid_irreverence_mechanic }
 		}
 		owner = {
 			add_government_power = { 
@@ -1024,6 +1014,20 @@ on_general_recruited = {
 			mechanic_type = utraquists_vs_taborites_mechanic
 			power_type = hussite_ecumene
 			value = -5
+		}
+	}
+}
+
+on_country_released = {
+	if = {
+		limit = {
+			NOT = { has_country_modifier = parias_modifier }
+			primary_culture = andalucian
+			FROM = { has_country_modifier = parias_modifier }
+		}
+		add_country_modifier = {
+			name = parias_modifier
+			duration = -1
 		}
 	}
 }
@@ -1089,8 +1093,8 @@ on_centralized_state = {
 }
 
 heir_on_shipwreck = {
-	events = {
-		hremodevents.70 # White Ship Disaster
+	country_event = {
+		id = hremodevents.70 # White Ship Disaster
 	}
 }
 
@@ -1135,48 +1139,46 @@ on_colony_finished = {
 	if = {
 		limit = {
 			owner = { culture_group = east_slavic }
-		}
-		if = {
-			limit = {
-				OR = {
-					province_id = 6508
-					province_id = 6509
-					province_id = 6510
-					province_id = 6511
-					province_id = 6512
-				}
+			OR = {
+				province_id = 6508
+				province_id = 6509
+				province_id = 6510
+				province_id = 6511
+				province_id = 6512
 			}
-			add_core = VYT
 		}
-		if = {
-			limit = {
-				OR = {
-					province_id = 6201
-					province_id = 6202
-					province_id = 6203
-					province_id = 6204
-					province_id = 6205
-					province_id = 6206
-				}
+		add_core = VYT
+	}
+	if = {
+		limit = {
+			owner = { culture_group = east_slavic }
+			OR = {
+				province_id = 6201
+				province_id = 6202
+				province_id = 6203
+				province_id = 6204
+				province_id = 6205
+				province_id = 6206
 			}
-			add_core = SPZ
 		}
-		if = {
-			limit = {
-				OR = {
-					province_id = 6189
-					province_id = 6190
-					province_id = 6191
-					province_id = 6192
-					province_id = 6193
-					province_id = 6194
-					province_id = 6504
-					province_id = 6505
-					province_id = 6506
-					province_id = 6507
-				}
+		add_core = SPZ
+	}
+	if = {
+		limit = {
+			owner = { culture_group = east_slavic }
+			OR = {
+				province_id = 6189
+				province_id = 6190
+				province_id = 6191
+				province_id = 6192
+				province_id = 6193
+				province_id = 6194
+				province_id = 6504
+				province_id = 6505
+				province_id = 6506
+				province_id = 6507
 			}
-			add_core = MEY
 		}
+		add_core = MEY
 	}
 }
