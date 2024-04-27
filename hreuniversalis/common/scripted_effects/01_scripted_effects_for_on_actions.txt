@@ -2659,6 +2659,42 @@ on_war_declaration_effect = {
 	}
 }
 
+remove_all_age_of_empire_modifiers = {
+	#if = {
+	#	limit = {
+	#		NOT = { current_age = age_of_empire }
+	#	}
+	#}
+	#Empty as there are no modifiers specific for this age
+}
+
+remove_all_age_of_holy_wars_modifiers = {
+	#if = {
+	#	limit = {
+	#		NOT = { current_age = age_of_holy_wars }
+	#	}
+	#}
+	#Empty as there are no modifiers specific for this age
+}
+
+remove_all_age_of_crisis_modifiers = {
+	#if = {
+	#	limit = {
+	#		NOT = { current_age = age_of_crisis }
+	#	}
+	#}
+	#Empty as there are no modifiers specific for this age
+}
+
+remove_all_age_of_dynasticism_modifiers = {
+	#if = {
+	#	limit = {
+	#		NOT = { current_age = age_of_dynasticism }
+	#	}
+	#}
+	#Empty as there are no modifiers specific for this age
+}
+
 remove_all_age_of_discovery_modifiers = {
 	if = {
 		limit = {
@@ -2741,25 +2777,102 @@ remove_all_age_of_revolution_modifiers = {
 	#}
 	#Empty as there are no modifiers specific for this age
 }
+remove_all_age_of_ideology_modifiers = {
+	#if = {
+	#	limit = {
+	#		NOT = { current_age = age_of_ideology }
+	#	}
+	#}
+	#Empty as there are no modifiers specific for this age
+}
 
 set_age_passed_global_flag = {
 	if = {
 		limit = {
 			not = { current_age = age_of_empire }
+			or = {
+				current_age = age_of_holy_wars
+				current_age = age_of_crisis
+				current_age = age_of_dynasticism
+				current_age = age_of_discovery
+				current_age = age_of_reformation
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
+				current_age = age_of_ideology
+			}
+		}
+		set_global_flag = age_of_empire_passed
+	}
+	if = {
+		limit = {
+			has_global_flag = age_of_empire_passed
 			not = { current_age = age_of_holy_wars }
+			or = {
+				current_age = age_of_crisis
+				current_age = age_of_dynasticism
+				current_age = age_of_discovery
+				current_age = age_of_reformation
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
+				current_age = age_of_ideology
+			}
+		}
+		set_global_flag = age_of_holy_wars_passed
+	}
+	if = {
+		limit = {
+			has_global_flag = age_of_empire_passed
+			has_global_flag = age_of_holy_wars_passed
 			not = { current_age = age_of_crisis }
+			or = {
+				current_age = age_of_dynasticism
+				current_age = age_of_discovery
+				current_age = age_of_reformation
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
+				current_age = age_of_ideology
+			}
+		}
+		set_global_flag = age_of_crisis_passed
+	}
+	if = {
+		limit = {
+			has_global_flag = age_of_empire_passed
+			has_global_flag = age_of_holy_wars_passed
+			has_global_flag = age_of_crisis_passed
 			not = { current_age = age_of_dynasticism }
+			or = {
+				current_age = age_of_discovery
+				current_age = age_of_reformation
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
+				current_age = age_of_ideology
+			}
+		}
+		set_global_flag = age_of_dynasticism_passed
+	}
+	if = {
+		limit = {
+			has_global_flag = age_of_empire_passed
+			has_global_flag = age_of_holy_wars_passed
+			has_global_flag = age_of_crisis_passed
+			has_global_flag = age_of_dynasticism_passed
 			not = { current_age = age_of_discovery }
 			or = {
 				current_age = age_of_reformation
 				current_age = age_of_absolutism
 				current_age = age_of_revolutions
+				current_age = age_of_ideology
 			}
 		}
 		set_global_flag = age_of_discovery_passed
 	}
 	if = {
 		limit = {
+			has_global_flag = age_of_empire_passed
+			has_global_flag = age_of_holy_wars_passed
+			has_global_flag = age_of_crisis_passed
+			has_global_flag = age_of_dynasticism_passed
 			has_global_flag = age_of_discovery_passed
 			not = { current_age = age_of_reformation }
 			or = {
@@ -2771,6 +2884,10 @@ set_age_passed_global_flag = {
 	}
 	if = {
 		limit = {
+			has_global_flag = age_of_empire_passed
+			has_global_flag = age_of_holy_wars_passed
+			has_global_flag = age_of_crisis_passed
+			has_global_flag = age_of_dynasticism_passed
 			has_global_flag = age_of_discovery_passed
 			has_global_flag = age_of_reformation_passed
 			not = { current_age = age_of_absolutism }
@@ -2780,6 +2897,10 @@ set_age_passed_global_flag = {
 	}
 	if = {
 		limit = {
+			has_global_flag = age_of_empire_passed
+			has_global_flag = age_of_holy_wars_passed
+			has_global_flag = age_of_crisis_passed
+			has_global_flag = age_of_dynasticism_passed
 			has_global_flag = age_of_discovery_passed
 			has_global_flag = age_of_reformation_passed
 			has_global_flag = age_of_absolutism_passed
@@ -2787,13 +2908,32 @@ set_age_passed_global_flag = {
 		}
 		set_global_flag = age_of_revolutions_passed
 	}
+	if = {
+		limit = {
+			has_global_flag = age_of_empire_passed
+			has_global_flag = age_of_holy_wars_passed
+			has_global_flag = age_of_crisis_passed
+			has_global_flag = age_of_dynasticism_passed
+			has_global_flag = age_of_discovery_passed
+			has_global_flag = age_of_reformation_passed
+			has_global_flag = age_of_absolutism_passed
+			has_global_flag = age_of_revolutions_passed
+			not = { current_age = age_of_ideology }
+		}
+		set_global_flag = age_of_ideology_passed
+	}
 }
 
 remove_all_age_timed_modifiers = {
+	remove_all_age_of_empire_modifiers = yes
+	remove_all_age_of_holy_wars_modifiers = yes
+	remove_all_age_of_crisis_modifiers = yes
+	remove_all_age_of_dynasticism_modifiers = yes
 	remove_all_age_of_discovery_modifiers = yes
 	remove_all_age_of_reformation_modifiers = yes
 	remove_all_age_of_absolutism_modifiers = yes
 	remove_all_age_of_revolution_modifiers = yes
+	remove_all_age_of_ideology_modifiers = yes
 	# Generic ones
 	if = { 
 		limit = { has_country_modifier = jap_stability_edo_period_modifier }
@@ -3703,7 +3843,7 @@ on_seize_land_effect = {
 			}
 			change_variable = {
 				which = can_annex_appanages_points
-				value = 3
+				value = 1
 			}
 		}
 	}
