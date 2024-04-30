@@ -1,30 +1,3 @@
-#Feudalization
-# byzantine_feudalization_mechanic = {
-# 	available = { }
-
-# 	powers = {
-# 		byzantine_feudalization = {
-# 			gui = russian_modernization_gov_mech
-# 			max = 100
-# 			reset_on_new_ruler = no
-# 			base_monthly_growth = -0.3
-# 			development_scaled_monthly_growth = 0
-# 			monarch_power = adm
-# 			scaled_modifier = {
-# 				modifier = {
-# 					global_unrest = 5
-# 					stability_cost_modifier = 1
-# 					all_estate_loyalty_equilibrium = -0.1
-# 					yearly_corruption = -0.2
-# 					legitimacy = 1
-# 					state_governing_cost = -0.5
-# 				}
-# 			}
-# 			is_good = yes
-# 		}
-# 	}
-# }
-
 #Court Adoption
 byzantine_succession_mechanic = {
 	alert_icon_gfx = GFX_alerticons_government_mechanics
@@ -41,10 +14,10 @@ byzantine_succession_mechanic = {
 					adm = 5 
 					national_focus = ADM
 				}
-				adm_power_cost = 50
+				adm_power_cost = 100
 			}
 			effect = {
-				adm_power_cost = 50
+				adm_power_cost = 100
 				custom_tooltip = byz_succession_bureaucracy.tt
 				if = {
 					limit = {
@@ -69,6 +42,8 @@ byzantine_succession_mechanic = {
 					define_heir = {
 						age = 30
 						change_adm = 2
+						change_dip = -1
+						change_mil = -1
 						claim = 50
 						no_consort_with_heir = yes
 					}
@@ -83,6 +58,22 @@ byzantine_succession_mechanic = {
 			cooldown_desc = BYZANTINE_SUCCESSION_HAPPENED
 			ai_chance = {
 				factor = 20
+				modifier = {
+					factor = 0
+					estate_influence = {
+						estate = estate_eunuchs
+						influence = 80
+					}
+				}
+				modifier = {
+					factor = 0
+					NOT = {
+						estate_loyalty = {
+							estate = estate_nobles
+							loyalty = 40
+						}
+					}
+				}
 			}
 		}
 		byz_succession_dynasty = {
@@ -94,10 +85,10 @@ byzantine_succession_mechanic = {
 					dip = 5 
 					national_focus = DIP
 				}
-				dip_power_cost = 50
+				dip_power_cost = 100
 			}
 			effect = { 
-				dip_power_cost = 50
+				dip_power_cost = 100
 				custom_tooltip = byz_succession_dynasty.tt
 				if = {
 					limit = {
@@ -128,6 +119,8 @@ byzantine_succession_mechanic = {
 						dynasty = ROOT
 						age = 30
 						change_dip = 2
+						change_adm = -1
+						change_mil = -1
 						claim = 50
 						no_consort_with_heir = yes
 					}
@@ -142,6 +135,24 @@ byzantine_succession_mechanic = {
 			cooldown_desc = BYZANTINE_SUCCESSION_HAPPENED
 			ai_chance = {
 				factor = 20
+				modifier = {
+					factor = 0
+					NOT = {
+						estate_loyalty = {
+							estate = estate_nobles
+							loyalty = 40
+						}
+					}
+				}
+				modifier = {
+					factor = 0
+					NOT = {
+						estate_loyalty = {
+							estate = estate_eunuchs
+							loyalty = 40
+						}
+					}
+				}
 			}
 		}
 		byz_succession_army = {
@@ -153,10 +164,10 @@ byzantine_succession_mechanic = {
 					mil = 5 
 					national_focus = MIL
 				}
-				mil_power_cost = 50
+				mil_power_cost = 100
 			}
 			effect = { 
-				mil_power_cost = 50
+				mil_power_cost = 100
 				custom_tooltip = byz_succession_army.tt
 				if = {
 					limit = {
@@ -182,6 +193,8 @@ byzantine_succession_mechanic = {
 						define_heir = {
 							age = 30
 							change_mil = 2
+							change_adm = -1
+							change_dip = -1
 							claim = 50
 							no_consort_with_heir = yes
 						}
@@ -197,7 +210,89 @@ byzantine_succession_mechanic = {
 			cooldown_desc = BYZANTINE_SUCCESSION_HAPPENED
 			ai_chance = {
 				factor = 20
+				modifier = {
+					factor = 0
+					estate_influence = {
+						estate = estate_nobles
+						influence = 80
+					}
+				}
+				modifier = {
+					factor = 0
+					NOT = {
+						estate_loyalty = {
+							estate = estate_eunuchs
+							loyalty = 40
+						}
+					}
+				}
 			}
 		}
 	}
+}
+
+#Feudalization
+byzantine_feudalization_mechanic = {
+	available = { }
+	powers = {
+		byzantine_feudalization = {
+			gui = egyptian_westernization_gov_mech
+			show_before_interactions = yes
+			max = 100
+			reset_on_new_ruler = no
+			base_monthly_growth = 0
+			development_scaled_monthly_growth = 0
+			scaled_modifier = {
+				modifier = {
+					
+				}
+			}
+			reverse_scaled_modifier = {
+				modifier = {
+					yearly_corruption = -0.2
+					technology_cost = -0.1
+				}
+			}
+			is_good = yes
+			on_max_reached = {
+				hidden_effect = {
+					country_event = {
+						id = eastern_monarchy_events.7
+					}
+				}
+			}
+		}
+	}
+	# interactions = {
+	# 	byz_emergency_tax = {
+	# 		icon = GFX_study_western_administration
+	# 		gui = "egyptian_westernization_interaction_button"
+	# 		cost_type = byzantine_feudalization
+	# 		cost = 10
+	# 		cooldown_years = 10
+	# 		effect = {
+				
+	# 		}
+	# 	}
+	# 	byz_emergency_corruption = {
+	# 		icon = GFX_study_western_administration
+	# 		gui = "egyptian_westernization_interaction_button"
+	# 		cost_type = byzantine_feudalization
+	# 		cost = 10
+	# 		cooldown_years = 10
+	# 		effect = {
+				
+	# 		}
+	# 	}
+	# 	byz_emergency_manpower = {
+	# 		icon = GFX_study_western_administration
+	# 		gui = "egyptian_westernization_interaction_button"
+	# 		cost_type = byzantine_feudalization
+	# 		cost = 10
+	# 		cooldown_years = 10
+	# 		effect = {
+				
+	# 		}
+	# 	}
+	# }
 }
