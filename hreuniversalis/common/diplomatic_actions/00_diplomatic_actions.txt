@@ -69,8 +69,21 @@
 # designate_march
 # ask_for_march
 # sell_ships_action
-# counterespionage
-# abandon_union_action
+# abandon_union
+# takeondebt
+# influence_nation
+# claim_states
+# steer_trade
+# stealmap
+# spy_network
+# invite_to_trade_league
+# request_to_join_trade_league
+# sharemap
+# intervene_in_war
+# break_alliance
+# tributary_state_action
+# ask_for_tributary_state_action
+# knowledge_sharing
 
 declarewar = {
 	condition = {
@@ -99,6 +112,17 @@ declarewar = {
 				NOT = { has_country_modifier = revoked_war_rights }
 				FROM = { overlord_of = ROOT }
 			}
+		}
+	}
+	condition = {
+		tooltip = CANNOT_DECLARE_WARS_TEUTONS_HRE
+		potential = {
+			ai = yes 
+			has_country_flag = teu_joined_the_hre
+			FROM = { is_part_of_hre = yes }
+		}
+		allow = { 
+			FROM = { is_part_of_hre = no }
 		}
 	}
 	effect = {
@@ -212,10 +236,8 @@ allianceaction = {
 		}
 		allow = {
 			OR = {
-				OR = {
-					government = republic 
-					is_revolutionary = yes
-				}
+				government = republic 
+				is_revolutionary = yes
 				NOT = { FROM = { has_government_attribute = cannot_ally_non_republics_or_non_rev } }
 			}
 		}
@@ -345,220 +367,6 @@ warningaction = {
 		}
 		allow = {
 			DIP = 5
-		}
-	}
-}
-
-tributary_state_action = {
-	condition = {
-		tooltip = ONLYFRENCHFIEF
-		potential = {
-		}
-		allow = {
-			OR = {
-				ROOT = {
-					has_reform = eastern_monarchy
-					NOT = { has_disaster = byz_crisis }
-					NOT = { has_country_modifier = byz_aristocrats_m }
-					NOT = { has_country_modifier = byz_army_m }
-					NOT = { has_country_modifier = byz_bureaucrats_m }
-					NOT = { has_country_modifier = byz_defenses_m }
-					NOT = { has_country_modifier = byz_unrest_m }
-				}
-				FROM = {
-					is_subject = no
-					is_part_of_hre = no
-					OR = {
-						has_reform = principality
-						has_reform = veche_republic
-					}
-				}
-			}
-		}
-	}
-	condition = {
-		tooltip = ONLYFRENCHFIEF
-		potential = {
-		}
-		allow = {
-			ROOT = {
-				NOT = { has_disaster = collapse_of_the_khaganate }
-			}
-		}
-	}
-}
-
-ask_for_tributary_state_action = {
-	condition = {
-		tooltip = ONLYFRENCHFIEFREQ
-		potential = {
-		}
-		allow = {
-			OR = {
-				ROOT = {
-					has_reform = eastern_monarchy
-					NOT = { has_disaster = byz_crisis }
-				}
-				FROM = {
-					is_subject = no
-					is_part_of_hre = no
-					OR = {
-						has_reform = principality
-						has_reform = veche_republic
-					}
-				}
-			}
-		}
-	}
-}
-
-invite_to_trade_league = {
-	condition = {
-		tooltip = SAMEGOVT
-		potential = {
-			NOT = {
-				OR = {
-					has_reform = merchants_reform
-					has_reform = venice_merchants_reform
-				}
-			}
-		}
-		allow = {
-			OR = {
-				AND = {
-					has_reform = canton_government
-					FROM = { has_reform = canton_government }
-				}
-				AND = {
-					has_reform = free_city
-					FROM = { has_reform = free_city }
-				}
-			}
-		}
-	}
-	condition = {
-		tooltip = SAMEGOVTMERCH
-		potential = {
-			OR = {
-				has_reform = merchants_reform
-				has_reform = venice_merchants_reform
-			}
-		}
-		allow = {
-			FROM = { has_reform = trading_city }
-		}
-	}
-}
-
-tributary_state_action = {
-	condition = {
-		potential = {
-			ai = yes
-		}
-		allow = {
-			OR = {
-				NOT = {
-					ROOT = { 
-						capital_scope = {
-							OR = {
-								superregion = russia_superregion
-								superregion = ruthenia_superregion
-							}
-						}
-					}
-				}
-				AND = {
-					ROOT = {
-						capital_scope = {
-							OR = {
-								superregion = russia_superregion
-								superregion = ruthenia_superregion
-							}
-						}
-					}
-					NOT = {
-						FROM = {
-							capital_scope = {
-								OR = {
-									superregion = russia_superregion
-									superregion = ruthenia_superregion
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-ask_for_tributary_state_action = {
-	condition = {
-		potential = {
-			ai = yes
-		}
-		allow = {
-			OR = {
-				NOT = {
-					FROM = {
-						capital_scope = { 			
-							OR = {
-								superregion = russia_superregion
-								superregion = ruthenia_superregion
-							} 
-						}
-					}
-				}
-				AND = {
-					FROM = { 
-						capital_scope = {
-							OR = {
-								superregion = russia_superregion
-								superregion = ruthenia_superregion
-							}
-						}
-					}
-					NOT = { 
-						ROOT = {
-							capital_scope = {
-								OR = {
-									superregion = russia_superregion
-									superregion = ruthenia_superregion
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-request_to_join_trade_league = {
-	condition = {
-		tooltip = SAMEGOVT2
-		potential = {
-			NOT = { has_reform = trading_city }
-		}
-		allow = {
-			OR = {
-				AND = {
-					has_reform = canton_government
-					FROM = { has_reform = canton_government }
-				}
-				AND = {
-					has_reform = free_city
-					FROM = { has_reform = free_city }
-				}
-			}
-		}
-	}
-	condition = {
-		tooltip = SAMEGOVT2MERCH
-		potential = {
-			has_reform = trading_city
-		}
-		allow = {
-			FROM = { has_reform = merchants_reform }
 		}
 	}
 }
@@ -717,6 +525,16 @@ annexationaction = {
 		}
 	}
 	condition = {
+		tooltip = NEEDS_50_CROWNLAND_TT
+		potential = {
+			has_government_attribute = need_crownland_to_annex
+			NOT = { crown_land_share = 50 }
+		}
+		allow = {
+			crown_land_share = 50
+		}
+	}
+	condition = {
 		tooltip = NEEDS_TO_HAVE_SEIZED_LAND
 		potential = {
 			has_government_attribute = has_appanages
@@ -851,7 +669,153 @@ form_coalition = {
 				has_opinion_modifier = {
 					modifier = aggressive_expansion
 					who = FROM
-					value = -50
+					value = -49
+				}
+			}
+		}
+	}
+}
+
+request_to_join_trade_league = {
+	condition = {
+		tooltip = SAMEGOVT2
+		potential = {
+			NOT = { has_reform = trading_city }
+		}
+		allow = {
+			OR = {
+				AND = {
+					has_reform = canton_government
+					FROM = { has_reform = canton_government }
+				}
+				AND = {
+					has_reform = free_city
+					FROM = { has_reform = free_city }
+				}
+			}
+		}
+	}
+	condition = {
+		tooltip = SAMEGOVT2MERCH
+		potential = {
+			has_reform = trading_city
+		}
+		allow = {
+			FROM = { has_reform = merchants_reform }
+		}
+	}
+}
+
+invite_to_trade_league = {
+	condition = {
+		tooltip = SAMEGOVT
+		potential = {
+			NOT = {
+				OR = {
+					has_reform = merchants_reform
+					has_reform = venice_merchants_reform
+				}
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					has_reform = canton_government
+					FROM = { has_reform = canton_government }
+				}
+				AND = {
+					has_reform = free_city
+					FROM = { has_reform = free_city }
+				}
+			}
+		}
+	}
+	condition = {
+		tooltip = SAMEGOVTMERCH
+		potential = {
+			OR = {
+				has_reform = merchants_reform
+				has_reform = venice_merchants_reform
+			}
+		}
+		allow = {
+			FROM = { has_reform = trading_city }
+		}
+	}
+}
+
+tributary_state_action = {
+	condition = {
+		potential = {
+			ai = yes
+		}
+		allow = {
+			OR = {
+				NOT = { ROOT = { capital_scope = { superregion = russia_superregion } } }
+				AND = {
+					ROOT = { capital_scope = { superregion = russia_superregion } }
+					NOT = { FROM = { capital_scope = { superregion = russia_superregion } } }
+				}
+			}
+			OR = {
+				NOT = { ROOT = { capital_scope = { superregion = ruthenia_superregion } } }
+				AND = {
+					ROOT = { capital_scope = { superregion = ruthenia_superregion } }
+					NOT = { FROM = { capital_scope = { superregion = ruthenia_superregion } } }
+				}
+			}
+			#mod
+			OR = {
+				NOT = { ROOT = { capital_scope = { superregion = british_isles_superregion } } }
+				AND = {
+					ROOT = { capital_scope = { superregion = british_isles_superregion } }
+					NOT = { FROM = { capital_scope = { superregion = british_isles_superregion } } }
+				}
+			}
+			OR = {
+				NOT = { ROOT = { capital_scope = { superregion = scandinavia_superregion } } }
+				AND = {
+					ROOT = { capital_scope = { superregion = scandinavia_superregion } }
+					NOT = { FROM = { capital_scope = { superregion = scandinavia_superregion } } }
+				}
+			}
+		}
+	}
+}
+
+ask_for_tributary_state_action = {
+	condition = {
+		potential = {
+			ai = yes
+		}
+		allow = {
+			OR = {
+				NOT = { FROM = { capital_scope = { superregion = russia_superregion } } }
+				AND = {
+					FROM = { capital_scope = { superregion = russia_superregion } }
+					NOT = { ROOT = { capital_scope = { superregion = russia_superregion } } }
+				}
+			}
+			OR = {
+				NOT = { FROM = { capital_scope = { superregion = ruthenia_superregion } } }
+				AND = {
+					FROM = { capital_scope = { superregion = ruthenia_superregion } }
+					NOT = { ROOT = { capital_scope = { superregion = ruthenia_superregion } } }
+				}
+			}
+			#mod
+			OR = {
+				NOT = { FROM = { capital_scope = { superregion = british_isles_superregion } } }
+				AND = {
+					FROM = { capital_scope = { superregion = british_isles_superregion } }
+					NOT = { ROOT = { capital_scope = { superregion = british_isles_superregion } } }
+				}
+			}
+			OR = {
+				NOT = { FROM = { capital_scope = { superregion = scandinavia_superregion } } }
+				AND = {
+					FROM = { capital_scope = { superregion = scandinavia_superregion } }
+					NOT = { ROOT = { capital_scope = { superregion = scandinavia_superregion } } }
 				}
 			}
 		}
