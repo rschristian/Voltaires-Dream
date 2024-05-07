@@ -21,6 +21,9 @@ vn_ase_missions_slot_1_a = {
         icon = mission_longships
         position = 2
         required_missions = { vn_ase_elect_new_king }
+        provinces_to_highlight = {
+            is_capital_of = NOR
+        }
         trigger = {
 			is_subject = no
             OR = {
@@ -50,49 +53,39 @@ vn_ase_missions_slot_1_a = {
 			}
         }
         effect = {
-            custom_tooltip = vn_ase_defeat_vikings.tt2
-			if = {
-				limit = {
-					is_in_war = {
-						attacker_leader = NOR
-						defender_leader = ROOT
-					}
+			complex_dynamic_effect = {
+				first_custom_tooltip = vn_ase_defeat_vikings.tt2
+				first_limit = "
+                    is_in_war = {
+                        attacker_leader = NOR
+                        defender_leader = ROOT
+                    }
                     war_score_against = {
-						who = NOR
-						value = 25
-					}
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-                add_war_exhaustion = -2
-                add_yearly_manpower = 1
-				add_country_modifier = {
-                    name = "ase_defeat_vikings_mission"
-                    duration = 5475
-                }
-			}
-            custom_tooltip = mission_alternatively_tt
-            custom_tooltip = vn_ase_defeat_vikings.tt3
-            if = {
-				limit = {
-					has_country_flag = nor_renounced_claims_on_ase
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-                add_legitimacy_equivalent = {
-                    amount = 10
-                    republican_tradition = 5
-                }
-                add_stability_or_adm_power = yes
-            }
-            custom_tooltip = mission_alternatively_tt
-            custom_tooltip = vn_ase_defeat_vikings.tt4
-            if = {
-                limit = {
+                        who = NOR
+                        value = 25
+                    }
+				"
+				first_effect = "
+                    add_war_exhaustion = -2
+                    add_yearly_manpower = 1
+                    add_country_modifier = {
+                        name = ase_defeat_vikings_mission
+                        duration = 5475
+                    }
+				"
+				second_custom_tooltip = vn_ase_defeat_vikings.tt3
+				second_limit = "
+                    has_country_flag = nor_renounced_claims_on_ase
+				"
+				second_effect = "
+                    add_legitimacy_equivalent = {
+                        amount = 10
+                        republican_tradition = 5
+                    }
+                    add_stability_or_adm_power = yes
+				"
+                third_custom_tooltip = vn_ase_defeat_vikings.tt4
+                third_limit = "
                     is_year = 1075
                     OR = {
                         has_won_war_against = {
@@ -100,15 +93,14 @@ vn_ase_missions_slot_1_a = {
                         }
                         is_at_war = no
                     }
-                }
-                custom_tooltip = BONUS_REWARD_YES
-            }
-            else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-                add_adm_power = 50
-                add_dip_power = 50
-                add_mil_power = 50
-            }
+                "
+                third_effect = "
+                    add_adm_power = 50
+                    add_dip_power = 50
+                    add_mil_power = 50
+                
+                "
+			}
             if = {
                 limit = {
                     exists = NOL
@@ -143,51 +135,9 @@ vn_ase_missions_slot_1_a = {
                     add_permanent_claim = ROOT
                 }
             }
-
-            hidden_effect = {
-                if = {
-                    limit = {
-                        is_in_war = {
-                            attacker_leader = NOR
-                            defender_leader = ROOT
-                        }
-                        war_score_against = {
-                            who = NOR
-                            value = 25
-                        }
-                    }
-                    add_war_exhaustion = -2
-                    add_yearly_manpower = 1
-                    add_country_modifier = {
-                        name = "ase_defeat_vikings_mission"
-                        duration = 5475
-                    }
-                }
-                else_if = {
-                    limit = {
-                        has_country_flag = nor_renounced_claims_on_ase
-                    }
-                    add_legitimacy_equivalent = {
-                        amount = 10
-                        republican_tradition = 5
-                    }
-                    add_stability_or_adm_power = yes
-                }
-                else_if = {
-                    limit = {
-                        is_year = 1075
-                        OR = {
-                            has_won_war_against = {
-                                who = NOR
-                            }
-                            is_at_war = no
-                        }
-                    }
-                    add_adm_power = 50
-                    add_dip_power = 50
-                    add_mil_power = 50
-                }
-            }
+        }
+        ai_weight = {
+            factor = 500
         }
     }
     vn_ase_reincorporate_northumbria = {
@@ -225,13 +175,30 @@ vn_ase_missions_slot_1_a = {
         }
         effect = {
             add_adm_power = 50
-            northumbria_region = {
+            east_riding_area = {
                 limit = { owned_by = ROOT }
                 add_province_modifier = {
                     name = "ase_reincorporate_northumbria_mission"
                     duration = 9125
                 }
             }
+            west_riding_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = "ase_reincorporate_northumbria_mission"
+                    duration = 9125
+                }
+            }
+            northumberland_area = {
+                limit = { owned_by = ROOT }
+                add_province_modifier = {
+                    name = "ase_reincorporate_northumbria_mission"
+                    duration = 9125
+                }
+            }
+        }
+        ai_weight = {
+            factor = 500
         }
     }
     vn_ase_assimilate_danes = {
@@ -241,14 +208,18 @@ vn_ase_missions_slot_1_a = {
             region = northumbria_region
             OR = {
                 NOT = { owned_by = ROOT }
-                culture = northumbrian
+                unrest = 1
+				nationalism = 1
+				local_autonomy = 1
             }
         }
         trigger = {
             northumbria_region = {
                 type = all
                 owned_by = ROOT
-                NOT = { culture = northumbrian }
+				NOT = { unrest = 1 }
+				NOT = { nationalism = 1 }
+				NOT = { local_autonomy = 1 }
             }
         }
         effect = {
@@ -322,7 +293,7 @@ vn_ase_missions_slot_1_b = {
             }
             add_country_modifier = {
 				name = "ase_conquer_strathclyde_mission"
-				duration = 7300
+				duration = 9125
 			}
         }
     }
@@ -371,6 +342,10 @@ vn_ase_missions_slot_1_c = {
             }
         }
         effect = {
+            if = {
+				limit = { has_dlc = "Rights of Man" }
+				add_ruler_personality = hammer_of_the_scots_personality
+			}
             if = {
                 limit = { has_dlc = "Domination" }
                 custom_tooltip = vn_ase_conquer_highlands.tt
@@ -444,96 +419,51 @@ vn_ase_missions_slot_2_a = {
             }
         }
         effect = {
-			custom_tooltip = vn_ase_elect_new_king.tt2
-			if = {
-				limit = {
-					has_country_flag = edward_sucession_godwin
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-				add_country_modifier = {
-					name = "ase_elect_new_king_mission"
-					duration = 9125
-				}
-			}
-            custom_tooltip = mission_alternatively_tt
-            custom_tooltip = vn_ase_elect_new_king.tt3
-            if = {
-				limit = {
-					has_country_flag = edward_sucession_edgar
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-				add_country_modifier = {
-					name = "ase_elect_new_king_mission2"
-					duration = 9125
-				}
-			}
-            custom_tooltip = mission_alternatively_tt
-			custom_tooltip = vn_ase_elect_new_king.tt4
-			if = {
-				limit = {
-					has_country_flag = edward_sucession_NRM
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-				add_country_modifier = {
-					name = "ase_elect_new_king_mission3"
-					duration = 9125
-				}
-			}
-			custom_tooltip = mission_alternatively_tt
-            custom_tooltip = vn_ase_elect_new_king.tt5
-            if = {
-				limit = {
-					has_country_flag = edward_sucession_NOR
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-				add_country_modifier = {
-					name = "ase_elect_new_king_mission4"
-					duration = 9125
-				}
-			}
-
-            hidden_effect = {
-				if = {
-					limit = { has_country_flag = edward_sucession_godwin }
+			complex_dynamic_effect = {
+				first_custom_tooltip = vn_ase_elect_new_king.tt2
+				first_limit = "
+                    has_country_flag = edward_sucession_godwin
+				"
+				first_effect = "
                     add_country_modifier = {
-                        name = "ase_elect_new_king_mission"
+                        name = ase_elect_new_king_mission
                         duration = 9125
                     }
-                }
-                else_if = {
-                    limit = { has_country_flag = edward_sucession_edgar }
+				"
+				second_custom_tooltip = vn_ase_elect_new_king.tt3
+				second_limit = "
+                    has_country_flag = edward_sucession_edgar
+				"
+				second_effect = "
                     add_country_modifier = {
-                        name = "ase_elect_new_king_mission2"
+                        name = ase_elect_new_king_mission2
                         duration = 9125
                     }
-                }
-                else_if = {
-                    limit = { has_country_flag = edward_sucession_NRM }
+				"
+                third_custom_tooltip = vn_ase_elect_new_king.tt4
+				third_limit = "
+                    has_country_flag = edward_sucession_NRM
+				"
+				third_effect = "
                     add_country_modifier = {
-                        name = "ase_elect_new_king_mission3"
+                        name = ase_elect_new_king_mission3
                         duration = 9125
                     }
-                }
-                else_if = {
-                    limit = { has_country_flag = edward_sucession_NOR }
+				"
+                fourth_custom_tooltip = vn_ase_elect_new_king.tt5
+				fourth_limit = "
+                    has_country_flag = edward_sucession_NOR
+				"
+				fourth_effect = "
                     add_country_modifier = {
-                        name = "ase_elect_new_king_mission4"
+                        name = ase_elect_new_king_mission4
                         duration = 9125
                     }
-                }
+				"
 			}
+        }
+        ai_weight = {
+            factor = 500
         }
     }
 }
@@ -564,17 +494,30 @@ vn_ase_missions_slot_2_b = {
         trigger = {
 			stability = 2
 			army_size_percentage = 0.75
+            manpower_percentage = 0.75
             is_at_war = no
             is_subject = no
-            is_year = 1075
+            if = {
+                limit = { has_dlc = "Common Sense" }
+                legitimacy_equivalent = 100
+            }
+            else_if = {
+                limit = { government = monarchy }
+                legitimacy = 100
+            }
         }
         effect = {
-            add_stability_or_adm_power = yes
-            add_reform_progress_medium_effect = yes
             add_power_projection = {
 				type = mission_rewards_power_projection
 				amount = 25
 			}
+            add_country_modifier = {
+                name = ase_a_kingdom_consolidated_mission
+                duration = 9125
+            }
+        }
+        ai_weight = {
+            factor = 500
         }
     }
     vn_ase_flourishing_witan = {
@@ -583,14 +526,30 @@ vn_ase_missions_slot_2_b = {
         required_missions = { vn_ase_a_kingdom_consolidated }
         trigger = {
             has_3_lv3_advisors_trigger = yes
+            is_in_deficit = no
+            NOT = { corruption = 1 }
         }
         effect = {
             change_government_reform_progress = 50
-            add_country_modifier = {
-                name = "ase_flourishing_witan_mission"
-                duration = 9125
+            unlock_government_reform = {
+				government_reform = expanded_witenagemot_reform
+			}
+            if = {
+                limit = { has_dlc = "Domination" }
+                unlock_issue = {
+                    issue = discipline_for_the_marines_acts
+                }
+                unlock_issue = {
+                    issue = improved_man_of_war_acts
+                }
+                unlock_issue = {
+                    issue = army_reform_acts
+                }
             }
         }
+        ai_weight = {
+			factor = 500
+		}
     }
 }
 
@@ -663,15 +622,9 @@ vn_ase_missions_slot_2_c = {
                 }
                 add_permanent_claim = ROOT
             }
-            wales_region = {
-                limit = {
-                    any_neighbor_province = {
-                        owned_by = ROOT
-                    }
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
+            add_country_modifier = {
+                name = ase_build_up_fyrd_mission
+                duration = 9125
             }
         }
     }
@@ -683,13 +636,14 @@ vn_ase_missions_slot_2_c = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            edinburgh_area = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            2621 = { country_or_non_sovereign_subject_holds = ROOT }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = edinburgh_area
             }
         }
         effect = {
-			add_prestige_or_monarch_power = { amount = 10 } 
+            add_prestige_or_monarch_power = { amount = 10 }
             fife_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -703,6 +657,13 @@ vn_ase_missions_slot_2_c = {
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
+            }
+            2621 = {
+                add_local_autonomy = -50
+                add_province_modifier = {
+                    name = ase_reclaim_lothian_mission
+                    duration = -1
+                }
             }
         }
     }
@@ -752,12 +713,8 @@ vn_ase_missions_slot_2_c = {
             }
         }
         trigger = {
-            NOT = {
-                OR = {
-                    exists = SCO
-                    exists = HSC
-                }
-            }
+            NOT = { exists = SCO }
+            NOT = { exists = HSC }
             scotland_region = {
                 type = all
                 owned_by = ROOT
@@ -774,10 +731,13 @@ vn_ase_missions_slot_2_c = {
             }
         }
         effect = {
-            add_prestige_or_monarch_power = { amount = 10 } 
+            add_permanent_power_projection = {
+				type = 25_permanent_power_projection
+				amount = 25
+			}
             add_country_modifier = {
                 name = "ase_anglo_scottish_union_mission"
-                duration = 9125
+                duration = 18250
             }
         }
     }
@@ -835,49 +795,39 @@ vn_ase_missions_slot_3_a = {
 			}
         }
         effect = {
-            custom_tooltip = vn_ase_drive_out_normans.tt2
-			if = {
-				limit = {
-					is_in_war = {
-						attacker_leader = NRM
-						defender_leader = ROOT
-					}
+            complex_dynamic_effect = {
+				first_custom_tooltip = vn_ase_drive_out_normans.tt2
+				first_limit = "
+                    is_in_war = {
+                        attacker_leader = NRM
+                        defender_leader = ROOT
+                    }
                     war_score_against = {
-						who = NRM
-						value = 25
-					}
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-                add_war_exhaustion = -2
-                add_yearly_manpower = 1
-				add_country_modifier = {
-                    name = "ase_drive_out_normans_mission"
-                    duration = 5475
-                }
-			}
-            custom_tooltip = mission_alternatively_tt
-            custom_tooltip = vn_ase_drive_out_normans.tt3
-            if = {
-				limit = {
-					has_country_flag = nrm_renounced_claims_on_ase
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-                add_legitimacy_equivalent = {
-                    amount = 10
-                    republican_tradition = 5
-                }
-                add_stability_or_adm_power = yes 
-            }
-            custom_tooltip = mission_alternatively_tt
-            custom_tooltip = vn_ase_drive_out_normans.tt4
-            if = {
-                limit = {
+                        who = NRM
+                        value = 25
+                    }
+				"
+				first_effect = "
+                    add_war_exhaustion = -2
+                    add_yearly_manpower = 1
+                    add_country_modifier = {
+                        name = ase_drive_out_normans_mission
+                        duration = 5475
+                    }
+				"
+				second_custom_tooltip = vn_ase_drive_out_normans.tt3
+				second_limit = "
+                    has_country_flag = nrm_renounced_claims_on_ase
+				"
+				second_effect = "
+                    add_legitimacy_equivalent = {
+                        amount = 10
+                        republican_tradition = 5
+                    }
+                    add_stability_or_adm_power = yes
+				"
+                third_custom_tooltip = vn_ase_drive_out_normans.tt4
+                third_limit = "
                     is_year = 1075
                     OR = {
                         has_won_war_against = {
@@ -885,15 +835,14 @@ vn_ase_missions_slot_3_a = {
                         }
                         is_at_war = no
                     }
-                }
-                custom_tooltip = BONUS_REWARD_YES
-            }
-            else = { custom_tooltip = BONUS_REWARD_NO }
-            tooltip = {
-                add_adm_power = 50
-                add_dip_power = 50
-                add_mil_power = 50
-            }
+                "
+                third_effect = "
+                    add_adm_power = 50
+                    add_dip_power = 50
+                    add_mil_power = 50
+                
+                "
+			}
             normandy_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -901,51 +850,9 @@ vn_ase_missions_slot_3_a = {
                 }
                 add_claim = ROOT
             }
-            
-            hidden_effect = {
-                if = {
-                    limit = {
-                        is_in_war = {
-                            attacker_leader = NRM
-                            defender_leader = ROOT
-                        }
-                        war_score_against = {
-                            who = NRM
-                            value = 25
-                        }
-                    }
-                    add_war_exhaustion = -2
-                    add_yearly_manpower = 1
-                    add_country_modifier = {
-                        name = "ase_drive_out_normans_mission"
-                        duration = 5475
-                    }
-                }
-                else_if = {
-                    limit = {
-                        has_country_flag = nrm_renounced_claims_on_ase
-                    }
-                    add_legitimacy_equivalent = {
-                        amount = 10
-                        republican_tradition = 5
-                    }
-                    add_stability_or_adm_power = yes
-                }
-                else_if = {
-                    limit = {
-                        is_year = 1075
-                        OR = {
-                            has_won_war_against = {
-                                who = NRM
-                            }
-                            is_at_war = no
-                        }
-                    }
-                    add_adm_power = 50
-                    add_dip_power = 50
-                    add_mil_power = 50
-                }
-            }
+        }
+        ai_weight = {
+            factor = 500
         }
     }
 }
@@ -971,11 +878,36 @@ vn_ase_missions_slot_3_b = {
         position = 4
         required_missions = { vn_ase_a_kingdom_consolidated }
         trigger = {
-            NOT = { has_country_modifier = edwardian_isolation }
+            NOT = { has_estate_privilege = estate_church_anglosaxon_isolation }
+            if = {
+                limit = { has_estate = estate_church }
+                estate_loyalty = {
+                    estate = estate_church
+                    loyalty = 50
+                }
+                NOT = {
+                    estate_influence = {
+                        estate = estate_church
+                        influence = 80
+                    }
+                }
+            }
+            else = {
+                NOT = { has_estate = estate_church }
+            }
         }
         effect = {
-            add_prestige_or_monarch_power = { amount = 10 } 
-            add_legitimacy = 10
+            change_estate_land_share = {
+                estate = estate_church
+                share = -5
+            }
+            add_country_modifier = {
+                name = ase_end_isolation_mission
+                duration = 9125
+            }
+        }
+        ai_weight = {
+            factor = 500
         }
     }
 }
@@ -1033,6 +965,10 @@ vn_ase_missions_slot_3_c = {
                 }
                 add_permanent_claim = ROOT
             }
+            add_country_modifier = {
+                name = ase_beyond_offas_dyke_mission
+                duration = 9125
+            }
         }
     }
     vn_ase_subdue_wales = {
@@ -1049,12 +985,30 @@ vn_ase_missions_slot_3_c = {
             }
         }
         effect = {
-            ireland_region = {
-                limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
+            if = { 
+				limit = {
+                    has_dlc = "Leviathan"
+                    2448 = {
+						NOT = { 
+							has_great_project = {
+								type = caernarfon_castle 
+								tier = 3 
+							}
+						}
+					}
                 }
-                add_permanent_claim = ROOT
+				2448 = { 
+                    add_great_project_tier = {
+                        type = caernarfon_castle
+                        tier = 1 
+                    }
+                }
+			}
+            else = {
+                2448 = {
+                    add_base_manpower = 3
+                    add_local_autonomy = -25
+                }
             }
 			wales_region = {
                 limit = { country_or_non_sovereign_subject_holds = ROOT }
@@ -1092,14 +1046,15 @@ vn_ase_missions_slot_3_d = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            mhumhain_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                region = mhumhain_region
             }
         }
         effect = {
             mhumhain_region = {
                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_nationalism = -10
                 add_province_modifier = {
                     name = "ase_conquer_connacht_mission"
                     duration = 9125
@@ -1214,6 +1169,7 @@ vn_ase_missions_slot_4_a = {
         trigger = {
             share_of_starting_income = 1.5
             NOT = { num_of_loans = 1 }
+            is_in_deficit = no
             treasury = 500
         }
         effect = {
@@ -1283,6 +1239,9 @@ vn_ase_missions_slot_4_b = {
         icon = mission_northumberland_coast
         position = 3
         required_missions = { vn_ase_drive_out_normans }
+        provinces_to_highlight = {
+            is_capital_of = NRM
+        }
         trigger = {
             is_subject = no
             if = {
@@ -1321,7 +1280,6 @@ vn_ase_missions_slot_4_b = {
             }
         }
         effect = {
-            add_army_professionalism = 0.05
             brittany_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -1364,9 +1322,16 @@ vn_ase_missions_slot_4_c = {
             num_of_transport = 10
         }
         effect = {
-            add_navy_tradition = 5
             create_admiral = {
                 tradition = 75
+                add_shock = 1
+            }
+            ireland_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
             }
         }
     }
@@ -1382,9 +1347,9 @@ vn_ase_missions_slot_4_c = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            ireland_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                region = ireland_region
             }
         }
         effect = {
@@ -1411,6 +1376,7 @@ vn_ase_missions_slot_4_c = {
             }
 			ireland_region = {
                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_nationalism = -10
                 add_province_modifier = {
                     name = "ase_conquer_connacht_mission"
                     duration = 9125
@@ -1426,14 +1392,15 @@ vn_ase_missions_slot_4_c = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            westireland_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                region = westireland_region
             }
         }
         effect = {
             westireland_region = {
                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_nationalism = -10
                 add_province_modifier = {
                     name = "ase_conquer_connacht_mission"
                     duration = 9125
@@ -1467,10 +1434,9 @@ vn_ase_missions_slot_4_c = {
         effect = {
             irish_superregion = {
 				limit = { owned_by = ROOT }
-				add_unrest = -1
 				add_province_modifier = {
 					name = "ase_consolidate_ireland_mission"
-					duration = 9125
+					duration = 10950
 				}
 			}
         }
@@ -1504,7 +1470,7 @@ vn_ase_missions_slot_5_a = {
         trigger = {
             2268 = {
                 owned_by = ROOT
-                has_tax_building_trigger = yes
+                base_tax = 12
             }
         }
         effect = {
@@ -1512,26 +1478,25 @@ vn_ase_missions_slot_5_a = {
                 id = vn_flavor_ase.2
             }
         }
+        ai_weight = {
+			factor = 500
+		}
     }
     vn_ase_romanesque_architecture = {
         icon = mission_portico
         required_missions = { vn_ase_westminster_abbey }
         trigger = {
-            OR = {
-				armory = 5
-				fort_14th = 10
-				road_network = 5
+            num_of_owned_provinces_with = {
+                value = 6
+                has_building = armory
             }
-            OR = {
-                armory = 6
-                num_of_owned_provinces_with = {
-                    value = 10
-                    has_fort_trigger = yes
-                }
-                num_of_owned_provinces_with = {
-                    value = 6
-                    has_trade_building_trigger = yes
-                }
+            num_of_owned_provinces_with = {
+               value = 10
+               has_tax_building_trigger = yes
+            }
+            num_of_owned_provinces_with = {
+                value = 6
+                has_trade_building_trigger = yes
             }
         }
         effect = {
@@ -1571,6 +1536,7 @@ vn_ase_missions_slot_5_a = {
                 type = fortification_expert
                 skill = 3
                 cost_multiplier = 0.25
+                culture = normand
             }
             add_country_modifier = {
                 name = "ase_norman_castles_mission"
@@ -1614,34 +1580,53 @@ vn_ase_missions_slot_5_b = {
             }
         }
         trigger = {
-            any_known_country = {
-                custom_trigger_tooltip = {
-                    tooltip = vn_ase_scandinavian_diplomacy.tt
-                    capital_scope = {
-                        superregion = scandinavia_superregion
+            if = {
+                limit = {
+                    any_country = {
+                        NOT = { tag = ROOT }
+                        capital_scope = {
+                            superregion = scandinavia_superregion
+                        }
                     }
                 }
-                has_opinion = {
-                    who = ROOT
-                    value = 100
-                }
-            }
-        }
-        effect = {
-            every_known_country = {
-                limit = {
-                    capital_scope = {
-                        superregion = scandinavia_superregion
+                any_country = {
+                    custom_trigger_tooltip = {
+                        tooltip = vn_ase_scandinavian_diplomacy.tt
+                        capital_scope = {
+                            superregion = scandinavia_superregion
+                        }
                     }
                     has_opinion = {
                         who = ROOT
                         value = 100
                     }
                 }
-                add_opinion = {
-                    who = ROOT
-                    modifier = ase_scandinavian_diplomacy_opinion
-                    years = 25
+            }
+            else = {
+                scandinavia_superregion = {
+                    owned_by = ROOT
+                }
+            }
+        }
+        effect = {
+            custom_tooltip = vn_ase_scandinavian_diplomacy.tt2
+            hidden_effect = {
+                every_known_country = {
+                    limit = {
+                        capital_scope = {
+                            superregion = scandinavia_superregion
+                        }
+                        is_free_or_tributary_trigger = yes
+                        has_opinion = {
+                            who = ROOT
+                            value = 100
+                        }
+                    }
+                    add_opinion = {
+                        who = ROOT
+                        modifier = ase_scandinavian_diplomacy_opinion
+                        years = 25
+                    }
                 }
             }
             add_country_modifier = {
@@ -1657,19 +1642,18 @@ vn_ase_missions_slot_5_b = {
             vn_ase_scandinavian_diplomacy
         }
         trigger = {
+            num_of_centers_of_trade = 5
             if = {
                 limit = { has_dlc = "Dharma" }
-                num_of_centers_of_trade = 5
                 any_owned_province = {
                     province_has_center_of_trade_of_level = 3
                 }
             }
-            else = {
-                trade_income_percentage = 0.3
-                num_of_merchants = 4
-            }
+            trade_income_percentage = 0.3
+            num_of_merchants = 4
         }
         effect = {
+            add_estate_burghers_loyalty_effect = yes
             add_country_modifier = {
                 name = "ase_open_doors_to_trade_mission"
                 duration = 9125
@@ -1683,34 +1667,53 @@ vn_ase_missions_slot_5_b = {
 			num_of_owned_provinces_with = {
 				value = 10
 				development = 10
+                has_production_building_trigger = yes
 			}
 			num_of_owned_provinces_with = {
 				value = 5
 				development = 15
+                has_production_building_trigger = yes
 			}
         }
         effect = {
-            custom_tooltip = vn_will_receive_rewards_tt
-            random_owned_province = {
-                limit = { 
-                    development = 10
-                    NOT = { development = 15 }
+            if = { 
+				limit = { 
+					has_dlc = "Rights of Man" 
+					NOT = { num_of_ruler_traits = { amount = 3 } }
+				} 
+				add_ruler_personality = industrious_personality
+			}
+            custom_tooltip = vn_ase_growth_of_burhs.tt
+            hidden_effect = {
+                for = {
+                    amount = 5
+                    effect = "
+						random_owned_province = {
+							limit = {
+								has_production_building_trigger = yes
+							}
+                            add_base_tax = 1
+                            add_base_production = 1
+						}
+					"
                 }
-                add_base_tax = 1
-                add_base_production = 1
-                add_base_manpower = 1
-            }
-            random_owned_province = {
-                limit = { development = 15 }
-                add_base_tax = 1
-                add_base_production = 1
-                add_base_manpower = 1
             }
         }
     }
     vn_ase_northern_connections = {
         icon = mission_rb_control_the_hansa
         required_missions = { vn_ase_growth_of_burhs }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 13
+                province_id = 1084
+                province_id = 258
+                province_id = 2268
+                province_id = 1132
+                province_id = 2621
+            }
+            NOT = { is_strongest_trade_power = ROOT }
+        }
         trigger = {
 			13 = {
                 is_strongest_trade_power = ROOT
@@ -1738,7 +1741,7 @@ vn_ase_missions_slot_5_b = {
 			}
             add_country_modifier = {
 				name = "ase_northern_connections_mission"
-				duration = 36500
+				duration = -1
 			}
         }
     }
@@ -1769,14 +1772,15 @@ vn_ase_missions_slot_5_c = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            northern_ireland_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 10
+                region = northern_ireland_region
             }
         }
         effect = {
             northern_ireland_region = {
                 limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_nationalism = -10
                 add_province_modifier = {
                     name = "ase_conquer_connacht_mission"
                     duration = 9125
