@@ -12,13 +12,20 @@ country_event = {
 
 	is_triggered_only = yes
 
+	# immediate = {
+	# 	hidden_effect = {
+	# 		set_country_flag = kiev_decide_mission_path
+	# 	}
+	# }
+
 	option = {
 		name = vn_flavor_kie.1.a
 		ai_chance = { factor = 9 }
 		set_country_flag = kie_russian_rite_flag
+		clr_country_flag = kie_byzantine_rite_flag
 		swap_non_generic_missions = yes
 		add_country_modifier = {
-			name = kie_aftermath_of_the_war_mission_a
+			name = kie_aftermath_of_the_war_mission
 			duration = -1
 		}
 		custom_tooltip = upgradable_modifier_tt
@@ -27,53 +34,77 @@ country_event = {
 		name = vn_flavor_kie.1.b
 		ai_chance = { factor = 1 }
 		set_country_flag = kie_byzantine_rite_flag
+		clr_country_flag = kie_russian_rite_flag
 		swap_non_generic_missions = yes
 		add_country_modifier = {
-			name = kie_aftermath_of_the_war_mission_b
+			name = kie_aftermath_of_the_war_mission2
 			duration = -1
 		}
 		custom_tooltip = upgradable_modifier_tt
 	}
 }
 
+#The Markets of Constantinople
 country_event = {
 	id = vn_flavor_kie.2
 	title = vn_flavor_kie.2.t
 	desc = vn_flavor_kie.2.d
-	picture = LAND_MILITARY_eventPicture
+	picture = CONSTANTINOPLE_eventPicture
 	goto = capital
 
 	is_triggered_only = yes
 
 	option = {
 		name = vn_flavor_kie.2.a
-		define_general = {
-			name = "Igor Svyatoslavich"
-			fire = 4 
-			shock = 4 
-			manuever = 3 
-			siege = 1 
-			trait = frontline_holder_personality
+		trigger = {
+			capital_scope = {
+				NOT = { trade_goods = silk }
+				NOT = { trade_goods = silver }
+			}
+		}
+		ai_chance = { factor = 2 }
+		add_mercantilism = 2
+		capital_scope = {
+			change_trade_goods = silk
+			add_or_upgrade_production_building = yes
 		}
 	}
-
 	option = {
 		name = vn_flavor_kie.2.b
-		add_country_modifier = {
-			name = kie_cuman_threat_mission
-			duration = 9125 
+		trigger = {
+			capital_scope = {
+				NOT = { trade_goods = dyes }
+				NOT = { trade_goods = silver }
+			}
+		}
+		ai_chance = { factor = 1 }
+		add_mercantilism = 2
+		capital_scope = {
+			change_trade_goods = dyes
+			add_or_upgrade_production_building = yes
 		}
 	}
-
 	option = {
 		name = vn_flavor_kie.2.c
-		if = {
-			limit = { is_emperor_of_china = yes }
-			add_mandate = 5 
+		trigger = {
+			capital_scope = {
+				NOT = { trade_goods = glass }
+				NOT = { trade_goods = silver }
+			}
 		}
-		else = {
-			add_adm_power = 50
-			change_government_reform_progress = 25 
+		ai_chance = { factor = 1 }
+		add_mercantilism = 2
+		capital_scope = {
+			change_trade_goods = glass
+			add_or_upgrade_production_building = yes
+		}
+	}
+	option = {
+		name = vn_flavor_kie.2.dd
+		ai_chance = { factor = 0 }
+		add_mercantilism = 2
+		capital_scope = {
+			add_or_upgrade_production_building = yes
 		}
 	}
 }
@@ -96,14 +127,18 @@ country_event = {
 		else = {
 			add_legitimacy = 5
 		}
+		custom_tooltip = vn_flavor_kie.3.tt
 		add_ruler_modifier = {
 			name = kie_yaroslavi_triumvirate_mission
 			duration = -1
 		}
-		every_subject_country = {
-			add_opinion = {
-				who = ROOT
-				modifier = opinion_good_relations
+		hidden_effect = {
+			every_subject_country = {
+				limit = { is_subject_of_type = partial_principality }
+				add_opinion = {
+					who = ROOT
+					modifier = opinion_good_relations
+				}
 			}
 		}
 	}
@@ -147,8 +182,21 @@ country_event = {
 
 	option = {
 		name = vn_flavor_kie.4.b
-		add_mil_power = 25
-		custom_tooltip = vn_kie_fortify_volyn.ss
+		620 = {
+			add_base_manpower = 2
+			add_province_modifier = {
+				name = kie_fortify_volyn_mission2
+				duration = 9125
+			}
+		}
+		2626 = {
+			add_base_manpower = 2
+			add_province_modifier = {
+				name = kie_fortify_volyn_mission2
+				duration = 9125
+			}
+		}
+		custom_tooltip = vn_kie_fortify_volyn.tt2
 		hidden_effect = {
 			poland_superregion = {
 				limit = {
@@ -298,20 +346,87 @@ country_event = {
 
 	is_triggered_only = yes
 
+	immediate = {
+		hidden_effect = {
+			pick_best_provinces = {
+				3 = yes
+				scale = higher_development_than
+				global_trigger = "
+					culture = pecheneg
+				"
+				scope = every_owned_province
+				event_target_name = "PHE_target"
+			}
+		}
+	}
+
 	option = {
 		name = vn_flavor_kie.9.a
-		ai_chance = { factor = 0 }
-		
+		ai_chance = { factor = 1 }
+		add_accepted_culture_or_dip_power = { culture = pecheneg dip_reward = yes }
+		add_country_modifier = {
+			name = kie_fate_of_the_pechenegs_mission
+			duration = 9125
+		}
 	}
 	option = {
 		name = vn_flavor_kie.9.b
-		ai_chance = { factor = 0 }
-		
+		ai_chance = { factor = 1 }
+		event_target:PHE_target_1 = {
+			change_culture = ROOT
+		}
+		event_target:PHE_target_2 = {
+			change_culture = ROOT
+		}
+		event_target:PHE_target_3 = {
+			change_culture = ROOT
+		}
+		yedisan_area = {
+			add_nationalism = -10
+			add_province_modifier = {
+				name = kie_fate_of_the_pechenegs_mission2
+				duration = 9125
+			}
+		}
+		zaporizhia_area = {
+			add_nationalism = -10
+			add_province_modifier = {
+				name = kie_fate_of_the_pechenegs_mission2
+				duration = 9125
+			}
+		}
+	}
+}
+
+#The Grand Rus
+country_event = {
+	id = vn_flavor_kie.10
+	title = vn_flavor_kie.10.t
+	desc = vn_flavor_kie.10.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_kie.10.a
+		add_country_modifier = {
+			name = gp_unite_rurikids_mission
+			duration = -1
+		}
 	}
 	option = {
-		name = vn_flavor_kie.9.c
-		ai_chance = { factor = 0 }
-		
+		name = vn_flavor_kie.10.b
+		add_country_modifier = {
+			name = gp_unite_rurikids_mission2
+			duration = -1
+		}
+	}
+	option = {
+		name = vn_flavor_kie.10.c
+		add_country_modifier = {
+			name = gp_unite_rurikids_mission3
+			duration = -1
+		}
 	}
 }
 
@@ -398,37 +513,660 @@ country_event = {
 	}
 }
 
+########################################
+# Brandenburg
+########################################
+namespace = vn_flavor_bra
+
+#Lebus church vassal
 country_event = {
-	id = vn_flavor_aqt.2
-	title = vn_flavor_aqt.2.t
-	desc = vn_flavor_aqt.2.d
-	picture = REFORM_eventPicture
+	id = vn_flavor_bra.1
+	title = vn_flavor_bra.1.t
+	desc = vn_flavor_bra.1.d
+	picture = GOOD_WITH_MONARCH_eventPicture
 
 	is_triggered_only = yes
-	major = yes
 
 	option = {
-		name = vn_flavor_aqt.2.a
-		add_liberty_desire = 100
-		add_country_modifier = {
-			name = aqt_guyenne_mission
-			duration = 18250
+		name = vn_flavor_bra.1.a
+		2197 = { add_core = TFW }
+		242 = { add_core = TFW }
+		tooltip = { release = TFW }
+		hidden_effect = { 2197 = { owner = { release = TFW } } }
+		create_subject = {
+			subject_type = vassal
+			who = TFW
 		}
-		custom_tooltip = vn_flavor_aqt.2.tt
 		hidden_effect = {
-			overlord = {
-				every_subject_country = {
-					limit = {
-						capital_scope = {
-							OR = {
-								region = aquitaine_region
-								region = gascony_region
-							}
-						}
+			TFW = {
+				change_religion = ROOT
+				change_primary_culture = ROOT
+				change_government = theocracy
+				add_government_reform = leading_clergy_reform
+				define_ruler = { name = "Bernhard" }
+				capital_scope = {
+					build_to_forcelimit = {
+						infantry = 0.7
+						cavalry = 0.3
 					}
-					add_liberty_desire = 50
+				}
+				adopt_reform_progress = ROOT
+			}
+		}
+		2197 = {
+			add_base_tax = 2
+		}
+		242 = {
+			add_base_tax = 2
+		}
+	}
+	option = {
+		name = vn_flavor_bra.1.b
+		2197 = {
+			add_local_autonomy = -100
+			add_base_tax = 2
+		}
+		242 = {
+			add_local_autonomy = -100
+			add_base_tax = 2
+		}
+	}
+}
+
+########################################
+# Volga Bulgaria
+########################################
+namespace = vn_flavor_vgb
+#Battle of Samara Bend
+country_event = {
+	id = vn_flavor_vgb.1
+	title = vn_flavor_vgb.1.t
+	desc = vn_flavor_vgb.1.d
+	picture = MONGOL_BANNERS_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_vgb.1.a
+		if = {
+			limit = { started_in = 1178.1.1 }
+			create_general = {
+				tradition = 100
+			}
+		}
+		else = {
+			define_general = {
+				name = "Abdullah Chelbir"
+				shock = 6
+				fire = 6
+				manuever = 5
+				siege = 0
+			}
+		}
+		add_war_exhaustion = -5
+		add_yearly_manpower = 5
+		add_army_tradition = 10
+		GLH = {
+			add_war_exhaustion = 5
+			add_yearly_manpower = -5
+			add_army_tradition = -10
+		}
+		add_country_modifier = {
+			name = vgb_mongol_thorn_mission
+			duration = 5475
+		}
+	}
+}
+
+#Trade between Volga Bulgaria and 
+country_event = {
+	id = vn_flavor_vgb.2
+	title = vn_flavor_vgb.2.t
+	desc = vn_flavor_vgb.2.d
+	picture = MERCHANTS_TALKING_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_vgb.2.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_rival = event_target:EmperorOfChina
+			}
+		}
+		add_mercantilism = 2
+		add_country_modifier = {
+			name = vgb_russian_trade_agreements_mission
+			duration = 9125
+		}
+	}
+	option = {
+		name = vn_flavor_vgb.2.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				alliance_with = event_target:EmperorOfChina
+			}
+		}
+		add_prestige_or_monarch_power = { amount = 10 }
+		add_country_modifier = {
+			name = vgb_russian_trade_agreements_mission2
+			duration = 9125
+		}
+	}
+}
+
+########################################
+# AEngland
+########################################
+namespace = vn_flavor_ase
+#The Stone of Scone
+country_event = {
+	id = vn_flavor_ase.1
+	title = vn_flavor_ase.1.t
+	desc = vn_flavor_ase.1.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_ase.1.a
+        add_prestige_or_monarch_power = { amount = 25 }
+        if = {
+            limit = { exists = HSC NOT = { tag = HSC } }
+            HSC = { add_prestige = -25 }
+        }
+        else_if = {
+            limit = { exists = SCO NOT = { tag = SCO } }
+            SCO = { add_prestige = -25 }
+        }
+        add_country_modifier = {
+            name = "took_stone_of_scone"
+            duration = -1
+        }
+	}
+}
+
+# Westminster Abbey
+country_event = {
+	id = vn_flavor_ase.2
+	title = vn_flavor_ase.2.t
+	desc = vn_flavor_ase.2.d
+	picture = RELIGION_eventPicture
+	goto = 2268
+
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_flavor_ase.2.a
+		ai_chance = { factor = 100 }
+		add_prestige_or_monarch_power = { amount = 5 }
+		add_years_of_income = -0.5
+		2268 = {
+			add_province_modifier = {
+				name = "westminster_abbey"
+				duration = -1
+			}
+		}
+	}
+	option = {
+		name = vn_flavor_ase.2.b
+		ai_chance = { factor = 0 }
+		add_prestige_or_monarch_power = { amount = -5 }
+	}
+}
+
+########################################
+# Normandy
+########################################
+namespace = vn_flavor_nrm
+#Support for Apulia?
+country_event = {
+	id = vn_flavor_nrm.1
+	title = vn_flavor_nrm.1.t
+	desc = vn_flavor_nrm.1.d
+	picture = MILITARY_CAMP_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { has_country_flag = nrm_mission_flag_normand }
+				random_country = {
+					limit = {
+						capital_scope = { superregion = sicily_superregion }
+						NOT = { tag = ROOT }
+						ruler_culture = normand
+					}
+					save_event_target_as = apulian_ally
+				}
+				clr_country_flag = nrm_mission_flag_normand
+			}
+			else = {
+				random_country = {
+					limit = {
+						capital_scope = { superregion = sicily_superregion }
+						NOT = { tag = ROOT }
+					}
+					save_event_target_as = apulian_ally
 				}
 			}
+		}
+	}
+	
+	option = {
+		name = vn_flavor_nrm.1.a
+		if = {
+			limit = { 
+				NOT = { historical_friend_with = event_target:apulian_ally }
+				event_target:apulian_ally = { 
+					NOT = { historical_friend_with = ROOT }
+				}
+			}
+			tooltip = {
+				add_historical_friend = event_target:apulian_ally 
+				event_target:apulian_ally = { add_historical_friend = ROOT }
+			} 
+		}
+		else = { 
+			tooltip = {
+				add_trust = { 
+					who = event_target:apulian_ally 
+					value = 25 
+					mutual = yes 
+				}
+			}
+		}
+		add_dip_power = 50
+		add_country_modifier = {
+			name = "nrm_support_normans_in_italy_mission"
+			duration = 9125
+		}
+		tooltip = {
+			event_target:apulian_ally = {
+				add_mil_power = 50
+				add_country_modifier = {
+					name = "nrm_support_normans_in_italy_mission2"
+					duration = 3650
+				}
+			}
+		}
+		hidden_effect = {
+			event_target:apulian_ally = {
+				country_event = {
+					id = vn_flavor_nrm.2
+				}
+			}	
+		}
+	}
+}
+
+#Response for Apulia
+country_event = {
+	id = vn_flavor_nrm.2
+	title = vn_flavor_nrm.2.t
+	desc = vn_flavor_nrm.2.d
+	picture = MILITARY_CAMP_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_nrm.2.a
+		if = {
+			limit = { 
+				NOT = { historical_friend_with = FROM }
+				FROM = { 
+					NOT = { historical_friend_with = ROOT }
+				}
+			}
+			add_historical_friend = FROM
+			FROM = { add_historical_friend = ROOT }
+		}
+		else = { 
+			add_trust = { 
+				who = FROM 
+				value = 25 
+				mutual = yes 
+			}
+		}
+		add_mil_power = 50
+		add_country_modifier = {
+			name = "nrm_support_normans_in_italy_mission2"
+			duration = 3650
+		}
+	}
+}
+
+#Byzantium Agrees to our Offer
+country_event = {
+	id = vn_flavor_nrm.3
+	title = vn_flavor_nrm.3.t
+	desc = vn_flavor_nrm.3.d
+	picture = ATHENS_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_flavor_nrm.3.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { has_country_flag = nrm_big_support }
+			add_manpower = -5
+			add_treasury = 250
+			clr_country_flag = nrm_big_support
+		}
+		else = {
+			add_manpower = -2.5
+			add_treasury = 150
+		}
+	}
+}
+
+#Normandy Requests Troops
+country_event = {
+	id = vn_flavor_nrm.4
+	title = vn_flavor_nrm.4.t
+	desc = vn_flavor_nrm.4.d
+	picture = LAND_MILITARY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_flavor_nrm.4.a
+		add_manpower = -5
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 0
+				NOT = { manpower = 5 }
+			}
+			modifier = {
+				factor = 0.5
+				is_at_war = yes
+			}
+			modifier = {
+				factor = 1.5
+				manpower = 10
+			}
+			modifier = {
+				factor = 1.5
+				has_opinion = {
+					who = FROM
+					value = 100
+				}
+			}
+		}
+		FROM = {
+			country_event = {
+				id = vn_flavor_nrm.5
+				days = 15
+				random = 5
+				tooltip = vn_flavor_nrm.4.a.tt
+			}
+		}
+	}
+	option = {
+		name = vn_flavor_nrm.4.b
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 0
+				manpower = 5
+			}
+		}
+		FROM = {
+			country_event = {
+				id = vn_flavor_nrm.6
+				days = 15
+				random = 5
+				tooltip = vn_flavor_nrm.4.a.tt
+			}
+		}
+	}
+}
+
+#[FROM.GetName] Agrees to Send Troops
+country_event = {
+	id = vn_flavor_nrm.5
+	title = vn_flavor_nrm.5.t
+	desc = vn_flavor_nrm.5.d
+	picture = FARMING_eventPicture
+	
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = {
+			random_owned_province = {
+				limit = { is_in_capital_area = yes }
+				save_event_target_as = nrm_merc_province
+			}
+		}	
+	}
+	option = {
+		name = vn_flavor_nrm.5.a
+		goto = nrm_merc_province
+		ai_chance = { factor = 100 }
+		event_target:nrm_merc_province = {
+			add_unit_construction = {
+				type = infantry
+				amount = 4
+				speed = 0.1
+				cost = 0
+			}
+			add_unit_construction = {
+				type = cavalry
+				amount = 1
+				speed = 0.1
+				cost = 0
+			}
+		}
+		add_country_modifier = {
+			name = "nrm_sent_troops"
+			duration = 3650
+		}
+	}
+}
+
+#[FROM.GetName] Refuses to Send Troops
+country_event = {
+	id = vn_flavor_nrm.6
+	title = vn_flavor_nrm.6.t
+	desc = vn_flavor_nrm.6.d
+	picture = FARMING_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_flavor_nrm.6.a
+		ai_chance = { factor = 100 }
+		add_opinion = {
+			who = FROM
+			modifier = nrm_refused_troops
+		}
+	}
+}
+
+#Normandy wants to send mercenaries
+country_event = {
+	id = vn_flavor_nrm.7
+	title = vn_flavor_nrm.7.t
+	desc = vn_flavor_nrm.7.d
+	picture = MILITARY_CAMP_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_flavor_nrm.7.a
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 4
+				ai_attitude = {
+					who = FROM
+					attitude = attitude_friendly
+				}
+			}
+			modifier = {
+				factor = 4
+				ai_attitude = {
+					who = FROM
+					attitude = attitude_allied
+				}
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					who = FROM
+					value = 125
+				}
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					who = FROM
+					value = 150
+				}
+			}
+		}
+		add_treasury = -250
+		tooltip = { FROM = { add_treasury = 150 } }
+		create_general = {
+			culture = normand
+			tradition = 50
+		}
+		add_country_modifier = {
+			name = nrm_byzantine_bargains_mission
+			duration = 7300
+		}
+		add_opinion = {
+			who = ROOT
+			modifier = nrm_gave_troops
+		}
+		hidden_effect = {
+			FROM = {
+				set_country_flag = nrm_big_support
+				country_event = {
+					id = vn_flavor_nrm.3
+				}
+			}
+		}
+	}
+	option = {
+		name = vn_flavor_nrm.7.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				has_opinion = {
+					who = FROM
+					value = 125
+				}
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					who = FROM
+					value = 150
+				}
+			}
+		}
+		add_treasury = -150
+		tooltip = { FROM = { add_treasury = 150 } }
+		create_general = {
+			culture = normand
+			tradition = 25
+		}
+		add_country_modifier = {
+			name = nrm_byzantine_bargains_mission
+			duration = 3650
+		}
+		add_opinion = {
+			who = ROOT
+			modifier = nrm_gave_troops
+		}
+		hidden_effect = {
+			FROM = {
+				country_event = {
+					id = vn_flavor_nrm.3
+				}
+			}
+		}
+	}
+	option = {
+		name = vn_flavor_nrm.7.c
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 4
+				OR = {
+					ai_attitude = {
+						who = FROM
+						attitude = attitude_hostile
+					}
+					ai_attitude = {
+						who = FROM
+						attitude = attitude_rivalry
+					}
+					ai_attitude = {
+						who = FROM
+						attitude = attitude_outraged
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			FROM = {
+				country_event = {
+					id = vn_flavor_nrm.8
+				}
+			}
+		}
+	}
+}
+
+#Byzantium does not send troops
+country_event = {
+	id = vn_flavor_nrm.8
+	title = vn_flavor_nrm.8.t
+	desc = vn_flavor_nrm.8.d
+	picture = ATHENS_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = vn_flavor_nrm.8.a
+		ai_chance = { factor = 100 }
+		add_prestige = -1
+	}
+}
+
+########################################
+# Barcelona
+########################################
+namespace = vn_flavor_brc
+#Frankish Influence Wanes (62) (BRC)
+country_event = {
+	id = vn_flavor_brc.1
+	title = vn_flavor_brc.1.t
+	desc = vn_flavor_brc.1.d
+	picture = SIEGE_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = vn_flavor_brc.1.a
+		ai_chance = { factor = 100 }
+		add_prestige_or_monarch_power = { amount = 10 }
+		add_legitimacy_equivalent = {
+			amount = 15
+			republican_tradition = 7
+		}
+		add_country_modifier = {
+			name = "brc_frankish_yoke_lifted"
+			duration = 9125
 		}
 	}
 }
