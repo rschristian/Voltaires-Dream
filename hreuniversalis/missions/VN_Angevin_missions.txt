@@ -110,6 +110,20 @@ vn_anj_missions_slot_1_a = {
 				}
                 add_local_autonomy = -100
             }
+            raozhon_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            finistere_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
             add_country_modifier = {
                 name = "anj_loire_river_valley_mission"
                 duration = 9125
@@ -190,7 +204,11 @@ vn_anj_missions_slot_2_a = {
             }
         }
         effect = {
-            add_prestige_or_monarch_power = { amount = 15 } 
+            define_advisor = {
+                type = diplomat
+                skill = 3
+                cost_multiplier = 0.25
+            }
             bordeaux_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -220,17 +238,27 @@ vn_anj_missions_slot_2_a = {
             vn_anj_occupy_caen
         }
         trigger = {
-            is_subject = no
+            is_free_or_tributary_trigger = yes
             navy_size = 20
             army_size = 25
             if = {
                 limit = {
                     has_dlc = "Cradle of Civilization"
                 }
-                army_professionalism = 0.4
+                OR = {
+                    army_professionalism = 0.4
+                    has_high_monthly_monarch_power = {
+                        type = mil
+                    }
+                }
             }
             else = {
-                army_tradition = 40
+                OR = {
+                    army_tradition = 50
+                    has_high_monthly_monarch_power = {
+                        type = mil
+                    }
+                }
             }
             has_mil_advisor = yes
         }
@@ -244,7 +272,7 @@ vn_anj_missions_slot_2_a = {
 			}
 			else = { 
 				change_ruler_stat = {
-					stat = mil
+					type = mil
 					amount = 2
 				}
 			}
@@ -333,40 +361,27 @@ vn_anj_missions_slot_2_a = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
         }
         trigger = {
-            is_subject = no
-            ASE = {
+            is_free_or_tributary_trigger = yes
+            if = {
+                limit = { exists = ASE }
+                ASE = { is_subject_of = ROOT }
+            }
+            if = {
+                limit = { exists = ENG }
+                ENG = { is_subject_of = ROOT }
+            }
+            if = {
+                limit = { exists = GBR }
+                GBR = { is_subject_of = ROOT }
+            }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 30
                 OR = {
-                    exists = no
-                    is_subject_of = ROOT
+                    region = southwest_england_region
+                    region = southeast_england_region
+                    region = midlands_region
+                    region = northumbria_region
                 }
-            }
-            ENG = {
-                OR = {
-                    exists = no
-                    is_subject_of = ROOT
-                }
-            }
-            GBR = {
-                OR = {
-                    exists = no
-                    is_subject_of = ROOT
-                }
-            }
-            southwest_england_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            southeast_england_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            midlands_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
-            }
-            northumbria_region = {
-                type = all
-                country_or_non_sovereign_subject_holds = ROOT
             }
         }
         effect = {
@@ -495,15 +510,18 @@ vn_anj_missions_slot_3_a = {
 			}
         }
         trigger = {
-            maine_area = {
-                type = all
-                owned_by = ROOT
+            num_of_owned_provinces_with = {
+                value = 8
+                area = maine_area
                 is_core = ROOT
             }
         }
         effect = {
             add_stability_or_adm_power = yes
-            maine_area = { add_local_autonomy = -100 }
+            maine_area = {
+                limit = { owned_by = ROOT }
+                add_local_autonomy = -100
+            }
             tours_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -571,7 +589,7 @@ vn_anj_missions_slot_3_a = {
             }
         }
         effect = {
-            add_prestige_or_monarch_power = { amount = 10 } 
+            add_reform_progress_medium_effect = yes
             poitou_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -593,6 +611,10 @@ vn_anj_missions_slot_3_a = {
                 }
                 add_permanent_claim = ROOT
             }
+            add_country_modifier = {
+                name = anj_greater_anjou_mission
+                duration = 9125
+            }
         }
         ai_weight = {
 			factor = 500
@@ -613,7 +635,7 @@ vn_anj_missions_slot_3_a = {
             }
         }
         effect = {
-            add_prestige_or_monarch_power = { amount = 10 } 
+            add_prestige_or_monarch_power = { amount = 10 }
             caux_area = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -650,36 +672,19 @@ vn_anj_missions_slot_3_a = {
 			811 = { country_or_non_sovereign_subject_holds = ROOT }
         }
         effect = {
+            add_war_exhaustion = -2
+            4060 = {
+                add_or_upgrade_manpower_building = yes
+            }
+            811 = {
+                add_or_upgrade_manpower_building = yes
+            }
             paris_area = {
                 limit = {
                     NOT = { is_core = ROOT }
                     NOT = { is_permanent_claim = ROOT }
                 }
                 add_permanent_claim = ROOT
-            }
-            4060 = {
-                if = {
-                    limit = {
-						NOT = { has_building = training_fields }
-						num_free_building_slots = 1
-                    }
-                    add_building = training_fields
-                }
-                else = {
-                    add_base_manpower = 2
-                }
-            }
-            811 = {
-                if = {
-                    limit = {
-						NOT = { has_building = training_fields }
-						num_free_building_slots = 1
-                    }
-                    add_building = training_fields
-                }
-                else = {
-                    add_base_manpower = 2
-                }
             }
         }
     }
@@ -756,11 +761,11 @@ vn_anj_missions_slot_4_a = {
                 limit = {
                     NOT = { tag = FRA }
                     NOT = { tag = AVE }
+                    NOT = { tag = FKE }
                 }
                 override_country_name = NEUSTRIA_NAME
                 set_country_flag = has_overriden_name_flag
             }
-            add_reform_progress_big_effect = yes
             champagne_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -797,7 +802,13 @@ vn_anj_missions_slot_5_a = {
 			}
         }
         effect = {
-			add_yearly_manpower = 1
+            custom_tooltip = vn_anj_angevin_castlebuilding.tt
+            hidden_effect = {
+                every_owned_province = {
+                    limit = { has_fort_trigger = yes }
+                    ROOT = { add_manpower = 0.5 }
+                }
+            }
             add_country_modifier = {
                 name = "anj_angevin_castlebuilding_mission"
                 duration = 9125
@@ -927,6 +938,7 @@ vn_anj_missions_slot_5_a = {
 					crown_land_share = 75
 				}
 			}
+            reform_level = 6
             NOT = { average_unrest = 1 }
         }
         effect = {
@@ -959,7 +971,7 @@ vn_anj_missions_slot_5_a = {
             }
             add_country_modifier = {
                 name = "anj_centralize_realm_mission"
-                duration = 18250
+                duration = -1
             }
         }
     }
@@ -985,21 +997,29 @@ vn_anj_missions_slot_5_b = {
                 province_id = 2489
                 province_id = 2177
             }
-            has_tax_building_trigger = no
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { num_of_times_improved = 5 }
+                has_tax_building_trigger = no
+            }
         }
         trigger = {
             NOT = { current_age = age_of_empire }
             1289 = {
 				owned_by = ROOT
+                num_of_times_improved = 5
                 has_tax_building_trigger = yes
             }
             2489 = {
 				owned_by = ROOT
+                num_of_times_improved = 5
                 has_tax_building_trigger = yes
             }
             2177 = {
 				owned_by = ROOT
+                num_of_times_improved = 5
                 has_tax_building_trigger = yes
+
             }
             if = {
                 limit = { has_estate = estate_church }
@@ -1053,19 +1073,47 @@ vn_anj_missions_slot_5_b = {
                 }
                 if = {
                     limit = { religion = catholic }
-                    NOT = {
-                        any_owned_province = {
-                            is_in_capital_area = yes
-                            NOT = { religion = catholic }
+                    if = { 
+                        limit = { 
+                            PAP = { exists = yes } 
+                        }
+                        PAP = {
+                            has_opinion = {
+                                who = ROOT 
+                                value = 150
+                            }
+                        }
+                    }
+                    custom_trigger_tooltip = {
+                        tooltip = vn_anj_loyalty_to_rome.tt
+                        NOT = {
+                            any_owned_province = {
+                                is_in_capital_area = yes
+                                NOT = { religion = catholic }
+                            }
                         }
                     }
                 }
                 else_if = {
                     limit = { religion = catholique }
-                    NOT = {
-                        any_owned_province = {
-                            is_in_capital_area = yes
-                            NOT = { religion = catholique }
+                    if = { 
+                        limit = { 
+                            AVI = { exists = yes } 
+                        }
+                        AVI = {
+                            has_opinion = {
+                                who = ROOT 
+                                value = 150
+                            }
+                        }
+                    }
+                    custom_trigger_tooltip = {
+                        tooltip = vn_anj_loyalty_to_rome.tt
+                        NOT = {
+                            any_owned_province = {
+                                is_in_capital_area = yes
+                                NOT = { religion = catholique }
+                            }
                         }
                     }
                 }
