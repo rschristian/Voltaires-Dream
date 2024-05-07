@@ -13,6 +13,7 @@ germanic_monarchy = {
 	}
 	lock_level_when_selected = yes
 	valid_for_nation_designer = yes
+	allow_force_tributary = no
 	nation_designer_cost = 10
 	nation_designer_trigger = {
 		OR = {
@@ -66,7 +67,7 @@ eastern_monarchy = {
 	allow_convert = no
 	allow_normal_conversion = no
 	potential = {
-		have_had_reform = eastern_monarchy
+		has_reform = eastern_monarchy
 	}
 	lock_level_when_selected = yes
 	valid_for_nation_designer = yes
@@ -75,9 +76,11 @@ eastern_monarchy = {
 	modifiers = {
 		governing_capacity = 600
 		all_estate_influence_modifier = 0.1
-		max_absolutism = -50
-		min_autonomy = 50
+		#min_autonomy = 50
+		yearly_corruption = 0.2
+		technology_cost = 0.1
 		block_introduce_heir = yes
+		max_absolutism = -50
 	}
 	conditional = {
 		allow = { 
@@ -108,8 +111,8 @@ eastern_monarchy = {
 		}
 	}
 	government_abilities = {
-		byzantine_succession_mechanic
 		#byzantine_feudalization_mechanic
+		byzantine_succession_mechanic
 	}
 	fixed_rank = 6
 }
@@ -390,8 +393,16 @@ prague_confederation_reform = {
 			}
 			tag = HGA
 		}
-		NOT = { has_country_flag = unlocked_utraquist_state_reform }
-		NOT = { has_country_flag = unlocked_taborite_state_reform }
+		NOT = {
+			has_unlocked_government_reform = {
+				government_reform = utraquist_state_reform
+			}
+		}
+		NOT = {
+			has_unlocked_government_reform = {
+				government_reform = taborite_state_reform
+			}
+		}
 	}
 	trigger = {
 		religion = hussite
@@ -1035,6 +1046,199 @@ integrate_the_tribes_reform = {
 	}
 	ai = {
 		factor = 2.5
+	}
+}
+
+royal_provosts_reform = {
+	icon = "capet"
+	allow_normal_conversion = yes
+	potential = {
+		has_reform = feudal_france_reform
+	}
+	trigger = {
+		has_reform = feudal_france_reform
+	}
+	modifiers = {
+		global_autonomy = -0.025
+		improve_relation_modifier = 0.25
+	}
+	government_abilities = {
+		france_mechanic
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+# the_haute_cour = {
+# 	icon = "horde_riding"
+# 	allow_normal_conversion = yes
+# 	potential = {
+# 		has_reform = holy_state_reform
+# 	}
+# 	trigger = {
+# 		has_reform = holy_state_reform
+# 	}
+# 	modifiers = {
+		
+# 	}
+# 	custom_attributes = {
+		
+# 	}
+# 	removed_effect = {
+		
+# 	}
+# 	effect = {
+		
+# 	}
+# 	ai = {
+# 		factor = 2.5
+# 	}
+# }
+
+# the_great_offices = {
+# 	icon = "horde_riding"
+# 	allow_normal_conversion = yes
+# 	potential = {
+# 		has_reform = holy_state_reform
+# 	}
+# 	trigger = {
+# 		has_reform = holy_state_reform
+# 	}
+# 	modifiers = {
+		
+# 	}
+# 	custom_attributes = {
+		
+# 	}
+# 	removed_effect = {
+		
+# 	}
+# 	effect = {
+		
+# 	}
+# 	ai = {
+# 		factor = 2.5
+# 	}
+# }
+
+expanded_witenagemot_reform = {
+	icon = "scottish_kingdom"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = expanded_witenagemot_reform
+			have_had_reform = expanded_witenagemot_reform
+			has_unlocked_government_reform = {
+				government_reform = expanded_witenagemot_reform
+			}
+		}
+	}
+	modifiers = {
+		advisor_pool = 1
+		same_culture_advisor_cost = -0.1
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+			NOT = { has_dlc = "Domination" }
+		}
+		has_parliament = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Domination"
+		}
+		has_parliament = yes
+		custom_attributes = {
+			english_parliament = yes
+		}
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+holy_rus_reform = {
+	icon = "english_conciliarism"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = holy_rus_reform
+			have_had_reform = holy_rus_reform
+			has_unlocked_government_reform = {
+				government_reform = holy_rus_reform
+			}
+		}
+	}
+	modifiers = {
+		church_loyalty_modifier = 0.1
+		yearly_patriarch_authority = 0.005
+		tolerance_own = 2
+	}
+	effect = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					has_tax_building_trigger = yes
+				}
+				add_province_modifier = {
+					name = gov_expanded_temple_rights_mod
+					duration = -1
+				}
+			}
+		}
+	}
+	post_removed_effect = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					has_province_modifier = gov_expanded_temple_rights_mod
+				}
+				remove_province_modifier = gov_expanded_temple_rights_mod
+			}
+		}
+	}
+	conditional = {
+		allow = { NOT = { has_dlc = "Third Rome" } }
+		custom_attributes = {
+			temples_modifier = yes
+		}
+	}
+	conditional = {
+		allow = { has_dlc = "Third Rome" }
+		custom_attributes = {
+			temples_modifier = yes
+			selling_titles_increases_pa = yes
+		}
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+the_court_of_love_reform = {
+	icon = "english_conciliarism"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = the_court_of_love_reform
+			have_had_reform = the_court_of_love_reform
+			has_unlocked_government_reform = {
+				government_reform = the_court_of_love_reform
+			}
+		}
+	}
+	modifiers = {
+		improve_relation_modifier = 0.25
+		female_advisor_chance = 0.25
+		monthly_chivalric_virtuousness = 0.05
+	}
+	government_abilities = {
+		chivalric_virtuousness_mechanic
+	}
+	ai = {
+		factor = 10
 	}
 }
 
