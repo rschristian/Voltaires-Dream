@@ -1,0 +1,70 @@
+chivalric_virtuousness_mechanic = {
+	alert_icon_gfx = GFX_VN_alerticons_government_mechanics
+	alert_icon_index = 3
+	available = { }
+
+	powers = {
+		chivalric_virtuousness = {
+			max = 100
+			reset_on_new_ruler = no
+			base_monthly_growth = 0
+			development_scaled_monthly_growth = 0
+			scaled_modifier = {
+				modifier = {
+					morale_damage_received = -0.1
+					army_tradition_from_battle = 1
+					diplomatic_reputation = 2
+					monthly_chivalric_virtuousness = -0.5
+				}
+			}
+			is_good = yes
+		}
+	}
+	
+	interactions = {
+		promote_chivalric_virtues = {
+			gui = hessian_militarization_gov_mech
+			cost_type = chivalric_virtuousness
+			center = no
+			trigger = {
+				NOT = {
+					has_government_power = {
+						mechanic_type = chivalric_virtuousness_mechanic
+						power_type = chivalric_virtuousness
+						value = 100
+					}
+				}
+				prestige = 10
+			}
+			effect = {
+				add_prestige = -10
+				add_government_power = {
+					mechanic_type = chivalric_virtuousness_mechanic
+					power_type = chivalric_virtuousness
+					value = 5
+				}
+			}
+			ai_chance = {
+				factor = 10
+				modifier = {
+					factor = 0
+					is_at_war = no
+				}
+				modifier = {
+					factor = 0
+					NOT = { prestige = 20 }
+				}
+				modifier = {
+					factor = 0
+					NOT = {
+						has_government_power = {
+							mechanic_type = chivalric_virtuousness_mechanic
+							power_type = chivalric_virtuousness
+							value = 90
+						}
+					}
+				}
+			}
+		}
+	}
+}
