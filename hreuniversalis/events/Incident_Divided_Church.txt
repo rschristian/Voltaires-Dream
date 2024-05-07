@@ -1,6 +1,6 @@
-# namespace = incident_divided_church
+# # namespace = incident_divided_church
 
-# #event to start the incident
+# # #event to start the incident
 # country_event = {
 # 	id = incident_divided_church.1
 # 	title = "incident_divided_church.1.t"
@@ -50,7 +50,7 @@
 # 	}
 # }
 
-# #let emperor decide to end the schism or not
+# # #let emperor decide to end the schism or not
 # country_event = {
 # 	id = incident_divided_church.2
 # 	title = "incident_divided_church.2.t"
@@ -61,18 +61,48 @@
 
 # 	option = {
 # 		name = incident_divided_church.2.a
-# 		add_papal_influence = -10
+# 		ai_chance = {
+# 			factor = 15
+# 		}
 # 		add_prestige = -10
 # 		add_imperial_influence = -10
-# 		custom_tooltip = incident_divided_church.2.tt
+# 		#custom_tooltip = incident_divided_church.2.tt
 # 	}
 # 	option = {
 # 		name = incident_divided_church.2.b
-# 		set_global_flag = emperor_wants_to_end_schism
+# 		#set_global_flag = emperor_wants_to_end_schism
+# 		ai_chance = {
+# 			factor = 70
+# 		}
 # 		custom_tooltip = incident_divided_church.2.tt2
+# 		hidden_effect = {
+# 			1 = {
+# 				set_variable = {
+# 					which = WS_counting_variable
+# 					value = 0
+# 				}
+# 			}
+# 			every_country = {
+# 				limit = {
+# 					NOT = { tag = ROOT }
+# 					OR = {
+# 						religion = catholic
+# 						religion = catholique
+# 					}
+# 				}
+# 				country_event = {
+# 					id = incident_divided_church.3
+# 					days = 10
+# 					random = 30
+# 				}
+# 			}
+# 		}
 # 	}
 # 	option = {
 # 		name = incident_divided_church.2.c
+# 		ai_chance = {
+# 			factor = 15
+# 		}
 # 		change_religion = catholique
 # 		set_hre_religion = catholique
 # 		set_emperor = yes
@@ -87,14 +117,184 @@
 # 			}
 # 			every_country = {
 # 				limit = {
-# 					is_part_of_hre = yes
-# 					NOT = { tag = ROOT }
 # 					OR = {
-# 						religion = catholic
-# 						religion = catholique
+# 						tag = PAP
+# 						tag = AVI
+# 						AND = {
+# 							is_part_of_hre = yes
+# 							NOT = { tag = ROOT }
+# 							OR = {
+# 								religion = catholic
+# 								religion = catholique
+# 							}
+# 						}
 # 					}
 # 				}
-# 				country_event = { id = incident_divided_church.3 days = 10 random = 30 }
+# 				country_event = {
+# 					id = incident_divided_church.4
+# 					days = 10
+# 					random = 30
+# 				}
+# 			}
+# 		}
+# 	}
+# }
+
+# country_event = {
+# 	id = incident_divided_church.3
+# 	title = "incident_divided_church.3.t"
+# 	desc = "incident_divided_church.3.d"
+# 	picture = BAD_POPE_eventPicture
+
+# 	is_triggered_only = yes
+
+# 	option = {
+# 		name = incident_divided_church.3.a
+# 		ai_chance = {
+# 			factor = 50
+# 			modifier = {
+# 				factor = 0.1
+# 				is_subject_of_type = appanage
+# 			}
+# 			modifier = {
+# 				factor = 0.5
+# 				NOT = { has_opinion = { who = FROM value = -100 } }
+# 			}
+# 			modifier = {
+# 				factor = 0.5
+# 				NOT = { has_opinion = { who = FROM value = -50 } }
+# 			}
+# 			modifier = {
+# 				factor = 1.25
+# 				has_opinion = { who = FROM value = 50 }
+# 			}	
+# 			modifier = {
+# 				factor = 1.25
+# 				has_opinion = { who = FROM value = 100 }
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				alliance_with = FROM
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				is_subject_of = FROM
+# 			}
+# 			modifier = {
+# 				factor = 0
+# 				is_defender_of_faith = yes
+# 			}
+# 			modifier = {
+# 				factor = 0
+# 				is_papal_controller = yes
+# 			}
+# 			modifier = {
+# 				factor = 2
+# 				war_with = PAP
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				is_rival = PAP
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				is_enemy = PAP
+# 			}
+# 			modifier = {
+# 				factor = 2
+# 				war_with = AVI
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				is_rival = AVI
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				is_enemy = AVI
+# 			}
+# 			modifier = {
+# 				factor = 2
+# 				is_excommunicated = yes
+# 			}
+# 		}
+# 		add_prestige = 1
+# 		hidden_effect = {
+# 			1 = {
+# 				change_variable = {
+# 					which = WS_counting_variable
+# 					value = 1
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		name = incident_divided_church.3.b
+# 		ai_chance = {
+# 			factor = 50
+# 			modifier = {
+# 				factor = 0.5
+# 				NOT = { has_opinion = { who = PAP value = -100 } }
+# 			}
+# 			modifier = {
+# 				factor = 0.5
+# 				NOT = { has_opinion = { who = PAP value = -50 } }
+# 			}
+# 			modifier = {
+# 				factor = 1.25
+# 				has_opinion = { who = PAP value = 50 }
+# 			}	
+# 			modifier = {
+# 				factor = 1.25
+# 				has_opinion = { who = PAP value = 100 }
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				alliance_with = PAP
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				is_subject_of = PAP
+# 			}
+# 			modifier = {
+# 				factor = 0.5
+# 				NOT = { has_opinion = { who = AVI value = -100 } }
+# 			}
+# 			modifier = {
+# 				factor = 0.5
+# 				NOT = { has_opinion = { who = AVI value = -50 } }
+# 			}
+# 			modifier = {
+# 				factor = 1.25
+# 				has_opinion = { who = AVI value = 50 }
+# 			}	
+# 			modifier = {
+# 				factor = 1.25
+# 				has_opinion = { who = AVI value = 100 }
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				alliance_with = AVI
+# 			}
+# 			modifier = {
+# 				factor = 1.5
+# 				is_subject_of = AVI
+# 			}
+# 			modifier = {
+# 				factor = 1.25
+# 				invested_papal_influence = 25
+# 			}
+# 			modifier = {
+# 				factor = 1.25
+# 				invested_papal_influence = 50
+# 			}
+# 		}
+# 		add_papal_influence = 1
+# 		hidden_effect = {
+# 			1 = {
+# 				subtract_variable = {
+# 					which = WS_counting_variable
+# 					value = 1
+# 				}
 # 			}
 # 		}
 # 	}
@@ -102,34 +302,43 @@
 
 # #response if Catholique becomes official religion
 # country_event = {
-# 	id = incident_divided_church.3
-# 	title = "incident_divided_church.3.t"
-# 	desc = "incident_divided_church.3.d"
+# 	id = incident_divided_church.4
+# 	title = "incident_divided_church.4.t"
+# 	desc = "incident_divided_church.4.d"
 # 	picture = COUNCIL_TRENT_eventPicture
 
 # 	is_triggered_only = yes
 
 # 	option = {
-# 		name = incident_divided_church.3.a
+# 		name = incident_divided_church.4.a
 # 		trigger = {
-# 			religion = catholic
 # 			NOT = { tag = PAP }
+# 			NOT = { tag = AVI }
 # 		}
-# 		change_religion = catholique
-# 		capital_scope = {
+# 		if = {
+# 			limit = { religion = catholique }
+# 			add_papal_influence = 5
+# 			add_prestige = 5
+# 		}
+# 		else = {
 # 			change_religion = catholique
-# 		}
-# 		add_country_modifier = {
-# 			name = "conversion_zeal"
-# 			duration = 1825
+# 			capital_scope = {
+# 				change_religion = catholique
+# 			}
+# 			add_country_modifier = {
+# 				name = "conversion_zeal"
+# 				duration = 1825
+# 			}
 # 		}
 # 	}
 # 	option = {
-# 		name = incident_divided_church.3.b
+# 		name = incident_divided_church.4.b
 # 		trigger = {
-# 			religion = catholic
+# 			NOT = { religion = catholique }
 # 			NOT = { tag = PAP }
+# 			NOT = { tag = AVI }
 # 		}
+# 		add_prestige = -5
 # 		reverse_add_casus_belli = {
 # 			type = cb_religious_conformance
 # 			target = FROM
@@ -137,59 +346,116 @@
 # 		}
 # 	}
 # 	option = {
-# 		name = incident_divided_church.3.c
-# 		trigger = {
-# 			religion = catholique
-# 			NOT = { tag = AVI }
-# 		}
-# 		add_papal_influence = 10
-# 		add_prestige = 10
-# 	}
-# 	option = {
-# 		name = incident_divided_church.3.dd
+# 		name = incident_divided_church.4.c
 # 		trigger = {
 # 			tag = PAP
 # 		}
 # 		add_prestige = -50
-# 		set_in_empire = no
-# 	}
-# 	option = {
-# 		name = incident_divided_church.3.e
-# 		trigger = {
-# 			tag = AVI
+# 		if = {
+# 			limit = { is_part_of_hre = yes }
+# 			set_in_empire = no
 # 		}
-# 		set_in_empire = yes
-# 		FROM = {
-# 			capital_scope = {
-# 				add_cardinal = yes
-# 			}
+# 		reverse_add_opinion = {
+# 			who = FROM
+# 			modifier = opinion_favored_avignon_papacy_bad
 # 		}
-# 		every_country = {
-# 			limit = {
-# 				religion = catholique
-# 				is_part_of_hre = no
-# 			}
-# 			add_opinion = {
-# 				who = ROOT
-# 				modifier = opinion_avignon_joined_hre
-# 			}
+# 		add_opinion = {
+# 			who = FROM
+# 			modifier = opinion_favored_avignon_papacy_bad
 # 		}
 # 	}
 # 	option = {
-# 		name = incident_divided_church.3.f
+# 		name = incident_divided_church.4.dd
 # 		trigger = {
 # 			tag = AVI
 # 		}
-# 		add_prestige = 10
-# 		every_country = {
+# 		add_prestige = -50
+# 		if = {
+# 			limit = { is_part_of_hre = no }
+# 			set_in_empire = yes
+# 		}
+# 		reverse_add_opinion = {
+# 			who = FROM
+# 			modifier = opinion_favored_avignon_papacy_good
+# 		}
+# 		add_opinion = {
+# 			who = FROM
+# 			modifier = opinion_favored_avignon_papacy_good
+# 		}
+# 	}
+# }
+
+# #check if schism is mended or not
+# country_event = {
+# 	id = incident_divided_church.5
+# 	title = "incident_divided_church.5.t"
+# 	desc = "incident_divided_church.5.d"
+# 	picture = BAD_POPE_eventPicture
+
+# 	is_triggered_only = yes
+
+# 	option = {
+# 		name = incident_divided_church.5.a
+# 		if = {
 # 			limit = {
-# 				religion = catholique
-# 				is_part_of_hre = no
+# 				1 = {
+# 					NOT = {
+# 						check_variable = {
+# 							which = WS_counting_variable
+# 							value = 0
+# 						}
+# 					}
+# 				}
 # 			}
-# 			add_opinion = {
-# 				who = ROOT
-# 				modifier = opinion_avignon_rejected_hre
+# 			add_prestige = -20
+# 			add_imperial_influence = -20
+# 		}
+# 		else = {
+# 			add_prestige = 20
+# 			add_imperial_influence = 20
+# 			hidden_effect = {
+# 				every_country = {
+# 					limit = {
+# 						NOT = { tag = PAP }
+# 						NOT = { tag = AVI }
+# 						NOT = { tag = ROOT }
+# 						OR = {
+# 							religion = catholic
+# 							religion = catholique
+# 						}
+# 					}
+# 					country_event = {
+# 						id = incident_divided_church.6
+# 						days = 10
+# 						random = 30
+# 					}
+# 				}
 # 			}
 # 		}
+# 	}
+# }
+
+# #make countries catholic again
+# country_event = {
+# 	id = incident_divided_church.6
+# 	title = "incident_divided_church.6.t"
+# 	desc = "incident_divided_church.6.d"
+
+# 	is_triggered_only = yes
+
+# 	option = {
+# 		name = incident_divided_church.6.a
+# 		ai_chance = {
+# 			factor = 90
+# 		}
+# 		change_religion = catholic
+# 	}
+
+# 	option = {
+# 		name = incident_divided_church.6.b
+# 		ai_chance = {
+# 			factor = 10
+# 		}
+# 		add_prestige = 1
 # 	}
 # }
