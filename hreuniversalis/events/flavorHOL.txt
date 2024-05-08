@@ -209,6 +209,12 @@ country_event = {
 	mean_time_to_happen = {
 		months = 96
 	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = ned_dutch_republic_event_happened
+		}
+	}
 	
 	option = {
 		name = "flavor_hol.EVTOPTB3502" #Confederacy on Republican Model
@@ -307,11 +313,20 @@ country_event = {
 	fire_only_once = yes
 	
 	trigger = {
-		tag = NED
-		is_year = 1601
-		NOT = { is_year = 1626 }
+		OR = {
+			has_country_flag = ned_unlocked_military_reforms_flag
+			AND = {
+				tag = NED
+				is_year = 1601
+				NOT = { is_year = 1626 }
+			}
+		}
 	}
-	
+
+	immediate = {
+		set_country_flag = ned_unlocked_military_reforms_flag 
+	}
+
 	mean_time_to_happen = {
 		months = 50
 	}
@@ -392,13 +407,13 @@ country_event = {
 	
 	option = {
 		name = "flavor_hol.EVTOPTA3513" #Yes, we need Order!
-		add_republican_tradition = -20
+		add_legitimacy_equivalent = { amount = -20 }
 		add_stability_or_adm_power = yes
 		set_country_flag = ned_hereditary_stadtholder
 	}
 	option = {
 		name = "flavor_hol.EVTOPTB3513" #No, we need Freedom!
-		add_republican_tradition = 10
+		add_legitimacy_equivalent = { amount = 10 }
 	}
 }
 
@@ -502,10 +517,15 @@ country_event = {
 	fire_only_once = yes
 	
 	trigger = {
-		tag = NED
-		is_year = 1575
-		NOT = { is_year = 1600 }
-		owns = 327
+		OR = {
+			has_country_flag = ned_unlocks_leiden_university
+			AND = {
+				tag = NED
+				is_year = 1575
+				NOT = { is_year = 1600 }
+				owns = 327
+			}
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -516,7 +536,10 @@ country_event = {
 		name = "flavor_hol.EVTOPTA1" #Sponsor the university
 		add_years_of_income = -0.25
 		add_prestige = 5
-		add_adm_power = 100
+		4383 = {
+			add_or_upgrade_university_building = yes
+		}
+		add_innovativeness_small_effect = yes
 	}
 	option = {
 		name = "flavor_hol.EVTOPTB1" #Do nothing
@@ -1358,5 +1381,438 @@ country_event = {
 			}
 		}
 		
+	}
+}
+
+country_event = { #The Great Council of the Low Countries
+	id = flavor_hol.200
+	title = flavor_hol.200.t 
+	desc = flavor_hol.200.d 
+	picture = DEBATE_REPUBLICAN_eventPicture
+	fire_only_once = yes
+	trigger = {
+		HOL = { is_subject_of = BUR }
+		BRB = { is_subject_of = BUR }
+		2729 = { country_or_non_sovereign_subject_holds = BUR }
+		is_year = 1460
+		NOT = { is_year = 1500 }
+	}
+
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	option = {	
+		name = flavor_hol.200.a 
+		
+		add_country_modifier = {
+			name = hol_parliament_of_mechelen_modifier
+			duration = 3650
+		}
+		HOL = { add_liberty_desire = -5 }
+		BRB = { add_liberty_desire = -5 }
+	}
+}
+
+country_event = { #The Shifting Winds of Trade
+	id = flavor_hol.201
+	title = flavor_hol.201.t 
+	desc = flavor_hol.201.d 
+	picture = HARBOUR_eventPicture
+	fire_only_once = yes
+	trigger = {
+		culture_group = dutch_group
+		capital_scope = { superregion = lowlands_superregion }
+		monthly_income = HSA
+		13 = {
+			trade_share = {
+				country = ROOT
+				share = 15
+			}
+		}
+		is_at_war = no
+		NOT = { is_year = 1500 }
+	}
+
+	mean_time_to_happen = {
+		months = 200
+	}
+	
+	option = {
+		name = flavor_hol.201.a 
+		
+		add_country_modifier = {
+			name = hol_influx_prosperity_modifier
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = hol_ample_grain_trade_modifier 
+			duration = 3650
+		}
+	}
+}
+
+country_event = {
+	id = flavor_hol.202
+	title = flavor_hol.202.t 
+	desc = flavor_hol.202.d 
+	picture = CITY_VIEW_eventPicture
+	fire_only_once = yes
+	trigger = {
+		owns_core_province = 2729
+		2729 = { 
+			NOT = { unrest = 1 }
+			if = { 
+				limit = { has_dlc = "Mandate of Heaven" } 
+				NOT = { devastation = 1 } 
+			}
+			num_of_times_improved = 5
+			num_of_buildings_in_province = 4
+		}
+		culture_group = dutch_group
+		is_subject = no
+		capital_scope = { superregion = lowlands_superregion }
+		NOT = { is_year = 1525 }
+	}
+	
+	option = {
+		name = flavor_hol.202.a 
+		
+		2729 = {
+			add_base_tax = 2
+		}
+		custom_tooltip = " "
+		2729 = { set_center_level_2_center_of_trade = yes }
+		custom_tooltip = " "
+		add_mercantilism_or_monarch_power = { amount = 1 } 
+	}
+}
+
+country_event = { #Doctorate Rights in the Netherlands
+	id = flavor_hol.203
+	title = flavor_hol.203.t 
+	desc = flavor_hol.203.d 
+	picture = UNIVERSITY_eventPicture
+	fire_only_once = yes
+	
+	trigger = {
+		tag = NED
+		num_of_owned_provinces_with = {
+			value = 12
+			development = 15
+			has_building = university
+			superregion = lowlands_superregion
+		}
+	}
+	
+	option = {
+		name = flavor_hol.203.a 
+		
+		if = {
+			limit = { has_dlc = "Rule Britannia" }
+			change_innovativeness = 3
+		}
+		else = {
+			random_owned_province = {
+				limit = {
+					development = 15
+					has_building = university
+					superregion = lowlands_superregion
+				} 
+				add_base_production = 1
+			}
+			random_owned_province = {
+				limit = {
+					development = 15
+					has_building = university
+					superregion = lowlands_superregion
+				}
+				add_base_tax = 1
+			}
+		}
+		add_country_modifier = {
+			name = ned_illustrious_schools_low_countries_modifier
+			duration = 5475
+		}
+	}
+}	
+
+country_event = { #The Port of Amsterdam 
+	id = flavor_hol.204
+	title = flavor_hol.204.t 
+	desc = flavor_hol.204.d 
+	picture = CITY_VIEW_eventPicture
+	fire_only_once = yes
+
+	trigger = {
+		culture_group = dutch_group
+		owns_core_province = 328
+		328 = { num_of_times_improved = 10 }
+		328 = { has_production_building_trigger = yes }
+		is_year = 1525
+	}
+
+	mean_time_to_happen = {
+		months = 500
+	}
+	
+	option = {
+		name = flavor_hol.204.a 
+		
+		328 = {
+			upgrade_production_building = yes
+		}
+	}
+}
+
+country_event = { #Rempbrant
+	id = flavor_hol.205
+	title = flavor_hol.205.t 
+	desc = flavor_hol.205.d 
+	picture = PAINTER_ARTIST_eventPicture
+	fire_only_once = yes
+	trigger = {
+		culture_group = dutch_group
+		capital_scope = { superregion = lowlands_superregion }
+		is_year = 1629
+		NOT = { is_year = 1670 }
+	}
+
+	mean_time_to_happen = {
+		months = 24
+	}
+	
+	option = {
+		name = flavor_hol.205.a 
+		
+		define_advisor = {
+			type = artist 
+			name = "Rembrandt van Rijn"
+			cost_multiplier = 0.25
+			skill = 3
+		}
+		if = {
+			limit = { has_dlc = "Rule Britannia" }
+			change_innovativeness = 3 
+		}
+		else = { add_dip_power = 50 }
+	}
+}
+
+country_event = { #Powerhouse in the Book Trade
+	id = flavor_hol.206
+	title = flavor_hol.206.t  
+	desc = flavor_hol.206.d 
+	picture = BIG_BOOK_eventPicture 
+	fire_only_once = yes
+
+	trigger = {
+		tag = NED
+		is_year = 1616
+		owns_core_province = 2383
+		is_at_war = no
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = {
+		name = flavor_hol.206.a 
+		
+		2383 = {
+			change_trade_goods = paper 
+			add_base_production = 3
+		}
+		change_price = {
+			trade_goods = paper
+			key = ned_dutch_bookmarket_key
+			value = 0.15
+			duration = -1
+		}
+	}
+}
+
+country_event = { #Jan Amos Comenius
+	id = flavor_hol.207
+	title = flavor_hol.207.t 
+	desc = flavor_hol.207.d 
+	picture = ADVISOR_eventPicture
+	fire_only_once = yes 
+	
+	trigger = {
+		tag = NED 
+		is_year = 1600 
+		NOT = { is_year = 1650 }
+		OR = { 
+			religion = protestant 
+			religion = reformed 
+			religion = anabaptist 
+			has_global_modifier_value = {
+				which = tolerance_heretic 
+				value = 2 
+			}
+		}
+	}
+	
+	mean_time_to_happen = { months = 48 } 
+	
+	option = { 
+		name = flavor_hol.207.a 
+		
+		define_advisor = {
+			type = philosopher
+			name = "Jan Amos Comenius"
+			culture = czech
+			skill = 3 
+			cost_multiplier = 0.25
+		}
+		if = { 
+			limit = { has_dlc = "Rule Britannia" }
+			change_innovativeness = 1 
+		}
+		else = { add_adm_power = 50 }
+	}
+}
+
+country_event = { #Antonie van Leeuwenhoek
+	id = flavor_hol.208
+	title = flavor_hol.208.t 
+	desc = flavor_hol.208.d 
+	picture = ADVISOR_eventPicture
+	fire_only_once = yes 
+	
+	trigger = {	
+		tag = NED 
+		is_year = 1630 
+		NOT = { is_year = 1720 }
+		OR = { 
+			religion = protestant 
+			religion = reformed 
+			religion = anabaptist
+			has_global_modifier_value = {
+				which = tolerance_heretic 
+				value = 2 
+			}
+		}
+	}
+	
+	mean_time_to_happen = { months = 120 }
+	
+	option = { 
+		name = flavor_hol.208.a 
+		
+		define_advisor = {
+			type = natural_scientist
+			name = "Antonie van Leeuwenhoek"
+			skill = 3
+			cost_multiplier = 0.25
+		}
+		if = { 
+			limit = { has_dlc = "Rule Britannia" }
+			change_innovativeness = 1 
+		}
+		else = { add_adm_power = 50 }
+	}
+}
+
+country_event = { #Jan Leeghwater
+	id = flavor_hol.209
+	title = flavor_hol.209.t 
+	desc = flavor_hol.209.d 
+	picture = ADVISOR_eventPicture
+	fire_only_once = yes 
+	
+	trigger = {
+		tag = NED 
+		is_year = 1575 
+		NOT = { is_year = 1625 }
+		any_owned_province = {
+			OR = {
+				development = 40
+				is_capital_of = ROOT
+				province_has_center_of_trade_of_level = 3
+				superregion = lowlands_superregion
+			}
+		}
+	}
+	
+	mean_time_to_happen = { months = 120 }
+	
+	option = {
+		name = flavor_hol.209.a 
+		
+		add_adm_power = 100
+		every_owned_province = {
+			limit = {
+				OR = {
+					development = 40
+					is_capital_of = ROOT
+					province_has_center_of_trade_of_level = 3
+				}
+				superregion = lowlands_superregion
+			}
+			add_base_tax = 1
+		}
+	}
+}
+
+country_event = { #Joost van den Vondel
+	id = flavor_hol.210
+	title = flavor_hol.210.t 
+	desc = flavor_hol.210.d 
+	picture = CULTURE_eventPicture
+	fire_only_once = yes 
+	trigger = {
+		tag = NED 
+		is_year = 1587 
+		NOT = { is_year = 1680 } 
+	}
+	mean_time_to_happen = { months = 120 } 
+	
+	option = { 
+		name = flavor_hol.210.a 
+		
+		add_dip_power = 50 
+		if = {
+			limit = { has_dlc = "Mandate of Heaven" }
+			add_splendor = 100
+		}
+		else = { add_prestige_or_monarch_power = { amount = 10 } }
+	}
+}
+
+country_event = { 
+	id = flavor_hol.211 
+	title = flavor_hol.211.t 
+	desc = flavor_hol.211.d 
+	picture = CONSORT_DOING_BADLY_eventPicture
+	fire_only_once = yes 
+	
+	trigger = { 
+		tag = NED 
+		NOT = { stability = 3 } 
+		num_of_loans = 1 
+		war_exhaustion = 3
+		OR = { 
+			is_bankrupt = yes 
+			NOT = { adm = 3 } 
+			NOT = { dip = 3 } 
+		}
+		is_at_war = yes 
+	}
+
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { 
+		name = flavor_hol.211.a
+		
+		kill_ruler = yes 
+		add_stability = -3
+		add_legitimacy = -25 
+		add_republican_tradition = -20
+		add_manpower = -0.002
 	}
 }

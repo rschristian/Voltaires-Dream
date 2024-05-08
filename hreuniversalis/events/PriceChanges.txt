@@ -112,21 +112,31 @@ country_event = {
 	}
 
 	immediate = {
-		hidden_effect = { set_global_flag = bottger_happened }
+		hidden_effect = { 
+			set_global_flag = bottger_happened 
+		}
 	}
 	
 	option = {
 		name = prices.3.a
+		502 = {
+			add_base_production = 4
+			change_trade_goods = chinaware
+			if = {
+				limit = { 
+					owner = { adm_tech = 16 } 
+				}
+				add_building = mills 
+			}
+			else = { add_or_upgrade_production_building = yes }
+		}
 		change_price = {
 			trade_goods = chinaware
 			key = JOHAN_FRIEDRICH_BOTTGER
 			value = -0.5
 			duration = -1
 		}
-		502 = {
-			add_base_tax = 4
-		}
-		add_prestige = 20
+		add_prestige_or_monarch_power = { amount = 20 }
 	}
 }
 
@@ -349,18 +359,31 @@ country_event = {
 	major = yes
 
 	trigger = {
-		has_idea = quest_for_the_new_world
-		num_of_ports = 4
-		NOT = { capital_scope = { continent = asia } }
-		technology_group = western
-		NOT = { has_global_flag = spice_trade_happened }
+		if = {
+			limit = { #So it's easier to see rather than a big OR
+				has_country_flag = orm_spice_trade_trigger_flag
+			}
+			always = yes
+		}
+		else = {
+			has_idea = quest_for_the_new_world
+			num_of_ports = 4
+			NOT = { capital_scope = { continent = asia } }
+			technology_group = western
+			NOT = { has_global_flag = spice_trade_happened }
+		}
 	}
 	
 	mean_time_to_happen = {
 		months = 1
 	}
 
-	
+	immediate = {
+		hidden_effect = {
+			set_global_flag = spice_trade_happened
+		}
+	}
+
 	option = {
 		name = prices.8.a
 		change_price = {
@@ -1789,6 +1812,7 @@ country_event = {
 					NOT = { province_id = 112 }
 				}
 				save_event_target_as = diamond_city
+				save_global_event_target_as = diamond_city_global
 			}
 		}
 	}
@@ -2095,7 +2119,9 @@ country_event = {
 	
 	option = {
 		name = prices.43.a
-		add_prestige = 15
+		add_prestige_or_monarch_power = {
+			amount = 15
+		}
 		change_price = {
 			trade_goods = glass
 			key = BOHEMIAN_GLASS
