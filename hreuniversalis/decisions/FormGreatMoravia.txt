@@ -1,0 +1,210 @@
+country_decisions = {
+
+	great_moravia = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_great_moravia_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { exists = GMA }
+			NOT = { tag = PAP }
+			NOT = { tag = AVI }
+			NOT = { tag = HLR }
+			OR = {
+				OR = {
+					tag = SLO
+					was_tag = SLO
+				}
+				OR = {
+					tag = MRV
+					was_tag = MRV
+				}
+				AND = {
+					OR = {
+						tag = BOH
+						was_tag = BOH
+					}
+					has_country_flag = boh_unlocked_great_moravia
+				}
+			}
+			is_colonial_nation = no
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1078
+				province_id = 5475
+				province_id = 458
+				province_id = 2419
+				province_id = 822
+				province_id = 1778
+				province_id = 834
+				province_id = 2841
+				province_id = 781
+				province_id = 1970
+				province_id = 2172
+				province_id = 2353
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 40
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			owns_core_province = 1078
+			owns_core_province = 5475
+			owns_core_province = 458
+			owns_core_province = 2419
+			owns_core_province = 822
+			owns_core_province = 1778
+			owns_core_province = 834
+			owns_core_province = 2841
+			owns_core_province = 781
+			owns_core_province = 1970
+			owns_core_province = 2172
+			owns_core_province = 2353
+		}
+		effect = {
+			if = {
+				limit = {
+					is_part_of_hre = yes
+					is_elector = no
+					is_emperor = no
+				}
+				emperor = {
+					add_opinion = {
+						who = root
+						modifier = opinion_left_empire
+					}
+				}
+				set_in_empire = no
+				emperor = {
+					country_event = { id = hre_event.5 }
+				}
+			}
+			add_prestige = 25
+			change_tag = GMA
+			if = {
+				limit = {
+					OR = {
+						is_elector = yes
+						is_part_of_hre = no
+					}
+				}
+				set_government_rank = 2
+			}
+			set_country_flag = formed_great_moravia_flag
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			if = {
+			# 	limit = {
+			# 		has_dlc = "Winds of Change"
+			# 		OR = {
+			# 			tag = BOH
+			# 			was_tag = BOH
+			# 		}
+			# 	}
+			# 	if = {
+			# 		limit = {
+			# 			has_country_flag = boh_empowered_ni
+			# 		}
+			# 		custom_tooltip = boh_moravia_form_bonus_ni_yes
+			# 		tooltip = {
+			# 			add_country_modifier = {
+			# 				name = czech_nationalism
+			# 				duration = -1
+			# 			}
+			# 		}
+			# 	}
+			# 	else = {
+			# 		custom_tooltip = boh_moravia_form_bonus_ni_no
+			# 		tooltip = {
+			# 			add_country_modifier = {
+			# 				name = czech_nationalism
+			# 				duration = -1
+			# 			}
+			# 		}
+			# 	}
+			# }
+			# hidden_effect = {
+			# 	if = {
+			# 		limit = {
+			# 			has_country_flag = boh_empowered_ni
+			# 		}
+			# 		add_country_modifier = {
+			# 			name = czech_nationalism
+			# 			duration = -1
+			# 		}
+			# 	}
+			# }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	restore_veligrad = {
+		major = yes
+		potential = {
+			OR = {
+				tag = GMA
+				was_tag = GMA
+			}
+			normal_or_historical_nations = yes
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { has_country_flag = restored_veligrad_flag }
+		}
+		allow = {
+			is_core = 5150
+			owns = 5150
+			NOT = { capital = 5150 }
+			is_at_war = no
+			adm_power = 100
+			5150 = {
+				development = 20
+			}
+			5150 = {
+				has_tax_building_trigger = yes
+			}
+			5150 = {
+				has_trade_building_trigger = yes
+			}
+			5150 = {
+				has_production_building_trigger = yes
+			}
+		}
+		provinces_to_highlight = {
+			province_id = 5150
+		}
+		effect = {
+			add_adm_power = -100
+			set_country_flag = restored_veligrad_flag
+			5150 = {
+				move_capital_effect = yes
+			}
+			5150 = {
+				add_province_modifier = {
+					name = boh_great_city_of_svatopluk
+					duration = 9125
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

@@ -18,6 +18,12 @@ country_decisions = {
 				ai = no
 			}
 			NOT = { exists = GER }
+			NOT = { tag = PAP }
+			NOT = { tag = AVI }
+			NOT = { tag = HLR }
+			NOT = { tag = ROM }
+			NOT = { tag = FKE }
+			NOT = { tag = EAH }
 			OR = {
 				tag = NGC
 				tag = SGC
@@ -77,11 +83,22 @@ country_decisions = {
 			}
 		}
 		allow = {
-			adm_tech = 54
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = remove_germany_tech_requirement_flag
+					}
+				}
+				adm_tech = 54
+			}
 			is_free_or_tributary_trigger = yes
-			is_at_war = no
 			is_nomad = no
-			is_emperor = no
+			OR = {
+				government = monarchy
+				government = republic
+				government = theocracy
+			}
+			is_at_war = no
 			owns_core_province = 1084	# Hamburg
 			owns_core_province = 2643	# Rostock
 			owns_core_province = 2652	# Berlin
@@ -131,7 +148,8 @@ country_decisions = {
 					country_event = { id = hre_event.5 }
 				}
 			}
-			set_government_rank = 6
+			custom_tooltip = become_an_empire_tt
+			hidden_effect = { set_government_rank = 6 }
 			germanynorth_superregion = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -155,6 +173,15 @@ country_decisions = {
 					has_custom_ideas = no
 				}
 				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			if = {
+				limit = { has_dlc = "Winds of Change" }
+				set_country_flag = GER_stuck_disunited
+				add_government_reform = german_cultural_disunity_reform
+				freeze_government_power = {
+					mechanic_type = cultural_unity_mechanic
+					power_type = cultural_unity
+				}
 			}
 		}
 		ai_will_do = {

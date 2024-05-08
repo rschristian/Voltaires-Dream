@@ -1,0 +1,142 @@
+country_decisions = {
+
+	hungarian_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_hungary_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
+			NOT = { exists = EAH }
+			NOT = { exists = HUN }
+			NOT = { tag = HUN }
+			OR = {
+				ai = no
+				AND = {
+					NOT = { exists = HUN }
+					num_of_cities = 6
+				}
+			}
+			NOT = { tag = HLR }
+			NOT = { tag = PAP }
+			NOT = { tag = FKE }
+			NOT = { tag = ROM }
+			NOT = { tag = AVI }
+			primary_culture = hungarian
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 445	# Sopron
+				province_id = 5475	# Buda
+				province_id = 512	# Torontal
+				province_id = 1185	# Debrecen
+				province_id = 1968	# Ung
+				province_id = 442	# Pressburg
+				province_id = 448	# Torda
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = HUN }
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+			is_nomad = no	
+			5475 = { 					# Buda/Transdanubia
+				is_state = yes
+			}			
+			owns_core_province = 445	# Sopron
+			owns_core_province = 5475	# Buda
+			owns_core_province = 512	# Torontal
+			owns_core_province = 1185	# Debrecen
+			owns_core_province = 1968	# Ung
+			OR = {
+				owns_core_province = 442 # Pressburg
+				owns_core_province = 448 # Torda
+			}
+		}
+		effect = {
+			add_prestige = 25
+			change_tag = HUN
+			on_change_tag_effect = yes
+			restore_country_name = yes
+			swap_non_generic_missions = yes
+			remove_non_electors_emperors_from_empire_effect = yes
+			5475 = {
+				move_capital_effect = yes
+			}
+			if = {
+				limit = { NOT = { government_rank = 5 } }
+				set_government_rank = 5
+			}
+			transdanubia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = HUN
+			}
+			danubia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = HUN
+			}
+			alfold_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = HUN
+			}
+			slovakia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = HUN
+			}
+			transylvania_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = HUN
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			if = {
+				limit = {
+					religion_group = christian
+					government = monarchy
+				}
+				add_government_reform = apostolic_kingdom
+			}
+			set_country_flag = formed_hungary_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 400 
+	}
+	
+}
