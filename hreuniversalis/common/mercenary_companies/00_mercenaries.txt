@@ -110,8 +110,13 @@ merc_black_army = {
 	trigger = {
 		is_allowed_to_recruit_mercenaries = yes
 		OR = {
+			custom_trigger_tooltip = {
+				tooltip = MERCENARY_SPECIAL_REWARD
+				has_country_flag = hab_black_army_unlocked
+			}
 			has_country_modifier = hun_black_army
 			has_reform = black_army_reform
+			has_reform = expanded_black_army_reform
 		}
 	}
 	cost_modifier = 0.75
@@ -131,7 +136,10 @@ merc_black_army_2 = {
 	sprites = { dlc102_hun_sprite_pack easterngfx_sprite_pack }
 	trigger = {
 		is_allowed_to_recruit_mercenaries = yes
-		has_reform = black_army_reform
+		OR = {
+			has_reform = black_army_reform
+			has_reform = expanded_black_army_reform
+		}
 	}
 	cost_modifier = 0.75
 	modifier = {
@@ -488,12 +496,17 @@ merc_hadjuks = {
 	sprites = { dlc102_wal_sprite_pack easterngfx_sprite_pack }
     trigger = {
 		is_allowed_to_recruit_mercenaries = yes
-		religion_group = christian
-		capital_scope = {
-			OR = {
-				superregion = balkans_superregion
-				superregion = carpathia_superregion
-				superregion = poland_superregion
+		if = {
+			limit = {
+				NOT = { has_country_flag = hordes_unlock_hungarian_mercenaries_flag }
+			}
+			religion_group = christian
+			capital_scope = {
+				OR = {
+					superregion = balkans_superregion
+					superregion = carpathia_superregion
+					superregion = poland_superregion
+				}
 			}
 		}
 	}
@@ -592,11 +605,16 @@ merc_seimeni = {
     home_province = 478
 	sprites = { dlc102_wal_sprite_pack easterngfx_sprite_pack }
     trigger = {
-		is_allowed_to_recruit_mercenaries = yes 
-		culture_group = vlach
-		custom_trigger_tooltip = {
-			tooltip = new_mercs_tt
-			has_global_flag = new_european_mercs
+		is_allowed_to_recruit_mercenaries = yes
+		if = {
+			limit = {
+				NOT = { has_country_flag = hordes_unlock_hungarian_mercenaries_flag }
+			}
+			culture_group = vlach
+			custom_trigger_tooltip = {
+				tooltip = new_mercs_tt
+				has_global_flag = new_european_mercs
+			}
 		}
 	}
 }
@@ -1527,7 +1545,13 @@ merc_tatar_vanguard = {
 	artillery_weight = 0
 	sprites = { dlc048_tim_sprite_pack muslimgfx_sprite_pack }
     trigger = { 
-		has_unlocked_merc_company = { merc_company = merc_tatar_vanguard }
+		or = {
+			has_unlocked_merc_company = { merc_company = merc_tatar_vanguard }
+			AND = {
+				is_allowed_to_recruit_mercenaries = yes
+				has_country_flag = unlocked_merc_tatar_vanguard
+			}
+		}
 	}
 	modifier = {
 		cavalry_shock = 0.5
@@ -1636,3 +1660,39 @@ wandering_knights_of_rhodes = {
 		morale_damage = 0.05
 	}
 }
+
+merc_gavras_house_guards = {
+    regiments_per_development = 0.08
+	mercenary_desc_key = FREE_OF_ARMY_PROFESSIONALISM_COST
+	cavalry_weight = 0 #Pure infantry
+	cavalry_cap = 0 
+	sprites = { dlc006_byz_sprite_pack easterngfx_sprite_pack } #Could be changed to Russian
+    trigger = {
+		is_allowed_to_recruit_mercenaries = yes
+		has_country_flag = unlocked_gavras_house_guards
+	}
+	modifier = { 
+		shock_damage_received = -0.1
+		fire_damage_received = -0.1
+		morale_damage_received = -0.1
+	}
+}
+
+# merc_ita_lost_legions = {
+#     regiments_per_development = 0.04
+#     home_province = 2972 # Paderborn
+# 	mercenary_desc_key = FREE_OF_ARMY_PROFESSIONALISM_COST
+# 	cavalry_weight = 0.1
+# 	cavalry_cap = 0 
+# 	sprites = { dlc006_byz_sprite_pack easterngfx_sprite_pack }
+#     trigger = {
+# 		is_allowed_to_recruit_mercenaries = yes
+# 		has_country_flag = ITA_lost_legions_flag
+# 	}
+# 	modifier = { 
+# 		infantry_power = 0.1
+# 		morale_damage_received = -0.15 
+# 		shock_damage_received = -0.15
+# 		fire_damage_received = 0.05
+# 	}
+# }
