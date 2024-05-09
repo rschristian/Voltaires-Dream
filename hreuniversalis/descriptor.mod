@@ -1,4 +1,4 @@
-version="2.2.10"
+version="2.2.11"
 tags={
 	"Map"
 	"Religion"
@@ -22,5 +22,5 @@ replace_path="history/wars"
 replace_path="gfx/loadingscreens"
 replace_path="dlc_metadata/dlc_recommendations"
 name="Voltaire's Nightmare"
-supported_version="1.36.*"
+supported_version="v1.37.*"
 remote_file_id="684459310"
