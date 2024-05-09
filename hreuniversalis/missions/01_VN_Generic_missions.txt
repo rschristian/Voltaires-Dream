@@ -39,6 +39,33 @@ VN_naval_missions = {
 			navy_size_percentage = 0.8
 		}
 		effect = {
+			if = {
+				limit = {
+					NOT = {
+						navy_tradition = 40
+					}
+				}
+				create_admiral = { tradition = 40 }
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						navy_tradition = 60
+					}
+				}
+				create_admiral = { tradition = 60 }
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						navy_tradition = 80
+					}
+				}
+				create_admiral = { tradition = 80 }
+			}
+			else = {
+				create_admiral = { tradition = 100 }
+			}
 			add_country_modifier = {
 				name = "naval_enthusiasm_mission"
 				duration = 9125
@@ -151,6 +178,7 @@ VN_trade_missions = {
 			}
 		}
 		effect = {
+			add_mercantilism_or_monarch_power = { amount = 3 }
 			hidden_effect = {
 				home_trade_node_effect_scope = {
 					random_trade_node_member_province = {
@@ -248,6 +276,13 @@ VN_diplomatic_missions = {
 			}
 		}
 		effect = {
+			define_advisor = {
+				type = diplomat
+				skill = 1
+				culture = ROOT
+				religion = ROOT
+				cost_multiplier = 0.5
+			}
 			add_country_modifier = {
 				name = "influential_diplomacy"
 				duration = 9125
@@ -260,6 +295,10 @@ VN_diplomatic_missions = {
 		position = 2
 		trigger = { num_of_non_tributary_subjects = 2 }
 		effect = {
+			add_dip_power = 100
+			every_subject_country = {
+				add_liberty_desire = -10
+			}
 			add_country_modifier = {
 				name = "obedient_subjects"
 				duration = 9125
@@ -443,9 +482,10 @@ vn_expansion_missions = {
 			}
 		}
 		effect = {
-			add_dip_power = 50
-			add_adm_power = 50
-			add_mil_power = 50
+			add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 25
+			}
 			add_country_modifier = {
 				name = "hegemonic_ambition"
 				duration = 9125
@@ -618,6 +658,7 @@ vn_military_missions = {
 		position = 7
 		trigger = { army_size = 80 }
 		effect = {
+			add_army_tradition_or_mil_power = { amount = 20 }
 			add_country_modifier = {
 				name = "army_enthusiasm"
 				duration = 9125
@@ -694,6 +735,7 @@ vn_buildings_missions = {
 		position = 6
 		trigger = { treasury = 2000 }
 		effect = {
+			add_corruption = -2
 			add_country_modifier = {
 				name = "strong_treasury"
 				duration = 9125
@@ -758,6 +800,13 @@ vn_development_missions = {
         position = 5
 		trigger = { share_of_starting_income = 1.5 }
 		effect = {
+			define_advisor = {
+				type = treasurer
+				skill = 1
+				culture = ROOT
+				religion = ROOT
+				cost_multiplier = 0.5
+			}
 			add_country_modifier = {
 				name = "growing_economy"
 				duration = 9125
