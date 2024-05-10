@@ -3222,110 +3222,111 @@ estate_nobles_improve_prestige = {
 
 #Mamluk Privileges as a reward of mam_recruit_the_mamluks
 
-estate_nobles_mam_three_privileges = {
-	can_select = {
-		NOT = {
-			num_of_estate_privileges = {
-				estate = estate_nobles
-				value = 3
-			}
-		}
-		has_country_flag = mam_access_new_agendas_about_mamluks_flag
-	}
-	selection_weight = {
-		factor = 5
-	}
-	pre_effect = {
-		set_variable = {
-			which = estate_dhimmi_three_privileges_var
-			value = 0
-		}
-		if = {
-			limit = {
-				num_of_estate_privileges = {
-					estate = estate_nobles
-					value = 1
-				}
-			}
-			set_variable = {
-				which = estate_nobles_three_privileges_var
-				value = 2
-			}
-		}
-		else = {
-			set_variable = {
-				which = estate_nobles_three_privileges_var
-				value = 1
-			}
-		}
-	}
-	task_requirements = {
-		if = {
-			limit = {
-				has_estate_agenda_auto_completion = {
-					estate = estate_nobles
-				}
-			}
-			has_estate_agenda_auto_completion = {
-				estate = estate_nobles
-			}
-		}
-		else = {
-			if = {
-				limit = {
-					check_variable = {
-						which = estate_nobles_three_privileges_var
-						value = 2
-					}
-				}
-				num_of_estate_privileges = {
-					estate = estate_nobles
-					value = 3
-				}
-			}
-			else = {
-				num_of_estate_privileges = {
-					estate = estate_nobles
-					value = 2
-				}
-			}
-		}
-	}
-    task_completed_effect = {
-		on_completed_agenda_effect = {
-			estate = estate_nobles
-		}
-		add_estate_loyalty = {
-			estate = estate_nobles
-			loyalty = 20
-		}
-		if = {
-			limit = { has_government_mechanic = mamluk_mechanic }
-			add_government_power = {
-				mechanic_type = mamluk_mechanic
-				power_type = mamluk_mil_power
-				value = 10
-			}
-		}
-		else = {
-			add_mil_power = 25
-		}
-    }
-    failing_effect = {
-		on_failed_agenda_effect = yes
-		clr_auto_complete_flag = yes
-        add_estate_loyalty_modifier = {
-            estate = estate_nobles
-			desc = EST_VAL_AGENDA_DENIED
-			loyalty = -5
-			duration = 7300
-        }
-    }
-}
+# estate_nobles_mam_three_privileges = {
+# 	can_select = {
+# 		NOT = {
+# 			num_of_estate_privileges = {
+# 				estate = estate_nobles
+# 				value = 3
+# 			}
+# 		}
+# 		has_country_flag = mam_access_new_agendas_about_mamluks_flag
+# 	}
+# 	selection_weight = {
+# 		factor = 5
+# 	}
+# 	pre_effect = {
+# 		set_variable = {
+# 			which = estate_dhimmi_three_privileges_var
+# 			value = 0
+# 		}
+# 		if = {
+# 			limit = {
+# 				num_of_estate_privileges = {
+# 					estate = estate_nobles
+# 					value = 1
+# 				}
+# 			}
+# 			set_variable = {
+# 				which = estate_nobles_three_privileges_var
+# 				value = 2
+# 			}
+# 		}
+# 		else = {
+# 			set_variable = {
+# 				which = estate_nobles_three_privileges_var
+# 				value = 1
+# 			}
+# 		}
+# 	}
+# 	task_requirements = {
+# 		if = {
+# 			limit = {
+# 				has_estate_agenda_auto_completion = {
+# 					estate = estate_nobles
+# 				}
+# 			}
+# 			has_estate_agenda_auto_completion = {
+# 				estate = estate_nobles
+# 			}
+# 		}
+# 		else = {
+# 			if = {
+# 				limit = {
+# 					check_variable = {
+# 						which = estate_nobles_three_privileges_var
+# 						value = 2
+# 					}
+# 				}
+# 				num_of_estate_privileges = {
+# 					estate = estate_nobles
+# 					value = 3
+# 				}
+# 			}
+# 			else = {
+# 				num_of_estate_privileges = {
+# 					estate = estate_nobles
+# 					value = 2
+# 				}
+# 			}
+# 		}
+# 	}
+#     task_completed_effect = {
+# 		on_completed_agenda_effect = {
+# 			estate = estate_nobles
+# 		}
+# 		add_estate_loyalty = {
+# 			estate = estate_nobles
+# 			loyalty = 20
+# 		}
+# 		if = {
+# 			limit = { has_government_mechanic = mamluk_mechanic }
+# 			add_government_power = {
+# 				mechanic_type = mamluk_mechanic
+# 				power_type = mamluk_mil_power
+# 				value = 10
+# 			}
+# 		}
+# 		else = {
+# 			add_mil_power = 25
+# 		}
+#     }
+#     failing_effect = {
+# 		on_failed_agenda_effect = yes
+# 		clr_auto_complete_flag = yes
+#         add_estate_loyalty_modifier = {
+#             estate = estate_nobles
+# 			desc = EST_VAL_AGENDA_DENIED
+# 			loyalty = -5
+# 			duration = 7300
+#         }
+#     }
+# }
 
 estate_nobles_mam_recruit_mamluks = {
 	can_select = {
-		has_country_flag = mam_access_new_agendas_about_mamluks_flag
+		has_dlc = "King of Kings"
+		#has_country_flag = mam_access_new_agendas_about_mamluks_flag
 		has_estate_privilege = estate_nobles_enlist_the_mamluks
 		if = {
 			limit = { NOT = { land_forcelimit = 200 } }
@@ -3335,8 +3336,10 @@ estate_nobles_mam_recruit_mamluks = {
 			NOT = { num_of_mamluks = 40 }
 		}
 		OR = {
+			tag = FTM
 			tag = MAM
 			has_government_mechanic = mamluk_mechanic
+			has_estate = estate_mamluks
 		}
 		NOT = { mamluks_percentage = 0.1 }
 	}
@@ -3347,11 +3350,11 @@ estate_nobles_mam_recruit_mamluks = {
 		if = {
 			limit = {
 				has_estate_agenda_auto_completion = {
-					estate = estate_nobles
+					estate = estate_mamluks
 				}
 			}
 			has_estate_agenda_auto_completion = {
-				estate = estate_nobles
+				estate = estate_mamluks
 			}
 		}
 		else = {
@@ -3364,10 +3367,10 @@ estate_nobles_mam_recruit_mamluks = {
 	}
     task_completed_effect = {
 		on_completed_agenda_effect = {
-			estate = estate_nobles
+			estate = estate_mamluks
 		}
 		add_estate_loyalty = {
-			estate = estate_nobles
+			estate = estate_mamluks
 			loyalty = 10
 		}
 		create_general = {
@@ -3380,7 +3383,7 @@ estate_nobles_mam_recruit_mamluks = {
 		on_failed_agenda_effect = yes
 		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
-            estate = estate_nobles
+            estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
 			loyalty = -5
 			duration = 7300
@@ -3390,11 +3393,14 @@ estate_nobles_mam_recruit_mamluks = {
 
 estate_nobles_mam_develop_military_infrastructure = {
 	can_select = {
-		has_country_flag = mam_access_new_agendas_about_mamluks_flag
-		mil_tech = 8
+		has_dlc = "King of Kings"
+		#has_country_flag = mam_access_new_agendas_about_mamluks_flag
+		mil_tech = 38
 		OR = {
+			tag = FTM
 			tag = MAM
 			has_government_mechanic = mamluk_mechanic
+			has_estate = estate_mamluks
 		}
 		if = {
 			limit = { num_of_provinces_in_states = 150 }
@@ -3466,11 +3472,11 @@ estate_nobles_mam_develop_military_infrastructure = {
 		if = {
 			limit = {
 				has_estate_agenda_auto_completion = {
-					estate = estate_nobles
+					estate = estate_mamluks
 				}
 			}
 			has_estate_agenda_auto_completion = {
-				estate = estate_nobles
+				estate = estate_mamluks
 			}
 		}
 		else = {
@@ -3526,10 +3532,10 @@ estate_nobles_mam_develop_military_infrastructure = {
 	}
     task_completed_effect = {
 		on_completed_agenda_effect = {
-			estate = estate_nobles
+			estate = estate_mamluks
 		}
 		add_estate_loyalty = {
-			estate = estate_nobles
+			estate = estate_mamluks
 			loyalty = 15
 		}
 		add_yearly_manpower = 1
@@ -3538,7 +3544,7 @@ estate_nobles_mam_develop_military_infrastructure = {
 		on_failed_agenda_effect = yes
 		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
-            estate = estate_nobles
+            estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
 			loyalty = -5
 			duration = 7300
@@ -3548,8 +3554,10 @@ estate_nobles_mam_develop_military_infrastructure = {
 
 estate_nobles_mam_increase_army_tradition = {
 	can_select = {
-		has_country_flag = mam_access_new_agendas_about_mamluks_flag
+		has_dlc = "King of Kings"
+		#has_country_flag = mam_access_new_agendas_about_mamluks_flag
 		OR = {
+			tag = FTM
 			tag = MAM
 			has_estate_privilege = estate_nobles_enlist_the_mamluks
 		}
@@ -3562,11 +3570,11 @@ estate_nobles_mam_increase_army_tradition = {
 		if = {
 			limit = {
 				has_estate_agenda_auto_completion = {
-					estate = estate_nobles
+					estate = estate_mamluks
 				}
 			}
 			has_estate_agenda_auto_completion = {
-				estate = estate_nobles
+				estate = estate_mamluks
 			}
 		}
 		else = {
@@ -3575,10 +3583,10 @@ estate_nobles_mam_increase_army_tradition = {
 	}
     task_completed_effect = {
 		on_completed_agenda_effect = {
-			estate = estate_nobles
+			estate = estate_mamluks
 		}
 		add_estate_loyalty = {
-			estate = estate_nobles
+			estate = estate_mamluks
 			loyalty = 15
 		}
 		add_mil_power = 50
@@ -3587,7 +3595,7 @@ estate_nobles_mam_increase_army_tradition = {
 		on_failed_agenda_effect = yes
 		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
-            estate = estate_nobles
+            estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
 			loyalty = -5
 			duration = 7300
@@ -3598,8 +3606,10 @@ estate_nobles_mam_increase_army_tradition = {
 estate_nobles_mam_increase_army_professionalism = {
 	can_select = {
 		has_dlc = "Cradle of Civilization"
-		has_country_flag = mam_access_new_agendas_about_mamluks_flag
+		has_dlc = "King of Kings"
+		#has_country_flag = mam_access_new_agendas_about_mamluks_flag
 		OR = {
+			tag = FTM
 			tag = MAM
 			has_estate_privilege = estate_nobles_enlist_the_mamluks
 		}
@@ -3613,11 +3623,11 @@ estate_nobles_mam_increase_army_professionalism = {
 		if = {
 			limit = {
 				has_estate_agenda_auto_completion = {
-					estate = estate_nobles
+					estate = estate_mamluks
 				}
 			}
 			has_estate_agenda_auto_completion = {
-				estate = estate_nobles
+				estate = estate_mamluks
 			}
 		}
 		else = {
@@ -3626,10 +3636,10 @@ estate_nobles_mam_increase_army_professionalism = {
 	}
     task_completed_effect = {
 		on_completed_agenda_effect = {
-			estate = estate_nobles
+			estate = estate_mamluks
 		}
 		add_estate_loyalty = {
-			estate = estate_nobles
+			estate = estate_mamluks
 			loyalty = 15
 		}
 		add_absolutism = 5
@@ -3644,7 +3654,7 @@ estate_nobles_mam_increase_army_professionalism = {
 		on_failed_agenda_effect = yes
 		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
-            estate = estate_nobles
+            estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
 			loyalty = -5
 			duration = 7300
@@ -3658,7 +3668,8 @@ estate_nobles_mam_focus_on_military_matters = {
 			has_dlc = "Res Publica"
 			has_dlc = "Common Sense"
 		}
-		has_country_flag = mam_access_new_agendas_about_mamluks_flag
+		has_dlc = "King of Kings"
+		#has_country_flag = mam_access_new_agendas_about_mamluks_flag
 		NOT = { national_focus = MIL }
 	}
 	selection_weight = {
@@ -3668,11 +3679,11 @@ estate_nobles_mam_focus_on_military_matters = {
 		if = {
 			limit = {
 				has_estate_agenda_auto_completion = {
-					estate = estate_nobles
+					estate = estate_mamluks
 				}
 			}
 			has_estate_agenda_auto_completion = {
-				estate = estate_nobles
+				estate = estate_mamluks
 			}
 		}
 		else = {
@@ -3681,10 +3692,10 @@ estate_nobles_mam_focus_on_military_matters = {
 	}
     task_completed_effect = {
 		on_completed_agenda_effect = {
-			estate = estate_nobles
+			estate = estate_mamluks
 		}
 		add_estate_loyalty = {
-			estate = estate_nobles
+			estate = estate_mamluks
 			loyalty = 15
 		}
 		capital_scope = { add_base_manpower = 1 }
@@ -3693,7 +3704,7 @@ estate_nobles_mam_focus_on_military_matters = {
 		on_failed_agenda_effect = yes
 		clr_auto_complete_flag = yes
         add_estate_loyalty_modifier = {
-            estate = estate_nobles
+            estate = estate_mamluks
 			desc = EST_VAL_AGENDA_DENIED
 			loyalty = -5
 			duration = 7300

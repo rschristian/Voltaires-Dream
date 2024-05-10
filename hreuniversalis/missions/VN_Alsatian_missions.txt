@@ -53,38 +53,21 @@ vn_als_missions_slot_1 = {
 			}
         }
         effect = {
-			if = { 
-				limit = { has_dlc = "Rule Britannia" }
-				add_innovativeness_big_effect = yes
-			}
-			else = {
-				add_adm_power = 50
-				add_dip_power = 50
-				add_mil_power = 50
-			}
-			if = {
-				limit = { 
-					NOT = { is_institution_enabled = printing_press } 
-				}
-				custom_tooltip = mng_before_printing_press_embraced_tt
-				hidden_effect = { 
-					every_owned_province = { 
-						limit = {
-							trade_goods = paper 
-							base_production = 10 
-							has_production_building_trigger = yes 
-						}
-						add_institution_embracement = {
-							which = printing_press 
-							value = 100 
-						}
-					}
-				}
-			}
+			add_innovativeness_big_effect = yes
             add_country_modifier = {
                 name = als_pioneer_the_printing_press_mission #technology/idea cost
                 duration = 9125
             }
+			complex_dynamic_effect = {
+				first_custom_tooltip = YUA_IF_NO_PRINTING_PRESS
+				first_limit = "
+					NOT = { is_institution_enabled = printing_press }
+				"
+				first_effect = "
+					custom_tooltip = YUA_CAPITAL_WILL_GAIN_PRINTING_PRESS_WHEN_INSTITUTION_FIRES
+					set_country_flag = yua_guaranteed_printing_press
+				"
+			}
         }
 		ai_weight = {
 			factor = 500
@@ -102,10 +85,12 @@ vn_als_missions_slot_1 = {
 			}
 		}
 		trigger = {
-			OR = {
-				current_age = age_of_absolutism
-				current_age = age_of_revolutions
-				current_age = age_of_ideology
+			custom_trigger_tooltip = {
+				tooltip = boh_50_years_reformation
+				had_global_flag = {
+					flag = reformation_started
+					days = 18250
+				}
 			}
             alsace_region = {
 				type = all
@@ -262,15 +247,12 @@ vn_als_missions_slot_2 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            baden_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}   			
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 20
+				region = baden_region
+			}  			
         }
         effect = {
-			add_adm_power = 25
-			add_dip_power = 25
-			add_mil_power = 25
 			wurttemburg_region = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -403,10 +385,6 @@ vn_als_missions_slot_3 = {
 			}		
         }
         effect = {
-			add_power_projection = {
-				type = 10_permanent_power_projection
-				amount = 10
-			}
             lorraine_region = {
                 limit = {
                     NOT = { is_core = ROOT }
@@ -423,7 +401,7 @@ vn_als_missions_slot_3 = {
             }  
 			add_country_modifier = {
 				name = "als_rot_un_wiss_mission" #Consolidation
-				duration = 36500
+				duration = -1
 			}
         }
     }
@@ -457,7 +435,10 @@ vn_als_missions_slot_4 = {
 			}   			
         }
         effect = {
-			297 = { add_random_development = 5 }
+			distribute_development = {
+				type = production
+				amount = 5
+			}
 			add_country_modifier = {
 				name = "als_to_the_saar_mission" #Tax Income
 				duration = 9125
@@ -473,10 +454,10 @@ vn_als_missions_slot_4 = {
             NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
         trigger = {
-            lorraine_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}   			
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 20
+				region = lorraine_region
+			}
         }
         effect = {
 			add_army_tradition_or_mil_power = { amount = 10 }
@@ -538,7 +519,16 @@ vn_als_missions_slot_5 = {
             } 			
         }
         effect = {
-			add_splendor = 100
+			if = {
+				limit = {
+					has_dlc = "Rights of Man"
+				}
+				custom_tooltip = boh_prevent_negative_traits
+				set_country_flag = boh_prevent_negative_traits
+			}
+			else = {
+				add_splendor = 100
+			}
 			add_country_modifier = {
 				name = "als_the_true_language_mission" #Culture Conversion
 				duration = 9125
