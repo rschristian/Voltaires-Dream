@@ -1,0 +1,591 @@
+# This file contains all triggers which are are needed for dynamic effects, but have more than 512 characters in total.
+tur_al_andalus_eyalet_limit_a = {
+	OR = {
+		any_subject_country = {
+			religion = ROOT
+			owns = 2670
+			owns = 443
+			owns = 4421
+			owns = 1867
+			num_of_owned_provinces_with = {
+				superregion = iberia_superregion
+				value = 25
+			}
+			capital_scope = {
+				superregion = iberia_superregion
+			}
+		}
+		any_ally = {
+			religion = ROOT
+			owns = 2670
+			owns = 443
+			owns = 4421
+			owns = 1867
+			num_of_owned_provinces_with = {
+				superregion = iberia_superregion
+				value = 25
+			}
+			capital_scope = {
+				superregion = iberia_superregion
+			}
+		}
+	}
+}
+
+BYZ_roman_empire_decision_trigger = {
+	OR = {
+		#Core Regions
+		superregion = anatolia_superregion
+		superregion = levant_superregion
+		superregion = italy_superregion
+		superregion = sicily_superregion
+		superregion = french_superregion
+		superregion = iberia_superregion
+		superregion = burgundian_superregion
+		superregion = balkans_superregion
+		superregion = switzerland_superregion
+		superregion = austria_superregion
+		area = commagene_area
+		area = upper_armenia_area
+		#England
+		region = midlands_region
+		region = southeast_england_region
+		region = southwest_england_region
+		region = northumbria_region
+		#Areas within South Germany
+		region = rhenish_region
+		region = alsace_region
+		region = palatinate_region
+		region = luxemburg_region
+		region = wallonian_region
+		region = netherlands_region
+		region = bavaria_region
+		region = swabia_region
+		region = baden_region
+		region = wurttemburg_region
+		#Carthage
+		region = rif_region
+		region = tlemcen_region
+		region = inner_tunisia_region
+		region = coastal_tunisia_region
+		region = kabylia_region
+		region = coastal_libya_region
+		region = inner_egypt_region
+		region = lower_egypt_region
+		region = middle_egypt_region
+		#Danubia
+		region = transdanubia_region
+	}
+	NOT = { region = arabia_region }
+}
+
+BYZ_has_rights_of_man = {
+	has_dlc = "Rights of Man"
+}
+
+BYZ_has_leviathan = {
+	has_dlc = "Leviathan"
+}
+
+BYZ_eligible_province_for_culture_conversion = {
+	OR = {
+		region = opsikion_region
+		region = thrakesion_region
+		#AND = {
+			#owner = {
+			#	mission_completed = BYZ_avenge_1071
+			#}
+			superregion = anatolia_superregion
+		#}
+	}
+}
+
+BYZ_reached_pronia_slot_limit = {
+	variable_arithmetic_trigger = {
+		export_to_variable = {
+			variable_name = current_amount_of_pronoiars
+			value = modifier:pronoia_amount_check_influence
+		}
+		export_to_variable = {
+			variable_name = max_amount_of_pronoiars
+			value = modifier:num_of_pronoiars
+		}
+		check_variable = {
+			which = current_amount_of_pronoiars
+			which = max_amount_of_pronoiars
+		}
+	}
+}
+
+BYZ_enough_pronoia_slots = {
+	variable_arithmetic_trigger = {
+		export_to_variable = {
+			variable_name = current_amount_of_pronoiars
+			value = modifier:pronoia_amount_check_influence
+		}
+		export_to_variable = {
+			variable_name = max_amount_of_pronoiars
+			value = modifier:num_of_pronoiars
+		}
+		NOT = {
+			check_variable = {
+				which = current_amount_of_pronoiars
+				which = max_amount_of_pronoiars
+			}
+		}
+	}
+}
+
+BYZ_branch_trigger = {
+	custom_trigger_tooltip = {
+		tooltip = BYZ_this_is_a_branching_mission
+		always = no
+	}
+}
+
+byz_is_in_middle_east_or_europe = {
+	capital_scope = {
+		OR = {
+			continent = europe
+			superregion = levant_superregion
+			superregion = mesopotamia_superregion
+			superregion = africa_superregion
+		}
+	}
+}
+
+BYZ_historical_interest_against_ottomans = {
+	OR = {
+		tag = POL
+		tag = LIT
+		tag = HUN
+		tag = HAB
+		tag = ALB
+	}
+}
+
+BYZ_is_not_latin_empire = {
+	if = {
+		limit = {
+			tag = LAE
+			OR = {
+				religion = catholic
+				religion = catholique
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = BYZ_may_not_complete_as_catholic_latin_empire
+			always = no
+		}
+	}
+}
+
+ITA_branch_trigger = {
+	custom_trigger_tooltip = {
+		tooltip = ITA_this_is_a_branching_mission
+		always = no
+	}
+}
+
+GER_can_integrate_culture = {
+	NOT = { has_country_flag = GER_integrated_$culture$ }
+	NOT = { has_country_flag = GER_integrating_$culture$ }
+	any_owned_province = {
+		culture = $culture$ 
+	}
+	NOT = { primary_culture = $culture$ }
+}
+
+GER_can_integrate_a_culture = {
+	OR = {
+		GER_can_integrate_culture = { culture = pommeranian }
+		GER_can_integrate_culture = { culture = austrian }
+		GER_can_integrate_culture = { culture = bavarian }
+		GER_can_integrate_culture = { culture = swiss }
+		GER_can_integrate_culture = { culture = swabian }
+		GER_can_integrate_culture = { culture = franconian }
+		GER_can_integrate_culture = { culture = saxon }
+		GER_can_integrate_culture = { culture = hessian }
+		GER_can_integrate_culture = { culture = hannoverian }
+		GER_can_integrate_culture = { culture = lower_saxon }
+		GER_can_integrate_culture = { culture = prussian }
+	}
+}
+
+GER_integrating_a_culture = {
+	OR = {
+		has_country_flag = GER_integrating_pommeranian
+		has_country_flag = GER_integrating_austrian
+		has_country_flag = GER_integrating_bavarian
+		has_country_flag = GER_integrating_swiss
+		has_country_flag = GER_integrating_swabian
+		has_country_flag = GER_integrating_franconian
+		has_country_flag = GER_integrating_saxon
+		has_country_flag = GER_integrating_hessian
+		has_country_flag = GER_integrating_hannoverian
+		has_country_flag = GER_integrating_lower_saxon
+		has_country_flag = GER_integrating_prussian
+	}
+}
+
+GET_integrated_all_cultures = {
+	has_country_flag = GER_integrated_pommeranian
+	has_country_flag = GER_integrated_austrian
+	has_country_flag = GER_integrated_bavarian
+	has_country_flag = GER_integrated_swiss
+	has_country_flag = GER_integrated_swabian
+	has_country_flag = GER_integrated_franconian
+	has_country_flag = GER_integrated_saxon
+	has_country_flag = GER_integrated_hessian
+	has_country_flag = GER_integrated_hannoverian
+	has_country_flag = GER_integrated_lower_saxon
+	has_country_flag = GER_integrated_prussian
+}
+
+GER_num_of_cultures_accepted = {
+	calc_true_if = {
+		amount = $amount$
+		desc = GER_accepted_cultures
+		AND = {
+			OR = {
+				primary_culture = pommeranian
+				has_country_flag = GER_integrated_pommeranian
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = lower_saxon
+				has_country_flag = GER_integrated_lower_saxon
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = prussian
+				has_country_flag = GER_integrated_prussian
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = hannoverian
+				has_country_flag = GER_integrated_hannoverian
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = hessian
+				has_country_flag = GER_integrated_hessian
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = saxon
+				has_country_flag = GER_integrated_saxon
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = franconian
+				has_country_flag = GER_integrated_franconian
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = swabian
+				has_country_flag = GER_integrated_swabian
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = swiss
+				has_country_flag = GER_integrated_swiss
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = bavarian
+				has_country_flag = GER_integrated_bavarian
+			}
+		}
+		AND = {
+			OR = {
+				primary_culture = austrian
+				has_country_flag = GER_integrated_austrian
+			}
+		}
+	}
+}
+
+GER_is_accepting_culture_being_integrated = {
+	OR = {
+		AND = {
+			accepted_culture = pommeranian
+			has_country_flag = GER_integrating_pommeranian
+		}
+		AND = {
+			accepted_culture = prussian
+			has_country_flag = GER_integrating_prussian
+		}
+		AND = {
+			accepted_culture = lower_saxon
+			has_country_flag = GER_integrating_lower_saxon
+		}
+		AND = {
+			accepted_culture = hannoverian
+			has_country_flag = GER_integrating_hannoverian
+		}
+		AND = {
+			accepted_culture = hessian
+			has_country_flag = GER_integrating_hessian
+		}
+		AND = {
+			accepted_culture = saxon
+			has_country_flag = GER_integrating_saxon
+		}
+		AND = {
+			accepted_culture = franconian
+			has_country_flag = GER_integrating_franconian
+		}
+		AND = {
+			accepted_culture = swabian
+			has_country_flag = GER_integrating_swabian
+		}
+		AND = {
+			accepted_culture = swiss
+			has_country_flag = GER_integrating_swiss
+		}
+		AND = {
+			accepted_culture = bavarian
+			has_country_flag = GER_integrating_bavarian
+		}
+		AND = {
+			accepted_culture = austrian
+			has_country_flag = GER_integrating_austrian
+		}
+	}
+}
+
+GER_has_matching_culture = {
+	OR = {
+		AND = {
+			culture = pommeranian
+			owner = { has_country_flag = GER_integrating_pommeranian }
+		}
+		AND = {
+			culture = prussian
+			owner = { has_country_flag = GER_integrating_prussian }
+		}
+		AND = {
+			culture = lower_saxon
+			owner = { has_country_flag = GER_integrating_lower_saxon }
+		}
+		AND = {
+			culture = hannoverian
+			owner = { has_country_flag = GER_integrating_hannoverian }
+		}
+		AND = {
+			culture = hessian
+			owner = { has_country_flag = GER_integrating_hessian }
+		}
+		AND = {
+			culture = saxon
+			owner = { has_country_flag = GER_integrating_saxon }
+		}
+		AND = {
+			culture = franconian
+			owner = { has_country_flag = GER_integrating_franconian }
+		}
+		AND = {
+			culture = swabian
+			owner = { has_country_flag = GER_integrating_swabian }
+		}
+		AND = {
+			culture = swiss
+			owner = { has_country_flag = GER_integrating_swiss }
+		}
+		AND = {
+			culture = bavarian
+			owner = { has_country_flag = GER_integrating_bavarian }
+		}
+		AND = {
+			culture = austrian
+			owner = { has_country_flag = GER_integrating_austrian }
+		}
+	}
+}
+
+surpass_poland_complex_scripted_trigger = {
+	OR = {
+		AND = {
+			exists = PLC
+			PLC = { valid_for_personal_unions_trigger = yes }
+			valid_for_personal_unions_trigger = yes
+			PLC = { NOT = { total_own_and_non_tributary_subject_development = 400 } }
+		}
+		AND = {
+			exists = POL
+			POL = { valid_for_personal_unions_trigger = yes }
+			valid_for_personal_unions_trigger = yes
+			POL = { NOT = { total_own_and_non_tributary_subject_development = 400 } }
+		}
+	}
+}
+
+TIM_persia_tree_trigger = {
+	has_country_flag = TIM_persian_missions
+}
+
+TIM_nomad_tree_trigger = {
+	has_country_flag = TIM_nomad_missions
+}
+
+TIM_interested_in_persian_matter = {
+	always = no
+}
+
+TIM_enough_soyurghal_slots = {
+	variable_arithmetic_trigger = {
+		export_to_variable = {
+			variable_name = current_amount_of_soyurghals
+			value = modifier:soyurghals_amount_check_influence
+		}
+		export_to_variable = {
+			variable_name = max_amount_of_soyurghals
+			value = modifier:num_of_soyurghals
+		}
+		NOT = {
+			check_variable = {
+				which = current_amount_of_soyurghals
+				which = max_amount_of_soyurghals
+			}
+		}
+	}
+}
+
+TIM_reached_soyurghal_slot_limit = {
+	variable_arithmetic_trigger = {
+		export_to_variable = {
+			variable_name = current_amount_of_soyurghals
+			value = modifier:soyurghals_amount_check_influence
+		}
+		export_to_variable = {
+			variable_name = max_amount_of_soyurghals
+			value = modifier:num_of_soyurghals
+		}
+		check_variable = {
+			which = current_amount_of_soyurghals
+			which = max_amount_of_soyurghals
+		}
+	}
+}
+
+is_part_of_trunk_road = { 
+	always = no
+}
+
+every_trunk_road_province_trigger = {
+	always = no
+}
+
+reform_civil_registration_first_limit = {
+	if = {
+		limit = { has_estate = estate_eunuchs } 
+		has_estate_privilege = estate_eunuchs_land_rights_privilege
+	}
+	if = {
+		limit = { has_estate = estate_burghers } 
+		has_estate_privilege = estate_burghers_land_rights 
+	}
+	if = {
+		limit = { has_estate = estate_nobles } 
+		has_estate_privilege = estate_nobles_land_rights 
+	}
+	if = {
+		limit = { has_estate = estate_church } 
+		has_estate_privilege = estate_church_land_rights 
+	}
+	if = {
+		limit = { has_estate = estate_nomadic_tribes } 
+		has_estate_privilege = estate_nomadic_tribes_land_rights
+	}
+	OR = {
+		has_estate = estate_eunuchs
+		has_estate = estate_burghers
+		has_estate = estate_nobles
+		has_estate = estate_church
+		has_estate = estate_nomadic_tribes
+	}
+}
+
+reform_civil_registration_second_limit = {
+	NOT = {
+		if = {
+			limit = { has_estate = estate_eunuchs } 
+			has_estate_privilege = estate_eunuchs_land_rights_privilege
+		}
+		if = {
+			limit = { has_estate = estate_burghers } 
+			has_estate_privilege = estate_burghers_land_rights 
+		}
+		if = {
+			limit = { has_estate = estate_nobles } 
+			has_estate_privilege = estate_nobles_land_rights 
+		}
+		if = {
+			limit = { has_estate = estate_church } 
+			has_estate_privilege = estate_church_land_rights 
+		}
+		if = {
+			limit = { has_estate = estate_nomadic_tribes } 
+			has_estate_privilege = estate_nomadic_tribes_land_rights
+		}
+		OR = {
+			has_estate = estate_eunuchs
+			has_estate = estate_burghers
+			has_estate = estate_nobles
+			has_estate = estate_church
+			has_estate = estate_nomadic_tribes
+		}
+	}
+}
+
+is_tatar_nation = {
+	OR = {
+		tag = GOL
+		tag = CRI
+		tag = NOG
+		tag = KAZ
+		#tag = SIB
+		tag = BSH
+		tag = AST
+		tag = QAS
+	}
+}
+
+was_tatar_nation = {
+	OR = {
+		was_tag = GOL
+		was_tag = CRI
+		was_tag = NOG
+		was_tag = KAZ
+		#was_tag = SIB
+		was_tag = BSH
+		was_tag = AST
+		was_tag = QAS
+	}
+}
+
+is_mongol_nation = {
+	always = no
+}
+
+was_mongol_nation = {
+	always = no
+}
+
+is_monghulistan_nation = {
+	always = no
+}
+
+was_monghulistan_nation = {
+	always = no
+}
