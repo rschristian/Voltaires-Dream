@@ -55,9 +55,9 @@ vn_nor_missions_slot_1_a = {
         required_missions = { vn_nor_settle_succession }
         trigger = {
 			OR = {
-				ADM = 3
-				DIP = 3
-				MIL = 3
+				monthly_adm = 12
+				monthly_dip = 12
+				monthly_mil = 12
 			}
 			OR = {
 				ADM = 5
@@ -163,7 +163,7 @@ vn_nor_missions_slot_1_a = {
         position = 4
         required_missions = { vn_nor_institute_landslov }
         trigger = {
-			has_reform = germanic_monarchy
+			NOT = { corruption = 2 }
 			has_adm_advisor_2 = yes
 			has_dip_advisor_2 = yes
 			has_mil_advisor_2 = yes
@@ -183,11 +183,37 @@ vn_nor_missions_slot_1_a = {
 			}
         }
         effect = {
+			if = {
+				limit = {
+					has_estate = estate_nobles
+				}
+				complex_dynamic_effect = {
+					first_custom_tooltip = "vn_nor_establish_riksradet.tt"
+					first_limit = "
+						estate_loyalty = {
+							estate = estate_nobles
+							loyalty = 60 
+						}
+					"
+					first_effect = "
+						change_government_reform_progress = 75
+					"
+				}
+			}
+
+			if = {
+				limit = {
+					has_dlc = "Lions of the North"
+					government = monarchy
+					NOT = { has_reform = norwegian_parliamentary_monarchy }
+				}
+				add_government_reform = norwegian_parliamentary_monarchy
+			}
+
 			add_ruler_modifier = {
 				name = "nor_establish_riksradet_mission"
 				duration = -1
 			}
-			change_government_reform_progress = 25
         }
 	}
 }
@@ -219,65 +245,131 @@ vn_nor_missions_slot_1_b = {
 			}
         }
         effect = {
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				unlock_estate_privilege = {
+					estate_privilege = estate_nobles_leidang_conscription
+				}
+			}
+			add_army_tradition = 15
             add_ruler_modifier = {
 				name = "nor_modernize_huscarls_mission"
 				duration = -1
 			}
-			add_army_tradition = 15
         }
 	}
-}
-
-vn_nor_missions_slot_1_c = {
-    slot = 6
-    generic = no
-    ai = yes
-    potential = {
-        tag = NOR
-        NOT = { map_setup = map_setup_random }
-    }
-	has_country_shield = yes
-
-	vn_nor_bahus_fortress = {
-        icon = mission_castle_construction
-        position = 7
-		required_missions = {  }
-		provinces_to_highlight = {
-			province_id = 6023
-		}
+	vn_nor_raise_leidangr = {
+        icon = mission_expanded_leidang
+        position = 6
+        required_missions = { vn_nor_modernize_huscarls }
         trigger = {
-            6023 = {
-				owned_by = ROOT
-				is_core = ROOT
-				fort_level = 2
-				has_fort_trigger = yes
-				NOT = { is_capital_of = ROOT }
+			share_of_starting_income = 1.25
+			treasury = 200
+			NOT = { num_of_loans = 1 }
+			NOT = { navy_size_percentage = 1 }
+			naval_forcelimit = 10
+			num_of_ports = 1
+			if = {
+				limit = {
+					has_dlc = "Lions of the North"
+					has_estate = estate_nobles
+				}
+				has_estate_privilege = estate_nobles_leidang_conscription
 			}
         }
         effect = {
-            6023 = {
-				add_base_manpower = 1
-				add_province_modifier = {
-					name = "nor_bahus_fortress_mission"
-					duration = 18250
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				unlock_estate_privilege = {
+					estate_privilege = estate_nobles_leidang_mass_conscription
+				}
+				unlock_estate_privilege = {
+					estate_privilege = estate_nobles_leidang_elite_conscription
+				}
+			}
+			random_owned_province = {
+				limit = {
+					has_port = yes
+				}
+				add_unit_construction = {
+					type = galley
+					amount = 5
+					speed = 0.1
+					cost = 0
+				}
+				add_unit_construction = {
+					type = transport
+					amount = 5
+					speed = 0.1
+					cost = 0
 				}
 			}
         }
     }
-    vn_nor_improve_festning = {
-        icon = mission_european_castle 
-        position = 8
-		required_missions = { vn_nor_bahus_fortress }
+    vn_nor_support_crusades = {
+        icon = mission_crusade
+        position = 7
+        required_missions = { vn_nor_raise_leidangr }
         trigger = {
-            num_of_owned_provinces_with = {
-				value = 6
-				fort_level = 2
-				has_fort_trigger = yes
+			NOT = { current_age = age_of_empire }
+			if = {
+				limit = {
+					religion = catholic
+					current_age = age_of_empire
+					current_age = age_of_holy_wars
+					current_age = age_of_crisis
+				}
+				OR = {
+					is_in_war = {
+						casus_belli = cb_grand_crusade
+						attackers = ROOT
+					}
+					is_in_war = {
+						casus_belli = cb_grand_heretic
+						attackers = ROOT
+					}
+				}
+			}
+			else_if = {
+				limit = { religion_group = christian }
+				is_defender_of_faith = yes
+			}
+			else = {
+				religious_unity = 1
+			}
+	
+        }
+        effect = {
+			add_prestige_or_monarch_power = { amount = 10 } 
+            add_country_modifier = {
+				name = "fra_sanction_crusades_mission"
+				duration = 5475
+			}
+        }
+    }
+    vn_nor_a_worthy_epithet = {
+        icon = mission_king_of_franks
+        position = 8
+		required_missions = { vn_nor_support_crusades }
+		provinces_to_highlight = {
+			OR = {
+				region = palestine_region
+				region = outremer_region
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 5
+				OR = {
+					region = palestine_region
+					region = outremer_region
+				}
 			}
         }
         effect = {
 			add_ruler_modifier = {
-				name = "nor_improve_festning_mission"
+				name = "nor_a_worthy_epithet_mission"
 				duration = -1
 			}
         }
@@ -373,23 +465,25 @@ vn_nor_missions_slot_2_c = {
         position = 4
         required_missions = { vn_nor_institute_landslov }
         trigger = {
-            if = {
-				limit = { has_estate = estate_nobles }
+			if = {
+				limit = {
+					has_estate = estate_nobles
+				}
+				crown_land_share = 50
 				NOT = {
 					estate_influence = {
 						estate = estate_nobles
 						influence = 30
 					}
 				}
-				NOT = {
-					estate_territory = {
-						estate = estate_nobles
-						territory = 15
-					}
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 50
 				}
 			}
 			else = {
-				NOT = { average_autonomy = 10 }
+				stability = 1
+				NOT = { average_autonomy_above_min = 10 }
 			}
         }
         effect = {
@@ -411,101 +505,46 @@ vn_nor_missions_slot_2_d = {
     }
 	has_country_shield = yes
 
-	vn_nor_raise_leidangr = {
-        icon = mission_expanded_leidang
+	vn_nor_bahus_fortress = {
+        icon = mission_castle_construction
         position = 5
-        required_missions = { }
-        trigger = {
-			share_of_starting_income = 1.25
-			treasury = 200
-			NOT = { num_of_loans = 1 }
-			NOT = { navy_size_percentage = 1 }
-			naval_forcelimit = 10
-			if = {
-				limit = {
-					has_dlc = "Lions of the North"
-					has_estate = estate_nobles
-				}
-				has_estate_privilege = estate_nobles_leidang_conscription
-			}
-        }
-        effect = {
-			if = {
-				limit = { has_dlc = "Lions of the North" }
-				unlock_estate_privilege = {
-					estate_privilege = estate_nobles_leidang_mass_conscription
-				}
-				unlock_estate_privilege = {
-					estate_privilege = estate_nobles_leidang_elite_conscription
-				}
-			}
-			custom_tooltip = vn_will_receive_rewards_tt
-			random_owned_province = {
-				limit = { 
-					is_in_capital_area = yes 
-					has_port = yes
-				}
-				add_unit_construction = {
-					type = galley
-					amount = 5
-					speed = 0.1
-					cost = 0
-				}
-			}
-            random_owned_province = {
-				limit = { 
-					is_in_capital_area = yes
-					has_port = yes 
-				}
-				add_unit_construction = {
-					type = transport
-					amount = 5
-					speed = 0.1
-					cost = 0
-				}
-			}
-        }
-    }
-    vn_nor_support_crusades = {
-        icon = mission_crusade
-        position = 6
-        required_missions = { vn_nor_raise_leidangr }
-        trigger = {
-			is_in_war = {
-				casus_belli = cb_grand_crusade
-			}
-        }
-        effect = {
-			add_prestige_or_monarch_power = { amount = 10 } 
-            add_country_modifier = {
-				name = "fra_sanction_crusades_mission"
-				duration = 1825
-			}
-        }
-    }
-    vn_nor_a_worthy_epithet = {
-        icon = mission_king_of_franks
-        position = 7
-		required_missions = { vn_nor_support_crusades }
+		required_missions = {  }
 		provinces_to_highlight = {
-			OR = {
-				region = palestine_region
-				region = outremer_region
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			province_id = 6023
 		}
         trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 5
-				OR = {
-					region = palestine_region
-					region = outremer_region
+            6023 = {
+				owned_by = ROOT
+				is_core = ROOT
+				fort_level = 2
+				has_fort_trigger = yes
+				base_manpower = 10
+			}
+        }
+        effect = {
+            6023 = {
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = "nor_bahus_fortress_mission"
+					duration = -1
 				}
+			}
+        }
+    }
+    vn_nor_improve_festning = {
+        icon = mission_european_castle 
+        position = 6
+		required_missions = { vn_nor_bahus_fortress }
+        trigger = {
+            num_of_owned_provinces_with = {
+				value = 6
+				fort_level = 2
+				has_fort_trigger = yes
 			}
         }
         effect = {
 			add_ruler_modifier = {
-				name = "nor_a_worthy_epithet_mission"
+				name = "nor_improve_festning_mission"
 				duration = -1
 			}
         }
@@ -642,6 +681,18 @@ vn_nor_missions_slot_3_a = {
 			vn_nor_conquer_smaland 
 			vn_nor_conquer_stockholm
 		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2652
+				province_id = 402
+				province_id = 5793
+				province_id = 5889
+				province_id = 3427
+				province_id = 656
+				province_id = 6109
+			}
+			NOT = { is_strongest_trade_power = ROOT }
+		}
         trigger = {
 			calc_true_if = {
 				2652 = {
@@ -669,14 +720,16 @@ vn_nor_missions_slot_3_a = {
 			}
         }
         effect = {
-			add_ruler_modifier = {
-				name = "nor_control_baltic_trade_mission"
-				duration = -1
-			}
+
 			add_power_projection = {
                 type = mission_rewards_power_projection
                 amount = 20
             }
+
+			add_ruler_modifier = {
+				name = "nor_control_baltic_trade_mission"
+				duration = -1
+			}
         }
 	}
 	vn_nor_scandinavia_united = {
