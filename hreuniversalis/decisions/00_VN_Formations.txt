@@ -3284,26 +3284,31 @@ country_decisions = {
 				exile_heir_as = nrm_conquest_heir
 				exile_ruler_as = { name = nrm_conquest_ruler }
 				switch_tag = ENG
-				set_capital = 2268
-				set_ruler = nrm_conquest_ruler
-				set_heir = nrm_conquest_heir
-				if = {
-					limit = {
-						NOT = { government_rank = 5 }
+				ENG = {
+					set_capital = 2268
+					set_ruler = nrm_conquest_ruler
+					set_heir = nrm_conquest_heir
+					if = {
+						limit = {
+							NOT = { government_rank = 5 }
+						}
+						set_government_rank = 5
 					}
-					set_government_rank = 5
+					every_country = {
+						limit = { has_country_flag = was_ase_junior }
+						ENG = { create_union = PREV }
+						add_liberty_desire = -50
+					}
+					every_country = {
+						limit = { has_country_flag = was_ase_vassal }
+						ENG = { vassalize = PREV }
+						add_liberty_desire = -50
+					}
+					create_union = NRM
+					add_legitimacy = -20
+					add_prestige = 25
+					set_country_flag = normandy_conquered_england_flag
 				}
-				every_country = {
-					limit = { has_country_flag = was_ase_junior }
-					ENG = { create_union = PREV }
-					add_liberty_desire = -50
-				}
-				every_country = {
-					limit = { has_country_flag = was_ase_vassal }
-					ENG = { vassalize = PREV }
-					add_liberty_desire = -50
-				}
-				create_union = NRM
 				NRM = {
 					add_liberty_desire = -50
 					complete_mission = vn_nrm_english_succession
@@ -3312,9 +3317,10 @@ country_decisions = {
 				}
 			}
 			2268 = { change_culture = english }
-			add_legitimacy = -20
-			add_prestige = 25
-			set_country_flag = normandy_conquered_england_flag
+			tooltip = {
+				add_legitimacy = -20
+				add_prestige = 25
+			}
 		}
 		ai_will_do = {
 			factor = 1
