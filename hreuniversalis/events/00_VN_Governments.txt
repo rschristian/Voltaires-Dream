@@ -7,6 +7,7 @@ namespace = canton_events
 namespace = abbacy_events
 namespace = pap_faction_events
 namespace = sufi_order_events
+namespace = anglo_norman_monarchy_events
 
 #Italian Monarchy
 country_event = {
@@ -2468,8 +2469,23 @@ country_event = {
 	option = {
 		name = "FBIA153"
 		ai_chance = { factor = 0 }
-		trigger = { NOT = { has_reform = monastic_order_reform } }
-		add_government_reform = monastic_order_reform
+		trigger = {
+			NOT = { has_reform = monastic_order_reform }
+			NOT = { has_reform = priory_reform }
+		}
+		if = {
+			limit = {
+				OR = {
+					is_or_was_tag = { tag = QDL }
+					is_or_was_tag = { tag = ROT }
+					is_or_was_tag = { tag = THO }
+				}
+			}
+			add_government_reform = priory_reform
+		}
+		else = {
+			add_government_reform = monastic_order_reform
+		}
 		lose_reforms = 4
 	}
 
@@ -2964,3 +2980,99 @@ country_event = {
 		}
 	}
 }
+
+#Anglo-Norman monarchy
+# country_event = {
+# 	id = anglo_norman_monarchy_events.1
+# 	title = "anglo_norman_monarchy_events.1.t"
+# 	desc = "anglo_norman_monarchy_events.1.d"
+# 	picture = ANGRY_MOB_eventPicture
+# 	goto = celt_prov
+	
+# 	trigger = {
+# 		has_reform = anglo_norman_monarchy
+# 		NOT = { has_disaster = revolt_of_the_earls }
+# 		NOT = {
+# 			has_disaster_progress = {
+# 				disaster = revolt_of_the_earls
+# 				value = 1
+# 			}
+# 		}
+# 		any_owned_province = {
+# 			culture_group = celtic
+# 			NOT = { culture = cornish } # :(
+# 			can_spawn_rebels = nationalist_rebels
+# 		}
+# 	}
+
+# 	mean_time_to_happen = { 
+# 		months = 240
+# 		modifier = {
+# 			factor = 0.8
+# 			NOT = { stability = 1 }
+# 		}
+# 		modifier = {
+# 			factor = 0.8
+# 			is_at_war = yes
+# 		}
+# 		modifier = {
+# 			factor = 0.8
+# 			num_of_owned_provinces_with = {
+# 				value = 10
+# 				culture_group = celtic
+# 				NOT = { culture = cornish }
+# 			}
+# 		}
+# 		modifier = {
+# 			factor = 0.8
+# 			num_of_owned_provinces_with = {
+# 				value = 20
+# 				culture_group = celtic
+# 				NOT = { culture = cornish }
+# 			}
+# 		}
+# 		modifier = {
+# 			factor = 0.8
+# 			num_of_owned_provinces_with = {
+# 				value = 30
+# 				culture_group = celtic
+# 				NOT = { culture = cornish }
+# 			}
+# 		}
+# 	}
+
+# 	immediate = {
+# 		hidden_effect = {
+# 			random_owned_province = {
+# 				limit = {
+# 					culture_group = celtic
+# 					NOT = { culture = cornish }
+# 					can_spawn_rebels = nationalist_rebels
+# 				}
+# 				save_event_target_as = celt_prov
+# 			}
+# 		}
+# 	}
+
+# 	option = {
+# 		name = "anglo_norman_monarchy_events.1.a"
+# 		event_target:celt_prov = {
+# 			if = {
+# 				limit = {
+# 					ROOT = { total_development = 300 }
+# 				}
+# 				nationalist_rebels = 3
+# 			}
+# 			else_if = {
+# 				limit = {
+# 					ROOT = { total_development = 150 }
+# 				}
+# 				nationalist_rebels = 2
+# 			}
+# 			else = {
+# 				nationalist_rebels = 1
+# 			}
+# 		}
+# 	}
+# }
+

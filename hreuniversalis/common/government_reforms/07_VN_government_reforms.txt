@@ -1,4 +1,33 @@
 # T1 Reforms
+anglo_norman_monarchy = {
+	icon = "commander_king_reform"
+	allow_normal_conversion = no
+	potential = {
+		has_reform = anglo_norman_monarchy
+	}
+	lock_level_when_selected = yes
+	valid_for_nation_designer = no
+	start_territory_to_estates = 0.3
+	modifiers = {
+		max_absolutism = -30
+		all_estate_influence_modifier = 0.1
+		recover_army_morale_speed = 0.05
+	}
+
+	custom_attributes = {
+		enable_celtic_revolts = yes
+	}
+
+	conditional = {
+		allow = {
+			has_dlc = "King of Kings"
+		}
+		custom_attributes = {
+			civil_war_on_every_new_ruler = yes
+		}
+	}
+}
+
 germanic_monarchy = {
 	icon = "assembly_hall"
 	allow_normal_conversion = yes
@@ -305,6 +334,7 @@ crusader_order_reform = {
 				OR = {
 					has_reform = leading_clergy_reform
 					has_reform = monastic_order_reform
+					has_reform = priory_reform
 				}
 				OR = {
 					religion = catholic
@@ -333,6 +363,76 @@ crusader_order_reform = {
 	monastic = yes
 	custom_attributes = {
 		monastic_order = yes
+	}
+}
+
+priory_reform = {
+	icon = "queen"
+	allow_normal_conversion = no
+	valid_for_new_country = yes
+	rulers_can_be_generals = no
+	royal_marriage = no
+
+	factions = {
+		abb_cluniacs
+		abb_cistercians
+		abb_benedictines
+	}
+
+	potential = {
+		OR = {
+			has_reform = priory_reform
+			have_had_reform = priory_reform
+		}
+	}
+	trigger = {
+		if = {
+			limit = {
+				OR = {
+					has_reform = leading_clergy_reform
+					has_reform = monastic_order_reform
+					has_reform = crusader_order_reform
+				}
+				OR = {
+					religion = catholic
+					religion = catholique
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = reorganize_theocracy_tt
+				always = no
+			}
+		}
+	}
+
+	valid_for_nation_designer = yes
+	nation_designer_cost = 10
+
+	different_religion_acceptance = -20
+	different_religion_group_acceptance = -50
+
+	religion = yes
+	monastic = yes
+
+	is_eligible_for_hre_emperor = no
+
+	modifiers = {
+    	governing_capacity = 50
+		mercenary_manpower = 0.25
+		global_tax_modifier = 0.05
+		yearly_corruption = 0.25
+		female_advisor_chance = 1
+	}
+
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_devotion = yes
+	}
+
+	ai = {
+		factor = 0
 	}
 }
 
@@ -1283,10 +1383,16 @@ ora_et_labora_reform = {
 	icon = "church"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_benedictines_influence = 0.1
@@ -1327,10 +1433,16 @@ outsourced_labour = {
 	icon = "paper_with_seal_3"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_cluniacs_influence = 0.1
@@ -1345,10 +1457,16 @@ acquisition_of_granges_reform = {
 	icon = "dutch_flag"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_cistercians_influence = 0.1
@@ -1363,10 +1481,16 @@ episcopal_competences_reform = {
 	icon = "religious_leader"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_cistercians_influence = 0.1
@@ -1385,10 +1509,16 @@ electoral_capitulation_reform = {
 	icon = "conciliarism_reform"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		stability_cost_modifier = -0.1
@@ -1403,10 +1533,16 @@ temporary_abbots_reform = {
 	icon = "clergyman"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		max_absolutism = -10
@@ -1427,10 +1563,16 @@ empower_the_congregation_reform = {
 	icon = "monastic_elections_reform"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 		if = {
 			limit = { has_dlc = "Common Sense" }
 			OR = {
@@ -1456,10 +1598,16 @@ librarianship_renewal_reform = {
 	icon = "constitution"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_benedictines_influence = 0.1
@@ -1472,10 +1620,16 @@ strenghten_abbatial_hierarchy_reform = {
 	icon = "monastic_elections_reform"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_cluniacs_influence = 0.1
@@ -1488,10 +1642,16 @@ monastic_conservatism_reform = {
 	icon = "consolidate_power_in_cities_reform"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_cistercians_influence = 0.1
@@ -1504,10 +1664,16 @@ discipline_in_body_and_mind_reform = {
 	icon = "conciliarism_reform"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_cistercians_influence = 0.1
@@ -1520,10 +1686,16 @@ enforce_monastic_poverty_reform = {
 	icon = "clergyman"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		abb_benedictines_influence = 0.1
@@ -1538,10 +1710,16 @@ cooperative_monasteries = {
 	icon = "church"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		diplomatic_upkeep = 1
@@ -1554,10 +1732,16 @@ noble_chanceries_reform = {
 	icon = "nobleman"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		land_maintenance_modifier = -0.1
@@ -1570,10 +1754,16 @@ municipal_patron_reform = {
 	icon = "merchant"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		inflation_reduction = 0.1
@@ -1586,10 +1776,16 @@ enforce_libertas_ecclesiae_reform = {
 	icon = "religious_leader"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		state_maintenance_modifier = -0.25
@@ -1602,10 +1798,16 @@ admission_of_professors_reform = {
 	icon = "leviathan"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 		OR = {
 			full_idea_group = innovativeness_ideas
 			has_institution = enlightenment
@@ -1625,10 +1827,16 @@ invite_jesuits_reform = {
 	icon = "monks"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 		OR = {
 			religion = catholic
 			religion = catholique
@@ -1646,10 +1854,16 @@ absolutist_monastery_reform = {
 	icon = "enlightened_monarchy_reform"
 	allow_normal_conversion = yes
 	potential = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	trigger = {
-		has_reform = monastic_order_reform
+		OR = {
+			has_reform = monastic_order_reform
+			has_reform = priory_reform
+		}
 	}
 	modifiers = {
 		max_absolutism_effect = 0.1
