@@ -822,3 +822,194 @@ country_event = {
 
 
 #flavor_per.16 - 78 removed
+
+#The New Persian Horse
+country_event = {
+	id = flavor_per.54
+	title = flavor_per.54.t 
+	desc = flavor_per.54.d 
+	picture = QIZILBASH_CAVALRY_CHARGING_eventPicture
+	
+	is_triggered_only = yes 
+	
+	option = {	
+		name = flavor_per.54.a 
+		
+		custom_tooltip = per_based_on_our_movement_speed_tt
+		if = {
+			limit = {
+				has_global_modifier_value = {
+					which = movement_speed   
+					value = 0.3
+				}
+			}
+			custom_tooltip = per_very_swift_horses_tt
+			hidden_effect = { 
+				add_country_modifier = {
+					name = per_swift_horses_modifier 
+					duration = -1 
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_global_modifier_value = {
+					which = movement_speed   
+					value = 0.15
+				}
+			}
+			custom_tooltip = per_nimble_horses_tt
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_swift_horses2_modifier 
+					duration = -1 
+				}
+			}
+		}
+		else = { 
+			custom_tooltip = per_fast_horses_tt
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_swift_horses3_modifier 
+					duration = -1 
+				}
+			}
+		}
+		custom_tooltip = per_based_on_our_discipline_tt
+		if = {
+			limit = {
+				has_global_modifier_value = {
+					which = discipline    
+					value = 0.30
+				}
+			}
+			custom_tooltip = per_iron_discipline_horses_tt 
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_mount_discipline_modifier 
+					duration = -1 
+				}
+			}
+		}
+		else = { 
+			custom_tooltip = per_disciplined_horses_tt 
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_mount_discipline2_modifier 
+					duration = -1 
+				}
+			}
+		}
+		custom_tooltip = per_based_on_horse_provinces_tt
+		if = {
+			limit = { 
+				num_of_owned_provinces_with = {
+					trade_goods = horses 
+					value = 4 
+				}
+				trading_bonus = {
+					trade_goods = horses
+					value = yes
+				}
+			}
+			custom_tooltip = per_blooming_abundance_of_horses_tt
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_horse_population_boom_modifier 
+					duration = -1 
+				}
+			}
+		}
+		else_if = {
+			limit = { 
+				num_of_owned_provinces_with = {
+					trade_goods = horses 
+					value = 3
+				}
+			}
+			custom_tooltip = per_abundance_of_horses_tt
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_horse_population_boom2_modifier 
+					duration = -1 
+				}
+			}
+		}
+		else = {
+			custom_tooltip = per_horse_population_steady_increase_tt
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_horse_population_boom4_modifier 
+					duration = -1 
+				}
+			}
+		}
+		custom_tooltip = per_based_on_cav_combat_ability_tt
+		if = {
+			limit = {
+				has_global_modifier_value = {
+					which = cavalry_power    
+					value = 0.6
+				}
+			}
+			custom_tooltip = per_expanded_use_of_fire_arms_tt
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_firearm_charge_modifier 
+					duration = -1 
+				}
+			}
+		}
+		else = {
+			custom_tooltip = per_partial_use_of_fire_arms_tt
+			hidden_effect = {
+				add_country_modifier = {
+					name = per_firearm_charge2_modifier 
+					duration = -1 
+				}
+			}
+		}
+		if = {
+			limit = { 
+				OR = {	
+					any_ally = { has_estate = estate_cossacks }
+					any_subject_country = { has_estate = estate_cossacks } 
+				}
+			}
+			custom_tooltip = per_host_of_cossack_commanders_capital_tt
+			hidden_effect = {
+				capital_scope = { cossack_cavalry = ROOT }
+				capital_scope = { cossack_cavalry = ROOT }
+				capital_scope = { cossack_cavalry = ROOT }
+				capital_scope = { cossack_cavalry = ROOT }
+				capital_scope = { cossack_cavalry = ROOT }
+				capital_scope = { cossack_cavalry = ROOT }
+			}
+		}
+	}
+}
+
+#[Root.GetName] joins the [root.religion.getname] community
+country_event = {
+	id = flavor_per.72
+	title = flavor_per.72.t
+	desc = flavor_per.72.desc
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = flavor_per.72.a
+		custom_tooltip = flavor_per.72.a.tt
+		hidden_effect = {
+			every_known_country = {
+				limit = { religion_group = zoroastrian_group }
+				add_opinion = {
+					who = root
+					modifier = converted_to_zoroastrian
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
