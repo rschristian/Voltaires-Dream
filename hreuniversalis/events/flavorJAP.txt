@@ -345,98 +345,124 @@ country_event = {
 }
 
 # Lacquerware for the Emperor
-# country_event = {
-# 	id = flavor_jap.45
-# 	title = "flavor_jap.EVTNAME45"
-# 	desc = "flavor_jap.EVTDESC45"
-# 	picture = COURT_eventPicture
+country_event = {
+	id = flavor_jap.45
+	title = "flavor_jap.EVTNAME45"
+	desc = "flavor_jap.EVTDESC45"
+	picture = COURT_eventPicture
 
-# 	is_triggered_only = yes
+	is_triggered_only = yes
 	
-# 	trigger = {
-# 		has_reform = daimyo
-# 		culture_group = japanese_g
-# 		years_of_income = 0.6
-# 		NOT = {
-# 			any_known_country = {
-# 				has_reform = shogunate
-# 				war_with = ROOT
-# 			}
-# 		}
-# 	}
+	trigger = {
+		has_reform = tribal_kingdom
+		has_irish_clan_primary_culture_trigger = yes
+		NOT = { has_country_modifier = irish_high_king }
+		years_of_income = 0.6
+		NOT = {
+			any_known_country = {
+				has_country_modifier = irish_high_king
+				war_with = ROOT
+			}
+		}
+	}
 	
-# 	mean_time_to_happen = {
-# 		days = 1
-# 	}
+	mean_time_to_happen = {
+		days = 1
+	}
 	
-# 	option = {
-# 		name = "flavor_jap.EVTOPTA45"
-# 		add_years_of_income = -0.5
-# 		overlord = {
-# 			add_opinion = {
-# 				who = ROOT
-# 				modifier = opinion_pleased
-# 			}
-# 		}
-# 	}
+	option = {
+		name = "flavor_jap.EVTOPTA45"
+		add_years_of_income = -0.5
+		random_country = {
+			limit = {
+				has_country_modifier = irish_high_king
+				war_with = ROOT
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_pleased
+			}
+		}
+		add_faction_influence = {
+			faction = cla_filid
+			influence = 3
+		}
+	}
 	
-# 	option = {
-# 		name = "flavor_jap.EVTOPTB45"
-# 		add_prestige = -15
-# 	}
-# }
+	option = {
+		name = "flavor_jap.EVTOPTB45"
+		add_prestige = -15
+		add_faction_influence = {
+			faction = cla_filid
+			influence = -3
+		}
+	}
+}
 
 #  The First Sake
-# country_event = {
-# 	id = flavor_jap.46
-# 	title = "flavor_jap.EVTNAME46"
-# 	desc = "flavor_jap.EVTDESC46"
-# 	picture = COURT_eventPicture
+country_event = {
+	id = flavor_jap.46
+	title = "flavor_jap.EVTNAME46"
+	desc = "flavor_jap.EVTDESC46"
+	picture = COURT_eventPicture
 	
-# 	trigger = {
-# 		has_reform = daimyo
-# 		culture_group = japanese_g
-# 		NOT = {
-# 			any_known_country = {
-# 				has_reform = shogunate
-# 				war_with = ROOT
-# 			}
-# 		}
-# 		NOT = {
-# 			has_country_modifier = jap_first_sake
-# 		}
-# 		has_regency = no
-# 		is_month = 0
-# 		NOT = { is_month = 5 }
-# 	}
+	trigger = {
+		has_reform = tribal_kingdom
+		has_irish_clan_primary_culture_trigger = yes
+		NOT = { has_country_modifier = irish_high_king }
+		NOT = {
+			any_known_country = {
+				has_country_modifier = irish_high_king
+				war_with = ROOT
+			}
+		}
+		NOT = {
+			has_country_modifier = jap_first_sake
+		}
+		has_regency = no
+		is_month = 0
+		NOT = { is_month = 5 }
+	}
 	
-# 	mean_time_to_happen = {
-# 		months = 300
-# 		modifier = {
-# 			factor = 0.9
-# 			stability = 1
-# 		}
-# 	}
+	mean_time_to_happen = {
+		months = 300
+		modifier = {
+			factor = 0.9
+			stability = 1
+		}
+	}
 	
-# 	option = {
-# 		name = "flavor_jap.EVTOPTA46"
-# 		add_prestige = 15
-# 		overlord = {
-# 			add_opinion = {
-# 				who = ROOT
-# 				modifier = opinion_pleased
-# 			}
-# 		}
-# 	}
+	option = {
+		name = "flavor_jap.EVTOPTA46"
+		add_prestige = 15
+		random_country = {
+			limit = {
+				has_country_modifier = irish_high_king
+				war_with = ROOT
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_pleased
+			}
+		}
+		add_faction_influence = {
+			faction = cla_flatha
+			influence = 3
+		}
+	}
 	
-# 	option = {
-# 		name = "flavor_jap.EVTOPTB46"
-# 		add_country_modifier = {
-# 			name = jap_first_sake 
-# 			duration = 7300
-# 		}
-# 	}
-# }
+	option = {
+		name = "flavor_jap.EVTOPTB46"
+		add_country_modifier = {
+			name = jap_first_sake 
+			duration = 7300
+		}
+		add_faction_influence = {
+			faction = cla_flatha
+			influence = -3
+		}
+	}
+}
 
 # Calling up Recruits
 country_event = {
@@ -499,7 +525,49 @@ country_event = {
 	}
 }
 
-# flavor_jap.48 removed
+# Bushido
+country_event = {
+	id = flavor_jap.48
+	title = "flavor_jap.EVTNAME48"
+	desc = "flavor_jap.EVTDESC48"
+	picture = COURT_eventPicture
+
+	trigger = {
+		tag = IRE
+		years_of_income = 1.1
+		#has_global_flag = japan_has_encountered_the_west
+		NOT = { has_country_flag = jap_bushido }
+		OR = {
+			current_age = age_of_reformation
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+			current_age = age_of_ideology
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = jap_bushido
+		}
+	}
+	
+	option = {
+		name = "flavor_jap.EVTOPTA48"
+		add_army_tradition = -10
+		add_adm_power = 150
+	}
+	
+	option = {
+		name = "flavor_jap.EVTOPTB48"
+		add_years_of_income = -1
+		add_army_tradition = 10
+		add_mil_power = 150
+	}
+}
 
 # Spreading Rumors
 country_event = {
