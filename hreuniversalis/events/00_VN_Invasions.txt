@@ -11,7 +11,12 @@ province_event = {
 	trigger = {
 		controller = {
 			has_country_modifier = invasion_nation_m
-			NOT = { num_of_cities = 100 }
+			NOT = {
+				num_of_owned_provinces_with = {
+					value = 100
+					NOT = { superregion = persia_superregion }
+				}
+			}
 		}
 		owner = {
 			NOT = { has_country_modifier = invasion_nation_m }
@@ -45,6 +50,7 @@ province_event = {
 						superregion = central_asia_superregion
 						superregion = mesopotamia_superregion
 						superregion = anatolia_superregion
+						superregion = persia_superregion
 					}
 				}
 			}
@@ -99,6 +105,7 @@ province_event = {
 						superregion = central_asia_superregion
 						superregion = mesopotamia_superregion
 						superregion = anatolia_superregion
+						superregion = persia_superregion
 					}
 				}
 			}
@@ -117,7 +124,7 @@ country_event = {
     title = "invasion_events.2.t"
 	desc = "invasion_events.2.d"
 	picture = MONGOL_BANNERS_eventPicture
-	goto = 6374
+	goto = 7315
  
 	fire_only_once = yes
 	major = yes
@@ -127,7 +134,7 @@ country_event = {
 		NOT = { started_in = 1236.1.1 }
 		current_age = age_of_crisis
 		is_year = 1231
-		owns = 6374
+		owns = 7315
 		OR = {
 			ai = yes
 			num_of_cities = 2
@@ -146,7 +153,7 @@ country_event = {
 
 	option = {
 		name = "invasion_events.2.a"
-		6374 = {
+		7315 = {
 			add_core = ILK
 			cede_province = ILK
 			add_building = fort_14th
@@ -223,6 +230,9 @@ country_event = {
 				}
 				discover_provinces = ROOT
 			}
+			persia_superregion = {
+				add_claim = ILK
+			}
 			mesopotamia_superregion = {
 				add_claim = ILK
 			}
@@ -231,10 +241,6 @@ country_event = {
 				every_owned_province = {
 					add_claim = ILK
 				}
-			}
-			if = {
-				limit = { SJK = { has_country_modifier = extensive_holdings } }
-				SJK = { remove_country_modifier = extensive_holdings }
 			}
 		}
 	}
@@ -372,7 +378,7 @@ country_event = {
 	title = "invasion_events.4.t"
 	desc = "invasion_events.4.d"
 	picture = SIEGE_eventPicture
-	goto = 3559
+	goto = 7681
  
 	fire_only_once = yes
 	major = yes
@@ -383,7 +389,7 @@ country_event = {
 		is_year = 1500
 		NOT = { is_year = 1700 }
 		NOT = { exists = MGE }
-		owns = 3559
+		owns = 7681
 		OR = {
 			ai = yes
 			num_of_cities = 2
@@ -399,7 +405,7 @@ country_event = {
  
     option = {
 		name = "invasion_events.4.a"
-		3559 = {
+		7681 = {
 			add_core = PER
 			cede_province = PER
 		}
@@ -471,6 +477,9 @@ country_event = {
 				}
 				discover_provinces = ROOT
 			}
+			persia_superregion = {
+				add_claim = PER
+			}
 			mesopotamia_superregion = {
 				add_claim = PER
 			}
@@ -488,7 +497,7 @@ country_event = {
 	}
 }
 
-#Spawn SJK
+#SJK Invasion
 country_event = {
 	id = invasion_events.5
 	title = "invasion_events.5.t"
@@ -502,7 +511,7 @@ country_event = {
 		tag = BGH
 		NOT = { started_in = 1055.12.23 }
 		normal_or_historical_nations = yes
-		NOT = { exists = SJK }
+		SJK = { ai = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -519,84 +528,17 @@ country_event = {
 	
 	option = {
 		name = "invasion_events.4.a"
-		random_owned_province = {
-			limit = {
-				is_capital = no
-			}
-			add_core = SJK
-			cede_province = SJK
-			add_building = fort_14th
-		}
-		if = {
-			limit = { ai = yes }
-			SJK = { inherit = ROOT }
-			hidden_effect = { restore_country_name = yes }
-		}
-		else = {
-			SJK = {
-				declare_war_with_cb = {
-					casus_belli = cb_invasion
-					who = ROOT
-				}
+		SJK = {
+			declare_war_with_cb = {
+				casus_belli = cb_invasion
+				who = ROOT
 			}
 		}
 		hidden_effect = {
 			SJK = {
-				add_treasury = 200
-				add_prestige = 40
-				add_manpower = 5
-				add_accepted_culture = al_iraqiya_arabic
-				define_ruler = {
-					name = "Alp Arslan"
-					dynasty = "Selçukoglu"
-					adm = 5
-					dip = 5
-					mil = 5
-				}
-				remove_heir = {}
-				define_ruler_to_general = {
-					fire = 5
-					shock = 4
-					manuever = 1
-					siege = 3
-				}
-				add_ruler_personality = strict_personality
-				add_ruler_personality = conqueror_personality
 				add_country_modifier = {
 					name = "invasion_nation_m"
 					duration = 18250
-				}
-				if = {
-					limit = {
-						NOT = {
-							has_country_modifier = extensive_holdings
-						}
-					}
-					add_country_modifier = {
-						name = "extensive_holdings"
-						duration = -1
-					}
-				}
-				random_owned_province = {
-					build_to_forcelimit = {
-						infantry = 0.7
-						cavalry = 0.3
-					}
-				}
-				# if = {
-				# 	limit = { has_dlc = "Domination" }
-				# 	add_country_modifier = {
-				# 		name = zenith_of_the_seljuks
-				# 		duration = -1
-				# 		desc = until_end_of_age_desc
-				# 	}
-				# }
-				discover_provinces = ROOT
-			}
-			if = {
-				limit = { ai = no }
-				every_owned_province = {
-					add_claim = SJK
 				}
 			}
 		}
@@ -609,7 +551,7 @@ country_event = {
     title = "invasion_events.6.t"
 	desc = "invasion_events.6.d"
 	picture = SIEGE_eventPicture
-	goto = 3478
+	goto = 7334
  
 	fire_only_once = yes
 	major = yes
@@ -620,7 +562,7 @@ country_event = {
 		is_year = 1388
 		NOT = { is_year = 1550 }
 		NOT = { exists = MGE }
-		owns = 3478
+		owns = 7334
 		OR = {
 			ai = yes
 			num_of_cities = 2
@@ -636,7 +578,7 @@ country_event = {
  
     option = {
 		name = "invasion_events.4.a"
-		3478 = {
+		7334 = {
 			add_core = TIM
 			cede_province = TIM
 		}
@@ -708,6 +650,9 @@ country_event = {
 					}
 				}
 				discover_provinces = ROOT
+			}
+			persia_superregion = {
+				add_claim = TIM
 			}
 			mesopotamia_superregion = {
 				add_claim = TIM
