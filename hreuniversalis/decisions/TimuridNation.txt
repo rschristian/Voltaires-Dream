@@ -1,0 +1,134 @@
+country_decisions = {
+	
+	timurid_nation = {
+		major = yes
+		potential = {
+			is_year = 1400
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_timurids_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
+			NOT = { tag = PAP }
+			NOT = { tag = AVI }
+			NOT = { tag = HLR }
+			NOT = { tag = ROM }
+			NOT = { tag = FKE }
+			NOT = { tag = PER }
+			NOT = { tag = TIM }
+			NOT = { tag = ARB }
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+			OR = {
+				culture_group = iranian
+				primary_culture = turkmeni
+			}
+			religion_group = muslim
+			dynasty = "Barlas"
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 6439
+				province_id = 7554
+				province_id = 7574
+				province_id = 7448
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = TIM }
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			#owns_core_province = 446	# Herat
+			owns_core_province = 6439	# Samarkand
+			6439 = {						# Samarkand
+				is_state = yes
+			}
+			owns_core_province = 7554	# Isfahan
+			owns_core_province = 7574	# Qom
+			owns_core_province = 7448	# Shiraz
+		}
+		effect = {
+			6439 = {
+				move_capital_effect = yes
+			}
+			change_tag = TIM
+			#swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = {
+					NOT = { government_rank = 6 }
+				}
+				set_government_rank = 6
+			}
+			if = {
+				limit = {
+					NOT = { government = monarchy }
+				}
+				change_government = monarchy
+				add_government_reform = iqta
+			}
+			add_prestige = 25
+			add_country_modifier = {
+				name = centralization_modifier
+				duration = 3650
+			}
+			if = {
+				limit = {
+					NOT = { primary_culture = mongol }
+				}
+				change_primary_culture = mongol
+			}
+			persia_superregion = {
+				limit = {
+					NOT = { owned_by = TIM }
+					NOT = { is_core = TIM }
+				}
+				add_permanent_claim = TIM
+			}
+			khwarezmia_region = {
+				limit = {
+					NOT = { owned_by = TIM }
+					NOT = { is_core = TIM }
+				}
+				add_permanent_claim = TIM
+			}
+			mesopotamia_superregion = {
+				limit = {
+					NOT = { owned_by = TIM }
+					NOT = { is_core = TIM }
+				}
+				add_permanent_claim = TIM
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			set_country_flag = formed_timurids_flag
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { exists = PER }
+			}
+		}
+		ai_importance = 600
+	}
+}
