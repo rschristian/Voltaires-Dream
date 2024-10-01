@@ -280,6 +280,11 @@ cancel_seigneury = {
 			else = {
 				add_stability = -1
 			}
+			add_country_modifier = {
+				name = cancel_seigneury_timer
+				duration = 3650
+				hidden = yes
+			}
 		}
 		else_if = {
 			limit = {
@@ -295,6 +300,13 @@ cancel_seigneury = {
 			}
 			else = {
 				add_stability = -1
+			}
+			FROM = {
+				add_country_modifier = {
+					name = cancel_seigneury_timer
+					duration = 3650
+					hidden = yes
+				}
 			}
 		}
 	}
@@ -446,6 +458,336 @@ call_seigneury_into_wars = {
 
 	ai_will_do = { # this is a trigger
 		always = yes
+	}
+}
+
+offer_seigneury = {
+	category = influence
+	require_acceptance = yes
+
+	alert_index = 4
+	alert_tooltip = offer_seigneury_alert_tooltip
+
+	is_visible = {
+		OR = {
+			has_reform = frankokratia_reform
+			has_reform = holy_state_reform
+		}
+		OR = {
+			AND = {
+				is_greek_crusader_state = yes
+				FROM = { is_greek_crusader_state = yes }
+			}
+			AND = {
+				is_levantine_crusader_state = yes
+				FROM = { is_levantine_crusader_state = yes }
+			}
+		}
+	}
+	is_allowed = {
+		if = {
+			limit = {
+				FROM = {
+					NOT = { religion = catholic }
+					NOT = { religion = catholique }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = sell_indulgence_catholic
+				FROM = {
+					OR = {
+						religion = catholic
+						religion = catholique
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				FROM = { is_at_war = yes }
+			}
+			custom_trigger_tooltip = {
+				tooltip = FROM_IS_AT_WAR_TT
+				FROM = { is_at_war = no }
+			}
+		}
+		if = {
+			limit = {
+				is_at_war = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = ROOT_IS_AT_WAR_TT
+				is_at_war = no
+			}
+		}
+		if = {
+			limit = {
+				FROM = { is_subject = yes }
+			}
+			custom_trigger_tooltip = {
+				tooltip = CANNOT_DO_ACTION_TO_SUBJECTS_TT
+				FROM = { is_subject = no }
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					NOT = {
+						has_opinion = {
+							who = ROOT
+							value = 0
+						}
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = FROM_MUST_HAVE_POSITIVE_OPINION_TT
+				FROM = {
+					has_opinion = {
+						who = ROOT
+						value = 0
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					OR = {
+						has_reform = steppe_horde
+						has_reform = great_mongol_state_reform
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = FROM_IS_A_HORDE_TT
+				FROM = {
+					NOT = { has_reform = steppe_horde }
+					NOT = { has_reform = great_mongol_state_reform }
+				}
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					is_part_of_hre = yes
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = FROM_IS_PART_OF_HRE_TT
+				FROM = {
+					NOT = { is_part_of_hre = yes }
+				}
+			}
+		}
+	}
+	on_accept = {
+		create_subject = {
+			subject_type = seigneury
+			subject = FROM
+		}
+	}
+	on_decline = {
+	}
+
+	ai_will_do = { # this is a trigger
+		OR = {
+			ai_attitude = {
+				who = FROM
+				attitude = attitude_friendly
+			}
+			ai_attitude = {
+				who = FROM
+				attitude = attitude_protective
+			}
+			FROM = {
+				any_neighbor_country = {
+					NOT = { tag = ROOT }
+					FROM = {
+						ai_attitude = {
+							who = PREV
+							attitude = attitude_threatened
+						}
+					}
+				}
+			}
+			FROM = {
+				ai_attitude = {
+					who = ROOT
+					attitude = attitude_threatened
+				}
+			}
+		}
+		NOT = {
+			ai_attitude = {
+				who = FROM
+				attitude = attitude_domineering
+			}
+		}
+		NOT = {
+			ai_attitude = {
+				who = FROM
+				attitude = attitude_hostile
+			}
+		}
+		NOT = {
+			ai_attitude = {
+				who = FROM
+				attitude = attitude_outraged
+			}
+		}
+		has_opinion = {
+			who = FROM
+			value = 50
+		}
+		NOT = {
+			FROM = {
+				has_country_modifier = cancel_seigneury_timer
+			}
+		}
+	}
+
+	ai_acceptance = {
+		add_entry = {
+			name = BASE_REJECTION
+			limit = {
+				always = yes
+			}
+			export_to_variable = {
+				variable_name = ai_value
+				value = 1
+			}
+			multiply_variable = {
+				which = ai_value
+				value = -25
+			}
+		}
+        add_entry = {
+            name = DIPLO_OPPINION
+			export_to_variable = {
+				variable_name = ai_value
+				value = opinion
+				who = FROM
+				with = ROOT
+			}
+			multiply_variable = {
+				which = ai_value 
+				value = 0.125
+			}
+        }
+		add_entry = {
+			name = AI_TRUST_TOWARDS_ROOT
+			export_to_variable = {
+				variable_name = ai_value
+				value = trust
+				who = FROM
+				with = ROOT
+			}			
+			subtract_variable = { 
+				which = ai_value
+				value = 50
+			}
+			#1 trust = +4 ai points
+			multiply_variable = {
+				which = ai_value
+				value = 0.4
+			}
+		}
+		add_entry = {
+			name = AI_DIPLOMATIC_REPUTATION
+			export_to_variable = {
+				variable_name = ai_value
+				value = trigger_value:diplomatic_reputation
+			}
+			#1 rep = 3
+			multiply_variable = {
+				which = ai_value
+				value = 3
+			}
+		}
+		add_entry = {
+			name = AI_TOTAL_DEVELOPMENT
+			export_to_variable = {
+				variable_name = ai_value
+				value = total_development
+				who = FROM
+			}
+			#4 dev = -1
+			multiply_variable = {
+				which = ai_value
+				value = -0.25
+			}
+		}
+		add_entry = {
+			name = DIPLO_HAS_AI_HAS_OWN_SUBJECTS_TT
+			limit = {
+				FROM = { num_of_subjects = 1 }
+			}
+			export_to_variable = {
+				variable_name = ai_value
+				value = 1
+			}
+			multiply_variable = {
+				which = ai_value
+				value = -1000
+			}
+		}
+		add_entry = {
+			name = attitude_neutral_DIPLO_ATTITUDE_TT
+			limit = { FROM = { ai_attitude = { who = ROOT attitude = attitude_neutral } } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = -20 }
+		}
+		add_entry = {
+			name = attitude_rivalry_DIPLO_ATTITUDE_TT
+			limit = { FROM = { ai_attitude = { who = ROOT attitude = attitude_rivalry } } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = -1000 }
+		}
+		add_entry = {
+			name = attitude_hostile_DIPLO_ATTITUDE_TT
+			limit = { FROM = { ai_attitude = { who = ROOT attitude = attitude_hostile } } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = -1000 }
+		}
+		add_entry = {
+			name = attitude_friendly_DIPLO_ATTITUDE_TT
+			limit = { FROM = { ai_attitude = { who = ROOT attitude = attitude_friendly } } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = 10 }
+		}
+		add_entry = {
+			name = attitude_threatened_DIPLO_ATTITUDE_TT
+			limit = { FROM = { ai_attitude = { who = ROOT attitude = attitude_threatened } } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = 10 }
+		}
+		add_entry = {
+			name = attitude_outraged_DIPLO_ATTITUDE_TT
+			limit = { FROM = { ai_attitude = { who = ROOT attitude = attitude_outraged } } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = -1000 }
+		}
+		add_entry = {
+			name = attitude_domineering_DIPLO_ATTITUDE_TT
+			limit = { FROM = { ai_attitude = { who = ROOT attitude = attitude_domineering } } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = -1000 }
+		}
+		add_entry = {
+			name = DIPLO_BORDER_DISTANCE_TT
+			export_to_variable = {
+				variable_name = ai_value
+				value = border_distance
+				who = FROM
+				with = ROOT
+			}
+			#2 units = -1
+			multiply_variable = {
+				which = ai_value
+				value = -0.5
+			}
+		}
 	}
 }
 
@@ -1668,6 +2010,139 @@ turn_partial_principality_into_vassal = {
 # 				which = ai_value
 # 				value = 3
 # 			}
+# 		}
+# 	}
+# }
+
+#Hashashins
+# assassinate_foreign_ruler = {
+# 	category = covert
+# 	require_acceptance = no
+
+# 	is_visible = {
+# 		tag = HAH
+# 	}
+# 	is_allowed = {
+# 		if = {
+# 			limit = {
+# 				FROM = { liberty_desire = 50 }
+# 			}
+# 			custom_trigger_tooltip = {
+# 				tooltip = FROM_IS_NOT_A_MONARCHY_TT
+# 				FROM = {
+# 					NOT = { government = monarchy }
+# 					NOT = { government = tribal }
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				FROM = { has_regency = yes }
+# 			}
+# 			custom_trigger_tooltip = {
+# 				tooltip = FROM_HAS_A_REGENCY_TT
+# 				has_regency = yes
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				NOT = {
+# 					has_spy_network_in = {
+# 						who = FROM
+# 						value = 100
+# 					}
+# 				}
+# 				NOT = { full_idea_group = spy_ideas }
+# 			}
+# 			custom_trigger_tooltip = {
+# 				tooltip = REQUIRES_100_SPY_NETWORK_TT
+# 				has_spy_network_in = {
+# 					who = FROM
+# 					value = 100
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				NOT = {
+# 					has_spy_network_in = {
+# 						who = FROM
+# 						value = 80
+# 					}
+# 				}
+# 				full_idea_group = spy_ideas
+# 			}
+# 			custom_trigger_tooltip = {
+# 				tooltip = REQUIRES_80_SPY_NETWORK_TT
+# 				has_spy_network_in = {
+# 					who = FROM
+# 					value = 24
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				has_country_flag = assassination_ruler_counter_flag
+# 				NOT = {
+# 					had_country_flag = {
+# 						flag = assassination_ruler_counter_flag
+# 						days = 7300
+# 					}
+# 				}
+# 			}
+# 			custom_trigger_tooltip = {
+# 				tooltip = ROOT_HAD_A_RECENT_ASSASSINATION
+# 				NOT = {
+# 					had_country_flag = {
+# 						flag = assassination_ruler_counter_flag
+# 						days = 7300
+# 					}
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				FROM = { has_ruler_flag = assassination_protection_flag }
+# 			}
+# 			custom_trigger_tooltip = {
+# 				tooltip = FROM_CANT_BE_ASSASSINATED
+# 				FROM = {
+# 					has_ruler_flag = assassination_protection_flag
+# 				}
+# 			}
+# 		}
+# 	}
+# 	on_accept = {
+# 		clr_country_flag = assassination_ruler_counter_flag
+# 		set_country_flag = assassination_ruler_counter_flag
+# 		FROM = { kill_ruler = yes }
+# 		if = {
+# 			limit = {
+# 				full_idea_group = spy_ideas
+# 			}
+# 			add_spy_network_in = {
+# 				who = FROM
+# 				value = -80
+# 			}
+# 		}
+# 		else = {
+# 			add_spy_network_in = {
+# 				who = FROM
+# 				value = -100
+# 			}
+# 		}
+# 	}
+# 	on_decline = {
+# 	}
+
+# 	ai_will_do = { # this is a trigger
+# 		OR = {
+# 			is_rival = FROM
+# 			is_enemy = FROM
+# 		}
+# 		has_spy_network_in = {
+# 			who = FROM
+# 			value = 100
 # 		}
 # 	}
 # }
