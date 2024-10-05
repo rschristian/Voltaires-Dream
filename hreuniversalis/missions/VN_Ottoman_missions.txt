@@ -1,0 +1,832 @@
+#ah yes, my beloved missions
+
+#Missions about the Stagnation of the Ottomans
+tur_stagnation_slot_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Domination"
+	}
+	potential = {
+		has_dlc = "Domination"
+		tag = TUR
+		NOT = { map_setup = map_setup_random }
+		has_country_flag = tur_unlocked_disaster_missions
+	}
+	has_country_shield = yes
+	
+	tur_oppose_the_janissaries = {
+		icon = mission_late_janissaries
+		required_missions = {  }
+		position = 1
+		provinces_to_highlight = {
+		}
+		trigger = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				custom_trigger_tooltip = {
+					tooltip = tur_had_power_struggle_for_three_years_tt
+					had_country_flag = {
+						flag = tur_has_ottoman_power_struggle
+						days = 1095
+					}
+				}
+				if = {
+					limit = { has_disaster = tur_disaster_janissary_coup }
+					NOT = { num_of_rebel_armies = 1 }
+					NOT = { num_of_rebel_controlled_provinces = 1 }
+					monthly_mil = 9
+					custom_trigger_tooltip = {
+						tooltip = tur_oppose_the_janissaries_bt
+						had_country_flag = {
+							flag = tur_has_janissary_coup
+							days = 365
+						}
+					}
+				}
+				else = {
+					estate_loyalty = {
+						estate = estate_janissaries
+						loyalty = 80
+					}
+					NOT = { janissary_percentage = 0.5 }
+					legitimacy = 90
+					custom_trigger_tooltip = {
+						tooltip = tur_oppose_the_janissaries_at
+						NOT = { has_disaster = tur_disaster_janissary_coup }
+					}
+				}
+			}
+			else = {
+				monthly_mil = 9
+				OR = {
+					NOT = { has_estate = estate_janissaries }
+					NOT = {
+						estate_influence = {
+							estate = estate_janissaries
+							influence = 60
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				custom_tooltip = tur_oppose_the_janissaries_ct
+				hidden_effect = {
+					set_country_flag = tur_unlocked_first_janissary_slaughter
+					set_country_flag = tur_unlocked_janissary_negotiations
+				}
+				add_stability_or_adm_power = yes
+				add_yearly_manpower = 2
+				add_mil_power = 100
+			}
+			else = {
+				add_mil_power = 200
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+	
+	tur_establish_the_new_army = {
+		icon = mission_modern_ottoman_soldiers
+		required_missions = { tur_oppose_the_janissaries }
+		position = 2
+		provinces_to_highlight = {
+		}
+		trigger = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				if = {
+					limit = { has_disaster = tur_disaster_janissary_coup }
+					army_size_percentage = 0.8
+					has_mil_advisor_3 = yes
+					monthly_mil = 12
+					is_monarch_leader = yes
+					OR = {
+						AND = {
+							custom_trigger_tooltip = {
+								tooltip = tur_establish_the_new_army_at
+								has_country_flag = tur_fight_against_the_janissaries_1_flag
+							}
+							NOT = { has_spawned_rebels = janissary_rebels }
+						}
+						NOT = {
+							num_of_estate_privileges = {
+								estate = estate_janissaries
+								value = 6
+							}
+						}
+					}
+				}
+				else = {
+					army_size_percentage = 1
+					NOT = { janissary_percentage = 0.1 }
+					OR = {
+						NOT = { has_estate = estate_janissaries }
+						NOT = {
+							estate_influence = {
+								estate = estate_janissaries
+								influence = 50
+							}
+						}
+					}
+					legitimacy = 90
+					stability = 2
+					has_mil_advisor_3 = yes
+					monthly_mil = 12
+					custom_trigger_tooltip = {
+						tooltip = tur_oppose_the_janissaries_at
+						NOT = { has_disaster = tur_disaster_janissary_coup }
+					}
+				}
+			}
+			else = {
+				army_size_percentage = 1
+				NOT = { janissary_percentage = 0.1 }
+				OR = {
+					NOT = { has_estate = estate_janissaries }
+					NOT = {
+						estate_influence = {
+							estate = estate_janissaries
+							influence = 50
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				if = {
+					limit = { NOT = { has_country_flag = tur_unlocked_second_janissary_slaughter } }
+					custom_tooltip = tur_establish_the_new_army_bt
+					hidden_effect = {
+						set_country_flag = tur_unlocked_second_janissary_slaughter
+					}
+				}
+				else = {
+					custom_tooltip = tur_establish_the_new_army_ct
+					hidden_effect = {
+						set_country_flag = tur_unlocked_third_janissary_slaughter
+					}
+				}
+				add_stability_or_adm_power = yes
+				add_yearly_manpower = 2
+				add_mil_power = 100
+				add_army_professionalism = 0.05
+				add_army_tradition = 25
+				add_legitimacy = 25
+			}
+			add_country_modifier = {
+				name = tur_the_turkish_national_force
+				duration = 9125
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+	
+	tur_the_mansure_reforms = {
+		icon = mission_mansure_army
+		required_missions = { 
+			tur_establish_the_new_army
+			tur_revoke_the_privileges
+		}
+		position = 3
+		provinces_to_highlight = {
+		}
+		trigger = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				OR = {
+					custom_trigger_tooltip = {
+						tooltip = tur_the_mansure_reforms_ct
+						has_country_flag = tur_had_janissary_coup
+					}
+					AND = {
+						if = {
+							limit = { has_dlc = "Cradle of Civilization" }
+							OR = {
+								num_of_completed_idea_groups_by_category = {
+									type = mil
+									amount = 2
+								}
+								army_professionalism = 0.65
+							}
+						}
+
+						OR = {
+							num_of_completed_idea_groups_by_category = {
+								type = mil
+								amount = 2
+							}
+							army_tradition = 70
+						}
+						has_mil_advisor_3 = yes
+						stability = 3
+						NOT = { has_spawned_rebels = janissary_rebels }
+						OR = {
+							NOT = { has_estate = estate_janissaries }
+							NOT = {
+								estate_influence = {
+									estate = estate_janissaries
+									influence = 40
+								}
+							}
+						}
+					}
+				}
+			}
+			else = {
+				OR = {
+					num_of_completed_idea_groups_by_category = {
+						type = mil
+						amount = 2
+					}
+					army_tradition = 70
+				}
+				has_mil_advisor_3 = yes
+				stability = 3
+				NOT = { has_spawned_rebels = janissary_rebels }
+				OR = {
+					NOT = { has_estate = estate_janissaries }
+					NOT = {
+						estate_influence = {
+							estate = estate_janissaries
+							influence = 40
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = tur_the_mansure_reforms_at
+			if = {
+				limit = {
+					has_country_flag = tur_fight_against_the_janissaries_1_flag
+					has_country_flag = tur_fight_against_the_janissaries_2_flag
+					has_country_flag = tur_fight_against_the_janissaries_3_flag
+				}
+				custom_tooltip = BONUS_REWARD_YES
+			}
+			else = { custom_tooltip = BONUS_REWARD_NO }
+			tooltip = {
+				country_event = {
+					id = flavor_tur.288
+				}
+			}
+			custom_tooltip = mission_alternatively_tt
+			if = {
+				limit = {
+					OR = {
+						NOT = { has_country_flag = tur_fight_against_the_janissaries_1_flag }
+						NOT = { has_country_flag = tur_fight_against_the_janissaries_2_flag }
+						NOT = { has_country_flag = tur_fight_against_the_janissaries_3_flag }
+					}
+				}
+				custom_tooltip = BONUS_REWARD_YES
+			}
+			else = { custom_tooltip = BONUS_REWARD_NO }
+			tooltip = {
+				country_event = {
+					id = flavor_tur.289
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						has_country_flag = tur_fight_against_the_janissaries_1_flag
+						has_country_flag = tur_fight_against_the_janissaries_2_flag
+						has_country_flag = tur_fight_against_the_janissaries_3_flag
+					}
+					country_event = {
+						id = flavor_tur.288
+					}
+				}
+				else = {
+					country_event = {
+						id = flavor_tur.289
+					}
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+}
+
+tur_stagnation_slot_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Domination"
+	}
+	potential = {
+		has_dlc = "Domination"
+		tag = TUR
+		NOT = { map_setup = map_setup_random }
+		has_country_flag = tur_unlocked_disaster_missions
+	}
+	has_country_shield = yes
+	
+	tur_revoke_the_privileges = {
+		icon = mission_late_ottoman_reforms
+		required_missions = { tur_oppose_the_janissaries }
+		position = 2
+		provinces_to_highlight = {
+		}
+		trigger = {
+			NOT = { has_estate_privilege = estate_janissary_janissaries_from_muslims }
+			OR = {
+				has_global_modifier_value = {
+					which = discipline
+					value = 0.25
+				}
+				land_morale = 5
+				army_size_percentage = 0.8
+			}
+			NOT = { has_spawned_rebels = janissary_rebels }
+			if = {
+				limit = { NOT = { has_disaster = tur_disaster_ottoman_power_struggle } }
+				OR = {
+					NOT = { has_estate = estate_janissaries }
+					NOT = {
+						estate_influence = {
+							estate = estate_janissaries
+							influence = 40
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				if = {
+					limit = { NOT = { has_country_flag = tur_unlocked_second_janissary_slaughter } }
+					custom_tooltip = tur_establish_the_new_army_bt
+					hidden_effect = {
+						set_country_flag = tur_unlocked_second_janissary_slaughter
+					}
+				}
+				else = {
+					custom_tooltip = tur_establish_the_new_army_ct
+					hidden_effect = {
+						set_country_flag = tur_unlocked_third_janissary_slaughter
+					}
+				}
+				country_event = {
+					id = flavor_tur.286
+				}
+			}
+			else = {
+				add_mil_power = 200
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+}
+
+tur_stagnation_slot_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Domination"
+	}
+	potential = {
+		has_dlc = "Domination"
+		tag = TUR
+		NOT = { map_setup = map_setup_random }
+		has_country_flag = tur_unlocked_disaster_missions
+	}
+	has_country_shield = yes
+	
+	tur_crush_the_eyalet_rebellion = {
+		icon = mission_eyalet_crisis
+		required_missions = {  }
+		position = 1
+		provinces_to_highlight = {
+		}
+		trigger = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				custom_trigger_tooltip = {
+					tooltip = tur_had_power_struggle_for_three_years_tt
+					had_country_flag = {
+						flag = tur_has_ottoman_power_struggle
+						days = 1095
+					}
+				}
+				OR = {
+					NOT = { has_disaster = tur_disaster_eyalet_rebellion }
+					custom_trigger_tooltip = {
+						tooltip = tur_crush_the_eyalet_rebellion_at
+						had_country_flag = {
+							flag = tur_has_eyalet_rebellion
+							days = 365
+						}
+					}
+				}
+				NOT = {
+					any_subject_country = {
+						OR = {
+							has_spawned_rebels = renegade_sultan_son_rebels
+							has_spawned_rebels = independence_rebels
+						}
+					}
+				}
+			}
+			else = {
+				num_of_subjects = 12
+				NOT = {
+					any_subject_country = {
+						OR = {
+							liberty_desire = 20
+							num_of_rebel_armies = 1
+							num_of_rebel_controlled_provinces = 1
+						}
+					}
+				}
+				stability = 3
+				NOT = { num_of_rebel_armies = 1 }
+				NOT = { num_of_rebel_controlled_provinces = 1 }
+			}
+		}
+		effect = {
+			add_stability_or_adm_power = yes
+			add_country_modifier = {
+				name = tur_reigned_the_eyalets
+				duration = 10950
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+	
+	tur_centralize_the_power = {
+		icon = mission_crush_eyalet_rebellion
+		required_missions = { tur_crush_the_eyalet_rebellion }
+		position = 3
+		provinces_to_highlight = {
+		}
+		trigger = {
+			if = {
+				limit = {
+					is_absolutism_active = yes
+				}
+				absolutism = 70
+			}
+			NOT = { num_of_rebel_armies = 1 }
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+			if = {
+				limit = { has_disaster = tur_disaster_eyalet_rebellion }
+				NOT = {
+					any_subject_country = {
+						OR = {
+							is_subject_of_type = eyalet
+							is_subject_of_type = core_eyalet
+						}
+						OR = {
+							liberty_desire = 10
+							num_of_rebel_armies = 1
+							num_of_rebel_controlled_provinces = 1
+						}
+					}
+				}
+				monthly_dip = 12
+			}
+			else = {
+				NOT = {
+					any_subject_country = {
+						liberty_desire = 10
+					}
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = tur_centralize_the_power_at
+			add_stability_or_adm_power = yes
+			set_country_flag = tur_reduced_requirements_for_core_eyalet
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+	
+	tur_a_new_dawn = {
+		icon = mission_ottoman_new_dawn
+		required_missions = { 
+			tur_the_mansure_reforms
+			tur_the_reign_of_women
+			tur_centralize_the_power
+			tur_remove_pashas_from_power
+		}
+		position = 17
+		provinces_to_highlight = {
+		}
+		trigger = {
+			has_any_disaster = no
+			is_bankrupt = no
+			stability = 3
+			NOT = { corruption = 2 }
+			NOT = { num_of_loans = 6 }
+		}
+		effect = {
+			add_power_projection = {
+				type = tur_a_reborn_empire
+				amount = 100
+			}
+			if = {
+				limit = { is_revolutionary = no }
+				add_country_modifier = {
+					name = tur_a_reborn_empire_modifier
+					duration = -1
+				}
+			}
+			else = {
+				add_country_modifier = {
+					name = tur_the_republic_of_turkiye
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+}
+
+tur_stagnation_slot_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Domination"
+	}
+	potential = {
+		has_dlc = "Domination"
+		tag = TUR
+		NOT = { map_setup = map_setup_random }
+		has_country_flag = tur_unlocked_disaster_missions
+	}
+	has_country_shield = yes
+	
+	tur_restructure_the_administration = {
+		icon = mission_muslim_administrators
+		required_missions = {  }
+		position = 1
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				local_autonomy_above_min = 5
+				has_province_modifier = pasha_removed_modifier
+				controlled_by = REB
+			}
+		}
+		trigger = {
+			reform_level = 7
+			if = {
+				limit = {
+					#Promote Advisors - +2
+					has_dlc = "Cradle of Civilization"
+					#National Focus - +2
+					has_dlc = "Res Publica"
+					has_dlc = "Common Sense"
+				}
+				monthly_adm = 15
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_dlc = "Cradle of Civilization"
+						has_dlc = "Res Publica"
+						has_dlc = "Common Sense"
+					}
+				}
+				monthly_adm = 13
+			}
+			else = {
+				monthly_adm = 11
+			}
+			has_adm_advisor_3 = yes
+			OR = {
+				num_of_completed_idea_groups_by_category = {
+					type = adm
+					amount = 2
+				}
+				AND = {
+					NOT = { corruption = 0.5 }
+					NOT = { average_autonomy_above_min = 15 }
+				}
+			}
+		}
+		effect = {
+			country_event = {
+				id = flavor_tur.290
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+	
+	tur_remove_pashas_from_power = {
+		icon = mission_pasha_staff
+		required_missions = { tur_restructure_the_administration }
+		position = 3
+		provinces_to_highlight = {
+		}
+		trigger = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				custom_trigger_tooltip = {
+					tooltip = tur_had_power_struggle_for_three_years_tt
+					had_country_flag = {
+						flag = tur_has_ottoman_power_struggle
+						days = 1095
+					}
+				}
+			}
+			OR = {
+				NOT = { has_disaster = tur_disaster_pasha_decadence }
+				custom_trigger_tooltip = {
+					tooltip = tur_remove_pashas_from_power_ct
+					had_country_flag = {
+						flag = tur_has_pasha_decadence
+						days = 1825
+					}
+				}
+			}
+			NOT = { num_of_rebel_armies = 1 }
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+			OR = {
+				NOT = {
+					any_owned_province = {
+						has_pasha = yes
+					}
+				}
+				num_of_owned_provinces_with = {
+					NOT = { culture = ROOT }
+					has_pasha = yes
+					value = 125
+				}
+			}
+			NOT = {
+				any_owned_province = {
+					has_province_modifier = pasha_removed_modifier
+				}
+			}
+			stability = 2
+		}
+		effect = {
+			custom_tooltip = tur_remove_pashas_from_power_tt
+			add_adm_power = 350
+			add_dip_power = 350
+			add_mil_power = 350
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+}
+
+tur_stagnation_slot_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Domination"
+	}
+	potential = {
+		has_dlc = "Domination"
+		tag = TUR
+		NOT = { map_setup = map_setup_random }
+		has_country_flag = tur_unlocked_disaster_missions
+	}
+	has_country_shield = yes
+	
+	tur_regulate_the_harem = {
+		icon = mission_harem
+		required_missions = {  }
+		position = 1
+		provinces_to_highlight = {
+		}
+		trigger = {
+			if = {
+				limit = { has_disaster = tur_disaster_ottoman_power_struggle }
+				custom_trigger_tooltip = {
+					tooltip = tur_had_power_struggle_for_three_years_tt
+					had_country_flag = {
+						flag = tur_has_ottoman_power_struggle
+						days = 1095
+					}
+				}
+			}
+			OR = {
+				NOT = { has_disaster = tur_disaster_plot_of_the_harem }
+				custom_trigger_tooltip = {
+					tooltip = tur_regulate_the_harem_ct
+					had_country_flag = {
+						flag = tur_has_plot_of_the_harem
+						days = 1095
+					}
+				}
+			}
+			OR = {
+				has_country_modifier = tur_weakened_the_harem
+				AND = {
+					has_adm_advisor_3 = yes
+					has_dip_advisor_3 = yes
+					has_mil_advisor_3 = yes
+					legitimacy = 60
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = { NOT = { has_country_modifier = tur_weakened_the_harem } }
+				add_country_modifier = {
+					name = tur_secured_loyalty_of_the_harem
+					duration = -1
+				}
+			}
+			else = {
+				add_legitimacy = 25
+				add_prestige_or_monarch_power = {
+					amount = 25
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+	
+	tur_the_reign_of_women = {
+		icon = mission_reign_of_women
+		required_missions = { tur_regulate_the_harem }
+		position = 3
+		provinces_to_highlight = {
+		}
+		trigger = {
+			if = {
+				limit = { NOT = { has_country_modifier = tur_weakened_the_harem } }
+				legitimacy = 90
+				NOT = { has_spawned_rebels = pretender_rebels }
+				stability = 3
+				OR = {
+					full_idea_group = court_ideas
+					prestige = 100
+				}
+			}
+			else = {
+				legitimacy = 100
+			}
+		}
+		effect = {
+			custom_tooltip = tur_the_reign_of_women_tt
+			if = {
+				limit = { NOT = { has_country_modifier = tur_weakened_the_harem } }
+				custom_tooltip = tur_the_reign_of_women_bt
+			}
+			else = {
+				custom_tooltip = tur_the_reign_of_women_ct
+			}
+			if = {
+				limit = {
+					has_dlc = "Mandate of Heaven"
+				}
+				add_splendor = 400
+			}
+			else = {
+				add_dip_power = 100
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+}
