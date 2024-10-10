@@ -1,0 +1,123 @@
+namespace = fbievents
+
+country_event = {
+	id = fbievents.123
+	title = "FBIT123"
+	desc = "FBID123"
+	picture = KING_SICK_IN_BED_eventPicture
+
+	is_triggered_only = yes
+	trigger = {
+		is_emperor_of_china = yes
+		has_reform = celestial_empire
+		NOT = { has_global_flag = disable_rota_flag }
+		OR = {
+			NOT = { has_country_flag = recent_rota }
+			had_country_flag = { flag = recent_rota days = 365 }
+		}
+		any_subject_country = {
+			is_subject_of_type = partial_principality
+			has_reform = principality
+			has_regency = no
+			dynasty = ROOT
+		}
+	}
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = ongoing_rota
+			set_country_flag = recent_rota
+			every_country = {
+				limit = { has_ruler_flag = rota_elected_flag }
+				clr_ruler_flag = rota_elected_flag
+			}
+		}
+	}
+
+	option = {
+		name = "FBIA123"
+		ai_chance = {
+			factor = 95
+			modifier = {
+				factor = 0
+				ADM = 4
+				DIP = 4
+				MIL = 4
+			}
+		}
+		random_country = {
+			limit = {
+				is_subject_of_type = partial_principality
+				has_reform = principality
+				has_regency = no
+				dynasty = ROOT
+			}
+			country_event = { id = fbievents.124 days = 3 }
+		}
+	}
+	option = {
+		name = "FBIB123"
+		ai_chance = { factor = 5 }
+		reduce_meritocracy_large_effect = yes
+		reduce_mandate_large_effect = yes
+	}
+}
+
+country_event = {
+	id = fbievents.124
+	title = "FBIT124"
+	desc = "FBID124"
+	picture = KING_SICK_IN_BED_eventPicture
+
+	is_triggered_only = yes
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { has_heir = no }
+				define_heir = {
+					dynasty = ROOT
+					age = 0
+					claim = 100
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "FBIA124"
+		exile_ruler_as = { name = rota_ruler }
+		FROM = {
+			set_ruler = rota_ruler
+			set_ruler_flag = rota_elected_flag
+		}
+		if = {
+			limit = {
+				any_country = {
+					NOT = { tag = ROOT }
+					NOT = { has_ruler_flag = rota_elected_flag }
+					is_subject_of_type = partial_principality
+					has_reform = principality
+					has_regency = no
+					dynasty = ROOT
+				}
+			}
+			random_country = {
+				limit = {
+					NOT = { tag = ROOT }
+					NOT = { has_ruler_flag = rota_elected_flag }
+					is_subject_of_type = partial_principality
+					has_reform = principality
+					has_regency = no
+					dynasty = ROOT
+				}
+				country_event = { id = fbievents.124 days = 1 }
+			}
+		}
+		else = {
+			clr_global_flag = ongoing_rota
+		}
+	}
+}

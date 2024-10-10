@@ -1515,6 +1515,97 @@ country_event = {
 	}
 }
 
+#Spread of Maize
+country_event = {
+	id = vn_prices.31
+	title = "vn_prices.31.t"
+	desc = "vn_prices.31.d"
+	picture = COLONIZATION_eventPicture
+	goto = new_maize_prov
+
+	major = yes
+
+	trigger = {
+		has_institution = new_world_i
+		OR = {
+			grain = 1
+			barley = 1
+		}
+		dip_tech = 41	#1504
+		NOT = { started_in = 1504.1.1 }
+	}
+
+	mean_time_to_happen =  {
+		months = 1
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = spread_of_maize_flag
+			random_owned_province = {
+				limit = {
+					OR = {
+						trade_goods = grain
+						trade_goods = barley
+					}
+				}
+				save_event_target_as = new_maize_prov
+			}
+		}
+	}
+
+	option = {
+		name = "vn_prices.31.a"
+		custom_tooltip = vn_prices.31.tt
+		event_target:new_maize_prov = {
+			change_trade_goods = corn
+		}
+		change_price = {
+			trade_goods = corn
+			key = MAIZE_CULTIVATION
+			value = 1
+			duration = 36500
+		}
+	}
+}
+
+province_event = {
+	id = vn_prices.3100
+	title = "vn_prices.31.t"
+	desc = "vn_prices.3100.d"
+	picture = FARMING_eventPicture
+	goto = root
+
+	trigger = {
+		OR = {
+			trade_goods = grain
+			trade_goods = barley
+		}
+		owner = { has_institution = new_world_i }
+		has_global_flag = spread_of_maize_flag
+		NOT = {
+			had_global_flag = {
+				flag = spread_of_maize_flag
+				days = 36500
+			}
+		}
+		NOT = { devastation = 1 }
+	}
+
+	mean_time_to_happen =  {
+		years = 100
+	}
+
+	option = {
+		name = "vn_prices.3100.a"
+		change_trade_goods = corn
+		add_province_modifier = {
+			name = corn_cultivation
+			duration = 1825
+		}
+	}
+}
+
 #Champange Fairs
 # country_event = {
 # 	id = vn_prices.31

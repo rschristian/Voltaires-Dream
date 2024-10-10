@@ -1,9 +1,105 @@
 namespace = hohenref_events
+namespace = fbievents
+
+country_event = {
+	id = fbievents.60
+	title = "FBIT60"
+	desc = "FBID60"
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	fire_only_once = yes
+	trigger = {
+		OR = {
+			tag = FRA
+			AND = {
+				NOT = { exists = FRA }
+				owns = 548
+			}
+		}
+		is_year = 1150
+		NOT = { has_global_flag = cathar_heresy_g }
+		toulouse_region = {
+			OR = {
+				religion = catholic
+				religion = catholique
+			}
+		}
+		dauphine_region = {
+			OR = {
+				religion = catholic
+				religion = catholique
+			}
+		}
+		OR = {
+			religion = catholic
+			religion = catholique
+		}
+		papacy_active = yes
+		NOT = { has_reform = papacy_reform }
+		NOT = { any_province = { religion = cathar } }
+		NOT = { any_province = { religion = waldensian } }
+	}
+	mean_time_to_happen = { months = 120 }
+
+	option = {
+		name = "FBIA60"
+		custom_tooltip = fbia60.tt
+		hidden_effect = {
+			if = {
+				limit = {
+					4061 = {
+						OR = {
+							religion = catholic
+							religion = catholique
+						}
+					}
+				}
+				4061 = { province_event = { id = hohenref_events.1 days = 10 } }
+			}
+			else = {
+				random_province = {
+					limit = {
+						region = toulouse_region
+						OR = {
+							religion = catholic
+							religion = catholique
+						}
+					}
+					province_event = { id = hohenref_events.1 days = 10 }
+				}
+			}
+			if = {
+				limit = {
+					541 = {
+						OR = {
+							religion = catholic
+							religion = catholique
+						}
+					}
+				}
+				541 = { province_event = { id = hohenref_events.2 days = 20 } }
+			}
+			else = {
+				random_province = {
+					limit = {
+						region = dauphine_region
+						OR = {
+							religion = catholic
+							religion = catholique
+						}
+					}
+					province_event = { id = hohenref_events.2 days = 20 }
+				}
+			}
+		}
+	}
+}
 
 ########################################
 # Early Heresies
 ########################################
 
+#Catharism
 province_event = {
 	id = hohenref_events.1
 	title = "hohenref_events.1.t"
@@ -40,6 +136,7 @@ province_event = {
 	}
 }
 
+#Waldenism
 province_event = {
 	id = hohenref_events.2
 	title = "hohenref_events.2.t"
@@ -71,6 +168,7 @@ province_event = {
 	}
 }
 
+#Bogomilism
 country_event = {
 	id = hohenref_events.3
 	title = "hohenref_events.3.t"
@@ -147,6 +245,7 @@ country_event = {
 	}
 }
 
+#Fraticellism
 country_event = {
 	id = hohenref_events.4
 	title = "hohenref_events.4.t"
@@ -244,6 +343,7 @@ country_event = {
 	}
 }
 
+#Hussitism
 country_event = {
 	id = hohenref_events.5
 	title = "hohenref_events.5.t"
@@ -303,5 +403,112 @@ country_event = {
 				duration = 9000
 			}
 		}
+	}
+}
+
+########################################
+# Anabaptism
+########################################
+province_event = {
+	id = fbievents.68
+	title = "FBIT68"
+	desc = "FBID68"
+	picture = RELIGIOUS_TURMOIL_eventPicture
+	goto = root
+
+	trigger = {
+		is_capital = yes
+		continent = europe
+		religion_group = christian
+		NOT = { religion = anabaptist }
+		is_religion_enabled = protestant
+		current_age = age_of_reformation
+		owner = {
+			has_reform = leading_clergy_reform
+			NOT = { religion = anabaptist }
+			NOT = { has_country_flag = anab_revolted }
+			num_of_cities = 3
+		}	
+	}
+	mean_time_to_happen = {
+		months = 1200
+		modifier = {
+			factor = 0.5
+			owner = { war_exhaustion = 4 }
+		}
+		modifier = {
+			factor = 0.5
+			owner = { war_exhaustion = 10 }
+		}
+		modifier = {
+			factor = 0.5
+			owner = { war_exhaustion = 18 }
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			owner = { set_country_flag = anab_revolted }
+		}
+	}
+
+	option = {
+		name = "FBIA68"
+		change_religion = anabaptist
+		spawn_rebels = {
+			type = anabaptist_rebels
+			size = 2
+			win = yes
+		}
+	}
+}
+
+country_event = {
+	id = fbievents.69
+	title = "FBIT69"
+	desc = "FBID69"
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	fire_only_once = yes
+	trigger = {
+		NOT = { started_in = 1528.2.14 }
+		religion_group = christian
+		current_age = age_of_reformation
+		is_religion_enabled = anabaptist
+		NOT = { religion = anabaptist }
+		tag = EFR
+	}
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.75
+			OR = {
+				religion = protestant
+				religion = reformed
+			}
+		}
+		modifier = {
+			factor = 0.75
+			any_neighbor_country = {
+				OR = {
+					religion = protestant
+					religion = reformed
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "FBIA69"
+		ai_chance = { factor = 80 }
+		change_religion = anabaptist
+		set_country_flag = anabaptist_reformation
+	}
+	option = {
+		name = "FBIB69"
+		ai_chance = { factor = 20 }
+		add_papal_influence = 5
+		add_fervor = 5
+		add_church_power = 10
 	}
 }
