@@ -1,1090 +1,1090 @@
-#Georgian missions
-#by ShyGuy13
+# #Georgian missions
+# #by ShyGuy13
 
-vn_geo_missions_slot_1 = {
-    slot = 6
-    generic = no
-    ai = yes
-    potential = {
-        tag = GEO
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_geo_missions_slot_1 = {
+#     slot = 1
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = GEO
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_geo_revisiting_feudalism = {
-        icon = mission_dethrone_the_rurikovichs
-        position = 2
-	    required_missions = { vn_geo_diminish_princes }
-        trigger = {
-			if = {
-				limit = { has_dlc = "Dharma" }
-				reform_level = 4
-			}
-			if = {
-                limit = { has_dlc = "Common Sense" }
-                legitimacy_equivalent = 100
-            }
-            else_if = {
-                limit = { government = monarchy }
-                legitimacy = 100
-            }
-			stability = 2
-			all_subject_country = {
-				NOT = { liberty_desire = 1 }
-				NOT = { army_size = ROOT }
-			}
-			if = {
-				limit = { has_estate = estate_nobles }
-				estate_loyalty = {
-					estate = estate_nobles
-					loyalty = 60
-				}
-			}
-        }
-        effect = {
-            add_adm_power = 50
-            add_country_modifier = {
-                name = geo_revisiting_feudalism_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_geo_conquer_kars = {
-        icon = tame_the_magnates
-        position = 3
-		required_missions = { vn_geo_conquer_samtskhe }
-		provinces_to_highlight = {
-			OR = {
-				area = kari_area
-				area = panaskerti_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            kari_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			panaskerti_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            karin_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            upper_armenia_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            van_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            vaspurakan_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            hayk_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            add_country_modifier = {
-                name = geo_conquer_kars_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_geo_conquer_erzurum = {
-        icon = mission_non-western_cavalry_raid
-        position = 4
-		required_missions = { vn_geo_conquer_kars }
-		provinces_to_highlight = {
-			OR = {
-				area = karin_area
-				area = upper_armenia_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            karin_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			upper_armenia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            add_army_tradition = 10
-            polemonion_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            trebizond_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            add_country_modifier = {
-                name = geo_conquer_erzurum_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_geo_conquer_trebizond = {
-        icon = mission_break_sicily
-        position = 5
-		required_missions = { vn_geo_conquer_erzurum }
-		provinces_to_highlight = {
-			OR = {
-				area = polemonion_area
-				area = trebizond_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            polemonion_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			trebizond_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-			add_prestige_or_monarch_power = { amount = 10 } 
-            add_adm_power = 50
-            2233 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT	
-				}		
-			}
-            add_country_modifier = {
-                name = geo_conquer_trebizond_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_geo_conquer_constantinople = {
-        icon = mission_city_of_the_world's_desire
-        position = 6
-        required_missions = { vn_geo_conquer_trebizond }
-		provinces_to_highlight = {
-			province_id = 2233
-		}
-        trigger = {
-			owns_core_province = 2233
-        }
-        effect = {
-            add_prestige_or_monarch_power = { amount = 25 } 
-            add_mil_power = 200
-        }
-    }
-    vn_geo_eastern_renaissance = {
-        icon = standardize_relazioni
-        position = 7
-        required_missions = { vn_geo_hymns_of_repentance }
-		provinces_to_highlight = {
-			OR = {
-				region = georgia_region
-				region = tao_region
-				region = hiberia_region
-			}
-			OR = {
-				NOT = { owned_by = ROOT }
-				NOT = { is_core = ROOT }
-				NOT = { culture = ROOT }
-				NOT = { religion = ROOT }
-			}
-		}
-        trigger = {
-            georgia_region = {
-				type = all
-				owned_by = ROOT
-				is_core = ROOT
-				culture = ROOT
-				religion = ROOT
-			}
-			tao_region = {
-				type = all
-				owned_by = ROOT
-				is_core = ROOT
-				culture = ROOT
-				religion = ROOT
-			}
-			hiberia_region = {
-				type = all
-				owned_by = ROOT
-				is_core = ROOT
-				culture = ROOT
-				religion = ROOT
-			}
-        }
-        effect = {
-            add_religious_influence_effect_large = yes
-            add_country_modifier = {
-                name = geo_eastern_renaissance_mission
-                duration = 9125
-            }
-        }
-	}
-}
+#     vn_geo_revisiting_feudalism = {
+#         icon = mission_dethrone_the_rurikovichs
+#         position = 2
+# 	    required_missions = { vn_geo_diminish_princes }
+#         trigger = {
+# 			if = {
+# 				limit = { has_dlc = "Dharma" }
+# 				reform_level = 4
+# 			}
+# 			if = {
+#                 limit = { has_dlc = "Common Sense" }
+#                 legitimacy_equivalent = 100
+#             }
+#             else_if = {
+#                 limit = { government = monarchy }
+#                 legitimacy = 100
+#             }
+# 			stability = 2
+# 			all_subject_country = {
+# 				NOT = { liberty_desire = 1 }
+# 				NOT = { army_size = ROOT }
+# 			}
+# 			if = {
+# 				limit = { has_estate = estate_nobles }
+# 				estate_loyalty = {
+# 					estate = estate_nobles
+# 					loyalty = 60
+# 				}
+# 			}
+#         }
+#         effect = {
+#             add_adm_power = 50
+#             add_country_modifier = {
+#                 name = geo_revisiting_feudalism_mission
+#                 duration = 9125
+#             }
+#         }
+#     }
+#     vn_geo_conquer_kars = {
+#         icon = tame_the_magnates
+#         position = 3
+# 		required_missions = { vn_geo_conquer_samtskhe }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = kari_area
+# 				area = panaskerti_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             kari_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			panaskerti_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             karin_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             upper_armenia_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             van_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             vaspurakan_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             hayk_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             add_country_modifier = {
+#                 name = geo_conquer_kars_mission
+#                 duration = 9125
+#             }
+#         }
+#     }
+#     vn_geo_conquer_erzurum = {
+#         icon = mission_non-western_cavalry_raid
+#         position = 4
+# 		required_missions = { vn_geo_conquer_kars }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = karin_area
+# 				area = upper_armenia_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             karin_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			upper_armenia_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             add_army_tradition = 10
+#             polemonion_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             trebizond_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             add_country_modifier = {
+#                 name = geo_conquer_erzurum_mission
+#                 duration = 9125
+#             }
+#         }
+#     }
+#     vn_geo_conquer_trebizond = {
+#         icon = mission_break_sicily
+#         position = 5
+# 		required_missions = { vn_geo_conquer_erzurum }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = polemonion_area
+# 				area = trebizond_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             polemonion_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			trebizond_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 			add_prestige_or_monarch_power = { amount = 10 } 
+#             add_adm_power = 50
+#             2233 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT	
+# 				}		
+# 			}
+#             add_country_modifier = {
+#                 name = geo_conquer_trebizond_mission
+#                 duration = 9125
+#             }
+#         }
+#     }
+#     vn_geo_conquer_constantinople = {
+#         icon = mission_city_of_the_world's_desire
+#         position = 6
+#         required_missions = { vn_geo_conquer_trebizond }
+# 		provinces_to_highlight = {
+# 			province_id = 2233
+# 		}
+#         trigger = {
+# 			owns_core_province = 2233
+#         }
+#         effect = {
+#             add_prestige_or_monarch_power = { amount = 25 } 
+#             add_mil_power = 200
+#         }
+#     }
+#     vn_geo_eastern_renaissance = {
+#         icon = standardize_relazioni
+#         position = 7
+#         required_missions = { vn_geo_hymns_of_repentance }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				region = georgia_region
+# 				region = tao_region
+# 				region = hiberia_region
+# 			}
+# 			OR = {
+# 				NOT = { owned_by = ROOT }
+# 				NOT = { is_core = ROOT }
+# 				NOT = { culture = ROOT }
+# 				NOT = { religion = ROOT }
+# 			}
+# 		}
+#         trigger = {
+#             georgia_region = {
+# 				type = all
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				culture = ROOT
+# 				religion = ROOT
+# 			}
+# 			tao_region = {
+# 				type = all
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				culture = ROOT
+# 				religion = ROOT
+# 			}
+# 			hiberia_region = {
+# 				type = all
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				culture = ROOT
+# 				religion = ROOT
+# 			}
+#         }
+#         effect = {
+#             add_religious_influence_effect_large = yes
+#             add_country_modifier = {
+#                 name = geo_eastern_renaissance_mission
+#                 duration = 9125
+#             }
+#         }
+# 	}
+# }
 
-vn_geo_missions_slot_2 = {
-    slot = 7
-    generic = no
-    ai = yes
-    potential = {
-        tag = GEO
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_geo_missions_slot_2 = {
+#     slot = 2
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = GEO
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
    
-	vn_geo_diminish_princes = {
-        icon = mission_unite_the_princes
-        position = 1
-        required_missions = {  }
-        trigger = {
-            all_subject_country = {
-				NOT = { liberty_desire = 10 }
-				has_opinion = {
-					who = ROOT
-					value = 150
-				}
-			}
-        }
-        effect = {
-            samtskhe_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            add_country_modifier = {
-				name = geo_diminish_princes_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_geo_conquer_samtskhe = {
-        icon = mission_sovereign_principality
-        position = 2
-        required_missions = { vn_geo_diminish_princes }
-		provinces_to_highlight = {
-			area = samtskhe_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            samtskhe_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-			add_dip_power = 50
-            kari_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            panaskerti_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-        }
-    }
-    vn_geo_conquer_van = {
-        icon = mission_retake_ceuta
-        position = 4
-        required_missions = { vn_geo_conquer_kars }
-		provinces_to_highlight = {
-			OR = {
-				area = van_area
-				area = vaspurakan_area
-				area = hayk_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            van_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			vaspurakan_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			hayk_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            sasun_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            taron_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-        }
-    }
-    vn_geo_conquer_sasun = {
-        icon = mission_the_third_rome
-        position = 5
-        required_missions = { vn_geo_conquer_van vn_geo_conquer_gegham vn_geo_conquer_maku }
-        provinces_to_highlight = {
-			OR = {
-				area = sasun_area
-				area = taron_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            sasun_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			taron_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-			add_prestige_or_monarch_power = { amount = 10 } 
-			add_religious_influence_effect_large = yes
-            mosul_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            mardin_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            al_hasakah_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-    vn_geo_conquer_assyria = {
-        icon = mission_central_asian_city
-        position = 6
-        required_missions = { vn_geo_conquer_sasun }
-        provinces_to_highlight = {
-			OR = {
-				area = mosul_area
-				area = mardin_area
-				area = al_hasakah_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            mosul_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			mardin_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			al_hasakah_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-			add_adm_power = 100
-			add_dip_power = 100
-			add_mil_power = 100
-            add_country_modifier = {
-				name = geo_conquer_assyria_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_geo_patron_of_arts = {
-        icon = mission_portico
-        position = 7
-        required_missions = { vn_geo_hymns_of_repentance }
-        trigger = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				OR = {
-					in_golden_age = yes
-					splendor = 800
-				}
-			}
-			prestige = 75
-        }
-        effect = {
-            add_country_modifier = {
-				name = geo_patron_of_arts_mission
-				duration = 9125
-			}
-        }
-	}
-}
+# 	vn_geo_diminish_princes = {
+#         icon = mission_unite_the_princes
+#         position = 1
+#         required_missions = {  }
+#         trigger = {
+#             all_subject_country = {
+# 				NOT = { liberty_desire = 10 }
+# 				has_opinion = {
+# 					who = ROOT
+# 					value = 150
+# 				}
+# 			}
+#         }
+#         effect = {
+#             samtskhe_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             add_country_modifier = {
+# 				name = geo_diminish_princes_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_geo_conquer_samtskhe = {
+#         icon = mission_sovereign_principality
+#         position = 2
+#         required_missions = { vn_geo_diminish_princes }
+# 		provinces_to_highlight = {
+# 			area = samtskhe_area
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             samtskhe_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 			add_dip_power = 50
+#             kari_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             panaskerti_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#         }
+#     }
+#     vn_geo_conquer_van = {
+#         icon = mission_retake_ceuta
+#         position = 4
+#         required_missions = { vn_geo_conquer_kars }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = van_area
+# 				area = vaspurakan_area
+# 				area = hayk_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             van_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			vaspurakan_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			hayk_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             sasun_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             taron_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#         }
+#     }
+#     vn_geo_conquer_sasun = {
+#         icon = mission_the_third_rome
+#         position = 5
+#         required_missions = { vn_geo_conquer_van vn_geo_conquer_gegham vn_geo_conquer_maku }
+#         provinces_to_highlight = {
+# 			OR = {
+# 				area = sasun_area
+# 				area = taron_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             sasun_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			taron_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 			add_prestige_or_monarch_power = { amount = 10 } 
+# 			add_religious_influence_effect_large = yes
+#             mosul_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             mardin_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             al_hasakah_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+#     vn_geo_conquer_assyria = {
+#         icon = mission_central_asian_city
+#         position = 6
+#         required_missions = { vn_geo_conquer_sasun }
+#         provinces_to_highlight = {
+# 			OR = {
+# 				area = mosul_area
+# 				area = mardin_area
+# 				area = al_hasakah_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             mosul_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			mardin_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			al_hasakah_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 			add_adm_power = 100
+# 			add_dip_power = 100
+# 			add_mil_power = 100
+#             add_country_modifier = {
+# 				name = geo_conquer_assyria_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_geo_patron_of_arts = {
+#         icon = mission_portico
+#         position = 7
+#         required_missions = { vn_geo_hymns_of_repentance }
+#         trigger = {
+# 			if = {
+# 				limit = { has_dlc = "Mandate of Heaven" }
+# 				OR = {
+# 					in_golden_age = yes
+# 					splendor = 800
+# 				}
+# 			}
+# 			prestige = 75
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = geo_patron_of_arts_mission
+# 				duration = 9125
+# 			}
+#         }
+# 	}
+# }
 
-vn_geo_missions_slot_3 = {
-    slot = 8
-    generic = no
-    ai = yes
-    potential = {
-        tag = GEO
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_geo_missions_slot_3 = {
+#     slot = 3
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = GEO
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_geo_court_at_tbilisi = {
-        icon = mission_eastern_european_city
-        position = 1
-        required_missions = {  }
-		provinces_to_highlight = {
-			province_id = 3621
-		}
-        trigger = {
-			3621 = {
-				owned_by = ROOT
-				is_core = ROOT
-				NOT = { controlled_by = REB }
-				is_capital_of = ROOT
-			}
-        }
-        effect = {
-            3621 = {
-				add_base_tax = 1
-                add_base_manpower = 1
-				if = {
-					limit = {
-						num_free_building_slots = 1
-						has_fort_building_trigger = no
-					}
-					add_building_construction = {
-						building = fort_14th
-						speed = 0.5
-						cost = 0
-					}
-				}
-				else = {
-					add_base_production = 2
-				}
-            }
-        }
-    }
-    vn_geo_expand_tbilisi = {
-        icon = protectors_of_christendom
-        position = 2
-        required_missions = { vn_geo_court_at_tbilisi }
-        provinces_to_highlight = {
-			province_id = 3621
-		}
-        trigger = {
-			3621 = {
-				owned_by = ROOT
-				has_trade_building_trigger = yes
-				has_tax_building_trigger = yes
-				has_manufactory_trigger = yes
-			}
-        }
-        effect = {
-            3621 = {
-				if = {
-					limit = {	
-						NOT = {
-							province_has_center_of_trade_of_level = 2
-						}
-					}
-					add_center_of_trade_level = 2
-				}
-				else_if = {
-					limit = {	
-						NOT = {
-							province_has_center_of_trade_of_level = 3
-						}
-					}
-					add_center_of_trade_level = 1
-				}
-				add_province_modifier = {
-                    name = geo_expand_tbilisi_mission
-                    duration = -1
-                }
-			}
-        }
-    }
-    vn_geo_conquer_maku = {
-        icon = mission_non-western_soldiers
-        position = 4
-        required_missions = { vn_geo_conquer_ganja }
-		provinces_to_highlight = {
-			OR = {
-				area = maku_area
-				area = hayk_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            maku_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			hayk_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-			if = {
-				limit = {
-					religion_group = christian
-					NOT = { religion = coptic }
-				}
-				country_event = { id = vn_missions.16 }
-			}
-			else = {
-				add_prestige_or_monarch_power = { amount = 25 } 
-			}
-		}
-	}
-    vn_geo_hymns_of_repentance = {
-        icon = mission_court_education
-        position = 6
-        required_missions = {  }
-        trigger = {
-            if = {
-				limit = { has_estate = estate_church }
-				estate_loyalty = {
-					estate = estate_church
-					loyalty = 70
-				}
-				num_of_estate_privileges = {
-					estate = estate_church
-					value = 3
-				}
-			}
-			else = {
-				religious_unity = 1
-			}
-			calc_true_if = {
-				amount = 2
-				adm = 4
-				dip = 4
-				mil = 4
-			}
-        }
-        effect = {
-			add_prestige_or_monarch_power = { amount = 10 } 
-            add_country_modifier = {
-                name = geo_hymns_of_repentance_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_geo_scholary_centers = {
-        icon = mission_conquer_algiers
-        position = 7
-        required_missions = { vn_geo_hymns_of_repentance }
-        trigger = {
-            university = 5
-        }
-        effect = {
-			add_innovativeness_small_effect = yes
-			add_country_modifier = {
-				name = geo_scholary_centers_mission
-				duration = 9125
-			}
-        }
-	}
-}
+#     vn_geo_court_at_tbilisi = {
+#         icon = mission_eastern_european_city
+#         position = 1
+#         required_missions = {  }
+# 		provinces_to_highlight = {
+# 			province_id = 3621
+# 		}
+#         trigger = {
+# 			3621 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				NOT = { controlled_by = REB }
+# 				is_capital_of = ROOT
+# 			}
+#         }
+#         effect = {
+#             3621 = {
+# 				add_base_tax = 1
+#                 add_base_manpower = 1
+# 				if = {
+# 					limit = {
+# 						num_free_building_slots = 1
+# 						has_fort_building_trigger = no
+# 					}
+# 					add_building_construction = {
+# 						building = fort_14th
+# 						speed = 0.5
+# 						cost = 0
+# 					}
+# 				}
+# 				else = {
+# 					add_base_production = 2
+# 				}
+#             }
+#         }
+#     }
+#     vn_geo_expand_tbilisi = {
+#         icon = protectors_of_christendom
+#         position = 2
+#         required_missions = { vn_geo_court_at_tbilisi }
+#         provinces_to_highlight = {
+# 			province_id = 3621
+# 		}
+#         trigger = {
+# 			3621 = {
+# 				owned_by = ROOT
+# 				has_trade_building_trigger = yes
+# 				has_tax_building_trigger = yes
+# 				has_manufactory_trigger = yes
+# 			}
+#         }
+#         effect = {
+#             3621 = {
+# 				if = {
+# 					limit = {	
+# 						NOT = {
+# 							province_has_center_of_trade_of_level = 2
+# 						}
+# 					}
+# 					add_center_of_trade_level = 2
+# 				}
+# 				else_if = {
+# 					limit = {	
+# 						NOT = {
+# 							province_has_center_of_trade_of_level = 3
+# 						}
+# 					}
+# 					add_center_of_trade_level = 1
+# 				}
+# 				add_province_modifier = {
+#                     name = geo_expand_tbilisi_mission
+#                     duration = -1
+#                 }
+# 			}
+#         }
+#     }
+#     vn_geo_conquer_maku = {
+#         icon = mission_non-western_soldiers
+#         position = 4
+#         required_missions = { vn_geo_conquer_ganja }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = maku_area
+# 				area = hayk_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             maku_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			hayk_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 			if = {
+# 				limit = {
+# 					religion_group = christian
+# 					NOT = { religion = coptic }
+# 				}
+# 				country_event = { id = vn_missions.16 }
+# 			}
+# 			else = {
+# 				add_prestige_or_monarch_power = { amount = 25 } 
+# 			}
+# 		}
+# 	}
+#     vn_geo_hymns_of_repentance = {
+#         icon = mission_court_education
+#         position = 6
+#         required_missions = {  }
+#         trigger = {
+#             if = {
+# 				limit = { has_estate = estate_church }
+# 				estate_loyalty = {
+# 					estate = estate_church
+# 					loyalty = 70
+# 				}
+# 				num_of_estate_privileges = {
+# 					estate = estate_church
+# 					value = 3
+# 				}
+# 			}
+# 			else = {
+# 				religious_unity = 1
+# 			}
+# 			calc_true_if = {
+# 				amount = 2
+# 				adm = 4
+# 				dip = 4
+# 				mil = 4
+# 			}
+#         }
+#         effect = {
+# 			add_prestige_or_monarch_power = { amount = 10 } 
+#             add_country_modifier = {
+#                 name = geo_hymns_of_repentance_mission
+#                 duration = 9125
+#             }
+#         }
+#     }
+#     vn_geo_scholary_centers = {
+#         icon = mission_conquer_algiers
+#         position = 7
+#         required_missions = { vn_geo_hymns_of_repentance }
+#         trigger = {
+#             university = 5
+#         }
+#         effect = {
+# 			add_innovativeness_small_effect = yes
+# 			add_country_modifier = {
+# 				name = geo_scholary_centers_mission
+# 				duration = 9125
+# 			}
+#         }
+# 	}
+# }
 
-vn_geo_missions_slot_4 = {
-    slot = 9
-    generic = no
-    ai = yes
-    potential = {
-        tag = GEO
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_geo_missions_slot_4 = {
+#     slot = 4
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = GEO
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_geo_conquer_kartli = {
-        icon = mission_conquer_50_development
-        position = 1
-        required_missions = {  }
-		provinces_to_highlight = {
-			area = kartli_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            kartli_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            hereti_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            kakheti_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-    vn_geo_conquer_hereti = {
-        icon = mission_conquer_novgorod
-        position = 2
-        required_missions = { vn_geo_conquer_kartli vn_geo_court_at_tbilisi }
-        provinces_to_highlight = {
-			OR = {
-				area = hereti_area
-				area = kakheti_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            hereti_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			kakheti_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            ganja_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            lori_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            shaki_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-			shirvan_area = {
-                limit = {
-                    NOT = { owned_by = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-			}
-			add_country_modifier = {
-				name = geo_conquer_hereti_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_geo_conquer_ganja = {
-        icon = mission_conquer_romania
-        position = 3
-        required_missions = { vn_geo_conquer_hereti }
-		provinces_to_highlight = {
-			OR = {
-				area = ganja_area
-				area = lori_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            ganja_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			lori_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            maku_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            hayk_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            gegham_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-			khachen_area = {
-                limit = {
-                    NOT = { owned_by = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-        }
-    }
-    vn_geo_conquer_gegham = {
-        icon = mission_non-western_cavalry_raid
-        position = 4
-        required_missions = { vn_geo_conquer_ganja }
-		provinces_to_highlight = {
-			OR = {
-				area = gegham_area
-				area = khachen_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            gegham_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			khachen_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            create_general = {
-				tradition = 75
-				culture = armenian
-			}
-			add_country_modifier = {
-				name = geo_conquer_gegham_mission
-				duration = 9125
-			}
-        }
-    }
-	vn_geo_conquer_circessia = {
-        icon = mission_protect_albania
-        position = 6
-        required_missions = { vn_geo_peace_and_war }
-		provinces_to_highlight = {
-			OR = {
-				area = shapsug_area
-				area = adygea_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            shapsug_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			adygea_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            shapsug_area = {
-                add_province_modifier = {
-                    name = geo_conquer_circessia_mission
-                    duration = 9125
-                }
-            }
-            adygea_area = {
-                add_province_modifier = {
-                    name = geo_conquer_circessia_mission
-                    duration = 9125
-                }
-            }
-        }
-    }
-}
+#     vn_geo_conquer_kartli = {
+#         icon = mission_conquer_50_development
+#         position = 1
+#         required_missions = {  }
+# 		provinces_to_highlight = {
+# 			area = kartli_area
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             kartli_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             hereti_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             kakheti_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+#     vn_geo_conquer_hereti = {
+#         icon = mission_conquer_novgorod
+#         position = 2
+#         required_missions = { vn_geo_conquer_kartli vn_geo_court_at_tbilisi }
+#         provinces_to_highlight = {
+# 			OR = {
+# 				area = hereti_area
+# 				area = kakheti_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             hereti_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			kakheti_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             ganja_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             lori_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             shaki_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+# 			shirvan_area = {
+#                 limit = {
+#                     NOT = { owned_by = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
+#                 }
+#                 add_permanent_claim = ROOT
+# 			}
+# 			add_country_modifier = {
+# 				name = geo_conquer_hereti_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_geo_conquer_ganja = {
+#         icon = mission_conquer_romania
+#         position = 3
+#         required_missions = { vn_geo_conquer_hereti }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = ganja_area
+# 				area = lori_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             ganja_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			lori_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             maku_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             hayk_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             gegham_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+# 			khachen_area = {
+#                 limit = {
+#                     NOT = { owned_by = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
+#                 }
+#                 add_permanent_claim = ROOT
+#             }
+#         }
+#     }
+#     vn_geo_conquer_gegham = {
+#         icon = mission_non-western_cavalry_raid
+#         position = 4
+#         required_missions = { vn_geo_conquer_ganja }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = gegham_area
+# 				area = khachen_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             gegham_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			khachen_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             create_general = {
+# 				tradition = 75
+# 				culture = armenian
+# 			}
+# 			add_country_modifier = {
+# 				name = geo_conquer_gegham_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+# 	vn_geo_conquer_circessia = {
+#         icon = mission_protect_albania
+#         position = 6
+#         required_missions = { vn_geo_peace_and_war }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = shapsug_area
+# 				area = adygea_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             shapsug_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			adygea_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             shapsug_area = {
+#                 add_province_modifier = {
+#                     name = geo_conquer_circessia_mission
+#                     duration = 9125
+#                 }
+#             }
+#             adygea_area = {
+#                 add_province_modifier = {
+#                     name = geo_conquer_circessia_mission
+#                     duration = 9125
+#                 }
+#             }
+#         }
+#     }
+# }
 
-vn_geo_missions_slot_5 = {
-    slot = 10
-    generic = no
-    ai = yes
-    potential = {
-        tag = GEO
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_geo_missions_slot_5 = {
+#     slot = 5
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = GEO
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_geo_establish_the_darbazi = {
-        icon = mission_noble_council
-        position = 1
-        required_missions = {  }
-        trigger = {
-            has_3_lv3_advisors_trigger = yes
-        }
-        effect = {
-			add_reform_progress_medium_effect = yes
-            add_country_modifier = {
-                name = geo_establish_the_darbazi_mission
-                duration = 9125
-            }
-        }
-    }
-    vn_geo_peasants_like_nobles = {
-        icon = dominant_economy
-        position = 2
-        required_missions = { vn_geo_establish_the_darbazi }
-        trigger = {
-			total_development = 750
-			monthly_income = 250
-        }
-        effect = {
-            add_legitimacy = 25
-            add_country_modifier = {
-                name = geo_peasants_like_nobles_mission
-                duration = 36500
-            }
-        }
-    }
-    vn_geo_conquer_shirvan = {
-        icon = mission_unite_home_region
-        position = 3
-        required_missions = { vn_geo_conquer_hereti }
-		provinces_to_highlight = {
-			OR = {
-				area = shaki_area
-				area = shirvan_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            shaki_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			shirvan_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            lekia_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            derbent_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-        }
-    }
-    vn_geo_conquer_dagestan = {
-        icon = mission_great_wall
-        position = 4
-		required_missions = { vn_geo_conquer_shirvan }
-		provinces_to_highlight = {
-			OR = {
-				area = lekia_area
-				area = derbent_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            lekia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			derbent_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-		   add_prestige_or_monarch_power = { amount = 10 } 
-		   add_adm_power = 50
-		   add_mil_power = 50
-        }
-    }
-    vn_geo_peace_and_war = {
-        icon = mission_assemble_an_army
-        position = 5
-        required_missions = {  }
-        trigger = {
-            army_size_percentage = 0.75
-			any_country = {
-				war_with = ROOT
-				army_strength = {
-					who = ROOT
-					value = 1.5
-				}
-			}
-        }
-        effect = {
-            raise_war_taxes = yes
-            alania_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            shapsug_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            adygea_area = {
-                limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            add_country_modifier = {
-				name = geo_peace_and_war_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_geo_conquer_alania = {
-        icon = mission_collect_yasak
-        position = 6
-		required_missions = { vn_geo_peace_and_war }
-		provinces_to_highlight = {
-			area = alania_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            alania_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            chechnya_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-            abazin_area = {
-                limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			kabardia_area = {
-                limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-            }
-        }
-    }
-    vn_geo_conquer_avaria = {
-        icon = mission_extent_yasak_to_the_east
-        position = 7
-        required_missions = { vn_geo_conquer_alania }
-        provinces_to_highlight = {
-            OR = {
-				area = chechnya_area
-				area = abazin_area
-				area = kabardia_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			chechnya_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			abazin_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			kabardia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-        effect = {
-            add_country_modifier = {
-                name = geo_conquer_avaria_mission
-                duration = 9125
-            }
-        }
-	}
-}
+#     vn_geo_establish_the_darbazi = {
+#         icon = mission_noble_council
+#         position = 1
+#         required_missions = {  }
+#         trigger = {
+#             has_3_lv3_advisors_trigger = yes
+#         }
+#         effect = {
+# 			add_reform_progress_medium_effect = yes
+#             add_country_modifier = {
+#                 name = geo_establish_the_darbazi_mission
+#                 duration = 9125
+#             }
+#         }
+#     }
+#     vn_geo_peasants_like_nobles = {
+#         icon = dominant_economy
+#         position = 2
+#         required_missions = { vn_geo_establish_the_darbazi }
+#         trigger = {
+# 			total_development = 750
+# 			monthly_income = 250
+#         }
+#         effect = {
+#             add_legitimacy = 25
+#             add_country_modifier = {
+#                 name = geo_peasants_like_nobles_mission
+#                 duration = 36500
+#             }
+#         }
+#     }
+#     vn_geo_conquer_shirvan = {
+#         icon = mission_unite_home_region
+#         position = 3
+#         required_missions = { vn_geo_conquer_hereti }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = shaki_area
+# 				area = shirvan_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             shaki_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			shirvan_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             lekia_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             derbent_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#         }
+#     }
+#     vn_geo_conquer_dagestan = {
+#         icon = mission_great_wall
+#         position = 4
+# 		required_missions = { vn_geo_conquer_shirvan }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = lekia_area
+# 				area = derbent_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             lekia_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			derbent_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 		   add_prestige_or_monarch_power = { amount = 10 } 
+# 		   add_adm_power = 50
+# 		   add_mil_power = 50
+#         }
+#     }
+#     vn_geo_peace_and_war = {
+#         icon = mission_assemble_an_army
+#         position = 5
+#         required_missions = {  }
+#         trigger = {
+#             army_size_percentage = 0.75
+# 			any_country = {
+# 				war_with = ROOT
+# 				army_strength = {
+# 					who = ROOT
+# 					value = 1.5
+# 				}
+# 			}
+#         }
+#         effect = {
+#             raise_war_taxes = yes
+#             alania_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             shapsug_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             adygea_area = {
+#                 limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             add_country_modifier = {
+# 				name = geo_peace_and_war_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_geo_conquer_alania = {
+#         icon = mission_collect_yasak
+#         position = 6
+# 		required_missions = { vn_geo_peace_and_war }
+# 		provinces_to_highlight = {
+# 			area = alania_area
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             alania_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             chechnya_area = {
+# 				limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#             abazin_area = {
+#                 limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			kabardia_area = {
+#                 limit = {
+# 					NOT = { owned_by = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+#             }
+#         }
+#     }
+#     vn_geo_conquer_avaria = {
+#         icon = mission_extent_yasak_to_the_east
+#         position = 7
+#         required_missions = { vn_geo_conquer_alania }
+#         provinces_to_highlight = {
+#             OR = {
+# 				area = chechnya_area
+# 				area = abazin_area
+# 				area = kabardia_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		trigger = {
+# 			chechnya_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			abazin_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			kabardia_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 		}
+#         effect = {
+#             add_country_modifier = {
+#                 name = geo_conquer_avaria_mission
+#                 duration = 9125
+#             }
+#         }
+# 	}
+# }

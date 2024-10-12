@@ -1,604 +1,604 @@
-#Sienese missions
-#Contributed by Marduk
+# #Sienese missions
+# #Contributed by Marduk
 
-vn_sie_missions_slot_1_a = {
-    slot = 6
-    generic = no
-    ai = yes
-    potential = {
-        tag = SIE
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_sie_missions_slot_1_a = {
+#     slot = 1
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = SIE
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_sie_monteriggioni_castle = {
-        icon = mission_european_castle
-        position = 2
-		required_missions = { vn_sie_via_francigena }
-		provinces_to_highlight = {
-			province_id = 117
-		}
-        trigger = {
-			117 = {
-				owned_by = ROOT
-				is_core = ROOT
-				has_fort_building_trigger = yes
-				has_building = armory
-				base_manpower = 6
-			}
-        }
-        effect = {
-            117 = {
-				add_province_modifier = {
-					name = "sie_monteriggioni_castle_mission"
-					duration = 9125
-				}
-			}
-        }
-    }
-    vn_sie_port_of_talamone = {
-        icon = mission_dominate_genoa
-        position = 3
-		required_missions = { vn_sie_monteriggioni_castle }
-		provinces_to_highlight = {
-			province_id = 1843
-		}
-        trigger = {
-			1843 = {
-				owned_by = ROOT
-				is_core = ROOT
-				has_building = harbour
-				has_fort_building_trigger = yes
-			}
-			treasury = 250
-        }
-        effect = {
-			add_yearly_sailors = 0.25
-            1843 = {
-				add_base_production = 2
-				add_province_modifier = {
-					name = "sie_port_of_talamone_mission"
-					duration = 9125
-				}
-			}
-        }
-	}
-}
+#     vn_sie_monteriggioni_castle = {
+#         icon = mission_european_castle
+#         position = 2
+# 		required_missions = { vn_sie_via_francigena }
+# 		provinces_to_highlight = {
+# 			province_id = 117
+# 		}
+#         trigger = {
+# 			117 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				has_fort_building_trigger = yes
+# 				has_building = armory
+# 				base_manpower = 6
+# 			}
+#         }
+#         effect = {
+#             117 = {
+# 				add_province_modifier = {
+# 					name = "sie_monteriggioni_castle_mission"
+# 					duration = 9125
+# 				}
+# 			}
+#         }
+#     }
+#     vn_sie_port_of_talamone = {
+#         icon = mission_dominate_genoa
+#         position = 3
+# 		required_missions = { vn_sie_monteriggioni_castle }
+# 		provinces_to_highlight = {
+# 			province_id = 1843
+# 		}
+#         trigger = {
+# 			1843 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				has_building = harbour
+# 				has_fort_building_trigger = yes
+# 			}
+# 			treasury = 250
+#         }
+#         effect = {
+# 			add_yearly_sailors = 0.25
+#             1843 = {
+# 				add_base_production = 2
+# 				add_province_modifier = {
+# 					name = "sie_port_of_talamone_mission"
+# 					duration = 9125
+# 				}
+# 			}
+#         }
+# 	}
+# }
 
-vn_sie_missions_slot_2_a = {
-    slot = 7
-    generic = no
-    ai = yes
-    potential = {
-        tag = SIE
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_sie_missions_slot_2_a = {
+#     slot = 2
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = SIE
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_sie_via_francigena = {
-        icon = mission_roads
-        position = 1
-		required_missions = {  }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 117
-				province_id = 1024
-			}
-		}
-        trigger = {
-			117 = {
-				owned_by = ROOT
-				is_core = ROOT
-				OR = {
-					has_building = road_network
-					has_building = post_office
-				}
-			}
-			1024 = {
-				owned_by = ROOT
-				is_core = ROOT
-				OR = {
-					has_building = road_network
-					has_building = post_office
-				}
-			}
-        }
-        effect = {
-            117 = {
-				add_province_modifier = {
-					name = "sie_via_francigena_mission"
-					duration = -1
-				}
-			}
-			1024 = {
-				add_province_modifier = {
-					name = "sie_via_francigena_mission"
-					duration = -1
-				}
-			}
-        }
-    }
-    vn_sie_gran_tavola = {
-        icon = mission_taula_de_canvi
-        position = 2
-		required_missions = { vn_sie_via_francigena }
-		provinces_to_highlight = {
-			province_id = 117
-		}
-        trigger = {
-			117 = {
-				owned_by = ROOT
-				is_core = ROOT
-				has_building = post_office
-			}
-			if = {
-				limit = { has_estate = estate_burghers }
-				estate_loyalty = {
-					estate = estate_burghers
-					loyalty = 60
-				}
-				num_of_estate_privileges = {
-					estate = estate_burghers
-					value = 2
-				}
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = "sie_gran_tavola_mission"
-				duration = 9125
-			}
-        }
-    }
-    vn_sie_santa_maria_della_scala = {
-        icon = mission_hospital
-        position = 3
-        required_missions = { 
-			vn_sie_gran_tavola 
-			vn_sie_studium_senese 
-		}
-        trigger = {
-			customs_house = 5
-        }
-        effect = {
-			117 = {
-				if = {
-					limit = { owned_by = ROOT }
-					add_base_tax = 1
-				}
-			}
-			add_country_modifier = {
-				name = "sie_santa_maria_della_scala_mission"
-				duration = 5475
-			}
-        }
-    }
-    vn_sie_monte_dei_paschi_bank = {
-        icon = medici_bank_ledgers
-        position = 4
-		required_missions = { vn_sie_santa_maria_della_scala }
-		provinces_to_highlight = {
-			province_id = 117
-		}
-        trigger = {
-			total_development = 100
-			117 = {
-				owned_by = ROOT
-				is_core = ROOT
-				has_trade_building_trigger = yes
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = "sie_monte_dei_paschi_bank_mission"
-				duration = -1
-			}
-			117 = {
-				add_province_modifier = {
-					name = "sie_monte_dei_paschi_bank_mission2"
-					duration = 9125
-				}
-			}
-        }
-	}
-}
+#     vn_sie_via_francigena = {
+#         icon = mission_roads
+#         position = 1
+# 		required_missions = {  }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 117
+# 				province_id = 1024
+# 			}
+# 		}
+#         trigger = {
+# 			117 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				OR = {
+# 					has_building = road_network
+# 					has_building = post_office
+# 				}
+# 			}
+# 			1024 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				OR = {
+# 					has_building = road_network
+# 					has_building = post_office
+# 				}
+# 			}
+#         }
+#         effect = {
+#             117 = {
+# 				add_province_modifier = {
+# 					name = "sie_via_francigena_mission"
+# 					duration = -1
+# 				}
+# 			}
+# 			1024 = {
+# 				add_province_modifier = {
+# 					name = "sie_via_francigena_mission"
+# 					duration = -1
+# 				}
+# 			}
+#         }
+#     }
+#     vn_sie_gran_tavola = {
+#         icon = mission_taula_de_canvi
+#         position = 2
+# 		required_missions = { vn_sie_via_francigena }
+# 		provinces_to_highlight = {
+# 			province_id = 117
+# 		}
+#         trigger = {
+# 			117 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				has_building = post_office
+# 			}
+# 			if = {
+# 				limit = { has_estate = estate_burghers }
+# 				estate_loyalty = {
+# 					estate = estate_burghers
+# 					loyalty = 60
+# 				}
+# 				num_of_estate_privileges = {
+# 					estate = estate_burghers
+# 					value = 2
+# 				}
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = "sie_gran_tavola_mission"
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_sie_santa_maria_della_scala = {
+#         icon = mission_hospital
+#         position = 3
+#         required_missions = { 
+# 			vn_sie_gran_tavola 
+# 			vn_sie_studium_senese 
+# 		}
+#         trigger = {
+# 			customs_house = 5
+#         }
+#         effect = {
+# 			117 = {
+# 				if = {
+# 					limit = { owned_by = ROOT }
+# 					add_base_tax = 1
+# 				}
+# 			}
+# 			add_country_modifier = {
+# 				name = "sie_santa_maria_della_scala_mission"
+# 				duration = 5475
+# 			}
+#         }
+#     }
+#     vn_sie_monte_dei_paschi_bank = {
+#         icon = medici_bank_ledgers
+#         position = 4
+# 		required_missions = { vn_sie_santa_maria_della_scala }
+# 		provinces_to_highlight = {
+# 			province_id = 117
+# 		}
+#         trigger = {
+# 			total_development = 100
+# 			117 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				has_trade_building_trigger = yes
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = "sie_monte_dei_paschi_bank_mission"
+# 				duration = -1
+# 			}
+# 			117 = {
+# 				add_province_modifier = {
+# 					name = "sie_monte_dei_paschi_bank_mission2"
+# 					duration = 9125
+# 				}
+# 			}
+#         }
+# 	}
+# }
 
-vn_sie_missions_slot_3_a = {
-    slot = 8
-    generic = no
-    ai = yes
-    potential = {
-        tag = SIE
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_sie_missions_slot_3_a = {
+#     slot = 3
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = SIE
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_sie_sienese_school = {
-        icon = mission_vedic_education
-        position = 1
-        required_missions = {  }
-        trigger = {
-			artist = 2
-			OR = {
-				full_idea_group = cultural_ideas
-				full_idea_group = innovativeness_ideas
-			}
-        }
-        effect = {
-			define_advisor = {
-				type = artist
-				skill = 3
-				discount = yes
-			}
-            add_country_modifier = {
-				name = "sie_sienese_school_mission"
-				duration = 9125
-			}
-        }
-    }
-    vn_sie_studium_senese = {
-        icon = mission_early_modern_university 
-        position = 2
-		required_missions = { vn_sie_sienese_school }
-		provinces_to_highlight = {
-			province_id = 117
-		}
-        trigger = {
-			117 = {
-				owned_by = ROOT
-				is_core = ROOT
-				has_education_building_trigger = yes
-			}
-			OR = {
-				full_idea_group = cultural_ideas
-				full_idea_group = innovativeness_ideas
-			}
-        }
-        effect = {
-			add_innovativeness_big_effect = yes
-			add_country_modifier = {
-				name = "sie_studium_senese_mission"
-				duration = 7300
-			}
-        }
-    }
-    vn_sie_duomo = {
-        icon = mission_portico
-        position = 3
-		required_missions = { vn_sie_studium_senese }
-		provinces_to_highlight = {
-			province_id = 117
-		}
-        trigger = {
-			117 = {
-				owned_by = ROOT
-				is_core = ROOT
-				development = 20
-				has_tax_building_trigger = yes
-			}
-        }
-        effect = {
-			add_religious_influence_effect_large = yes
-			add_prestige_or_monarch_power = { amount = 10 } 
-        }
-    }
-    vn_sie_palio = {
-        icon = mission_guilds_of_barcelona 
-        position = 4
-		required_missions = { vn_sie_duomo }
-		provinces_to_highlight = {
-			province_id = 117
-		}
-        trigger = {
-			if = {
-				limit = { government = monarchy }
-				legitimacy = 100
-			}
-			else_if = {
-				limit = { government = republic }
-				republican_tradition = 100
-			}
-			117 = {
-				development = 30
-				NOT = { num_free_building_slots = 1 }
-			}
-        }
-        effect = {
-			add_stability_or_adm_power = yes
-			add_prestige_or_monarch_power = { amount = 15 } 
-			add_republican_tradition = 20
-        }
-	}
-}
+#     vn_sie_sienese_school = {
+#         icon = mission_vedic_education
+#         position = 1
+#         required_missions = {  }
+#         trigger = {
+# 			artist = 2
+# 			OR = {
+# 				full_idea_group = cultural_ideas
+# 				full_idea_group = innovativeness_ideas
+# 			}
+#         }
+#         effect = {
+# 			define_advisor = {
+# 				type = artist
+# 				skill = 3
+# 				discount = yes
+# 			}
+#             add_country_modifier = {
+# 				name = "sie_sienese_school_mission"
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_sie_studium_senese = {
+#         icon = mission_early_modern_university 
+#         position = 2
+# 		required_missions = { vn_sie_sienese_school }
+# 		provinces_to_highlight = {
+# 			province_id = 117
+# 		}
+#         trigger = {
+# 			117 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				has_education_building_trigger = yes
+# 			}
+# 			OR = {
+# 				full_idea_group = cultural_ideas
+# 				full_idea_group = innovativeness_ideas
+# 			}
+#         }
+#         effect = {
+# 			add_innovativeness_big_effect = yes
+# 			add_country_modifier = {
+# 				name = "sie_studium_senese_mission"
+# 				duration = 7300
+# 			}
+#         }
+#     }
+#     vn_sie_duomo = {
+#         icon = mission_portico
+#         position = 3
+# 		required_missions = { vn_sie_studium_senese }
+# 		provinces_to_highlight = {
+# 			province_id = 117
+# 		}
+#         trigger = {
+# 			117 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 				development = 20
+# 				has_tax_building_trigger = yes
+# 			}
+#         }
+#         effect = {
+# 			add_religious_influence_effect_large = yes
+# 			add_prestige_or_monarch_power = { amount = 10 } 
+#         }
+#     }
+#     vn_sie_palio = {
+#         icon = mission_guilds_of_barcelona 
+#         position = 4
+# 		required_missions = { vn_sie_duomo }
+# 		provinces_to_highlight = {
+# 			province_id = 117
+# 		}
+#         trigger = {
+# 			if = {
+# 				limit = { government = monarchy }
+# 				legitimacy = 100
+# 			}
+# 			else_if = {
+# 				limit = { government = republic }
+# 				republican_tradition = 100
+# 			}
+# 			117 = {
+# 				development = 30
+# 				NOT = { num_free_building_slots = 1 }
+# 			}
+#         }
+#         effect = {
+# 			add_stability_or_adm_power = yes
+# 			add_prestige_or_monarch_power = { amount = 15 } 
+# 			add_republican_tradition = 20
+#         }
+# 	}
+# }
 
-vn_sie_missions_slot_4_a = {
-    slot = 9
-    generic = no
-    ai = yes
-    potential = {
-        tag = SIE
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_sie_missions_slot_4_a = {
+#     slot = 4
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = SIE
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_sie_unite_siena = {
-        icon = mission_unite_home_region
-        position = 1
-		required_missions = {  }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 117
-				province_id = 1024
-				province_id = 1843
-				province_id = 4531
-				province_id = 2025
-			}
-			OR = {
-                NOT = { owned_by = ROOT }
-                NOT = { is_core = ROOT }
-            }
-		}
-        trigger = {
-			army_size_percentage = 1
-			117 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-			1024 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-			1843 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-			4531 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-			2025 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-        }
-        effect = {
-			add_republican_tradition = 10
-			1030 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			2600 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			323 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			732 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			506 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			2707 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-        }
-    }
-    vn_sie_massa_marittima = {
-        icon = mission_sea_battles
-        position = 2
-		required_missions = { vn_sie_unite_siena }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 1030
-				province_id = 2600
-			}
-			OR = {
-                NOT = { owned_by = ROOT }
-                NOT = { is_core = ROOT }
-            }
-		}
-        trigger = {
-			1030 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-			2600 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-        }
-        effect = {
-            1030 = {
-				change_trade_goods = silver
-				add_base_production = 2
-				add_province_modifier = {
-					name = "sie_massa_marittima_mission"
-					duration = 9125
-				}
-			}
-			2600 = {
-				add_base_production = 2
-				add_province_modifier = {
-					name = "sie_massa_marittima_mission"
-					duration = 9125
-				}
-			}
-			pisa_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-    vn_sie_seize_pisa = {
-        icon = pulverize_pisa
-        position = 3
-		required_missions = { vn_sie_massa_marittima }
-		provinces_to_highlight = {
-			area = pisa_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 5
-				area = pisa_area
-			}
-        }
-        effect = {
-			add_mercantilism = 3
-			add_prestige_or_monarch_power = { amount = 10 } 
-			florence_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-    vn_sie_capture_florence = {
-        icon = conquer_tuscany
-        position = 4
-		required_missions = { 
-			vn_sie_seize_pisa 
-			vn_sie_subjugate_arezzo 
-		}
-		provinces_to_highlight = {
-			area = florence_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 5
-				area = florence_area
-			}
-        }
-        effect = {
-			add_power_projection = {
-                type = mission_rewards_power_projection
-                amount = 20
-            }
-            add_country_modifier = {
-				name = "sie_capture_florence_mission"
-				duration = 9125
-			}
-        }
-	}
-}
+#     vn_sie_unite_siena = {
+#         icon = mission_unite_home_region
+#         position = 1
+# 		required_missions = {  }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 117
+# 				province_id = 1024
+# 				province_id = 1843
+# 				province_id = 4531
+# 				province_id = 2025
+# 			}
+# 			OR = {
+#                 NOT = { owned_by = ROOT }
+#                 NOT = { is_core = ROOT }
+#             }
+# 		}
+#         trigger = {
+# 			army_size_percentage = 1
+# 			117 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+# 			1024 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+# 			1843 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+# 			4531 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+# 			2025 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+#         }
+#         effect = {
+# 			add_republican_tradition = 10
+# 			1030 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			2600 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			323 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			732 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			506 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			2707 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+#         }
+#     }
+#     vn_sie_massa_marittima = {
+#         icon = mission_sea_battles
+#         position = 2
+# 		required_missions = { vn_sie_unite_siena }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 1030
+# 				province_id = 2600
+# 			}
+# 			OR = {
+#                 NOT = { owned_by = ROOT }
+#                 NOT = { is_core = ROOT }
+#             }
+# 		}
+#         trigger = {
+# 			1030 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+# 			2600 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+#         }
+#         effect = {
+#             1030 = {
+# 				change_trade_goods = silver
+# 				add_base_production = 2
+# 				add_province_modifier = {
+# 					name = "sie_massa_marittima_mission"
+# 					duration = 9125
+# 				}
+# 			}
+# 			2600 = {
+# 				add_base_production = 2
+# 				add_province_modifier = {
+# 					name = "sie_massa_marittima_mission"
+# 					duration = 9125
+# 				}
+# 			}
+# 			pisa_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+#     vn_sie_seize_pisa = {
+#         icon = pulverize_pisa
+#         position = 3
+# 		required_missions = { vn_sie_massa_marittima }
+# 		provinces_to_highlight = {
+# 			area = pisa_area
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+# 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+# 				value = 5
+# 				area = pisa_area
+# 			}
+#         }
+#         effect = {
+# 			add_mercantilism = 3
+# 			add_prestige_or_monarch_power = { amount = 10 } 
+# 			florence_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+#     vn_sie_capture_florence = {
+#         icon = conquer_tuscany
+#         position = 4
+# 		required_missions = { 
+# 			vn_sie_seize_pisa 
+# 			vn_sie_subjugate_arezzo 
+# 		}
+# 		provinces_to_highlight = {
+# 			area = florence_area
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+# 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+# 				value = 5
+# 				area = florence_area
+# 			}
+#         }
+#         effect = {
+# 			add_power_projection = {
+#                 type = mission_rewards_power_projection
+#                 amount = 20
+#             }
+#             add_country_modifier = {
+# 				name = "sie_capture_florence_mission"
+# 				duration = 9125
+# 			}
+#         }
+# 	}
+# }
 
-vn_sie_missions_slot_5_a = {
-    slot = 10
-    generic = no
-    ai = yes
-    potential = {
-        tag = SIE
-        NOT = { map_setup = map_setup_random }
-    }
-	has_country_shield = yes
+# vn_sie_missions_slot_5_a = {
+#     slot = 5
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = SIE
+#         NOT = { map_setup = map_setup_random }
+#     }
+# 	has_country_shield = yes
 	
-    vn_sie_sovana_and_santa_fiora = {
-        icon = mission_large_army
-        position = 2
-		required_missions = { vn_sie_unite_siena }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 323
-				province_id = 732
-				province_id = 506
-				province_id = 2334
-			}
-			OR = {
-                NOT = { owned_by = ROOT }
-                NOT = { is_core = ROOT }
-            }
-		}
-        trigger = {
-			323 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-			732 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-			506 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-			2334 = {
-				owned_by = ROOT
-				is_core = ROOT
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = "sie_sovana_and_santa_fiora_mission"
-				duration = 9125
-			}
-        }
-    }
-    vn_sie_subjugate_arezzo = {
-        icon = mission_conquer_50_development
-        position = 3
-		required_missions = { vn_sie_sovana_and_santa_fiora }
-		provinces_to_highlight = {
-			area = arezzo_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 5
-				area = arezzo_area
-			}
-        }
-        effect = {
-            add_army_tradition = 10
-			add_prestige_or_monarch_power = { amount = 10 } 
-			florence_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-	}
-}
+#     vn_sie_sovana_and_santa_fiora = {
+#         icon = mission_large_army
+#         position = 2
+# 		required_missions = { vn_sie_unite_siena }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 323
+# 				province_id = 732
+# 				province_id = 506
+# 				province_id = 2334
+# 			}
+# 			OR = {
+#                 NOT = { owned_by = ROOT }
+#                 NOT = { is_core = ROOT }
+#             }
+# 		}
+#         trigger = {
+# 			323 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+# 			732 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+# 			506 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+# 			2334 = {
+# 				owned_by = ROOT
+# 				is_core = ROOT
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = "sie_sovana_and_santa_fiora_mission"
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_sie_subjugate_arezzo = {
+#         icon = mission_conquer_50_development
+#         position = 3
+# 		required_missions = { vn_sie_sovana_and_santa_fiora }
+# 		provinces_to_highlight = {
+# 			area = arezzo_area
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+# 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+# 				value = 5
+# 				area = arezzo_area
+# 			}
+#         }
+#         effect = {
+#             add_army_tradition = 10
+# 			add_prestige_or_monarch_power = { amount = 10 } 
+# 			florence_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+# 	}
+# }

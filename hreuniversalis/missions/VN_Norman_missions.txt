@@ -1,1488 +1,1488 @@
-#Norman Missions
-#By Isildur
+# #Norman Missions
+# #By Isildur
 
-vn_nrm_missions_slot_1_a = {
-	slot = 6
-	generic = no
-	ai = yes
-	potential = {
-		tag = NRM
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
+# vn_nrm_missions_slot_1_a = {
+# 	slot = 1
+# 	generic = no
+# 	ai = yes
+# 	potential = {
+# 		tag = NRM
+# 		NOT = { map_setup = map_setup_random }
+# 	}
+# 	has_country_shield = yes
     
-	vn_nrm_naval_ventures = {
-		position = 1
-		icon = imperial_navy
-		required_missions = { }
-		trigger = {
-			naval_forcelimit = 15
-			num_of_heavy_ship = 3
-			num_of_light_ship = 3
-		}
-		effect = {
-			add_navy_tradition = 15
-			add_country_modifier = {
-				name = "nrm_naval_ventures_mission"
-				duration = 9125
-			}
-			complex_dynamic_effect = {
-				first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
-				first_limit = "
-					has_ruler_flag = edward_the_bastard_flag
-				"
-				first_effect = "
-					create_admiral = {
-						tradition = 75
-					}
-				"
-			}
-		}
-		ai_weight = {
-			factor = 250
-		}
-    }
-	vn_nrm_support_normans_in_italy = {
-		position = 3
-		icon = mission_seize_the_isles
-		required_missions = { vn_nrm_naval_ventures }
-		provinces_to_highlight = {
-			is_capital = yes
-			if = {
-				limit = {
-					OR = {
-						exists = APL
-						any_country = {
-							capital_scope = { superregion = sicily_superregion }
-							NOT = { tag = ROOT }
-							ruler_culture = normand
-						}
-					}
-				}
-				OR = {
-					owned_by = APL
-					owner = {
-						capital_scope = { superregion = sicily_superregion }
-						NOT = { tag = ROOT }
-						ruler_culture = normand
-						NOT = {
-							has_opinion = {
-								who = ROOT
-								value = 125
-							}
-						}
-					}
-				}
-			}
-			else_if = {
-				limit = {
-					OR = {
-						exists = APL
-						any_country = {
-							capital_scope = { superregion = sicily_superregion }
-							NOT = { tag = ROOT }
-						}
-					}
-				}
-				OR = {
-					owned_by = APL
-					owner = {
-						capital_scope = { superregion = sicily_superregion }
-						NOT = { tag = ROOT }
-						NOT = {
-							has_opinion = {
-								who = ROOT
-								value = 125
-							}
-						}
-					}
-				}
-			}
-			else = {
-				always = no
-			}
-		}
-		trigger = {
-			if = {
-				limit = {
-					OR = {
-						exists = APL
-						any_country = {
-							capital_scope = { superregion = sicily_superregion }
-							NOT = { tag = ROOT }
-							ruler_culture = normand
-						}
-					}
-				}
-				OR = {
-					reverse_has_opinion = {
-						who = APL
-						value = 125
-					}
-					custom_trigger_tooltip = {
-						tooltip = vn_nrm_support_normans_in_italy.tt
-						any_country = {
-							capital_scope = { superregion = sicily_superregion }
-							has_opinion = {
-								who = ROOT
-								value = 125
-							}
-							ruler_culture = normand
-						}
-					}
-				}
-			}
-			else_if = {
-				limit = {
-					OR = {
-						exists = APL
-						any_country = {
-							capital_scope = { superregion = sicily_superregion }
-							NOT = { tag = ROOT }
-						}
-					}
-				}
-				OR = {
-					reverse_has_opinion = {
-						who = APL
-						value = 125
-					}
-					custom_trigger_tooltip = {
-						tooltip = vn_nrm_support_normans_in_italy.tt2
-						any_country = {
-							capital_scope = { superregion = sicily_superregion }
-							has_opinion = {
-								who = ROOT
-								value = 125
-							}
-						}
-					}
-				}
-			}
-			else = {
-				num_of_allies = 4
-				has_dip_advisor_2 = yes
-			}
-		}
-		effect = {
-			if = {
-				limit = {
-					any_country = {
-						capital_scope = { superregion = sicily_superregion }
-						NOT = { tag = ROOT }
-						ruler_culture = normand
-					}
-				}
-				set_country_flag = nrm_mission_flag_normand
-				country_event = {
-					id = vn_flavor_nrm.1
-				}
-			}
-			else_if = {
-				limit = {
-					any_country = {
-						capital_scope = { superregion = sicily_superregion }
-						NOT = { tag = ROOT }
-					}
-				}
-				country_event = {
-					id = vn_flavor_nrm.1
-				}
-			}
-			else = {
-				add_dip_power = 50
-				add_country_modifier = {
-					name = "nrm_support_normans_in_italy_mission"
-					duration = 9125
-				}
-			}
-		}
-		ai_weight = {
-			factor = 250
-		}
-	}
-	vn_nrm_byzantine_bargains = {
-		position = 5
-		icon = mission_pf_soldier
-		required_missions = { vn_nrm_support_normans_in_italy }
-		provinces_to_highlight = {
-			if = {
-				limit = { BYZ = { exists = yes } }
-				is_capital_of = BYZ
-			}
-			else_if = {
-				limit = {
-					any_country = {
-						NOT = { tag = ROOT }
-						culture_group = byzantine
-					}
-				}
-				owner = {
-					NOT = { tag = ROOT }
-					culture_group = byzantine
-					NOT = {
-						has_opinion = {
-							who = ROOT
-							value = 100
-						}
-					}
-				}
-				is_capital = yes
-			}
-			else = {
-				always = no
-			}
-		}
-		trigger = {
-			if = {
-				limit = { exists = BYZ }
-				BYZ = {
-					NOT = { war_with = ROOT }
-					has_opinion = {
-						who = ROOT
-						value = 100
-					}
-				}
-			}
-			else_if = {
-				limit = {
-					any_country = {
-						NOT = { tag = ROOT }
-						culture_group = byzantine
-					}
-				}
-				any_country = {
-					culture_group = byzantine
-					has_opinion = {
-						who = ROOT
-						value = 100
-					}
-				}
-			}
-			else = {
-				army_size = 20
-				has_mil_advisor_2 = yes
-			}
-			manpower = 5
-		}
-		effect = {
-			if = {
-				limit = { exists = BYZ }
-				custom_tooltip = vn_nrm_byzantine_bargains.tt
-				hidden_effect = {
-					BYZ = {
-						country_event = {
-							id = vn_flavor_nrm.7
-						}
-					}
-				}
-			}
-			else_if = {
-				limit = {
-					any_country = {
-						NOT = { tag = ROOT }
-						culture_group = byzantine
-					}
-				}
-				custom_tooltip = vn_nrm_byzantine_bargains.tt2
-				hidden_effect = {
-					random_country = {
-						limit = {
-							NOT = { tag = ROOT }
-							culture_group = byzantine
-							has_opinion = {
-								who = ROOT
-								value = 100
-							}
-						}
-						country_event = {
-							id = vn_flavor_nrm.7
-						}
-					}
-				}
-			}
-			else = {
-				add_mil_power = 100
-			}
-		}
-		ai_weight = {
-			factor = 250
-		}
-	}
-}
+# 	vn_nrm_naval_ventures = {
+# 		position = 1
+# 		icon = imperial_navy
+# 		required_missions = { }
+# 		trigger = {
+# 			naval_forcelimit = 15
+# 			num_of_heavy_ship = 3
+# 			num_of_light_ship = 3
+# 		}
+# 		effect = {
+# 			add_navy_tradition = 15
+# 			add_country_modifier = {
+# 				name = "nrm_naval_ventures_mission"
+# 				duration = 9125
+# 			}
+# 			complex_dynamic_effect = {
+# 				first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
+# 				first_limit = "
+# 					has_ruler_flag = edward_the_bastard_flag
+# 				"
+# 				first_effect = "
+# 					create_admiral = {
+# 						tradition = 75
+# 					}
+# 				"
+# 			}
+# 		}
+# 		ai_weight = {
+# 			factor = 250
+# 		}
+#     }
+# 	vn_nrm_support_normans_in_italy = {
+# 		position = 3
+# 		icon = mission_seize_the_isles
+# 		required_missions = { vn_nrm_naval_ventures }
+# 		provinces_to_highlight = {
+# 			is_capital = yes
+# 			if = {
+# 				limit = {
+# 					OR = {
+# 						exists = APL
+# 						any_country = {
+# 							capital_scope = { superregion = sicily_superregion }
+# 							NOT = { tag = ROOT }
+# 							ruler_culture = normand
+# 						}
+# 					}
+# 				}
+# 				OR = {
+# 					owned_by = APL
+# 					owner = {
+# 						capital_scope = { superregion = sicily_superregion }
+# 						NOT = { tag = ROOT }
+# 						ruler_culture = normand
+# 						NOT = {
+# 							has_opinion = {
+# 								who = ROOT
+# 								value = 125
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else_if = {
+# 				limit = {
+# 					OR = {
+# 						exists = APL
+# 						any_country = {
+# 							capital_scope = { superregion = sicily_superregion }
+# 							NOT = { tag = ROOT }
+# 						}
+# 					}
+# 				}
+# 				OR = {
+# 					owned_by = APL
+# 					owner = {
+# 						capital_scope = { superregion = sicily_superregion }
+# 						NOT = { tag = ROOT }
+# 						NOT = {
+# 							has_opinion = {
+# 								who = ROOT
+# 								value = 125
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				always = no
+# 			}
+# 		}
+# 		trigger = {
+# 			if = {
+# 				limit = {
+# 					OR = {
+# 						exists = APL
+# 						any_country = {
+# 							capital_scope = { superregion = sicily_superregion }
+# 							NOT = { tag = ROOT }
+# 							ruler_culture = normand
+# 						}
+# 					}
+# 				}
+# 				OR = {
+# 					reverse_has_opinion = {
+# 						who = APL
+# 						value = 125
+# 					}
+# 					custom_trigger_tooltip = {
+# 						tooltip = vn_nrm_support_normans_in_italy.tt
+# 						any_country = {
+# 							capital_scope = { superregion = sicily_superregion }
+# 							has_opinion = {
+# 								who = ROOT
+# 								value = 125
+# 							}
+# 							ruler_culture = normand
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else_if = {
+# 				limit = {
+# 					OR = {
+# 						exists = APL
+# 						any_country = {
+# 							capital_scope = { superregion = sicily_superregion }
+# 							NOT = { tag = ROOT }
+# 						}
+# 					}
+# 				}
+# 				OR = {
+# 					reverse_has_opinion = {
+# 						who = APL
+# 						value = 125
+# 					}
+# 					custom_trigger_tooltip = {
+# 						tooltip = vn_nrm_support_normans_in_italy.tt2
+# 						any_country = {
+# 							capital_scope = { superregion = sicily_superregion }
+# 							has_opinion = {
+# 								who = ROOT
+# 								value = 125
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				num_of_allies = 4
+# 				has_dip_advisor_2 = yes
+# 			}
+# 		}
+# 		effect = {
+# 			if = {
+# 				limit = {
+# 					any_country = {
+# 						capital_scope = { superregion = sicily_superregion }
+# 						NOT = { tag = ROOT }
+# 						ruler_culture = normand
+# 					}
+# 				}
+# 				set_country_flag = nrm_mission_flag_normand
+# 				country_event = {
+# 					id = vn_flavor_nrm.1
+# 				}
+# 			}
+# 			else_if = {
+# 				limit = {
+# 					any_country = {
+# 						capital_scope = { superregion = sicily_superregion }
+# 						NOT = { tag = ROOT }
+# 					}
+# 				}
+# 				country_event = {
+# 					id = vn_flavor_nrm.1
+# 				}
+# 			}
+# 			else = {
+# 				add_dip_power = 50
+# 				add_country_modifier = {
+# 					name = "nrm_support_normans_in_italy_mission"
+# 					duration = 9125
+# 				}
+# 			}
+# 		}
+# 		ai_weight = {
+# 			factor = 250
+# 		}
+# 	}
+# 	vn_nrm_byzantine_bargains = {
+# 		position = 5
+# 		icon = mission_pf_soldier
+# 		required_missions = { vn_nrm_support_normans_in_italy }
+# 		provinces_to_highlight = {
+# 			if = {
+# 				limit = { BYZ = { exists = yes } }
+# 				is_capital_of = BYZ
+# 			}
+# 			else_if = {
+# 				limit = {
+# 					any_country = {
+# 						NOT = { tag = ROOT }
+# 						culture_group = byzantine
+# 					}
+# 				}
+# 				owner = {
+# 					NOT = { tag = ROOT }
+# 					culture_group = byzantine
+# 					NOT = {
+# 						has_opinion = {
+# 							who = ROOT
+# 							value = 100
+# 						}
+# 					}
+# 				}
+# 				is_capital = yes
+# 			}
+# 			else = {
+# 				always = no
+# 			}
+# 		}
+# 		trigger = {
+# 			if = {
+# 				limit = { exists = BYZ }
+# 				BYZ = {
+# 					NOT = { war_with = ROOT }
+# 					has_opinion = {
+# 						who = ROOT
+# 						value = 100
+# 					}
+# 				}
+# 			}
+# 			else_if = {
+# 				limit = {
+# 					any_country = {
+# 						NOT = { tag = ROOT }
+# 						culture_group = byzantine
+# 					}
+# 				}
+# 				any_country = {
+# 					culture_group = byzantine
+# 					has_opinion = {
+# 						who = ROOT
+# 						value = 100
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				army_size = 20
+# 				has_mil_advisor_2 = yes
+# 			}
+# 			manpower = 5
+# 		}
+# 		effect = {
+# 			if = {
+# 				limit = { exists = BYZ }
+# 				custom_tooltip = vn_nrm_byzantine_bargains.tt
+# 				hidden_effect = {
+# 					BYZ = {
+# 						country_event = {
+# 							id = vn_flavor_nrm.7
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else_if = {
+# 				limit = {
+# 					any_country = {
+# 						NOT = { tag = ROOT }
+# 						culture_group = byzantine
+# 					}
+# 				}
+# 				custom_tooltip = vn_nrm_byzantine_bargains.tt2
+# 				hidden_effect = {
+# 					random_country = {
+# 						limit = {
+# 							NOT = { tag = ROOT }
+# 							culture_group = byzantine
+# 							has_opinion = {
+# 								who = ROOT
+# 								value = 100
+# 							}
+# 						}
+# 						country_event = {
+# 							id = vn_flavor_nrm.7
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				add_mil_power = 100
+# 			}
+# 		}
+# 		ai_weight = {
+# 			factor = 250
+# 		}
+# 	}
+# }
 
-vn_nrm_missions_slot_2_a = {
-	slot = 7
-	generic = no
-	ai = yes
-	potential = {
-		tag = NRM
-		NOT = { map_setup = map_setup_random }
-	}
-    has_country_shield = yes
+# vn_nrm_missions_slot_2_a = {
+# 	slot = 2
+# 	generic = no
+# 	ai = yes
+# 	potential = {
+# 		tag = NRM
+# 		NOT = { map_setup = map_setup_random }
+# 	}
+#     has_country_shield = yes
     
-	vn_nrm_english_succession = {
-		position = 1
-		icon = mission_monarch_in_throne_room
-		completed_by = 1066.1.5
-		required_missions = { }
-		provinces_to_highlight = {
-			is_capital_of = ASE
-		}
-		trigger = {
-			custom_trigger_tooltip = {
-				tooltip = vn_nrm_english_succession.tt2
-				ASE = {
-					NOT = { has_ruler_flag = edward_the_confessor_flag }
-				}
-			}
-			if = {
-				limit = {
-					OR = {
-						has_ruler_flag = eng_promised_throne_flag
-						is_in_war = {
-							attacker_leader = ROOT
-							defender_leader = ASE
-							casus_belli = cb_conquest_of_england
-						}
-					}
-				}
-				is_in_war = {
-					attacker_leader = ROOT
-					defender_leader = ASE
-					casus_belli = cb_conquest_of_england
-				}
-			}
-			else = {
-				stability = 3
-			}
-		}
-		effect = {
-			if = {
-				limit = {
-					OR = {
-						has_ruler_flag = eng_promised_throne_flag
-						is_in_war = {
-							attacker_leader = ROOT
-							defender_leader = ASE
-							casus_belli = cb_conquest_of_england
-						}
-					}
-				}
-				raise_war_taxes = yes
-				custom_tooltip = vn_nrm_english_succession.tt
-				hidden_effect = {
-					if = {
-						limit = {
-							is_in_war = {
-								attacker_leader = ROOT
-								defender_leader = ASE
-							}
-						}
-						if = {
-							limit = {
-								exists = BRI
-								NOT = { war_with = ROOT }
-							}
-							BRI = {
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						else = {
-							random_country = {
-								limit = {
-									exists = yes
-									primary_culture = breton
-									NOT = { tag = ROOT }
-									NOT = { war_with = ROOT }
-								}
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						if = {
-							limit = {
-								exists = FLA
-								NOT = { war_with = ROOT }
-							}
-							FLA = {
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						else = {
-							random_country = {
-								limit = {
-									exists = yes
-									primary_culture = flemish
-									NOT = { tag = ROOT }
-									NOT = { war_with = ROOT }
-								}
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						if = {
-							limit = {
-								exists = AQT
-								NOT = { war_with = ROOT }
-							}
-							AQT = {
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						else = {
-							random_country = {
-								limit = {
-									exists = yes
-									primary_culture = poitevin
-									NOT = { tag = ROOT }
-									NOT = { war_with = ROOT }
-								}
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						if = {
-							limit = {
-								exists = ANJ
-								NOT = { war_with = ROOT }
-							}
-							ANJ = {
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						else = {
-							random_country = {
-								limit = {
-									exists = yes
-									primary_culture = angevin_culture
-									NOT = { tag = ROOT }
-									NOT = { war_with = ROOT }
-								}
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						if = {
-							limit = {
-								exists = ANJ
-								NOT = { war_with = ROOT }
-							}
-							ANJ = {
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						else = {
-							random_country = {
-								limit = {
-									exists = yes
-									primary_culture = angevin_culture
-									NOT = { tag = ROOT }
-									NOT = { war_with = ROOT }
-								}
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						if = {
-							limit = {
-								exists = CHP
-								NOT = { war_with = ROOT }
-							}
-							CHP = {
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-						else = {
-							random_country = {
-								limit = {
-									exists = yes
-									primary_culture = champenois
-									NOT = { tag = ROOT }
-									NOT = { war_with = ROOT }
-								}
-								country_event = {
-									id = vn_flavor_nrm.4
-									days = 15
-									random = 5
-								}
-							}
-						}
-					}
-				}
-			}
-			else = {
-				add_prestige_or_monarch_power = {
-					amount = 10
-				}
-			}
-			if = {
-				limit = {
-					OR = {
-						has_ruler_flag = eng_promised_throne_flag
-						is_in_war = {
-							attacker_leader = ROOT
-							defender_leader = ASE
-							casus_belli = cb_conquest_of_england
-						}
-					}
-				}
-				custom_tooltip = " "
-				complex_dynamic_effect = {
-					first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
-					first_limit = "
-						has_ruler_flag = edward_the_bastard_flag
-					"
-					first_effect = "
-						create_general = {
-							tradition = 75
-						}
-					"
-				}
-			}
-		}
-		ai_weight = {
-			factor = 500
-		}
-    }
-	vn_nrm_alea_iacta_est = {
-		position = 3
-		icon = mission_invade_england
-		completed_by = 1066.1.5
-		required_missions = { vn_nrm_english_succession }
-		provinces_to_highlight = {
-			is_capital_of = ASE
-		}
-		trigger = {
-			custom_trigger_tooltip = {
-				tooltip = vn_nrm_english_succession.tt2
-				ASE = {
-					NOT = { has_ruler_flag = edward_the_confessor_flag }
-				}
-			}
-			if = {
-				limit = {
-					OR = {
-						has_ruler_flag = eng_promised_throne_flag
-						is_in_war = {
-							attacker_leader = ROOT
-							defender_leader = ASE
-							casus_belli = cb_conquest_of_england
-						}
-					}
-				}
-				war_score_against = {
-					who = ASE
-					value = 25
-				}
-			}
-			else = {
-				prestige = 40
-			}
-		}
-		effect = {
-			if = {
-				limit = {
-					OR = {
-						has_ruler_flag = eng_promised_throne_flag
-						is_in_war = {
-							attacker_leader = ROOT
-							defender_leader = ASE
-							casus_belli = cb_conquest_of_england
-						}
-					}
-				}
-				add_army_tradition_or_mil_power = {
-					amount = 10
-				}
-			}
-			else = {
-				add_legitimacy_or_mil_power = {
-					amount = 10
-					republican_tradition = 5
-				}
-			}
-			northumbria_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			midlands_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			southeast_england_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			southwest_england_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			if = {
-				limit = {
-					OR = {
-						has_ruler_flag = eng_promised_throne_flag
-						is_in_war = {
-							attacker_leader = ROOT
-							defender_leader = ASE
-							casus_belli = cb_conquest_of_england
-						}
-					}
-				}
-				custom_tooltip = " "
-				complex_dynamic_effect = {
-					first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
-					first_limit = "
-						has_ruler_flag = edward_the_bastard_flag
-					"
-					first_effect = "
-						add_country_modifier = {
-							name = nrm_alea_iacta_est_mission
-							duration = 3650
-						}
-					"
-				}
-			}
-		}
-		ai_weight = {
-			factor = 500
-		}
-	}
-}
+# 	vn_nrm_english_succession = {
+# 		position = 1
+# 		icon = mission_monarch_in_throne_room
+# 		completed_by = 1066.1.5
+# 		required_missions = { }
+# 		provinces_to_highlight = {
+# 			is_capital_of = ASE
+# 		}
+# 		trigger = {
+# 			custom_trigger_tooltip = {
+# 				tooltip = vn_nrm_english_succession.tt2
+# 				ASE = {
+# 					NOT = { has_ruler_flag = edward_the_confessor_flag }
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					OR = {
+# 						has_ruler_flag = eng_promised_throne_flag
+# 						is_in_war = {
+# 							attacker_leader = ROOT
+# 							defender_leader = ASE
+# 							casus_belli = cb_conquest_of_england
+# 						}
+# 					}
+# 				}
+# 				is_in_war = {
+# 					attacker_leader = ROOT
+# 					defender_leader = ASE
+# 					casus_belli = cb_conquest_of_england
+# 				}
+# 			}
+# 			else = {
+# 				stability = 3
+# 			}
+# 		}
+# 		effect = {
+# 			if = {
+# 				limit = {
+# 					OR = {
+# 						has_ruler_flag = eng_promised_throne_flag
+# 						is_in_war = {
+# 							attacker_leader = ROOT
+# 							defender_leader = ASE
+# 							casus_belli = cb_conquest_of_england
+# 						}
+# 					}
+# 				}
+# 				raise_war_taxes = yes
+# 				custom_tooltip = vn_nrm_english_succession.tt
+# 				hidden_effect = {
+# 					if = {
+# 						limit = {
+# 							is_in_war = {
+# 								attacker_leader = ROOT
+# 								defender_leader = ASE
+# 							}
+# 						}
+# 						if = {
+# 							limit = {
+# 								exists = BRI
+# 								NOT = { war_with = ROOT }
+# 							}
+# 							BRI = {
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						else = {
+# 							random_country = {
+# 								limit = {
+# 									exists = yes
+# 									primary_culture = breton
+# 									NOT = { tag = ROOT }
+# 									NOT = { war_with = ROOT }
+# 								}
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						if = {
+# 							limit = {
+# 								exists = FLA
+# 								NOT = { war_with = ROOT }
+# 							}
+# 							FLA = {
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						else = {
+# 							random_country = {
+# 								limit = {
+# 									exists = yes
+# 									primary_culture = flemish
+# 									NOT = { tag = ROOT }
+# 									NOT = { war_with = ROOT }
+# 								}
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						if = {
+# 							limit = {
+# 								exists = AQT
+# 								NOT = { war_with = ROOT }
+# 							}
+# 							AQT = {
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						else = {
+# 							random_country = {
+# 								limit = {
+# 									exists = yes
+# 									primary_culture = poitevin
+# 									NOT = { tag = ROOT }
+# 									NOT = { war_with = ROOT }
+# 								}
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						if = {
+# 							limit = {
+# 								exists = ANJ
+# 								NOT = { war_with = ROOT }
+# 							}
+# 							ANJ = {
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						else = {
+# 							random_country = {
+# 								limit = {
+# 									exists = yes
+# 									primary_culture = angevin_culture
+# 									NOT = { tag = ROOT }
+# 									NOT = { war_with = ROOT }
+# 								}
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						if = {
+# 							limit = {
+# 								exists = ANJ
+# 								NOT = { war_with = ROOT }
+# 							}
+# 							ANJ = {
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						else = {
+# 							random_country = {
+# 								limit = {
+# 									exists = yes
+# 									primary_culture = angevin_culture
+# 									NOT = { tag = ROOT }
+# 									NOT = { war_with = ROOT }
+# 								}
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						if = {
+# 							limit = {
+# 								exists = CHP
+# 								NOT = { war_with = ROOT }
+# 							}
+# 							CHP = {
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 						else = {
+# 							random_country = {
+# 								limit = {
+# 									exists = yes
+# 									primary_culture = champenois
+# 									NOT = { tag = ROOT }
+# 									NOT = { war_with = ROOT }
+# 								}
+# 								country_event = {
+# 									id = vn_flavor_nrm.4
+# 									days = 15
+# 									random = 5
+# 								}
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				add_prestige_or_monarch_power = {
+# 					amount = 10
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					OR = {
+# 						has_ruler_flag = eng_promised_throne_flag
+# 						is_in_war = {
+# 							attacker_leader = ROOT
+# 							defender_leader = ASE
+# 							casus_belli = cb_conquest_of_england
+# 						}
+# 					}
+# 				}
+# 				custom_tooltip = " "
+# 				complex_dynamic_effect = {
+# 					first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
+# 					first_limit = "
+# 						has_ruler_flag = edward_the_bastard_flag
+# 					"
+# 					first_effect = "
+# 						create_general = {
+# 							tradition = 75
+# 						}
+# 					"
+# 				}
+# 			}
+# 		}
+# 		ai_weight = {
+# 			factor = 500
+# 		}
+#     }
+# 	vn_nrm_alea_iacta_est = {
+# 		position = 3
+# 		icon = mission_invade_england
+# 		completed_by = 1066.1.5
+# 		required_missions = { vn_nrm_english_succession }
+# 		provinces_to_highlight = {
+# 			is_capital_of = ASE
+# 		}
+# 		trigger = {
+# 			custom_trigger_tooltip = {
+# 				tooltip = vn_nrm_english_succession.tt2
+# 				ASE = {
+# 					NOT = { has_ruler_flag = edward_the_confessor_flag }
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					OR = {
+# 						has_ruler_flag = eng_promised_throne_flag
+# 						is_in_war = {
+# 							attacker_leader = ROOT
+# 							defender_leader = ASE
+# 							casus_belli = cb_conquest_of_england
+# 						}
+# 					}
+# 				}
+# 				war_score_against = {
+# 					who = ASE
+# 					value = 25
+# 				}
+# 			}
+# 			else = {
+# 				prestige = 40
+# 			}
+# 		}
+# 		effect = {
+# 			if = {
+# 				limit = {
+# 					OR = {
+# 						has_ruler_flag = eng_promised_throne_flag
+# 						is_in_war = {
+# 							attacker_leader = ROOT
+# 							defender_leader = ASE
+# 							casus_belli = cb_conquest_of_england
+# 						}
+# 					}
+# 				}
+# 				add_army_tradition_or_mil_power = {
+# 					amount = 10
+# 				}
+# 			}
+# 			else = {
+# 				add_legitimacy_or_mil_power = {
+# 					amount = 10
+# 					republican_tradition = 5
+# 				}
+# 			}
+# 			northumbria_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			midlands_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			southeast_england_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			southwest_england_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			if = {
+# 				limit = {
+# 					OR = {
+# 						has_ruler_flag = eng_promised_throne_flag
+# 						is_in_war = {
+# 							attacker_leader = ROOT
+# 							defender_leader = ASE
+# 							casus_belli = cb_conquest_of_england
+# 						}
+# 					}
+# 				}
+# 				custom_tooltip = " "
+# 				complex_dynamic_effect = {
+# 					first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
+# 					first_limit = "
+# 						has_ruler_flag = edward_the_bastard_flag
+# 					"
+# 					first_effect = "
+# 						add_country_modifier = {
+# 							name = nrm_alea_iacta_est_mission
+# 							duration = 3650
+# 						}
+# 					"
+# 				}
+# 			}
+# 		}
+# 		ai_weight = {
+# 			factor = 500
+# 		}
+# 	}
+# }
 
-vn_nrm_missions_slot_2_b = {
-	slot = 7
-	generic = no
-	ai = yes
-	potential = {
-		tag = NRM
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
+# vn_nrm_missions_slot_2_b = {
+# 	slot = 2
+# 	generic = no
+# 	ai = yes
+# 	potential = {
+# 		tag = NRM
+# 		NOT = { map_setup = map_setup_random }
+# 	}
+# 	has_country_shield = yes
 
-	vn_nrm_support_crusaders = {
-		position = 4
-		icon = kingdom_of_heaven
-		required_missions = { vn_nrm_support_normans_in_italy }
-		trigger = {
-			NOT = { current_age = age_of_empire }
-			participate_in_grand_crusade_trigger = yes
-		}
-		effect = {
-			add_army_tradition_or_mil_power = { amount = 15 }
-            add_country_modifier = {
-				name = "fra_sanction_crusades_mission"
-				duration = 7300
-			}
-		}
-	}
-	vn_nrm_rule_a_crusader_state = {
-		position = 5
-		icon = jerusalem
-		required_missions = { vn_nrm_support_crusaders }
-		provinces_to_highlight = {
-			OR = {
-				region = palestine_region
-				region = outremer_region
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			OR = {
-				religion = catholic
-				religion = catholique
-			}
-			OR = {
-				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-					value = 5
-					OR = {
-						region = palestine_region
-						region = outremer_region
-					}
-				}
-				custom_trigger_tooltip = {
-					tooltip = vn_nrm_rule_a_crusader_state.tt
-					any_ally = {
-						religion = ROOT
-						has_opinion = {
-							who = ROOT 
-							value = 150 
-						}
-						OR = {
-							marriage_with = ROOT 
-							trust = {
-								who = ROOT 
-								value = 75 
-							}
-						}
-						num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-							value = 5
-							OR = {
-								region = palestine_region
-								region = outremer_region
-							}
-						}
-					}
-				}
-			}
-		}
-		effect = {
-			if = {
-                limit = { has_dlc = "Origins" }
-                custom_tooltip = vn_anj_honor_our_crusaders.tt
-                hidden_effect = {
-                    capital_scope = {
-                        cawa_infantry = ROOT
-                        cawa_infantry = ROOT
-                        cawa_infantry = ROOT
-                        cawa_infantry = ROOT
-                        cawa_infantry = ROOT
-                    }
-                }
-            }
-			else = {
-				add_religious_influence_effect_large = yes
-			}
-			add_country_modifier = {
-				name = "nrm_rule_a_crusader_state_mission"
-				duration = 10950
-			}
-		}
-	}
-}
+# 	vn_nrm_support_crusaders = {
+# 		position = 4
+# 		icon = kingdom_of_heaven
+# 		required_missions = { vn_nrm_support_normans_in_italy }
+# 		trigger = {
+# 			NOT = { current_age = age_of_empire }
+# 			participate_in_grand_crusade_trigger = yes
+# 		}
+# 		effect = {
+# 			add_army_tradition_or_mil_power = { amount = 15 }
+#             add_country_modifier = {
+# 				name = "fra_sanction_crusades_mission"
+# 				duration = 7300
+# 			}
+# 		}
+# 	}
+# 	vn_nrm_rule_a_crusader_state = {
+# 		position = 5
+# 		icon = jerusalem
+# 		required_missions = { vn_nrm_support_crusaders }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				region = palestine_region
+# 				region = outremer_region
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		trigger = {
+# 			OR = {
+# 				religion = catholic
+# 				religion = catholique
+# 			}
+# 			OR = {
+# 				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+# 					value = 5
+# 					OR = {
+# 						region = palestine_region
+# 						region = outremer_region
+# 					}
+# 				}
+# 				custom_trigger_tooltip = {
+# 					tooltip = vn_nrm_rule_a_crusader_state.tt
+# 					any_ally = {
+# 						religion = ROOT
+# 						has_opinion = {
+# 							who = ROOT 
+# 							value = 150 
+# 						}
+# 						OR = {
+# 							marriage_with = ROOT 
+# 							trust = {
+# 								who = ROOT 
+# 								value = 75 
+# 							}
+# 						}
+# 						num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+# 							value = 5
+# 							OR = {
+# 								region = palestine_region
+# 								region = outremer_region
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
+# 		effect = {
+# 			if = {
+#                 limit = { has_dlc = "Origins" }
+#                 custom_tooltip = vn_anj_honor_our_crusaders.tt
+#                 hidden_effect = {
+#                     capital_scope = {
+#                         cawa_infantry = ROOT
+#                         cawa_infantry = ROOT
+#                         cawa_infantry = ROOT
+#                         cawa_infantry = ROOT
+#                         cawa_infantry = ROOT
+#                     }
+#                 }
+#             }
+# 			else = {
+# 				add_religious_influence_effect_large = yes
+# 			}
+# 			add_country_modifier = {
+# 				name = "nrm_rule_a_crusader_state_mission"
+# 				duration = 10950
+# 			}
+# 		}
+# 	}
+# }
 
-vn_nrm_missions_slot_3_a = {
-	slot = 8
-	generic = no
-	ai = yes
-	potential = {
-		tag = NRM
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
+# vn_nrm_missions_slot_3_a = {
+# 	slot = 3
+# 	generic = no
+# 	ai = yes
+# 	potential = {
+# 		tag = NRM
+# 		NOT = { map_setup = map_setup_random }
+# 	}
+# 	has_country_shield = yes
     
-	vn_nrm_claim_maine = {
-		icon = develop_the_po_valley
-		required_missions = { vn_nrm_consolidate_duchy }
-		position = 2
-		provinces_to_highlight = {
-			OR = {
-				area = alencon_area
-				province_id = 4087
-				province_id = 1290
-				province_id = 2177
-				province_id = 2913
-				province_id = 1191
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			alencon_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			4087 = { country_or_non_sovereign_subject_holds = ROOT }
-			1290 = { country_or_non_sovereign_subject_holds = ROOT }
-			2177 = { country_or_non_sovereign_subject_holds = ROOT }
-			2913 = { country_or_non_sovereign_subject_holds = ROOT }
-			1191 = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		effect = {
-			2163 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			1289 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			2059 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			4496 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			4098 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			add_country_modifier = {
-				name = "nrm_claim_maine_mission"
-				duration = 9125
-			}
-		}
-    }
-	vn_nrm_invade_anjou = {
-		icon = mission_wine_monopolies
-		required_missions = { vn_nrm_claim_maine }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 2163
-				province_id = 1289
-				province_id = 2059
-				province_id = 4496
-				province_id = 4098
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			2163 = { country_or_non_sovereign_subject_holds = ROOT }
-			1289 = { country_or_non_sovereign_subject_holds = ROOT }
-			2059 = { country_or_non_sovereign_subject_holds = ROOT }
-			4496 = { country_or_non_sovereign_subject_holds = ROOT }
-			4098 = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		effect = {
-			add_prestige_or_monarch_power = { amount = 10 }
-			2163 = {
-				add_province_modifier = {
-					name = "nrm_invade_anjou_mission"
-					duration = 10950
-				}
-			}
-			1289 = {
-				add_province_modifier = {
-					name = "nrm_invade_anjou_mission"
-					duration = 10950
-				}
-			}
-			2059 = {
-				add_province_modifier = {
-					name = "nrm_invade_anjou_mission"
-					duration = 10950
-				}
-			}
-			4496 = {
-				add_province_modifier = {
-					name = "nrm_invade_anjou_mission"
-					duration = 10950
-				}
-			}
-			4098 = {
-				add_province_modifier = {
-					name = "nrm_invade_anjou_mission"
-					duration = 10950
-				}
-			}
-		}
-	}
-}
+# 	vn_nrm_claim_maine = {
+# 		icon = develop_the_po_valley
+# 		required_missions = { vn_nrm_consolidate_duchy }
+# 		position = 2
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = alencon_area
+# 				province_id = 4087
+# 				province_id = 1290
+# 				province_id = 2177
+# 				province_id = 2913
+# 				province_id = 1191
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		trigger = {
+# 			alencon_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			4087 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			1290 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			2177 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			2913 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			1191 = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		effect = {
+# 			2163 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			1289 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			2059 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			4496 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			4098 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			add_country_modifier = {
+# 				name = "nrm_claim_maine_mission"
+# 				duration = 9125
+# 			}
+# 		}
+#     }
+# 	vn_nrm_invade_anjou = {
+# 		icon = mission_wine_monopolies
+# 		required_missions = { vn_nrm_claim_maine }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 2163
+# 				province_id = 1289
+# 				province_id = 2059
+# 				province_id = 4496
+# 				province_id = 4098
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		trigger = {
+# 			2163 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			1289 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			2059 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			4496 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			4098 = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		effect = {
+# 			add_prestige_or_monarch_power = { amount = 10 }
+# 			2163 = {
+# 				add_province_modifier = {
+# 					name = "nrm_invade_anjou_mission"
+# 					duration = 10950
+# 				}
+# 			}
+# 			1289 = {
+# 				add_province_modifier = {
+# 					name = "nrm_invade_anjou_mission"
+# 					duration = 10950
+# 				}
+# 			}
+# 			2059 = {
+# 				add_province_modifier = {
+# 					name = "nrm_invade_anjou_mission"
+# 					duration = 10950
+# 				}
+# 			}
+# 			4496 = {
+# 				add_province_modifier = {
+# 					name = "nrm_invade_anjou_mission"
+# 					duration = 10950
+# 				}
+# 			}
+# 			4098 = {
+# 				add_province_modifier = {
+# 					name = "nrm_invade_anjou_mission"
+# 					duration = 10950
+# 				}
+# 			}
+# 		}
+# 	}
+# }
 
-vn_nrm_missions_slot_3_b = {
-	slot = 8
-	generic = no
-	ai = yes
-	potential = {
-		tag = NRM
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
+# vn_nrm_missions_slot_3_b = {
+# 	slot = 3
+# 	generic = no
+# 	ai = yes
+# 	potential = {
+# 		tag = NRM
+# 		NOT = { map_setup = map_setup_random }
+# 	}
+# 	has_country_shield = yes
 
-	vn_nrm_subjugate_england = {
-        icon = mission_rb_invade_england
-        position = 4
-		required_missions = { vn_nrm_alea_iacta_est }
-		completed_by = 1066.10.14
-		provinces_to_highlight = {
-			OR = {
-				region = northumbria_region
-				region = midlands_region
-				region = southeast_england_region
-				region = southwest_england_region
-			}
-			NOT = { owned_by = ROOT }
-		}
-		trigger = {
-			OR = {
-				AND = {
-					senior_union_with = ASE
-					reverse_has_opinion = {
-						who = ASE
-						value = 150
-					}
-				}
-				num_of_owned_provinces_with = {
-					value = 30
-					OR = {
-						region = northumbria_region
-						region = midlands_region
-						region = southeast_england_region
-						region = southwest_england_region
-					}
-				}
-			}
-		}
-		effect = {
-			ASE = { add_liberty_desire = -50 }
-			remove_historical_rival = ASE
-			hidden_effect = { ASE = { remove_historical_rival = ROOT } }
-			add_country_modifier = {
-				name = "nrm_subjugate_england_mission"
-				duration = 9125
-			}
-			complex_dynamic_effect = {
-				first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
-				first_limit = "
-					has_ruler_flag = edward_the_bastard_flag
-				"
-				first_effect = "
-					add_power_projection = {
-						type = mission_rewards_power_projection
-						amount = 50
-					}
-				"
-			}
-		}
-		ai_weight = {
-			factor = 500
-		}
-	}
-}
+# 	vn_nrm_subjugate_england = {
+#         icon = mission_rb_invade_england
+#         position = 4
+# 		required_missions = { vn_nrm_alea_iacta_est }
+# 		completed_by = 1066.10.14
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				region = northumbria_region
+# 				region = midlands_region
+# 				region = southeast_england_region
+# 				region = southwest_england_region
+# 			}
+# 			NOT = { owned_by = ROOT }
+# 		}
+# 		trigger = {
+# 			OR = {
+# 				AND = {
+# 					senior_union_with = ASE
+# 					reverse_has_opinion = {
+# 						who = ASE
+# 						value = 150
+# 					}
+# 				}
+# 				num_of_owned_provinces_with = {
+# 					value = 30
+# 					OR = {
+# 						region = northumbria_region
+# 						region = midlands_region
+# 						region = southeast_england_region
+# 						region = southwest_england_region
+# 					}
+# 				}
+# 			}
+# 		}
+# 		effect = {
+# 			ASE = { add_liberty_desire = -50 }
+# 			remove_historical_rival = ASE
+# 			hidden_effect = { ASE = { remove_historical_rival = ROOT } }
+# 			add_country_modifier = {
+# 				name = "nrm_subjugate_england_mission"
+# 				duration = 9125
+# 			}
+# 			complex_dynamic_effect = {
+# 				first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
+# 				first_limit = "
+# 					has_ruler_flag = edward_the_bastard_flag
+# 				"
+# 				first_effect = "
+# 					add_power_projection = {
+# 						type = mission_rewards_power_projection
+# 						amount = 50
+# 					}
+# 				"
+# 			}
+# 		}
+# 		ai_weight = {
+# 			factor = 500
+# 		}
+# 	}
+# }
 
-vn_nrm_missions_slot_4_a = {
-	slot = 9
-	generic = no
-	ai = yes
-	potential = {
-		tag = NRM
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
+# vn_nrm_missions_slot_4_a = {
+# 	slot = 4
+# 	generic = no
+# 	ai = yes
+# 	potential = {
+# 		tag = NRM
+# 		NOT = { map_setup = map_setup_random }
+# 	}
+# 	has_country_shield = yes
 	
-	vn_nrm_consolidate_duchy = {
-		position = 1
-		icon = balance_the_estates
-		required_missions = { }
-		trigger = {
-			stability = 2
-			army_size_percentage = 0.75
-            if = {
-                limit = { has_dlc = "Common Sense" }
-                legitimacy_equivalent = 95
-            }
-            else_if = {
-                limit = { government = monarchy }
-                legitimacy = 95
-            }
-			has_adm_advisor = yes
-			has_dip_advisor = yes
-			has_mil_advisor = yes
-			is_in_deficit = no
-		}
-		effect = {
-			normandy_region = {
-				limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-			4087 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			1290 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			2177 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			2913 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			1191 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			add_country_modifier = {
-				name = "nrm_consolidate_duchy_mission"
-				duration = 9125
-			}
-			complex_dynamic_effect = {
-				first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
-				first_limit = "
-					has_ruler_flag = edward_the_bastard_flag
-				"
-				first_effect = "
-					set_heir_flag = eng_promised_throne_flag
-					custom_tooltip = vn_nrm_consolidate_duchy.tt
-				"
-			}
-		}
-		ai_weight = {
-			factor = 500
-		}
-    }
-	vn_nrm_safeguard_borders = {
-		icon = mission_castle_construction
-		position = 2
-		required_missions = { vn_nrm_consolidate_duchy }
-		trigger = {
-			OR = {
-				custom_trigger_tooltip = {
-					tooltip = vn_nrm_safeguard_borders.tt
-					num_of_owned_provinces_with = {
-						value = 3
-						any_neighbor_province = {
-							NOT = { owned_by = ROOT }
-						}
-						has_fort_building_trigger = yes
-					}
-				}
-				fortification_expert = 2
-			}
-		}
-		effect = {
-			brittany_region = {
-				limit = {
-                    NOT = { is_core = ROOT }
-                    NOT = { is_permanent_claim = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-			4060 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			811 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			1099 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			1097 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			add_country_modifier = {
-				name = "nrm_safeguard_borders_mission"
-				duration = 9125
-			}
-		}
-    }
-	vn_nrm_conquer_brittany = {
-		position = 4
-		icon = defeat_the_english
-		required_missions = { vn_nrm_safeguard_borders }
-		provinces_to_highlight = {
-			region = brittany_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 12
-				region = brittany_region
-			}
-		}
-		effect = {
-			add_yearly_sailors = 3
-			add_country_modifier = {
-				name = "nrm_conquer_brittany_mission"
-				duration = 9125
-			}
-		}
-    }
-	vn_nrm_control_channel = {
-		icon = mission_control_the_channel
-		required_missions = {
-			vn_nrm_subjugate_england
-			vn_nrm_conquer_brittany
-			vn_nrm_claim_ponthieu
-		}
-		provinces_to_highlight = {
-			OR = {
-				province_id = 2294
-				province_id = 4080
-				province_id = 936
-				province_id = 4490
-				province_id = 4078
-				province_id = 1170
-				province_id = 4494
-				province_id = 136
-				province_id = 1167
-				province_id = 2067
-				province_id = 1171
-				province_id = 4495
-				province_id = 2948
-				province_id = 2156
-				province_id = 4084
-				province_id = 694
-				province_id = 1901
-				province_id = 1957
-				province_id = 142
-				province_id = 498
-				province_id = 627
-				province_id = 497
-				province_id = 2611
-				province_id = 695
-				province_id = 2499
-				province_id = 1838
-				province_id = 696
-				province_id = 118
-				province_id = 320
-				province_id = 2170
-				province_id = 2141
-				#new
-				province_id = 5209
-				province_id = 4683
-				province_id = 4687
-				province_id = 4688
-				province_id = 397
-			}
-		}
-		trigger = {
-			custom_trigger_tooltip = {
-				tooltip = vn_nrm_control_channel.tt
-				#France
-				owns_or_non_sovereign_subject_of = 2294
-				owns_or_non_sovereign_subject_of = 4080
-				owns_or_non_sovereign_subject_of = 936
-				owns_or_non_sovereign_subject_of = 4490
-				owns_or_non_sovereign_subject_of = 4078
-				owns_or_non_sovereign_subject_of = 1170
-				owns_or_non_sovereign_subject_of = 4494
-				owns_or_non_sovereign_subject_of = 136
-				owns_or_non_sovereign_subject_of = 1167
-				owns_or_non_sovereign_subject_of = 2067
-				owns_or_non_sovereign_subject_of = 1171
-				owns_or_non_sovereign_subject_of = 4495
-				owns_or_non_sovereign_subject_of = 2948
-				owns_or_non_sovereign_subject_of = 2156
-				owns_or_non_sovereign_subject_of = 4084
-				owns_or_non_sovereign_subject_of = 694
-				owns_or_non_sovereign_subject_of = 1901
-				owns_or_non_sovereign_subject_of = 1957
-				owns_or_non_sovereign_subject_of = 142
-				owns_or_non_sovereign_subject_of = 397
-				#England
-				owns_or_non_sovereign_subject_of = 498
-				owns_or_non_sovereign_subject_of = 627
-				owns_or_non_sovereign_subject_of = 497
-				owns_or_non_sovereign_subject_of = 2611
-				owns_or_non_sovereign_subject_of = 695
-				owns_or_non_sovereign_subject_of = 2499
-				owns_or_non_sovereign_subject_of = 1838
-				owns_or_non_sovereign_subject_of = 696
-				owns_or_non_sovereign_subject_of = 118
-				owns_or_non_sovereign_subject_of = 320
-				owns_or_non_sovereign_subject_of = 2170
-				owns_or_non_sovereign_subject_of = 2141
-				owns_or_non_sovereign_subject_of = 5209
-				owns_or_non_sovereign_subject_of = 4683
-				owns_or_non_sovereign_subject_of = 4687
-				owns_or_non_sovereign_subject_of = 4688
-			}
-		}
-		effect = {
-			add_mercantilism = 2
-			add_country_modifier = {
-				name = "nrm_control_channel_mission"
-				duration = 18250
-			}
-		}
-	}
-}
+# 	vn_nrm_consolidate_duchy = {
+# 		position = 1
+# 		icon = balance_the_estates
+# 		required_missions = { }
+# 		trigger = {
+# 			stability = 2
+# 			army_size_percentage = 0.75
+#             if = {
+#                 limit = { has_dlc = "Common Sense" }
+#                 legitimacy_equivalent = 95
+#             }
+#             else_if = {
+#                 limit = { government = monarchy }
+#                 legitimacy = 95
+#             }
+# 			has_adm_advisor = yes
+# 			has_dip_advisor = yes
+# 			has_mil_advisor = yes
+# 			is_in_deficit = no
+# 		}
+# 		effect = {
+# 			normandy_region = {
+# 				limit = {
+#                     NOT = { is_core = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
+#                 }
+#                 add_permanent_claim = ROOT
+#             }
+# 			4087 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			1290 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			2177 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			2913 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			1191 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			add_country_modifier = {
+# 				name = "nrm_consolidate_duchy_mission"
+# 				duration = 9125
+# 			}
+# 			complex_dynamic_effect = {
+# 				first_custom_tooltip = vn_nrm_consolidate_duchy.tt2
+# 				first_limit = "
+# 					has_ruler_flag = edward_the_bastard_flag
+# 				"
+# 				first_effect = "
+# 					set_heir_flag = eng_promised_throne_flag
+# 					custom_tooltip = vn_nrm_consolidate_duchy.tt
+# 				"
+# 			}
+# 		}
+# 		ai_weight = {
+# 			factor = 500
+# 		}
+#     }
+# 	vn_nrm_safeguard_borders = {
+# 		icon = mission_castle_construction
+# 		position = 2
+# 		required_missions = { vn_nrm_consolidate_duchy }
+# 		trigger = {
+# 			OR = {
+# 				custom_trigger_tooltip = {
+# 					tooltip = vn_nrm_safeguard_borders.tt
+# 					num_of_owned_provinces_with = {
+# 						value = 3
+# 						any_neighbor_province = {
+# 							NOT = { owned_by = ROOT }
+# 						}
+# 						has_fort_building_trigger = yes
+# 					}
+# 				}
+# 				fortification_expert = 2
+# 			}
+# 		}
+# 		effect = {
+# 			brittany_region = {
+# 				limit = {
+#                     NOT = { is_core = ROOT }
+#                     NOT = { is_permanent_claim = ROOT }
+#                 }
+#                 add_permanent_claim = ROOT
+#             }
+# 			4060 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			811 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			1099 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			1097 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			add_country_modifier = {
+# 				name = "nrm_safeguard_borders_mission"
+# 				duration = 9125
+# 			}
+# 		}
+#     }
+# 	vn_nrm_conquer_brittany = {
+# 		position = 4
+# 		icon = defeat_the_english
+# 		required_missions = { vn_nrm_safeguard_borders }
+# 		provinces_to_highlight = {
+# 			region = brittany_region
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		trigger = {
+# 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+# 				value = 12
+# 				region = brittany_region
+# 			}
+# 		}
+# 		effect = {
+# 			add_yearly_sailors = 3
+# 			add_country_modifier = {
+# 				name = "nrm_conquer_brittany_mission"
+# 				duration = 9125
+# 			}
+# 		}
+#     }
+# 	vn_nrm_control_channel = {
+# 		icon = mission_control_the_channel
+# 		required_missions = {
+# 			vn_nrm_subjugate_england
+# 			vn_nrm_conquer_brittany
+# 			vn_nrm_claim_ponthieu
+# 		}
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 2294
+# 				province_id = 4080
+# 				province_id = 936
+# 				province_id = 4490
+# 				province_id = 4078
+# 				province_id = 1170
+# 				province_id = 4494
+# 				province_id = 136
+# 				province_id = 1167
+# 				province_id = 2067
+# 				province_id = 1171
+# 				province_id = 4495
+# 				province_id = 2948
+# 				province_id = 2156
+# 				province_id = 4084
+# 				province_id = 694
+# 				province_id = 1901
+# 				province_id = 1957
+# 				province_id = 142
+# 				province_id = 498
+# 				province_id = 627
+# 				province_id = 497
+# 				province_id = 2611
+# 				province_id = 695
+# 				province_id = 2499
+# 				province_id = 1838
+# 				province_id = 696
+# 				province_id = 118
+# 				province_id = 320
+# 				province_id = 2170
+# 				province_id = 2141
+# 				#new
+# 				province_id = 5209
+# 				province_id = 4683
+# 				province_id = 4687
+# 				province_id = 4688
+# 				province_id = 397
+# 			}
+# 		}
+# 		trigger = {
+# 			custom_trigger_tooltip = {
+# 				tooltip = vn_nrm_control_channel.tt
+# 				#France
+# 				owns_or_non_sovereign_subject_of = 2294
+# 				owns_or_non_sovereign_subject_of = 4080
+# 				owns_or_non_sovereign_subject_of = 936
+# 				owns_or_non_sovereign_subject_of = 4490
+# 				owns_or_non_sovereign_subject_of = 4078
+# 				owns_or_non_sovereign_subject_of = 1170
+# 				owns_or_non_sovereign_subject_of = 4494
+# 				owns_or_non_sovereign_subject_of = 136
+# 				owns_or_non_sovereign_subject_of = 1167
+# 				owns_or_non_sovereign_subject_of = 2067
+# 				owns_or_non_sovereign_subject_of = 1171
+# 				owns_or_non_sovereign_subject_of = 4495
+# 				owns_or_non_sovereign_subject_of = 2948
+# 				owns_or_non_sovereign_subject_of = 2156
+# 				owns_or_non_sovereign_subject_of = 4084
+# 				owns_or_non_sovereign_subject_of = 694
+# 				owns_or_non_sovereign_subject_of = 1901
+# 				owns_or_non_sovereign_subject_of = 1957
+# 				owns_or_non_sovereign_subject_of = 142
+# 				owns_or_non_sovereign_subject_of = 397
+# 				#England
+# 				owns_or_non_sovereign_subject_of = 498
+# 				owns_or_non_sovereign_subject_of = 627
+# 				owns_or_non_sovereign_subject_of = 497
+# 				owns_or_non_sovereign_subject_of = 2611
+# 				owns_or_non_sovereign_subject_of = 695
+# 				owns_or_non_sovereign_subject_of = 2499
+# 				owns_or_non_sovereign_subject_of = 1838
+# 				owns_or_non_sovereign_subject_of = 696
+# 				owns_or_non_sovereign_subject_of = 118
+# 				owns_or_non_sovereign_subject_of = 320
+# 				owns_or_non_sovereign_subject_of = 2170
+# 				owns_or_non_sovereign_subject_of = 2141
+# 				owns_or_non_sovereign_subject_of = 5209
+# 				owns_or_non_sovereign_subject_of = 4683
+# 				owns_or_non_sovereign_subject_of = 4687
+# 				owns_or_non_sovereign_subject_of = 4688
+# 			}
+# 		}
+# 		effect = {
+# 			add_mercantilism = 2
+# 			add_country_modifier = {
+# 				name = "nrm_control_channel_mission"
+# 				duration = 18250
+# 			}
+# 		}
+# 	}
+# }
 
-vn_nrm_missions_slot_5_a = {
-	slot = 10
-	generic = no
-	ai = yes
-	potential = {
-		tag = NRM
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
+# vn_nrm_missions_slot_5_a = {
+# 	slot = 5
+# 	generic = no
+# 	ai = yes
+# 	potential = {
+# 		tag = NRM
+# 		NOT = { map_setup = map_setup_random }
+# 	}
+# 	has_country_shield = yes
 	
-	vn_nrm_norman_architecture = {
-		position = 2
-		icon = dutch_architecture
-		required_missions = { vn_nrm_consolidate_duchy }
-		trigger = {
-			OR = {
-				armory = 7
-				barracks = 5
-				training_fields = 3
-			}
-		}
-		effect = {
-			add_years_of_income = 0.5
-			add_country_modifier = {
-				name = "nrm_norman_architecture_mission"
-				duration = 9125
-			}
-		}
-	}
-}
+# 	vn_nrm_norman_architecture = {
+# 		position = 2
+# 		icon = dutch_architecture
+# 		required_missions = { vn_nrm_consolidate_duchy }
+# 		trigger = {
+# 			OR = {
+# 				armory = 7
+# 				barracks = 5
+# 				training_fields = 3
+# 			}
+# 		}
+# 		effect = {
+# 			add_years_of_income = 0.5
+# 			add_country_modifier = {
+# 				name = "nrm_norman_architecture_mission"
+# 				duration = 9125
+# 			}
+# 		}
+# 	}
+# }
 
-vn_nrm_missions_slot_5_b = {
-	slot = 10
-	generic = no
-	ai = yes
-	potential = {
-		tag = NRM
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
+# vn_nrm_missions_slot_5_b = {
+# 	slot = 5
+# 	generic = no
+# 	ai = yes
+# 	potential = {
+# 		tag = NRM
+# 		NOT = { map_setup = map_setup_random }
+# 	}
+# 	has_country_shield = yes
 
-	vn_nrm_conquer_vexin = {
-		position = 3
-		icon = mission_hundred_years_war
-		required_missions = { vn_nrm_safeguard_borders }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 4060
-				province_id = 811
-				province_id = 1099
-				province_id = 1097
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			4060 = { country_or_non_sovereign_subject_holds = ROOT }
-			811 = { country_or_non_sovereign_subject_holds = ROOT }
-			1099 = { country_or_non_sovereign_subject_holds = ROOT }
-			1097 = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		effect = {
-			2762 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			694 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			1901 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			add_country_modifier = {
-				name = "nrm_conquer_vexin_mission"
-				duration = 9125
-			}
-		}
-    }
-	vn_nrm_claim_ponthieu = {
-		icon = mission_expand_into_the_forest
-		required_missions = { vn_nrm_conquer_vexin }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 2762
-				province_id = 694
-				province_id = 1901
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			2762 = { country_or_non_sovereign_subject_holds = ROOT }
-			694 = { country_or_non_sovereign_subject_holds = ROOT }
-			1901 = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		effect = {
-			add_adm_power = 100
-			1256 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			1957 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			142 = {
-				if = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-		}
-    }
-	vn_nrm_attack_france = {
-		icon = king_of_france
-		required_missions = { vn_nrm_claim_ponthieu }
-		provinces_to_highlight = {
-			is_capital_of = FRA
-		}
-		trigger = {
-			OR = {
-				NOT = { exists = FRA }
-				has_won_war_against = {
-					who = FRA
-					max_years_since = 25
-				}
-			}
-			if = {
-				limit = { exists = FRA }
-				OR = {
-					army_strength = {
-						who = FRA
-						value = 1
-					}
-					army_size = 40
-				}
-			}
-		}
-		effect = {
-			add_war_exhaustion = -2
-			add_country_modifier = {
-				name = "nrm_attack_france_mission"
-				duration = -1
-			}
-		}
-	}
-}
+# 	vn_nrm_conquer_vexin = {
+# 		position = 3
+# 		icon = mission_hundred_years_war
+# 		required_missions = { vn_nrm_safeguard_borders }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 4060
+# 				province_id = 811
+# 				province_id = 1099
+# 				province_id = 1097
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		trigger = {
+# 			4060 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			811 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			1099 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			1097 = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		effect = {
+# 			2762 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			694 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			1901 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			add_country_modifier = {
+# 				name = "nrm_conquer_vexin_mission"
+# 				duration = 9125
+# 			}
+# 		}
+#     }
+# 	vn_nrm_claim_ponthieu = {
+# 		icon = mission_expand_into_the_forest
+# 		required_missions = { vn_nrm_conquer_vexin }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 2762
+# 				province_id = 694
+# 				province_id = 1901
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		trigger = {
+# 			2762 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			694 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			1901 = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		effect = {
+# 			add_adm_power = 100
+# 			1256 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			1957 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 			142 = {
+# 				if = {
+# 					limit = {
+# 						NOT = { is_core = ROOT }
+# 						NOT = { is_permanent_claim = ROOT }
+# 					}
+# 					add_permanent_claim = ROOT
+# 				}
+# 			}
+# 		}
+#     }
+# 	vn_nrm_attack_france = {
+# 		icon = king_of_france
+# 		required_missions = { vn_nrm_claim_ponthieu }
+# 		provinces_to_highlight = {
+# 			is_capital_of = FRA
+# 		}
+# 		trigger = {
+# 			OR = {
+# 				NOT = { exists = FRA }
+# 				has_won_war_against = {
+# 					who = FRA
+# 					max_years_since = 25
+# 				}
+# 			}
+# 			if = {
+# 				limit = { exists = FRA }
+# 				OR = {
+# 					army_strength = {
+# 						who = FRA
+# 						value = 1
+# 					}
+# 					army_size = 40
+# 				}
+# 			}
+# 		}
+# 		effect = {
+# 			add_war_exhaustion = -2
+# 			add_country_modifier = {
+# 				name = "nrm_attack_france_mission"
+# 				duration = -1
+# 			}
+# 		}
+# 	}
+# }

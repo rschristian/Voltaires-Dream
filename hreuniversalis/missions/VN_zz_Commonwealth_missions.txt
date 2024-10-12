@@ -1,966 +1,966 @@
-#Commonwealth missions
-#For both POL/LIT
-#By Shyguy13
+# #Commonwealth missions
+# #For both POL/LIT
+# #By Shyguy13
 
-vn_plc_missions_slot_1 = {
-    slot = 6
-    generic = no
-    ai = yes
-    potential = {
-		tag = PLC
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_plc_missions_slot_1 = {
+#     slot = 1
+#     generic = no
+#     ai = yes
+#     potential = {
+# 		tag = PLC
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_plc_turkish_threat = {
-        icon = mission_ottoman_diplomacy
-        position = 8
-        required_missions = {  }
-        trigger = {
-			NOT = { current_age = age_of_empire }
-			NOT = { current_age = age_of_holy_wars }
-			NOT = { current_age = age_of_crisis }
-            any_neighbor_country = {
-				religion_group = muslim
-				primary_culture = turkish
-			}
-        }
-        effect = {
-			wallachia_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-            add_country_modifier = {
-				name = plc_turkish_threat_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_conquer_wallachia = {
-        icon = revenge_for_nicopolis
-        position = 9
-		required_missions = { vn_plc_turkish_threat }
-		provinces_to_highlight = {
-			region = wallachia_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-			num_of_owned_provinces_with = {
-				value = 12
-				region = wallachia_region
-			}
-        }
-        effect = {
-			add_army_tradition = 10
-			bulgaria_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			bulgariasouth_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-    vn_plc_conquer_bulgaria = {
-        icon = mission_crusade_for_varna
-        position = 10
-		required_missions = { vn_plc_conquer_wallachia }
-		provinces_to_highlight = {
-			OR = {
-				region = bulgaria_region
-				region = bulgariasouth_region
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-			num_of_owned_provinces_with = {
-				value = 24
-				OR = {
-					region = bulgaria_region
-					region = bulgariasouth_region
-				}
-			}	
-        }
-        effect = {
-			thrace_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-            add_country_modifier = {
-				name = plc_conquer_bulgaria_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_conquer_thrace = {
-        icon = mission_pf_cross
-        position = 11
-		required_missions = { vn_plc_conquer_bulgaria }
-		provinces_to_highlight = {
-			region = thrace_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-			thrace_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-			add_religious_influence_effect_large = yes
-			add_prestige_or_monarch_power = { amount = 25 } 
-			add_power_projection = {
-				type = mission_rewards_power_projection
-				amount = 25
-			}
-        }
-	}
-	vn_plc_export_grain = {
-        icon = prosperity_for_all
-        position = 12
-        required_missions = { }
-        trigger = {
-			trading_part = {
-				trade_goods = grain
-				value = 0.35
-			}
-            trading_bonus = {
-				trade_goods = grain
-				value = yes
-			}
-        }
-        effect = {
-            add_mercantilism = 5
-			add_country_modifier = {
-				name = plc_export_grain_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_develop_the_country_side = {
-        icon = mission_rb_scottish_the_darien_scheme
-        position = 13
-        required_missions = { vn_plc_export_grain }
-        trigger = {
-            num_of_owned_provinces_with = {
-				value = 10
-				development = 25
-			}
-			num_of_owned_provinces_with = {
-				value = 50
-				development = 15
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = plc_develop_the_country_side_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_great_lithuanian_route = {
-        icon = reform_the_state
-        position = 14
-		required_missions = { vn_plc_develop_the_country_side }
-		provinces_to_highlight = {
-			OR = {
-				area = warsaw_area
-				area = wizna_area
-				area = grodno_area
-				area = trakai_area
-				area = vilna_area
-			}
-			OR = {
-				NOT = { owned_by = ROOT }
-				devastation = 1
-			}
-		}
-        trigger = {
-            5732 = {
-				is_strongest_trade_power = ROOT
-			}
-			1138 = {
-				is_strongest_trade_power = ROOT
-			}
-			warsaw_area = {
-				type = all
-				owned_by = ROOT
-				NOT = { devastation = 1 }
-			}
-			wizna_area = {
-				type = all
-				owned_by = ROOT
-				NOT = { devastation = 1 }
-			}
-			grodno_area = {
-				type = all
-				owned_by = ROOT
-				NOT = { devastation = 1 }
-			}
-			trakai_area = {
-				type = all
-				owned_by = ROOT
-				NOT = { devastation = 1 }
-			}
-			vilna_area = {
-				type = all
-				owned_by = ROOT
-				NOT = { devastation = 1 }
-			}
-        }
-        effect = {
-            5732 = {
-				add_base_production = 3
-				add_trade_modifier = {
-					who = ROOT
-					duration = 9125
-					power = 10
-					key = plc_great_lithuanian_route_mission
-				}
-			}
-			1138 = {
-				add_base_production = 3
-				add_trade_modifier = {
-					who = ROOT
-					duration = 9125
-					power = 10
-					key = plc_great_lithuanian_route_mission
-				}
-			}
-        }
-	}
-}
+#     vn_plc_turkish_threat = {
+#         icon = mission_ottoman_diplomacy
+#         position = 8
+#         required_missions = {  }
+#         trigger = {
+# 			NOT = { current_age = age_of_empire }
+# 			NOT = { current_age = age_of_holy_wars }
+# 			NOT = { current_age = age_of_crisis }
+#             any_neighbor_country = {
+# 				religion_group = muslim
+# 				primary_culture = turkish
+# 			}
+#         }
+#         effect = {
+# 			wallachia_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#             add_country_modifier = {
+# 				name = plc_turkish_threat_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_conquer_wallachia = {
+#         icon = revenge_for_nicopolis
+#         position = 9
+# 		required_missions = { vn_plc_turkish_threat }
+# 		provinces_to_highlight = {
+# 			region = wallachia_region
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+# 			num_of_owned_provinces_with = {
+# 				value = 12
+# 				region = wallachia_region
+# 			}
+#         }
+#         effect = {
+# 			add_army_tradition = 10
+# 			bulgaria_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			bulgariasouth_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+#     vn_plc_conquer_bulgaria = {
+#         icon = mission_crusade_for_varna
+#         position = 10
+# 		required_missions = { vn_plc_conquer_wallachia }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				region = bulgaria_region
+# 				region = bulgariasouth_region
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+# 			num_of_owned_provinces_with = {
+# 				value = 24
+# 				OR = {
+# 					region = bulgaria_region
+# 					region = bulgariasouth_region
+# 				}
+# 			}	
+#         }
+#         effect = {
+# 			thrace_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#             add_country_modifier = {
+# 				name = plc_conquer_bulgaria_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_conquer_thrace = {
+#         icon = mission_pf_cross
+#         position = 11
+# 		required_missions = { vn_plc_conquer_bulgaria }
+# 		provinces_to_highlight = {
+# 			region = thrace_region
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+# 			thrace_region = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 			add_religious_influence_effect_large = yes
+# 			add_prestige_or_monarch_power = { amount = 25 } 
+# 			add_power_projection = {
+# 				type = mission_rewards_power_projection
+# 				amount = 25
+# 			}
+#         }
+# 	}
+# 	vn_plc_export_grain = {
+#         icon = prosperity_for_all
+#         position = 12
+#         required_missions = { }
+#         trigger = {
+# 			trading_part = {
+# 				trade_goods = grain
+# 				value = 0.35
+# 			}
+#             trading_bonus = {
+# 				trade_goods = grain
+# 				value = yes
+# 			}
+#         }
+#         effect = {
+#             add_mercantilism = 5
+# 			add_country_modifier = {
+# 				name = plc_export_grain_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_develop_the_country_side = {
+#         icon = mission_rb_scottish_the_darien_scheme
+#         position = 13
+#         required_missions = { vn_plc_export_grain }
+#         trigger = {
+#             num_of_owned_provinces_with = {
+# 				value = 10
+# 				development = 25
+# 			}
+# 			num_of_owned_provinces_with = {
+# 				value = 50
+# 				development = 15
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = plc_develop_the_country_side_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_great_lithuanian_route = {
+#         icon = reform_the_state
+#         position = 14
+# 		required_missions = { vn_plc_develop_the_country_side }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = warsaw_area
+# 				area = wizna_area
+# 				area = grodno_area
+# 				area = trakai_area
+# 				area = vilna_area
+# 			}
+# 			OR = {
+# 				NOT = { owned_by = ROOT }
+# 				devastation = 1
+# 			}
+# 		}
+#         trigger = {
+#             5732 = {
+# 				is_strongest_trade_power = ROOT
+# 			}
+# 			1138 = {
+# 				is_strongest_trade_power = ROOT
+# 			}
+# 			warsaw_area = {
+# 				type = all
+# 				owned_by = ROOT
+# 				NOT = { devastation = 1 }
+# 			}
+# 			wizna_area = {
+# 				type = all
+# 				owned_by = ROOT
+# 				NOT = { devastation = 1 }
+# 			}
+# 			grodno_area = {
+# 				type = all
+# 				owned_by = ROOT
+# 				NOT = { devastation = 1 }
+# 			}
+# 			trakai_area = {
+# 				type = all
+# 				owned_by = ROOT
+# 				NOT = { devastation = 1 }
+# 			}
+# 			vilna_area = {
+# 				type = all
+# 				owned_by = ROOT
+# 				NOT = { devastation = 1 }
+# 			}
+#         }
+#         effect = {
+#             5732 = {
+# 				add_base_production = 3
+# 				add_trade_modifier = {
+# 					who = ROOT
+# 					duration = 9125
+# 					power = 10
+# 					key = plc_great_lithuanian_route_mission
+# 				}
+# 			}
+# 			1138 = {
+# 				add_base_production = 3
+# 				add_trade_modifier = {
+# 					who = ROOT
+# 					duration = 9125
+# 					power = 10
+# 					key = plc_great_lithuanian_route_mission
+# 				}
+# 			}
+#         }
+# 	}
+# }
 
-vn_plc_missions_slot_2 = {
-    slot = 7
-    generic = no
-    ai = yes
-    potential = {
-		tag = PLC
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_plc_missions_slot_2 = {
+#     slot = 2
+#     generic = no
+#     ai = yes
+#     potential = {
+# 		tag = PLC
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_plc_baltic_trade = {
-        icon = mission_heart_of_the_hansa
-        position = 10
-        required_missions = { vn_plc_baltic_navy }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 2697
-				province_id = 5793
-				province_id = 402
-			}
-			NOT = { is_strongest_trade_power = ROOT }
-		}
-        trigger = {
-            2697 = {
-				is_strongest_trade_power = ROOT
-			}
-			5793 = {
-				is_strongest_trade_power = ROOT
-			}
-			402 = {
-				is_strongest_trade_power = ROOT
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = plc_baltic_trade_mission
-				duration = 9125
-			}
-        }
-    }
-	vn_plc_invite_lipka_tatars = {
-        icon = personal_diplomacy
-        position = 11
-		required_missions = {  }
-		provinces_to_highlight = {
-			owned_by = ROOT
-			OR = {
-				culture = cuman
-				culture = mishary
-				culture = crimean
-				culture = bashkir
-				culture = astrakhani
-				culture = kazani
-				culture = nogaybak
-			}
-			has_manpower_building_trigger = no
-		}
-        trigger = {
-            num_of_owned_provinces_with = {
-				value = 15
-				OR = {
-					culture = cuman
-					culture = mishary
-					culture = crimean
-					culture = bashkir
-					culture = astrakhani
-					culture = kazani
-					culture = nogaybak
-				}
-				has_manpower_building_trigger = yes
-			}
-        }
-        effect = {
-            create_general = {
-				tradition = 100
-				culture = mishary
-			}
-			add_country_modifier = {
-				name = plc_invite_lipka_tatars_mission
-				duration = 9125
-			}
-        }
-	}
-	vn_plc_expand_royal_guards = {
-        icon = king_of_poland
-        position = 12
-        required_missions = { vn_plc_invite_lipka_tatars }
-        trigger = {
-			all_rival_country = {
-				NOT = { army_size = ROOT }
-			}
-			land_forcelimit = 100
-			army_size_percentage = 0.75
-        }
-        effect = {
-            add_army_professionalism = 0.03
-			add_country_modifier = {
-				name = plc_expand_royal_guards_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_general_industrialization = {
-        icon = mission_rb_build_furnaces
-        position = 14
-        required_missions = { vn_plc_develop_the_country_side }
-        trigger = {
-			has_institution = industrialism
-			if = {
-				limit = { has_dlc = "Rule Britannia" }
-				num_of_owned_provinces_with = {
-					value = 5
-					OR = {
-						trade_goods = coal
-						trade_goods = steel
-					}
-					has_building = furnace
-				}
-			}
-			num_of_owned_provinces_with = {
-				value = 10
-				has_manufactory_trigger = yes
-			}
-        }
-        effect = {
-			add_years_of_income = 0.5
-            add_innovativeness_small_effect = yes
-        }
-	}
-}
+#     vn_plc_baltic_trade = {
+#         icon = mission_heart_of_the_hansa
+#         position = 10
+#         required_missions = { vn_plc_baltic_navy }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 2697
+# 				province_id = 5793
+# 				province_id = 402
+# 			}
+# 			NOT = { is_strongest_trade_power = ROOT }
+# 		}
+#         trigger = {
+#             2697 = {
+# 				is_strongest_trade_power = ROOT
+# 			}
+# 			5793 = {
+# 				is_strongest_trade_power = ROOT
+# 			}
+# 			402 = {
+# 				is_strongest_trade_power = ROOT
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = plc_baltic_trade_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+# 	vn_plc_invite_lipka_tatars = {
+#         icon = personal_diplomacy
+#         position = 11
+# 		required_missions = {  }
+# 		provinces_to_highlight = {
+# 			owned_by = ROOT
+# 			OR = {
+# 				culture = cuman
+# 				culture = mishary
+# 				culture = crimean
+# 				culture = bashkir
+# 				culture = astrakhani
+# 				culture = kazani
+# 				culture = nogaybak
+# 			}
+# 			has_manpower_building_trigger = no
+# 		}
+#         trigger = {
+#             num_of_owned_provinces_with = {
+# 				value = 15
+# 				OR = {
+# 					culture = cuman
+# 					culture = mishary
+# 					culture = crimean
+# 					culture = bashkir
+# 					culture = astrakhani
+# 					culture = kazani
+# 					culture = nogaybak
+# 				}
+# 				has_manpower_building_trigger = yes
+# 			}
+#         }
+#         effect = {
+#             create_general = {
+# 				tradition = 100
+# 				culture = mishary
+# 			}
+# 			add_country_modifier = {
+# 				name = plc_invite_lipka_tatars_mission
+# 				duration = 9125
+# 			}
+#         }
+# 	}
+# 	vn_plc_expand_royal_guards = {
+#         icon = king_of_poland
+#         position = 12
+#         required_missions = { vn_plc_invite_lipka_tatars }
+#         trigger = {
+# 			all_rival_country = {
+# 				NOT = { army_size = ROOT }
+# 			}
+# 			land_forcelimit = 100
+# 			army_size_percentage = 0.75
+#         }
+#         effect = {
+#             add_army_professionalism = 0.03
+# 			add_country_modifier = {
+# 				name = plc_expand_royal_guards_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_general_industrialization = {
+#         icon = mission_rb_build_furnaces
+#         position = 14
+#         required_missions = { vn_plc_develop_the_country_side }
+#         trigger = {
+# 			has_institution = industrialism
+# 			if = {
+# 				limit = { has_dlc = "Rule Britannia" }
+# 				num_of_owned_provinces_with = {
+# 					value = 5
+# 					OR = {
+# 						trade_goods = coal
+# 						trade_goods = steel
+# 					}
+# 					has_building = furnace
+# 				}
+# 			}
+# 			num_of_owned_provinces_with = {
+# 				value = 10
+# 				has_manufactory_trigger = yes
+# 			}
+#         }
+#         effect = {
+# 			add_years_of_income = 0.5
+#             add_innovativeness_small_effect = yes
+#         }
+# 	}
+# }
 
-vn_plc_missions_slot_3 = {
-    slot = 8
-    generic = no
-    ai = yes
-    potential = {
-        tag = PLC
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_plc_missions_slot_3 = {
+#     slot = 3
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = PLC
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_plc_baltic_navy = {
-        icon = imperial_navy
-        position = 9
-		required_missions = {  }
-        trigger = {
-			naval_forcelimit = 1
-			calc_true_if = {
-				amount = 3
-				num_of_light_ship = 40
-				num_of_galley = 30
-				num_of_transport = 40
-				num_of_heavy_ship = 20
-			}
-        }
-        effect = {
-			country_event = {
-				id = flavor_pol.1
-			}
-			define_advisor = {
-				name = "Aleksander Seton"
-				type = naval_reformer
-				skill = 3
-				discount = yes
-			}
-			add_country_modifier = {
-				name = plc_baltic_navy_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_conquer_gotland = {
-        icon = mission_invade_island
-        position = 10
-		required_missions = { vn_plc_baltic_navy }
-		provinces_to_highlight = {
-			OR = {
-				province_id = 2697
-				province_id = 6130
-				province_id = 6131
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-			2697 = { country_or_non_sovereign_subject_holds = ROOT }
-			6130 = { country_or_non_sovereign_subject_holds = ROOT }
-			6131 = { country_or_non_sovereign_subject_holds = ROOT }
-        }
-        effect = {
-			add_yearly_sailors = 3
-			2697 = {
-				if = {
-					limit = { num_free_building_slots = 1 NOT = { has_building = grand_shipyard } }
-					add_building_construction = {
-						building = grand_shipyard
-						speed = 0.5
-						cost = 0
-					}
-				}
-				else = {
-					add_base_manpower = 3
-				}
-			}
-			6130 = {
-				if = {
-					limit = { num_free_building_slots = 1 NOT = { has_building = grand_shipyard } }
-					add_building_construction = {
-						building = grand_shipyard
-						speed = 0.5
-						cost = 0
-					}
-				}
-				else = {
-					add_base_manpower = 3
-				}
-			}
-			6131 = {
-				if = {
-					limit = { num_free_building_slots = 1 NOT = { has_building = grand_shipyard } }
-					add_building_construction = {
-						building = grand_shipyard
-						speed = 0.5
-						cost = 0
-					}
-				}
-				else = {
-					add_base_manpower = 3
-				}
-			}
-			uppland_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			scandinavia_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			ostergotland_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-    vn_plc_conquer_sweden = {
-        icon = mission_sea_battles
-        position = 11
-        required_missions = { vn_plc_conquer_gotland vn_plc_baltic_trade }
-		provinces_to_highlight = {
-			OR = {
-				region = uppland_region
-				region = scandinavia_region
-				area = ostergotland_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-            uppland_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			scandinavia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			ostergotland_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = plc_conquer_sweden_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_textile_industry = {
-        icon = saxon_manufacturing
-        position = 14
-        required_missions = { vn_plc_develop_the_country_side }
-        trigger = {
-            num_of_owned_provinces_with = {
-				value = 10
-				manufactories = 100
-				has_building = textile
-				has_building = stock_exchange
-			}
-        }
-        effect = {
-			add_mercantilism = 2
-			custom_tooltip = vn_plc_textile_industry.tt
-			hidden_effect = {
-				every_owned_province = {
-					limit = { has_building = textile }
-					add_province_modifier = {
-						name = plc_textile_industry_mission
-						duration = 9125
-					}
-				}
-			}
-        }
-	}	
-}
+#     vn_plc_baltic_navy = {
+#         icon = imperial_navy
+#         position = 9
+# 		required_missions = {  }
+#         trigger = {
+# 			naval_forcelimit = 1
+# 			calc_true_if = {
+# 				amount = 3
+# 				num_of_light_ship = 40
+# 				num_of_galley = 30
+# 				num_of_transport = 40
+# 				num_of_heavy_ship = 20
+# 			}
+#         }
+#         effect = {
+# 			country_event = {
+# 				id = flavor_pol.1
+# 			}
+# 			define_advisor = {
+# 				name = "Aleksander Seton"
+# 				type = naval_reformer
+# 				skill = 3
+# 				discount = yes
+# 			}
+# 			add_country_modifier = {
+# 				name = plc_baltic_navy_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_conquer_gotland = {
+#         icon = mission_invade_island
+#         position = 10
+# 		required_missions = { vn_plc_baltic_navy }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				province_id = 2697
+# 				province_id = 6130
+# 				province_id = 6131
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+# 			2697 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			6130 = { country_or_non_sovereign_subject_holds = ROOT }
+# 			6131 = { country_or_non_sovereign_subject_holds = ROOT }
+#         }
+#         effect = {
+# 			add_yearly_sailors = 3
+# 			2697 = {
+# 				if = {
+# 					limit = { num_free_building_slots = 1 NOT = { has_building = grand_shipyard } }
+# 					add_building_construction = {
+# 						building = grand_shipyard
+# 						speed = 0.5
+# 						cost = 0
+# 					}
+# 				}
+# 				else = {
+# 					add_base_manpower = 3
+# 				}
+# 			}
+# 			6130 = {
+# 				if = {
+# 					limit = { num_free_building_slots = 1 NOT = { has_building = grand_shipyard } }
+# 					add_building_construction = {
+# 						building = grand_shipyard
+# 						speed = 0.5
+# 						cost = 0
+# 					}
+# 				}
+# 				else = {
+# 					add_base_manpower = 3
+# 				}
+# 			}
+# 			6131 = {
+# 				if = {
+# 					limit = { num_free_building_slots = 1 NOT = { has_building = grand_shipyard } }
+# 					add_building_construction = {
+# 						building = grand_shipyard
+# 						speed = 0.5
+# 						cost = 0
+# 					}
+# 				}
+# 				else = {
+# 					add_base_manpower = 3
+# 				}
+# 			}
+# 			uppland_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			scandinavia_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			ostergotland_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+#     vn_plc_conquer_sweden = {
+#         icon = mission_sea_battles
+#         position = 11
+#         required_missions = { vn_plc_conquer_gotland vn_plc_baltic_trade }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				region = uppland_region
+# 				region = scandinavia_region
+# 				area = ostergotland_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+# 		trigger = {
+#             uppland_region = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			scandinavia_region = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			ostergotland_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = plc_conquer_sweden_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_textile_industry = {
+#         icon = saxon_manufacturing
+#         position = 14
+#         required_missions = { vn_plc_develop_the_country_side }
+#         trigger = {
+#             num_of_owned_provinces_with = {
+# 				value = 10
+# 				manufactories = 100
+# 				has_building = textile
+# 				has_building = stock_exchange
+# 			}
+#         }
+#         effect = {
+# 			add_mercantilism = 2
+# 			custom_tooltip = vn_plc_textile_industry.tt
+# 			hidden_effect = {
+# 				every_owned_province = {
+# 					limit = { has_building = textile }
+# 					add_province_modifier = {
+# 						name = plc_textile_industry_mission
+# 						duration = 9125
+# 					}
+# 				}
+# 			}
+#         }
+# 	}	
+# }
 
-vn_plc_missions_slot_4 = {
-    slot = 9
-    generic = no
-    ai = yes
-    potential = {
-        tag = PLC
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_plc_missions_slot_4 = {
+#     slot = 4
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = PLC
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_plc_befriend_the_cossacks = {
-        icon = jageillonian_union
-        position = 9
-        required_missions = {  }
-        trigger = {
-            if = {
-				limit = { has_estate = estate_cossacks }
-				estate_loyalty = {
-					estate = estate_cossacks
-					loyalty = 60
-				}
-				estate_influence = {
-					estate = estate_cossacks
-					influence = 50
-				}
-			}
-			num_of_cavalry = 20
-			cavalry_fraction = 0.3
-        }
-        effect = {
-			lower_don_region = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-            add_country_modifier = {
-				name = plc_befriend_the_cossacks_mission
-				duration = 9125
-			}
-        }
-    }
-	vn_plc_conquer_lower_don = {
-        icon = mission_recruit_the_cossacks
-        position = 11
-        required_missions = { vn_plc_befriend_the_cossacks }
-		provinces_to_highlight = {
-			region = lower_don_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-			is_city = yes
-		}
-        trigger = {
-            lower_don_region = {
-                type = all
-                OR = {
-                    is_city = no
-				    country_or_non_sovereign_subject_holds = ROOT
-                }
-			}
-        }
-        effect = {
-            add_estate_cossacks_loyalty_effect = yes
-			add_yearly_manpower = 5
-        }
-	}
-    vn_plc_free_royal_cities_act = {
-        icon = reissue_the_mining_code
-        position = 12
-        required_missions = {  }
-        trigger = {
-			monthly_adm = 10
-			if = {
-				limit = {
-					has_estate = estate_burghers
-				}
-				estate_loyalty = {
-					estate = estate_burghers
-					loyalty = 60
-				}
-				estate_influence = {
-					estate = estate_burghers
-					influence = 50
-				}
-			}
-			else = {
-				treasury = 2500
-				trade_income_percentage = 0.3
-			}
-        }
-        effect = {
-			add_years_of_income = 0.5
-            add_country_modifier = {
-				name = plc_free_royal_cities_act_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_curtail_the_nobility = {
-        icon = rein_in_the_nobles
-        position = 13
-        required_missions = { vn_plc_free_royal_cities_act }
-        trigger = {
-			stability = 2
-            if = {
-                limit = { has_dlc = "Common Sense" }
-                legitimacy_equivalent = 100
-            }
-            else_if = {
-                limit = { government = monarchy }
-                legitimacy = 100
-            }
-			if = {
-				limit = { has_estate = estate_nobles }
-				NOT = {
-					estate_influence = {
-						estate = estate_nobles
-						influence = 60
-					}
-				}
-				estate_loyalty = {
-					estate = estate_nobles
-					loyalty = 40
-				}
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = plc_curtail_the_nobility_mission
-				duration = 9125
-			}
-        }
-    }
-    vn_plc_expand_kwarta = {
-        icon = neapolitan_govenance
-        position = 14
-        required_missions = { vn_plc_curtail_the_nobility }
-        trigger = {
-			NOT = { has_reform = elective_monarchy }
-			absolutism = 50
-			NOT = { num_of_rebel_armies = 1 }
-			NOT = { num_of_rebel_controlled_provinces = 1 }
-			crown_land_share = 50
-        }
-        effect = {
-            add_country_modifier = {
-				name = plc_expand_kwarta_mission
-				duration = 9125
-			}
-        }
-	}
-}
+#     vn_plc_befriend_the_cossacks = {
+#         icon = jageillonian_union
+#         position = 9
+#         required_missions = {  }
+#         trigger = {
+#             if = {
+# 				limit = { has_estate = estate_cossacks }
+# 				estate_loyalty = {
+# 					estate = estate_cossacks
+# 					loyalty = 60
+# 				}
+# 				estate_influence = {
+# 					estate = estate_cossacks
+# 					influence = 50
+# 				}
+# 			}
+# 			num_of_cavalry = 20
+# 			cavalry_fraction = 0.3
+#         }
+#         effect = {
+# 			lower_don_region = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#             add_country_modifier = {
+# 				name = plc_befriend_the_cossacks_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+# 	vn_plc_conquer_lower_don = {
+#         icon = mission_recruit_the_cossacks
+#         position = 11
+#         required_missions = { vn_plc_befriend_the_cossacks }
+# 		provinces_to_highlight = {
+# 			region = lower_don_region
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 			is_city = yes
+# 		}
+#         trigger = {
+#             lower_don_region = {
+#                 type = all
+#                 OR = {
+#                     is_city = no
+# 				    country_or_non_sovereign_subject_holds = ROOT
+#                 }
+# 			}
+#         }
+#         effect = {
+#             add_estate_cossacks_loyalty_effect = yes
+# 			add_yearly_manpower = 5
+#         }
+# 	}
+#     vn_plc_free_royal_cities_act = {
+#         icon = reissue_the_mining_code
+#         position = 12
+#         required_missions = {  }
+#         trigger = {
+# 			monthly_adm = 10
+# 			if = {
+# 				limit = {
+# 					has_estate = estate_burghers
+# 				}
+# 				estate_loyalty = {
+# 					estate = estate_burghers
+# 					loyalty = 60
+# 				}
+# 				estate_influence = {
+# 					estate = estate_burghers
+# 					influence = 50
+# 				}
+# 			}
+# 			else = {
+# 				treasury = 2500
+# 				trade_income_percentage = 0.3
+# 			}
+#         }
+#         effect = {
+# 			add_years_of_income = 0.5
+#             add_country_modifier = {
+# 				name = plc_free_royal_cities_act_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_curtail_the_nobility = {
+#         icon = rein_in_the_nobles
+#         position = 13
+#         required_missions = { vn_plc_free_royal_cities_act }
+#         trigger = {
+# 			stability = 2
+#             if = {
+#                 limit = { has_dlc = "Common Sense" }
+#                 legitimacy_equivalent = 100
+#             }
+#             else_if = {
+#                 limit = { government = monarchy }
+#                 legitimacy = 100
+#             }
+# 			if = {
+# 				limit = { has_estate = estate_nobles }
+# 				NOT = {
+# 					estate_influence = {
+# 						estate = estate_nobles
+# 						influence = 60
+# 					}
+# 				}
+# 				estate_loyalty = {
+# 					estate = estate_nobles
+# 					loyalty = 40
+# 				}
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = plc_curtail_the_nobility_mission
+# 				duration = 9125
+# 			}
+#         }
+#     }
+#     vn_plc_expand_kwarta = {
+#         icon = neapolitan_govenance
+#         position = 14
+#         required_missions = { vn_plc_curtail_the_nobility }
+#         trigger = {
+# 			NOT = { has_reform = elective_monarchy }
+# 			absolutism = 50
+# 			NOT = { num_of_rebel_armies = 1 }
+# 			NOT = { num_of_rebel_controlled_provinces = 1 }
+# 			crown_land_share = 50
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = plc_expand_kwarta_mission
+# 				duration = 9125
+# 			}
+#         }
+# 	}
+# }
 
-vn_plc_missions_slot_5 = {
-    slot = 10
-    generic = no
-    ai = yes
-    potential = {
-        tag = PLC
-        NOT = { map_setup = map_setup_random }
-    }
-    has_country_shield = yes
+# vn_plc_missions_slot_5 = {
+#     slot = 5
+#     generic = no
+#     ai = yes
+#     potential = {
+#         tag = PLC
+#         NOT = { map_setup = map_setup_random }
+#     }
+#     has_country_shield = yes
 
-    vn_plc_black_seas_ports = {
-        icon = adriatic_access
-        position = 9
-        required_missions = {  }
-		provinces_to_highlight = {
-			region = wild_fields_region
-			OR = {
-				NOT = { country_or_non_sovereign_subject_holds = ROOT }
-				has_shipyard_building_trigger = no
-				has_dock_building_trigger = no
-			}
-		}
-        trigger = {
-            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				value = 5
-				region = wild_fields_region
-				has_shipyard_building_trigger = yes
-				has_dock_building_trigger = yes
-			}
-        }
-        effect = {
-			wild_fields_region = {
-				limit = { country_or_non_sovereign_subject_holds = ROOT }
-				add_base_manpower = 1
-			}
-            poltava_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			pryazovia_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			maeotida_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-	vn_plc_conquer_poltava = {
-        icon = mission_conquer_riga
-        position = 10
-		required_missions = { vn_plc_black_seas_ports }
-		provinces_to_highlight = {
-			OR = {
-				area = poltava_area
-				area = pryazovia_area
-				area = maeotida_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            poltava_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			pryazovia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			maeotida_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-			add_prestige_or_monarch_power = { amount = 10 } 
-			add_mil_power = 50
-            qale_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			qirim_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			cherson_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-	vn_plc_conquer_crimea = {
-        icon = danubian_power
-        position = 11
-        required_missions = { vn_plc_conquer_poltava }
-        provinces_to_highlight = {
-			OR = {
-				area = qale_area
-				area = qirim_area
-				area = cherson_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-        trigger = {
-            qale_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			qirim_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			cherson_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-        }
-        effect = {
-			add_prestige_or_monarch_power = { amount = 10 } 
-			add_mil_power = 50
-            taman_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			kuban_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			krasnodar_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-        }
-    }
-	vn_plc_conquer_asov = {
-        icon = mission_conquer_riga
-        position = 12
-        required_missions = { vn_plc_conquer_crimea vn_plc_conquer_lower_don }
-        provinces_to_highlight = {
-			OR = {
-				area = taman_area
-				area = kuban_area
-				area = krasnodar_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-			is_city = yes
-		}
-        trigger = {
-            taman_area = {
-				type = all
-				OR = {
-					is_city = no
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-			}
-			kuban_area = {
-				type = all
-				OR = {
-					is_city = no
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-			}
-			krasnodar_area = {
-				type = all
-				OR = {
-					is_city = no
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-			}
-			sarkel_area = {
-				type = all
-				OR = {
-					is_city = no
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = plc_conquer_asov_mission
-				duration = 10950
-			}
-        }
-	}
-	vn_plc_establish_yeshivot = {
-        icon = a_strong_government
-        position = 13
-        required_missions = { vn_plc_free_royal_cities_act }
-        trigger = {
-			full_idea_group = humanist_ideas
-			num_of_owned_provinces_with = {
-				value = 3
-				has_building = university
-				development = 30
-				num_of_times_improved = 10
-			}
-        }
-        effect = {
-			set_country_flag = establishd_yeshivot_flag
-            country_event = {
-				id = vn_missions.29
-			}
-        }
-    }
-    vn_plc_repelling_foreign_influences = {
-        icon = sponsor_the_arts
-        position = 14
-        required_missions = { vn_plc_establish_yeshivot }
-		provinces_to_highlight = {
-			owned_by = ROOT
-			NOT = { culture = ROOT }
-		}
-        trigger = {
-            num_of_owned_provinces_with = {
-				value = 100
-				culture = ROOT
-			}
-        }
-        effect = {
-            add_country_modifier = {
-				name = plc_repelling_foreign_influences_mission
-				duration = 9125
-			}
-        }
-	}
-}
+#     vn_plc_black_seas_ports = {
+#         icon = adriatic_access
+#         position = 9
+#         required_missions = {  }
+# 		provinces_to_highlight = {
+# 			region = wild_fields_region
+# 			OR = {
+# 				NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 				has_shipyard_building_trigger = no
+# 				has_dock_building_trigger = no
+# 			}
+# 		}
+#         trigger = {
+#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+# 				value = 5
+# 				region = wild_fields_region
+# 				has_shipyard_building_trigger = yes
+# 				has_dock_building_trigger = yes
+# 			}
+#         }
+#         effect = {
+# 			wild_fields_region = {
+# 				limit = { country_or_non_sovereign_subject_holds = ROOT }
+# 				add_base_manpower = 1
+# 			}
+#             poltava_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			pryazovia_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			maeotida_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+# 	vn_plc_conquer_poltava = {
+#         icon = mission_conquer_riga
+#         position = 10
+# 		required_missions = { vn_plc_black_seas_ports }
+# 		provinces_to_highlight = {
+# 			OR = {
+# 				area = poltava_area
+# 				area = pryazovia_area
+# 				area = maeotida_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             poltava_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			pryazovia_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			maeotida_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 			add_prestige_or_monarch_power = { amount = 10 } 
+# 			add_mil_power = 50
+#             qale_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			qirim_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			cherson_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+# 	vn_plc_conquer_crimea = {
+#         icon = danubian_power
+#         position = 11
+#         required_missions = { vn_plc_conquer_poltava }
+#         provinces_to_highlight = {
+# 			OR = {
+# 				area = qale_area
+# 				area = qirim_area
+# 				area = cherson_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 		}
+#         trigger = {
+#             qale_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			qirim_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+# 			cherson_area = {
+# 				type = all
+# 				country_or_non_sovereign_subject_holds = ROOT
+# 			}
+#         }
+#         effect = {
+# 			add_prestige_or_monarch_power = { amount = 10 } 
+# 			add_mil_power = 50
+#             taman_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			kuban_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+# 			krasnodar_area = {
+# 				limit = {
+# 					NOT = { is_core = ROOT }
+# 					NOT = { is_permanent_claim = ROOT }
+# 				}
+# 				add_permanent_claim = ROOT
+# 			}
+#         }
+#     }
+# 	vn_plc_conquer_asov = {
+#         icon = mission_conquer_riga
+#         position = 12
+#         required_missions = { vn_plc_conquer_crimea vn_plc_conquer_lower_don }
+#         provinces_to_highlight = {
+# 			OR = {
+# 				area = taman_area
+# 				area = kuban_area
+# 				area = krasnodar_area
+# 			}
+# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+# 			is_city = yes
+# 		}
+#         trigger = {
+#             taman_area = {
+# 				type = all
+# 				OR = {
+# 					is_city = no
+# 					country_or_non_sovereign_subject_holds = ROOT
+# 				}
+# 			}
+# 			kuban_area = {
+# 				type = all
+# 				OR = {
+# 					is_city = no
+# 					country_or_non_sovereign_subject_holds = ROOT
+# 				}
+# 			}
+# 			krasnodar_area = {
+# 				type = all
+# 				OR = {
+# 					is_city = no
+# 					country_or_non_sovereign_subject_holds = ROOT
+# 				}
+# 			}
+# 			sarkel_area = {
+# 				type = all
+# 				OR = {
+# 					is_city = no
+# 					country_or_non_sovereign_subject_holds = ROOT
+# 				}
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = plc_conquer_asov_mission
+# 				duration = 10950
+# 			}
+#         }
+# 	}
+# 	vn_plc_establish_yeshivot = {
+#         icon = a_strong_government
+#         position = 13
+#         required_missions = { vn_plc_free_royal_cities_act }
+#         trigger = {
+# 			full_idea_group = humanist_ideas
+# 			num_of_owned_provinces_with = {
+# 				value = 3
+# 				has_building = university
+# 				development = 30
+# 				num_of_times_improved = 10
+# 			}
+#         }
+#         effect = {
+# 			set_country_flag = establishd_yeshivot_flag
+#             country_event = {
+# 				id = vn_missions.29
+# 			}
+#         }
+#     }
+#     vn_plc_repelling_foreign_influences = {
+#         icon = sponsor_the_arts
+#         position = 14
+#         required_missions = { vn_plc_establish_yeshivot }
+# 		provinces_to_highlight = {
+# 			owned_by = ROOT
+# 			NOT = { culture = ROOT }
+# 		}
+#         trigger = {
+#             num_of_owned_provinces_with = {
+# 				value = 100
+# 				culture = ROOT
+# 			}
+#         }
+#         effect = {
+#             add_country_modifier = {
+# 				name = plc_repelling_foreign_influences_mission
+# 				duration = 9125
+# 			}
+#         }
+# 	}
+# }
