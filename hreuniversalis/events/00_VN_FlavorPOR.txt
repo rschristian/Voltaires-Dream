@@ -1,5 +1,6 @@
 namespace = vn_flavor_por
 
+#Event chain to subjugate ORM
 country_event = {
 	id = vn_flavor_por.1
 	title = "vn_flavor_por.1.t"
@@ -70,7 +71,22 @@ country_event = {
 			}
 		}
 		FROM = { country_event = { id = vn_flavor_por.3 } }
-		tooltip = { FROM = { vassalize = ROOT } }
+		if = {
+			limit = { 
+				has_dlc = "Domination"
+			}
+			tooltip = {
+				FROM = {
+					create_subject = {
+						who = ROOT
+						subject_type = trade_protectorate
+					}
+				}
+			}
+		}
+		else = {
+			tooltip = { FROM = { vassalize = ROOT } }
+		}
 	}
 
 	option = {
@@ -98,7 +114,18 @@ country_event = {
 
 	option = {
 		name = "vn_flavor_por.3.a"
-		ROOT = { vassalize = FROM }
+		if = {
+			limit = {
+				has_dlc = "Domination"
+			}
+			create_subject = {
+				who = FROM
+				subject_type = trade_protectorate
+			}
+		}
+		else = {
+			vassalize = FROM
+		}
 	}
 }
 
@@ -121,6 +148,7 @@ country_event = {
 	}
 }
 
+#independence of Portugal
 country_event = {
     id = vn_flavor_por.5
     title = "vn_flavor_por.5.t"
@@ -132,12 +160,13 @@ country_event = {
 
 	trigger = {
 		is_or_was_tag = { tag = PCA }
+		NOT = { started_in = 1096.1.1 }
+		NOT = { is_year = 1110 }
 		is_subject = yes
 		OR = {
 			has_global_flag = lon_split_flag
 			is_year = 1090
 		}
-		NOT = { is_year = 1110 }
 	}
 
 	immediate = {
