@@ -737,29 +737,53 @@ country_event = {
 		add_legitimacy = 25
 		if = {
 			limit = {
-				has_ruler = "Eadgar I"
-				NOT = { senior_union_with = NRM }
+				has_country_flag = normans_got_kicked_out_flag
 			}
+			clr_country_flag = normans_got_kicked_out_flag
 			change_primary_culture = anglosaxon
-			every_owned_province = {
-				limit = { culture = english }
-				change_culture = anglosaxon
+			hidden_effect = {
+				every_owned_province = {
+					limit = { culture = english }
+					change_culture = anglosaxon
+				}
 			}
 			remove_accepted_culture = english
-		}
-		if = {
-			limit = {
-				has_ruler = "Eadgar I"
-				senior_union_with = NRM
+			if = {
+				limit = { senior_union_with = NRM }
+				break_union = NRM
+				NRM = { define_ruler = { dynasty = "Rolloning" } }
+				if = {
+					limit = {
+						has_dlc = "Domination"
+						any_country = {
+							has_reform = feudal_france_reform
+						}
+					}
+					random_country = {
+						limit = {
+							has_reform = feudal_france_reform
+						}
+						create_subject = {
+							subject_type = appanage
+							who = NRM
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						FRA = {
+							exists = yes
+							is_subject = no
+						}
+					}
+					FRA = {
+						create_subject = {
+							subject_type = appanage
+							who = NRM
+						}
+					}
+				}
 			}
-			change_primary_culture = anglosaxon
-			every_owned_province = {
-				limit = { culture = english }
-				change_culture = anglosaxon
-			}
-			remove_accepted_culture = english
-			break_union = NRM
-			NRM = { define_ruler = { dynasty = "Rolloning" } }
 		}
 		clr_country_flag = edc_flag
 		every_country = {
