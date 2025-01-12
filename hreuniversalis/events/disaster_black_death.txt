@@ -18,12 +18,13 @@ country_event = {
 	}
 	
 	immediate = {
-		set_country_flag = had_black_death
+		set_country_flag = black_death_active
 	}
 	
 	option = {
 		name = black_death.1.a
-		add_prestige = -5
+		add_stability = -3
+		add_prestige = -25
 		if = {
 			limit = {
 				manpower = 1
@@ -196,7 +197,7 @@ country_event = {
 			black_death_big_effect = yes
 			add_institution_embracement = {
     			which = "publichealth"
-   				value = 35
+   				value = 20
    			}
 			set_province_flag = phdea
 		}
@@ -206,7 +207,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -217,7 +218,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -228,7 +229,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -239,7 +240,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -250,7 +251,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -261,7 +262,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -272,7 +273,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -283,7 +284,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -294,7 +295,7 @@ country_event = {
 				black_death_big_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					value = 35
+					value = 20
 				}
 				set_province_flag = phdea
 			}
@@ -333,7 +334,7 @@ country_event = {
 				black_death_small_effect = yes
 				add_institution_embracement = {
 					which = "publichealth"
-					   value = 2
+					value = 2
 				}
 				set_province_flag = phdea
 			}
@@ -620,7 +621,10 @@ country_event = {
 
 	option = {
 		name = black_death.5.a
-		trigger = { advisor = natural_scientist }
+		highlight = yes
+		trigger = {
+			full_idea_group = innovativeness_ideas
+		}
 		ai_chance = {
 			factor = 90
 		}
@@ -651,6 +655,13 @@ country_event = {
 		name = black_death.5.b
 		ai_chance = {
 			factor = 10
+			modifier = {
+				factor = 0
+				OR = {
+					is_bankrupt = yes
+					is_in_deficit = yes
+				}
+			}
 		}
 		add_years_of_income = -0.5
 		random_list = {
@@ -679,7 +690,7 @@ country_event = {
 	option = {
 		name = black_death.5.c
 		ai_chance = {
-			factor = 0
+			factor = 1
 		}
 		random_list = {
 			50 = {
@@ -719,8 +730,8 @@ country_event = {
 	}
 
 	trigger = {
-		has_heir = yes
 		government = monarchy
+		has_heir = yes
 		has_regency = no
 		is_lesser_in_union = no
 		NOT = { has_government_attribute = has_harem_events }
@@ -741,7 +752,10 @@ country_event = {
 	
 	option = {
 		name = black_death.6.a
-		trigger = { advisor = natural_scientist }
+		highlight = yes
+		trigger = {
+			full_idea_group = innovativeness_ideas
+		}
 		ai_chance = {
 			factor = 90
 		}
@@ -761,6 +775,13 @@ country_event = {
 		name = black_death.6.b
 		ai_chance = {
 			factor = 10
+			modifier = {
+				factor = 0
+				OR = {
+					is_bankrupt = yes
+					is_in_deficit = yes
+				}
+			}
 		}
 		add_years_of_income = -0.25
 		random_list = {
@@ -778,7 +799,7 @@ country_event = {
 	option = {
 		name = black_death.6.c
 		ai_chance = {
-			factor = 0
+			factor = 1
 		}
 		random_list = {
 			50 = { kill_heir = {} }
@@ -866,15 +887,7 @@ country_event = {
 				modifier = opinion_upset_pope
 			}
 		}
-		if = {
-			limit = {
-				has_estate = estate_church
-			}
-			add_estate_loyalty = {
-				estate = estate_church
-				loyalty = -10
-			}
-		}
+		reduce_estate_church_loyalty_effect = yes
 		event_target:papalmissal = {
 			add_institution_embracement = {
     			which = "publichealth"
@@ -886,7 +899,12 @@ country_event = {
 		name = black_death.7.b
 		ai_chance = {
 			factor = 50
+			modifier = {
+				factor = 0
+				is_excommunicated = yes
+			}
 		}
+		add_papal_influence = 25
 		event_target:papalmissal = {
 			add_institution_embracement = {
     			which = "publichealth"
@@ -900,8 +918,15 @@ country_event = {
 	id = black_death.8
 	title = black_death.8.t
 	desc = black_death.8.d
-	picture = ADVISOR_eventPicture
-	
+	picture = {
+		trigger = { has_dlc = "Rule Britannia" }
+		picture = SCIENTISTS_eventPicture
+	}
+	picture = {
+		trigger = { NOT = { has_dlc = "Rule Britannia" } }
+		picture = ADVISOR_eventPicture
+	}
+
 	is_triggered_only = yes
 
 	mean_time_to_happen = {
@@ -909,7 +934,7 @@ country_event = {
 	}
 
 	trigger = {
-		advisor = natural_scientist
+		full_idea_group = innovativeness_ideas
 		any_owned_province = {
 			NOT = { publichealth = 100 }
 		}
@@ -937,8 +962,13 @@ country_event = {
 				factor = 0.1
 				num_of_loans = 1
 			}
+			modifier = {
+				factor = 0.1
+				is_bankrupt = yes
+			}
 		}
-		add_years_of_income = -0.20
+		add_innovativeness_small_effect = yes
+		add_years_of_income = -0.2
 		event_target:researchbreakthrough = {
 			add_institution_embracement = {
     			which = "publichealth"
@@ -951,9 +981,16 @@ country_event = {
 		ai_chance = {
 			factor = 10
 		}
-		add_prestige = -5
+		if = {
+			limit = {
+				has_dlc = "Rule Britannia"
+			}
+			reduce_innovativeness_small_effect = yes
+		}
+		else = {
+			add_prestige = -5
+		}
 		reduce_meritocracy_effect = yes
-		remove_advisor = natural_scientist
 	}
 }
 
@@ -1145,6 +1182,8 @@ country_event = {
 
 	immediate = {
 		on_non_estate_disaster_end = yes
+		set_country_flag = had_black_death
+		clr_country_flag = black_death_active
 	}
 	
 	option = {

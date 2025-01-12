@@ -2,35 +2,22 @@ black_death = {
 	potential = {
 		normal_or_historical_nations = yes
 		NOT = { has_country_flag = had_black_death }
-		has_institution = chivalry
-		NOT = { has_institution = publichealth }
+		is_institution_enabled = publichealth
 		current_age = age_of_dynasticism
 		NOT = { has_disaster = tur_disaster_ottoman_power_struggle }
 	}
 
 
 	can_start = {
-		has_any_disaster = no
-		is_institution_enabled = publichealth
 		current_age = age_of_dynasticism
 		any_owned_province = {
 			development = 4
-			NOT = { publichealth = 100 }
 		}
 	}
 	
 	
 	can_stop = {
-		OR = {
-			has_any_disaster = yes
-			has_institution = publichealth
-			NOT = {
-				any_owned_province = {
-					development = 4
-					NOT = { publichealth = 100 }
-				}
-			}
-		}
+		NOT = { current_age = age_of_dynasticism }
 	}
 	
 	progress = {
@@ -42,6 +29,12 @@ black_death = {
 			factor = 1
 			any_owned_province = {
 				development = 15
+			}
+		}
+		modifier = {
+			factor = 1
+			any_owned_province = {
+				development = 25
 			}
 		}
 		modifier = {
@@ -93,24 +86,31 @@ black_death = {
 				amount = 5
 			}
 		}
+		modifier = {
+			factor = -3
+			has_institution = publichealth
+		}
+		modifier = {
+			factor = -1
+			full_idea_group = innovativeness_ideas
+		}
 	}
 	
 	can_end = {
-		OR = {
-			has_institution = publichealth
-			NOT = {
-				any_owned_province = {
-					development = 4
-					NOT = { publichealth = 100 }
-				}
-			}
+		custom_trigger_tooltip = {
+			tooltip = disaster_active_for_10_years_tooltip
+			had_country_flag = { flag = had_black_death days = 3650 }
 		}
+		has_institution = publichealth
 	}
 
 	modifier = {
-		development_cost = 1.0
+		development_cost = 1
+		stability_cost_modifier = 1
+		build_time = 1
 		global_manpower_modifier = -0.5
 		global_trade_power = -0.5
+		global_tax_modifier = -0.5
 	}	
 	
 	
