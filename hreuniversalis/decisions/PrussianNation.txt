@@ -4,35 +4,17 @@ country_decisions = {
 		major = yes
 		potential = {
 			normal_or_historical_nations = yes
-			primitives = no
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_prussia_flag }
 			OR = {
 				ai = no
 				is_playing_custom_nation = no
 			}
-			OR = {
-				is_free_or_tributary_trigger = yes
-				ai = no
-			}
+			NOT = { has_reform = celestial_empire } 
 			tag = BRA
-			NOT = { tag = PRU }
-			if = {
-				limit = {
-					OR = {
-						tag = SAX
-						was_tag = SAX
-					}
-					NOT = { started_in = 1180.1.1 }
-				}
-				was_player = no
-			}
 			OR = {
 				NOT = { exists = PRU }
 				ai = no
-			}
-			OR = {
-				ai = no
-				is_religion_enabled = protestant
-				is_religion_enabled = reformed
 			}
 		}
 		provinces_to_highlight = {
@@ -55,17 +37,21 @@ country_decisions = {
 					has_country_flag = can_form_prussia_earlier
 				}
 			}
-			is_nomad = no
 			OR = {
-				religion = reformed
-				religion = anabaptist
 				religion = protestant
+				religion = reformed
+				religion = hussite
 				religion = anglican
+				religion = anabaptist
+				custom_trigger_tooltip = {
+					tooltip = prussian_nation_tt2
+					has_country_flag = can_form_prussia_as_catholic
+				}
 			}
 			OR = {
 				PTH = {
 					years_in_union_under = {
-						who = BRA
+						who = ROOT
 						years = 50
 					}
 					NOT = { num_of_cities = 31 }
@@ -80,9 +66,8 @@ country_decisions = {
 		}
 		effect = {
 			change_tag = PRU
-			on_change_tag_effect = yes
-			restore_country_name_effect = yes
 			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
 			remove_non_electors_emperors_from_empire_effect = yes
 			if = {
 				limit = {
@@ -100,6 +85,13 @@ country_decisions = {
 					NOT = { government_rank = 5 }
 				}
 				set_government_rank = 5
+			}
+			if = {
+				limit = {
+					has_custom_ideas = no
+					NOT = { has_idea_group = PRU_ideas }
+				}
+				country_event = { id = ideagroups.1 } #Swap Ideas
 			}
 			random_owned_province = {
 				limit = {
@@ -157,7 +149,7 @@ country_decisions = {
 			}
 			if = {
 				limit = {
-					overlord_of = PTH
+					senior_union_with = PTH
 				}
 				inherit = PTH
 			}
@@ -187,19 +179,18 @@ country_decisions = {
 				}
 				add_permanent_claim = PRU
 			}
-			if = {
-				limit = {
-					has_custom_ideas = no
-					NOT = { has_idea_group = PRU_ideas }
-				}
-				country_event = { id = ideagroups.1 } #Swap Ideas
-			}
 			capital_scope = {
 				change_culture = prussian
 			}
+			set_country_flag = formed_prussia_flag
 		}
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { num_of_cities = 31 }
+				NOT = { owns_core_province = 4854 }
+			}
 		}
 		ai_importance = 1000
 	}
@@ -209,42 +200,28 @@ country_decisions = {
 		potential = {
 			was_never_end_game_tag_trigger = yes
 			normal_or_historical_nations = yes
+			NOT = { has_country_flag = formed_pruthenia_flag }
 			OR = {
 				ai = no
 				is_playing_custom_nation = no
 			}
-			OR = {
-				is_free_or_tributary_trigger = yes
-				ai = no
-			}
-			NOT = { tag = PTH }
-			NOT = { tag = PRU }
-			if = {
-				limit = {
-					OR = {
-						tag = SAX
-						was_tag = SAX
-					}
-					NOT = { started_in = 1180.1.1 }
-				}
-				was_player = no
-			}
+			#tag = TEU
+			NOT = { has_reform = celestial_empire } 
 			OR = {
 				NOT = { exists = PTH }
 				ai = no
 			}
-			OR = {
-				primary_culture = prussian
-				primary_culture = pruthenian
-			}
 			is_colonial_nation = no
-			is_nomad = no
 			OR = {
 				is_former_colonial_nation = no
 				AND = {
 					is_former_colonial_nation = yes
 					ai = no
 				}
+			}
+			OR = {
+				primary_culture = prussian
+				primary_culture = pruthenian
 			}
 		}
 		provinces_to_highlight = {
@@ -261,27 +238,74 @@ country_decisions = {
 		}
 		allow = {
 			NOT = { exists = PTH }
-			adm_tech = 14
+			OR = {
+				adm_tech = 14
+				custom_trigger_tooltip = {
+					tooltip = prussian_nation_tt
+					has_country_flag = can_form_prussia_earlier
+				}
+			}
 			is_at_war = no
+			# if = {
+			# 	limit = { has_dlc = "Lions of the North" }
+			# 	OR = {
+			# 		custom_trigger_tooltip = {
+			# 			tooltip = teu_prussia_path_ct
+			# 			has_country_flag = teu_prussian_path
+			# 		}
+			# 		religion = protestant
+			# 		religion = reformed
+			# 		religion = hussite
+			# 		religion = anglican
+			# 	}
+			# }
+			#else = {
+				OR = {
+					religion = protestant
+					religion = reformed
+					religion = hussite
+					religion = anglican
+					religion = anabaptist
+					custom_trigger_tooltip = {
+						tooltip = prussian_nation_tt2
+						has_country_flag = can_form_prussia_as_catholic
+					}
+				}
+			#}
 			owns_core_province = 4854 # Königsberg
 			owns_core_province = 4861 #Mamonovo
 			owns_core_province = 4846 #Soldau
 			owns_core_province = 4834 #Ragnit
-			custom_trigger_tooltip = {
-				tooltip = forming_pruth_tt
-				OR = {
-					NOT = { tag = TEU }
-					OR = {
-						adm_tech = 40
-						NOT = { any_owned_province = { region = westpreussen_region  } }
-					}
-				}
+			4854 = {
+				is_state = yes
 			}
 		}
 		effect = {
+			4854 = {
+				move_capital_effect = yes
+			}
 			change_tag = PTH
+			swap_non_generic_missions = yes
 			on_change_tag_effect = yes
-			restore_country_name_effect = yes
+			# if = {
+			# 	limit = {
+			# 		has_dlc = "Lions of the North"
+			# 		has_mission = teu_defeat_the_poles
+			# 		NOT = { mission_completed = teu_defeat_the_poles }
+			# 	}
+			# 	custom_tooltip = teu_select_automatically_prussian_path_tt
+			# 	hidden_effect = {
+			# 		complete_mission = teu_defeat_the_poles
+			# 		add_power_projection = {
+			# 			type = mission_rewards_power_projection
+			# 			amount = 25
+			# 		}
+			# 		set_country_flag = teu_prussian_path
+			# 		clr_country_flag = teu_crusader_path
+			# 		swap_non_generic_missions = yes
+			# 		update_mission_previews = yes
+			# 	}
+			# }
 			if = {
 				limit = {
 					technology_group = north_american
@@ -297,11 +321,11 @@ country_decisions = {
 			}
 			add_prestige = 25
 			hidden_effect = {
-				if = {
-					limit = {
-						has_dlc = "Lions of the North"
-						has_country_flag = teu_prussian_path
-					}
+				# if = {
+				# 	limit = {
+				# 		has_dlc = "Lions of the North"
+				# 		has_country_flag = teu_prussian_path
+				# 	}
 					unlock_government_reform = {
 						government_reform = prussian_monarchy_base
 					}
@@ -311,7 +335,7 @@ country_decisions = {
 					unlock_government_reform = {
 						government_reform = prussian_theocratic_reform
 					}
-				}
+				# }
 			}
 			if =  {
 				limit = {
@@ -319,15 +343,15 @@ country_decisions = {
 					NOT = { government = republic }
 				}
 				change_government = monarchy
-				if = {
-					limit = { 
-						has_dlc = "Lions of the North"
+				#if = {
+					#limit = { 
+						#has_dlc = "Lions of the North"
 						#has_country_flag = teu_prussian_path
-					}
+					#}
 					unlock_government_reform = {
 						government_reform = prussian_monarchy_base
 					}
-				}
+				#}
 				add_government_reform = prussian_monarchy_base
 			}
 			else_if = {
@@ -335,15 +359,15 @@ country_decisions = {
 					government = republic
 					is_revolutionary = no
 				}
-				if = {
-					limit = { 
-						has_dlc = "Lions of the North"
+				#if = {
+					#limit = { 
+						#has_dlc = "Lions of the North"
 						#has_country_flag = teu_prussian_path
-					}
+					#}
 					unlock_government_reform = {
 						government_reform = prussian_republic_reform
 					}
-				}
+				#}
 				add_government_reform = prussian_republic_reform
 			}
 			if = {
@@ -352,7 +376,6 @@ country_decisions = {
 				}
 				remove_government_reform = states_general_reform
 			}
-			set_capital = 4854		# Ostpreussen
 			if = {
 				limit = {
 					has_custom_ideas = no
@@ -364,12 +387,25 @@ country_decisions = {
 				name = "centralization_modifier"
 				duration = 3650
 			}
+			if = {
+				limit = {
+					#OR = {
+						#is_part_of_hre = no
+						#is_elector = yes
+					#}
+					#is_free_or_tributary_trigger = yes
+					NOT = { government_rank = 3 }
+				}
+				set_government_rank = 3
+			}
+			set_country_flag = formed_pruthenia_flag
 		}
 		ai_will_do = {
-			factor = 10
+			factor = 1
 			modifier = {
 				factor = 0
-				NOT = { is_religion_enabled = protestant }
+				NOT = { num_of_cities = 31 }
+				NOT = { owns_core_province = 4854 }
 			}
 		}
 		ai_importance = 1000
@@ -379,42 +415,27 @@ country_decisions = {
 		major = yes
 		potential = {
 			normal_or_historical_nations = yes
-			primitives = no
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_prussia_flag }
 			OR = {
 				ai = no
 				is_playing_custom_nation = no
 			}
 			OR = {
-				is_free_or_tributary_trigger = yes
-				ai = no
-			}
-			OR = {
-				ai = no
-				is_religion_enabled = protestant
-				is_religion_enabled = reformed
-			}
-			OR = {
 				primary_culture = pommeranian
 				primary_culture = central_margravian
+				primary_culture = prussian
 				tag = PTH
 			}
 			NOT = { tag = PRU }
-			if = {
-				limit = {
-					OR = {
-						tag = SAX
-						was_tag = SAX
-					}
-					NOT = { started_in = 1180.1.1 }
-				}
-				was_player = no
-			}
 			OR = {
 				NOT = { exists = PRU }
 				ai = no
 			}
-			was_never_end_game_tag_trigger = yes
+			NOT = { tag = GER }
+			NOT = { tag = HLR }
 			NOT = { tag = BRA }
+			NOT = { has_reform = celestial_empire } 
 			NOT = { tag = TEU }
 		}
 		provinces_to_highlight = {
@@ -430,15 +451,26 @@ country_decisions = {
 		}
 		allow = {
 			NOT = { exists = PRU }
-			adm_tech = 40
-			is_nomad = no
+			OR = {
+				adm_tech = 40
+				custom_trigger_tooltip = {
+					tooltip = prussian_nation_tt
+					has_country_flag = can_form_prussia_earlier
+				}
+			}
 			is_free_or_tributary_trigger = yes
+			is_nomad = no
 			is_at_war = no
 			OR = {
-				religion = reformed
-				religion = anabaptist
 				religion = protestant
+				religion = reformed
+				religion = hussite
 				religion = anglican
+				religion = anabaptist
+				custom_trigger_tooltip = {
+					tooltip = prussian_nation_tt2
+					has_country_flag = can_form_prussia_as_catholic
+				}
 			}
 			owns_core_province = 4854			# Königsberg
 			owns_core_province = 4826			# Warmia
@@ -446,9 +478,8 @@ country_decisions = {
 		}
 		effect = {
 			change_tag = PRU
-			on_change_tag_effect = yes
-			restore_country_name_effect = yes
 			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
 			remove_non_electors_emperors_from_empire_effect = yes
 			if = {
 				limit = {
@@ -464,7 +495,6 @@ country_decisions = {
 						NOT = { hre_size = 1 }
 					}
 					NOT = { government_rank = 5 }
-					government = monarchy
 				}
 				set_government_rank = 5
 			}
@@ -546,6 +576,7 @@ country_decisions = {
 				name = "centralization_modifier"
 				duration = 3650
 			}
+			set_country_flag = formed_prussia_flag
 		}
 		ai_will_do = {
 			factor = 10
@@ -553,7 +584,21 @@ country_decisions = {
 				factor = 0
 				NOT = { is_religion_enabled = protestant }
 			}
+			modifier = {
+				factor = 0
+				NOT = { num_of_cities = 31 }
+			}
+			modifier = {
+				factor = 0.1
+				any_ally = {
+					OR = {
+						owns = 4854
+						owns = 4826
+						owns = 402
+					}
+				}
+			}
 		}
-		ai_importance = 1000
+		ai_importance = 100
 	}
 }
