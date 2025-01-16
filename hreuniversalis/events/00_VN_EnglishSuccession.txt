@@ -425,9 +425,9 @@ country_event = {
 		if = {
 			limit = { tag = NRM }
 			ASE = { set_country_flag = nrm_renounced_claims_on_ase }
-			complete_mission = vn_nrm_english_succession
-			complete_mission = vn_nrm_alea_iacta_est
-			complete_mission = vn_nrm_subjugate_england
+			#complete_mission = vn_nrm_english_succession
+			#complete_mission = vn_nrm_alea_iacta_est
+			#complete_mission = vn_nrm_subjugate_england
 		}
 		if = {
 			limit = { tag = NOR }
@@ -439,5 +439,88 @@ country_event = {
 			who = ASE
 			modifier = full_reconciliation
 		}
+	}
+}
+
+#NRM/NOR capture London
+country_event = {
+	id = vn_english_succession.5
+	title = "vn_english_succession.5.t"
+	desc = "vn_english_succession.5.d"
+	picture = SIEGE_eventPicture
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	trigger = {
+		is_in_war = {
+			attacker_leader = ROOT
+			defender_leader = ASE
+			casus_belli = cb_conquest_of_england
+		}
+		OR = { 
+			FROM = {
+				province_id = 2268
+			}
+			AND = { 
+				war_with = ASE 
+				2268 = { controlled_by = ROOT }
+			}
+		}
+	}
+
+	option = {
+		name = "vn_english_succession.5.a"
+		add_legitimacy = 10
+		ASE = { country_event = { id = vn_english_succession.6 } }
+	}
+}
+
+#England gets asked to back down
+country_event = {
+	id = vn_english_succession.6
+	title = vn_english_succession.6.t
+	desc = vn_english_succession.6.d
+	picture = SIEGE_eventPicture
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	major = yes
+	major_trigger = {
+		is_in_war = {
+			casus_belli = cb_conquest_of_england
+		}
+	}
+	
+	option = {
+		name = "vn_english_succession.6.a"
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0.1
+				FROM = { tag = NOR }
+			}
+		}
+		white_peace = FROM
+		FROM = {
+			create_union = ROOT
+			add_prestige = 50
+		}
+	}
+
+	option = {
+		name = "vn_english_succession.6.b"
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				FROM = { tag = NRM }
+			}
+		}
+		add_war_exhaustion = 5
 	}
 }
