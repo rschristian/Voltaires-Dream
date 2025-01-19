@@ -891,14 +891,16 @@ offer_partial_principality = {
 		FROM = {
 			if = {
 				limit = {
-					government = monarchy
+					NOT = { government = republic }
 				}
+				change_government = monarchy
 				add_government_reform = principality
 			}
 			else_if = {
 				limit = {
-					government = monarchy
+					government = republic
 				}
+				change_government = republic
 				add_government_reform = veche_republic
 			}
 		}
@@ -2353,6 +2355,18 @@ offer_canton = {
 				which = ai_value
 				value = 0.4
 			}
+		}
+		add_entry = {
+			name = THEIR_GOVERNMENT_TYPE
+			limit = { FROM = { government = republic } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = 10 }
+		}
+		add_entry = {
+			name = DIPLO_MSG_FILTER_NEIGHBOURS
+			limit = { FROM = { is_neighbor_of = ROOT } }
+			export_to_variable = { variable_name = ai_value value = 1 }
+			multiply_variable = { which = ai_value value = 5 }
 		}
 		add_entry = {
 			name = AI_DIPLOMATIC_REPUTATION
