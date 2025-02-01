@@ -2034,6 +2034,7 @@ christian = {
 			shiite
 			ibadi
 			zikri
+			qarmatian
 			paulician
 			iconoclast
 			nestorian
@@ -2075,6 +2076,7 @@ christian = {
 			shiite
 			ibadi
 			zikri
+			qarmatian
 			paulician
 			iconoclast
 			coptic
@@ -2911,6 +2913,74 @@ muslim = {
 
 			trade_efficiency = 0.1
 		}
+		safavi_school = {
+			potential_invite_scholar = {
+				OR = {
+					knows_of_scholar_country_capital_trigger = yes
+					has_country_flag = can_always_invite_safavi_school
+					has_country_flag = privilege_can_always_invite_safavi_school
+				}
+				religion_group = muslim
+			}
+
+			can_invite_scholar = {
+				if = {
+					limit = {
+						NOT = { has_country_flag = no_scholar_adm_cost }
+					}
+					adm_power_cost = 50
+				}
+				if = {
+					limit = { NOT = { religion = zikri } }
+					NOT = { piety = -0.5 }
+				}
+				if = {
+					limit = {
+						NOT = { has_country_flag = can_always_invite_safavi_school }
+						NOT = { has_country_flag = privilege_can_always_invite_safavi_school }
+					}
+					reverse_has_opinion = { who = FROM value = 150 }
+					OR = {
+						alliance_with = FROM
+						is_subject_of = FROM
+						overlord_of = FROM
+					}
+					hidden_progressive_opinion_for_scholar_trigger = yes
+				}
+				if = {
+					limit = {
+						ai = yes
+					}
+					NOT = { has_country_modifier = has_invited_scholar_recently }
+				}
+				NOT = { has_country_modifier = safavi_scholar_modifier }
+			}
+
+			on_invite_scholar = {
+				if = {
+					limit = {
+						NOT = { has_country_flag = no_scholar_adm_cost }
+					}
+					adm_power_cost = 50
+				}
+				clear_religious_scholar_modifiers_effect = yes
+				custom_tooltip = INVITE_SCHOLAR_COUNTRY_TEXT
+				add_country_modifier = { name = safavi_scholar_modifier duration = 7300 }
+				if = {
+					limit = {
+						ai = yes
+					}
+					add_country_modifier = { name = has_invited_scholar_recently duration = 7300 hidden = yes }
+				}
+			}
+
+			invite_scholar_modifier_display = safavi_scholar_modifier
+
+			picture = "GFX_icon_muslim_school_safavi"
+
+			core_creation = -0.1
+		}
+		#Qarmatians
 		nizari_school = {
 			potential_invite_scholar = {
 				OR = {
@@ -2996,7 +3066,7 @@ muslim = {
 					adm_power_cost = 50
 				}
 				if = {
-					limit = { NOT = { religion = zikri } }
+					limit = { NOT = { religion = qarmatian } }
 					NOT = { piety = -0.5 }
 				}
 				if = {
@@ -3045,6 +3115,73 @@ muslim = {
 
 			core_creation = -0.1
 		}
+		mushashai_school = {
+			potential_invite_scholar = {
+				OR = {
+					knows_of_scholar_country_capital_trigger = yes
+					has_country_flag = can_always_invite_mushashai_school
+					has_country_flag = privilege_can_always_invite_mushashai_school
+				}
+				religion_group = muslim
+			}
+
+			can_invite_scholar = {
+				if = {
+					limit = {
+						NOT = { has_country_flag = no_scholar_adm_cost }
+					}
+					adm_power_cost = 50
+				}
+				if = {
+					limit = { NOT = { religion = qarmatian } }
+					NOT = { piety = -0.5 }
+				}
+				if = {
+					limit = {
+						NOT = { has_country_flag = can_always_invite_mushashai_school }
+						NOT = { has_country_flag = privilege_can_always_invite_mushashai_school }
+					}
+					reverse_has_opinion = { who = FROM value = 150 }
+					OR = {
+						alliance_with = FROM
+						is_subject_of = FROM
+						overlord_of = FROM
+					}
+					hidden_progressive_opinion_for_scholar_trigger = yes
+				}
+				if = {
+					limit = {
+						ai = yes
+					}
+					NOT = { has_country_modifier = has_invited_scholar_recently }
+				}
+				NOT = { has_country_modifier = mushashai_scholar_modifier }
+			}
+
+			on_invite_scholar = {
+				if = {
+					limit = {
+						NOT = { has_country_flag = no_scholar_adm_cost }
+					}
+					adm_power_cost = 50
+				}
+				clear_religious_scholar_modifiers_effect = yes
+				custom_tooltip = INVITE_SCHOLAR_COUNTRY_TEXT
+				add_country_modifier = { name = mushashai_scholar_modifier duration = 7300 }
+				if = {
+					limit = {
+						ai = yes
+					}
+					add_country_modifier = { name = has_invited_scholar_recently duration = 7300 hidden = yes }
+				}
+			}
+
+			invite_scholar_modifier_display = mushashai_scholar_modifier
+
+			picture = "GFX_icon_muslim_school_mushashai"
+
+			loot_amount = 1
+		}
 	}
 	
 	sunni = {
@@ -3054,6 +3191,7 @@ muslim = {
 			ibadi
 			shiite
 			zikri
+			qarmatian
 		}
 		country = {
 			cav_to_inf_ratio = 0.10
@@ -3079,6 +3217,7 @@ muslim = {
 			sunni
 			ibadi
 			zikri
+			qarmatian
 		}
 		country = {
 			heir_chance = 1.0
@@ -3104,6 +3243,7 @@ muslim = {
 			sunni
 			shiite
 			zikri
+			qarmatian
 		}
 		country = {
 			heir_chance = 1.0
@@ -3129,6 +3269,7 @@ muslim = {
 			sunni
 			shiite
 			ibadi
+			qarmatian
 		}
 		country = {
 			global_institution_spread = 0.15
@@ -3142,6 +3283,32 @@ muslim = {
 			heir_chance = 1.0
 		}
 		heretic = { HURUFI NUSAIRI BEKTASHI }
+		uses_piety = yes				# Uses piety mechanics
+	}
+	
+	qarmatian = {
+		color = { 107 227 107 }
+		icon = 30
+		allowed_center_conversion = {
+			sunni
+			shiite
+			ibadi
+			qarmatian
+		}
+
+		country = {
+			global_heretic_missionary_strength = 0.03
+			missionaries = 1
+		}
+		country_as_secondary = {
+			manpower_recovery_speed = 0.1
+			advisor_cost = -0.1
+		}
+		province = {
+			local_missionary_strength = -0.02
+		}
+		
+		heretic = { HAFIZI TAYYIBI FATHI }
 		
 		gurus = {
 			imam_nizar = {
@@ -3483,7 +3650,7 @@ muslim = {
 			}
 		}
 	}
-	
+
 	crusade_name = JIHAD
 	harmonized_modifier = harmonized_muslim
 }
@@ -3805,6 +3972,7 @@ jewish_group = {
 	defender_of_faith = yes
 	flags_with_emblem_percentage = 33
 	flag_emblem_index_range = { 106 107 }
+	defender_of_faith = yes
 
 	religious_schools = {
 		ashkenazi_school = {
@@ -4174,9 +4342,11 @@ zoroastrian_group = {
 			shiite
 			ibadi
 			zikri
+			qarmatian
 		}
 
 		personal_deity = yes
+		date = 1143.11.13
 
 		heretic = { MELEKIAN }
 	}
@@ -4200,6 +4370,7 @@ zoroastrian_group = {
 			shiite
 			ibadi
 			zikri
+			qarmatian
 		}
 
 		personal_deity = yes
@@ -4225,6 +4396,7 @@ zoroastrian_group = {
 			shiite
 			ibadi
 			zikri
+			qarmatian
 		}
 
 		personal_deity = yes
