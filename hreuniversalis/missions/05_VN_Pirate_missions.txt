@@ -1,5 +1,5 @@
 vn_pirate_missions_1 = {
-	slot = 1
+	slot = 2
 	generic = yes
 	ai = yes
 	potential_on_load = {
@@ -65,15 +65,24 @@ vn_pirate_missions_1 = {
 			}
 		}
 	}
-	pirate_hoard = {
-		icon = mission_african_gold
-		required_missions = { }
-		trigger = {
-			treasury = 3000
+	pirate_triangle_trade = {
+		position = 9
+		icon = mission_african_soldier
+		required_missions = { pirate_trade_ports }
+		provinces_to_highlight = {
+			province_id = 4626
 		}
+		trigger = {
+			4626 = {
+				privateer_power = {
+					country = ROOT
+					share = 25
+				}
+			}
+		}		
 		effect = {
 			add_country_modifier = {
-				name = "pirate_hoard"
+				name = "pirate_triangle_trade"
 				duration = 9125
 			}
 		}
@@ -81,7 +90,7 @@ vn_pirate_missions_1 = {
 }
 
 vn_pirate_missions_2 = {
-	slot = 2
+	slot = 3
 	generic = yes
 	ai = yes
 	potential_on_load = {
@@ -92,54 +101,52 @@ vn_pirate_missions_2 = {
 		has_reform = pirate_republic_reform
 	}
 	
-	pirate_a_scourge_on_the_seven_seas = {
-		position = 9
-		icon = mission_raid_christian_trade
-		required_missions = {  }
+	pirate_a_pirate_fleet = {
+		icon = mission_galleys_in_port
+		required_missions = { }
 		trigger = {
-			has_flagship = yes
+			naval_forcelimit = 20
+			navy_size_percentage = 1
+			num_of_light_ship = 5
 		}
 		effect = {
-			create_admiral = {
-				tradition = 50
-			}
 			add_country_modifier = {
-				name = "pirate_a_scourge_on_the_seven_seas"
+				name = "pirate_a_pirate_fleet"
 				duration = 9125
 			}
 		}
 	}
-	pirate_a_famous_pirate = {
-		icon = mission_pirate_havens
-		required_missions = { pirate_a_scourge_on_the_seven_seas }
+	pirate_diplomacy = {
+		icon = mission_disrupt_portuguese_trade
+		required_missions = { pirate_a_pirate_fleet }
 		trigger = {
-			has_leader_with = { admiral = yes total_pips = 12 }
-			OR = {
+			any_rival_country = {
 				custom_trigger_tooltip = {
-					tooltip = a_mighty_pirate_leader
-					has_ruler_flag = historical_pirate
-				}
-				AND = {
-					republican_tradition = 95
-					navy_tradition = 50
-					ADM = 4
-					DIP = 4
-					MIL = 4
+					tooltip = has_been_insulted_by_root
+					OR = {
+						has_opinion_modifier = {
+							who = ROOT
+							modifier = insulted
+						}
+						has_opinion_modifier = {
+							who = ROOT
+							modifier = scornfully_insulted
+						}
+					}
 				}
 			}
 		}
+		
 		effect = {
-			custom_tooltip = got_pirate_renowned_pirate_king_tt
-			set_country_flag = can_gain_legendary_pirates_flag
 			add_country_modifier = {
-				name = "pirate_a_famous_pirate"
+				name = "pirate_diplomacy"
 				duration = 9125
 			}
 		}
 	}
 	pirate_the_pirate_threat = {
-		icon = mission_raid_on_genoa
-		required_missions = { pirate_a_famous_pirate }
+		icon = mission_pirate_flag
+		required_missions = { pirate_diplomacy }
 		provinces_to_highlight = {
 			owner = {
 				is_rival = ROOT
@@ -164,6 +171,78 @@ vn_pirate_missions_2 = {
 				name = "pirate_the_pirate_threat"
 				duration = 9125
 			}
+		}
+	}
+}
+
+vn_pirate_missions_3 = {
+	slot = 4
+	generic = yes
+	ai = yes
+	potential_on_load = {
+		has_dlc = "Golden Century"
+	}
+	potential = {
+		has_dlc = "Golden Century"
+		has_reform = pirate_republic_reform
+	}
+	
+	pirate_a_scourge_on_the_seven_seas = {
+		position = 9
+		icon = mission_pirate_fleet
+		required_missions = { }
+		trigger = {
+			has_flagship = yes
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pirate_a_scourge_on_the_seven_seas"
+				duration = 9125
+			}
+			create_admiral = {
+				tradition = 50
+			}
+		}
+	}
+	pirate_hoard = {
+		icon = mission_african_gold
+		required_missions = { }
+		trigger = {
+			treasury = 3000
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pirate_hoard"
+				duration = 9125
+			}
+		}
+	}
+	pirate_a_famous_pirate = {
+		icon = mission_eric_the_pirate
+		required_missions = { }
+		trigger = {
+			has_leader_with = { admiral = yes total_pips = 12 }
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = a_mighty_pirate_leader
+					has_ruler_flag = historical_pirate
+				}
+				AND = {
+					republican_tradition = 95
+					navy_tradition = 50
+					ADM = 4
+					DIP = 4
+					MIL = 4
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pirate_a_famous_pirate"
+				duration = 9125
+			}
+			custom_tooltip = got_pirate_renowned_pirate_king_tt
+			set_country_flag = can_gain_legendary_pirates_flag
 		}
 	}
 }

@@ -21,6 +21,7 @@ VN_naval_missions = {
 			num_of_light_ship = 5
 		}
 		effect = {
+			add_sailors = 2000
 			add_country_modifier = {
 				name = "naval_expansion_mission"
 				duration = 9125
@@ -39,6 +40,10 @@ VN_naval_missions = {
 			navy_size_percentage = 0.8
 		}
 		effect = {
+			add_country_modifier = {
+				name = "naval_enthusiasm_mission"
+				duration = 9125
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -66,28 +71,61 @@ VN_naval_missions = {
 			else = {
 				create_admiral = { tradition = 100 }
 			}
-			add_country_modifier = {
-				name = "naval_enthusiasm_mission"
-				duration = 9125
-			}
 		}
 	}
 	vn_build_shipyards = {
 		icon = mission_sea_battles
 		required_missions = { establish_high_seas_navy }
 		position = 3
-		trigger = {
+		provinces_to_highlight = {
+			owned_by = ROOT
+			has_port = yes
 			OR = {
-				dock = 5
-				drydock = 5
-				shipyard = 5
-				grand_shipyard = 5
+				AND = {
+					NOT = { 
+						ROOT = {
+							num_of_owned_provinces_with = {
+								has_dock_building_trigger = yes
+								value = 5
+							}
+						}
+					}
+					has_dock_building_trigger = no
+				}
+				AND = {
+					NOT = { 
+						ROOT = {
+							num_of_owned_provinces_with = {
+								has_shipyard_building_trigger = yes
+								value = 5
+							}
+						}
+					}
+					has_shipyard_building_trigger = no
+				}
+			}
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				has_dock_building_trigger = yes
+				value = 5
+			}
+			num_of_owned_provinces_with = {
+				has_shipyard_building_trigger = yes
+				value = 5
 			}
 		}
 		effect = {
 			add_country_modifier = {
 				name = "build_shipyards_mission"
 				duration = 9125
+			}
+			define_advisor = {
+				type = naval_reformer
+				skill = 1
+				culture = ROOT
+				religion = ROOT
+				cost_multiplier = 0.5
 			}
 		}
 	}
@@ -99,6 +137,7 @@ VN_naval_missions = {
 			num_of_total_ports = 50
 		}
 		effect = {
+			add_navy_tradition = 25
 			add_country_modifier = {
 				name = "control_ports_mission"
 				duration = 9125
@@ -120,10 +159,24 @@ VN_trade_missions = {
 		icon = mission_roads
 		required_missions = { }
 		position = 1
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { has_building = road_network }
+		}
 		trigger = {
-			OR = {
-				road_network = 6
-				post_office = 3
+			if = {
+				limit = {
+					NOT = { num_of_cities = 10 }
+				}
+				all_owned_province = {
+					has_building = road_network
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 10
+					has_building = road_network
+				}
 			}
 		}
 		effect = {
@@ -137,14 +190,61 @@ VN_trade_missions = {
 		icon = mission_trade_company_region_abroad
 		required_missions = { vn_build_roads }
 		position = 2
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { has_building = post_office }
+		}
 		trigger = {
-			has_institution = guilds
-			all_state_province = {
-				guilds = 100
+			if = {
+				limit = {
+					started_in = 1250.1.1
+					NOT = { num_of_cities = 10 }
+				}
+				all_owned_province = {
+					has_building = post_office
+				}
+			}
+			else_if = {
+				limit = {
+					started_in = 1250.1.1
+					num_of_cities = 10
+				}
+				num_of_owned_provinces_with = {
+					value = 10
+					has_building = post_office
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { started_in = 1250.1.1 }
+					NOT = { num_of_cities = 10 }
+				}
+				OR = {
+					has_institution = guilds
+					all_owned_province = {
+						has_building = post_office
+					}
+				}
+			}
+			else = {
+				OR = {
+					has_institution = guilds
+					num_of_owned_provinces_with = {
+						value = 10
+						has_building = post_office
+					}
+				}
 			}
 		}
 		effect = {
-			add_mercantilism = 1
+			add_years_of_owned_provinces_production_income = {
+				years = 1.5
+				trigger = {
+					always = yes
+				}
+				custom_tooltip = GER_from_1.5_years_of_prod_income
+			}
+			custom_tooltip = " "
 			add_country_modifier = {
 				name = "embrace_guilds_mission"
 				duration = 9125
@@ -157,11 +257,19 @@ VN_trade_missions = {
 		position = 3
 		trigger = {
 			num_of_centers_of_trade = 5
+			monthly_income = 25
 		}
 		effect = {
 			add_country_modifier = {
 				name = "control_trade_centers_mission"
 				duration = 9125
+			}
+			define_advisor = {
+				type = trader
+				skill = 1
+				culture = ROOT
+				religion = ROOT
+				cost_multiplier = 0.5
 			}
 		}
 	}
@@ -169,6 +277,11 @@ VN_trade_missions = {
 		icon = mission_dominate_home_trade_node
 		required_missions = { vn_control_trade_centers }
 		position = 4
+		provinces_to_highlight = {
+			ROOT = {
+				home_trade_node = { province_id = PREV_PREV }
+			}
+		}
 		trigger = {
 			home_trade_node = {
 				trade_share = {
@@ -178,7 +291,6 @@ VN_trade_missions = {
 			}
 		}
 		effect = {
-			add_mercantilism_or_monarch_power = { amount = 3 }
 			hidden_effect = {
 				home_trade_node_effect_scope = {
 					random_trade_node_member_province = {
@@ -243,6 +355,8 @@ VN_trade_missions = {
 			else = {
 				custom_tooltip = dominant_home_node_reward_tooltip
 			}
+			custom_tooltip = " "
+			add_mercantilism_or_monarch_power = { amount = 3 }
 		}
 	}
 }
@@ -276,16 +390,16 @@ VN_diplomatic_missions = {
 			}
 		}
 		effect = {
+			add_country_modifier = {
+				name = "influential_diplomacy"
+				duration = 9125
+			}
 			define_advisor = {
 				type = diplomat
 				skill = 1
 				culture = ROOT
 				religion = ROOT
 				cost_multiplier = 0.5
-			}
-			add_country_modifier = {
-				name = "influential_diplomacy"
-				duration = 9125
 			}
 		}
 	}
@@ -296,12 +410,15 @@ VN_diplomatic_missions = {
 		trigger = { num_of_non_tributary_subjects = 2 }
 		effect = {
 			add_dip_power = 100
-			every_subject_country = {
-				add_liberty_desire = -10
-			}
 			add_country_modifier = {
 				name = "obedient_subjects"
 				duration = 9125
+			}
+			custom_tooltip = have_two_subjects_tooltip #prevent tooltip overflow for France, Kiev etc.
+			hidden_effect = {
+				every_subject_country = {
+					add_liberty_desire = -10
+				}
 			}
 		}
 	}
@@ -312,7 +429,15 @@ VN_diplomatic_missions = {
 		provinces_to_highlight = {
 			owner = {
 				is_subject_of = ROOT
-				liberty_desire = 25
+				OR = {
+					liberty_desire = 25
+					NOT = {
+						has_opinion = {
+							who = ROOT
+							value = 125
+						}
+					}
+				}
 			}
 		}
 		trigger = {
@@ -320,6 +445,10 @@ VN_diplomatic_missions = {
 				desc = vn_inspire_loyalty.tt
 				all_subject_country = {
 					NOT = { liberty_desire = 25 }
+					has_opinion = {
+						who = ROOT
+						value = 125
+					}
 				}
 				amount = 3
 			}
@@ -329,6 +458,15 @@ VN_diplomatic_missions = {
 				name = "inspire_loyalty_mission"
 				duration = 9125
 			}
+			add_subjects_development_ducats = {
+				trigger = {
+					has_opinion = {
+						who = ROOT 
+						value = 125 
+					}
+					NOT = { liberty_desire = 25  }
+				}
+			}
 		}
 	}
 	vn_a_large_subject = {
@@ -336,36 +474,17 @@ VN_diplomatic_missions = {
 		required_missions = { vn_inspire_loyalty }
 		position = 4
 		provinces_to_highlight = {
+			is_capital = yes
 			owner = {
 				is_subject_of = ROOT
-				OR = {
-					is_subject_of_type = vassal
-					is_subject_of_type = march
-				}
-				NOT = { army_size = 15 }
+				total_development = 400
+				liberty_desire = 10
 			}
 		}
 		trigger = {
-			if = {
-				limit = { has_dlc = "Art of War" }
-				march = 2
-				custom_trigger_tooltip = {
-					tooltip = vn_a_large_subject.tt
-					any_subject_country = {
-						is_subject_of_type = march
-						army_size = 15
-					}
-				}
-			}
-			else = {
-				vassal = 2
-				custom_trigger_tooltip = {
-					tooltip = vn_a_large_subject.tt2
-					any_subject_country = {
-						is_subject_of_type = vassal
-						army_size = 15
-					}
-				}
+			any_subject_country = {
+				NOT = { liberty_desire = 10 }
+				total_development = 400
 			}
 		}
 		effect = {
@@ -373,25 +492,7 @@ VN_diplomatic_missions = {
 				name = "large_subject_mission"
 				duration = 9125
 			}
-			if = {
-				limit = { has_dlc = "Art of War" }
-				every_subject_country = {
-					limit = { is_march = yes }
-					add_country_modifier = {
-						name = "powerful_marches_mission"
-						duration = 9125
-					}
-				}
-			}
-			else = {
-				every_subject_country = {
-					limit = { is_vassal = yes }
-					add_country_modifier = {
-						name = "powerful_marches_mission"
-						duration = 9125
-					}
-				}
-			}
+			add_prestige_or_monarch_power = { amount = 20 }
 		}
 	}
 }
@@ -408,12 +509,9 @@ vn_expansion_missions = {
 	expand_country_mission = {
 		icon = mission_conquer_50_development
 		required_missions = { }
-		trigger = { grown_by_development = 25 }
+		trigger = { grown_by_development = 50 }
 		position = 1
 		effect = {
-			add_adm_power = 25
-			add_dip_power = 25
-			add_mil_power = 25
 			capital_scope = {
 				area = {
 					limit = { owned_by = ROOT }
@@ -423,17 +521,46 @@ vn_expansion_missions = {
 					}
 				}
 			}
+			custom_tooltip = claim_neighbor_province
+			hidden_effect = {
+				every_owned_province = {
+					every_neighbor_province = {
+						limit = {
+							NOT = { owned_by = ROOT }
+							NOT = { is_permanent_claim = ROOT	}
+							NOT = { is_core = ROOT	}
+						}
+						add_claim = ROOT
+					}
+				}
+			}
 		}
 	}
 	conquer_states = {
 		icon = mission_conquer_5_states
 		required_missions = { expand_country_mission }
 		position = 2
-		trigger = { grown_by_states = 3 }
+		trigger = { grown_by_states = 5 }
 		effect = {
+			add_mil_power = 100
 			add_country_modifier = {
 				name = "expansionist_country"
 				duration = 9125 
+			}
+			custom_tooltip = perma_claim_neighbor_area
+			hidden_effect = {
+				every_owned_province = {
+					every_neighbor_province = {
+						area = {
+							limit = {
+								NOT = { owned_by = ROOT }
+								NOT = { is_permanent_claim = ROOT    }
+								NOT = { is_core = ROOT    }
+							}
+							add_permanent_claim = ROOT
+						}
+					}
+				}
 			}
 		}
 	}
@@ -441,22 +568,27 @@ vn_expansion_missions = {
 		icon = mission_fort
 		required_missions = { conquer_states }
 		position = 3
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { has_fort_building_trigger = yes }
+		}
 		trigger = {
-			calc_true_if = {
-				desc = vn_fortify_frontiers.tt
-				all_owned_province = {
-					any_neighbor_province = {
-						NOT = { owned_by = ROOT }
-					}
-					has_fort_building_trigger = yes
-				}
-				amount = 5
+			num_of_owned_provinces_with = {
+				has_fort_building_trigger = yes
+				value = 5
 			}
 		}
 		effect = {
 			add_country_modifier = {
 				name = "fortify_frontiers_mission"
 				duration = 9125
+			}
+			define_advisor = {
+				type = fortification_expert
+				skill = 1
+				culture = ROOT
+				religion = ROOT
+				cost_multiplier = 0.5
 			}
 		}
 	}
@@ -490,6 +622,32 @@ vn_expansion_missions = {
 				name = "hegemonic_ambition"
 				duration = 9125
 			}
+			custom_tooltip = home_region_generic_reward
+			tooltip = {
+				add_nationalism = -10
+			}
+			custom_tooltip = " "
+			custom_tooltip = perma_claim_neighbor_area
+			hidden_effect = {
+				every_owned_province = {
+					every_neighbor_province = {
+						area = {
+							limit = {
+								NOT = { owned_by = ROOT }
+								NOT = { is_permanent_claim = ROOT    }
+								NOT = { is_core = ROOT    }
+							}
+							add_permanent_claim = ROOT
+						}
+					}
+				}
+				every_owned_province = {
+					limit = {
+						region = capital
+					}
+					add_nationalism = -10
+				}
+			}
 		}
 	}
 }
@@ -512,7 +670,8 @@ vn_titular_missions = {
 			grown_by_development = 100
 		}
 		effect = {
-			add_prestige_or_monarch_power = { amount = 5 } 
+			add_prestige_or_monarch_power = { amount = 5 }
+			custom_tooltip = " "
 			add_country_modifier = {
 				name = "sizeable_state_mission"
 				duration = 18250
@@ -532,23 +691,19 @@ vn_titular_missions = {
 			grown_by_development = 250
 		}
 		effect = {
-			add_prestige_or_monarch_power = { amount = 15 } 
+			add_prestige_or_monarch_power = { amount = 15 }
+			custom_tooltip = " "
 			add_country_modifier = {
 				name = "regional_power_mission"
 				duration = 18250
 			}
-			if = {
-				limit = {
-					has_country_modifier = sizeable_state_mission2
+			custom_tooltip = vn_regional_power.tt
+			hidden_effect = {
+				remove_country_modifier = sizeable_state_mission2
+				add_country_modifier = {
+					name = "regional_power_mission2"
+					duration = -1
 				}
-				custom_tooltip = vn_regional_power.tt
-				hidden_effect = {
-					remove_country_modifier = sizeable_state_mission2
-				}
-			}
-			add_country_modifier = {
-				name = "regional_power_mission2"
-				duration = -1
 			}
 		}
 	}
@@ -561,23 +716,19 @@ vn_titular_missions = {
 			grown_by_development = 500
 		}
 		effect = {
-			add_prestige_or_monarch_power = { amount = 25 } 
+			add_prestige_or_monarch_power = { amount = 25 }
+			custom_tooltip = " "
 			add_country_modifier = {
 				name = "major_power_mission"
 				duration = 18250
 			}
-			if = {
-				limit = {
-					has_country_modifier = regional_power_mission2
+			custom_tooltip = vn_regional_power.tt
+			hidden_effect = {
+				remove_country_modifier = regional_power_mission2
+				add_country_modifier = {
+					name = "major_power_mission2"
+					duration = -1
 				}
-				custom_tooltip = vn_major_power.tt
-				hidden_effect = {
-					remove_country_modifier = regional_power_mission2
-				}
-			}
-			add_country_modifier = {
-				name = "major_power_mission2"
-				duration = -1
 			}
 		}
 	}
@@ -590,23 +741,19 @@ vn_titular_missions = {
 			grown_by_development = 1000
 		}
 		effect = {
-			add_prestige_or_monarch_power = { amount = 50 } 
+			add_prestige_or_monarch_power = { amount = 50 }
+			custom_tooltip = " "
 			add_country_modifier = {
 				name = "hegemon_mission"
 				duration = 18250
 			}
-			if = {
-				limit = {
-					has_country_modifier = major_power_mission2
+			custom_tooltip = vn_regional_power.tt
+			hidden_effect = {
+				remove_country_modifier = major_power_mission2
+				add_country_modifier = {
+					name = "hegemon_mission2"
+					duration = -1
 				}
-				custom_tooltip = vn_hegemon.tt
-				hidden_effect = {
-					remove_country_modifier = major_power_mission2
-				}
-			}
-			add_country_modifier = {
-				name = "hegemon_mission2"
-				duration = -1
 			}
 		}
 	}
@@ -633,22 +780,48 @@ vn_military_missions = {
 				name = "thriving_arms_industry"
 				duration = 9125
 			}
-		}
-		ai_weight = {
-			factor = 10
+			custom_tooltip = claim_neighbor_province
+			hidden_effect = {
+				every_owned_province = {
+					every_neighbor_province = {
+						limit = {
+							NOT = { owned_by = ROOT }
+							NOT = { is_permanent_claim = ROOT	}
+							NOT = { is_core = ROOT	}
+						}
+						add_claim = ROOT
+					}
+				}
+			}
 		}
 	}
 	vn_high_tradition = {
-		icon = mission_large_army
+		icon = mission_hessian_jaeger_corps
 		required_missions = { build_army_mission }
 		position = 6
 		trigger = {
-			army_tradition = 40
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				OR = {
+					army_tradition = 40
+					army_professionalism = 0.2
+				}
+			}
+			else = {
+				army_tradition = 40
+			}
 		}
 		effect = {
 			add_country_modifier = {
 				name = "high_tradition_mission"
 				duration = 9125
+			}
+			define_advisor = {
+				type = army_reformer
+				skill = 1
+				culture = ROOT
+				religion = ROOT
+				cost_multiplier = 0.5
 			}
 		}
 	}
@@ -663,6 +836,19 @@ vn_military_missions = {
 				name = "army_enthusiasm"
 				duration = 9125
 			}
+			custom_tooltip = perma_claim_home_region
+			hidden_effect = {
+				capital_scope = {
+					every_province = {
+						limit = {
+							region = PREV
+							NOT = { owned_by = ROOT }
+							NOT = { is_core = ROOT }
+						}
+						add_permanent_claim = ROOT
+					}
+				}
+			}
 		}
 	}
 	vn_professional_armies = {
@@ -670,29 +856,63 @@ vn_military_missions = {
 		required_missions = { assemble_an_army }
 		position = 8
 		trigger = {
-			artillery_fraction = 0.15
 			num_of_generals = 5
 			army_size = 100
+			OR = {
+				has_global_modifier_value = {
+					which = infantry_power
+					value = 0.25
+				}
+				has_global_modifier_value = {
+					which = cavalry_power
+					value = 0.25
+				}
+				has_global_modifier_value = {
+					which = discipline
+					value = 0.15
+				}
+			}
 			if = {
-				limit = { has_dlc = "Cradle of Civilization" }
+				limit = {
+					has_dlc = "Cradle of Civilization"
+				}
 				army_professionalism = 0.5
 			}
 			else = {
-				army_tradition = 50
+				army_tradition = 75
 			}
 		}
 		effect = {
-			if = {
-				limit = { has_dlc = "Cradle of Civilization" }
-				add_army_professionalism = 0.05
-			}
-			else = {
-				add_army_tradition = 10
-			}
-			add_mil_power = 50
 			add_country_modifier = {
 				name = "professional_armies_mission"
 				duration = 9125
+			}
+			if = {
+				limit = {
+					NOT = {
+						army_tradition = 40
+					}
+				}
+				create_general = { tradition = 40 }
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						army_tradition = 60
+					}
+				}
+				create_general = { tradition = 60 }
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						army_tradition = 80
+					}
+				}
+				create_general = { tradition = 80 }
+			}
+			else = {
+				create_general = { tradition = 100 }
 			}
 		}
 	}
@@ -713,7 +933,7 @@ vn_buildings_missions = {
         position = 5
 		trigger = {
 			num_of_owned_provinces_with = {
-				has_tax_building_trigger = yes
+				has_trade_building_trigger = yes
 				value = 5
 			}
 			num_of_owned_provinces_with = {
@@ -743,14 +963,53 @@ vn_buildings_missions = {
 		}
 	}
 	vn_build_hospitals = {
-		icon = mission_hospital
+		icon = plague_doctor_training
 		required_missions = { build_treasury }
 		position = 7
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { has_medical_building_trigger = yes }
+		}
 		trigger = {
-			is_institution_enabled = publichealth
-			OR = {
-				customs_house = 5
-				arsenal = 3
+			if = {
+				limit = {
+					started_in = 1350.1.1
+					NOT = { num_of_cities = 10 }
+				}
+				all_owned_province = {
+					has_medical_building_trigger = yes
+				}
+			}
+			else_if = {
+				limit = {
+					started_in = 1350.1.1
+					num_of_cities = 10
+				}
+				num_of_owned_provinces_with = {
+					value = 10
+					has_medical_building_trigger = yes
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { started_in = 1350.1.1 }
+					NOT = { num_of_cities = 10 }
+				}
+				OR = {
+					has_institution = publichealth
+					all_owned_province = {
+						has_medical_building_trigger = yes
+					}
+				}
+			}
+			else = {
+				OR = {
+					has_institution = publichealth
+					num_of_owned_provinces_with = {
+						value = 10
+						has_medical_building_trigger = yes
+					}
+				}
 			}
 		}
 		effect = {
@@ -770,9 +1029,21 @@ vn_buildings_missions = {
 		required_missions = { vn_build_hospitals }
 		position = 8
 		trigger = {
-			num_of_owned_provinces_with = {
-				value = 20
-				has_manufactory_trigger = yes
+			calc_true_if = {
+				desc = build_manufactories_mission_tooltip
+				all_owned_province = {
+					OR = {
+						has_building = mills
+						has_building = farm_estate
+						has_building = tradecompany
+						has_building = plantations
+						has_building = textile
+						has_building = weapons
+						has_building = wharf
+						has_building = furnace
+					}
+				}
+				amount = 20
 			}
 		}
 		effect = {
@@ -800,16 +1071,16 @@ vn_development_missions = {
         position = 5
 		trigger = { share_of_starting_income = 1.5 }
 		effect = {
+			add_country_modifier = {
+				name = "growing_economy"
+				duration = 9125
+			}
 			define_advisor = {
 				type = treasurer
 				skill = 1
 				culture = ROOT
 				religion = ROOT
 				cost_multiplier = 0.5
-			}
-			add_country_modifier = {
-				name = "growing_economy"
-				duration = 9125
 			}
 		}
 	}
@@ -845,36 +1116,9 @@ vn_development_missions = {
 				limit = { has_dlc = "Rule Britannia" }
 				innovativeness = 25
 			}
-			calc_true_if = {
-				desc = vn_technological_might.tt
-				full_idea_group = horde_gov_ideas
-				full_idea_group = theocracy_gov_ideas
-				full_idea_group = indigenous_ideas
-                full_idea_group = logistics_ideas
-				full_idea_group = cultural_ideas
-				full_idea_group = manufacturing_ideas
-				full_idea_group = aristocracy_ideas
-				full_idea_group = plutocracy_ideas
-				full_idea_group = innovativeness_ideas
-				full_idea_group = religious_ideas
-				full_idea_group = spy_ideas
-				full_idea_group = diplomatic_ideas
-				full_idea_group = piracy_ideas
-				full_idea_group = offensive_ideas
-				full_idea_group = defensive_ideas
-				full_idea_group = trade_ideas
-				full_idea_group = administrative_ideas
-				full_idea_group = economic_ideas
-				full_idea_group = exploration_ideas
-				full_idea_group = maritime_ideas
-				full_idea_group = quality_ideas
-				full_idea_group = quantity_ideas
-				full_idea_group = expansion_ideas
-				full_idea_group = humanist_ideas
-				full_idea_group = naval_ideas
-				full_idea_group = influence_ideas
-				amount = 3
-			}
+			has_completed_idea_group_of_category = { adm_ideas = yes }
+			has_completed_idea_group_of_category = { dip_ideas = yes }
+			has_completed_idea_group_of_category = { mil_ideas = yes }
 		}
 		effect = {
 			add_country_modifier = {
@@ -934,6 +1178,11 @@ vn_administrative_missions = {
         position = 5
 		trigger = {
 			stability = 3
+			if = {
+				limit = { has_dlc = "Common Sense" }
+				legitimacy_equivalent = 90
+			}
+			has_any_disaster = no
 		}
 		effect = {
 			add_country_modifier = {
@@ -947,15 +1196,14 @@ vn_administrative_missions = {
 		required_missions = { vn_stable_nation }
 		position = 6
 		trigger = {
-			calc_true_if = {
-				desc = vn_expand_court.tt
-				has_adm_advisor_2 = yes
-				has_dip_advisor_2 = yes
-				has_mil_advisor_2 = yes
-				amount = 2
-			}
+			reform_level = 3
+			has_adm_advisor_2 = yes
+			has_dip_advisor_2 = yes
+			has_mil_advisor_2 = yes
+			is_in_deficit = no
 		}
 		effect = {
+			add_splendor = 100
 			add_country_modifier = {
 				name = "expand_court_mission"
 				duration = 9125
@@ -963,11 +1211,11 @@ vn_administrative_missions = {
 		}
 	}
 	vn_loyal_estates = {
-		icon = mission_have_two_subjects
+		icon = balance_the_estates
 		required_missions = { vn_expand_court }
 		position = 7
 		trigger = {
-			crown_land_share = 30
+			crown_land_share = 40
             if = {
                 limit = {
                     has_estate = estate_burghers
@@ -1016,6 +1264,7 @@ vn_administrative_missions = {
             }
 		}
 		effect = {
+			add_reform_progress_medium_effect = yes
 			add_country_modifier = {
 				name = "loyal_estates_mission"
 				duration = 9125
@@ -1029,23 +1278,155 @@ vn_administrative_missions = {
 		trigger = {
 			has_completed_all_reforms_trigger = yes
 			if = {
-				limit = { has_dlc = "Emperor" }
+				limit = {
+					has_dlc = "Emperor"
+					is_absolutism_active = yes
+				}
 				OR = {
 					absolutism = 50
 					revolutionary_zeal = 50
 				}
-			}
-			else = {
-				is_absolutism_active = yes
-				legitimacy = 100
+				legitimacy_equivalent = 95
 				prestige = 95
 				months_of_ruling = 120
+			}
+			else_if = {
+				limit = {
+					NOT = { has_dlc = "Emperor" }
+					is_absolutism_active = yes
+				}
+				absolutism = 50
+				legitimacy_equivalent = 95
+				prestige = 95
+				months_of_ruling = 120
+			}
+			else = {
+				has_high_monthly_monarch_power = { type = adm }
+				has_high_monthly_monarch_power = { type = dip }
+				has_high_monthly_monarch_power = { type = mil }
+			}
+		}
+		effect = {
+			change_ruler_stat = {
+				type = adm
+				amount = 1
+			}
+			change_ruler_stat = {
+				type = dip
+				amount = 1
+			}
+			change_ruler_stat = {
+				type = mil
+				amount = 1
+			}
+			custom_tooltip = " "
+			add_country_modifier = {
+				name = "absolute_power_mission"
+				duration = 9125
+			}
+		}
+	}
+}
+
+#Religious missions
+VN_religious_missions = {
+	slot = 5
+	generic = yes
+	ai = yes
+	potential = {
+		always = yes
+	}
+
+	vn_religious_influence = {
+		position = 5
+		icon = mission_hands_praying
+		required_missions = { }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 10
+				has_tax_building_trigger = yes
+			}
+		}
+		effect = {
+			increase_religious_currency_effect = yes
+			add_country_modifier = {
+				name = "religious_influence_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_convert_provinces = {
+		icon = convert_the_holy_lands
+		required_missions = { vn_religious_influence }
+		trigger = {
+			OR = {
+				full_idea_group = humanist_ideas
+				custom_trigger_tooltip = {
+					tooltip = c_a_convert_mission_tt
+					check_variable = { which = num_converted_religion value = 10 }
+				}
 			}
 		}
 		effect = {
 			add_country_modifier = {
-				name = "absolute_power_mission"
+				name = "convert_provinces_mission"
 				duration = 9125
+			}
+			define_advisor = {
+				type = theologian
+				skill = 1
+				culture = ROOT
+				religion = ROOT
+				cost_multiplier = 0.5
+			}
+		}
+	}
+	vn_religious_wars = {
+		icon = mission_sword_of_the_reformation
+		required_missions = { vn_convert_provinces }
+		trigger = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = vn_religious_wars.tt
+					check_variable = { which = num_of_wars_won_against_non_believers value = 25 }
+				}
+				custom_trigger_tooltip = {
+					tooltip = obj_convert_10_provinces_tooltip
+					check_variable = { which = num_converted_religion value = 10 }
+				}
+			}
+		}
+		effect = {
+			add_prestige_or_monarch_power = { amount = 15 }
+			custom_tooltip = " "
+			add_country_modifier = {
+				name = "religious_wars_mission"
+				duration = 9125
+			}
+		}
+	}
+	vn_defend_the_faith = {
+		icon = defender_of_the_faith
+		required_missions = { vn_religious_wars }
+		trigger = {
+			if = {
+				limit = { has_defender_of_faith_religion = yes }
+				is_defender_of_faith = yes
+			}
+			religious_unity = 1
+			development_in_provinces = {
+				value = 750
+				religion = ROOT
+			}
+		}
+		effect = {
+			add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 50
+			}
+			add_country_modifier = {
+				name = "defend_faith_mission"
+				duration = 12775
 			}
 		}
 	}
