@@ -1,0 +1,162 @@
+seljuk_collapse = {
+	potential = {
+		has_reform = seljuk_federation_reform
+		is_or_was_tag = { tag = SJK }
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = had_seljuk_collapse }
+    }
+	can_start = {
+		if = {
+			limit = { has_government_mechanic = ottoman_decadence_mechanic }
+			has_government_power = {
+				mechanic_type = ottoman_decadence_mechanic 
+				power_type = ottoman_decadence 
+				value = 100
+			}
+			OR = {
+				NOT = { stability = 3 }
+				NOT = { adm = 5 }
+				NOT = { dip = 5 }
+				NOT = { mil = 5 }
+				any_subject_country = {
+					OR = {
+						is_subject_of_type = eyalet
+						is_subject_of_type = core_eyalet
+					}
+					liberty_desire = 50
+				}
+			}
+		}
+		else = {
+			has_any_disaster = no
+			NOT = { current_age = age_of_empire }
+			NOT = { stability = 0 }
+			NOT = { adm = 5 }
+			NOT = { dip = 5 }
+			NOT = { mil = 5 }
+		}
+	}
+	can_stop = {
+		if = {
+			limit = { has_government_mechanic = ottoman_decadence_mechanic }
+			NOT = {
+				has_government_power = {
+					mechanic_type = ottoman_decadence_mechanic 
+					power_type = ottoman_decadence 
+					value = 75
+				}
+			}
+			stability = 3
+			adm = 5
+			dip = 5
+			mil = 5
+			NOT = { overextension_percentage = 0.25 }
+			NOT = { num_of_rebel_armies = 1 }
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+			NOT = {
+				any_subject_country = {
+					OR = {
+						is_subject_of_type = eyalet
+						is_subject_of_type = core_eyalet
+					}
+					liberty_desire = 50
+				}
+			}
+		}
+		else = {
+			OR = {
+				has_any_disaster = yes
+				stability = 3
+			}
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			any_subject_country = {
+				OR = {
+					is_subject_of_type = eyalet
+					is_subject_of_type = core_eyalet
+				}
+				liberty_desire = 50
+			}
+		}
+		modifier = {
+			factor = 1
+			overextension_percentage = 0.25
+		}
+		modifier = {
+			factor = 1
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = 1
+			num_of_rebel_controlled_provinces = 1
+		}
+		modifier = {
+			factor = 1
+			NOT = { stability = 3 }
+		}
+		modifier = {
+			factor = 1
+			NOT = { adm = 5 }
+			NOT = { dip = 5 }
+			NOT = { mil = 5 }
+		}
+	}
+	can_end = {
+        OR = {
+            NOT = { has_reform = seljuk_federation_reform }
+			custom_trigger_tooltip = {
+				tooltip = had_disaster_for_five_years
+				had_country_flag = { flag = had_seljuk_collapse days = 1825 }
+			}
+        }
+	}
+	modifier = {
+		global_unrest = 15
+        monarch_lifespan = -0.5
+		liberty_desire_from_subject_development = 0.5
+		legitimacy = -0.5
+        discipline = -0.1
+	}
+	on_start = seljuk_collapse.1
+	on_end = seljuk_collapse.100
+	on_start_effect = {
+		if = {
+			limit = { has_government_mechanic = ottoman_decadence_mechanic }
+			freeze_government_power = {
+				mechanic_type = ottoman_decadence_mechanic
+				power_type = ottoman_decadence
+			}
+		}
+	}
+
+	on_monthly = {
+		events = {
+		}
+		random_events = {
+			1000 = 0
+			100 = seljuk_collapse.2
+			150 = seljuk_collapse.3
+			150 = seljuk_collapse.4
+			150 = seljuk_collapse.5
+			150 = seljuk_collapse.6
+			150 = seljuk_collapse.7
+            150 = seljuk_collapse.8
+            150 = seljuk_collapse.9
+            150 = seljuk_collapse.10
+            150 = seljuk_collapse.11
+            150 = seljuk_collapse.12
+            150 = seljuk_collapse.13
+            150 = seljuk_collapse.14
+            150 = seljuk_collapse.15
+			150 = seljuk_collapse.16
+			150 = seljuk_collapse.17
+			150 = seljuk_collapse.18
+			150 = seljuk_collapse.19
+			150 = seljuk_collapse.20
+		}
+	}
+	ended_by_country_breaking_to_rebels = no
+}
