@@ -334,6 +334,35 @@ on_battle_lost_province = {
 }
 
 on_siege_won_country = {
+	if = {
+		limit = {
+			has_dlc = "Domination"
+			NOT = { tag = BGH }
+			exists = BGH
+			FROM = {
+				is_capital = yes
+				owner = { tag = BGH }
+			}
+			ROOT = {
+				OR = {
+					tag = SJK
+					AND = {
+						is_subject = yes
+						is_subject_of = SJK
+						is_subject_other_than_tributary_trigger = yes
+					}
+				}
+				is_in_war = {
+					casus_belli = cb_ottoman_invasion
+					attacker_leader = SJK
+					defender_leader = BGH
+				}
+			}
+		}
+		SJK = {
+			country_event = { id = vn_flavor_sjk.3 }	#Collapse of the Buyids
+		}
+	}
 	events = {
 		vn_english_succession.5	# London occupied by Normandy/Norway
 	}
