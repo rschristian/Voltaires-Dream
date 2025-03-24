@@ -309,9 +309,21 @@ estate_holy_orders_indebted_to_holy_orders = {
 	loyalty = 0.05
 	influence = 0.05
 	on_granted = {
-		custom_tooltip = estate_burghers_indebted_to_burghers_effect_tooltip
 		if = {
-			limit = { NOT = { has_government_attribute = no_mercantilism_loss_from_privilege } }
+			limit = {
+				has_country_flag = BYZ_buff_burgher_loans_flag
+			}
+			custom_tooltip = BYZ_estate_burghers_indebted_to_burghers_effect_tooltip
+		}
+		else = {
+			custom_tooltip = estate_burghers_indebted_to_burghers_effect_tooltip
+		}
+		if = {
+			limit = {
+				NOT = { has_government_attribute = no_mercantilism_loss_from_privilege } 
+				#NOT = { mission_completed = BYZ_economic_independence }
+				NOT = { has_country_flag = no_mercantilism_loss_estate_privilege_flag }
+			}
 			add_mercantilism = -1
 		}
 		tooltip = {
@@ -343,10 +355,40 @@ estate_holy_orders_indebted_to_holy_orders = {
 				duration = 60
 				estate_loan = yes
 			}
+			if = {
+				limit = {
+					has_country_flag = BYZ_buff_burgher_loans_flag
+				}
+				add_loan = {
+					fixed_interest = 1
+					duration = 60
+					estate_loan = yes
+				}
+				add_loan = {
+					fixed_interest = 1
+					duration = 60
+					estate_loan = yes
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = BYZ_buff_burgher_loans_flag
+				}
+				add_loan = {
+					fixed_interest = 1
+					duration = 60
+					estate_loan = yes
+				}
+				add_loan = {
+					fixed_interest = 1
+					duration = 60
+					estate_loan = yes
+				}
+			}
 		}
 	}
 	penalties = {
-		production_efficiency = -0.05
+		trade_efficiency = -0.05
 	}
 	benefits = {
 	}
@@ -361,8 +403,35 @@ estate_holy_orders_indebted_to_holy_orders = {
 	can_revoke = {
 		has_estate_loan = no
 	}
+	conditional_modifier = {
+		trigger = { has_government_mechanic = russian_modernization_mechanic }
+		modifier = { monthly_russian_modernization = -0.03 }
+	}
 	ai_will_do = {
 		factor = 0
+	}
+}
+
+estate_holy_orders_military_leadership = {
+	icon = privilege_army_tradition
+	loyalty = 0.05
+	max_absolutism = -5
+	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
+	influence = 0.05
+	can_select = {
+		army_tradition = 30
+	}
+	on_granted = {
+		add_army_tradition = -5
+	}
+	penalties = {
+	}
+	benefits = {
+		general_cost = -0.1
+		army_tradition_decay = -0.005
+	}
+	ai_will_do = {
+		factor = 10
 	}
 }
 
@@ -380,17 +449,23 @@ estate_holy_orders_settle_templars = {
 		}
 	}
 	can_select = {
-		custom_trigger_tooltip = {
-			tooltip = crusade_start
-			has_global_flag = crx_start
-		}
+		is_absolutism_active = no
+		# custom_trigger_tooltip = {
+		# 	tooltip = crusade_start
+		# 	has_global_flag = crx_start
+		# }
 	}
 	on_granted = {
 		custom_tooltip = TEMPLARS_ANYWHERE_TOOLTIP
 	}
 	penalties = {
 	}
+	influence_scaled_conditional_modifier = {
+		trigger = { always = yes }
+		modifier = { manpower_recovery_speed = 0.2 }
+	}
 	benefits = {
+		
 	}
 	ai_will_do = {
 		factor = 5
@@ -487,66 +562,81 @@ estate_holy_orders_monopoly_of_beer = {
 }
 
 estate_holy_orders_banking_rights = {
-	icon = privilege_give_money
+	icon = privilege_gold_mint
 	max_absolutism = -5
 	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
-	loyalty = 0.05
 	influence = 0.1
+	loyalty = 0.05
+	is_valid = { }
+	can_select = {
+	}
+	on_granted = {
+		
+	}
+	on_revoked = {
+		
+	}
+	on_invalid = {
+		
+	}
 	penalties = {
-		interest = 0.5
+		yearly_corruption = 0.1
 	}
 	benefits = {
-		inflation_action_cost = -0.25
+		interest = -0.5
+	}
+	mechanics = {
 	}
 	ai_will_do = {
-		factor = 10
+		factor = 1
 		modifier = {
-			factor = 0.5
-			num_of_loans = 1
+			factor = 10
+			OR = {
+				inflation = 15
+				num_of_loans = 15
+			}
 		}
 		modifier = {
-			factor = 0.5
-			num_of_loans = 3
-		}
-		modifier = {
-			factor = 0.5
-			num_of_loans = 5
+			factor = 0
+			is_absolutism_active = yes
 		}
 	}
 }
 
-estate_holy_orders_monopoly_on_banking = {
-	icon = privilege_give_money
+estate_holy_orders_horse_breeding = {
+	icon = horse
 	max_absolutism = -5
 	conditional_modifier = { trigger = { has_absolutism_reduction_for_estate_privileges = yes } modifier = { max_absolutism = 1 } }
-	loyalty = 0.05
 	influence = 0.1
-	is_valid = {
-		has_estate_privilege = estate_holy_orders_banking_rights
+	loyalty = 0.05
+	is_valid = { }
+	can_select = {
 	}
 	on_granted = {
-		add_mercantilism = -1
+		
+	}
+	on_revoked = {
+		
+	}
+	on_invalid = {
+		
+	}
+	loyalty_scaled_conditional_modifier = {
+		trigger = { always = yes }
+		modifier = { cavalry_power = 0.2 }
 	}
 	penalties = {
-		interest = 0.5
 	}
 	benefits = {
-		inflation_action_cost = -0.25
-		inflation_reduction = 0.15
+		cavalry_cost = -0.1
+	}
+	mechanics = {
 	}
 	ai_will_do = {
 		factor = 10
 		modifier = {
-			factor = 0.5
-			num_of_loans = 1
-		}
-		modifier = {
-			factor = 0.5
-			num_of_loans = 3
-		}
-		modifier = {
-			factor = 0.5
-			num_of_loans = 5
+			factor = 0
+			is_absolutism_active = yes
 		}
 	}
 }
@@ -564,7 +654,7 @@ estate_holy_orders_court_representation = {
 		legitimacy = -0.5
 	}
 	benefits = {
-		advisor_cost = -0.10
+		advisor_cost = -0.1
 		yearly_corruption = -0.1
 	}
 	ai_will_do = {
@@ -794,3 +884,4 @@ estate_holy_orders_noble_promotion = {
 		factor = 0
 	}
 }
+
