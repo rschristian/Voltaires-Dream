@@ -20,7 +20,7 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			set_country_flag = had_collapse_of_the_khaganate
-			#fragment_mongolia_effect = yes
+			fragment_mongolia_effect = yes
 			random_owned_province = {
 				limit = { NOT = { controlled_by = REB } }
 				spawn_rebels = {
@@ -398,817 +398,273 @@ country_event = {
 	}
 }
 
-#Rise of Astrakhan
+#random core country rebels
 country_event = {
 	id = collapse_of_the_khaganate.9
 	title = "collapse_of_the_khaganate.9.t"
 	desc = "collapse_of_the_khaganate.9.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
+	picture = ANGRY_MOB_eventPicture
+	goto = mongol_disaster_nationalist_province
 	is_triggered_only = yes
+	
 	trigger = {
-		NOT = { exists = AST }
 		any_owned_province = {
-			OR = {
-				region = lower_volga_region
-				area = kumykia_area
-				area = kabardia_area
+			any_core_country = {
+				NOT = { tag = ROOT }
+				NOT = { tag = GLH }
+				NOT = { tag = KAZ }
+				NOT = { tag = AST }
+				NOT = { tag = CRI }
+				NOT = { tag = NOG }
+				NOT = { tag = KZH }
+				NOT = { tag = JYA }
+				NOT = { tag = OIR }
+				NOT = { tag = AKK }
+				NOT = { tag = QAR }
+				exists = no
 			}
 		}
 	}
-	mean_time_to_happen = { days = 1 }
-
+	
 	immediate = {
 		hidden_effect = {
-			every_owned_province = {
+			random_owned_province = {
 				limit = {
-					OR = {
-						region = lower_volga_region
-						area = kumykia_area
-						area = kabardia_area
+					any_core_country = {
+						NOT = { tag = ROOT }
+						NOT = { tag = GLH }
+						NOT = { tag = KAZ }
+						NOT = { tag = AST }
+						NOT = { tag = CRI }
+						NOT = { tag = NOG }
+						NOT = { tag = KZH }
+						NOT = { tag = JYA }
+						NOT = { tag = OIR }
+						NOT = { tag = AKK }
+						NOT = { tag = QAR }
+						exists = no
 					}
 				}
-				change_culture = astrakhani
-				add_core = AST
-			}
-			release = AST
-			if = {
-				limit = { AST = { ai = yes } }
-				AST = {
-					change_government = tribal
-					add_government_reform = steppe_horde
-					if = {
-						limit = { is_part_of_hre = yes }
-						set_in_empire = no
+				save_event_target_as = mongol_disaster_nationalist_province
+				random_core_country = {
+					limit = {
+						NOT = { tag = ROOT }
+						NOT = { tag = GLH }
+						NOT = { tag = KAZ }
+						NOT = { tag = AST }
+						NOT = { tag = CRI }
+						NOT = { tag = NOG }
+						NOT = { tag = KZH }
+						NOT = { tag = JYA }
+						NOT = { tag = OIR }
+						NOT = { tag = AKK }
+						NOT = { tag = QAR }
+						exists = no
 					}
-					set_government_rank = 5
-					define_ruler = { dynasty = "Borjigin" }
-					random_owned_province = {
-						build_to_forcelimit = {
-							infantry = 0.6
-							cavalry = 0.4
-						}
-					}
-				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			AST = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
+					save_event_target_as = mongol_disaster_new_tag
 				}
 			}
 		}
 	}
+	
 	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = AST
-			casus_belli = cb_tribal_feud
+		name = collapse_of_the_khaganate.9.a
+		add_legitimacy_equivalent = { amount = 5 }
+		event_target:mongol_disaster_new_tag = {
+			event_target:mongol_disaster_nationalist_province = {
+				spawn_rebels = {
+					type = nationalist_rebels
+					friend = PREV
+					size = 5
+				}
+			}
+		}
+		ai_chance = {
+			factor = 100
+		}
+	}
+	
+	option = {
+		name = collapse_of_the_khaganate.9.b
+		add_legitimacy_equivalent = { amount = -5 }
+		event_target:mongol_disaster_nationalist_province = {
+			area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_local_autonomy = 20
+			}
+		}
+		ai_chance = {
+			factor = 0
 		}
 	}
 }
 
-#Rise of the Great Horde
+#mongol pretender
 country_event = {
 	id = collapse_of_the_khaganate.10
 	title = "collapse_of_the_khaganate.10.t"
 	desc = "collapse_of_the_khaganate.10.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
+	picture = CIVIL_WAR_eventPicture
+	goto = mongol_pretender_prov
 	is_triggered_only = yes
+
 	trigger = {
-		NOT = { exists = GOL }
 		any_owned_province = {
-			OR = {
-				region = lower_don_region
-				region = khopyor_region
-				region = sloboda_region
+			any_core_country = {
+				NOT = { tag = ROOT }
+				OR = {
+					tag = GLH
+					tag = KAZ
+					tag = AST
+					tag = CRI
+					tag = NOG
+					tag = KZH
+					tag = JYA
+					tag = OIR
+					tag = AKK
+					tag = QAR
+				}
+				exists = no
 			}
 		}
 	}
-	mean_time_to_happen = { days = 1 }
-
+	
 	immediate = {
 		hidden_effect = {
-			every_owned_province = {
+			random_owned_province = {
 				limit = {
-					OR = {
-						region = lower_don_region
-						region = khopyor_region
-						region = sloboda_region
+					any_core_country = {
+						NOT = { tag = ROOT }
+						OR = {
+							tag = GLH
+							tag = KAZ
+							tag = AST
+							tag = CRI
+							tag = NOG
+							tag = KZH
+							tag = JYA
+							tag = OIR
+							tag = AKK
+							tag = QAR
+						}
+						exists = no
 					}
 				}
-				change_culture = mishary
-				add_core = GOL
-			}
-			release = GOL
-			if = {
-				limit = { GOL = { ai = yes } }
-				GOL = {
+				save_event_target_as = mongol_pretender_prov
+				random_core_country = {
+					limit = {
+						NOT = { tag = ROOT }
+						OR = {
+							tag = GLH
+							tag = KAZ
+							tag = AST
+							tag = CRI
+							tag = NOG
+							tag = KZH
+							tag = JYA
+							tag = OIR
+							tag = AKK
+							tag = QAR
+						}
+						exists = no
+					}
+					save_event_target_as = mongol_pretender_tag
+					ROOT = { release = PREV }
+
+					#government
 					change_government = tribal
-					add_government_reform = steppe_horde
+					if = {
+						limit = {
+							OR = {
+								tag = QAR
+								tag = AKK
+								tag = JYA
+								tag = OIR
+							}
+						}
+						add_government_reform = tribal_federation
+					}
+					else = {
+						add_government_reform = steppe_horde
+					}
+
+					#ruler
+					if = {
+						limit = { tag = QAR }
+						define_ruler = { dynasty = "Qara Qoyunlu" }
+					}
+					else_if = {
+						limit = { tag = AKK }
+						define_ruler = { dynasty = "Aq Qoyunlu" }
+					}
+					else_if = {
+						limit = { tag = JYA }
+						define_ruler = { dynasty = "Jalair" }
+					}
+					else = {
+						define_ruler = { dynasty = "Borjigin" }
+					}
+
+					#for everyone
 					if = {
 						limit = { is_part_of_hre = yes }
 						set_in_empire = no
 					}
+					add_treasury = 300
+					add_manpower = 10
 					set_government_rank = 5
-					define_ruler = { dynasty = "Borjigin" }
-					random_owned_province = {
+					event_target:mongol_pretender_prov = {
 						build_to_forcelimit = {
 							infantry = 0.6
 							cavalry = 0.4
 						}
 					}
 				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			GOL = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
-				}
 			}
 		}
-	}
-	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = GOL
-			casus_belli = cb_tribal_feud
-		}
-	}
-}
-
-#Rise of Crimea
-country_event = {
-	id = collapse_of_the_khaganate.11
-	title = "collapse_of_the_khaganate.11.t"
-	desc = "collapse_of_the_khaganate.11.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
-	is_triggered_only = yes
-	trigger = {
-		NOT = { exists = CRI }
-		any_owned_province = {
-			OR = {
-				region = azov_region
-				region = crimea_region
-				region = wild_fields_region
-			}
-		}
-	}
-	mean_time_to_happen = { days = 1 }
-
-	immediate = {
-		hidden_effect = {
-			every_owned_province = {
-				limit = {
-					OR = {
-						region = azov_region
-						region = crimea_region
-						region = wild_fields_region
-					}
-				}
-				change_culture = crimean
-				add_core = CRI
-			}
-			release = CRI
-			if = {
-				limit = { CRI = { ai = yes } }
-				CRI = {
-					change_government = tribal
-					add_government_reform = steppe_horde
-					if = {
-						limit = { is_part_of_hre = yes }
-						set_in_empire = no
-					}
-					set_government_rank = 4
-					define_ruler = { dynasty = "Borjigin" }
-					random_owned_province = {
-						build_to_forcelimit = {
-							infantry = 0.6
-							cavalry = 0.4
-						}
-					}
-				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			CRI = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
-				}
-			}
-		}
-	}
-	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = CRI
-			casus_belli = cb_tribal_feud
-		}
-	}
-}
-
-#Rise of Kazan
-country_event = {
-	id = collapse_of_the_khaganate.12
-	title = "collapse_of_the_khaganate.12.t"
-	desc = "collapse_of_the_khaganate.12.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
-	is_triggered_only = yes
-	trigger = {
-		NOT = { exists = KAZ }
-		any_owned_province = {
-			OR = {
-				region = kazan_region
-				region = mordovia_region
-			}
-		}
-	}
-	mean_time_to_happen = { days = 1 }
-
-	immediate = {
-		hidden_effect = {
-			every_owned_province = {
-				limit = {
-					OR = {
-						region = kazan_region
-						region = mordovia_region
-					}
-				}
-				change_culture = kazani
-				add_core = KAZ
-			}
-			release = KAZ
-			if = {
-				limit = { KAZ = { ai = yes } }
-				KAZ = {
-					change_government = tribal
-					add_government_reform = steppe_horde
-					if = {
-						limit = { is_part_of_hre = yes }
-						set_in_empire = no
-					}
-					set_government_rank = 5
-					define_ruler = { dynasty = "Borjigin" }
-					random_owned_province = {
-						build_to_forcelimit = {
-							infantry = 0.6
-							cavalry = 0.4
-						}
-					}
-				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			KAZ = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
-				}
-			}
-		}
-	}
-	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = KAZ
-			casus_belli = cb_tribal_feud
-		}
-	}
-}
-
-#Rise of Nogai
-country_event = {
-	id = collapse_of_the_khaganate.13
-	title = "collapse_of_the_khaganate.13.t"
-	desc = "collapse_of_the_khaganate.13.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
-	is_triggered_only = yes
-	trigger = {
-		NOT = { exists = NOG }
-		any_owned_province = {
-			OR = {
-				region = bashkiria_region
-				area = atyrau_area
-				area = oral_area
-			}
-		}
-	}
-	mean_time_to_happen = { days = 1 }
-
-	immediate = {
-		hidden_effect = {
-			every_owned_province = {
-				limit = {
-					OR = {
-						region = bashkiria_region
-						area = atyrau_area
-						area = oral_area
-					}
-				}
-				change_culture = nogaybak
-				add_core = NOG
-			}
-			release = NOG
-			if = {
-				limit = { NOG = { ai = yes } }
-				NOG = {
-					change_government = tribal
-					add_government_reform = steppe_horde
-					if = {
-						limit = { is_part_of_hre = yes }
-						set_in_empire = no
-					}
-					set_government_rank = 5
-					define_ruler = { dynasty = "Borjigin" }
-					random_owned_province = {
-						build_to_forcelimit = {
-							infantry = 0.6
-							cavalry = 0.4
-						}
-					}
-				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			NOG = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
-				}
-			}
-		}
-	}
-	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = NOG
-			casus_belli = cb_tribal_feud
-		}
-	}
-}
-
-#Rise of Jalairids
-country_event = {
-	id = collapse_of_the_khaganate.14
-	title = "collapse_of_the_khaganate.14.t"
-	desc = "collapse_of_the_khaganate.14.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
-	is_triggered_only = yes
-	trigger = {
-		NOT = { exists = JYA }
-		any_owned_province = {
-			OR = {
-				region = lower_mesopotamia_region
-				region = arabia_region
-				area = dulaim_area
-				area = shahrizor_area
-				area = zab_area
-			}
-		}
-	}
-	mean_time_to_happen = { days = 1 }
-
-	immediate = {
-		hidden_effect = {
-			every_owned_province = {
-				limit = {
-					OR = {
-						region = lower_mesopotamia_region
-						region = arabia_region
-						area = dulaim_area
-						area = shahrizor_area
-						area = zab_area
-					}
-				}
-				add_core = JYA
-			}
-			release = JYA
-			if = {
-				limit = { JYA = { ai = yes } }
-				JYA = {
-					change_government = tribal
-					add_government_reform = tribal_federation
-					if = {
-						limit = { is_part_of_hre = yes }
-						set_in_empire = no
-					}
-					set_government_rank = 5
-					define_ruler = { dynasty = "Jalair" }
-					random_owned_province = {
-						build_to_forcelimit = {
-							infantry = 0.7
-							cavalry = 0.3
-						}
-					}
-				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			JYA = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
-				}
-			}
-		}
-	}
-	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = JYA
-			casus_belli = cb_tribal_feud
-		}
-	}
-}
-
-#Aq Qoyunlu
-country_event = {
-	id = collapse_of_the_khaganate.15
-	title = "collapse_of_the_khaganate.15.t"
-	desc = "collapse_of_the_khaganate.15.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
-	is_triggered_only = yes
-	trigger = {
-		NOT = { exists = AKK }
-		any_owned_province = {
-			OR = {
-				region = sophene_region
-				region = al_jazira_region
-				area = karin_area
-				area = al_hasakah_area
-				area = osrhoene_area
-			}
-		}
-	}
-	mean_time_to_happen = { days = 1 }
-
-	immediate = {
-		hidden_effect = {
-			every_owned_province = {
-				limit = {
-					OR = {
-						region = sophene_region
-						region = al_jazira_region
-						area = karin_area
-						area = al_hasakah_area
-						area = osrhoene_area
-					}
-				}
-				add_core = AKK
-			}
-			release = AKK
-			if = {
-				limit = { AKK = { ai = yes } }
-				AKK = {
-					change_government = tribal
-					add_government_reform = tribal_federation
-					if = {
-						limit = { is_part_of_hre = yes }
-						set_in_empire = no
-					}
-					set_government_rank = 3
-					define_ruler = { dynasty = "Aq Qoyunlu" }
-					random_owned_province = {
-						build_to_forcelimit = {
-							infantry = 0.7
-							cavalry = 0.3
-						}
-					}
-				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			AKK = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
-				}
-			}
-		}
-	}
-	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = AKK
-			casus_belli = cb_tribal_feud
-		}
-	}
-}
-
-#Qara Qoyunlu
-country_event = {
-	id = collapse_of_the_khaganate.16
-	title = "collapse_of_the_khaganate.16.t"
-	desc = "collapse_of_the_khaganate.16.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
-	is_triggered_only = yes
-	trigger = {
-		NOT = { exists = QAR }
-		any_owned_province = {
-			OR = {
-				region = corduene_region
-				region = armenia_region
-				region = azerbaijan_region
-				area = mosul_area
-				area = zagros_area
-			}
-		}
-	}
-	mean_time_to_happen = { days = 1 }
-
-	immediate = {
-		hidden_effect = {
-			every_owned_province = {
-				limit = {
-					OR = {
-						region = corduene_region
-						region = armenia_region
-						region = azerbaijan_region
-						area = mosul_area
-						area = zagros_area
-					}
-				}
-				add_core = QAR
-			}
-			release = QAR
-			if = {
-				limit = { QAR = { ai = yes } }
-				QAR = {
-					change_government = tribal
-					add_government_reform = tribal_federation
-					if = {
-						limit = { is_part_of_hre = yes }
-						set_in_empire = no
-					}
-					set_government_rank = 5
-					define_ruler = { dynasty = "Qara Qoyunlu" }
-					random_owned_province = {
-						build_to_forcelimit = {
-							infantry = 0.7
-							cavalry = 0.3
-						}
-					}
-				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			QAR = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
-				}
-			}
-		}
-	}
-	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = QAR
-			casus_belli = cb_tribal_feud
-		}
-	}
-}
-
-#Rum
-country_event = {
-	id = collapse_of_the_khaganate.17
-	title = "collapse_of_the_khaganate.17.t"
-	desc = "collapse_of_the_khaganate.17.d"
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = CIVIL_WAR_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_CIVIL_WAR_eventPicture
-	}
-
-	fire_only_once = yes
-	is_triggered_only = yes
-	trigger = {
-		NOT = { exists = RUM }
-		any_owned_province = {
-			OR = {
-				region = cappadokia_region
-				region = cilicia_region
-				region = charsianon_region
-				region = anatolikon_region
-			}
-		}
-	}
-	mean_time_to_happen = { days = 1 }
-
-	immediate = {
-		hidden_effect = {
-			every_owned_province = {
-				limit = {
-					OR = {
-						region = cappadokia_region
-						region = cilicia_region
-						region = charsianon_region
-						region = anatolikon_region
-					}
-				}
-				add_core = RUM
-			}
-			release = RUM
-			if = {
-				limit = { RUM = { ai = yes } }
-				RUM = {
-					change_government = tribal
-					add_government_reform = tribal_federation
-					if = {
-						limit = { is_part_of_hre = yes }
-						set_in_empire = no
-					}
-					set_government_rank = 4
-					add_government_reform = beylik_government
-					define_ruler = { dynasty = "Suldus" }
-					random_owned_province = {
-						build_to_forcelimit = {
-							infantry = 0.7
-							cavalry = 0.3
-						}
-					}
-				}
-			}	
-		}
-	}
-
-	option = {
-		name = "collapse_of_the_khaganate.9.a"
-		ai_chance = { factor = 100 }
-		hidden_effect = {
-			RUM = {
-				every_owned_province = {
-					limit = { is_core = ROOT }
-					remove_core = ROOT
-				}
-			}
-		}
-	}
-	option = {
-		name = "collapse_of_the_khaganate.9.b"
-		ai_chance = { factor = 0 }
-		declare_war_with_cb = {
-			who = RUM
-			casus_belli = cb_tribal_feud
-		}
-	}
-}
-
-#End
-country_event = {
-	id = collapse_of_the_khaganate.100
-	title = collapse_of_the_khaganate.100.t
-	desc = collapse_of_the_khaganate.100.d
-	picture = {
-		trigger = { NOT = { has_dlc = "Star and Crescent" } }
-		picture = OVEREXTENSION_eventPicture
-	}
-	picture = {
-		trigger = { has_dlc = "Star and Crescent" }
-		picture = muslimgfx_OVEREXTENSION_eventPicture
-	}
-
-	is_triggered_only = yes
-	major = yes
-
-	immediate = {
-		on_non_estate_disaster_end = yes
 	}
 	
 	option = {
-		name = collapse_of_the_khaganate.100.a
-		clr_country_flag = ruler_was_captured_flag
-		add_stability = 1
-		add_horde_unity = 25
-		add_legitimacy = 25
-		add_republican_tradition = 25
-		add_devotion = 25
+		name = collapse_of_the_khaganate.10.a
+		custom_tooltip = collapse_of_the_khaganate.tt
+		hidden_effect = {
+			event_target:mongol_pretender_tag = {
+				every_owned_province = {
+					limit = { is_core = ROOT }
+					remove_core = ROOT
+				}
+			}
+		}
+		ai_chance = {
+			factor = 100
+		}
+	}
+	
+	option = {
+		name = collapse_of_the_khaganate.10.b
+		declare_war_with_cb = {
+			who = event_target:mongol_pretender_tag
+			casus_belli = cb_tribal_feud
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = collapse_of_the_khaganate.10.c
+		ai_chance = { factor = 0 }
+		trigger = {	ai = no }
+		hidden_effect = {
+			event_target:mongol_pretender_tag = {
+				every_owned_province = {
+					limit = { is_core = ROOT }
+					remove_core = ROOT
+				}
+			}
+		}
+		switch_tag = event_target:mongol_pretender_tag
 	}
 }
