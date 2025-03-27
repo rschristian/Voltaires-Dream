@@ -1,0 +1,116 @@
+country_decisions = {
+	switzerland_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { tag = SWI }
+			NOT = { has_country_flag = formed_switzerland_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
+			OR = {
+				ai = no
+				NOT = { exists = SWI }
+			}
+			OR = {
+				primary_culture = swiss
+				primary_culture = romansch
+				AND = {
+					primary_culture = arpitan
+					capital_scope = { superregion = switzerland_superregion }
+				}
+			}
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			superregion = switzerland_superregion
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = {
+					owner = {
+						is_subject_of = ROOT
+						is_subject_of_type = canton
+					}
+				}
+			}
+		}
+		allow = {
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+			is_nomad = no			
+			NOT = { exists = SWI }
+			has_reform = canton_government
+			custom_trigger_tooltip = {
+				tooltip = cantonnum.tt
+				calc_true_if = {
+					all_province = {  
+						superregion = switzerland_superregion
+						owner = {
+							OR = {
+								tag = ROOT
+								AND = {
+									is_subject_of = ROOT
+									is_subject_of_type = canton
+								}
+							}
+						}
+					}
+					amount = 40
+				}
+			}
+		}
+		effect = {
+			change_tag = SWI
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			# add swiss government reform if you don't already have it
+			switzerland_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = SWI
+			}
+			add_prestige = 25
+			if = {
+				limit = {
+					has_custom_ideas = no
+				}
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			if = {
+				limit = {
+					OR = {
+						government = theocracy
+						government = republic
+					}
+					is_revolutionary = no
+				}
+
+				add_government_reform = united_cantons_reform
+			}
+			else = {
+				if = {
+					limit = { is_revolutionary = no }
+					change_government = republic
+					add_government_reform = united_cantons_reform
+				}
+			}
+			set_country_flag = formed_switzerland_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}
