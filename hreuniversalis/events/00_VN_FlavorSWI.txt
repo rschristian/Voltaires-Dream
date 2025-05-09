@@ -1,90 +1,100 @@
 namespace = vn_flavor_swi
 
+#Rise of Swiss Republicanism
 country_event = {
 	id = vn_flavor_swi.1
 	title = "vn_flavor_swi.1.t"
 	desc = "vn_flavor_swi.1.d"
-	picture = REFORM_eventPicture
+	picture = ELECTION_REPUBLICAN_eventPicture
+	
+	trigger = {
+		capital_scope = { superregion = switzerland_superregion }
+		OR = {
+			primary_culture = swiss
+			primary_culture = arpitan
+		}
+		has_global_flag = free_city_allowed
+		OR = {
+			current_age = age_of_crisis
+			current_age = age_of_dynasticism
+		}
+		NOT = { has_country_flag = had_canton_question }
+		NOT = { num_of_cities = 10 }
+		NOT = { government = republic }
+		is_subject = no
+		NOT = { exists = SWI }
+	}
+	
+	mean_time_to_happen = {
+		months = 480
+		modifier = {
+			factor = 0.75
+			NOT = { num_of_cities = 2 }
+		}
+		modifier = {
+			factor = 0.8
+			capital_scope = { development = 8 }
+		}
+		modifier = {
+			factor = 0.8
+			capital_scope = { development = 12 }
+		}
+	}
 
-	is_triggered_only = yes
-	mean_time_to_happen = { days = 1 }
+	immediate = {
+		set_country_flag = had_canton_question
+	}
 
 	option = {
 		name = "vn_flavor_swi.1.a"
-		ai_chance = { factor = 99 }
-		set_in_empire = no
-		SWI = { inherit = ROOT }
+		ai_chance = {
+			factor = 95
+			modifier = {
+				factor = 0
+				is_emperor = yes
+			}
+		}
+		change_government = republic
+		add_government_reform = canton_government
+		country_event = { id = 700 }
 	}
+
 	option = {
 		name = "vn_flavor_swi.1.b"
-		ai_chance = { factor = 1 }
-		add_stability = -1
-	}
-
-	after = {
-		annex_canton_or_clear_flag_effect = yes
-	}
-}
-
-country_event = {
-	id = vn_flavor_swi.2
-	title = "vn_flavor_swi.2.t"
-	desc = "vn_flavor_swi.2.d"
-	picture = CITY_VIEW_eventPicture
-
-	is_triggered_only = yes
-
-	mean_time_to_happen = { days = 1 }
-
-	option = {
-		name = "vn_flavor_swi.2.a"
+		goto = capital
+		ai_chance = { factor = 5 }
+		add_legitimacy = 15
+		capital_scope = {
+			spawn_rebels = {
+				type = nap_republican_rebels
+				size = 3
+			}
+		}
 	}
 }
 
+#Swiss subject wants to become independent
 country_event = {
-    id = vn_flavor_swi.3
-    title = "vn_flavor_swi.3.t"
-    desc = "vn_flavor_swi.3.d"
-    picture = REFORM_eventPicture
-
-    is_triggered_only = yes
-    mean_time_to_happen =  { days = 1 }
-
-    option = {
-        name = "vn_flavor_swi.3.a"
-        change_tag = SWI
-        hidden_effect = { restore_country_name = yes }
-        swap_non_generic_missions = yes
-        if = {
-            limit = { has_custom_ideas = no }
-            country_event = { id = ideagroups.1 }
-        }
-        set_in_empire = no
-        set_government_rank = 5
-        add_country_modifier = {
-            name = "centralization_modifier"
-            duration = 3650
-        }
-        switzerland_superregion = {
-            limit = {
-                NOT = { owned_by = ROOT }
-            }
-            add_permanent_claim = SWI
-        }
-        add_prestige = 25
-        annex_canton_or_clear_flag_effect = yes
-    }
-}
-
-country_event = {
-    id = vn_flavor_swi.4
-    title = "vn_flavor_swi.4.t"
-    desc = "vn_flavor_swi.4.d"
+    id = vn_flavor_swi.2
+    title = "vn_flavor_swi.2.t"
+    desc = "vn_flavor_swi.2.d"
 	picture = REFORM_eventPicture
 
-	fire_only_once = yes
+	trigger = {
+		any_subject_country = {
+			is_part_of_hre = yes
+			capital_scope = {
+				superregion = switzerland_superregion
+			}
+		}
+		has_global_flag = had_canton_question
+		is_emperor = no
+		is_part_of_hre = yes
+
+	}
 
 	trigger = {
+		always = no
 		normal_or_historical_nations = yes
 		is_year = 1100
 		NOT = { started_in = 1127.1.1 }
@@ -101,16 +111,16 @@ country_event = {
 	}
 
 	option = {
-		name = "vn_flavor_swi.4.a"
+		name = "vn_flavor_swi.2.a"
 		add_prestige = 10
 		BRN = {
 			grant_independence = yes
 			change_government = republic
-			add_government_reform = oligarchy_reform
+			add_government_reform = canton_government
 		}
 	}
 	option = {
-		name = "vn_flavor_swi.4.b"
+		name = "vn_flavor_swi.2.b"
 		BRN = {
 			add_liberty_desire = 40
 			add_opinion = { who = ROOT modifier = opinion_tyrant_overlord }
