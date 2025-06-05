@@ -4690,4 +4690,588 @@ country_decisions = {
 			factor = 1
 		}
 	}
+
+	kurdish_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
+			NOT = { exists = KRD }
+			NOT = { tag = IRQ }
+			NOT = { tag = TUR }
+			NOT = { tag = PER }
+			NOT = { tag = ERS }
+			NOT = { tag = PAP }
+			NOT = { tag = AVI }
+			NOT = { tag = HLR }
+			NOT = { tag = ROM }
+			NOT = { tag = FKE }
+			NOT = { tag = MCD }
+			NOT = { has_country_flag = formed_kurdistan_flag }
+			culture_group = iranian_tribal
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 6375
+				province_id = 7664
+				province_id = 3460
+				province_id = 7540
+				AND = {
+					province_id = 3669
+					ROOT = { NOT = { owns_core_province = 7509 } }
+				}
+				AND = {
+					province_id = 7509
+					ROOT = { NOT = { owns_core_province = 3669 } }
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			is_nomad = no
+			adm_tech = 40
+			owns_core_province = 6375 #Erbil
+			owns_core_province = 7664 #Mahabad
+			owns_core_province = 3460 #Bitlis
+			owns_core_province = 7540 #Sanandaj
+			OR = {
+				owns_core_province = 3669 #Diyar Bakr
+				owns_core_province = 7509 #Ilam
+			}
+		}
+		effect = {
+			change_tag = KRD
+			on_change_tag_effect = yes
+			hidden_effect = { restore_country_name = yes }
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { government = tribal }
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			kurdistan_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			lorestan_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			corduene_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			sophene_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			zagros_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			mosul_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			shahrizor_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			osrhoene_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			al_hasakah_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KRD
+			}
+			add_prestige = 25
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			set_country_flag = formed_kurdistan_flag
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { adm_tech = 40 }
+			}
+		}
+		ai_importance = 100
+	}
+
+	macedonian_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			capital_scope = {
+				OR = {
+					superregion = persia_superregion
+					superregion = anatolia_superregion
+					superregion = anatolia_superregion
+					superregion = levant_superregion
+					superregion = mesopotamia_superregion
+					superregion = caucasia_superregion
+					superregion = balkans_superregion
+					superregion = africa_superregion
+				}
+			}
+			#was_never_end_game_tag_trigger = yes
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
+			NOT = { tag = HLR }
+			NOT = { tag = ROM }
+			NOT = { tag = PAP }
+			NOT = { tag = AVI }
+			NOT = { exists = MCD }
+		}
+		provinces_to_highlight = {
+			macedonian_empire_decision_trigger = yes
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			num_of_owned_provinces_with = {
+				custom_trigger_tooltip = {
+					tooltip = BYZ_highlighted_by_decision
+					macedonian_empire_decision_trigger = yes
+				}
+				value = 1000
+			}
+			is_at_war = no
+			is_nomad = no
+			is_free_or_tributary_trigger = yes	
+			government = monarchy
+		}
+		effect = {
+			restore_country_name = yes
+			change_tag = MCD
+			on_change_tag_effect = yes
+			#swap_non_generic_missions = yes
+			custom_tooltip = frankish_culture_provinces_tooltip
+			hidden_effect = {
+				every_owned_province = {
+					limit = {
+						culture_group = ROOT
+					}
+					change_culture = greek
+				}
+			}
+			change_primary_culture = greek
+			custom_tooltip = restore_roman_empire_tt
+			hidden_effect = {
+				every_owned_province = {
+					limit = {
+						is_part_of_hre = yes
+					}
+					set_in_empire = no
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { government = monarchy }
+					is_revolutionary = no
+				}
+				change_government = monarchy
+			}
+			if = {
+				limit = { is_revolutionary = no }
+				hidden_effect = {
+					unlock_government_reform = {
+						government_reform = macedonian_monarchy_reform
+					}	
+				}
+				add_government_reform = macedonian_monarchy_reform
+			}
+			if = {
+				limit = {
+					NOT = { government_rank = 6 }
+				}
+				set_government_rank = 6
+			}
+			persia_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			anatolia_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			levant_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			mesopotamia_superregion = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			hellas_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			furthergreece_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			greekislands_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			macedonia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			thrace_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			inner_egypt_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			lower_egypt_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			middle_egypt_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = MCD
+			}
+			if = {
+				limit = { has_custom_ideas = no NOT = { has_idea_group = MCD_ideas }}
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			add_prestige = 50
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		ai_importance = 200
+	}
+
+	khorasan_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primary_culture = khorasani
+			was_never_end_game_tag_trigger = yes
+			NOT = { tag = SJK }
+			NOT = { tag = PER }
+			NOT = { tag = ERS }
+			NOT = { has_country_flag = formed_khorasan_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
+			}
+			NOT = { exists = KHO }
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 7338
+				province_id = 7352
+				province_id = 7597
+				province_id = 7367
+				province_id = 7359
+				
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			is_nomad = no
+			NOT = { exists = KHO }
+			owns_core_province = 7338 #Nishapur
+			owns_core_province = 7352 #Bojnnord
+			owns_core_province = 7597 #Golestan
+			owns_core_province = 7367 #Qaen
+			owns_core_province = 7359 #Kashmar
+		}
+		effect = {
+			change_tag = KHO
+			on_change_tag_effect = yes
+			hidden_effect = { restore_country_name = yes }
+			#swap_non_generic_missions = yes
+			remove_non_electors_emperors_from_empire_effect = yes
+			if = {
+				limit = { government = tribal }
+				change_government = monarchy
+				add_government_reform = iqta
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			khorasan_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KHO
+			}
+			qohistan_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = KHO
+			}
+			if = {
+				limit = {
+					NOT = { government_rank = 5 }
+				}
+				set_government_rank = 5
+			}
+			if = {
+				limit = { has_custom_ideas = no NOT = { has_idea_group = KHO_ideas }}
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			add_prestige = 10
+			set_country_flag = formed_khorasan_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	saxon_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primitives = no
+			was_never_end_game_tag_trigger = yes
+			primary_culture = saxon
+			OR = {
+				AND = {
+					ai = no
+					tag = SAX
+				}
+				NOT = { exists = SAX }
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 502
+				province_id = 2803
+				province_id = 831
+				province_id = 2806
+				province_id = 59
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			is_nomad = no
+			NOT = { exists = SAX }
+			NOT = { exists = SXN }
+			owns_core_province = 502 #Meißen
+			owns_core_province = 2803 #Dresden
+			owns_core_province = 831 #Leipzig
+			owns_core_province = 2806 #Zwickau
+			owns_core_province = 59 #Wittenberg
+		}
+		effect = {
+			change_tag = SAX
+			on_change_tag_effect = yes
+			hidden_effect = { restore_country_name = yes }
+			#swap_non_generic_missions = yes
+			if = {
+				limit = {
+					NOT = { government = monarchy }
+				}
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			saxony_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = SAX
+			}
+			add_prestige = 10
+			if = {
+				limit = {
+					NOT = { government_rank = 3 }
+				}
+				set_government_rank = 3
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 400
+	}
+
+	altsaxon_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			primitives = no
+			was_never_end_game_tag_trigger = yes
+			primary_culture = lower_saxon
+			OR = {
+				AND = {
+					ai = no
+					tag = SXN
+				}
+				NOT = { exists = SXN }
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2627
+				province_id = 2794
+				province_id = 2972
+				province_id = 429
+				province_id = 2973
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_free_or_tributary_trigger = yes
+			is_at_war = no
+			is_nomad = no
+			NOT = { exists = SAX }
+			NOT = { exists = SXN }
+			owns_core_province = 2627 #Lüneburg
+			owns_core_province = 2794 #Brunswick
+			owns_core_province = 2972 #Paderborn
+			owns_core_province = 429 #Bremen
+			owns_core_province = 2973 #Münster
+		}
+		effect = {
+			change_tag = SXN
+			on_change_tag_effect = yes
+			hidden_effect = { restore_country_name = yes }
+			#swap_non_generic_missions = yes
+			if = {
+				limit = {
+					NOT = { government = monarchy }
+				}
+				change_government = monarchy
+				add_government_reform = feudalism_reform
+			}
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = 7300
+			}
+			lowelb_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = SXN
+			}
+			westphalia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = SXN
+			}
+			brunswick_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = SXN
+			}
+			add_prestige = 10
+			if = {
+				limit = {
+					NOT = { government_rank = 3 }
+				}
+				set_government_rank = 3
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 400
+	}
 }
