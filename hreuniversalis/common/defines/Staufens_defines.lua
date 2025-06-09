@@ -136,6 +136,7 @@ NDefines.NReligion.PAPAL_TITHE_PERCENTAGE = 0.03
 NDefines.NReligion.MIN_CARDINALS = 14
 NDefines.NReligion.MAX_CARDINALS = 98
 NDefines.NReligion.MAX_CARDINALS_PER_COUNTRY = 10
+NDefines.NReligion.MINIMUM_DEVELOPMENT_ALLOWED = 20
 
 NDefines.NNationDesigner.POINTS_AVAILABLE = 500
 NDefines.NNationDesigner.MEMBER_OF_HRE_COST = 5
