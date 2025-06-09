@@ -1,4 +1,4 @@
-version="2.2.11"
+version="2.3"
 tags={
 	"Map"
 	"Religion"
