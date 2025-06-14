@@ -131,14 +131,29 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		has_reform = principality
 		OR = {
 			current_age = age_of_empire
 			current_age = age_of_holy_wars
 			current_age = age_of_crisis
 			current_age = age_of_dynasticism
 		}
+		any_owned_province = {
+			NOT = { is_capital_of = ROOT }
+			any_core_country = {
+				culture_group = east_slavic
+				NOT = { has_country_flag = rus_country_released }
+				exists = no
+			}
+		}
 		culture_group = east_slavic
-		has_reform = principality
+		is_free_or_tributary_trigger = yes
+		OR = {
+			is_emperor_of_china = yes
+			any_country = {
+				is_emperor_of_china = yes
+			}
+		}
 		NOT = { has_global_flag = disable_rota_flag }
 		NOT = { has_country_flag = stop_releasing_another_country }
 		NOT = { has_global_flag = ongoing_rota }
@@ -153,15 +168,6 @@ country_event = {
 			had_country_flag = {
 				flag = broke_from_kievan_rus
 				days = 1
-			}
-		}
-		is_free_or_tributary_trigger = yes
-		any_owned_province = {
-			NOT = { is_capital_of = ROOT }
-			any_core_country = {
-				culture_group = east_slavic
-				NOT = { has_country_flag = rus_country_released }
-				exists = no
 			}
 		}
 	}
