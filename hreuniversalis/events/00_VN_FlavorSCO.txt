@@ -46,10 +46,24 @@ country_event = {
 	picture = BATTLE_eventPicture
 
 	is_triggered_only = yes
+	major = yes
+	major_trigger = {
+		capital_scope = {
+			OR = {
+				superregion = british_isles_superregion
+				superregion = irish_superregion
+			}
+		}
+	}
 
 	option = {
 		name = "vn_flavor_sco.2.a"
 		tooltip = { kill_ruler = yes }
+		if = {
+			limit = { has_heir = yes }
+			tooltip = { remove_heir = {} }
+		}
+		add_stability = -1
 		define_ruler = {
 			name = "Calum III"
 			dynasty = "Dùn Chailleann"
@@ -62,6 +76,20 @@ country_event = {
 			hidden = yes
 			dynasty = "Dùn Chailleann"
 			block_disinherit = yes
+		}
+		if = {
+			limit = {
+				any_owned_province = {
+					is_core = SCY
+				}
+			}
+			every_owned_province = {
+				limit = { is_core = SCY }
+				cede_province = SCY
+			}	
+		}
+		tooltip = {
+			white_peace = NOL
 		}
 	}
 }
@@ -77,5 +105,7 @@ country_event = {
 	option = {
 		name = "vn_flavor_sco.3.a"
 		HSC = { white_peace = SCY }
+		add_prestige = 20
+		add_treasury = 200
 	}
 }
