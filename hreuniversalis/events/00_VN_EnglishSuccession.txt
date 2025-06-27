@@ -418,6 +418,16 @@ country_event = {
 			casus_belli = cb_conquest_of_england
 		}
 		add_prestige = 20
+		hidden_effect = {
+			if = {
+				limit = {
+					tag = NOR
+					NOT = { war_with = NOL }
+					NOL = { is_subject_of = ASE }
+				}
+				NOL = { country_event = { id = vn_english_succession.7 days = 1 } }
+			}
+		}
 	}
 	option = {
 		name = "vn_english_succession.4.b"
@@ -504,6 +514,22 @@ country_event = {
 				factor = 0.1
 				FROM = { tag = NOR }
 			}
+			modifier = {
+				factor = 3
+				war_exhaustion = 5
+			}
+			modifier = {
+				factor = 3
+				war_exhaustion = 10
+			}
+			modifier = {
+				factor = 3
+				war_exhaustion = 15
+			}
+			modifier = {
+				factor = 3
+				war_exhaustion = 20
+			}
 		}
 		white_peace = FROM
 		FROM = {
@@ -522,5 +548,76 @@ country_event = {
 			}
 		}
 		add_war_exhaustion = 5
+	}
+}
+
+#Northumberland gets asked to join NOR
+country_event = {
+	id = vn_english_succession.7
+	title = vn_english_succession.7.t
+	desc = vn_english_succession.7.d
+	picture = {
+		trigger = { has_dlc = "Lions of the North" }
+		picture = VIKINGS_eventPicture
+	}
+	picture = {
+		trigger = { NOT = { has_dlc = "Lions of the North" } }
+		picture = NAVAL_MILITARY_eventPicture
+	}
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = "vn_english_succession.7.a"
+		ai_chance = {
+			factor = 1
+		}
+		FROM = {
+			create_subject = {
+				subject_type = tributary_state
+				who = ROOT
+			}
+		}
+		define_ruler = {
+			name = "Tostig"
+			dynasty = "Godwining"
+			culture = anglosaxon
+			adm = 2
+			dip = 3
+			mil = 3
+		}
+		join_all_offensive_wars_of = FROM
+		hidden_effect = {
+			kill_heir = { allow_new_heir = yes }
+			add_ruler_personality = intricate_web_weaver_personality
+			ASE = { country_event = { id = vn_english_succession.3 days = 1} }
+			FROM = { country_event = { id = vn_english_succession.8 days = 1 } }
+		}
+	}
+
+	option = {
+		name = "vn_english_succession.7.b"
+		ai_chance = {
+			factor = 0
+		}
+		add_prestige = 5
+	}
+}
+
+#response for NOR
+country_event = {
+	id = vn_english_succession.8
+	title = vn_english_succession.8.t
+	desc = vn_english_succession.8.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = "vn_english_succession.8.a"
+		tooltip = {
+			FROM = { join_all_offensive_wars_of = ROOT }
+		}
 	}
 }
