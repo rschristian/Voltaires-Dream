@@ -856,12 +856,48 @@ vn_pru_missions_slot_3_d = {
 			}
         }
     }
+    GER_place_in_the_sun = {
+        icon = sway_cologne
+        position = 8
+        required_missions = { vn_pru_southern_dominion }
+        trigger = {
+            if = {
+                limit = {
+                    has_reform = german_cultural_disunity_reform
+                }
+                GER_num_of_cultures_accepted = {
+                    amount = 12
+                }
+            }
+
+            prestige = 80
+            OR = {
+                power_projection = 50
+                monthly_dip = 11
+            }
+        }
+        effect = {
+            add_prestige_or_monarch_power = { amount = 10 }
+
+            custom_tooltip = " "
+
+            change_government_reform_progress = 100
+
+            if = {
+                limit = {
+                    has_reform = german_cultural_disunity_reform
+                }
+                custom_tooltip = " "
+                remove_government_reform = german_cultural_disunity_reform
+            }
+        }
+    }
     vn_pru_unified_germany = {
 		icon = centralized_empire
         position = 9
         required_missions = { 
 			vn_pru_counter_kleinstaaterei 
-			vn_pru_southern_dominion 
+			GER_place_in_the_sun
 			vn_pru_humiliate_french 
 		}
 		provinces_to_highlight = {
@@ -887,6 +923,19 @@ vn_pru_missions_slot_3_d = {
 			add_country_modifier = {
 				name = "pru_unified_germany_mission"
 				duration = -1
+			}
+
+			country_event_with_effect_insight = {
+				id = flavor_ger.11
+				effect = "
+					custom_tooltip = GER_unlock_reform
+
+					GER_unlock_reform_based_on_culture = { reform = yes }
+
+					custom_tooltip = \" \"
+
+					custom_tooltip = GER_we_may_choose_not_to_take_it
+				"
 			}
         }
 	}
