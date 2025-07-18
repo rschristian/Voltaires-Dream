@@ -1,1346 +1,1346 @@
-# #by historyperson
-# vn_boh_missions_slot_1 = {
-#     slot = 1
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = BOH
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+#by historyperson
+vn_boh_missions_slot_1 = {
+    slot = 6
+    generic = no
+    ai = yes
+    potential = {
+        tag = BOH
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_boh_kingdom_of_bohemia = {
-#         icon = mission_monarch_in_throne_room
-#         position = 1
-#         required_missions = { }
-#         trigger = {
-#             NOT = { current_age = age_of_empire }
-# 			prestige = 25
-#             if = {
-#                 limit = { has_dlc = "Common Sense" }
-#                 legitimacy_equivalent = 100
-#             }
-#             else_if = {
-#                 limit = { government = monarchy }
-#                 legitimacy = 100
-#             }
-#             government_rank = 5
-#             if = {
-#                 limit = { hre_size = 1 }
-#                 OR = {
-#                     is_elector = yes
-#                     AND = {
-#                         is_emperor = yes
-#                         calc_true_if = {
-#                             desc = gen_hre_electors.tooltip
-#                             all_elector = {
-#                                 preferred_emperor = ROOT
-#                             }
-#                             amount = 3
-#                         }
-#                     }
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = boh_kingdom_of_bohemia_mission
-#                 duration = -1
-#             }
-#         }
-#     }
-#     vn_boh_bohemian_electorate = {
-#         icon = mission_rb_control_electors
-#         position = 2
-#         required_missions = { vn_boh_kingdom_of_bohemia }
-#         trigger = {
-#             if = {
-#                 limit = { hre_size = 1 }
-#                 is_emperor = yes
-#                 custom_trigger_tooltip = {
-#                     tooltip = vn_boh_bohemian_electorate.tt
-#                     calc_true_if = {
-#                         amount = 5
-#                         all_elector = {
-#                             preferred_emperor = ROOT
-#                         }
-#                     }
-#                 }
-#             }
-#             else = {
-#                 government_rank = 6
-#             }
-#         }
-#         effect = {
-#             add_legitimacy = 10
-#             add_country_modifier = {
-#                 name = boh_bohemian_electorate_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_bohemia_crystal = {
-#         icon = bohemian_crystal
-#         position = 3
-#         required_missions = { }
-#         trigger = {
-#             OR = {
-#                 trading_bonus = {
-#                     trade_goods = glass
-#                     value = yes
-#                 }
-#                 production_leader = {
-#                     trade_goods = glass
-#                 }				
-#             }
-#             any_owned_province = {
-#                 trade_goods = glass
-#                 base_production = 10
-#             }
-#         }
-#         effect = {
-# 			add_years_of_income = 0.5
-# 			add_prestige_or_monarch_power = { amount = 10 } 
-# 			every_owned_province = {
-# 				limit = { trade_goods = glass }
-# 				add_province_modifier = {
-# 					name =  boh_bohemia_crystal_mission
-# 					duration = 9125
-# 				}
-#             }
-#         }
-#     }
-#     vn_boh_rivalry_with_austria = {
-#         icon = boh_humiliate_austria
-#         position = 4
-#         required_missions = {  }
-#         trigger = {
-#             OR ={
-#                 any_rival_country = {
-#                     primary_culture = austrian
-# 					custom_trigger_tooltip = {
-# 						tooltip = has_been_insulted_by_root
-# 						OR = {
-# 							has_opinion_modifier = {
-# 								who = ROOT
-# 								modifier = insulted
-# 							}
-# 							has_opinion_modifier = {
-# 								who = ROOT
-# 								modifier = scornfully_insulted
-# 							}
-# 						}
-# 					}
-#                     NOT = {
-#                         army_strength = {
-#                             who = ROOT
-#                             value = 1
-#                         }
-#                     }
-#                 }
-#                 NOT = {
-#                     any_country = {
-#                         primary_culture = austrian
-#                         num_of_cities = 15
-#                     }
-#                 }
-#             }
-#             army_size_percentage = 0.75
-#         }
-#         effect = {
-#             austria_region = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_boh_conquer_austria = {
-#         icon = mission_the_austrian_succession
-#         position = 5
-# 		required_missions = { vn_boh_rivalry_with_austria }
-# 		provinces_to_highlight = {
-# 			region = austria_region
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 20
-#                 region = austria_region
-#             }
-#         }
-#         effect = {
-#             styria_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             murmark_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_boh_conquer_styria = {
-#         icon = mission_unite_home_region
-#         position = 7
-# 		required_missions = { vn_boh_conquer_austria }
-# 		provinces_to_highlight = {
-# 			OR = {
-#                 area = styria_area
-#                 area = murmark_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = styria_area
-#             }
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = murmark_area
-#             }
-#         }
-#         effect = {
-#             carniola_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             sannmark_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             carinthia_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             lienz_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_boh_conquer_carniola = {
-#         icon = mission_unite_home_region
-#         position = 8
-# 		required_missions = { vn_boh_conquer_styria }
-# 		provinces_to_highlight = {
-#             OR = {
-#                 area = sannmark_area
-#                 area = carniola_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = sannmark_area
-#             }
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = carniola_area
-#             }
-#         }
-#         effect = {
-#             add_legitimacy = 10
-#             add_prestige_or_monarch_power = { amount = 10 } 
-#             friuli_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-# }
+    vn_boh_kingdom_of_bohemia = {
+        icon = mission_monarch_in_throne_room
+        position = 1
+        required_missions = { }
+        trigger = {
+            NOT = { current_age = age_of_empire }
+			prestige = 25
+            if = {
+                limit = { has_dlc = "Common Sense" }
+                legitimacy_equivalent = 100
+            }
+            else_if = {
+                limit = { government = monarchy }
+                legitimacy = 100
+            }
+            government_rank = 5
+            if = {
+                limit = { hre_size = 1 }
+                OR = {
+                    is_elector = yes
+                    AND = {
+                        is_emperor = yes
+                        calc_true_if = {
+                            desc = gen_hre_electors.tooltip
+                            all_elector = {
+                                preferred_emperor = ROOT
+                            }
+                            amount = 3
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = boh_kingdom_of_bohemia_mission
+                duration = -1
+            }
+        }
+    }
+    vn_boh_bohemian_electorate = {
+        icon = mission_rb_control_electors
+        position = 2
+        required_missions = { vn_boh_kingdom_of_bohemia }
+        trigger = {
+            if = {
+                limit = { hre_size = 1 }
+                is_emperor = yes
+                custom_trigger_tooltip = {
+                    tooltip = vn_boh_bohemian_electorate.tt
+                    calc_true_if = {
+                        amount = 5
+                        all_elector = {
+                            preferred_emperor = ROOT
+                        }
+                    }
+                }
+            }
+            else = {
+                government_rank = 6
+            }
+        }
+        effect = {
+            add_legitimacy = 10
+            add_country_modifier = {
+                name = boh_bohemian_electorate_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_bohemia_crystal = {
+        icon = bohemian_crystal
+        position = 3
+        required_missions = { }
+        trigger = {
+            OR = {
+                trading_bonus = {
+                    trade_goods = glass
+                    value = yes
+                }
+                production_leader = {
+                    trade_goods = glass
+                }				
+            }
+            any_owned_province = {
+                trade_goods = glass
+                base_production = 10
+            }
+        }
+        effect = {
+			add_years_of_income = 0.5
+			add_prestige_or_monarch_power = { amount = 10 } 
+			every_owned_province = {
+				limit = { trade_goods = glass }
+				add_province_modifier = {
+					name =  boh_bohemia_crystal_mission
+					duration = 9125
+				}
+            }
+        }
+    }
+    vn_boh_rivalry_with_austria = {
+        icon = boh_humiliate_austria
+        position = 4
+        required_missions = {  }
+        trigger = {
+            OR ={
+                any_rival_country = {
+                    primary_culture = austrian
+					custom_trigger_tooltip = {
+						tooltip = has_been_insulted_by_root
+						OR = {
+							has_opinion_modifier = {
+								who = ROOT
+								modifier = insulted
+							}
+							has_opinion_modifier = {
+								who = ROOT
+								modifier = scornfully_insulted
+							}
+						}
+					}
+                    NOT = {
+                        army_strength = {
+                            who = ROOT
+                            value = 1
+                        }
+                    }
+                }
+                NOT = {
+                    any_country = {
+                        primary_culture = austrian
+                        num_of_cities = 15
+                    }
+                }
+            }
+            army_size_percentage = 0.75
+        }
+        effect = {
+            austria_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_boh_conquer_austria = {
+        icon = mission_the_austrian_succession
+        position = 5
+		required_missions = { vn_boh_rivalry_with_austria }
+		provinces_to_highlight = {
+			region = austria_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 20
+                region = austria_region
+            }
+        }
+        effect = {
+            styria_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            murmark_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_boh_conquer_styria = {
+        icon = mission_unite_home_region
+        position = 7
+		required_missions = { vn_boh_conquer_austria }
+		provinces_to_highlight = {
+			OR = {
+                area = styria_area
+                area = murmark_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = styria_area
+            }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = murmark_area
+            }
+        }
+        effect = {
+            carniola_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            sannmark_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            carinthia_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            lienz_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_boh_conquer_carniola = {
+        icon = mission_unite_home_region
+        position = 8
+		required_missions = { vn_boh_conquer_styria }
+		provinces_to_highlight = {
+            OR = {
+                area = sannmark_area
+                area = carniola_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = sannmark_area
+            }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = carniola_area
+            }
+        }
+        effect = {
+            add_legitimacy = 10
+            add_prestige_or_monarch_power = { amount = 10 } 
+            friuli_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+}
 
-# vn_boh_missions_slot_2 = {
-#     slot = 2
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = BOH
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_boh_missions_slot_2 = {
+    slot = 7
+    generic = no
+    ai = yes
+    potential = {
+        tag = BOH
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_boh_bohemian_independence = {
-#         icon = bohemian_commonwealth
-#         position = 1
-#         required_missions = {  }
-#         trigger = {
-#             is_free_or_tributary_trigger = yes
-#             is_at_war = no
-#             army_size_percentage = 0.8
-#             manpower_percentage = 0.8
-#             reform_level = 2
-#             stability = 2
-#         }
-#         effect = {
-#             moravia_region = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             lusatiasouth_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             add_country_modifier = {
-#                 name = boh_bohemian_independence_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_conquer_moravia = {
-#         icon = bohemian_borderlands
-#         position = 2
-# 		required_missions = { vn_boh_bohemian_independence }
-# 		provinces_to_highlight = {
-# 			region = moravia_region
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             NOT = { exists = MRV }
-#             moravia_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             legnica_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             glogow_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             silesiawest_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             slovakia_region = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             moravia_region = {
-#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
-#                 add_province_modifier = {
-#                     name = boh_conquer_moravia_mission
-#                     duration = 9125
-#                 }
-#             }
-#         }
-#     }
-#     vn_boh_conquer_lower_silesia = {
-#         icon = take_silesia
-#         position = 3
-# 		required_missions = { vn_boh_conquer_moravia }
-# 		provinces_to_highlight = {
-# 			OR = {
-#                 area = legnica_area
-#                 area = glogow_area
-#                 area = silesiawest_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             legnica_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             glogow_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             silesiawest_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             opava_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             opole_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             silesiaeast_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             legnica_area = {
-#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
-#                 add_province_modifier = {
-#                     name = boh_conquer_lower_silesia_mission
-#                     duration = 7300
-#                 }
-#             }
-#             glogow_area = {
-#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
-#                 add_province_modifier = {
-#                     name = boh_conquer_lower_silesia_mission
-#                     duration = 7300
-#                 }
-#             }
-#             silesiawest_area = {
-#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
-#                 add_province_modifier = {
-#                     name = boh_conquer_lower_silesia_mission
-#                     duration = 7300
-#                 }
-#             }
-#         }
-#     }
-#     vn_boh_conquer_upper_silesia = {
-#         icon = take_silesia
-#         position = 4
-# 		required_missions = { vn_boh_conquer_lower_silesia }
-# 		provinces_to_highlight = {
-# 			OR = {
-#                 area = opava_area
-#                 area = opole_area
-#                 area = silesiaeast_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             opava_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             opole_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             silesiaeast_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             if = {
-#                 limit = {
-#                     valid_for_personal_unions_trigger = yes
-#                     POL = { valid_for_personal_unions_trigger = yes }
-#                 }
-#                 add_casus_belli = {
-#                     type = cb_fabricated_claims
-#                     months = 300
-#                     target = POL
-#                 }
-#             }
-#             else = {
-#                 wielkopolska_region = {
-#                     limit = {
-#                         NOT = { is_core = ROOT }
-#                         NOT = { is_permanent_claim = ROOT }
-#                     }
-#                     add_permanent_claim = ROOT
-#                 }
-#                 malopolska_region = {
-#                     limit = {
-#                         NOT = { is_core = ROOT }
-#                         NOT = { is_permanent_claim = ROOT }
-#                     }
-#                     add_permanent_claim = ROOT
-#                 }
-#             }
-#             opava_area = {
-#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
-#                 add_province_modifier = {
-#                     name = boh_conquer_lower_silesia_mission
-#                     duration = 7300
-#                 }
-#             }
-#             opole_area = {
-#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
-#                 add_province_modifier = {
-#                     name = boh_conquer_lower_silesia_mission
-#                     duration = 7300
-#                 }
-#             }
-#             silesiaeast_area = {
-#                 limit = { country_or_non_sovereign_subject_holds = ROOT }
-#                 add_province_modifier = {
-#                     name = boh_conquer_lower_silesia_mission
-#                     duration = 7300
-#                 }
-#             }
-#         }
-#     }
-#     vn_boh_conquer_poland = {
-#         icon = restore_great_moravia
-#         position = 5
-# 		required_missions = { vn_boh_conquer_upper_silesia }
-# 		provinces_to_highlight = {
-#             OR = {
-#                 region = wielkopolska_region
-#                 region = malopolska_region
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             wielkopolska_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             malopolska_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             mazovia_region = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             add_country_modifier = {
-#                 name = boh_conquer_poland_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_conquer_mazovia = {
-#         icon = king_of_poland
-#         position = 6
-# 		required_missions = { vn_boh_conquer_poland }
-# 		provinces_to_highlight = {
-#             region = mazovia_region
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             mazovia_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             add_prestige_or_monarch_power = { amount = 15 } 
-#             add_dip_power = 100
-#         }
-#     }
-#     vn_boh_law_of_emphyteusis = {
-#         icon = mission_noble_council
-#         position = 7
-#         required_missions = { vn_boh_golden_age }
-#         trigger = {
-#             absolutism = 50
-#             if = {
-#                 limit = { has_estate = estate_nobles }
-#                 estate_loyalty = {
-#                     estate = estate_nobles
-#                     loyalty = 50
-#                 }
-#                 NOT = {
-#                     estate_influence = {
-#                         estate = estate_nobles
-#                         influence = 50
-#                     }
-#                 }
-#             }
-#             else = {
-#                 NOT = { corruption = 0.01 }
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = boh_law_of_emphyteusis_mission
-#                 duration = 9125
-#             }
-#         }
-# 	}
-#     vn_boh_conquer_carinthia = {
-#         icon = mission_unite_home_region
-#         position = 8
-# 		required_missions = { vn_boh_conquer_styria }
-# 		provinces_to_highlight = {
-#             OR = {
-#                 area = carinthia_area
-#                 area = lienz_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = carinthia_area
-#             }
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = lienz_area
-#             }
-#         }
-#         effect = {
-#             add_mil_power = 100
-#             tirolia_region = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#         }
-# 	}
-# }
+    vn_boh_bohemian_independence = {
+        icon = bohemian_commonwealth
+        position = 1
+        required_missions = {  }
+        trigger = {
+            is_free_or_tributary_trigger = yes
+            is_at_war = no
+            army_size_percentage = 0.8
+            manpower_percentage = 0.8
+            reform_level = 2
+            stability = 2
+        }
+        effect = {
+            moravia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            lusatiasouth_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = boh_bohemian_independence_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_conquer_moravia = {
+        icon = bohemian_borderlands
+        position = 2
+		required_missions = { vn_boh_bohemian_independence }
+		provinces_to_highlight = {
+			region = moravia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            NOT = { exists = MRV }
+            moravia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            legnica_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            glogow_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            silesiawest_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            slovakia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            moravia_region = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = boh_conquer_moravia_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+    vn_boh_conquer_lower_silesia = {
+        icon = take_silesia
+        position = 3
+		required_missions = { vn_boh_conquer_moravia }
+		provinces_to_highlight = {
+			OR = {
+                area = legnica_area
+                area = glogow_area
+                area = silesiawest_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            legnica_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            glogow_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            silesiawest_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            opava_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            opole_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            silesiaeast_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            legnica_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+            glogow_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+            silesiawest_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+        }
+    }
+    vn_boh_conquer_upper_silesia = {
+        icon = take_silesia
+        position = 4
+		required_missions = { vn_boh_conquer_lower_silesia }
+		provinces_to_highlight = {
+			OR = {
+                area = opava_area
+                area = opole_area
+                area = silesiaeast_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            opava_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            opole_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            silesiaeast_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    valid_for_personal_unions_trigger = yes
+                    POL = { valid_for_personal_unions_trigger = yes }
+                }
+                add_casus_belli = {
+                    type = cb_fabricated_claims
+                    months = 300
+                    target = POL
+                }
+            }
+            else = {
+                wielkopolska_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                malopolska_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
+            opava_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+            opole_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+            silesiaeast_area = {
+                limit = { country_or_non_sovereign_subject_holds = ROOT }
+                add_province_modifier = {
+                    name = boh_conquer_lower_silesia_mission
+                    duration = 7300
+                }
+            }
+        }
+    }
+    vn_boh_conquer_poland = {
+        icon = restore_great_moravia
+        position = 5
+		required_missions = { vn_boh_conquer_upper_silesia }
+		provinces_to_highlight = {
+            OR = {
+                region = wielkopolska_region
+                region = malopolska_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            wielkopolska_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            malopolska_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            mazovia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = boh_conquer_poland_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_conquer_mazovia = {
+        icon = king_of_poland
+        position = 6
+		required_missions = { vn_boh_conquer_poland }
+		provinces_to_highlight = {
+            region = mazovia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            mazovia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_prestige_or_monarch_power = { amount = 15 } 
+            add_dip_power = 100
+        }
+    }
+    vn_boh_law_of_emphyteusis = {
+        icon = mission_noble_council
+        position = 7
+        required_missions = { vn_boh_golden_age }
+        trigger = {
+            absolutism = 50
+            if = {
+                limit = { has_estate = estate_nobles }
+                estate_loyalty = {
+                    estate = estate_nobles
+                    loyalty = 50
+                }
+                NOT = {
+                    estate_influence = {
+                        estate = estate_nobles
+                        influence = 50
+                    }
+                }
+            }
+            else = {
+                NOT = { corruption = 0.01 }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = boh_law_of_emphyteusis_mission
+                duration = 9125
+            }
+        }
+	}
+    vn_boh_conquer_carinthia = {
+        icon = mission_unite_home_region
+        position = 8
+		required_missions = { vn_boh_conquer_styria }
+		provinces_to_highlight = {
+            OR = {
+                area = carinthia_area
+                area = lienz_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = carinthia_area
+            }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = lienz_area
+            }
+        }
+        effect = {
+            add_mil_power = 100
+            tirolia_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+	}
+}
 
-# vn_boh_missions_slot_3 = {
-#     slot = 3
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = BOH
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_boh_missions_slot_3 = {
+    slot = 8
+    generic = no
+    ai = yes
+    potential = {
+        tag = BOH
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_boh_conquer_nitra = {
-#         icon = restore_great_moravia
-#         position = 3
-# 		required_missions = { vn_boh_conquer_moravia }
-# 		provinces_to_highlight = {
-# 			region = slovakia_region
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             slovakia_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             if = {
-#                 limit = {
-#                     valid_for_personal_unions_trigger = yes
-#                     HUN = { valid_for_personal_unions_trigger = yes }
-#                 }
-#                 add_casus_belli = {
-#                     type = cb_fabricated_claims
-#                     months = 300
-#                     target = HUN
-#                 }
-#             }
-#             else = {
-#                 danubia_region = {
-#                     limit = {
-#                         NOT = { is_core = ROOT }
-#                         NOT = { is_permanent_claim = ROOT }
-#                     }
-#                     add_permanent_claim = ROOT
-#                 }
-#                 alfold_region = {
-#                     limit = {
-#                         NOT = { is_core = ROOT }
-#                         NOT = { is_permanent_claim = ROOT }
-#                     }
-#                     add_permanent_claim = ROOT
-#                 }
-#                 transdanubia_region = {
-#                     limit = {
-#                         NOT = { is_core = ROOT }
-#                         NOT = { is_permanent_claim = ROOT }
-#                     }
-#                     add_permanent_claim = ROOT
-#                 }
-#             }
-#         }
-#     }
-#     vn_boh_conquer_hungary = {
-#         icon = king_of_hungary
-#         position = 4
-# 		required_missions = { vn_boh_conquer_nitra }
-# 		provinces_to_highlight = {
-# 			OR = {
-#                 region = danubia_region
-#                 region = alfold_region
-#                 region = transdanubia_region
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             danubia_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             alfold_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             transdanubia_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             add_dip_power = 100
-#             transylvania_region = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_claim = ROOT }
-#                 }
-#                 add_claim = ROOT
-#             }
-#             add_country_modifier = {
-#                 name = boh_conquer_hungary_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_golden_age = {
-#         icon = mission_empire
-#         position = 6
-# 		required_missions = {  }
-#         trigger = {
-#             has_institution = renaissance
-#             calc_true_if = {
-#                 amount = 2
-#                 adm = 4
-#                 dip = 4
-#                 mil = 4
-#             }
-#             if = {
-#                 limit = {
-#                     calc_true_if = {
-#                         amount = 2
-#                         has_estate = estate_nobles
-#                         has_estate = estate_church
-#                         has_estate = estate_burghers
-#                         has_estate = estate_cossacks
-#                     }
-#                 }
-#                 custom_trigger_tooltip = {
-#                     tooltip = vn_boh_golden_age.tt
-#                     calc_true_if = {
-#                         amount = 2
-#                         estate_loyalty = {
-#                             estate = estate_nobles
-#                             loyalty = 60
-#                         }
-#                         estate_loyalty = {
-#                             estate = estate_church
-#                             loyalty = 60
-#                         }
-#                         estate_loyalty = {
-#                             estate = estate_burghers
-#                             loyalty = 60
-#                         }
-#                         estate_loyalty = {
-#                             estate = estate_cossacks
-#                             loyalty = 60
-#                         }
-#                     }
-#                 }
-#             }
-#             else = {
-#                 stability = 3
-#             }
-#         }
-#         effect = {
-#             add_adm_power = 50
-#             add_dip_power = 50
-#             add_mil_power = 50
-#             add_ruler_modifier = {
-#                 name = boh_golden_age_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_university_of_prague = {
-#         icon = mission_rb_the_education_acts
-#         position = 7
-#         required_missions = { vn_boh_golden_age }
-# 		provinces_to_highlight = {
-# 			province_id = 781
-# 		}
-# 		trigger = {
-#             781 = {
-#                 owned_by = ROOT
-#                 has_building = university
-#                 development = 25
-#             }
-#         }
-#         effect = {
-#             add_innovativeness_big_effect = yes
-#             781 = {
-#                 add_province_modifier = {
-#                     name = boh_university_of_prague_mission
-#                     duration = -1
-#                 }
-#             }
-#         }
-# 	}
-#     vn_boh_tolerance_of_jews = {
-#         icon = mission_arts_and_letters
-#         position = 8
-#         required_missions = { vn_boh_university_of_prague }
-#         trigger = {
-#             has_institution = enlightenment
-#             full_idea_group = humanist_ideas
-#             stability = 3
-#         }
-#         effect = {
-#             add_prestige_or_monarch_power = { amount = 10 } 
-#             define_advisor = {
-#                 type = master_of_mint
-#                 skill = 3
-#                 discount = yes
-#                 religion = jewish
-#                 culture = hebrew
-#             }
-#             add_country_modifier = {
-#                 name = boh_tolerance_of_jews_mission
-#                 duration = -1
-#             }
-#         }
-# 	}
-# }
+    vn_boh_conquer_nitra = {
+        icon = restore_great_moravia
+        position = 3
+		required_missions = { vn_boh_conquer_moravia }
+		provinces_to_highlight = {
+			region = slovakia_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            slovakia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    valid_for_personal_unions_trigger = yes
+                    HUN = { valid_for_personal_unions_trigger = yes }
+                }
+                add_casus_belli = {
+                    type = cb_fabricated_claims
+                    months = 300
+                    target = HUN
+                }
+            }
+            else = {
+                danubia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                alfold_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+                transdanubia_region = {
+                    limit = {
+                        NOT = { is_core = ROOT }
+                        NOT = { is_permanent_claim = ROOT }
+                    }
+                    add_permanent_claim = ROOT
+                }
+            }
+        }
+    }
+    vn_boh_conquer_hungary = {
+        icon = king_of_hungary
+        position = 4
+		required_missions = { vn_boh_conquer_nitra }
+		provinces_to_highlight = {
+			OR = {
+                region = danubia_region
+                region = alfold_region
+                region = transdanubia_region
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            danubia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            alfold_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            transdanubia_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_dip_power = 100
+            transylvania_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_claim = ROOT }
+                }
+                add_claim = ROOT
+            }
+            add_country_modifier = {
+                name = boh_conquer_hungary_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_golden_age = {
+        icon = mission_empire
+        position = 6
+		required_missions = {  }
+        trigger = {
+            has_institution = renaissance
+            calc_true_if = {
+                amount = 2
+                adm = 4
+                dip = 4
+                mil = 4
+            }
+            if = {
+                limit = {
+                    calc_true_if = {
+                        amount = 2
+                        has_estate = estate_nobles
+                        has_estate = estate_church
+                        has_estate = estate_burghers
+                        has_estate = estate_cossacks
+                    }
+                }
+                custom_trigger_tooltip = {
+                    tooltip = vn_boh_golden_age.tt
+                    calc_true_if = {
+                        amount = 2
+                        estate_loyalty = {
+                            estate = estate_nobles
+                            loyalty = 60
+                        }
+                        estate_loyalty = {
+                            estate = estate_church
+                            loyalty = 60
+                        }
+                        estate_loyalty = {
+                            estate = estate_burghers
+                            loyalty = 60
+                        }
+                        estate_loyalty = {
+                            estate = estate_cossacks
+                            loyalty = 60
+                        }
+                    }
+                }
+            }
+            else = {
+                stability = 3
+            }
+        }
+        effect = {
+            add_adm_power = 50
+            add_dip_power = 50
+            add_mil_power = 50
+            add_ruler_modifier = {
+                name = boh_golden_age_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_university_of_prague = {
+        icon = mission_rb_the_education_acts
+        position = 7
+        required_missions = { vn_boh_golden_age }
+		provinces_to_highlight = {
+			province_id = 781
+		}
+		trigger = {
+            781 = {
+                owned_by = ROOT
+                has_building = university
+                development = 25
+            }
+        }
+        effect = {
+            add_innovativeness_big_effect = yes
+            781 = {
+                add_province_modifier = {
+                    name = boh_university_of_prague_mission
+                    duration = -1
+                }
+            }
+        }
+	}
+    vn_boh_tolerance_of_jews = {
+        icon = mission_arts_and_letters
+        position = 8
+        required_missions = { vn_boh_university_of_prague }
+        trigger = {
+            has_institution = enlightenment
+            full_idea_group = humanist_ideas
+            stability = 3
+        }
+        effect = {
+            add_prestige_or_monarch_power = { amount = 10 } 
+            define_advisor = {
+                type = master_of_mint
+                skill = 3
+                discount = yes
+                religion = jewish
+                culture = hebrew
+            }
+            add_country_modifier = {
+                name = boh_tolerance_of_jews_mission
+                duration = -1
+            }
+        }
+	}
+}
 
-# vn_boh_missions_slot_4 = {
-#     slot = 4
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = BOH
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_boh_missions_slot_4 = {
+    slot = 9
+    generic = no
+    ai = yes
+    potential = {
+        tag = BOH
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_boh_conquer_oberlausitz = {
-#         icon = bohemian_borderlands
-#         position = 2
-# 		required_missions = { vn_boh_bohemian_independence }
-# 		provinces_to_highlight = {
-# 			area = lusatiasouth_area
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             lusatiasouth_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             lusatianorth_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_boh_conquer_niederlausitz = {
-#         icon = mission_unite_home_region
-#         position = 3
-# 		required_missions = { vn_boh_conquer_oberlausitz }
-# 		provinces_to_highlight = {
-#             area = lusatianorth_area
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             lusatianorth_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             lusatia_region = {
-#                 type = all
-#                 OR = {
-#                     has_owner_culture = yes
-#                     has_owner_accepted_culture = yes
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_prestige_or_monarch_power = { amount = 10 } 
-#             meissen_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             merseburg_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             osterland_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             2841 = {
-# 				if = {
-# 					limit = {
-# 						NOT = { is_core = ROOT }
-# 						NOT = { is_permanent_claim = ROOT }
-# 					}
-# 					add_permanent_claim = ROOT	
-# 				}		
-# 			}
-#         }
-#     }
-#     vn_boh_conquer_eger = {
-#         icon = mission_unite_home_region
-#         position = 4
-# 		required_missions = { vn_boh_conquer_niederlausitz }
-# 		provinces_to_highlight = {
-#             province_id = 2841
-#             NOT = { 
-#                 owned_by = ROOT 
-#                 is_core = ROOT
-#             }
-# 		}
-#         trigger = {
-#             owns_core_province = 2841
-#         }
-#         effect = {
-#             oberpfalz_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             leuchtenburg_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_boh_conquer_oberpfalz = {
-#         icon = mission_unite_home_region
-#         position = 5
-# 		required_missions = { vn_boh_conquer_eger }
-# 		provinces_to_highlight = {
-#             OR = {
-#                 area = oberpfalz_area
-#                 area = leuchtenburg_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = oberpfalz_area
-#             }
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = leuchtenburg_area
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = boh_conquer_oberpfalz_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_castles_of_ottokar = {
-#         icon = mission_european_castle
-#         position = 6
-#         required_missions = { }
-#         trigger = {
-#             num_of_owned_provinces_with = {
-#                 value = 5
-#                 base_manpower = 10
-#                 OR = {
-#                     has_building = fort_15th
-#                     has_building = fort_16th
-#                     has_building = fort_17th
-#                     has_building = fort_18th
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = boh_castles_of_ottokar_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_defense_from_the_mongols = {
-#         icon = mission_fort
-#         position = 8
-#         required_missions = { vn_boh_castles_of_ottokar }
-#         trigger = {
-#             num_of_generals = 3
-#             army_size = 50
-#             num_of_owned_provinces_with = {
-#                 value = 5
-#                 has_forcelimit_building_trigger = yes
-#             }
-#             num_of_owned_provinces_with = {
-#                 value = 5
-#                 has_manpower_building_trigger = yes
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = boh_defense_from_the_mongols_mission
-#                 duration = 9125
-#             }
-#         }
-# 	}	
-# }
+    vn_boh_conquer_oberlausitz = {
+        icon = bohemian_borderlands
+        position = 2
+		required_missions = { vn_boh_bohemian_independence }
+		provinces_to_highlight = {
+			area = lusatiasouth_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            lusatiasouth_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            lusatianorth_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_boh_conquer_niederlausitz = {
+        icon = mission_unite_home_region
+        position = 3
+		required_missions = { vn_boh_conquer_oberlausitz }
+		provinces_to_highlight = {
+            area = lusatianorth_area
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            lusatianorth_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            lusatia_region = {
+                type = all
+                OR = {
+                    has_owner_culture = yes
+                    has_owner_accepted_culture = yes
+                }
+            }
+        }
+        effect = {
+            add_prestige_or_monarch_power = { amount = 10 } 
+            meissen_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            merseburg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            osterland_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            2841 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT	
+				}		
+			}
+        }
+    }
+    vn_boh_conquer_eger = {
+        icon = mission_unite_home_region
+        position = 4
+		required_missions = { vn_boh_conquer_niederlausitz }
+		provinces_to_highlight = {
+            province_id = 2841
+            NOT = { 
+                owned_by = ROOT 
+                is_core = ROOT
+            }
+		}
+        trigger = {
+            owns_core_province = 2841
+        }
+        effect = {
+            oberpfalz_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            leuchtenburg_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_boh_conquer_oberpfalz = {
+        icon = mission_unite_home_region
+        position = 5
+		required_missions = { vn_boh_conquer_eger }
+		provinces_to_highlight = {
+            OR = {
+                area = oberpfalz_area
+                area = leuchtenburg_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = oberpfalz_area
+            }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = leuchtenburg_area
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = boh_conquer_oberpfalz_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_castles_of_ottokar = {
+        icon = mission_european_castle
+        position = 6
+        required_missions = { }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 5
+                base_manpower = 10
+                OR = {
+                    has_building = fort_15th
+                    has_building = fort_16th
+                    has_building = fort_17th
+                    has_building = fort_18th
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = boh_castles_of_ottokar_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_defense_from_the_mongols = {
+        icon = mission_fort
+        position = 8
+        required_missions = { vn_boh_castles_of_ottokar }
+        trigger = {
+            num_of_generals = 3
+            army_size = 50
+            num_of_owned_provinces_with = {
+                value = 5
+                has_forcelimit_building_trigger = yes
+            }
+            num_of_owned_provinces_with = {
+                value = 5
+                has_manpower_building_trigger = yes
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = boh_defense_from_the_mongols_mission
+                duration = 9125
+            }
+        }
+	}	
+}
 
-# vn_boh_missions_slot_5 = {
-#     slot = 5
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = BOH
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_boh_missions_slot_5 = {
+    slot = 10
+    generic = no
+    ai = yes
+    potential = {
+        tag = BOH
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_boh_archbishoric_of_prague = {
-#         icon = mission_religious
-#         position = 1
-#         required_missions = { }
-#         trigger = {
-#             if = {
-#                 limit = {
-#                     OR = {
-#                         religion = catholic
-#                         religion = catholique
-#                     }
-#                 }
-#                 OR = {
-#                     is_papal_controller = yes
-#                     invested_papal_influence = 50
-#                 }
-#             }
-#             else = {
-#                 religious_unity = 1
-#             }
-#             if = {
-#                 limit = { has_estate = estate_church }
-#                 has_estate_privilege = estate_church_papal_emissary
-#                 estate_loyalty = {
-#                     estate = estate_church
-#                     loyalty = 60
-#                 }
-#             }
-#             else = {
-#                 temple = 10
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = boh_archbishoric_of_prague_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_protestant_bohemia = {
-#         icon = mission_convert_provinces
-#         position = 2
-#         required_missions = { vn_boh_archbishoric_of_prague }
-#         trigger = {
-#             has_institution = laytheology
-#             all_state_province = {
-#                 laytheology = 100
-#             }
-#             custom_trigger_tooltip = {
-#                 tooltip = vn_boh_protestant_bohemia.tt
-#                 OR = {
-#                     has_country_flag = hussite_wars_ended
-#                     current_age = age_of_reformation
-#                     current_age = age_of_absolutism
-#                     current_age = age_of_revolutions
-#                     current_age = age_of_ideology
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = boh_protestant_bohemia_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_bohemian_uprising = {
-#         icon = mission_rb_control_state_religion
-#         position = 3
-#         required_missions = { vn_boh_protestant_bohemia }
-#         trigger = {
-#             OR = {
-#                 current_age = age_of_reformation
-#                 current_age = age_of_absolutism
-#                 current_age = age_of_revolutions
-#                 current_age = age_of_ideology
-#             }
-#             NOT = { religion = catholic }
-#             NOT = { religion = catholique }
-#         }
-#         effect = {
-#             create_general = {
-#                 tradition = 100
-#             }
-#             add_country_modifier = {
-#                 name = boh_bohemian_uprising_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_conquer_saxony = {
-#         icon = electorate_of_saxony
-#         position = 4
-#         required_missions = { vn_boh_conquer_niederlausitz }
-# 		provinces_to_highlight = {
-# 			OR = {
-#                 area = meissen_area
-#                 area = merseburg_area
-#                 area = osterland_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = meissen_area
-#             }
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = merseburg_area
-#             }
-#             num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-#                 value = 5
-#                 area = osterland_area
-#             }
-#         }
-#         effect = {
-#             brandenburg_region = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#             altmark_area = {
-#                 limit = {
-#                     NOT = { is_core = ROOT }
-#                     NOT = { is_permanent_claim = ROOT }
-#                 }
-#                 add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_boh_conquer_brandenburg = {
-#         icon = electorate_of_brandenburg
-#         position = 5
-# 		required_missions = { vn_boh_conquer_saxony }
-# 		provinces_to_highlight = {
-# 			OR = {
-#                 region = brandenburg_region
-#                 area = altmark_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             brandenburg_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             altmark_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = boh_conquer_brandenburg_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_develop_gold_mines = {
-#         icon = mission_african_gold
-#         position = 6
-# 		required_missions = { }
-# 		provinces_to_highlight = {
-# 			OR = {
-#                 province_id = 2414
-#                 province_id = 819
-#                 province_id = 826
-#             }
-#             OR = {
-#                 NOT = { owned_by = ROOT }
-#                 NOT = { development = 20 }
-#             }
-# 		}
-#         trigger = {
-#             share_of_starting_income = 5
-#             2414 = {
-#                 owned_by = ROOT
-#                 development = 20
-#             }
-#             819 = {
-#                 owned_by = ROOT
-#                 development = 20
-#             }
-#             826 = {
-#                 owned_by = ROOT
-#                 development = 20
-#             }
-#         }
-#         effect = {
-#             if = {
-#                 limit = { has_dlc = "Origins" }
-#                 unlock_estate_privilege = {
-#                     estate_privilege = estate_burghers_control_over_the_mint
-#                 }
-#             }
-#             random_list = {
-#                 33 = {
-#                     2414 = { add_base_production = 5 }
-#                 }
-#                 33 = {
-#                     819 = { add_base_production = 5 }
-#                 }
-#                 33 = {
-#                     826 = { add_base_production = 5 }
-#                 }
-#             }
-#             add_country_modifier = {
-#                 name = boh_develop_gold_mines_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_boh_manufactories_and_furnaces = {
-#         icon = mission_rb_prospect_for_coal
-#         position = 8
-#         required_missions = { vn_boh_develop_gold_mines }
-#         provinces_to_highlight = {
-#             OR = {
-#                 province_id = 5136
-#                 province_id = 5137
-#             }
-#             if = {
-#                 limit = { has_dlc = "Rule Britannia" }
-#                 OR = {
-#                     NOT = { owned_by = ROOT }
-#                     NOT = { is_core = ROOT }
-#                     NOT = { industrialism = 100 }
-#                     NOT = { has_building = furnace }
-#                 }
-#             }
-#             else = {
-#                 OR = {
-#                     NOT = { owned_by = ROOT }
-#                     NOT = { is_core = ROOT }
-#                     NOT = { industrialism = 100 }
-#                     has_manufactory_trigger = no
-#                 }
-#             }
-#         }
-#         trigger = {
-#             has_institution = industrialism
-#             if = {
-#                 limit = { has_dlc = "Rule Britannia" }
-#                 5136 = {
-#                     owned_by = ROOT
-#                     is_core = ROOT
-#                     industrialism = 100
-#                     has_building = furnace
-#                 }
-#                 5137 = {
-#                     owned_by = ROOT
-#                     is_core = ROOT
-#                     industrialism = 100
-#                     has_building = furnace
-#                 }
-#             }
-#             else = {
-#                 5136 = {
-#                     owned_by = ROOT
-#                     is_core = ROOT
-#                     industrialism = 100
-#                     has_manufactory_trigger = yes
-#                 }
-#                 5137 = {
-#                     owned_by = ROOT
-#                     is_core = ROOT
-#                     industrialism = 100
-#                     has_manufactory_trigger = yes
-#                 }
-#             }
-#         }
-#         effect = {
-#             5136 = {
-#                 add_province_modifier = {
-#                     name = boh_manufactories_and_furnaces_mission
-#                     duration = 9125
-#                 }
-#             }
-#             5137 = {
-#                 add_province_modifier = {
-#                     name = boh_manufactories_and_furnaces_mission
-#                     duration = 9125
-#                 }
-#             }
-#         }
-#     }
-# }
+    vn_boh_archbishoric_of_prague = {
+        icon = mission_religious
+        position = 1
+        required_missions = { }
+        trigger = {
+            if = {
+                limit = {
+                    OR = {
+                        religion = catholic
+                        religion = catholique
+                    }
+                }
+                OR = {
+                    is_papal_controller = yes
+                    invested_papal_influence = 50
+                }
+            }
+            else = {
+                religious_unity = 1
+            }
+            if = {
+                limit = { has_estate = estate_church }
+                has_estate_privilege = estate_church_papal_emissary
+                estate_loyalty = {
+                    estate = estate_church
+                    loyalty = 60
+                }
+            }
+            else = {
+                temple = 10
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = boh_archbishoric_of_prague_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_protestant_bohemia = {
+        icon = mission_convert_provinces
+        position = 2
+        required_missions = { vn_boh_archbishoric_of_prague }
+        trigger = {
+            has_institution = laytheology
+            all_state_province = {
+                laytheology = 100
+            }
+            custom_trigger_tooltip = {
+                tooltip = vn_boh_protestant_bohemia.tt
+                OR = {
+                    has_country_flag = hussite_wars_ended
+                    current_age = age_of_reformation
+                    current_age = age_of_absolutism
+                    current_age = age_of_revolutions
+                    current_age = age_of_ideology
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = boh_protestant_bohemia_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_bohemian_uprising = {
+        icon = mission_rb_control_state_religion
+        position = 3
+        required_missions = { vn_boh_protestant_bohemia }
+        trigger = {
+            OR = {
+                current_age = age_of_reformation
+                current_age = age_of_absolutism
+                current_age = age_of_revolutions
+                current_age = age_of_ideology
+            }
+            NOT = { religion = catholic }
+            NOT = { religion = catholique }
+        }
+        effect = {
+            create_general = {
+                tradition = 100
+            }
+            add_country_modifier = {
+                name = boh_bohemian_uprising_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_conquer_saxony = {
+        icon = electorate_of_saxony
+        position = 4
+        required_missions = { vn_boh_conquer_niederlausitz }
+		provinces_to_highlight = {
+			OR = {
+                area = meissen_area
+                area = merseburg_area
+                area = osterland_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = meissen_area
+            }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = merseburg_area
+            }
+            num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+                value = 5
+                area = osterland_area
+            }
+        }
+        effect = {
+            brandenburg_region = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            altmark_area = {
+                limit = {
+                    NOT = { is_core = ROOT }
+                    NOT = { is_permanent_claim = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_boh_conquer_brandenburg = {
+        icon = electorate_of_brandenburg
+        position = 5
+		required_missions = { vn_boh_conquer_saxony }
+		provinces_to_highlight = {
+			OR = {
+                region = brandenburg_region
+                area = altmark_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            brandenburg_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            altmark_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = boh_conquer_brandenburg_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_develop_gold_mines = {
+        icon = mission_african_gold
+        position = 6
+		required_missions = { }
+		provinces_to_highlight = {
+			OR = {
+                province_id = 2414
+                province_id = 819
+                province_id = 826
+            }
+            OR = {
+                NOT = { owned_by = ROOT }
+                NOT = { development = 20 }
+            }
+		}
+        trigger = {
+            share_of_starting_income = 5
+            2414 = {
+                owned_by = ROOT
+                development = 20
+            }
+            819 = {
+                owned_by = ROOT
+                development = 20
+            }
+            826 = {
+                owned_by = ROOT
+                development = 20
+            }
+        }
+        effect = {
+            if = {
+                limit = { has_dlc = "Origins" }
+                unlock_estate_privilege = {
+                    estate_privilege = estate_burghers_control_over_the_mint
+                }
+            }
+            random_list = {
+                33 = {
+                    2414 = { add_base_production = 5 }
+                }
+                33 = {
+                    819 = { add_base_production = 5 }
+                }
+                33 = {
+                    826 = { add_base_production = 5 }
+                }
+            }
+            add_country_modifier = {
+                name = boh_develop_gold_mines_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_boh_manufactories_and_furnaces = {
+        icon = mission_rb_prospect_for_coal
+        position = 8
+        required_missions = { vn_boh_develop_gold_mines }
+        provinces_to_highlight = {
+            OR = {
+                province_id = 5136
+                province_id = 5137
+            }
+            if = {
+                limit = { has_dlc = "Rule Britannia" }
+                OR = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_core = ROOT }
+                    NOT = { industrialism = 100 }
+                    NOT = { has_building = furnace }
+                }
+            }
+            else = {
+                OR = {
+                    NOT = { owned_by = ROOT }
+                    NOT = { is_core = ROOT }
+                    NOT = { industrialism = 100 }
+                    has_manufactory_trigger = no
+                }
+            }
+        }
+        trigger = {
+            has_institution = industrialism
+            if = {
+                limit = { has_dlc = "Rule Britannia" }
+                5136 = {
+                    owned_by = ROOT
+                    is_core = ROOT
+                    industrialism = 100
+                    has_building = furnace
+                }
+                5137 = {
+                    owned_by = ROOT
+                    is_core = ROOT
+                    industrialism = 100
+                    has_building = furnace
+                }
+            }
+            else = {
+                5136 = {
+                    owned_by = ROOT
+                    is_core = ROOT
+                    industrialism = 100
+                    has_manufactory_trigger = yes
+                }
+                5137 = {
+                    owned_by = ROOT
+                    is_core = ROOT
+                    industrialism = 100
+                    has_manufactory_trigger = yes
+                }
+            }
+        }
+        effect = {
+            5136 = {
+                add_province_modifier = {
+                    name = boh_manufactories_and_furnaces_mission
+                    duration = 9125
+                }
+            }
+            5137 = {
+                add_province_modifier = {
+                    name = boh_manufactories_and_furnaces_mission
+                    duration = 9125
+                }
+            }
+        }
+    }
+}
