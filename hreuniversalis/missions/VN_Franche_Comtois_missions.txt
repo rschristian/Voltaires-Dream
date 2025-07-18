@@ -1,720 +1,720 @@
-# #Franche-Comtois missions
-# #contributed by s0gger
-# #coded by ShyGuy13
+#Franche-Comtois missions
+#contributed by s0gger
+#coded by ShyGuy13
 
-# vn_fcm_missions_slot_1 = {
-#     slot = 1
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = FCM
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_fcm_missions_slot_1 = {
+    slot = 1
+    generic = no
+    ai = yes
+    potential = {
+        tag = FCM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_fcm_castle_supremacy = {
-#         icon = alpine_fortifications
-#         position = 1
-#         required_missions = {  }
-#         trigger = {
-#             has_mil_advisor_2 = yes
-#             num_of_owned_provinces_with = {
-#                 value = 4
-#                 has_fort_building_trigger = yes
-#             }
-#         }
-#         effect = {
-#             add_country_modifier = {
-#                 name = fcm_castle_supremacy_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_fcm_tete_hardie = {
-#         icon = mission_soldiers_in_line
-#         position = 2
-#         required_missions = { vn_fcm_castle_supremacy }
-#         trigger = {
-#             any_rival_country = {
-#                 OR = {
-#                     has_opinion_modifier = {
-#                         who = ROOT
-#                         modifier = insulted
-#                     }
-#                     has_opinion_modifier = {
-#                         who = ROOT
-#                         modifier = scornfully_insulted
-#                     }
-#                 }
-#             }
-#             any_country = {
-#                 war_with = ROOT
-#                 is_rival = ROOT
-#                 ROOT = {
-#                     war_score_against = {
-#                         who = PREV
-#                         value = 50
-#                     }
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_army_tradition = 10
-#             add_country_modifier = {
-#                 name = fcm_tete_hardie_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_fcm_amis_italiens = {
-#         icon = friends_in_high_places
-#         position = 3
-#         required_missions = { vn_fcm_tete_hardie }
-#         trigger = {
-#             any_ally = {
-#                 marriage_with = ROOT
-#                 has_opinion = {
-#                     who = ROOT
-#                     value = 150
-#                 }
-#                 OR = {
-#                     primary_culture = piedmontese
-#                     primary_culture = lombard
-#                 }
-#             }
-#         }
-#         effect = {
-#             piedmont_region = {
-# 				limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_permanent_claim = ROOT }
-# 				}
-# 				add_permanent_claim = ROOT
-#             }
-#             add_country_modifier = {
-#                 name = fcm_amis_italiens_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_fcm_filium_papalis = {
-#         icon = answer_the_roman_question
-#         position = 4
-#         required_missions = { vn_fcm_amis_italiens }
-#         trigger = {
-#             OR = {
-#                 AND = {
-#                     religion = catholic
-#                     papal_influence = 50
-#                     reverse_has_opinion = {
-#                         who = PAP
-#                         value = 100
-#                     }
-#                 }
-#                 AND = {
-#                     religion = catholique
-#                     papal_influence = 50
-#                     reverse_has_opinion = {
-#                         who = AVI
-#                         value = 100
-#                     }
-#                 }
-#                 AND = {
-#                     NOT = { religion = catholic }
-#                     NOT = { religion = catholique }
-#                     stability = 2
-#                     religious_unity = 1
-#                 }
-#             }
-#             capital_scope = {
-#                 has_tax_building_trigger = yes
-#             }
-#         }
-#         effect = {
-#             if = {
-#                 limit = { uses_papacy = yes }
-#                 country_event = { id = vn_missions.39 }
-#             }
-#             else = {
-#                 add_prestige_or_monarch_power = { amount = 25 } 
-#             }
-#         }
-#     }
-#     vn_fcm_royal_espionage = {
-#         icon = all_bases_covered
-#         position = 5
-#         required_missions = { vn_fcm_filium_papalis }
-#         trigger = {
-#             if = {
-#                 limit = {
-#                     any_country = {
-#                         has_reform = celestial_empire
-#                     }
-#                 }
-#                 any_country = {
-#                     has_reform = celestial_empire
-#                     has_spy_network_from = {
-#                         who = ROOT
-#                         value = 75
-#                     }
-#                 }
-#             }
-#             else = {
-#                 any_rival_country = {
-#                     total_development = 500
-#                     all_rival_country = {
-#                         has_spy_network_from = {
-#                             who = ROOT
-#                             value = 75
-#                         }
-#                     }
-#                 }
-#             }
-#             if = {
-#                 limit = {
-#                     any_country = {
-#                         is_subject_of_type = appanage
-#                     }
-#                 }
-#                 calc_true_if = {
-#                     amount = 2
-#                     all_country = {
-#                         is_subject_of_type = appanage
-#                         all_rival_country = {
-#                             has_spy_network_from = {
-#                                 who = ROOT
-#                                 value = 75
-#                             }
-#                         }
-#                     }
-#                 }
-#             }
-#             else = {
-#                 calc_true_if = {
-#                     amount = 2
-#                     all_rival_country = {
-#                         has_spy_network_from = {
-#                             who = ROOT
-#                             value = 75
-#                         }
-#                     }
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_prestige_or_monarch_power = { amount = 15 } 
-#             add_country_modifier = {
-#                 name = fcm_royal_espionage_mission
-#                 duration = 9125
-#             }
-#         }
-# 	}
-# }
+    vn_fcm_castle_supremacy = {
+        icon = alpine_fortifications
+        position = 1
+        required_missions = {  }
+        trigger = {
+            has_mil_advisor_2 = yes
+            num_of_owned_provinces_with = {
+                value = 4
+                has_fort_building_trigger = yes
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = fcm_castle_supremacy_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fcm_tete_hardie = {
+        icon = mission_soldiers_in_line
+        position = 2
+        required_missions = { vn_fcm_castle_supremacy }
+        trigger = {
+            any_rival_country = {
+                OR = {
+                    has_opinion_modifier = {
+                        who = ROOT
+                        modifier = insulted
+                    }
+                    has_opinion_modifier = {
+                        who = ROOT
+                        modifier = scornfully_insulted
+                    }
+                }
+            }
+            any_country = {
+                war_with = ROOT
+                is_rival = ROOT
+                ROOT = {
+                    war_score_against = {
+                        who = PREV
+                        value = 50
+                    }
+                }
+            }
+        }
+        effect = {
+            add_army_tradition = 10
+            add_country_modifier = {
+                name = fcm_tete_hardie_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fcm_amis_italiens = {
+        icon = friends_in_high_places
+        position = 3
+        required_missions = { vn_fcm_tete_hardie }
+        trigger = {
+            any_ally = {
+                marriage_with = ROOT
+                has_opinion = {
+                    who = ROOT
+                    value = 150
+                }
+                OR = {
+                    primary_culture = piedmontese
+                    primary_culture = lombard
+                }
+            }
+        }
+        effect = {
+            piedmont_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = fcm_amis_italiens_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fcm_filium_papalis = {
+        icon = answer_the_roman_question
+        position = 4
+        required_missions = { vn_fcm_amis_italiens }
+        trigger = {
+            OR = {
+                AND = {
+                    religion = catholic
+                    papal_influence = 50
+                    reverse_has_opinion = {
+                        who = PAP
+                        value = 100
+                    }
+                }
+                AND = {
+                    religion = catholique
+                    papal_influence = 50
+                    reverse_has_opinion = {
+                        who = AVI
+                        value = 100
+                    }
+                }
+                AND = {
+                    NOT = { religion = catholic }
+                    NOT = { religion = catholique }
+                    stability = 2
+                    religious_unity = 1
+                }
+            }
+            capital_scope = {
+                has_tax_building_trigger = yes
+            }
+        }
+        effect = {
+            if = {
+                limit = { uses_papacy = yes }
+                country_event = { id = vn_missions.39 }
+            }
+            else = {
+                add_prestige_or_monarch_power = { amount = 25 } 
+            }
+        }
+    }
+    vn_fcm_royal_espionage = {
+        icon = all_bases_covered
+        position = 5
+        required_missions = { vn_fcm_filium_papalis }
+        trigger = {
+            if = {
+                limit = {
+                    any_country = {
+                        has_reform = celestial_empire
+                    }
+                }
+                any_country = {
+                    has_reform = celestial_empire
+                    has_spy_network_from = {
+                        who = ROOT
+                        value = 75
+                    }
+                }
+            }
+            else = {
+                any_rival_country = {
+                    total_development = 500
+                    all_rival_country = {
+                        has_spy_network_from = {
+                            who = ROOT
+                            value = 75
+                        }
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    any_country = {
+                        is_subject_of_type = appanage
+                    }
+                }
+                calc_true_if = {
+                    amount = 2
+                    all_country = {
+                        is_subject_of_type = appanage
+                        all_rival_country = {
+                            has_spy_network_from = {
+                                who = ROOT
+                                value = 75
+                            }
+                        }
+                    }
+                }
+            }
+            else = {
+                calc_true_if = {
+                    amount = 2
+                    all_rival_country = {
+                        has_spy_network_from = {
+                            who = ROOT
+                            value = 75
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_prestige_or_monarch_power = { amount = 15 } 
+            add_country_modifier = {
+                name = fcm_royal_espionage_mission
+                duration = 9125
+            }
+        }
+	}
+}
 
-# vn_fcm_missions_slot_2 = {
-#     slot = 2
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = FCM
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_fcm_missions_slot_2 = {
+    slot = 2
+    generic = no
+    ai = yes
+    potential = {
+        tag = FCM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_fcm_conquer_lombardy = {
-#         icon = prosper_in_piedmont
-#         position = 4
-#         required_missions = { vn_fcm_amis_italiens vn_fcm_conquer_transjurania }
-#         provinces_to_highlight = {
-#             region = piedmont_region
-#             NOT = { owned_by = ROOT }
-#             NOT = { is_core = ROOT }
-#         }
-#         trigger = {
-#             if = {
-#                 limit = { has_dlc = "Common Sense" }
-#                 legitimacy_equivalent = 100
-#             }
-#             else_if = {
-#                 limit = { government = monarchy }
-#                 legitimacy = 100
-#             }
-#             owns_core_province = 1000
-#             owns_core_province = 1006
-#             owns_core_province = 2589
-#             num_of_owned_provinces_with = {
-#                 value = 18
-#                 region = piedmont_region
-#             }
-#         }
-#         effect = {
-#             add_prestige_or_monarch_power = { amount = 10 } 
-#             add_dip_power = 100
-#             lombardy_region = {
-#                 limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_claim = ROOT }
-# 				}
-# 				add_claim = ROOT
-#             }
-#             add_country_modifier = {
-#                 name = fcm_conquer_lombardy_mission
-#                 duration = -1
-#             }
-#         }
-#     }
-#     vn_fcm_comtois_knights = {
-#         icon = chivalry_is_not_dead
-#         position = 5
-#         required_missions = {  }
-#         trigger = {
-# 			land_forcelimit = 25
-# 			army_size_percentage = 0.75
-# 			army_tradition = 50
-#         }
-#         effect = {
-#             add_army_professionalism = 0.02
-#             add_country_modifier = {
-# 				name = fcm_comptois_knights_mission
-# 				duration = 9125
-# 			}
-#         }
-# 	}
-# }
+    vn_fcm_conquer_lombardy = {
+        icon = prosper_in_piedmont
+        position = 4
+        required_missions = { vn_fcm_amis_italiens vn_fcm_conquer_transjurania }
+        provinces_to_highlight = {
+            region = piedmont_region
+            NOT = { owned_by = ROOT }
+            NOT = { is_core = ROOT }
+        }
+        trigger = {
+            if = {
+                limit = { has_dlc = "Common Sense" }
+                legitimacy_equivalent = 100
+            }
+            else_if = {
+                limit = { government = monarchy }
+                legitimacy = 100
+            }
+            owns_core_province = 1000
+            owns_core_province = 1006
+            owns_core_province = 2589
+            num_of_owned_provinces_with = {
+                value = 18
+                region = piedmont_region
+            }
+        }
+        effect = {
+            add_prestige_or_monarch_power = { amount = 10 } 
+            add_dip_power = 100
+            lombardy_region = {
+                limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+            }
+            add_country_modifier = {
+                name = fcm_conquer_lombardy_mission
+                duration = -1
+            }
+        }
+    }
+    vn_fcm_comtois_knights = {
+        icon = chivalry_is_not_dead
+        position = 5
+        required_missions = {  }
+        trigger = {
+			land_forcelimit = 25
+			army_size_percentage = 0.75
+			army_tradition = 50
+        }
+        effect = {
+            add_army_professionalism = 0.02
+            add_country_modifier = {
+				name = fcm_comptois_knights_mission
+				duration = 9125
+			}
+        }
+	}
+}
 
-# vn_fcm_missions_slot_3 = {
-#     slot = 3
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = FCM
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_fcm_missions_slot_3 = {
+    slot = 3
+    generic = no
+    ai = yes
+    potential = {
+        tag = FCM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_fcm_conquer_transjurania = {
-#         icon = claim_tirol
-#         position = 3
-#         required_missions = { vn_fcm_centralize_the_county }
-#         provinces_to_highlight = {
-#             region = swisswest_region
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-#         }
-#         trigger = {
-#             swisswest_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             add_accepted_culture_or_dip_power = { culture = arpitan dip_reward = yes }
-#             dauphine_region = {
-# 				limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_permanent_claim = ROOT }
-# 				}
-# 				add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_fcm_conquer_cisjurania = {
-#         icon = claim_tirol
-#         position = 4
-#         required_missions = { vn_fcm_conquer_transjurania }
-#         provinces_to_highlight = {
-#             region = dauphine_region
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-#         }
-#         trigger = {
-#             dauphine_region = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             add_army_tradition = 10
-#             provence_region = {
-# 				limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_permanent_claim = ROOT }
-# 				}
-# 				add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_fcm_conquer_provence = {
-#         icon = the_gallic_wars
-#         position = 5
-# 		required_missions = { vn_fcm_conquer_cisjurania }
-# 		provinces_to_highlight = {
-# 			region = provence_region
-# 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-# 		}
-#         trigger = {
-#             provence_region = {
-# 				type = all
-# 				country_or_non_sovereign_subject_holds = ROOT
-# 			}
-#         }
-#         effect = {
-#             add_dip_power = 100
-#             add_treasury = 200
-#         }
-#     }
-#     vn_fcm_freigraf = {
-#         icon = holy_state
-#         position = 6
-#         required_missions = { vn_fcm_conquer_provence vn_fcm_comtois_knights }
-#         trigger = {
-#             government_rank = 5
-#             reform_level = 5
-#             has_any_disaster = no
-#             NOT = { num_of_rebel_armies = 1 }
-#             NOT = { num_of_rebel_controlled_provinces = 1 }
-#         }
-#         effect = {
-#             add_adm_power = 100
-#             add_dip_power = 100
-#             add_mil_power = 100
-#             add_stability_or_adm_power = yes
-#             add_country_modifier = {
-#                 name = fcm_freigraf_mission
-#                 duration = 9125
-#             }
-#         }
-# 	}
-# }
+    vn_fcm_conquer_transjurania = {
+        icon = claim_tirol
+        position = 3
+        required_missions = { vn_fcm_centralize_the_county }
+        provinces_to_highlight = {
+            region = swisswest_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            swisswest_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_accepted_culture_or_dip_power = { culture = arpitan dip_reward = yes }
+            dauphine_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_fcm_conquer_cisjurania = {
+        icon = claim_tirol
+        position = 4
+        required_missions = { vn_fcm_conquer_transjurania }
+        provinces_to_highlight = {
+            region = dauphine_region
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            dauphine_region = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_army_tradition = 10
+            provence_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_fcm_conquer_provence = {
+        icon = the_gallic_wars
+        position = 5
+		required_missions = { vn_fcm_conquer_cisjurania }
+		provinces_to_highlight = {
+			region = provence_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+        trigger = {
+            provence_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+        }
+        effect = {
+            add_dip_power = 100
+            add_treasury = 200
+        }
+    }
+    vn_fcm_freigraf = {
+        icon = holy_state
+        position = 6
+        required_missions = { vn_fcm_conquer_provence vn_fcm_comtois_knights }
+        trigger = {
+            government_rank = 5
+            reform_level = 5
+            has_any_disaster = no
+            NOT = { num_of_rebel_armies = 1 }
+            NOT = { num_of_rebel_controlled_provinces = 1 }
+        }
+        effect = {
+            add_adm_power = 100
+            add_dip_power = 100
+            add_mil_power = 100
+            add_stability_or_adm_power = yes
+            add_country_modifier = {
+                name = fcm_freigraf_mission
+                duration = 9125
+            }
+        }
+	}
+}
 
-# vn_fcm_missions_slot_4 = {
-#     slot = 4
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = FCM
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_fcm_missions_slot_4 = {
+    slot = 4
+    generic = no
+    ai = yes
+    potential = {
+        tag = FCM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_fcm_conquer_franche_comte = {
-#         icon = secure_our_rule
-#         position = 1
-#         required_missions = {  }
-#         provinces_to_highlight = {
-#             OR = {
-#                 area = dole_area
-#                 area = besancon_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-#         }
-#         trigger = {
-#             dole_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             besancon_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             add_adm_power = 50
-#             add_country_modifier = {
-#                 name = fcm_conquer_franche_comte_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_fcm_centralize_the_county = {
-#         icon = rein_in_the_nobles
-#         position = 2
-#         required_missions = { vn_fcm_conquer_franche_comte }
-#         trigger = {
-#             stability = 1
-#             NOT = { average_autonomy = 50 }
-#             crown_land_share = 30
-#             if = {
-#                 limit = {
-#                     has_estate = estate_nobles
-#                 }
-#                 NOT = {
-#                     estate_influence = {
-#                         estate = estate_nobles
-#                         influence = 50
-#                     }
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_legitimacy = 10
-#             if = {
-#                 limit = {
-#                     NOT = { crown_land_share = 60 }
-#                 }
-#                 custom_tooltip = add_5_crown_land_share
-#                 hidden_effect = {
-#                     change_estate_land_share = {
-#                         estate = all
-#                         share = -5
-#                     }
-#                 }
-#             }
-#             swisswest_region = {
-# 				limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_permanent_claim = ROOT }
-# 				}
-# 				add_permanent_claim = ROOT
-#             }
-#             charolais_area = {
-# 				limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_permanent_claim = ROOT }
-# 				}
-# 				add_permanent_claim = ROOT
-#             }
-#             burgundy_area = {
-# 				limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_permanent_claim = ROOT }
-# 				}
-# 				add_permanent_claim = ROOT
-# 			}
-#         }
-#     }
-#     vn_fcm_conquer_burgundy = {
-#         icon = conquer_burgundy
-#         position = 3
-#         required_missions = { vn_fcm_centralize_the_county }
-#         provinces_to_highlight = {
-#             OR = {
-#                 area = charolais_area
-#                 area = burgundy_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-#         }
-#         trigger = {
-#             charolais_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             burgundy_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             add_power_projection = {
-#                 type = mission_rewards_power_projection
-#                 amount = 20
-#             }
-#             nevers_area = {
-# 				limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_permanent_claim = ROOT }
-# 				}
-# 				add_permanent_claim = ROOT
-#             }
-#             troyes_area = {
-# 				limit = {
-# 					NOT = { is_core = ROOT }
-# 					NOT = { is_permanent_claim = ROOT }
-# 				}
-# 				add_permanent_claim = ROOT
-#             }
-#         }
-#     }
-#     vn_fcm_conquer_nevers = {
-#         icon = the_holy_league
-#         position = 4
-#         required_missions = { vn_fcm_conquer_burgundy }
-#         provinces_to_highlight = {
-#             OR = {
-#                 area = nevers_area
-#                 area = troyes_area
-#             }
-#             NOT = { country_or_non_sovereign_subject_holds = ROOT }
-#         }
-#         trigger = {
-#             nevers_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#             troyes_area = {
-#                 type = all
-#                 country_or_non_sovereign_subject_holds = ROOT
-#             }
-#         }
-#         effect = {
-#             create_general = {
-#                 tradition = 60
-#             }
-#             add_country_modifier = {
-#                 name = fcm_conquer_nevers_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_fcm_eclipse_france = {
-#         icon = the_crown_of_lothair
-#         position = 5
-#         required_missions = { vn_fcm_conquer_nevers }
-#         trigger = {
-#             OR = {
-#                 NOT = { exists = FRA }
-#                 AND = {
-#                     land_forcelimit = FRA
-#                     army_size = FRA
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_prestige_or_monarch_power = { amount = 10 } 
-#             add_country_modifier = {
-#                 name = fcm_eclipse_france_mission
-#                 duration = 9125
-#             }
-#         }
-# 	}
-# }
+    vn_fcm_conquer_franche_comte = {
+        icon = secure_our_rule
+        position = 1
+        required_missions = {  }
+        provinces_to_highlight = {
+            OR = {
+                area = dole_area
+                area = besancon_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            dole_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            besancon_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_adm_power = 50
+            add_country_modifier = {
+                name = fcm_conquer_franche_comte_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fcm_centralize_the_county = {
+        icon = rein_in_the_nobles
+        position = 2
+        required_missions = { vn_fcm_conquer_franche_comte }
+        trigger = {
+            stability = 1
+            NOT = { average_autonomy = 50 }
+            crown_land_share = 30
+            if = {
+                limit = {
+                    has_estate = estate_nobles
+                }
+                NOT = {
+                    estate_influence = {
+                        estate = estate_nobles
+                        influence = 50
+                    }
+                }
+            }
+        }
+        effect = {
+            add_legitimacy = 10
+            if = {
+                limit = {
+                    NOT = { crown_land_share = 60 }
+                }
+                custom_tooltip = add_5_crown_land_share
+                hidden_effect = {
+                    change_estate_land_share = {
+                        estate = all
+                        share = -5
+                    }
+                }
+            }
+            swisswest_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            charolais_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            burgundy_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+        }
+    }
+    vn_fcm_conquer_burgundy = {
+        icon = conquer_burgundy
+        position = 3
+        required_missions = { vn_fcm_centralize_the_county }
+        provinces_to_highlight = {
+            OR = {
+                area = charolais_area
+                area = burgundy_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            charolais_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            burgundy_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            add_power_projection = {
+                type = mission_rewards_power_projection
+                amount = 20
+            }
+            nevers_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+            troyes_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+            }
+        }
+    }
+    vn_fcm_conquer_nevers = {
+        icon = the_holy_league
+        position = 4
+        required_missions = { vn_fcm_conquer_burgundy }
+        provinces_to_highlight = {
+            OR = {
+                area = nevers_area
+                area = troyes_area
+            }
+            NOT = { country_or_non_sovereign_subject_holds = ROOT }
+        }
+        trigger = {
+            nevers_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+            troyes_area = {
+                type = all
+                country_or_non_sovereign_subject_holds = ROOT
+            }
+        }
+        effect = {
+            create_general = {
+                tradition = 60
+            }
+            add_country_modifier = {
+                name = fcm_conquer_nevers_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fcm_eclipse_france = {
+        icon = the_crown_of_lothair
+        position = 5
+        required_missions = { vn_fcm_conquer_nevers }
+        trigger = {
+            OR = {
+                NOT = { exists = FRA }
+                AND = {
+                    land_forcelimit = FRA
+                    army_size = FRA
+                }
+            }
+        }
+        effect = {
+            add_prestige_or_monarch_power = { amount = 10 } 
+            add_country_modifier = {
+                name = fcm_eclipse_france_mission
+                duration = 9125
+            }
+        }
+	}
+}
 
-# vn_fcm_missions_slot_5 = {
-#     slot = 5
-#     generic = no
-#     ai = yes
-#     potential = {
-#         tag = FCM
-#         NOT = { map_setup = map_setup_random }
-#     }
-#     has_country_shield = yes
+vn_fcm_missions_slot_5 = {
+    slot = 5
+    generic = no
+    ai = yes
+    potential = {
+        tag = FCM
+        NOT = { map_setup = map_setup_random }
+    }
+    has_country_shield = yes
 
-#     vn_fcm_jura_salt_mines = {
-#         icon = reform_bergordnung
-#         position = 1
-#         required_missions = {  }
-#         provinces_to_highlight = {
-#             province_id = 1123
-#         }
-#         trigger = {
-#             1123 = {
-#                 has_merchant = ROOT
-#                 trade_share = {
-#                     country = ROOT
-#                     share = 15
-#                 }
-#             }
-#         }
-#         effect = {
-#             add_accepted_culture_or_dip_power = { culture = swiss dip_reward = yes }
-#             add_country_modifier = {
-#                 name = fcm_jura_salt_mines_mission
-#                 duration = 9125
-#             }
-#         }
-#     }
-#     vn_fcm_comte_cheese = {
-#         icon = mission_hanseatic_city
-#         position = 2
-#         required_missions = { vn_fcm_jura_salt_mines }
-#         provinces_to_highlight = {
-#             owned_by = ROOT
-#             trade_goods = cheese
-#             has_trade_building_trigger = no
-#         }
-#         trigger = {
-#             num_of_owned_provinces_with = {
-#                 value = 3
-#                 trade_goods = cheese
-#                 has_trade_building_trigger = yes
-#             }
-#         }
-#         effect = {
-# 			hidden_effect = {
-# 				random_owned_province = {
-# 					limit = {
-# 						OR = {
-# 							area = dole_area
-# 							area = besancon_area
-# 						}
-# 						NOT = { trade_goods = cheese }
-# 					}
-# 					save_event_target_as = burgundian_cheese_province
-# 				}
-# 			}
-# 			if = {
-# 				limit = { has_saved_event_target = burgundian_cheese_province }
-# 				event_target:burgundian_cheese_province = {
-# 					change_trade_goods = cheese
-# 				}
-#                 every_owned_province = {
-#                     limit = { trade_goods = cheese }
-#                     add_base_tax = 1
-#                 }
-# 			}
-# 			else = {
-# 				custom_tooltip = vn_fcm_comte_cheese.tt
-# 			}
-#             2990 = {
-#                 add_trade_modifier = {
-#                     who = ROOT
-#                     duration = 9125
-#                     power = 10
-#                     key = fcm_comte_cheese_mission
-#                 }
-#             }
-#         }
-#     }
-#     vn_fcm_burgundian_culture = {
-#         icon = les_invalides
-#         position = 4
-#         required_missions = { vn_fcm_comte_cheese vn_fcm_conquer_burgundy }
-#         trigger = {
-#             calc_true_if = {
-#                 amount = 3
-#                 employed_advisor = {
-#                     culture = ROOT
-#                 }
-#             }
-# 			num_of_owned_provinces_with = {
-# 				value = 3
-# 				has_education_building_trigger = yes
-# 				culture = ROOT
-# 			}
-# 			num_of_owned_provinces_with = {
-# 				value = 5
-# 				development = 10
-# 				culture = ROOT
-# 			}
-#         }
-#         effect = {
-#             capital_scope = {
-# 				add_base_tax = 1
-# 				add_base_production = 1
-# 				add_base_manpower = 1
-# 				add_province_modifier = {
-# 					name = fcm_burgundian_culture_mission
-# 					duration = -1
-# 				}
-# 			}
-#         }
-#     }
-#     vn_fcm_control_southern_trade = {
-#         icon = mission_dominate_home_trade_node
-#         position = 6
-#         required_missions = { vn_fcm_burgundian_culture vn_fcm_eclipse_france }
-# 		provinces_to_highlight = {
-# 			province_id = 2671
-# 		}
-# 		trigger = {
-#             2671 = {
-# 				is_strongest_trade_power = ROOT
-# 			}
-#         }
-#         effect = {
-#             add_mercantilism = 5
-#             add_country_modifier = {
-#                 name = fcm_control_southern_trade_mission
-#                 duration = 36500
-#             }
-#         }
-# 	}
-# }
+    vn_fcm_jura_salt_mines = {
+        icon = reform_bergordnung
+        position = 1
+        required_missions = {  }
+        provinces_to_highlight = {
+            province_id = 1123
+        }
+        trigger = {
+            1123 = {
+                has_merchant = ROOT
+                trade_share = {
+                    country = ROOT
+                    share = 15
+                }
+            }
+        }
+        effect = {
+            add_accepted_culture_or_dip_power = { culture = swiss dip_reward = yes }
+            add_country_modifier = {
+                name = fcm_jura_salt_mines_mission
+                duration = 9125
+            }
+        }
+    }
+    vn_fcm_comte_cheese = {
+        icon = mission_hanseatic_city
+        position = 2
+        required_missions = { vn_fcm_jura_salt_mines }
+        provinces_to_highlight = {
+            owned_by = ROOT
+            trade_goods = cheese
+            has_trade_building_trigger = no
+        }
+        trigger = {
+            num_of_owned_provinces_with = {
+                value = 3
+                trade_goods = cheese
+                has_trade_building_trigger = yes
+            }
+        }
+        effect = {
+			hidden_effect = {
+				random_owned_province = {
+					limit = {
+						OR = {
+							area = dole_area
+							area = besancon_area
+						}
+						NOT = { trade_goods = cheese }
+					}
+					save_event_target_as = burgundian_cheese_province
+				}
+			}
+			if = {
+				limit = { has_saved_event_target = burgundian_cheese_province }
+				event_target:burgundian_cheese_province = {
+					change_trade_goods = cheese
+				}
+                every_owned_province = {
+                    limit = { trade_goods = cheese }
+                    add_base_tax = 1
+                }
+			}
+			else = {
+				custom_tooltip = vn_fcm_comte_cheese.tt
+			}
+            2990 = {
+                add_trade_modifier = {
+                    who = ROOT
+                    duration = 9125
+                    power = 10
+                    key = fcm_comte_cheese_mission
+                }
+            }
+        }
+    }
+    vn_fcm_burgundian_culture = {
+        icon = les_invalides
+        position = 4
+        required_missions = { vn_fcm_comte_cheese vn_fcm_conquer_burgundy }
+        trigger = {
+            calc_true_if = {
+                amount = 3
+                employed_advisor = {
+                    culture = ROOT
+                }
+            }
+			num_of_owned_provinces_with = {
+				value = 3
+				has_education_building_trigger = yes
+				culture = ROOT
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				development = 10
+				culture = ROOT
+			}
+        }
+        effect = {
+            capital_scope = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = fcm_burgundian_culture_mission
+					duration = -1
+				}
+			}
+        }
+    }
+    vn_fcm_control_southern_trade = {
+        icon = mission_dominate_home_trade_node
+        position = 6
+        required_missions = { vn_fcm_burgundian_culture vn_fcm_eclipse_france }
+		provinces_to_highlight = {
+			province_id = 2671
+		}
+		trigger = {
+            2671 = {
+				is_strongest_trade_power = ROOT
+			}
+        }
+        effect = {
+            add_mercantilism = 5
+            add_country_modifier = {
+                name = fcm_control_southern_trade_mission
+                duration = 36500
+            }
+        }
+	}
+}
