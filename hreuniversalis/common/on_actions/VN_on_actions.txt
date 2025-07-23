@@ -5,6 +5,20 @@ on_startup = {
 		calc_catholic_tags = yes
 		set_global_flag = init_rel
 	}
+	if = {
+		limit = {
+			has_global_flag = eng_had_start_of_hundred_years_war
+			NOT = { has_global_flag = eng_had_end_of_hundred_years_war }
+		}
+		random_country = {
+			limit = { has_country_flag = hyw_eng_flag }
+			save_global_event_target_as = England
+		}
+		random_country = {
+			limit = { has_country_flag = hyw_fra_flag }
+			save_global_event_target_as = France
+		}
+	}
 
 	#RD Fix
 	if = {
@@ -641,10 +655,10 @@ on_monarch_death = {
 		nrm_invasions.2 #Strongbow 
 		vn_flavor_pol.2	#Silesia Partition (Lesser duchies)
 		vn_flavor_pol.3 #Silesia Partition Start
+		vn_hyw.1 #Start of HYW
 	}
 	random_events = {
 		1000 = 0
-		100 = vn_hyw.1
 		100 = vn_flavor_sax.4
 		100 = vn_flavor_ahl.1
 	}
@@ -701,6 +715,18 @@ on_annexed = {
 			country_event = {
 				id = incident_investiture_controversy.5
 			}
+		}
+	}
+	if = {
+		limit = {
+			FROM = {
+				tag = event_target:France
+			}
+			has_global_flag = eng_had_start_of_hundred_years_war
+			NOT = { has_global_flag = eng_had_end_of_hundred_years_war }
+		}
+		event_target:England = {
+			country_event = { id = vn_hyw.4 }
 		}
 	}
 }
@@ -1201,6 +1227,36 @@ on_create_vassal = {
 		event_target:Emperor = {
 			country_event = {
 				id = incident_investiture_controversy.5
+			}
+		}
+	}
+}
+
+on_dependency_gained = {
+	if = {
+		limit = {
+			has_dlc = "Emperor"
+			has_global_flag = investiture_controversy_active
+			FROM = { tag = PAP }
+		}
+		event_target:Emperor = {
+			country_event = {
+				id = incident_investiture_controversy.5
+			}
+		}
+	}
+	if = {
+		limit = {
+			tag = event_target:England
+			FROM = {
+				tag = event_target:France
+			}
+			has_global_flag = eng_had_start_of_hundred_years_war
+			NOT = { has_global_flag = eng_had_end_of_hundred_years_war }
+		}
+		event_target:England = {
+			country_event = {
+				id = vn_hyw.3
 			}
 		}
 	}
